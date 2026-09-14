@@ -1,0 +1,69 @@
+{
+  "paper": "Witt, J. K. (2019). Meta-Psychology, 3, MP.2018.871.",
+  "doi": "10.5626/MP.2018.871",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "summary": {"total": 6, "p0": 0, "p1": 0, "p2": 1, "p3": 5},
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Optional-stopping script's numStudies argument is PER effect size, creating a design-documentation ambiguity",
+      "location": "Witt_SDT_Simulations_OptionalStopping_v2.R (runSims loops for(j in effectSizes){ for(k in 1:numStudies){...}})",
+      "evidence": "runSims takes one numStudies and loops over effectSizes=c(0,.5), so numStudies is run per condition. The manuscript's '20 studies (half null, half effect)' = 10+10 = 20, and the author's shipped default (numStudies=10) correctly yields 20 studies and reproduces the reported hack count C22 (this audit: mean 3.97, SD 1.73, range 1-8 vs ms 4.3, SD 2, range 0-11). HOWEVER a reader who reads numStudies as the TOTAL number of studies (per the variable's literal name) and sets it to 20 gets 40 studies and a ~2x hack count (this audit: 8.66). The shipped default is consistent with the manuscript, but the parameter's name/meaning is not documented, which can silently double the simulated sample and the p-hack frequency.",
+      "impact": "Does not affect any conclusion (the manuscript's numbers reproduce under the shipped default). But it is a genuine documentation hazard that can mislead an independent reproduction. P2 because it is an under-documented method parameter that blocks exact re-verification for a reader who follows the variable's name.",
+      "fix": "Rename numStudies to numPerCondition (or document 'numStudies is per effect-size; set to 10 for 10+10 = 20 studies total') and ship the seed + a one-command re-run.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "No random seed reported; single-seed AUCs drift; internal median inconsistency across experiments",
+      "location": "Manuscript Methods (no seed stated); all simulation scripts; Results C6 vs C35",
+      "evidence": "Re-running the author's code with seeds 1-5 gives Exp1 aucP means .959/.947/.954/.953/.953 (pooled .953; median stable at .96 across all seeds). The manuscript additionally reports DIFFERENT descriptive values for IDENTICAL simulation conditions: Exp1 p-AUC median '.97' (C6) vs Exp7 (same simulation) p-AUC median '.98' (C35); and n=105 reported as aucP .99 (Exp2) but .984 (power-series 95% row, also n=105). My recompute gives .96 (Exp1/Exp7) and .992 (n=105). Minor internal inconsistencies in reported descriptive statistics.",
+      "impact": "A reader cannot recover the exact published AUCs without the seed; the median inconsistency is cosmetic (both are single-run quantiles) and does not change any conclusion.",
+      "fix": "Report the seed(s), quote the pooled/median AUC as the primary statistic, and align the Exp1/Exp7 printed medians.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Optional-stopping loop-bound wording: 'up to 9 more times' (text) vs numTimesRunExtra=10 (code)",
+      "location": "Manuscript Methods (p7) vs Witt_SDT_Simulations_OptionalStopping_v2.R (numTimesRunExtra <- 10)",
+      "evidence": "Text: after the first addition, 'the process was repeated up to 9 more times.' Code: for(keepGoing in 1:numTimesRunExtra) with numTimesRunExtra=10, so up to 10 addition iterations. Read as '1 first addition + 9 more = 10 total' the two agree; read literally the text implies 9 total extra additions and the code 10. Wording ambiguity only; the totals coincide.",
+      "impact": "None on results; code-text wording should be aligned.",
+      "fix": "Rephrase text to 'up to 9 more times (10 additions total)' or set the code constant to match.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Several-tests script computes the Bayes factor as a two-sample t-test for every test type",
+      "location": "Witt_SDT_Simulations_SeveralTests_v2.R (exp(ttest.tstat(t, n1=N, n2=N, rscale=0.707)) regardless of test type) -> C33 / Figure 8",
+      "evidence": "For the one-sample t-test, correlation, and uneven two-sample t-test figures, the BF is always computed with the two-sample ttest.tstat with n1=n2=N. This test-type-agnostic BF is precisely what makes the cross-test AUCs 'identical' (C33, Figure 8). The equal-discriminability result holds by construction, not as an empirical surprise.",
+      "impact": "The paper's invariance conclusion is valid but should be stated as a design consequence (shared BF) rather than implied to follow from each test type's own statistic.",
+      "fix": "Add a Methods note that the BF is evaluated with the two-sample ttest.tstat (rscale=0.707) for all test types.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "No raw simulated data shipped (only R scripts); exact reproduction requires re-simulation",
+      "location": "OSF 69XMG / bwqm8 (code only); 'Open data: Not applicable'",
+      "evidence": "Only the five R scripts are shipped; there is no saved data frame of simulated p-values/BFs. Because the study is stochastic and no seed is given (ADV-002), byte-for-byte reproduction requires re-simulating. Inherent to the design but worth documenting.",
+      "impact": "Exact reproduction is limited to re-simulation (subject to seed drift). Optional improvement.",
+      "fix": "Ship the final per-study data frames or the seed + a one-command re-run script.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Prose claim C40b ('as sample size increases p<.005 and all tested BF thresholds outperform p<.10') overstates the crossover",
+      "location": "Manuscript p13 (Discussion, Bayes Factor and Bias)",
+      "evidence": "Distance-to-perfection by criterion: at n=105, p<.10 still beats p<.005 (0.086 vs 0.196) and beats BF>2/3/10 (0.108/0.123/0.261); only BF>1 (0.075) beats p<.10. The claimed reversal ('p<.005 and ALL tested BF thresholds better than p<.10') holds only by n=148 (where p<.005=0.078 < p<.10=0.104). So the direction is real but the crossover point and 'all thresholds' wording are imprecise.",
+      "impact": "Minor precision issue in a directional qualitative claim; the substantive point (more conservative criteria become relatively better at larger n) is supported.",
+      "fix": "Qualify the claim with the actual sample size at which p<.005 overtakes p<.10 and drop 'all tested BF thresholds' or specify which.",
+      "status": "open"
+    }
+  ]
+}

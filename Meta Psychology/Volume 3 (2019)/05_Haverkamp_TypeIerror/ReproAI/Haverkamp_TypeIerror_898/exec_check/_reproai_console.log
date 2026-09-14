@@ -1,0 +1,39 @@
+﻿==== START (status: OK) ReproAI RE-AUDIT console log - Haverkamp & Beauducel (2019) MP.2018.898 ====
+Engine: anomalyco/opencode (ReproAI) -- DeepSeek V4 Flash via uniGPT
+Rules: REPRO_STANDARDS.md 2026.06.27 | Audit date: 2026-09-14
+Host: Windows / PowerShell 5.1 | R 4.6.1 (2026-06-24 ucrt) | Python 3.8.10
+R pkgs: MASS 7.3.66, nlme 3.1.170, lme4 2.0.6, lmerTest 3.2.1
+Py pkgs: numpy 1.24.4, scipy 1.10.1, statsmodels 0.14.1, pandas 2.0.3
+Design: Monte Carlo Type I error; chance-only populations (corr .50 holds; .50 even/.80 odd violation);
+  m=9/12; n=15/20/25/30; alpha=.05; Bradley [.025,.075]; 144 conditions; SAS 9.4 / SPSS 23 (NOT installed).
+Samples drawn as iid MVN from the described population covariance (SPSS MT seed=1000 not reproducible in R/Py).
+
+[env] R 4.6.1 OK; nlme/lme4/lmerTest/MASS present. Python 3.8 + statsmodels OK.
+[timing] gls corSymm REML: m12 n15 ~14.3s/fit, n30 ~16.2s, n100 ~28.8s; m9 n15 ~2.35s/fit.
+  => full S=5000 MLM-UN grid infeasible in open tooling (>=100 h); reduced-S characterization used.
+
+-- R: ranova_sim.R S=2000 seed=1 -> ranova_s2000_seed1.csv --
+  rANOVA holds ~5% (0.0430-0.0595); rANOVA violation inflated (0.072-0.083); rANOVA-HF near-nominal (0.039-0.0655). OK
+-- R: ranova_sim.R S=2000 seed=2 -> ranova_s2000_seed2.csv --
+  rANOVA holds ~5% (0.0425-0.0525); violation (0.068-0.0815); HF (0.039-0.0595). OK (cross-seed drift ~1pp)
+-- R: mlm_cs_kr_sim.R S=300 seed=1 -> mlm_cskr_s300_seed1.csv --
+  MLM-CS holds 3.7-5.7%, violation 1.7-4.0% (conservative); MLM_KR == MLM_CS every row (reimpl limitation).
+-- R: mlm_un_sim.R m=9 hold n=15 S=300 seed=1 -> mlm_un_m9_hold_n15_s300_seed1.csv --
+  MLM_UN = 0.35 (elapsed 665 s)  [HEADLINE liberal-bias reproduced]
+-- R: mlm_un_sim.R m=9 hold n=15 S=200 seed=2 -> mlm_un_m9_hold_n15_s200_seed2.csv --
+  MLM_UN = 0.33 (elapsed 443 s)  [seed-sensitivity: 0.33-0.35]
+-- R: mlm_un_sim.R m=12 hold n=15 S=50 seed=1 -> mlm_un_m12_hold_n15_s50_seed1.csv --
+  MLM_UN = 0.68 (elapsed 691 s)  [brackets Table 3 SAS 56.33% / SPSS 69.42%]
+-- R: mlm_un_sim.R m=12 hold n=100 S=30 seed=1 -> mlm_un_m12_hold_n100_s30_seed1.csv --
+  MLM_UN = 0.067 (elapsed 784 s)  [near-nominal at large n, cf Table 3 7.76%; SE~4.5pp at S=30]
+-- Py: cross_lang_recompute.py (numpy/scipy/statsmodels) --
+  rANOVA seed1/seed2: holds ~5% (0.0415-0.0590), violation inflated (0.0645-0.0900), HF ~5% (0.0375-0.0670).
+    => matches R cross-language. OK
+  MLM-CS (MixedLM) S=300: holds 4.7-7.0%, violation 0.3-4.0% conservative. => matches R. OK
+  MLM-UN m=9 hold n=15 S=400: 0.3925 (py_mlm_un_result.txt) => confirms R's 0.33-0.35 in a 2nd language. OK
+[prose check] p.7-8 "close to five per cent" (m=12, holds) refers to "The MLM-CS and rANOVA results",
+  NOT MLM-UN (preceding clause: MLM-UN has "large progressive bias"). No internal inconsistency.
+  => PRIOR AUDIT'S ADV-002 RESCINDED (false positive).
+[script hygiene] SAS_simulation_9.txt MLM violation blocks reference C:\Pop_long_violation _12.sav
+  (stray space + wrong m suffix) -> ADV-004. SPSS scripts SAVE result tables that are NOT uploaded -> ADV-003.
+==== END (status: OK) ====

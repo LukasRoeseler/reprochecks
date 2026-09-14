@@ -1,0 +1,1451 @@
+Articles
+https://doi.org/10.1038/s41562-020-00971-z
+Imprecise neural computations as a source of
+adaptive behaviour in volatile environments
+Charles Findling1,2, Nicolas Chopin 2 and Etienne Koechlin 1,3,4 ✉
+In everyday life, humans face environments that feature uncertain and volatile or changing situations. Efficient adaptive behav-
+iour must take into account uncertainty and volatility. Previous models of adaptive behaviour involve inferences about volatility
+that rely on complex and often intractable computations. Because such computations are presumably implausible biologically,
+it is unclear how humans develop efficient adaptive behaviours in such environments. Here, we demonstrate a counterintuitive
+result: simple, low-level inferences confined to uncertainty can produce near-optimal adaptive behaviour, regardless of the
+environmental volatility, assuming imprecisions in computation that conform to the psychophysical Weber law. We further
+show empirically that this Weber-imprecision model explains human behaviour in volatile environments better than optimal
+adaptive models that rely on high-level inferences about volatility, even when considering biologically plausible approximations
+of such models, as well as non-inferential models like adaptive reinforcement learning.
+E
+veryday life features uncertain situations. In such environ- that corrupt posterior beliefs are larger in environments featur-
+ments, efficient adaptive behaviour requires inferring from ing more changes, that is, larger in high-volatility environments
+experience the current external contingencies and, especially, than in low-volatility ones. As a result, posterior beliefs in more
+stimulus–action–outcome contingencies: the agent forms poste- volatile environments depend less strongly upon prior beliefs. This
+rior beliefs about external contingencies by combining their prior effect precisely corresponds to how the volatility estimated from
+beliefs with current observations. Empirical studies provide ample higher-order inferences impacts the formation of posterior beliefs
+evidence that such low-level inferential processes operate in the about external contingencies21.
+brain and guide human adaptive behaviour1–10. Everyday life also To test this conjecture, we built a model of optimal adaptive behav-
+features volatile (ever-changing) situations yielding external contin- iour in a variety of uncertain and volatile environments, including
+gencies that change over time. Optimal adaptive behaviour conse- closed (low-dimensional) and open-ended (high-dimensional)
+quently requires making additional higher-order inferences about environments. Using machine learning, we investigated the model
+the environmental volatility, that is, the probability that external performance in these environments. We next considered a model
+contingencies will change. Empirical studies show that humans con- that relies only on low-level inferences about external contingen-
+sistently adjust their behaviour with respect to the environmental cies, without tracking volatility. We demonstrate here that when
+volatility as if they are making such higher-order inferences1,11–14. these inferences undergo computational imprecisions conform-
+However, these inferences are complex and may rapidly yield intrac- ing to Weber’s law, this model performs near-optimally in all
+table computations13,15. This computational complexity problem tested environments. We also show that this ‘Weber-imprecision
+casts severe doubt upon the hypothesis that the brain implements model’ outperforms no-inferential adaptive processes like rein-
+such higher-order inferential processes13. Thus, we have a poor forcement learning (RL). Finally, we recorded the performance of
+understanding of how humans exhibit adaptive behaviour close human participants in these environments and observed that the
+to optimal adaptive processes that involve biologically implausible Weber-imprecision model unambiguously accounts for human per-
+computations. formances better than the optimal adaptive models, their standard,
+To clarify this issue, we leveraged three facts. (1) Higher-order biologically plausible algorithmic approximations and RL.
+inferences about the environmental volatility yield posterior beliefs
+about external contingencies, derived from both prior beliefs and Results
+estimated volatility. Posterior beliefs thus depend on the estimated Adaptive behaviour paradigm. We considered an adaptive agent
+volatility: when the estimated volatility increases, posterior beliefs that responds to successively presented stimuli. In every trial t,
+are less dependent on prior beliefs (and more on current observa- one among N distinct stimuli was randomly drawn and the agent
+tions)1. (2) Neural computations that derive posterior beliefs from responded by selecting one among M actions (M > N). The agent
+prior beliefs are highly imprecise, which attenuates the dependence then received a positive or negative feedback. The agent thus
+of posterior beliefs on prior ones16. (3) Computational imprecisions searched for the correct responses to stimuli by trial and error.
+further scale with the magnitude of changes in internal representa- However, feedbacks were stochastic and the combination of correct
+tions (the so-called Weber’s law in psychophysics17–19). We then con- responses to stimuli changed episodically. More precisely, the envi-
+jectured that the corruption by imprecise computations of low-level ronment episodically switched across distinct stimulus–response
+inferences about external contingencies may counter-intuitively combinations, and each combination specified one distinct
+lead to efficient adaptive behaviour without relying on higher-order response to each stimulus (the ‘correct’ response) that led to posi-
+inferences about the environmental volatility20. The rationale is tive feedbacks with unknown, constant probability η > 0.5, while
+that, consistent with Weber’s law, the computational imprecisions the other responses led only to positive feedbacks with probabilities
+1Ecole Normale Supérieure, PSL Research University, Paris, France. 2ENSAE ParisTech, Saclay, France. 3Université Pierre et Marie Curie, Paris, France.
+4Institut National de la Santé et de la Recherche Médicale (INSERM), Paris, France. ✉e-mail: etienne.koechlin@upmc.fr
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+1 − η < 0.5. The current correct combination changed between two levels, which relate to (1) volatility value τ, which is assumed to be
+successive trials with a probability τ named volatility. constant, and as above, (2) the successive occurrences of correct
+We investigated a range of prototypical environments by first combinations z (Fig. 1b and Extended Data Fig. 4). This inferential
+t
+varying number K of possible combinations (Methods and Fig. agent is also computationally intractable and was therefore emu-
+1e). Closed environments were modelled using K = 2 combinations lated with the same particle filtering method. We refer to this emu-
+corresponding to one repeated stimulus (N = 1) and two available lation as the exact constant-volatility model.
+actions (M = 2), that is, a two-armed bandit with potential reversals Both models emulate the exact inferential process, combin-
+between correct actions. Open-ended environments were modelled ing offline both backward and forward inferences (Methods and
+using K = 24 combinations corresponding to three stimuli (N = 3) Supplementary Fig. 5). Both models therefore lack biological plau-
+and four available actions (M = 4), so that uncertainty also affects sibility and are computationally exorbitant. Consequently, we also
+identification of the current correct combination. Whenever the investigated their online forward algorithmic approximation by
+current combination changed, a new combination k was drawn restricting the particle filtering to the online, forward sampling
+with unknown probability γk. Secondly, we independently varied that estimates posterior beliefs B(t) from posterior beliefs B(t − 1)
+the temporal structure of volatility τ. In stable environments, τ was in the preceding trial23,24 (Methods). The resulting online particle
+set to zero: the correct combination remained unchanged across filtering is plausibly implemented in populations of cortical neu-
+trials. We considered various stable environments by manipulat- rons26–28. We refer to these approximations as the forward varying-
+ing feedback sparsity, with feedbacks delivered in 100, 20, 10, 5 or and constant-volatility models.
+2% of trials. In changing environments, volatility τ was set to one Third, in stable environments, the optimal agent is identical to
+of two non-zero constants, τ = 0.03 or τ = 0.2, which charac- those described for unstable and changing environments except
+low high
+terize rarely and frequently changing environments, respectively. that it now comprises only one inferential level related to external
+Every trial delivered feedbacks. Finally, in unstable environments, contingencies (Fig. 1c and Extended Data Fig. 5): namely, the iden-
+τ followed a bounded, Gaussian random walk (0.03 < τ < 0.2), such tity of the correct combination z is assumed to remain unchanged
+that the environmental volatility smoothly and stochastically varied over trials (no volatility). The resulting inferential complexity is
+across trials (Extended Data Fig. 1). considerably lower, such that this agent is computable through pure
+online forward closed-form computations29 that derive posterior
+Optimal adaptive models. For each environment, we developed beliefs B(t) about a combination z directly from posterior beliefs
+the optimal adaptive agent, which develops inferences from feed- B(t − 1) given the feedback observed in trial t (Methods). For con-
+backs corresponding to the environment generative process. First, sistency, however, we emulated the agent using the same online,
+in unstable environments, the optimal agent assumes the volatil- forward particle-filtering method as above, which, in this case,
+ity of a given trial, τ, to vary as a bounded, Gaussian random walk emulates the exact inference process. We refer to this emulation as
+t
+with (unknown) variance ν and comprising three hierarchically the zero-volatility model.
+organized levels of inferences1 that relate to (1) the volatility change
+rate ν, (2) the successive volatility values τ and (3) the successive The Weber-imprecision model. The zero-volatility model evi-
+t
+occurrences of correct combinations z (Fig. 1a and Extended Data dently has poor adaptive performances in volatile environments
+t
+Fig. 3). These inferences further combine with those about feedback when combinations change: posterior beliefs B(t) about the correct
+probability η and, when K > 2, about occurrence probabilities γk of combination move slowly from current to new correct combina-
+combinations k. The agent thus forms posterior beliefs B(t) about tions. We hypothesized that the substantial computational impreci-
+the current correct combination in trial t and, by marginalizing over sions previously identified in human inferential processes16 remedy
+these beliefs, selects the most likely correct action in response to this limitation. Consistently with Weber’s law17,18, computational
+stimuli. imprecisions presumably scale with the magnitude of belief updat-
+This inferential agent is computationally intractable. We there- ing and, consequently, increase whenever combinations change.
+fore emulated this agent using a sequential Monte Carlo method Such computational imprecisions make posterior beliefs B(t) less
+based on particle filtering that has recently been developed in dependent upon past observations, especially when combinations
+machine learning to solve these models22–25 (Methods). We refer to change more frequently. Posterior beliefs B(t) thus adjust to the
+this agent emulation as the exact varying-volatility model. environmental volatility as if they derived from higher-order infer-
+Second, in changing environments, the optimal agent is identi- ences about that volatility. We hypothesized that with such impre-
+cal to the one described for unstable environments, except that the cisions, the zero-volatility model approaches the optimal adaptive
+agent now comprises only two hierarchically organized inferential performance in volatile environments.
+Fig. 1 | Inferential models of adaptive behaviour. a, Third-order inferential models (referred to as varying-volatility models) assume that the environment’s
+latent state z
+t
+in trial t changes with probability (volatility) τt, which in turn is assumed to vary as a Gaussian random walk with constant variance ν.
+Inferences relate to volatility variance ν, volatility τt and latent state z t according to external feedbacks r t observed following action a t selected in response
+to stimuli s t. Note that although variance ν is assumed to be constant, its estimates may change across trials. b, Second-order inferential models (referred
+to as constant-volatility models) assume that the environment’s latent state z
+t
+changes with constant probability (volatility) τ. Inferences relate only to
+volatility τ and latent state z t. Again, although volatility τ is assumed to be constant, its estimates may change across trials. c, First-order inferential models
+(referred to as zero-volatility models) assume that the environment’s latent state z remains unchanged across trials. Inferences relate to only latent
+state z. Again, although latent state z is assumed to be constant, its estimates may change across trials. d, The Weber-imprecision model is identical
+to the zero-volatility model, except that imprecisions occur in inferential computations. These computational imprecisions reflect neural noise in a
+manner consistent with Weber’s law. See text for details. Extended Data Figs. 3–5 show the full generative models corresponding to the varying-volatility,
+constant-volatility and zero-volatility models, respectively. e, Examples of unstable, changing and stable environments whose generative processes
+correspond to the varying-, constant- and zero-volatility models, respectively. Closed environments were modelled using K = 2 latent states (two-armed
+bandit potentially reversing shown on the right). Open-ended environments were modelled using K = 24 latent states associated with distinct stimulus–
+response mappings combining three stimuli and four possible responses (two combination examples are shown on the right). Green lines show transitions
+between latent states. See text for details.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NaturE HumaN BEHavIour Articles
+Computational imprecisions presumably derive from noisy where μ ≥ 0 and λ ≥ 0 are free parameters quantifying the constant
+online neural computations. We consequently assumed that in the and Weber components of computational imprecision, respectively
+(forward) zero-volatility model, particle filtering is noisy: every par- (Methods). We refer to this model as the Weber-imprecision model,
+ticle coding for one combination in trial t may start (mis)coding which comprises the zero-volatility model as the special case (μ,
+for another combination in trial t + 1 with probability ϵ t. Weber’s λ) = (0,0) (Fig. 1d). Only when λ is non-zero are posterior beliefs
+law states that computational imprecisions scale with the dIistance d B(t) sensitive to the environmental volatility as if they derived from
+t
+between posterior beliefs in trials t and t + 1. We therefore assumed higher-order inferences about that volatility (Extended Data Fig.
+noise ϵ t is a random variable uniformly distributed between 0 and 2). Like the models described above, the Weber-imprecision model
+μ + λd:I comprises inferential processes about (1) feedback probability η, to
+t
+prevent feedback stochastic fluctuations from improperly impact-
+ϵ
+t
+U 0;μ λd
+t
+ing state beliefs B(t) and (2) about occurrence probabilities γk of
+ ð þ Þ
+a b c
+ν
+τt τt + 1 τ
+z t z t + 1 z t z t + 1 z z
+r t a t r t + 1 a t + 1 r t a t r t + 1 a t + 1 r t a t r t + 1 a t + 1
+s t s t + 1 s t s t + 1 s t s t + 1
+Varying-volatility model Constant-volatility model Zero-volatility model
+Inference noise
+Decreasing inferential complexity
+z z
+r t a t r t + 1 a t + 1
+s s
+t t + 1
+Weber-imprecision model
+desolC
+dedne-nepO
+)setats
+2 =
+K(
+)setats
+42
+=
+K(
+τ
+ytilitaloV
+d
+e
+High
+Mid
+Constant
+Low
+a1 → r+
+a2 → r–
+a1 → r–
+a2 → r+
+s1 → a4
+s2 → a→3→r+
+→
+s3 → a1
+s1 → a1
+s2 → a2→ →r+
+→
+s3 → a3
+Time Time Time
+Unstable Changing Stable
+Environments
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+combinations k (latent states), to capture their potential differential imprecisions, these parameters are specifically not adjustable, espe-
+occurrences. cially through higher-order inferential processes. To address this
+issue, we next analysed the model versatility (or robustness) across
+Alternative models. To assess the functional specificity of com- all the environments with no parameter adjustments. We first com-
+putational imprecisions in inferences, we investigated an alterna- puted for every pair of noise parameters (μ, λ) the performance loss
+tive model whereby computational imprecisions occur in action that the Weber-imprecision model exhibited in each environment
+selection rather than in belief inferences. This model, named the relative to the optimal performance. For each pair (μ, λ), we then
+noisy-selection model, is identical to the zero-volatility model computed the maximal performance loss (denoted maxloss(μ, λ))
+except that actions are probabilistically selected according to the over all the environments. Figure 3a shows that, consistent with our
+standard softmax rule with inverse temperature β as free parameter prediction, maxloss(μ, λ) remained below 10% when the constant
+(the zero-volatility model corresponds to β ≫ 1). noise component µ remained close to zero (<0.04) and the Weber
+Finally, to assess the role of inferential processes in optimizing noise component λ ranged between ~0.8 and ~1.8, while always
+adaptive behaviour, we also considered the standard, non-inferential remaining above 22% when λ = 0. Maxloss(μ, λ) was minimal and
+adaptive model, namely, the Pearce–Hall RL model with computa- equal to 9.2% loss (s.e.m. = 0.16%) when μ* = 0.01 and λ* = 1.4 (the
+tional imprecisions. The model, named the noisy-PH-RL model, asterisk (*) indicates the optimal values over all environments). In
+combines Pearce–Hall’s learning rule30,31, noisy updates scaling with every environment, accordingly, the Weber-imprecision model with
+the unsigned reward prediction error and the softmax rule32. Free parameters (μ*, λ*) exhibited a performance loss relative to theoreti-
+parameters included along with inverse temperature β are α and cal optima that never exceeded 9.2% (s.e.m. = 0.16%). This upper
+α , scaling the constant and adjustable components of the learning bound value, named the ‘minimaxloss’, defines the model versatility
+PH
+rate, respectively, and ζ, scaling updating noise (Methods). over environments.
+Using the same minimax approach, we found that the
+Computer simulation results. We simulated all the models in each noisy-PH-RL and noisy-selection models were dramatically less
+environment described above, for a total of 1,000 trials. We set feed- versatile than the Weber-imprecision model. The noisy-PH-RL
+back probability η to 90%. In each environment, we simulated each minimaxloss was equal to 22.8% (s.e.m. = 0.61%) and corresponded
+model 50 times and computed its resulting average performance to constant and adjustable learning rates α* = 0.53 and α* PH ¼0:33
+(proportion of correct responses). In all unstable environment sim- and no noise (ζ* = 0) (Fig. 3b). The noisy-selection miInimaxloss
+ulations, we set volatility variance ν to 0.0001. In every open-ended was equal to 39.6% (s.e.m. = 0.78%) and corresponded to inverse
+environment simulation, occurrence probabilities γk of combina- temperature β* → +∞, that is, to the zero-volatility model (Fig. 3b),
+tions were set randomly. We first analysed the best performance that indicating that even considering an adaptive inverse temperature
+the Weber-imprecision, noisy-selection and noisy-PH-RL models cannot improve performance. Thus, the Weber-imprecision model
+could achieve in every environment. For every environment, we versatility could neither be achieved through RL processes nor noisy
+thus computed the free parameters that maximized model perfor- action selection and specifically resulted from imprecise probabilis-
+mances. We then compared these best performances to the cor- tic inferences over external contingencies.
+responding optimal performances. The performances of the exact We next compared the Weber-imprecision model versatility to
+zero-, constant- and varying-volatility models in stable, changing the versatility of both the constant- and varying-volatility models.
+and unstable environments were virtually identical to their forward These models contain no free parameters, so that the minimax-
+approximations (Fig. 2). loss simply reduces to the maxloss these models exhibited across
+In stable environments, as expected, both the Weber-imprecision the environments. We found that only the exact constant-volatility
+and noisy-selection models performed optimally, regard- model was more versatile than the Weber-imprecision model (Fig.
+less of feedback sparsity and number K of latent states (Fig. 2a 3b). While the latter exhibited a 9.5% minimaxloss (s.e.m. = 0.16%)
+and Supplementary Fig. 1). Indeed, both models contain the as reported above, the minimaxloss for the exact constant-volatility
+zero-volatility model as a special case. By contrast, the noisy-PH-RL model was 4.5% (s.e.m. = 0.76%). Its forward approximation (that
+model reached optimal performance only when K = 2. When K = 24 is, the forward constant-volatility model), however, has as low
+and feedback sparsity was equal to 2%, this model exhibited a ~9% a versatility as the noisy-PH-RL model (minimaxloss = 20.3%,
+loss of performance (s.e.m. = 2%), reflecting the lack of inferential s.e.m. = 2.72%), while both the exact and forward varying-volatility
+processes about latent states. models performed even more poorly (minimaxloss > 40%,
+In changing environments, as hypothesized, only the s.e.m. < 2%). All these higher-order inference models exhibited the
+Weber-imprecision model performed quasi-optimally for both largest performance loss in environments with sparse feedbacks,
+K = 2 and K = 24 (performance losses <1% and <2% for τ and indicating that (1) third-order inferences about volatility change rate
+low
+τ , respectively) (Fig. 2b,d). The noisy-PH-RL model performed ν are highly inefficient and even deleterious with sparse feedbacks,
+high
+moderately for K = 2 (losses of ~3% and ~9% for τ and τ , as the number of volatility trajectories between two distant infor-
+low high
+respectively) but poorly for K = 24 (losses of ~14% for both τ and mative trials are potentially infinite and (2) assuming a constant
+low
+τ ). The noisy-selection model performed even more poorly for volatility overcomes this problem but requires backward processes
+high
+both K = 2 and K = 24, regardless of the environmental volatility (all to bring together distant feedbacks for properly inferring volatility.
+losses >17%) (Fig. 2b,d). Finally, the Weber-imprecision model endured its maximal loss rel-
+In unstable environments, the results also confirmed our predic- ative to optima (minimaxloss = 9.5%) in the environment where the
+tion (Fig. 2c). Only the Weber-imprecision model still performed constant-volatility model is precisely the optimal agent (changing
+quasi-optimally (losses <1% for both K = 2 and K = 24). Again, environment), and volatility is large (τ ≈ 0.2) and represents the
+high
+the noisy-PH-RL model performed moderately for K = 2 (loss only source of uncertainty regarding correct combinations (closed
+~5%) but poorly for K = 24 (loss ~15%), while in both cases, the environment K = 2). Among the biologically plausible models, the
+noisy-selection model performed poorly (both losses >26%). Weber-imprecision model thus appeared as the most versatile adap-
+Thus, only the Weber-imprecision model reached a virtually opti- tive model. We obtained the same results when considering the
+mal performance in a variety of stable and volatile environments. absolute rather than relative performance losses (Fig. 3c,d).
+This optimal performance, however, was reached with noise param-
+eters (μ, λ) properly adjusted to each environment. This adjustment Human adaptive performances in closed environments. We next
+deviates from the idea that, as they reflect neural computational investigated how the models account for human behaviour in volatile
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NaturE HumaN BEHavIour Articles
+a b c d
+Stable environment Changing environment Unstable environment Changing environment
+τ = 0 τ ~ 0.03 τtЄ [0.03, 0.2] τ ~ 0.2
+Feedback sparsity = 2%
+Closed environment
+Chance (K = 2)
+levels
+Open environment
+(K = 24)
+Models (*optima)
+environments. We first tested N = 22 participants in a behavioural the data were derived by computing model marginal likelihoods
+protocol implementing the unstable, closed environment described over parameter spaces using advanced Monte Carlo procedures
+above (that is, K = 2, two-armed bandits with reversals) (Fig. 4a). (Methods). These MPPs are the optimal Bayesian quantification
+The protocol exactly corresponded to this environment except that for selecting models, balancing model degrees of freedom and
+volatility τ varied as a stepwise function rather than a Gaussian ran- adequacy to data33,34. Among all inferential models (exact varying-
+t
+dom walk (Fig. 4b and Methods) and feedback probability η was or constant-volatility models, their forward approximations and
+set to 80% rather than 90%. The protocol was thus similar to that the Weber-imprecision model), the Weber-imprecision model
+used in previous studies1. Computer simulations showed that in this showed the largest MPPs, which further led to the rejection of the
+protocol, the exact varying- and constant-volatility model perfor- other inferential models (exceedance probability P = 0.973)33,34
+exceed
+mances were 86.9% and 86.3%, respectively (s.e.m. < 0.3%). Their (Fig. 4d). Consistently with our simulations, the best-fitting
+forward approximation reached virtually the same performances Weber-imprecision model (that is, the one with free parameters
+(86.6% and 86.0%, respectively; s.e.m. < 0.3%). Participants’ perfor- maximizing model likelihoods) relied on the dominant contribution
+mances were significantly lower (79.8%, s.e.m. = 0.9%), although as of the Weber noise component (λ 〈d〉 = 0.25; μ = 0.05, s.e.m. = 0.01;
+fit t fit
+previously shown1, their behaviour was sensitive to the environmen- λ = 0.8, s.e.m. = 0.1). The Weber-imprecision model further fit par-
+fit
+tal volatility. Fitting participants’ performances with the inferential ticipants’ performances significantly better than the reduced model
+model (with the distinct volatility levels corresponding to the differ- with Weber noise component λ = 0 (MPP = 0.22, MPP = 0.78,
+λ = 0 λ>0
+ent volatility blocks as free parameters) revealed that participants’ P = 0.998) and better than the extended model with distinct
+exceed
+behaviour was indeed associated with significantly larger fitted vol- Weber noise components for low and high-volatility episodes
+atility values in high than in low-volatility blocks (median-split high (MPP = 0.79, MPP = 0.21, P > 0.998; λ = 0.88,
+λ = constant λhigh ≠ λlow exceed high
+versus low-volatility blocks; paired t-test; t(20) = 2.46, P = 0.023, λ = 0.76, s.e.m. = 0.126, paired t-test: t(20) = 1.71, P = 0.1).
+low
+two-tailed; Cohen’s d = 0.383; 95% confidence interval [0.0034, A model recovery procedure (Methods)35 confirmed that our
+0.0297]) (Fig. 4c). behavioural protocol and fitting method properly discriminated
+To fit participants’ choice data, we inserted in every model a the models. Indeed, the MPPs revealed that every model fit its
+softmax rule for action selection (inverse temperature β as the free own performance, as simulated from its best-fitting free param-
+parameter) (Methods). The Weber-imprecision model consequently eters, better than the other models and rejected all other models
+included the noisy-selection model as a special case with noise (all P > 0.99) (Fig. 4e). Moreover, only the Weber-imprecision
+exceed
+parameters set to zero. Model posterior probabilities (MPPs) given model explained participants’ data better than all RL models includ-
+sesnopser
+tcerroc
+fo
+noitroporP
+1
+0.8
+0.6
+0.4
+0.2
+0
+*Zero-volatil Wit ey ber-impreci Ns oi io syn NP oiH s *- y- ER s xL e al ce
+t
+c
+F
+ti
+c
+oro on wns at ra
+d
+nt c- ov nol stat ail n Wi tt e-y v bo el r-a itili mt py reci Ns oi io syn - NP oiH s- y- *R sL Eel xe ac ct ti
+F
+o
+v
+orn ar wyi arn dg - vv ao rl ya iti nl Wi gt - ey v bo el r-a itili mt py reci Ns oi io syn - NP oi *H s- y E-R xsL ael
+ct
+Fe c oct ri oo wnn ast ra
+d
+n ct- ov no sl ta atil n Wi tt - ey v bo el r-a itili mt py rec Nis oi iso yn - NP oiH s- y-R sL election
+Fig. 2 | models’ maximal performances in stable, changing and unstable environments. Maximal proportions of correct responses for the
+Weber-imprecision, noisy-PH-RL and noisy-selection models when simulated in closed (K = 2 latent states, triangles) and open-ended (K = 24 latent
+states, circles) environments. Each model was simulated N = 50 times in every environment (error bars are s.e.m. across simulations). * shows the
+theoretical optimal model for each environment. Solid and dashed lines serve as guides to the eye. a, Stable environments (volatility τ = 0) with sparse
+feedbacks (2% of trials). The theoretical optimal performance corresponds to the zero-volatility model. b, Rarely changing environments (constant
+volatility τ = 0.03). The theoretical optimal performance corresponds to the exact constant-volatility model. c, Unstable environments (volatility τt follows
+a bounded Gaussian random walk in the range [0.03, 0.2]). d, Frequently changing environments (constant volatility τ = 0.2). The theoretical optimal
+performance corresponds to the exact constant-volatility model. Note that in every environment, the forward approximation of the exact optimal model
+as well as the Weber-imprecision model virtually achieved the optimal performance. By contrast, the noisy-PH-RL model performed decently in closed
+environments but poorly in open-ended environments, while the noisy-selection model (zero-volatility model comprising a softmax affecting action
+selection) performed poorly in both closed and open-ended environments.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+0.20
+0.10
+0
+0.20
+0.10
+0
+0 1.0 2.0 3.0 λ
+ing and nested in the noisy-PH-RL model (P > 0.99), while the fore used model Bayesian information criteria as standard estimates
+exceed
+other models failed (all P ≤ 0.55) (Fig. 4f and Supplementary of marginal likelihoods, with model free parameters maximizing
+exceed
+Fig. 2). Consistently, the best-fitting Weber-imprecision model model likelihoods (Methods). We first found that in both conditions,
+fully captured the time course of participants’ performances follow- and especially in the recurrence condition, every inferential model
+ing reversals, while the other best-fitting models failed (Fig. 5 and explained participants’ data better than all RL models including and
+Supplementary Note 1). nested in the noisy-PH-RL model (all P > 0.99) (Fig. 6d and
+exceed
+Supplementary Fig. 3). Unlike RL models, all the inferential models
+Human adaptive performances in open-ended environments. We make inferences at the level of combinations and infer their occur-
+next investigated models’ accounts of human behaviour in volatile, rence probabilities γ (see model descriptions above). The result thus
+k
+open-ended environments. We analysed the performances of 62 par- confirmed previous findings5,7 that, unlike RL models, participants
+ticipants from two previous studies5,7, who were tested in the rarely formed beliefs about combinations and their occurrences, and that
+changing, open-ended environment described above (constant those beliefs endowed them with the ability to capture the recurrence
+volatility τ = 0.03, N = 3, M = 4, K = 24) (Fig. 6a). Unbeknownst to of combinations in the recurrence condition (Supplementary Fig. 4).
+low
+participants, every participant performed two distinct instantiations Yet the same model recovery procedure as above confirmed that the
+of the environment: in the no-recurrence condition, every com- protocol associated with our fitting method properly discriminated
+bination occurred once, thus forming 24 episodes associated with the inferential models: every model fit its own performance simu-
+the 24 distinct combinations; in the recurrence condition, the 24 lated from its best-fitting free parameters better than the other mod-
+episodes corresponded to distinct combinations pseudo-randomly els did, leading to the rejection of those models (all P > 0.99, Fig.
+exceed
+drawn from a subset of only three combinations. Computer sim- 6c). Critically, the Weber-imprecision model again best explained
+ulations showed that the optimal performance from the exact participants’ data by exhibiting the largest MPP, leading to the rejec-
+constant-volatility model was equal to 86.9% (s.e.m. = 0.4%) over tion of all the other inferential models (P > 0.99) (Fig. 6b). The
+exceed
+these two conditions. The exact varying-volatility model reached best-fitting Weber-imprecision model again relied on the dominant
+virtually the same performance (86.7%, s.e.m. = 0.4%), which their contribution of the Weber noise component (λ 〈d〉 = 0.39; μ = 0.05,
+fit t fit
+forward approximation also achieved (86.1% and 85.4%, respec- s.e.m. = 0.002; λ = 1.2, s.e.m. = 0.06) (Supplementary Note 3).
+fit
+tively; s.e.m. < 0.4%). Participants exhibited a significantly lower
+performance (74.2%, s.e.m. = 0.7%). Discussion
+In these open-ended environments, computing model marginal The Weber-imprecision model consists of first-order inferential
+likelihoods was practically intractable. To derive MPPs, we there- processes forming beliefs about external contingencies and under-
+µ
+µ
+a
+c
+ssolxaminim
+etulotsbA
+0.4
+0.2
+0
+ssolxaminim
+evitaleR
+b
+Relative maxloss(λ, µ) 0.5
+Weber-imprecision model
+0.4
+Minimaxloss
+0.3
+0.2
+0.1
+0
+d
+Absolute maxloss(λ, µ)
+Weber-imprecision model
+Minimaxloss 0.3
+0.1
+10%
+Loss
+o3 f0 p% erforman5 c0 e% Exact
+constant-v Wo el Fba ot ri el ri w-t i ay rm dp r ce oci ns si to an nt-volatili Nt Eoy i xs ay c-
+t
+P vH a- ryR iL ng-vola Nti ol iit sy y-selec Fti oZo ren r wo a- rv
+d
+ol va at rili yity ng-volatility
+Models
+Fig. 3 | models’ versatility across environments. a, Maximal losses over all investigated environments (stable, rarely and frequently changing and unstable,
+either closed or open-ended) of the Weber-imprecision model relative to theoretical optimal performances according to noise free parameters µ and λ
+(constant and Weber noise components, respectively). These losses are normalized in each environment with respect to the related theoretical optimal
+performance. The arrow indicates the minimaxloss that corresponds to the parameter values minimizing these maximal losses. b, Minimaxlosses for all the
+investigated models. c, Same as a, except that absolute rather than relative losses are considered: namely, losses in every environment are not normalized
+with respect to the related theoretical optimal performance. d, Same as b, except that minimaxlosses are computed from absolute rather than relative
+losses. Each model was simulated N = 50 times in each environment (error bars are s.e.m. across simulations). The lower the minimaxloss, the more
+versatile the model is across the environments. Note that the exact constant-volatility model is the most versatile, but it is biologically implausible from a
+computational viewpoint. Among the biologically plausible models (Weber-imprecision, noisy-PH-RL, zero-volatility, noisy-selection and forward constant-
+or varying-volatility models), the Weber-imprecision model is the most versatile and approaches the versatility of the exact constant-volatility model.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NaturE HumaN BEHavIour Articles
+a b
+*
+Stimulus
+Response
+0 200 400 600 Low High
+Trials volatility volatility
+Time Blocks
+Posterior
+Exceedance probability
+probability
+0.8
+0.6
+0.4
+0.2
+0
+going computational imprecisions that, consistent with the Weber performing the versatility of higher-order inferential processes
+Law17–19, scale with the magnitude of belief updating. The results tracking volatility1 and
+show that the model 4. best accounts for human performances in these environments.
+1. can reach the theoretically optimal adaptive behaviour in sta- These results hold neither when computational imprecisions
+ble, changing, unstable, closed and open-ended environments; occur in action selection nor in adaptive RL. These findings thus
+2. is the most versatile adaptive process among biologically plau- support the Weber-imprecision model as describing human adap-
+sible adaptive processes tested in this study, including adaptive tive processes in uncertain and variable environments.
+RL (ref. 30 and M. Lehmann, poster presented at the Computa- Our computer simulations provide principled support to the
+tional and System Neurosciences Conference 2015) and forward, Weber-imprecision model. In a variety of environments (closed
+online approximations of higher-order inferential processes or open-ended and with zero, constant or unstable volatility), the
+tracking volatility1,11–14,36,37, that is, exhibits the best perfor- Weber-imprecision model can (counter-intuitively) virtually reach
+mance over these environments without prior knowledge about the adaptive optimum in every environment (adpative optima cor-
+their temporal or volatility structures; respond to inferential processes matching the environment genera-
+3. is the second-most versatile process approaching the maximal tive processes) and outperform RL. The Weber-imprecision model
+versatility that exact but biologically implausible second-order thus captures key adaptive properties of optimal inferential pro-
+inferential processes tracking volatility achieves12,36, while out- cesses that, in previous studies, may have been (mis)interpreted as
+seulav
+ytilitalov
+dettiF
+d e
+Exact varying-volatility
+Exact constant-volatility
+Forward varying-volatility
+Forward constant-volatility
+Weber imprecision
+gnidrawer-rehghiH
+noitpo
+c
+16%
+Or
+12%
+Or
+8%
+500 ms
+Feedback
+600 ms 4%
+Volatility
+Jittered
+0
+700–1,300 ms
+Stimulus
+f
+Simulated models Posterior probability Posterior
+.70 .10 .12 .04 .04 probability 1
+.04 .81 .04 .07 .04 0.8 (Exceedance probability) (0.99)
+.10 .04 .78 .04 .04 0.6 (0.53) 0 (0.30)
+0.4
+.04 .17 .04 .71 .04
+0.2 (<0.01) (<0.01)
+.04 .04 .04 .04 .84
+Exact varyin Eg x- av ctol cati oli nt sy ta Fn ot r- wv aol ra dt il vit ay r Fy oi rn wg- arv do l cat oili nt sy tant-vol Wa etil bit ery -imprecision 00001
+E px
+rc10 0 0 0
+oe be
+a1 000 0
+d ba
+i10 0 0 0
+ln itc
+ye0 000 1 Exact v Ea xry ai cn t g c- Fov ono rl st wati a al ri n Ft t d o- y rv v wo al r aa y rt ii dl n it g cy - ov nol s Ftat a ii tl ni tt Wt - ey ev dbol era t iilit my precision Exact varyi0 n Eg x-v acol t a ctil oit ny sta Fn ot r- wv aol ra dt il vit ay r Fyi orng w- av ro dl a cti olit ny stant-vol Wati eli bt ey r-imprecision
+Models models
+Models versus all RL models
+Fig. 4 | model fits to human performances in closed, unstable environments. a, Trial structure in the two-armed bandit task. Participants chose one of two
+visually presented symbols by pressing a response button and received a binary feedback. One symbol led to positive feedbacks with 80% probability, the
+other led to negative feedbacks with 80% probability. b, Task temporal structure. Feedback probabilities reversed episodically between symbols. Volatility
+(probability of reversals) varied along the experimental session as a stepwise function comprising six distinct levels [0.01, 0.02, 0.03, 0.05, 0.08, 0.15]
+whose occurrence order was counterbalanced across participants. Each level comprised 120 trials. One example of an experimental session is shown. c,
+Fitted volatility values in low- and high-volatility blocks (median-split high- versus low-volatility blocks) resulting from fitting participants’ performances
+with the inferential model taking as free parameters the distinct volatility levels corresponding to the different volatility blocks (*P = 0.023, two-tailed
+paired t-test, t(20) = 2.46, Cohen’s d = 0.383, 95% confidence interval [0.0034, 0.0297]; data distribution was assumed to be normal, but this was not
+formally tested). d, MPPs given human data and related exceedance probabilities (inset) for inferential models (varying- and constant-volatility models,
+their forward approximations and the Weber-imprecision model). The Weber-imprecision model unambiguously best accounted for human performances
+(P exceed = 0.973). Error bars are standard deviations of Bayesian estimators. e, Confusion matrices from the model recovery procedure assessing the
+protocol’s ability to dissociate the models. The large matrix shows MPPs; the small matrix shows the related exceedance probabilities. Colour scale ranges
+from 0 (dark blue) to 1 (dark red). Each model unequivocally explains its own behaviour better than the other models. f, MPPs relative to the best-fitting
+RL model including and nested in the noisy-PH-RL model (here the noisy-RL; Supplementary Fig. 2) given human data. Related exceedance probabilities
+are shown in parentheses. Error bars are standard deviations of Bayesian estimators. Only the Weber-imprecision model unambiguously accounts for
+human data better than all RL models. In all these analyses, action selection in every model is assumed to follow a softmax probabilistic function (inverse
+temperature β as free parameter). See Extended Data Figs. 6–8 for model fitted parameters.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+evidence supporting the presence in humans of higher-order infer- structures. However, their biologically plausible approximation,
+ences tracking volatility. which excludes offline backward inferences, exhibited adaptive per-
+Moreover, among the biologically plausible models involving no formances similar to RL when feedbacks were sparse. Offline back-
+offline backward inferences, the Weber-imprecision model exhibits
+adaptive performances emerging as the most versatile and/or robust 1 ***
+to structural uncertainty12 (also named Knightian or Keynesian
+uncertainty in economics38,39). As is frequently the case in real life,
+structural uncertainty reflects a lack of knowledge about the gen-
+erative structure of the environment. We investigated environments 0.5 Exact
+with three distinct temporal structures: stable (zero volatility), varying-volatility model
+changing (constant volatility) and unstable (variable volatility) envi-
+ronments. As the unstable generative structure encompasses the
+changing one, which in turn encompasses the stable one, in prin-
+0
+ciple third-order inference processes corresponding to the adaptive
+optimum in unstable environments should optimally unravel this 1 ***
+structural uncertainty. However, when action feedbacks were sparse
+as is often the case in everyday situations, we found these processes
+to exhibit performances lower than RL. This finding confirms
+that, as previously advocated12,15, resolving temporal structural
+0.5
+uncertainty through higher-order inferences operating within the Forward
+high-dimensional space of possible temporal structures is actually varying-volatility model
+ineffective and even deleterious in view of the informative poverty
+of environment feedbacks.
+By contrast, exact second-order inference processes correspond- 0
+ing to adaptive optima in changing environments were found to * NS
+approach the adaptive optimum in every environment, even when
+feedbacks were sparse. These processes assume a constant volatil-
+ity and, in principle, optimally unravel structural uncertainty only
+across changing and stable environments. However, these processes
+efficiently adapt to unstable environments, as posterior beliefs about Exact
+the environmental volatility are constantly updated. Moreover, with constant-volatility model
+sparse feedbacks, assuming a constant volatility rules out the con-
+siderable variety of volatility trajectories that are compatible with
+temporally distant feedbacks but inferentially inextricable. These
+processes thus represent the best compromise between the dimen-
+* NS
+sionality and adequacy of the inferential space regarding temporal
+Forward
+constant-volatility model
+sesnopser
+tcerroc
+fo
+noitcarF
+a
+NS
+Human
+b NS
+Human
+c 1
+Human
+0.5
+0
+d
+1
+Human
+Fig. 5 | Human and model adaptive behaviour following contingency
+0.5
+reversals. Fraction of correct responses in trials preceding and following
+reversals in the two-armed bandit task described in Fig. 4 (closed, volatile,
+unstable environment). Each graph shows human performances (same
+data in all graphs) overlaid with fitted model performances averaged across
+participants (shaded areas are s.e.m. across participants, N = 21). Trial 0 0
+corresponds to the trial when, unbeknownst to participants and models, e
+1 *** ***
+reversals occurred. Human performances showed fast early adaptive
+responses to reversals (trials 1 to 3) followed by a slow, late adaptation to Human
+new environment contingencies (trials 5 to 15) leading to a performance
+plateau. a, Human and exact varying-volatility model performances. Late
+adaptations (averaged over trials 5 to 15) were slower in the model than 0.5
+Best-fitting RL model
+in participants (two-tailed paired t-test, t(20) = 3.9, P < 0.001). b, Human
+and forward varying-volatility model performances. Again, late adaptations
+were slower in the model than in participants (two-tailed paired t-test,
+t(20) = 4.7, P < 0.001). c, Human and exact constant-volatility model 0
+performances. Early adaptive responses were slower in the model than in
+f 1 NS NS
+participants (two-tailed paired t-test, t(20) = 2.39, P = 0.027). d, Human
+and forward constant-volatility model performances. Again, early adaptive Human
+responses were slower in the model than in participants (two-tailed paired
+t-test, t(20) = 2.65, P = 0.015). e, Human and RL model performances.
+Both early adaptive responses and late adaptations were slower in 0.5
+RL than in participants (two-tailed paired t-tests, both t(20) > 2.91, Weber-imprecision model
+P < 0.008). f, Human and Weber-imprecision model performances.
+The Weber-imprecision model exhibited early adaptive responses and
+late adaptations similar to participants (two-tailed paired t-tests, both
+0
+t(20) < 1.12, P > 0.12). See Supplementary Note 1 for a detailed discussion –5 0 5 10
+of these effects. *P < 0.05; **P < 0.01; ***P < 0.001; NS, not significant. Trials from reversal
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NaturE HumaN BEHavIour Articles
+a
+3
+3
+3
+3
+3
+3
+Stim ou nl su es t
+Key
+press 10 P0
+fo
+em
+si eti
+ds
+v
+b*
+e ack 300 ms**
+1 1
+1 1
+X
+2,000 ms* St *i om o ru nl js iu tes tt
+ered
+Key
+press 100 Nm
+fe
+egs ea*
+t di bv ae ck 300 ms**
+Jitter Time
+**or 1,000 ms
+b c d
+Simulated models Posterior probabilities Posterior
+Posterior
+1 probability Exact varying-volatility .84 .04 .04 .04 .04 probability (Exceedance probability)
+Exceedance 1 (>.99) (>.99) (>.99) (>.99) (>.99)
+probability 0.8 Exact constant-volatility .04 .84 .04 .04 .04 0.8
+0 0.6 Forward varying-volatility .04 .04 .84 .04 .04 0.6
+0.4 Forward constant-volatility .04 .04 .04 .84 .04 0.4
+0.2 0.2
+Weber imprecision .04 .04 .04 .08 .80
+Exact varyin Eg x-v acol t a ctil oit ny st Fa ornt- wv arol d at vili at Fry y oi rn wg a- rv do l cat oil nit sty ant-vol Wa eti blit ery -imprecision 0 00001
+E prx
+o00010
+c be
+ae00100
+bd ia
+li01000
+tn iec
+se10000 Exact v Ea xry ai cn t g c F- ov ornol s wtat ai a rli Fn dt t o-y rvv a wo rl ay ra iti dnl i gt c-y ov nol st Fat ail ii n tWt t t-y e ev b do el ra itili mt py recision Exact varyin0 Eg x- av co tl a ctil oit ny st Fa on rt- wv ao rl da ti vlit ary Fyi on rg w- av rol d a ctil oit ny stant-vol Wat eili bt ey r-imprecision
+Models models Models versus all RL models
+Fig. 6 | model fits to human performances in open-ended, changing environments. a, Trial structure in the open-ended task, modelling rarely changing
+environments with stochastic, positive or negative feedbacks. Visual stimuli were pseudorandomly drawn from a set of three Arabic numbers, for example
+(1, 3, 5). Participants responded by pressing one of four possible response keys. Shortly afterparticipants’ responses, stimuli were removed and a positive
+or negative feedback was presented. Each digit was associated with a unique correct response leading to positive feedbacks with 90% probability. The
+other responses led to negative feedbacks with 90% probability. Digit-response combinations changed episodically and unpredictably with constant
+volatility τ = 0.03. Two successive combinations were orthogonal, that is, all stimulus–response pairs were distinct (see also refs. 5,7). * and ** indicate slight
+timing differences in trial structures between ref. 5 and ref. 7 due to specific neuroimaging constraints in the latter study. b, Estimated MPPs with respect to
+human data and related exceedance probabilities (inset) for inferential models (varying- and constant-volatility models, their forward approximations and
+the Weber-imprecision model). Error bars are standard deviations of Bayesian estimators. The Weber-imprecision model unambiguously best accounted
+for human performances (P exceed > 0.99). c, Confusion matrices from the model recovery procedure assessing the protocol’s ability to dissociate the
+models. Colour scale ranges from 0 (dark blue) to 1 (dark red). The large matrix shows estimated MPPs; the small matrix shows the related exceedance
+probabilities and reveals that each model clearly explains its own behaviour better than the other models do. d, Estimated posterior probabilities of
+each model relative to the best-fitting RL model including and nested in the noisy-PH-RL model (here the noisy-PH-RL model, Supplementary Fig. 2)
+with respect to human data. Related exceedance probabilities are shown in parentheses. Error bars are standard deviations of Bayesian estimators. All
+inferential models unambiguously account for human data better than the RL model. Supplementary Fig. 3 shows the fits separately for the recurrence and
+no-recurrence condition. In all these analyses, action selection in every model is assumed to follow a softmax probabilistic function (inverse temperature β
+as the free parameter). See Extended Data Figs. 6–8 for model fit parameters.
+ward inferences are thus required for bridging across no-feedback ate feedbacks inconsistent with these beliefs, Weber’s computational
+trials to properly infer the environmental volatility and exhibit effi- imprecisions enable posterior beliefs to rapidly detach from priors
+cient adaptive performances surpassing RL. and capture new contingencies. The Weber-imprecision model,
+Although the Weber-imprecision model reduces to first-order however, is not an algorithmic approximation of higher-order
+inferences corresponding to the adaptive optima in stable environ- inference processes tracking volatility. The model performances
+ments, the model resolved temporal structural uncertainty close indeed maximally differed in environments when either the for-
+to exact second-order inference processes, even when feedbacks mer or the latter corresponded to adaptive optima. Conceptually,
+were sparse. The model indeed assumes external contingencies to the Weber-imprecision model optimizes short-term predictability
+remain constant across trials, which, whatever the environment, by rapidly inferring locally accurate but globally inaccurate sim-
+remains the default and ‘irrefutable’ hypothesis in the absence of plified world models (stable contingencies), while computational
+feedbacks or when feedbacks remain consistent with posterior imprecisions enable rapid switching across such simplified world
+beliefs. Moreover, when external contingencies change and gener- models. By contrast, higher-order inferential processes optimize
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+long-term predictability by slowly inferring more general, accurate even better account of observed human performances. We tested
+but complex world models (volatile contingencies), detrimentally to this prediction (Methods) and found that this new model did indeed
+short-term effectiveness. provide a decidedly better fit to human data than the original Probe
+The Weber-imprecision model involves online, forward, model (P > 0.99). The Weber-imprecision model thus accounts
+exceed
+first-order inferences about external contingencies that can be for human adaptive performances without requiring first-order
+expressed in closed form. We nonetheless chose to implement these inferences to apply to all the latent states of the environment.
+inferences through an online particle filter based on forward, iter- Neuroimaging studies show that brain regions exhibit activa-
+ated importance sampling23,24 for four reasons: (1) this particle filter tions correlating with the volatility derived from higher-order
+realizes the exact first-order inference; (2) it constitutes the forward inferences1,42, consistent with the view that higher-order infer-
+inference component in particle filtering emulating higher-order ences tracking volatility might guide human adaptive behaviour.
+inferential processes22, which allowed us to properly compare the Our results, however, suggest that these brain activations might
+models; (3) previous studies show this particle filter is plausibly alternatively reflect the computational imprecisions corrupting
+implemented in populations of cortical neurons26–28 and (4) com- first-order beliefs about external contingencies. Indeed, in the
+putational imprecisions are naturally modelled in online particle Weber-imprecision model, computational imprecisions vary with
+filtering as sampling noise that scales with the extension of resa- the environmental volatility and make these beliefs directly con-
+mpling occurring between successive trials. As this particle filter tingent upon the environmental volatility. The Weber-imprecision
+emulates the exact first-order inference, this implementation choice model thus makes the prediction that these brain activations
+has no impact on the results. The same results would be obtained would, rather, reflect the processing of these imprecise beliefs
+with other exact implementations, such as evidence accumulation guiding human behaviour. This prediction is fully testable given
+models and their neural implementations40,41, undergoing compu- that, as mentioned above, computational imprecisions in the
+tational imprecisions consistent with Weber’s law. We thus remain Weber-imprecision model further exhibit stochastic fluctuations
+agnostic about possible neural implementations underlying the independent of the volatility derived from higher-order inferences.
+Weber-imprecision model. Additionally, previous results suggest that people’s metacog-
+In any case, we assumed that as previously proposed19, computa- nitive judgments reflect both the encoded uncertainty and the
+tional imprecisions consistent with Weber’s law stem from intrinsic coding imprecisions in internal representations43. Because in the
+neural noise corrupting the inferential process. Indeed, we mod- Weber-imprecision model the environmental volatility is only
+elled computational imprecisions as a sampling noise that arises implicitly included as computational imprecisions corrupting the
+randomly and uniformly over a range that scales with the magni- beliefs about external contingencies, rather than explicitly repre-
+tude of belief updating. An algorithmic-equivalent model assuming sented, we speculate that people’s metacognitive judgments would
+no neural imprecisions would compute and monitor this magnitude be unable to disentangle their subjective uncertainty about external
+online to deterministically scale the sampling noise accordingly. We contingencies and the environmental volatility.
+found, however, that the Weber-imprecision model clearly fit the Previous results have shown that imprecise neural computations
+human data reported here better than this algorithmic-equivalent in human inferential processes about external contingencies con-
+model (P > 0.99 for both closed and open environments, tribute importantly to human choice suboptimality in canonical
+exceed
+obtained using the same methods as in Results). This confirms that decision-making tasks16. The present results show that these impre-
+the variability of human performances relative to first-order infer- cisions in first-order inferences actually allow humans to dispense
+ences reflects imprecise neural computations rather than additional with developing higher-order inferences about the environmental
+monitoring processes. In canonical decision-making tasks featur- volatility to reach near-optimal adaptive behaviour in volatile envi-
+ing stable environments, such imprecise neural computations may ronments. Thus, imprecise neural computations may have been
+act as a nuisance. For instance, a previous study16 showed that these preserved throughout the evolution of computationally frugal infer-
+imprecisions accounts for two-thirds of human suboptimal choices ential processes as efficiently contributing to near-optimal adaptive
+in standard tasks requiring participants to infer, from a series of behaviour in real-life environments.
+ambiguous cues, which of several latent states is the most likely.
+The present results, however, show that these imprecisions endow methods
+humans with powerful adaptive abilities in variable environments, Our experiments involving human participants comply with all the French
+approaching the optimal but biologically implausible adaptive ethical regulations regarding human experiments. All participants volunteered to
+participate to the study and provided written informed consent. The present study
+processes.
+was approved by the French National Ethics Committee (CPP, Inserm protocol
+In all inferential models considered here, we assumed first-order #C15-98). Participants were paid for their participation. No statistical methods
+inferences about external contingencies to apply to the whole set were used to predetermine sample sizes, but our sample sizes are similar to those
+of latent states. This is certainly an unrealistic assumption about reported in previous publications1,5,7,11–14,36,37.
+human inferences in open-ended environments such as those inves-
+Adaptive behaviour paradigm. We considered an adaptive agent responding to
+tigated here (K = 24 potential latent states). This may explain why
+successively presented stimuli. In every trial, one among N distinct stimuli was
+in the open-ended environment, but not in the closed one, partici- randomly drawn uniformly and the agent responded by selecting one among M
+pants performed below the theoretical minimaxloss computed for actions. The agent then received a positive or negative feedback. The agent thus
+the Weber-imprecision model (Computer simulation results). Using searched for the correct responses to stimuli by trial and error. However, feedbacks
+were stochastic and the combination of correct responses to stimuli changed
+the same behavioural data, we previously showed that participants
+episodically. More precisely, the environment episodically switched across distinct
+indeed make first-order inferences relating to only a small subset
+latent states defining the current correct combination: every latent state specified
+of three or four latent states referred to as the ‘inferential buffer’5,7. one distinctive response to each stimulus (the correct response) that led to positive
+We proposed a model, named Probe, describing how this inferen- feedbacks with unknown, constant probability η > 0.5, while the other responses
+tial buffer, through these first-order inferences, is updated with new led to positive feedbacks with probability 1 − η < 0.5. The maximal number K of
+latent states and drives adaptive behaviour5,7. This model, however, potential latent states (or correct combinations) was thus equal to M! / (M − N)!.
+Latent states changed between two successive trials with probability τ named
+treats the environmental volatility as a constant free parameter that
+volatility. We simulated the six environments described below.
+modulates first-order inferences by treating them as deriving from
+higher-order inferences. The present results therefore predict that Closed and stable environments. These environments correspond to K = 2 and
+replacing this free parameter in the inferential buffer with compu- volatility τ = 0, namely, a two-armed bandit with no reversals. A unique stimulus
+tational imprecisions consistent with Weber’s law should provide an (N = 1) was repeated over trials and one of two available actions (M = 2) had to
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NaturE HumaN BEHavIour Articles
+be selected in every trial. To make such environments non-trivial and investigate By marginalizing over posterior beliefs about latent states z, the model then
+t
+the role of feedback sparsity on adaptive behaviour, we simulated eight closed and selects in every trial the action that is most likely to lead to the positive feedback in
+stable environments each delivering feedbacks in 100, 50, 20, 10, 5 or 2% of trials. response to the stimulus (that is, the correct action): namely, actions are selected
+Feedback probability η was set to 90%. according to an ‘argmax’ policy. In this model, however, computing posterior
+beliefs about latent states z t and τt and latent parameters ν, γ and η is an intractable
+Closed and changing environments. These environments were identical to the problem. We addressed this issue by using a sequential Monte Carlo (SMC)
+preceding closed and stable environments except that volatility τ was non-zero algorithm recently developed in machine learning to solve this class of inferential
+and constant. This corresponds to a two-armed bandit with reversals between models comprising both latent states and parameters22. The algorithm is based on
+two latent states. We simulated the rarely and frequently changing environments, particle filtering methods and converges to the exact solution when the number of
+respectively, as corresponding to constant volatility τ = 0.03 and τ = 0.2. As such sampling particles increases to infinity22. The algorithm comprises two intermixed
+environments are non-trivial, feedbacks were delivered in every trial (feedback SMC procedures: (1) a particle filter23 implementing iterated importance sampling
+sparsity was set to zero). in the space of latent states (z t,τt) and (2) an iterated importance sampling
+combined with a particle Markov chain Monte Carlo method25,44 in the space of
+Closed and unstable environments. These environments were identical to the parameters ν, γ and η. We implemented the algorithm using a total number of
+preceding closed and changing environments except that volatility τt varied across 1 × 106 particles, corresponding to 1,000 samples in the parameter space, each
+trials as a bounded Gaussian random walk within the range [0.03, 0.2] and with associated with 1,000 particles in the space of latent spaces. We verified that this
+variance ν = 0.0001. In every trial t, volatility τt is drawn from a normal distribution number allows approaching the asymptotic convergence: we implemented the
+centered on volatility τt − 1 with variance ν. Whenever a value smaller than 0.03 or algorithm using 4 × 106 particles and obtained virtually identical posterior beliefs
+larger than 0.2 was drawn, volatility τt was set to 0.03 or 0.2, respectively (Extended (Supplementary Fig. 5).
+Data Fig. 1).
+Exact constant-volatility model. The exact constant-volatility model corresponds to
+Open-ended and stable environments. These environments were identical to the the optimal Bayesian adaptive process with a generative model exactly matching
+closed and stable environments described above except that number K of potential the generative process of changing environments described above with K equal to
+latent states was set to K = 24. In every trial, one of three stimuli (N = 3) was drawn either 2 (closed environments) or 24 (open environments) (Fig. 1b and Extended
+randomly and uniformly, and one of four available actions (M = 4) had to be Data Fig. 4). This model is therefore the theoretical adaptive optimum in these
+selected, which leads to K = 24 potential combinations. The correct combination environments. More precisely, the exact constant-volatility model is identical to
+remained unchanged across trials. Again, we simulated eight open-ended and the exact varying-volatility model except that volatility τt is now assumed to be a
+stable environments each delivering feedbacks in 100, 50, 20, 10, 5 or 2% of trials. constant (τt = τ for all t) in the range [0, 0.5]. Priors about volatility τ were uniform
+over [0, 0.5] and followed a flat beta distribution:
+Open-ended and changing environments. These environments were identical to
+2τ Beta1;1:
+the preceding open-ended and stable environments except that volatility τ was  ð Þ
+non-zero and constant. As above, we considered rarely and frequently changing
+The exact constant-volatility model was implemented using the same SMC
+environments corresponding to constant volatility τ = 0.03 and τ = 0.2, respectively.
+algorithm as the exact varying-volatility model described above.
+As such environments are non-trivial, feedbacks were delivered in every trial
+(feedback sparsity set to zero). When latent states changed, the new latent state k is
+drawn according to a multinomial distribution with probabilities γ1;¼;γk;¼;γK Forward varying- and constant-volatility models. As explained above, the exact
+(excluding the preceding latent state). These probabilities were initIially drawn varying- and constant-volatility models both perform exact inference through
+the particle filtering method (when the number of particles is large enough).
+randomly and uniformly according to a flat Dirichlet distribution (in order that
+Ii
+¼1;¼;Kγi ¼1). H imo pw lae uv se ir b, lt eh
+,
+e
+b
+a el cg ao ur si eth im
+t c
+ois
+n
+b sto at nh
+t
+lc yo rm eqp uu it ra et sio on fa fll il ny ev e br ay
+c
+kc wos at rl dy a pn ad
+ss
+b esio tl oo g reic sa al mly
+p le
+P and revise past beliefs about latent parameters according to all past observations.
+Open-ended and unstable environments. These environments were identical to the
+Resampling and revisions of beliefs are performed in a backward fashion through
+preceding open-ended and changing environments except that volatility τt varied
+the particle Markov chain Monte Carlo procedure to prevent the sampling of
+across trials as a bounded Gaussian random walk within the range [0.03, 0.2] and
+beliefs from degenerating in local minima and to more accurately sample posterior
+with variance ν = 0.0001, as described above for closed unstable environments.
+beliefs. To overcome this limitation, we derived an online, biologically plausible,
+computationally frugal approximate algorithm from the exact SMC algorithm
+Computational models. Exact varying-volatility model. The exact varying-volatility
+described above. This forward approximation replaces the offline, backward
+model corresponds to the optimal Bayesian adaptive process with a generative
+particle Markov chain Monte Carlo procedure with the following standard, online
+model exactly matching the generative process of unstable environments described
+particle resampling of posterior beliefs: resampling occurs with respect to the
+above with K equal to either 2 (closed environments) or 24 (open environments)
+current empirical estimates of parameters’ distributions given parameter priors. For
+(Fig. 1a and Extended Data Fig. 3). This model is therefore the theoretical adaptive
+the varying-volatility model, accordingly, the resampling of posterior beliefs about
+optimum in these environments. More precisely, the model assumes the following.
+latent parameters ν, γ and η occurs in trial t through the inverse-gamma, Dirichlet
+1. Volatility τt varies as a bounded Gaussian random walk within the range [0, and beta distributions, respectively, and the hyper-parameters are estimated from
+0.5] with uninformative priors about constant variance ν: the particle filter in trial t (Supplementary Methods). For the constant-volatility
+model, similarly, the resampling of posterior beliefs about latent parameters
+ν priorInverse �Gamma ð3;0:001
+Þ τ, γ and η occurs in trial t through the beta, Dirichlet and beta distributions,
+respectively, and the hyper-parameters are again estimated from the particle filter
+2. The current latent state changes between trials t − 1 and t with probability τt.
+in trial t. In both cases, the resulting online particle filtering is biologically plausible
+3. When the current latent state changes between trial t − 1 and t, new latent
+and neural implementations have been previously proposed26–28. We referred to
+state z
+t
+is drawn from the set of potential latent states {1, …, K} according to a
+these approximations as the forward varying- and constant-volatility models. To
+multinomial distribution with probabilities γ = {γ1, …, γK}:
+make these forward models as computationally frugal as possible, we implemented
+ztjzt≠zt �1Multinomial ðγ
+Þ
+t ph ee rm
+fo
+rw mit ah
+n
+cth
+e
+e
+i
+nm ti hn ei m ma ol
+s
+n
+t
+u cm omb per
+le
+o xf ep na vr it ri ocl ne ms t eh na tt (a tl hlo atw is
+s
+,a up np sr to aa bc lh
+e
+i en ng
+v
+t ih roe
+n
+a msy em ntp st )o
+:
+tic
+w 4.i th PIrk io¼r1 s;¼ ab;K ouγk
+t
+p¼ ro1
+b
+a an bd
+il
+ie tix ec sl u γd ai rn eg
+u
+t nh ie
+n
+p for re mce ad ti in veg ast na dte f.
+ollow a flat Dirichlet
+n sha om we l ty h, a2 t0 t0 h × es 2 e0 f0 o r= w 4 a0 r, d0 0 m0 o p da er lt si c pl re os v( iS du ep ap cl ce um re an tet a ar py p F roig x. i m5) a. tO iov ne sr a ol fl , e t xh ae c r t e msu ol dts e ls,
+P provided that the environment and model generative process are identical (Figs. 2
+distribution:
+and 3).
+γ Dirichlet1;¼;1
+prior ð Þ
+Zero-volatility and noisy-selection model. The zero-volatility model corresponds to
+5. Given current latent state z, stimulus s and chosen action a, feedbacks r are the optimal Bayesian adaptive process with a generative model exactly matching
+t t t t
+delivered according to a Bernoulli distribution with parameters η or 1 − η: the generative process of stable environments described above, with K equal to
+either 2 (closed environments) or 24 (open environments) (Fig. 1c and Extended
+rtjst;at;ztBernoulli ðη Þifatisthecorrectresponse
+Data Fig. 5). This model is therefore the theoretical adaptive optimum in these
+environments. More precisely, the zero-volatility model is identical to the exact
+rtjst;at;ztBernoulli ð1 �η Þifatisanincorrectresponse
+constant-volatility model except that volatility τ is now assumed to be zero.
+Model priors thus reduce to only combination probabilities γ and feedback noise
+6. Priors about feedback noise η > 0.5 are uninformative and follow a flat Beta η as described above. Posterior beliefs in this model are computable in closed
+distribution: form29. For consistency, however, we implemented this model through the same
+forward particle filtering method as that used for the forward varying- and
+η=2 Beta1;1:
+ ð Þ constant-volatility models, knowing that in this case, the forward approximation
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+emulates the exact inference process. The noisy-selection model is the variant of of the associated stimulus in a box representing the pressed key at the bottom of
+the zero-volatility model assuming that actions are selected according to a softmax the screen. Negative feedbacks consisted of only a descending sound. Otherwise,
+rather than argmax policy. For the sake of generality, we applied the softmax rule stimuli were removed and no feedbacks were delivered. Stimulus onset asynchrony
+to the logarithm of beliefs about correct actions (Supplementary Note 2). The was 2,000 ms. Associations between actual stimuli, response fingers and feedbacks
+noisy-selection model thus has the softmax inverse temperature β as free parameter were orthorgonalized and counterbalanced across participants. Participants
+and comprises the zero-volatility model as a special case (β ≫ 1). were instructed that feedbacks could be uncertain and variable and that pay-offs
+increased with the total number of positive feedbacks received. No additional
+Weber-imprecision model. The Weber-imprecision model is another variant of the instructions were provided to participants.
+zero-volatility model assuming that imprecisions stemming from online neural In every trial, a correct response was associated with each stimulus (three possible
+noise occur in computing posterior beliefs about latent states. Neural noise is stimuli) and led to positive feedbacks with 90% probability. All other responses led
+naturally introduced in the zero-volatility model by implementing a noisy particle to negative feedbacks with 90% probability. Distinct stimuli were associated with
+filter: every particle coding for one latent state (that is, combinations) in trial t distinct correct responses. Digit-response combinations remained unchanged over a
+may start (mis)coding for another latent state in trial t + 1 with probability ϵ t. This series of successive trials uniformly ranging from 36 to 54 trials and corresponding to
+newly (mis)encoded state is randomly drawn according to the actual distribution an external volatility τ = 0.03. Two successive combinations were orthogonal, that is,
+of particles over latent states, which reflects probabilities γ. Consistently with all digit-response pairs differed between successive combinations.
+Weber’s law, computational imprecisions are further assumed to scale with the The experiment included two behavioural sessions administered on
+distance d t between posterior beliefs in trial t and t + 1. Probabilistic noise ϵ t is thus two separate days. In each session, combinations changed 24 times. In the
+itself a random variable uniformly distributed between 0 and μ + λd t: no-recurrence session, combinations never recurred. In the recurrence session,
+only three distinct combinations occurred in a pseudo-randomized order and
+ϵ tU ð0;μ þλdtÞ;
+in equal proportion. These combinations were fully orthogonal. Stimuli were
+where µ and λ are two free parameters quantifying the constant and Weber pseudo-randomly chosen from the set {1,3,5} (one session) or {2,4,6} (the other
+components of computational imprecisions, respectively. Supplementary methods session). Stimuli along with combination and session order were counterbalanced
+show how distance d t derives from particle filtering. Note that for μ = 0 and λ = 0, across participants. Sessions were administered according to a double-blinded
+the Weber-imprecision model simply reduces to the zero-volatility model. procedure. Volatility of external contingencies was identical in the no-recurrence
+and recurrence sessions (τ = 0.03).
+Noisy-PH-RL model. This RL model combines the Pearce–Hall learning rule30 (α
+and αPH as free parameters) and Gaussian white noise in value updating scaling Second study. Forty healthy, right-handed volunteers (aged 18–26 years old,
+with reward prediction error (ζ as free parameter) with a softmax policy for action 20 of whom were women) participated in the fMRI study7. No participants
+selection (inverse temperature β as free parameter). In response to successive were excluded. The experimental protocol was identical to the one described
+stimuli s, accordingly, the softmax policy selects the action a according to action above, except the following differences. Positive feedbacks corresponded to
+t t
+values Q(s,a), which are updated following feedbacks r with respect to the stimuli presented in green in the box representing the chosen button. Negative
+t t
+following noisy updating rule: feedbacks corresponded to a red cross shown in the box representing the chosen
+button. When no answer was made, red lines were shown in the four boxes.
+Qt þ1ðst;atÞ¼Q þt Nðst ð; 0a ;t ζÞ Þþ jrt½ �α þ Qtα ðP stH ;j ar tt Þ� j;Qtðst;atÞjðrt�Qtðst;atÞÞ P (fs re ou md o 4- 0r 0a n tod o 3m ,90iz 0e md t si )m ae
+s
+wjit et le lr ain
+s
+g
+b
+ew twas
+e
+u ense fd
+e
+eb de btw ace ke n
+o
+fr fe ss ep tso an nse ds ta rn iad
+l
+ofe ne sd eb tsa c (fk rs
+o m
+while Q t(s,a) remain unchanged for s ≠ s t or a ≠ a t. N(0,ζ) denotes the zero-centered 100 to 3,600 ms). Feedbacks duration was 1,000 ms. (Fig. 6a).
+Gaussian distribution with standard deviation ζ.
+Model fitting and comparison. In both closed and open-ended environments,
+Experimental procedures. Closed environments. Participants. We recruited 22 we replaced the argmax with a softmax decision policy (inverse temperature β
+healthy participants (11 women and 11 men aged 18–35 years), who volunteered as the free parameter) in all models to fit models’ to participants’ performances.
+to participate in the study. Participants provided written informed consent. The For all inferential models and the sake of generality, we applied the softmax rule
+present study was approved by the French National Ethics Committee (CPP, to the logarithm of beliefs about correct actions (marginalized over latent states)
+Inserm protocol #C15-98). Participants were paid for their participation. One (Supplementary Note 2). Thus, the exact/forward varying- and constant-volatility
+participant was excluded because their overall performance was lower than two models included this unique free parameter β. The Weber-imprecision model
+standard deviations from the mean performance. included three free parameters, the softmax inverse temperature β along with
+noise parameters μ and λ. As a result, the Weber-imprecision model contained the
+Behavioural protocol. Each participant completed the two-armed bandit zero-volatility and noisy-selection model as special cases. Finally, the noisy-PH-RL
+task described in Fig. 4a,b. Stimuli were presented on a computer screen and model included four free parameters: the softmax inverse temperature β, the
+participants responded using two response buttons. The task included 720 trials noise parameter ζ and the learning rates α and αPH. Model fits to human data were
+broken down into six blocks of 120 trials corresponding to six distinct levels of compared according to MPPs, that is, the model marginal likelihoods (given the
+external volatility. Stimuli remained on the screen until participants responded data) with uniform priors over models. MPPs based on marginal likelihoods are
+(self-paced task). 500 ms later, the positive or negative feedback (green happy the optimal Bayesian quantification for comparing models, balancing model degree
+versus red angry smiley faces) was displayed during 600 ms. One response led to of freedom (or complexity) and adequacy to data. Model marginal likelihoods
+the positive and negative feedback with 80% and 20% probabilities, respectively. are obtained by marginalizing model likelihoods over the whole free parameter
+The other responses led to positive and negative feedback with the conserve space. This marginalization was practically tractable for closed environments and
+probabilities (that is, η = 80%). The inter-trial interval was jittered between 700 was carried out through standard importance sampling and quasi-Monte Carlo
+and 1,300 ms. Participants had short breaks, were informed that breaks had no methods45. For open-ended environments, however, it was practically intractable
+influence on ongoing task contingencies and had to keep in mind their beliefs (especially for the Weber-imprecision model with three free parameters) and
+about these contingencies during breaks (that is, breaks occurred between reversals we used the standard approximation of model marginal likelihoods, that is, the
+and within blocks of constant volatility). Participants were informed that their final Bayesian information criterion. Computing Bayesian information criteria requires
+pay-offs increased with the number of positive feedbacks received. estimating maximal model likelihoods over the free parameter space, which was
+carried out through standard Bayesian optimization methods46. All the analyses
+Open-ended environments. We analysed the behavioural performances of were based on equal priors across models.
+participants from two previously published studies that administered the same In any case, computing model likelihoods given free parameter values is
+behavioural protocol with and without functional magnetic resonance imaging5,7. required before marginalizing or maximizing these likelihoods. As the inferential
+The behavioural protocol corresponded to the open-ended, rarely changing models are particle filters, computing the likelihoods for these models may not be
+environment described in the main text with constant volatility τ = 0.03, number trivial and is explained below.
+of distinct stimuli N = 3, actions M = 4 and possible combinations K = 24 (Fig. 6a).
+Participants volunteered and provided written informed consent. These studies Exact varying- and constant-volatility models. For these models, computing model
+were approved by the French National Ethics Committee (CPP, Inserm protocol likelihoods given human data is straightforward. Indeed, for each model, the
+#C15-98). Participants were paid for their participation. particle filter emulates the corresponding exact inferential process so that model
+posterior beliefs and, consequently, the model softmax probability of selecting
+First study. 22 healthy volunteers (aged 18–35 years old, 13 of whom were women) the actual human choices are unrelated to particle filtering. Thus, given inverse
+participated in the study5. No participants were excluded. Stimuli were visually temperature β, each model directly provides its likelihood given human data.
+presented Arabic numbers. Participants responded to each stimulus by pressing
+one of four response keys. When key presses occurred no later than 1,500 ms after Forward varying- and constant-volatility models. For each of these models, the
+stimulus onsets, stimuli disappeared 100 ms after key presses and participants particle filter approximates and may diverge from the corresponding exact
+received audio-visual feedbacks (duration 300 ms). Feedbacks were positive or inferential process. As a result, model posterior beliefs and, consequently, the
+negative. A positive feedback consisted of an ascending sound and the apparition model softmax probability of selecting the actual human choices depend upon the
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NaturE HumaN BEHavIour Articles
+actual realization of the particle filter. Given inverse temperature β, computing References
+the model likelihood given human data then requires marginalizing over the 1. Behrens, T. E., Woolrich, M. W., Walton, M. E. & Rushworth, M. F. Learning
+realizations of particle filtering. We solved this marginalization problem by noting the value of information in an uncertain world. Nat. Neurosci. 10, 1214–1221
+that as a particle filter, each forward model actually defines a hidden Markov chain (2007).
+generating actions. We therefore computed the marginalization using established 2. Boorman, E. D., Behrens, T. E., Woolrich, M. W. & Rushworth, M. F. How
+sequential Monte Carlo methods for hidden Markov models24. Note that this green is the grass on the other side? Frontopolar cortex and the evidence in
+marginalization procedure again optimally balances the adequacy to data and the favor of alternative courses of action. Neuron 62, 733–743 (2009).
+additional degree of freedom resulting from the various possible realizations of 3. Gershman, S. J., Blei, D. M. & Niv, Y. Context learning, and extinction.
+particle filtering. Psychological Rev. 117, 1997–1209 (2010).
+4. Tenenbaum, J. B., Kemp, C., Griffiths, T. L. & Goodman, N. D. How to grow
+Weber-imprecision model. For this model, the particle filter reflects the exact a mind: statistics, structure, and abstraction. Science 331, 1279–1285 (2011).
+zero-volatility inferential process, but the presence of computational imprecisions 5. Collins, A. G. & Koechlin, E. Reasoning, learning, and creativity: frontal lobe
+makes the Weber-imprecision model diverge from the exact process. As a result, function and human decision-making. PLoS Biol. 10, e1001293 (2012).
+model posterior beliefs and, consequently, the model softmax probability of 6. Collins, A. G. & Frank, M. J. Cognitive control over learning: creating,
+selecting the observed human choices again depend upon the actual realization of clustering, and generalizing task-set structure. Psychol. Rev. 120, 190–229
+the noisy particle filter implementing the Weber-imprecision model. We solved this (2013).
+issue exactly as described above for the forward varying- and constant-volatility 7. Donoso, M., Collins, A. G. & Koechlin, E. Foundations of human reasoning
+models. Given inverse temperature β and noise components μ and λ, we thus in the prefrontal cortex. Science 344, 1481–1486 (2014).
+derived the model likelihood given human data. Note that, again, the derivation 8. Kolossa, A., Kopp, B. & Fingscheidt, T. A computational analysis of the
+is a marginalization procedure and therefore optimally balances the adequacy neural bases of Bayesian inference. Neuroimage 106, 222–237 (2015).
+to data and the additional degree of freedom resulting from the various possible 9. Schuck, N. W., Cai, M. B., Wilson, R. C. & Niv, Y. Human orbitofrontal cortex
+realizations of the noisy particle filter. represents a cognitive map of state space. Neuron 91, 1402–1412 (2016).
+10. Rouault, M., Drugowitsch, J. & Koechlin, E. Prefrontal mechanisms
+Model recovery procedure. We implemented a model recovery procedure to combining rewards and beliefs in human decision-making. Nat. Commun. 10,
+assess the validity of our model fitting and selection procedure and the ability of 301 (2019).
+our experimental protocols to discriminate the models35. The recovery procedure 11. Nassar, M. R., Wilson, R. C., Heasly, B. & Gold, J. I. An approximately
+consists in generating synthetic data by simulating every model of interest, then Bayesian delta-rule model explains the dynamics of belief updating in a
+applying our model fitting and selection procedure (see above) to these data. changing environment. J. Neurosci. 30, 12366–12378 (2010).
+This procedure should lead to the selection of the simulated model. For each 12. Payzan-LeNestour, E. & Bossaerts, P. Risk, unexpected uncertainty, and
+model, we generated 21 sets (62 sets) of synthetic data in the closed (open-ended) estimation uncertainty: Bayesian learning in unstable settings. PLoS Comput.
+environment, each corresponding to the free parameters fitted to one participant. Biol. 7, e1001048 (2011).
+The results show that the recovery procedure was conclusive for both the closed 13. Wilson, R. C., Nassar, M. R. & Gold, J. I. A mixture of delta-rules
+and open-ended environments, thereby validating our model fitting and selection approximation to bayesian inference in change-point problems. PLoS Comput.
+procedure along with the protocol’s ability to discriminate the models. Biol. 9, e1003150 (2013).
+14. McGuire, J. T., Nassar, M. R., Gold, J. I. & Kable, J. W. Functionally
+Probe model. The Probe model is an online algorithm approximating optimal dissociable influences on learning rate in a dynamic environment. Neuron 84,
+adaptive processes (that is, Dirichlet processes mixture) in environments featuring 870–881 (2014).
+a potentially infinite number of latent states5,7. Probe accounts for human adaptive 15. Bossaerts, P., Yadav, N. & Murawski, C. Uncertainty and computational
+behaviour in open-ended, changing environments as those investigated here5,7. complexity. Philos. Trans. R. Soc. Lond. B Biol. Sci. 374, 20180138 (2019).
+Probe assumes that first-order inferences only apply to a small subset of three 16. Drugowitsch, J., Wyart, V., Devauchelle, A. D. & Koechlin, E. Computational
+or four latent states referred to as the inferential buffer5,7 and describes how this precision of mental inference as critical source of human choice
+inferential buffer is updated with new latent states through these first-order suboptimality. Neuron 92, 1398–1411 (2016).
+inferences and drives adaptive behaviour. The model, however, treats external 17. Fechner G. T. Elemente der Psychophysik (Breitkopf and Härtel, 1860).
+volatility as a free parameter that modulates first-order inferences by treating 18. Treisman, M. Noise and Weber’s law: the discrimination of brightness and
+them as deriving from higher-order inferences, which allows the expression of the other dimensions. Psychol. Rev. 71, 314–330 (1964).
+inferential process in closed form. To overcome this limitation, we investigated 19. Deco, G., Scarano, L. & Soto-Faraco, S. Weber’s law in decision making:
+a new model by replacing this free parameter with Weber imprecisions affecting integrating behavioral data in humans with a neurophysiological model. J.
+first-order inferential computations within the inferential buffer. As Probe is Neurosci. 27, 11192–11200 (2007).
+expressed in closed form, these imprecisions were modelled as follows: 20. Wyart, V. & Koechlin, E. Choice variability and suboptimality in uncertain
+environments. Curr. Opin. Behav. Sci. 11, 109–115 (2016).
+1
+B~ tDirichlet (cid:31)mean ¼Bt;concentration
+¼μ þλdt(cid:30)
+21. F ina fr oa rj mi, M ati. o, nP :r e thu es c rh oo leff ,
+o
+K
+f
+p. u&
+z
+zG lee mrs etn ne
+t
+r s, uW rp. rB isa el a in nc i len ag
+r
+nn ie nw
+g
+.a Nga ei un rs at
+l
+o Cld
+om put. 30,
+tw P hrh eoe b cr oee r mB ret o sa d pre e o l np w do i is t nt he g r v ii o mo lr a p b t rie elil cti ie y sf eps a ba rb ea lo im eu fet s tl e ra erte ss un e lt t t s it nt oa g zt e fe rs r o ou m p ð IBd Wa tt e¼e bd eð a rB c ii tc mÞo i 2pr bd ru ei fn f ce irg sÞ i t a oo n n t d sh . e B~ AI to s ar ii r ng e i tn ha el 22. C f3 o4 h r– o s8 p e3 i q n( u,2 eN0 n1 t.,8 i a) J la. c ao nb a, l yP s. i sE . o f& s tP aa tep a ss pp ai cli eo p mo ou dlo es ls, . O J.. RS .M SC ta2 t: . a Sn o ce . ffi Sec ri ie en st B a l Sg to ar ti .t hm
+m
+a nn
+oa
+d
+ii
+s
+n
+eλ
+.
+t
+a
+Te rx het e,
+f r
+d DeIt
+e
+i
+¼
+rp ica (cid:31)
+(cid:31)hrB
+a
+let
+m
+t�
+e dt
+iB~
+e sr
+tt �
+rs
+i
+1
+r b(cid:31) (cid:31)e
+u
+fm
+tle
+ie oca nts
+i
+nu apgre pts
+h
+r
+ot eh
+p
+ce
+ro
+im
+an
+tsa etg
+la
+yn
+n
+ii
+t
+nt u
+a
+dnd icde
+a
+o
+W
+tef seb
+b
+te heli are tcf B~ou
+m
+tp ad
+p
+ra eot
+n
+rin
+ae
+ng n,
+dt
+w
+s
+o
+o
+mh fi ll
+n
+ye
+e
+µ
+u ral 23. D
+mM
+o
+ee
+u
+tth hco oed dt,o
+s
+Al .
+f
+o.7
+,
+r
+5
+G
+B, o3 ad9
+ys
+e7
+i
+s–
+l
+il4
+a,
+n2 S6
+.
+fi
+&( l2
+t
+e0
+A
+r1
+in
+n3
+d
+g).
+r
+.
+i Seu ta, tC ist.
+.
+O Cn
+o
+mse pq uu te
+.
+n 1t 0ia
+,
+l
+1
+M 97o –n 2t 0e
+8
+C (a 2r 0l 0o
+0
+s )a .mpling
+distributed around mean B t with variance scaling with μ + λd t. IWe fit and compared 24. Andrieu, C., Doucet, A. & Holenstein, R. Particle Markov chain Monte Carlo
+the original and new Probe models to human performances recorded in the methods. J. R. Stat. Soc. Series B Stat. Methodol. 72, 269–342 (2010).
+open-ended environment investigated in Results, using the same model fitting 25. Chopin, N. A sequential particle filter for static models. Biometrika 89,
+and comparison method as for the Weber-imprecision model (Model fitting and 539–552 (2002).
+comparison). MPPs revealed that the new Probe model unambiguously better 26. Shi, L. & Griffiths, T. L. Neural implementation of hierarchical Bayesian
+accounts for human performances (exceedance probability P exceed > 0.99). inference by importance sampling. Adv. Neural Inf. Process. Syst. 22,
+1669–1677 (2009).
+Reporting Summary. Further information on research design is available in the 27. Huang, Y. & Rao, R. P. Neurons as Monte Carlo samplers: Bayesian inference
+Nature Research Reporting Summary linked to this article. and learning in spiking networks. Adv. Neural Inf. Process. Syst. 27,
+1943–1951 (2014).
+Data availability 28. Legenstein, R. & Maass, W. Ensembles of spiking neurons with noise support
+All the data that support the findings of the present study are available from the optimal probabilistic inference in a dynamically changing environment. PLoS
+corresponding author upon request. Comput. Biol. 10, e1003859 (2014).
+29. Scott, S. L. Bayesian methods for hidden Markov models. J. Am. Stat. Assoc.
+97, 337–351 (2002).
+Code availability
+30. Pearce, J. M. & Hall, G. A model for Pavlovian learning: variations in the
+All program codes are freely available at https://github.com/csmfindling/ effectiveness of conditioned but not of unconditioned stimuli. Psychol. Rev.
+learning_variability_and_volatility 87, 532–552 (1980).
+31. Roesch, M., Esber, G. R., Li, J., Daw, N. & Schoenbaum, G. Surprise! Neural
+Received: 31 October 2019; Accepted: 18 September 2020; correlates of Pearce–Hall and Rescorla–Wagner coexist within the brain. Eur.
+Published: xx xx xxxx J. Neurosci. 35, 1190–1200 (2012).
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+Articles NaturE HumaN BEHavIour
+32. Daw, N. D., O’Doherty, J. P., Dayan, P., Seymour, B. & Dolan, R. J. 46. Snoek, J., Larochelle, H. & Adams, R. P. Practical Bayesian optimization of
+Cortical substrates for exploratory decisions in humans. Nature 441, machine learning algorithms. Preprint at arXiv http://arxiv.org/abs/1206.2944
+876–879 (2006). (2012).
+33. Rigoux, L., Stephan, K. E., Friston, K. J. & Daunizeau, J. Bayesian model
+selection for group studies - revisited. Neuroimage 84, 971–985 (2014). acknowledgements
+34. Stephan, K. E., Penny, W. D., Daunizeau, J., Moran, R. J. & Friston, We thank J. Drevet for her help in collecting human data. Supported by a European
+K. J. Bayesian model selection for group studies. Neuroimage 46, Research Council Grant (ERC-2009-AdG #250106) to E.K. and a DGA-INSERM PhD
+1004–1017 (2009). fellowship to C.F. The funders had no role in study design, data collection and analysis,
+35. Palminteri, S., Wyart, V. & Koechlin, E. The importance of falsification in decision to publish or preparation of the manuscript.
+computational cognitive modeling. Trends Cogn. Sci. 21, 425–433 (2017).
+36. Payzan-LeNestour, E. Bayesian Learning in Unstable Settings: Experimental author contributions
+Evidence Based on the Bandit Problem Research Paper No. 10-28 (Swiss
+E.K. and C.F. conceived the study and designed the models. C.F. and N.C. developed
+Finance Inst., 2010).
+the models. C.F. programmed the models, performed computer simulations and
+37. Summerfield, C., Behrens, T. E. & Koechlin, E. Perceptual classification in a
+collected human data. E.K. and C.F. analysed human and simulation data. E.K. and C.F.
+rapidly changing environment. Neuron 71, 725–736 (2011).
+wrote the paper.
+38. Knight, F. H. Risk, Uncertainty and Profit (Univ. Chicago Press, 1921).
+39. Keynes, J. M. A Treatise on Probability (Macmillan, 1921).
+Competing interests
+40. Bogacz, R., Brown, E., Moehlis, J., Holmes, P. & Cohen, J. D. The physics of
+optimal decision making: a formal analysis of models of performance in The authors declare no competing interests
+two-alternative forced-choice tasks. Psychol. Rev. 113, 700–765 (2006).
+41. Wang, X.-J. Neural dynamics and circuit mechnaisms of decision-making. additional information
+Curr. Opin. Neurobiol. 22, 1039–1046 (2012). Extended data is available for this paper at https://doi.org/10.1038/s41562-020-00971-z.
+42. Payzan-LeNestour, E., Dunne, S., Bossaerts, P. & O’Doherty, J. P. The neural
+Supplementary information is available for this paper at https://doi.org/10.1038/
+representation of unexpected uncertainty during value-based decision
+s41562-020-00971-z.
+making. Neuron 79, 191–201 (2013).
+43. Lebreton, M., Abitbol, R., Daunizeau, J. & Pessiglione, M. Automatic Correspondence and requests for materials should be addressed to E.K.
+integration of confidence in the brain valuation signal. Nat. Neurosci. 18, Peer review information Primary Handling Editor: Marike Schiffer
+1159–1167 (2015).
+Reprints and permissions information is available at www.nature.com/reprints.
+44. Beaumont, M. A. Estimation of population growth or decline in genetically
+monitored populations. Genetics 164, 1139–1160 (2003). Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+45. Niederreiter, H. Random Number Generation and Quasi-Monte Carlo Methods published maps and institutional affiliations.
+(Society for Industrial and Applied Mathematics, 1992). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr AArrttiicclleess
+Extended Data Fig. 1 | Examples of five volatility trajectories in unstable environments. Environment volatility follows a bounded gaussian random walk
+between 0.03 and 0.2 with variance 0.0001 (see Methods).
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr
+Extended Data Fig. 2 | Relation between the Weber noise component λ in the Weber imprecision model and external volatility. The figure shows the
+entropy of posterior beliefs about current combinations (latent state posteriors) for the exact varying-volatility and Weber imprecision model. Each model
+is simulated N = 50 times in a closed environment (K=2, two-armed bandit), which alternates between high and low-volatility periods. Left, simulations
+when Weber component λ is set to 0 and constant component μ is large (μ = 0.2). Right, simulations when Weber component λ is large (λ = 1.5) and
+constant component μ is low (μ = 0.02). Note that the entropies of posterior beliefs are similar between the Weber-imprecision and varying-volatility
+model only when the Weber component is large enough.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr AArrttiicclleess
+Extended Data Fig. 3 | Full generative model of varying-volatility models. This model is exactly the process generating unstable environments. This
+generative model assumes that volatility τt follows a bounded random walk with constant variance ν. z t represents the current correct combination. γ
+represents the probabilities of combination occurrence whenever the correct combination changes. η represents feedback noise. In every trial, observables
+are stimuli s, actions a and binary feedback r. See Methods for details.
+t t t
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr
+Extended Data Fig. 4 | Full generative model of constant-volatility models. This model is exactly the process generating changing environments. This
+generative model assumes that volatility τ is constant. z t represents the current correct combination. γ represents the probabilities of combination
+occurrence whenever the correct combination changes. η represents feedback noise. In every trial, observables are stimuli s t, actions a t and binary
+feedback r. See Methods for details.
+t
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr AArrttiicclleess
+Extended Data Fig. 5 | Full generative model of zero-volatility models. This model is exactly the process generating stable environments. This generative
+model assumes that volatility is null and that observations are all equally informative. z represents the correct combination. γ represents combinations’
+probabilities. η represents feedback noise. In every trial, observables are stimuli s t, actions a t and binary feedback r t. See Methods for details.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr
+Extended Data Fig. 6 | Means (s.e.m) of parameters fitted across participants for exact and forward volatility models.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr AArrttiicclleess
+Extended Data Fig. 7 | Means (s.e.m.) of parameters fitted across participants for the Weber-imprecision model.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurrEE HHuummaaNN BBEEHHaavvIIoouurr
+Extended Data Fig. 8 | Means (s.e.m.) of parameters fitted across participants for Reinforcement Learning models.
+NatuRE HumaN BEHavIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2020
+Corresponding author(s): Etienne Koechlin
+Last updated by author(s): Sep 17, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see our Editorial Policies and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection Matlab Psychtoolbox
+Data analysis Matlab statistical toolbox. Custom codes in Language C++ were used to run the model and fit the model to human behavioral data. All these
+codes are freely available at https://github.com/csmfindling/learning_variability_and_volatility, as stated in the paper.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+Data availability statement:
+All behavioral data reported in the paper are available from the authors upon request.
+2
+nature
+research
+|
+reporting
+summary
+April
+2020
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Quantitative experimental along with model computer simulations and model fitting to experimental data.
+Research sample Sample: healthy young adult volunteers from Paris area, where the study was carried out (N total=84 participants). Aged range:
+18-35 years-old. 44 females, 40 males. This is the standard practice in Cognitive Psychology. The sample is representative of healthy
+young adults from this area volunteering to participate to behavioral experiments.
+Sampling strategy Random sampling with sample sizes determined before carrying out the experiments. Sample sizes were determined according to
+the standard of field : Experiment 1: N=22 (11 females, age range: 18-35 y/o); Experiment 2: N=22 (13 females, age range: 18-35 y/
+o); Experiment 3: N=40 (20 females; age range: 18-35 y/o). Experiment 3 is a replication of experiment 2.
+Data collection Data were collected through computers. Noboby was present during the experiments and the persons in charge of collecting the
+data were blind of experimental conditions and study hypotheses.
+Timing Experiment 1: Nov to Dec 2017; Experiment 2: Jan to Feb 2010; Experiment 3: April to July 2012.
+Data exclusions Only one participant was excluded in Experiment 1, because her/is performance was beyond 2 standard deviations from the mean
+(standard threshold for rejecting outliers), as stated in the paper.
+Non-participation No participants declined to participate to the study.
+Randomization no distinct experimental groups were compared in the present study.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology and archaeology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Dual use research of concern
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics See above
+Recruitment Participants were recruited through regular announcements and postings for volunteering. To minimize self-selection biases,
+these announcements and postings mentioned no specific features of the experiments. Participants were informed about the
+experimental procedures only before providing their fully informed consent. No participants declined their participation
+Ethics oversight The protocol was approved by the Comité National de Protection des Personnes (CPP) and the Institut National de la Santé et
+de la Recherche Médicale (biomedical protocol CPP-INSERM #15-98). This information is provided in the paper.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

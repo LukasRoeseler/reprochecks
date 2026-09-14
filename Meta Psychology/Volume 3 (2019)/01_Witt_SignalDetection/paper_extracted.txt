@@ -1,0 +1,757 @@
+
+===== PAGE 1/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+Insights into Criteria for Statistical Significance from Signal
+Detection Analysis
+Jessica K. Witt
+Colorado State University
+What is best criterion for determining statistical significance? In psychology, the
+criterion has been p < .05. This criterion has been criticized since its inception, and the
+criticisms have been rejuvenated with recent failures to replicate studies published in
+top psychology journals. Several replacement criteria have been suggested including
+reducing the alpha level to .005 or switching to other types of criteria such as Bayes
+factors or effect sizes. Here, various decision criteria for statistical significance were
+evaluated using signal detection analysis on the outcomes of simulated data. The signal
+detection measure of area under the curve (AUC) is a measure of discriminability with a
+value of 1 indicating perfect discriminability and 0.5 indicating chance performance.
+Applied to criteria for statistical significance, it provides an estimate of the decision
+criterion’s performance in discriminating real effects from null effects. AUCs were high
+(M = .96, median = .97) for p values, suggesting merit in using p values to discriminate
+significant effects. AUCs can be used to assess methodological questions such as how
+much improvement will be gained with increased sample size, how much discriminability
+will be lost with questionable research practices, and whether it is better to run a single
+high-powered study or a study plus a replication at lower powers. AUCs were also used
+to compare performance across p values, Bayes factors, and effect size (Cohen’s d). AUCs
+were equivalent for p values and Bayes factors and were slightly higher for effect size.
+Signal detection analysis provides separate measures of discriminability and bias. With
+respect to bias, the specific thresholds that produced maximally-optimal utility
+depended on sample size, although this dependency was particularly notable for p values
+and less so for Bayes factors. The application of signal detection theory to the issue of
+statistical significance highlights the need to focus on both false alarms and misses,
+rather than false alarms alone.
+Keywords: Statistical significance, Bayes factor, Effect size, p values
+Jessica K. Witt, Department of Psychology, Colorado State University, Fort Collins, CO
+80523.
+The author would like to thank Anne Cleary, John Wixted, Mark Prince, Susan Wagner
+Cook, Mike Dodd, Art Glenberg, Jim Nairne, Jeremy Wolfe, and Ben Prytherch for useful
+discussions and feedback on an earlier draft. The author would also like to thank the editor
+(Daniel Lakens) and reviewers (Patrick Heck, Angelika Stefan, Felix Schönbrodt, and Daniel
+Benjamin) for valuable suggestions. This work was supported by grants from the National
+Science Foundation to JKW (BCS-1348916 and BCS-1632222).
+Please address correspondence to Jessica Witt, Colorado State University, Behavioral
+Sciences Building, Fort Collins, CO 80523 USA. Email: Jessica.Witt@colostate.edu.
+
+===== PAGE 2/16 =====
+2
+WITT
+Scientists across many disciplines including considers the relative distributions of each type of
+psychology, biology, and economics use p < .05 as error in the analysis of bias.
+the criterion for statistical significance. This
+threshold has recently been challenged due to
+Data Simulations for Experiment 1
+numerous failures to replicate findings published in
+top journals (Begley & Ellis, 2012; Camerer et al.,
+Data were simulated for two independent groups
+2016; Open Science Collaboration, 2015). Changes in
+of 64 participants each, which corresponds to 80%
+the recommendations for statistical significance
+power at an alpha level of .05 for a two-tailed
+include using a stricter criterion for significance
+independent-samples t-test.
+(e.g., p < .005; Benjamin et al., 2017) and minimizing
+flexibility in decisions around data collection and
+analysis (e.g., Simmons, Nelson, & Simonsohn, 2011). Table 1. Signal detection classification of data based on
+These recommendations were designed to increase the example criteria p < .05 for a true effect (Cohen’s d =
+replicability by decreasing the false alarm rates, 0.50) and a null effect (Cohen’s d = 0).
+which is the rate at which null effects are incorrectly P < .05 P > .05
+labeled as significant. However, the best criteria for “Significant” “Not Significant”
+statistical significance are ones that maximize d =.50 Hit Miss
+discriminability between real and null effects, not Correct
+d = 0 False Alarm
+just those that minimize false alarms. One analytic Rejection
+technique that is intended to measure the
+discriminability of a test is signal detection theory Data for one group was sampled from a normal
+(Green & Swets, 1966). Signal detection theory has distribution with a mean of 50 and a standard
+previously been applied to evaluate p values deviation of 10 (such as might be found on a memory
+(Krueger & Heck, 2017). Here, the signal detection test with a total score of 100). The data for the other
+theory measure of area under the curve (AUC) is group was sampled from a normal distribution with
+offered as a tool to quantify the effectiveness of a mean of 50 (for studies with a null effect) or 45 (for
+various measures of statistical effects. studies with an effect size of Cohen’s d = .50) and a
+Signal detection analysis involves categorizing standard deviation of 10. The data were submitted
+outcomes into four categories. Applied to criteria to an independent-samples t-test (all simulations
+for statistical significance, a hit occurs when there is and analyses were conducted in R; R Core Team,
+a true effect and the analysis correctly identifies it 2017). Details of the simulation are available in the
+as significant (see Table 1). A miss occurs when there online supplementary materials
+is a true effect but the analysis identifies it as not (https://osf.io/bwqm8/). This initial simulation
+significant. A correct rejection occurs when there is will be referred to as Experiment 1. See appendix for
+no effect and the analysis correctly identifies it as overview of all of experiments.
+not significant, and a false alarm occurs when there Data were simulated from 20 studies1, half of
+is no effect but the analysis identifies it as which had an effect size of 0 and half had a medium
+significant. In statistics, Type I errors (false alarms) effect size (Cohen’s d = .50). The result from each
+and Type II errors (misses) are sometimes simulated study was classified as a hit or miss (for
+considered separately, with Type I errors being a studies modeled as a medium effect) or as a correct
+function of the alpha level and Type II errors being a rejection or false alarm (for studies modeled as a null
+function of power. An advantage of signal detection effect). The classification was based on four criteria
+theory is that it combines Type I and Type II errors for statistical significant related to p values: p < .10,
+into a single analysis of discriminability and also p < .05, p < .005, and p < .001. This process was
+1 This number was selected somewhat arbitrarily, and multiple comparisons across a variety of measures (p
+the results generalized to other numbers. Larger values, Bayes factors, and effect sizes).
+number of repeats reduced the standard deviations of
+the results reported below, but did not affect the means.
+The decision to simulate sets of studies was to allow for
+
+===== PAGE 3/16 =====
+INSIGHTS INTO CRITERIA FOR STATISTICAL SIGNIFICANCE FROM SIGNAL DETECTION ANALYSIS 3
+repeated 100 times1. The outcomes across all proportion of studies for which the simulated effect
+studies were summarized into the proportions of was null but the criterion classified it as significant.
+hits, misses, false alarms, and correct rejections for To clarify, whereas the proportion of hits (as plotted
+each criterion (see Figure 1). In addition, the hit in Figure 1) is the number of hits divided by the total
+rates and false alarm rates were calculated for the number of studies, the hit rate (plotted in Figure 2)
+purpose of plotting the receiver operator is the number of hits divided by the number of
+characteristic (ROC) curves (see Figure 2). The hit studies modeled as a real effect. Bayes factors,
+rate is the proportion of studies for which the which are also plotted, are discussed below.
+simulated effect was real and the criterion classified
+it as significant, and the false alarm rate is the
+Figure 1. Proportion of each outcome as a function of the decision criterion for significance. Brighter colors correspond
+to errors and dark colors correspond to correct classifications. For criteria of Bayes factors greater than 2, 3, or 10,
+studies that produced a Bayes factor less than the criterion but greater than the inverse of the criterion were
+considered inconclusive, which is why the total proportion of outcomes does not equal 1.
+Figure 2. Mean hit rates are plotted as a function of mean false alarm rates and the decision criterion (see legend) for
+one set of 20 studies (left panel) and averaged across all 100 sets of 20 studies (right panel). ROC curves are plotted for
+criteria based on p values (thick green line) and Bayes factor (thin blue line). The two lines are identical (as was the case
+for all 100 sets of 20 studies). Area under the curve (AUC) is the shaded area.
+
+===== PAGE 4/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+In selecting a criterion for statistical significance, adopted as the criterion. Specific alpha levels relate
+researchers must select a measure (e.g., p values) to bias, and are discussed below.
+and a threshold within that measure (e.g., alpha = What could improve discriminability when using
+.05). A measure can be evaluated by assessing its p values as the criterion for statistical significance?
+ability to discriminate between real and null effects, One suggestion has been to lower the threshold
+which can be quantified by calculating the area from .05 to .005. This would not alter the
+under the ROC curve (AUC; Macmillan & Creelman, discriminability because discriminability relates to p
+2008). With respect to evaluating thresholds for a values as a whole, not to specific thresholds.
+specific measure (e.g., comparing .005 to .05), the Thresholds refer to locations on the curve, and
+location of each threshold on the ROC curve can be these dictate bias, rather than discriminability.
+calculated. Location on the curve is a measure of Signal detection theory distinguishes between
+bias. Each of these measures will be considered in discriminability and bias. As applied to the case of
+turn. criteria for statistical significance, discriminability
+To measure discriminability of p values, the AUC refers to the criterion’s performance at identifying
+was computed 100 times, once for each set of 20 real effects versus null effects, and bias refers to
+studies. Unlike the discriminability measure of d’, whether the errors tend to be false alarms or misses.
+the discriminability measure of AUC makes no Assessing bias can be useful for selecting the
+assumptions regarding the underlying distributions, appropriate criterion for asserting statistical
+which is critical because distributions of p values are significance. For example, assume that the cost of a
+not normally distributed. Higher AUCs indicate miss is equivalent to the cost of a false alarm in a
+better ability to discriminate real effects from null particular field. In that case, optimal utility would be
+effects. If discrimination were perfect, the curve achieved by setting the criterion in such a way that
+would follow the left and top boundaries in Figure 2, its point on the ROC curve is the one that falls
+and the AUC would equal 1 (i.e. the entire area would closest to the upper left corner in Figure 2. The
+be under the curve). If discrimination were at Euclidean distance between each point on the ROC
+chance, the curve would follow the diagonal line in curve and the point of perfect performance is
+Figure 2, and the AUC would be .5 (i.e. only 50% of plotted in Figure 3. For the scenario that was
+the area would be under the curve). As is apparent simulated, an alpha level closer to the blue dot,
+in Figure 2, p values produced curves that were which aligns with an alpha level of .10, would come
+closer to 1 (perfect performance) than to .5 (chance closer to achieving that maximum-utility outcome
+performance). The mean AUC was .96 (median = .97, than an alpha level of .005. Lowering the criterion
+SD = .04). Thus, p values were effective, though not for statistical significance to p < .005 would increase
+perfect, at discriminating between real and null the number of studies that will replicate by
+effects. This aligns with conclusions from other decreasing false alarms, but it would do so at the
+valuations of p values (e.g., Krueger & Heck, 2017, cost of missing real effects (see also Krueger & Heck,
+2018). These AUC values suggest some benefit in 2017). Note the proportion of misses in Figure 1
+using p values, at least as a continuous measure across the various criteria, particularly for the
+without necessarily having strict thresholds for criterion of p < .005. Misses are bad for science
+significance (McShane, Gal, Gelman, Robert, & (Fiedler, Kutzner, & Krueger, 2012; Murayama,
+Tackett, 2018). Perhaps alternative methods to Pekrun, & Fiedler, 2014). Assuming that null effects
+reduce false alarm rates might be more beneficial are theoretically interesting and practically
+than to eliminate p values altogether (e.g., Trafimow important, it is important to determine which null
+& Marks, 2015). Note that measures of effects are due to a genuine lack of difference versus
+discriminability evaluate p values as a measure a miss of a true effect. Is the trade-off to increase
+without consideration of the specific alpha value replicability worth the large increase in misses?
+
+===== PAGE 5/16 =====
+INSIGHTS INTO CRITERIA FOR STATISTICAL SIGNIFICANCE FROM SIGNAL DETECTION ANALYSIS 5
+Perhaps science can adopt alternative means to 99% produced a mean AUC of .999 (median = 1; SD =
+improve replicability without sacrificing so many .004). If resources are unlimited, increasing sample
+missed hits, such as increasing incentives for size to increase power is an effective way of
+publishing statistically- and scientifically-sound improving discriminability of real effects from null
+significant findings and also publishing (statistically- effects (Krueger & Heck, 2017).
+and scientifically-sound) null results. Assuming limited resources, one might wonder
+whether it is better to run one high-powered study
+or a study plus a replication that are both at 80%
+power. AUCs can help a researcher make these
+decisions. Two additional “experiments” (i.e., sets of
+simulations) were conducted. In Experiment 2,
+everything was the same as in Experiment 1 except
+the sample size for each group was 105 (which
+corresponds to 95% power at an alpha level of .05).
+In Experiment 3, everything was the same as in
+Experiment 1 except that for every study that was
+simulated, a second study with the same parameters
+was simulated and the higher p value was retained.
+This emulates a situation for which a study is
+Figure 3. Distance to perfection was calculated as the
+conducted that produces a significant p value and
+Euclidean distance between each point on the ROC curve
+then a replication fails to find a significant effect, so
+(see Figure 2) and the top-left corner (which corresponds
+the effect is considered not significant. This is why
+to 100% hit rate and 0% false alarm rate) across all 100
+the higher p value was retained. The mean AUC for
+sets of 20 studies. A lower distance to perfection score
+indicates better discriminability between real and null Experiment 2 was .99 (median = 1; SD = .01). The
+effects. Error bars represent 95% confidence intervals. mean AUC for Experiment 3 was .97 (median = .99;
+SD = .04). This suggests that higher power produces
+One effective way to improve replicability is to better discriminability than replicating a study with
+increase sample size. Many studies are both the original and replication studies at 80%
+underpowered (e.g., Etz & Vandekerckhove, 2016; power. However, the higher-powered study
+Fraley & Vazire, 2014; Ioannidis, 2005; Sedlmeier & produced more false alarms whereas the study plus
+Gigerenzer, 1989). The simulations in Experiment 1 replication produced few false alarms but more
+showed that at a power of 80% (at an alpha level of misses (see Figure 4). Again, researchers will need
+.05), the mean AUC for p values was .96. At a power to decide what trade-offs between false alarms and
+of 50%, the mean AUC for p values was .85 (median misses make the most sense for their science.
+= .87; SD = .10). Increasing power to 90% produced
+a mean AUC of .975 (median = .99; SD = .03),
+increasing power to 95% produced a mean AUC of
+.984 (median = 1; SD = .03), and increasing power to
+
+===== PAGE 6/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+Figure 4. Proportion of each outcome as a function of the decision criterion and whether one or two studies were run.
+The left panel shows the outcomes across 100 sets of 20 studies, each with 105 data points per group (which
+corresponds to 95% power at alpha = .05). The right panel shows the outcomes across 100 sets of 20 studies. For each
+study, a replication was conducted. Both the original study and the replication had 64 data points per group (which
+corresponds to 80% power at alpha = .05). In order for an effect to meet the decision criterion, both the original study
+and the replication had to produce values that exceeded the decision criterion. For example, for the criterion of p < .05,
+both the study and the replication had to produce p values < .05, otherwise the set of studies was considered not
+significant.
+Power, rather than effect size, is more important Questionable Research Practices
+for discriminability. In Experiment 4, data were
+simulated at 80% power (at an alpha of .05) for each Some recommendations to improve replicability
+of 8 effect sizes ranging from d = .1 - .8. The AUCs concern practices to avoid. These have been labeled
+for each were approximately the same (M = .95; questionable research practices, and have been
+range of means for each effect size = .947 - .961; identified as particularly problematic (Simmons et
+variations due to chance rather than systematic al., 2011). AUCs can be used to assess the degree to
+differences). As shown in Figure 5, when power was which doing various questionable research
+consistent, there were also no substantial practices reduces discriminability. One
+differences in the rate of the different outcomes. recommendation is to designate the number of
+Thus, while studying bigger effects will reduce the participants to be run ahead of time, rather than use
+number of participants needed, it will not improve an optional stopping rule (Simmons et al., 2011).
+discriminability on its own. In a new set of simulations (Experiment 5), each
+simulated study was conducted with 30 participants
+per group with either a Cohen’s d = .50 or d = 0. A
+lower sample size was used given that published
+studies tend to be underpowered
+
+===== PAGE 7/16 =====
+INSIGHTS INTO CRITERIA FOR STATISTICAL SIGNIFICANCE FROM SIGNAL DETECTION ANALYSIS 7
+Figure 5. Proportion of SDT outcomes is plotted as a
+function of effect size for the single criterion for
+statistical significance of p < .05. Data were all simulated Figure 6. The area under the curve (AUC) for hacked
+at a power of 80% at an alpha of .05. studies plotted as a function of the AUC for the original
+studies. A higher AUC indicates better discrimination
+As in Experiment 1, 20 studies were simulated, between real and null effects. The line is at unity. Data
+and this was repeated this 100 times. To try to points above the line indicate better discriminability for
+the hacked studies, and data points below the line
+mimic typical use of the optional stopping rule, for
+indicate better discriminability for the original studies.
+each study, if the p value was between .20 and .05,
+an additional 10 participants were added per group.
+A decreased hit rate directly corresponds to an
+After this addition, if the p value was less than .05,
+increased miss rate. Furthermore, the data were
+data collection stopped; otherwise the process was
+simulated so that the studies were underpowered.
+repeated up to 9 more times. On average, p-hacking
+Although p-hacking increased the false alarm rates
+in the form of adding more participants occurred 4.3
+(see also Ioannidis, 2005), adding participants
+times in each set of 20 studies (SD = 2; Range = 0 –
+increased power, which is good for discriminability.
+11). The optional stopping rule produced differences
+To be clear, the recommendation is not to p-hack by
+in the AUCs relative to the original sample, but the
+running participants until the effect is significant.
+differences were not systematic. Sometimes
+Instead, experiments should be run with sufficient
+running additional unplanned participants
+power or only allow restricted flexibility in stopping
+improved discriminability and other times it
+data collection such as, for example, by following the
+worsened discriminability (see Figure 6). How can
+recommendations of Lakens (2014) or using
+this questionable research practice have no impact
+sequential Bayes Factor with a minimum and
+the discriminability of real effects from null effects?
+maximum N (Schönbrodt & Wagenmakers, 2018).
+The reason is that these questionable research
+But with respect to interpreting published research,
+practices increase the false alarm rate but they also
+the current simulations suggest that flexibility in
+increase the hit rate (see Figure 7). Much of the
+data collection via an optional stopping rule does
+attention on the replication crisis has sought to
+not necessarily void the findings (see also Murayama
+minimize false alarms, but it is also necessary to
+et al., 2014; Salomon, 2015). In these simulations, p-
+discuss the corresponding increase in the number of
+hacking increased the hit rate by 28% while only
+misses (i.e. the decrease in the number of hits).
+increasing the false alarm rate by 12%. Note,
+Discriminability between real effects and null effects
+however, that p-hacking via optional stopping rules
+takes into account both the false alarm rate and the
+does not always increase hit rates more than false
+hit rate.
+alarm rates. If power is high (e.g., > 99%),
+simulations showed that hit rates increased from
+
+===== PAGE 8/16 =====
+8
+WITT
+99.9% to 100% but false alarm rates increased from agrees with the idea of using strict cut-offs (e.g.,
+5.4% to 9.8%. Morey, 2015).
+Table 2. Overview of relationship between Bayes factor
+and conclusion about the evidence being in favor of the
+alternative hypothesis (H ) or the null hypothesis (H ).
+A 0
+Adapted from Wetzels et al. (2011), Lakens (2016), and
+Jeffreys (1961).
+Bayes factor Interpretation
+>100 Decisive evidence for H over H
+A 0
+Very strong evidence for H
+30 - 100 A
+over H
+0
+10 - 30 Strong evidence for H over H
+A 0
+Substantial evidence for H over
+3 - 10 A
+H
+0
+Anecdotal evidence for H over
+Figure 7. Proportion of hits, false alarms, misses, and 1-3 A
+correct rejections as a function of whether the studies H 0
+were the original sample of 30 data points per group or
+1 No evidence
+had been p-hacked via an optional stopping rule.
+Outcomes shown only for the decision criterion of p <
+Anecdotal evidence for H over
+.05. Note that the seeming benefit for p-hacking is 1/3 - 1 0
+H
+dependent on the low power of the simulated study. A
+Substantial evidence for H over
+1/10 – 1/3 0
+H
+Bayes Factor Versus p values A
+1/30 – 1/10 Strong evidence for H over H
+0 A
+An alternative to p values is to use Bayes factors
+(e.g., Dienes, 2011; Kass & Raftery, 1995; Kruschke, 1/100 – 1/10 Very strong evidence for H 0
+2013; Lee & Wagenmakers, 2005; Rouder, Speckman, over H A
+Sun, Morey, & Iverson, 2009). Bayes factor refers to
+< 1/100 Decisive evidence for H over H
+the ratio of likelihoods of the data for the alternative 0 A
+hypothesis relative to the null hypothesis. A Bayes
+factor of 1 corresponds to equal likelihood for the
+alternative and the null hypotheses, and a Bayes To measure discriminability and bias for Bayes
+factor greater than 1 is evidence for the alternative factors, the studies simulated in Experiment 1 were
+hypothesis relative to the null hypothesis. Bayes also evaluated using four decision criteria related to
+factors quantify how well a hypothesis predicts the Bayes factor (BF): BF > 1, BF > 2, BF > 3, and BF > 10.
+data relative to a competing hypothesis (such as the Studies were classified as shown in Table 3. Note
+null hypothesis), and thus is a continuous measure that for Bayes factors that fell in between the
+for which the focus is on the strength of the criterion and its inverse (e.g., 1/3 – 3), no
+evidence, rather than a specific cut-off for deeming classification was made because the data were
+effects significant or not. However, Bayes factors inconclusive. This is why the outcomes do not sum
+between 1-3 are considered weak or anecdotal to 1 in Figure 1. The calculation of the AUCs is a
+evidence, so a Bayes factor of 3 could be considered function of the Bayes factor itself, rather
+a decision criterion akin to a criterion for
+significance (see Table 2), though not everyone
+
+===== PAGE 9/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+Table 3. Signal detection classification of data based on the example criteria Bayes factor > 3 for a true effect (Cohen’s d
+= 0.50) and a null effect (Cohen’s d = 0).
+Bayes factor >3 Bayes factor < 1/3 1/3 < Bayes Factor < 3
+“Significant” “Not Significant” “Inconclusive”
+d = .50 Hit Miss No classification
+d = 0 False Alarm Correct Rejection No classification
+than classifications of outcomes, so even though not Although the discriminability between p values
+all studies could be classified into the four SDT and Bayes factors was equivalent across a variety of
+outcomes, all studies contributed to the AUC situations, as revealed by equal AUCs (see Figures 2,
+calculation. The BayesFactor R package (Morey, 8, and 9), the exact relationship between them
+Rouder, & Jamil, 2014) was used to calculate the differed as a function of sample size. In Experiment
+Bayes factors. The default Cauchy prior was used 6, for 30 different sample sizes ranging from 32 to
+when calculating Bayes factors, but different priors 2000 per group, 100 simulations of 20 studies were
+produced the same AUC results. Changing the prior conducted (10 with a Cohen’s d modeled at .50 and
+produced shifts along the ROC curve but did not 10 with a Cohen’s d modeled at 0). For each sample
+change discriminability. size, a linear regression was conducted to predict
+As shown in Figure 2, the AUCs related to Bayes the log of the Bayes factor from the log of the p
+factor were also quite high. In fact, the AUCs for value. The results are shown in Figure 9. These
+Bayes factor corresponded perfectly to the AUCs for simulations show near-complete redundancy
+p values. This means that for the situation simulated between p values and Bayes factors. This
+here, Bayes factors are not any better (or worse) redundancy also supports the conclusion that for
+than p values at discriminating real effects from null the conditions simulated, p values and Bayes factors
+effects. In other words, Bayes factor incurs no are equally adept at distinguishing real effects from
+advantage over p values at detecting a real effect null effects.
+versus a null effect for the current scenario. This is
+because Bayes factors are redundant with p values
+for a given sample size. Both p values and Bayes
+factors can be calculated from the t-statistic and the
+sample size, so it is expected that they would be
+related. In these simulations, there was a near-
+perfect linear relationship between the (log of the)
+Bayes factors and the (log of the) p values, as has
+been shown previously (Benjamin et al., 2017;
+Krueger & Heck, 2018; Wetzels et al., 2011).
+Equivalency in AUCs between Bayes factors and p
+values generalized to other scenarios as well
+including one-sample t-tests and correlations (see
+Figure 8).
+
+===== PAGE 10/16 =====
+10
+WITT
+Figure 8. Simulations were run for 20 studies (repeated
+100 times) for 3 effect sizes for 3 power levels (two-tailed
+at alpha = .05) for 4 types of statistical tests. AUCs for the
+Bayes factors are plotted as a function of AUCs for the p
+values. They are identical in every case, which is
+consistent with the claims of equal discriminability
+between p values and Bayes factors. Size of the symbol
+corresponds to effect size, which is Cohen’s d (for two-
+sample t-tests), Cohen’s d (for one-sample t-tests), and
+z
+r*2 (for correlations). For the uneven two-sample t test,
+group 2 had 20% more participants than group 1. The
+plot collapses across all conditions given that the
+patterns were the same regardless of test type, power, or
+effect size.
+Figure 9. Outcomes from 100 simulations of 20 studies (half simulated as a null effect; half as a medium effect) for each
+of 30 different sample sizes ranging from 32 to 2000. Color corresponds to sample size. Panel a shows the area under
+the curve (AUC) for p values and Bayes factors as a function of sample size. A bigger AUC indicates better discrimination
+between real and null effects. Panel b shows the relationship between p value and Bayes in the range for which p values
+are highest (the inset shows the relationship for the entire range, and the dotted box shows the area that has been
+expanded in the main figure). The legend corresponds to sample size. The black vertical line corresponds to a p value of
+.05, and the black horizontal line corresponds to a Bayes factor of 1. Panels c and d show the intercepts and slopes from
+linear regressions that predict the log of the Bayes factor from the log of the p values. The intercept is the p value that
+corresponds to a Bayes factor of 1, so it corresponds to the value of the p value along the horizontal line in panel b. The
+slope, plotted in panel d, corresponds to the steepness of the curves in panel b
+
+===== PAGE 11/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+Figure 10. Left column shows results from Experiment 7 (equal number of null and real effects) and right column shows
+results from Experiment 8 (four times as many null as real effects). In the top row, hit rates are plotted as a function of
+false alarm rates and criterion for Experiment 7 (left panel) and Experiment 8 (right panel). Each point corresponds to a
+different decision criterion related to the posterior odds (BF > 1, 2, 3, and 10, not labeled but for each cluster of 4, the
+points go sequentially from top-right corner to bottom-left corner) as a function of the prior odds (see legend). The
+receiver operator characteristic (ROC) curves are plotted for three different sets of prior odds for each panel. The area
+under the curve (AUC) is shown in grey. The curves and AUCs are identical across all prior odds in each panel. In the
+bottom row, proportion of each outcome (calculated as the number of each outcome divided by the total number of
+studies) across prior odds is shown only for the decision criterion of Bayes factor > 3.
+
+===== PAGE 12/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+Despite equivalence in discriminability between Equation 1.
+p values and Bayes factor, these simulations
+illustrate a previously acknowledged discrepancy in
+the conclusions supported by the two types of
+criteria (Lindley, 1957). Specifically, in Figure 9b, all
+data points to the left of the black vertical line that
+are also below the black horizontal line would be In Experiment 8, everything was the same as in
+classified as significant according to the criterion of Experiment 1 except there were four times as many
+p < .05 but according to a Bayes factor studies with d = 0 (16 studies) than with d = .5 (4
+interpretation, the evidence would favor the null studies). AUCs were calculated for posterior odds
+hypothesis over the alternative. across three prior odds (.25, 1, 4). As shown in Figure
+This illustrates why it is possible to get results for 10, adding information about prior odds to the Bayes
+which the p value indicates a significant finding (i.e. factor merely shifted the points along the ROC curve
+evidence for the alternative hypothesis) but the but did not alter discriminability regardless of the
+Bayes factor shows evidence for the null hypothesis accuracy of the prior odds. In addition, changing the
+relative to the alternative. These conflicting proportion of real effects did not have much impact
+outcomes occurred in studies for which sample size on discriminability. In Experiment 8, the mean AUC
+(or, more precisely, power) was high. These was .95 (median = .97, SD = .07) for all sets of prior
+simulations help illustrate the point that for high- odds (as well as for p values), which was similar to
+powered studies, a p value of .05 is more evidence the mean AUC of .96 (median = .98, SD = .04) for all
+for the null hypothesis than for the alternative sets of prior odds (and for p values) in Experiment 7.
+hypothesis (Lakens, 2015). When power is high, Except for Experiment 7, all of the simulations
+researchers using p values to determine statistical conducted involved simulating studies for which
+significance should use a lower criterion half had a true effect and half had a null effect. This
+assumes that effects are to be expected half of the
+time, which is an assumption that is unlikely to be
+Including Priors
+true. The results from Experiment 7 show, however,
+that similar patterns are found even when the null
+Whereas Bayes factors do not take into account
+hypothesis is likely to be true. Unreported
+the prior odds of an effect being real, the posterior
+simulations show similar patterns even when the
+odds do. Posterior odds can be calculated by
+alternative hypothesis is likely to be true. Thus, the
+multiplying the Bayes factor by the prior odds (see
+results regarding discriminability (measured with
+Equation 1). Posterior odds are the probability of the
+AUCs) are independent of specific assumptions
+alternative hypothesis (M = H) given the data (D)
+1
+regarding the likelihood of the null hypothesis. Put
+over the null hypothesis (M = H ) given the data (D).
+0
+another way, the discriminability of p values and
+To evaluate the effect of prior odds on
+Bayes factors are high in situations for which real
+discriminability, two additional experiments were
+effects are likely and in situations for which real
+conducted. In Experiment 7, the same conditions as
+effects are unlikely. Obviously, more p values and
+in Experiment 1 were simulated, but AUCs were
+Bayes factors reach thresholds for significance
+calculated for posterior odds across three different
+when there are more significant effects, so
+prior odds: 0.1, 1, and 10.
+“significant” effects are more for ‘safe’ studies than
+‘risky’ studies (Krueger & Heck, 2018). Nevertheless,
+the diagnosticity of the p value (and of Bayes factor)
+is high regardless of the likelihood of finding a real
+effect.
+
+===== PAGE 13/16 =====
+INSIGHTS INTO CRITERIA FOR STATISTICAL SIGNIFICANCE FROM SIGNAL DETECTION ANALYSIS 13
+Bayes Factor and Bias is adopted, consideration should be made for both
+false alarms and misses. If the goal is to maximize
+As with p values, we can consider bias related to optimal utility, given equal weight to hits and
+Bayes factors. As shown in Figure 3, the cut-offs correct rejections (or, equivalently, equal tolerance
+that achieved maximize utility assuming equal for false alarms and misses), distance to perfection
+weights given to false alarms and misses was Bayes can be used to assess various criteria. In the case of
+factor > 1. This contrasts with the typical a medium effect size
+interpretation of Bayes factor (e.g., Table 2) for with 64 participants per group, the decision criteria
+which Bayes factors between 1-3 are considered of p < .10, p < .05, and BF > 1 led to better
+anecdotal evidence. performance than the criteria of p < .005, BF > 3, and
+Unlike with p values, the threshold that should be BF > 10. As sample size increased, the criteria of p <
+used for Bayes factors did not vary as much with .005 and all tested Bayes factor thresholds led to
+changes in sample size as did the alpha levels of the better performance than p < .10.
+p values (see Figure 10). Compare the red points to
+the green points, which correspond to p < .10 and p
+Discriminability with Effect Size
+< .005. For smaller sample sizes, the red points
+achieve better performance than the green points,
+As a final note, discriminability (as measured
+but for larger sample sizes, the relationship flips and
+using AUCs) was as good or better when using effect
+the green points achieve better performance. This
+size (in this case, Cohen’s d) than p values or Bayes
+repeats the point made earlier that at larger sample
+factors (see Figure 14). Effect size improved
+sizes, a lower alpha should be used. For Bayes
+discriminability because Cohen’s d is signed (i.e.
+factors, compare the light blue and purple points,
+differentiates -.5 from .5). When discriminability
+which correspond to Bayes factor thresholds of 1
+was assessed using absolute effect size, the AUCs
+and 3. For smaller sample sizes, the light blue points
+matched those obtained with p values and Bayes
+achieved better performance, but for larger sample
+factors. The measure of effect size does not have
+sizes, the purple points achieved better
+the feature of a specific decision criterion for
+performance. However, unlike with p values, this
+statistical significance, so for researchers who want
+reversal was not nearly as dramatic, and the decision
+strict thresholds for significance, effect size is
+criterion of Bayes factor > 1 performed better than
+unlikely to be a useful tool. But for researchers who
+or nearly as good as the other thresholds across all
+want to know the strength of the evidence or the
+sample sizes. It is also worth noting that as sample
+magnitude of the effect, effect size would be useful.
+size increases, all Bayes factor criteria improved,
+whereas p values plateaued at their alpha levels.
+Thus, another advantage of Bayes factors is that
+increasing the amount of evidence increases their
+ability to accurately detect an effect.
+Signal detection analysis is a tool that scientists
+can use to evaluate relative trade-offs across various
+decision criteria. This is not to say that scientists
+should only use or always use decision criteria (as
+opposed to estimations of effect size, for example),
+but that when a criterion for statistical significance
+
+===== PAGE 14/16 =====
+Meta-Psychology, 2019, vol 3, MP.2018.871, Open data: Not applicable Edited by: Daniël Lakens
+https://doi.org/10.15626/MP.2018.871 Open materials: Yes Reviewed by: Patrick R Heck, Angelika Stefan, Felix
+Article type: Original Article Open and reproducible analysis: Yes Schönbrodt
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/69XMG
+Figure 11. Distance to perfection was calculated as the Euclidean distance between each point on the ROC curve (see
+Figure 2) and the top-left corner (which corresponds to 100% hit rate and 0% false alarm rate). Distance to perfection
+scores were calculated for each of 100 sets of 20 studies (half of which were modeled as a null effect and half of which
+were modeled with Cohen’s d = .5) for each sample size. The data are grouped by sample size, and color corresponds to
+the criterion for statistical significance. Errors bars correspond to 95% confidence intervals.
+Conclusion
+An essential part of science is that it is replicable.
+But another essential part of science is to uncover
+new discoveries. Changing the standard criterion
+for statistical significance merely moves the
+standard along the ROC curve. Any change to this
+standard such as decreasing the required p value or
+using Bayes factors instead will not improve
+discriminability between real and null effects.
+Rather, a change to be more conservative will
+decrease false alarm rates at the expense of
+increasing miss rates. False alarm rates should not
+be considered in isolation without also considering
+Figure 12. Area under the curve (AUC) for Cohen’s d as a miss rates. Rather, researchers should consider the
+function of the AUCs for p values and Bayes factors (BF). relative importance for each in deciding the
+Data are from Experiment 1. Each point corresponds to criterion to adopt. This aligns with other
+one set of 20 studies with half modeled with Cohen’s d = recommendations for researchers to justify their
+.5 and half modeled with Cohen’s d = 0. Dotted line is at alphas (Lakens et al., 2018). In addition, given that
+unity.
+true null results can be theoretically interesting and
+practically important, a conservative criterion can
+produce critically misleading interpretations by
+labeling real effects as if they were null effects.
+
+===== PAGE 15/16 =====
+INSIGHTS INTO CRITERIA FOR STATISTICAL SIGNIFICANCE FROM SIGNAL DETECTION ANALYSIS 15
+Moving forward, the recommendation is to Fiedler, K., Kutzner, F., & Krueger, J. I. (2012). The
+acknowledge the relationship between false alarms Long Way From α-Error Control to Validity
+and misses, rather than implement standards based Proper: Problems With a Short-Sighted False-
+solely on false alarm rates. Positive Debate. Perspectives on Psychological
+Science, 7(6), 661-669. doi:
+10.1177/1745691612462587
+Open Science Practices
+Fraley, R. C., & Vazire, S. (2014). The N-Pact Factor:
+Evaluating the Quality of Empirical Journals
+with Respect to Sample Size and Statistical
+Power. PLOS ONE, 9(10), e109019. doi:
+10.1371/journal.pone.0109019
+Green, D. M., & Swets, J. A. (1966). Signal Detection
+This article earned the Open Materials badge for
+Theory and Psychophysics. New York: Wiley.
+making the materials available. It has been verified
+Ioannidis, J. P. A. (2005). Why most published
+that the analysis reproduced the results presented
+research findings are false. PLoS Med, 2(8),
+in the article. The entire editorial process, including
+e124. doi: 10.1371/journal.pmed.0020124
+the open reviews, are published in the online
+Jeffreys, H. (1961). Theory of Probability. Oxford, UK:
+supplement.
+Oxford University Press.
+Kass, R. E., & Raftery, A. E. (1995). Bayes factors.
+Journal of the American Statistical Association,
+90(430), 773-795.
+Krueger, J. I., & Heck, P. R. (2017). The Heuristic
+References
+Value of p in Inductive Statistical Inference.
+Frontiers in Psychology, 8(908). doi:
+Begley, C. G., & Ellis, L. M. (2012). Drug 10.3389/fpsyg.2017.00908
+development: Raise standards for preclinical Krueger, J. I., & Heck, P. R. (2018). Testing
+cancer research. Nature, 483(29 March), 531- significance testing. Collabra: Psychology, 4(1),
+533. doi: 10.1038/483531a 11. doi: 10.1525/collabra.108
+Benjamin, D. J., Berger, J. O., Johannesson, M., Kruschke, J. K. (2013). Bayesian estimation
+Nosek, B. A., Wagenmakers, E. J., Berk, R., . . . supersedes the t test. Journal of Experimental
+Johnson, V. E. (2017). Redefine statistical Psychology: General, 142(2), 573-603. doi:
+significance. Nature Human Behaviour. doi: 10.1037/a0029146
+10.1038/s41562-017-0189-z Lakens, D. (2014). Performing high-powered studies
+Camerer, C. F., Dreber, A., Forsell, E., Ho, T.-H., efficiently with sequential analyses. European
+Huber, J., Johannesson, M., . . . Wu, H. (2016). Journal of Social Psychology, 44, 701-710. doi:
+Evaluating replicability of laboratory 10.1002/ejsp.2023
+experiments in economics. Science, 351(6280), Lakens, D. (2015, March 20, 2015). How a p-value
+1433-1436. between 0.04-0.05 equals a p-value between
+Collaboration, O. S. (2015). Estimating the 0.16-017. Retrieved from
+reproducibility of psychological science. http://daniellakens.blogspot.com/2015/03/h
+Science, 349(6251), aac4716. doi: ow-p-value-between-004-005-equals-p.html
+10.1126/science.aac4716 Lakens, D. (2016, 1/14/16). Power analysis for
+Dienes, Z. (2011). Bayesian versus orthodox default Bayesian t-tests. Retrieved from
+statistics: Which side are you on? Perspectives http://daniellakens.blogspot.com/2016/01/p
+on Psychological Science, 6, 274-290. doi: ower-analysis-for-default-bayesian-t.html
+10.1177/1745691611406920 Lakens, D., Adolfi, F. G., Albers, C. J., Anvari, F.,
+Etz, A., & Vandekerckhove, J. (2016). A Bayesian Apps, M. A. J., Argamon, S. E., . . . Zwaan, R. A.
+perspective on the reproducibility project: (2018). Justify your alpha. Nature Human
+Psychology. PLos One, 11(2), e0149794. doi:
+10.1371/journal.pone.0149794
+
+===== PAGE 16/16 =====
+16
+WITT
+Behaviour, 2(3), 168-171. doi: 10.1038/s41562-
+018-0311-x Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011).
+Lee, M. D., & Wagenmakers, E. J. (2005). Bayesian False-positive psychology: Undisclosed
+statistical inference in psychology: Comment flexibility in data collection and analysis allows
+on Trafimow (2003). Psychological Review, presenting anything as significant.
+112(3), 662-668. doi: 10.1037/0033- Psychological Science, 22(11), 1359-1366. doi:
+295X.112.3.662 10.1177/0956797611417632
+Lindley, D. V. (1957). A statistical paradox. Team, R. C. (2017). R: A language and environment
+Biometrika, 44(1/2), 187-192. for statistical computing. Retrieved from
+Macmillan, N. A., & Creelman, C. D. (2008). https://www.r-project.org
+Detection Theory: A User's Guide (Second Trafimow, D., & Marks, M. (2015). Editorial. Basic
+Edition). New York: Psychology Press. and Applied Social Psychology, 37(1), 1-2.
+McShane, B. B., Gal, D., Gelman, A., Robert, C., & Wetzels, R., Matzke, D., Lee, M. D., Rouder, J. N.,
+Tackett, J. L. (2018). Abandon statistical Iverson, G. J., & Wagenmakers, E.-J. (2011).
+significance. arXiv preprint. doi: Statistical evidence in experimental
+arxiv.org/pdf/1709.07588 psychology: An empirical comparison using 855
+Morey, R. D. (2015, 5/31/18). On verbal categories t tests. Perspectives on Psychological Science,
+for the interpretation of Bayes factors 6(3), 291-298. doi: 10.1177/1745691611406923
+Retrieved from
+http://bayesfactor.blogspot.com/2015/01/on
+-verbal-categories-for-interpretation.html
+Morey, R. D., Rouder, J. N., & Jamil, T. (2014).
+BayesFactor: Computation of Bayes factors for
+common designs (Version 0.9.8), from
+http://CRAN.R-
+project.org/package=BayesFactor
+Murayama, K., Pekrun, R., & Fiedler, K. (2014).
+Research Practices That Can Prevent an
+Inflation of False-Positive Rates. Personality
+and Social Psychology Review, 18(2), 107-118. doi:
+10.1177/1088868313496330
+Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D.,
+& Iverson, G. (2009). Bayesian t-tests for
+accepting and rejecting the null hypothesis.
+Psychonomic Bulletin & Review, 16, 225-237. doi:
+10.3758/PBR.16.2.225
+Salomon, E. (2015). P-Hacking True Effects.
+Retrieved from
+http://www.erikasalomon.com/2015/06/p-
+hacking-true-effects/
+Schönbrodt, F. D., & Wagenmakers, E.-J. (2018).
+Bayes factor design analysis: Planning for
+compelling evidence. Psychonomic Bulletin &
+Review, 25(1), 128-142. doi: 10.3758/s13423-017-
+1230-y
+Sedlmeier, P., & Gigerenzer, G. (1989). Do studies of
+statistical power have an effect on the power
+of studies? Psychological Bulletin, 105(2), 309-
+316. doi: 10.1037/0033-2909.105.2.309

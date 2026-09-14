@@ -1,0 +1,79 @@
+{
+  "paper": "Niemeyer et al. (2020) MP.2018.884",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "reaudit_context": "This is a RE-AUDIT. Previous audit (2026-09-10) carried 7 findings (1xP1, 3xP2, 3xP3), led by ADV-001 (P1): 'Open data badge not substantiated - OSF links empty'. That P1 is REFUTED here: a missing User-Agent HTTP header produced spurious 404s; with a proper header all OSF artifacts resolve and the analysis is fully reproducible. The remaining P2/P3 items from the prior audit are re-examined; several are confirmed with additional detail.",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "RESOLVED",
+      "title": "(prior P1) Open-data badge not substantiated - OSF links 'empty' - REFUTED by re-audit",
+      "description": "The earlier audit concluded all OSF sub-links were empty/dead (P1). This re-audit proves the opposite: the OSF API returned 404 only because no User-Agent header was sent. With a User-Agent, afnvr/taq5f/pg7sj/6bnc5/ufdps/5yehp/feux3/gh729/usm9f/b9t7v all resolve to real files, and the data + analysis code + simulation code download and re-run successfully, reproducing Table 1 exactly.",
+      "evidence": "2026-09-14 downloads: Data_sets_PTSD_update_130419.xlsx (205,669 B), Code_Analyses_R3.R (45,718 B), sim_power.R (11,921 B), res2_{rank,egg,tes,puni}.csv; run_analysis.R reproduced Table 1 (0.603/0.574/0.219/0.556/0.603) to the manuscript's precision.",
+      "impact": "None (finding withdrawn). The Open Data / Open reproducible analysis badges are substantiated.",
+      "fix": "No fix required by authors. Auditor process note: always send a browser User-Agent when querying the OSF v2 API."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Selection-model non-convergence: text says two, Appendix A shows three",
+      "description": "Results text states 'the selection model approach did not converge for two data sets', but Appendix A Table A prints 'No convergence' for THREE data sets (IDs 70, 80, 44). The set of non-converging data sets further differs between the two analysis loops in Code_Analyses_R3.R: the first (original-units) loop used for Appendix A yields NA for IDs 44/70/80; the d-scale loop used for Table 1 yields NA for IDs 15/18.",
+      "evidence": "paper_extracted.txt lines 613 ('did not converge for two data sets'), 1288 (ID70 'No conver-'), 1474 (ID80), 1547 (ID44); re-run res8 (first loop) NA at IDs 44/70/80; res9 (d-loop) NA at IDs 15/18.",
+      "impact": "Medium - reporting inconsistency; Table 1's selection-model row (d-loop, 2 NA) is internally correct and reproducible, so primary inference unaffected, but the count/naming is ambiguous.",
+      "fix": "Harmonize the count with the loop used, or state explicitly which data sets and which analysis unit (original vs Cohen's-d scale) each convergence claim refers to."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Flowchart arithmetic: exclusion categories do not sum to 2,017; % and totals inconsistent",
+      "description": "Data-set exclusion category breakdown (1510+309+141+6+5+16+25+28) sums to 2,040, not the stated 2,017. Also 2017 (excluded) + 98 (included) = 2,115 != 2,110 (total data sets). The exclusion percentage '95.4%' matches 2012/2110 (=2110-98) but not 2017/2110 (=95.6%).",
+      "evidence": "check_arithmetic.py: sum(exclusions)=2040; 2017/2110=95.59; 2012/2110=95.36; 2017+98=2115 vs 2110.",
+      "impact": "Medium - Figure 1 flowchart accounting is off by ~5 units; the 95.4% prose figure is ambiguous.",
+      "fix": "Reconcile the category counts to sum to 2017 and report the exclusion % consistent with 2017/2110 (95.6%) or correct the count."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P2",
+      "title": "'Obtained data from six authors (16.7%)' has an ambiguous/undisclosed denominator",
+      "description": "6/83 meta-analyses = 7.2%, but 6/36 contacted authors = 16.7%. The sentence pairs '36 authors (43.4%)' with 'six authors (16.7%)', so 16.7% is referenced to the 36 contacted, not to the 83 MAs. Without an explicit denominator this reads as 6/83.",
+      "evidence": "paper text 'we contacted 36 authors (43.4%) ... and obtained data from six authors (16.7%)'; arithmetic 6/36=16.67, 6/83=7.23.",
+      "impact": "Low-medium - misleading percentage in the flowchart narrative.",
+      "fix": "State 'six of the 36 contacted authors (16.7%)' or 'six of 83 meta-analyses (7.2%)'."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P2",
+      "title": "Impossible CI for ID=44 PET-PEESE; and sign inconsistency in the illustrative example",
+      "description": "Text reports PET-PEESE for Diehle et al. (2014, ID44) as 0.44, 95% CI [-1.079, -1.958], whose lower bound exceeds its upper bound. Re-computation gives CI [-1.079, 1.958]. The same paragraph cites the traditional MA as -0.153 [-0.084, 0.39], whereas Appendix A (and re-run) give +0.153 [-0.084, 0.39].",
+      "evidence": "res3_pp.csv ID44: est 0.44, ci.lb -1.079, ci.ub 1.958; res1_ma.csv ID44 est.ma 0.153, ci [-0.084,0.390]; paper p.11 text.",
+      "impact": "Low - illustrative example only; no primary inference changes, but the CI ordering is a clear typo and the sign flip is confusing.",
+      "fix": "Correct the CI to [-1.079, 1.958] and reconcile the MA sign with Appendix A."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "12 Hedges' g data sets (used in lieu of Cohen's d) not enumerated",
+      "description": "The paper states Hedges' g could not be transformed to d for 12 data sets and g was used instead, but does not identify them or quantify the g-vs-d difference. The vector gs.ds.lors in Code_Analyses_R3.R deterministically maps which data sets keep g, but this is not transparent to readers.",
+      "evidence": "run_analysis.R gs.ds.lors vector (lines 668-669); paper Results + Appendix footnote.",
+      "impact": "Low - transparency/metric-mix note.",
+      "fix": "List the 12 IDs and report the mean g-d magnitude so readers can judge the metric mix."
+    },
+    {
+      "id": "ADV-007",
+      "severity": "P3",
+      "title": "Shipped code is not self-contained (hard-coded Dropbox paths; sim tail requires missing local files)",
+      "description": "Code_Analyses_R3.R and sim_power.R contain setwd('C:/Dropbox/...'), source('.../res_sim.txt'), load('.../res2_*.RData') and write.csv2 to Dropbox. The simulation tail cannot run as-shipped without the author's private res_sim.txt/RData artifacts; a fresh run (after an openxlsx loader swap) is required to execute on other machines. XLConnect also requires Java (unavailable on the audit host), so the shipped loader does not run out-of-the-box there.",
+      "evidence": "run_analysis.R / run_sim.R edits documented; sim tail lines 275-312 reference Dropbox-only files; XLConnect rJava failure 'JAVA_HOME cannot be determined from the Registry'.",
+      "impact": "Low - the analytic core runs and reproduced Table 1; this is a portability/self-containment hygiene gap.",
+      "fix": "Ship the data-loading using a Java-free xlsx reader (e.g., readxl/openxlsx), bundle res_sim.txt/res2_*.RData, and remove absolute Dropbox paths."
+    }
+  ],
+  "summary": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 4,
+    "P3": 2,
+    "resolved_prior_findings": 1,
+    "total": 6
+  }
+}

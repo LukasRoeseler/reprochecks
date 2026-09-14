@@ -1,0 +1,896 @@
+
+===== PAGE 1/15 =====
+Meta-Psychology, 2019, vol 3, MP.2018.1592, Open data: Yes Edited by: Moritz Heene
+https://doi.org/10.15626/MP.2018.1592 Open materials: Not relevant Reviewed by: Felix Naumann, Sven Hilbert
+Article type: Original Article Open and reproducible analysis: Yes Analysis reproduced by: Rickard Carlsson
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes All supplementary files can be accessed at the OSF project
+Preregistration: Not relevant page: https://doi.org/10.17605/OSF.IO/DZN3S
+Dealing with Distributional Assumptions in Preregistered
+Research
+Matt N. Williams
+Massey University, New Zealand
+Casper J. Albers
+University of Groningen, Netherlands
+Virtually any inferential statistical analysis relies on distributional assumptions of some
+kind. The violation of distributional assumptions can result in consequences ranging from
+small changes to error rates through to substantially biased estimates and parameters
+fundamentally losing their intended interpretations. Conventionally, researchers have
+conducted assumption checks after collecting data, and then changed the primary
+analysis technique if violations of distributional assumptions are observed. An approach
+to dealing with distributional assumptions that requires decisions to be made contingent
+on observed data is problematic, however, in preregistered research, where researchers
+attempt to specify all important analysis decisions prior to collecting data. Limited
+methodological advice is currently available regarding how to deal with the prospect of
+distributional assumption violations in preregistered research. In this article, we examine
+several strategies that researchers could use in preregistrations to reduce the potential
+impact of distributional assumption violations. We suggest that pre-emptively selecting
+analysis methods that are as robust as possible to assumption violations, performing
+planned robustness analyses, and/or supplementing preregistered confirmatory
+analyses with exploratory checks of distributional assumptions may all be useful
+strategies. On the other hand, we suggest that prespecifying “decision trees” for selecting
+data analysis methods based on the distributional characteristics of the data may not be
+practical in most situations.
+Keywords: preregistrations, distributional assumptions, open science, transparency.
+We thank Moritz Heene as editor and reviewers Felix Naumann and Sven Hilbert for valuable feedback on an
+earlier version of this article. We also thank Tobias Mühlmeister for assisting in the copyediting of our manuscript.
+Correspondence regarding this article can be addressed to Matt N. Williams, School of Psychology, Massey
+University, Private Bag 102903 North Shore, Auckland 0745, New Zealand. Email: M.N.Williams@massey.ac.nz
+
+===== PAGE 2/15 =====
+2
+WILLIAMS & ALBERS
+Virtually any inferential statistical method relies interpretation. For example, in a simple linear
+on some set of distributional assumptions1 in order regression model estimated using ordinary least
+to produce valid inferences. For example, a squares, a breach of the assumption that the error
+regression model estimated via ordinary least terms are normally distributed will not cause biased
+squares relies on the assumptions the predictors are or inconsistent estimates or harm the
+measured without error, that any measurement interpretability of the parameters, but only affect
+error in the response variable is uncorrelated with confidence interval coverage and Type I error rates,
+the predictors, and that the error terms are and even these effects can be mild (see Gelman &
+independent, identically and normally distributed Hill, 2007; Lumley, Diehr, Emerson, & Chen, 2002;
+with a mean of zero for all values of the predictors2 Meuleman, Loosveldt, & Emonds, 2015; Williams et
+(Williams, Grajales, & Kurkiewicz, 2013). Even non- al., 2013). On the other hand, if the assumption of a
+parametric methods have assumptions, albeit not linear relationship between the predictor variable
+with respect to the specific probability distribution and the response variable is breached, the slope
+of particular variables. For example, if a Mann- loses its interpretability as a measure of the
+Whitney test is used to test the equality of the dependency between the predictor and response
+medians of two populations on some variable, one variables (see Meuleman et al., 2015): A measure of
+must assume that the distribution of the variable has linear relationship is of little value if the true
+the same shape and spread within each of the relationship is not linear.
+populations (Fagerland & Sandvik, 2009). Many methodological textbooks and other
+Distributional assumptions are a common source of resources offer researchers advice on how to detect
+misconceptions (Ernst & Albers, 2017), but even and respond to distributional assumption violations.
+when assumptions are correctly identified and There are many methods for detecting
+investigated, several issues can arise. One of these distributional assumption problems, including both
+will be discussed in this paper. graphical approaches and inferential tests. For
+Breaches of distributional assumptions can cause example, a researcher interested in whether the
+problems for inference, including biased estimates, error terms in her regression model are normally
+artificially narrow (or broad) confidence intervals, distributed could evaluate this assumption using
+and increases in Type I and/or Type II error rates visual methods, such as a q-q plot, a formal
+(Ernst & Albers, 2017; Williams et al., 2013). The statistical test such as the Shapiro-Wilk or
+severity of these problems varies depending on the Kolmogorov-Smirnov test, or by evaluating
+analysis method, the sample size, the nature of the skewness and kurtosis statistics. Likewise, the
+assumption breach, and on whether one or more potential responses available for dealing with a
+assumptions are violated simultaneously. The distributional problem are legion, including
+consequences of an assumption breach can vary transformations, deletion of outliers, trimming of
+from a minor change in Type I error rates and samples, alternative estimation algorithms,
+confidence interval coverage, through to biased randomisation-based tests, rank-based non-
+parameter estimates, right through to parameter parametric statistics, and many others.
+estimates fundamentally losing their intended
+1 By “distributional assumption” we mean an assumption with respect to the univariate, bivariate, or multivariate
+distribution of variables and/or error terms—e.g., that the relationship between two variables is linear, or that the variances of
+a set of error terms is identical, or that the distribution of a response variable is negative binomial conditional on a set of
+predictor values. Such assumptions are also sometimes referred to as “statistical assumptions” or just “assumptions”. We use
+the modifier “distributional” simply to differentiate such assumptions from purely non-statistical assumptions (e.g.,
+assumptions about ontology or epistemology).
+2 The assumption that the error terms all have mean zero for any combination of values of the predictor variables
+implies that the independent effects of the predictor variables included in the model on the response variable are additive and
+linear. Indeed, some presentations of the assumptions of multiple regression (e.g., Gelman & Hill, 2007) replace a description
+of this assumption with a description of the assumption of “additivity and linearity”. Note that the predictor variables
+included in a regression model may include transformations of the original variables (e.g., polynomial terms), which provides
+some capacity to specify nonlinear effects between the original variables in a dataset and the response variable.
+
+===== PAGE 3/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 3
+Nevertheless, an important meta-strategy
+underlies the advice about dealing with
+distributional assumptions found in many Preregistration
+methodological resources (see the discussion in
+One important strategy gaining popularity as a
+Wells & Hintze, 2007): First, one should check for
+partial solution to problems with replicability and p-
+distributional problems, and then, if problems are
+detected, select a strategy to deal with the hacking is preregistration. In a landmark paper,
+problems. We term this the “test then respond” Wagenmakers, Wetzels, Borsboom, van der Maas
+meta-strategy for dealing with distributional and Kievit (2012) argued that when research is
+assumption violations. intended to be confirmatory—i.e., to test
+The potential risks of the “test then respond” hypotheses—a data collection and analysis plan
+meta-strategy will be apparent to readers aware of should be preregistered in advance. Doing so
+the problems of the “garden of forking paths” reduces the capacity of researchers to exploit
+(Gelman & Loken, 2014, p. 460) and “researcher flexibility in their data collection and analysis
+degrees of freedom” (Simmons, Nelson, & procedures to produce positive (or statistically
+Simonsohn, 2011, p. 1359). By applying different significant) findings. Preregistration is a crucial
+analysis strategies contingent on the characteristics control strategy in an environment where
+of the observed data, a researcher may end up researchers are incentivised to produce statistically
+happening upon a statistically significant result in significant and novel findings in order to achieve
+favour of a particular hypothesis that is itself publications in high-impact journals. Online
+contingent on an analysis decision made after platforms for uploading and permanently time-
+observing the data. This will be especially stamping preregistrations have since been
+problematic if the researcher is motivated to search developed (osf.io, aspredicted.org), and
+for and selectively report statistically significant preregistered research studies have been
+increasingly frequent in the pages of psychology
+results (“p-hacking”). p-hacking can result in
+journals, especially within experimental social
+inflated Type I error rates and seriously biased
+estimates, and is thought to be one of the major psychology; see for example the 67(1) special issue of
+causes of the current “replication crisis” in the Journal of Experimental Social Psychology, which
+psychology and other sciences. was entirely dedicated to preregistered research.
+Although p-hacking has especially negative Preregistration is useful for increasing the
+credibility of individual studies, but it can also help
+effects, the making of analysis decisions contingent
+on observed data can still be problematic even if the address the broader problem of publication bias—a
+researcher’s intentions are entirely scrupulous. problem wherein statistically significant findings are
+Specifically, the nominal error rates of analysis more likely to be published than non-significant
+strategies are invariably derived based on repeated ones (see Ferguson & Heene, 2012). Publication bias
+sampling with a fixed analysis method, and will not can distort the mean effect sizes estimated in meta-
+necessarily apply where the analysis method analyses both because studies that produce non-
+depends on the data. For example, the common significant findings are less likely to end up in the
+strategy for comparing two means of using a published literature, and because authors may
+respond to the existence of this bias by exploiting
+Student’s t test if a preliminary Levene’s test fails to
+reject the null hypothesis of equal variances across flexibility in data collection and analysis procedures
+to produce statistically significant findings.
+the two groups, but using a Welch’s t test if the
+Preregistration can help to address publication bias
+Levene’s test is significant, can result in Type I error
+both in the sense that the individual preregistered
+rates that differ markedly from the nominal alpha
+studies included in a meta-analysis may be less likely
+level (Albers, Boon, & Kallenberg, 2000; Bancroft,
+to have used methods that produce biased effect
+1964; Zimmerman, 2004).
+sizes (e.g., p-hacking), but also in the sense that
+researchers conducting meta-analyses can search
+for preregistrations that have not resulted in
+published outputs, and thus obtain some
+
+===== PAGE 4/15 =====
+4
+WILLIAMS & ALBERS
+information about the size of the unpublished “file sophisticated approaches that a researcher could
+drawer”. make use of for dealing with distributional
+Preregistration is clearly valuable, but it is assumptions in the context of preregistered
+currently unclear how researchers should deal with research. In the current section, we consider and
+distributional assumptions when performing discuss four potential strategies in turn. In
+preregistered research. The conventional “test then discussing each strategy we will focus on how these
+respond” approach to dealing with distributional strategies can be conducted and their consequences
+assumptions—where the researcher selects a for the resulting analyses of empirical data, but we
+primary analysis strategy, performs exploratory will also briefly touch on the implications of these
+assumption checks using a range of statistical and strategies for analyses conducting before data
+graphical measures, and then uses their judgment to collection—i.e., statistical power and sample size
+determine whether a change in analysis strategy is determination.
+needed—is clearly anathema to a preregistered
+approach to research. So how should researchers Strategy 1: Decision Tree
+writing preregistrations deal with distributional The first strategy is to outline a decision tree
+assumptions? In this article we aim to provide specifying what methods will be used to identify
+concrete and practical advice to help researchers distributional assumption breaches, and which
+pre-emptively respond to the spectre of breaches of alternative methods will be applied if breaches are
+distributional assumptions when performing identified. For example, a researcher might specify
+preregistered research. that linear regression using ordinary least squares
+will be applied in order to test their hypothesis, and
+a Shapiro-Wilk test applied to the residuals. If the
+Strategies for Dealing with Distributional
+Shapiro-Wilk test statistic is not significant,
+Assumptions in Preregistrations
+confidence intervals will be calculated based via the
+One strategy for dealing with distributional usual Wald method; if it is significant (indicating
+assumptions in preregistered research is to simply non-normality), they will be calculated using a
+ignore the issue and preregister a primary analysis percentile bootstrap. Such a decision tree is
+strategy without any conscious attention to effectively just a preregistered form of the test then
+distributional assumptions whatsoever. This respond meta-strategy, albeit with a commitment to
+strategy does at least avoid the possibility of biased pre-specified criteria for making decisions. The
+estimates caused by the researcher exploiting decision tree method is currently implicitly
+analytic flexibility to produce statistically significant endorsed in the widely used template for
+findings. In this sense it may arguably be superior to preregistrations in social psychology (van ’t Veer &
+a strategy of using exploratory strategies to Giner-Sorolla, 2016), which asks researchers to
+diagnose distributional problems, running multiple specify “Assumptions of analyses, and plans for
+analyses, and potentially allowing decisions about alternative/corrected analyses if each assumption
+which analyses to report to be affected by whether is violated.” However, we suggest that this strategy
+or not they produce significant results. does have several problems.
+This said, selective reporting or p-hacking is Problem 1: Uncertainty involved in diagnosing
+obviously not the only cause of biased estimates or distributional problems. The first problem is that
+untrustworthy findings. Some distributional determining whether a particular distributional
+assumption violations can cause very serious assumption violation is present—and of a magnitude
+inferential problems (consider, for example, the bias likely to harm inferences—can be difficult, and the
+in estimates that can result when predictors in conclusion of such an investigation may come with
+regression models are measured with error; Westfall great uncertainty attached. Consider, for example, a
+& Yarkoni, 2016). As such, simply ignoring researcher conducting a simple experiment with a
+distributional assumptions in preregistered continuous response variable and two conditions
+research is obviously not a complete solution. (treatment and control). Here, the primary research
+Alternatively, there are a variety of more question might be simple: Is the mean of the
+response variable higher for treated participants
+
+===== PAGE 5/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 5
+than control participants? The most obvious violations is explicitly recommended by the APA’s
+analysis strategy would also be simple: An statistical task force (Wilkinson & Task Force on
+independent-samples Student’s t test. Yet the Statistical Inference, 1999). In the context of
+questions to be investigated in an examination of the preregistration, however, which is largely intended
+distributional assumptions pertaining to this test to remove flexibility in how data analysis is
+would be much more complex. conducted, relying on the researcher to subjectively
+For example, investigating the assumption of interpret a plot and then make a decision is
+independent error terms means answering this problematic.
+question: Over repeated sampling, would each of the Firmer statistical rules for diagnosing particular
+N error distributions in this design be statistically problems exist, of course. For example, one can
+independent of one another, and, if not, is the form statistically test a null hypothesis that a particular
+and magnitude of this non-independence sufficient distributional assumption is valid. A Shapiro-Wilk
+to cause substantive changes to the error rates of test, for instance, can be used to test a null
+the t test in the main analysis? It should be obvious hypothesis that the error terms for a particular
+that this distributional question is more complex model are normally distributed. There is a paradox
+than the primary research question regarding the here, though, in the sense that statistical tests will
+differences between two means. It is complex both generally have low power to detect distributional
+because it refers to the relationships between a problems when the sample size is small, even though
+large matrix of error terms (rather than just two this is precisely the scenario in which distributional
+means), about which we must make inferences assumptions matter most. On the other hand, if the
+based on a single sample of residuals, and also sample size is large, statistical tests of assumptions
+because it is double-barrelled—the question is not may be powerful, even though the large sample size
+just whether the error terms are statistically means that the primary analysis may be robust to
+dependent, but whether this dependence in turn is the detected assumption violation3. Of course, this
+likely to harmfully affect the resulting inferences in is a general problem with statistical tests of
+the main analysis. The net result would be that any assumptions, rather than one that solely applies in
+investigation of the validity of this assumption is the context of preregistration or the decision tree
+likely to come with substantial uncertainty attached, strategy.
+and as such relying on such an investigation to Problem 3: Complexity of decision trees
+determine the final choice of primary analysis may required. The third problem is the fact that, even if
+be problematic. it were possible to accurately and objectively
+Problem 2: Difficulty of formulating hard-and- diagnose distributional problems, there is a large
+fast rules. Relatedly, it is often difficult to formulate number of distributional problems that may arise for
+hard-and-fast rules for diagnosing particular any given analysis, and thus an exploding quantity of
+distributional assumption breaches. Many potential remedies. For example, a simple linear
+conventional distributional assumption diagnostics regression model can be afflicted by a wide variety
+require the researcher to subjectively interpret a of distributional problems, including measurement
+plot (e.g., a q-q plot for diagnosing non-normality, error of any sort in the predictor variable,
+an autocorrelation function plot for diagnosing measurement error in the response variable that is
+correlated error terms, a scatterplot of predicted correlated with the predictor, non-linearity of the
+values vs. residuals for diagnosing relationship between the predictor and the
+heteroscedasticity or non-linearity, etc.). Using response variable, dependent error terms,
+such graphical methods to detect assumption heteroscedasticity of errors, or non-normality of
+3 This admittedly depends on the nature of the assumption violation. For example, a linear regression model esti-
+mated using ordinary least squares will be more and more robust to a violation of the assumption of normally dis-
+tributed error terms as the sample size increases, due to the central limit theorem (provided that the other assump-
+tions of the model hold). On the other hand, if measurement error is present in the predictor variables, increasing
+the sample size would not necessarily reduce the biasing effect of this measurement error on the estimates of the
+regression parameters.
+
+===== PAGE 6/15 =====
+6
+WILLIAMS & ALBERS
+errors. Often these problems occur in combination misspecifications to incorporate in the simulated
+with one another. Each problem has an array of data. The researcher is thus faced with the prospect
+potential remedies: For example, heteroscedasticity of trying to predict the types of distributional
+might be dealt with by using Huber-White problems that are likely to occur and to then
+“sandwich” errors, by variance-stabilising simulate data that embodies these problems, which
+transformations, or by bootstrapping (see Liu, 1988). will inevitably require some complex (and relatively
+Further checks may be necessary to check whether arbitrary) decision-making.
+particular remedies “worked”, those checks Strategy 1: Conclusion. In summary, while the
+potentially implying the need for yet more decisions decision tree approach to dealing with distributional
+(did the variance stabilising transformation produce assumption breaches in preregistrations may be
+homoscedasticity? If not, what potential remedy appropriate when wielded by expert researchers in
+should be tried next?) Furthermore, the order in some circumstances, we suggest that it has several
+which the assumptions are checked—although important problems that mean that it is not suitable
+arbitrary—can have an effect on the final model that as a default strategy in preregistrations.
+is applied to the data. Setting out a decision tree that
+will select an appropriate analysis strategy for each Strategy 2: Selecting a Robust Primary Analysis
+of the various combinations of problems that may Strategy
+occur for a given analysis would thus be an Given the need to make analysis decisions prior
+extremely difficult task, and the prospect of doing so to any opportunity to check for distributional
+might discourage researchers considering using assumption problems, it may be useful to select
+preregistration. primary analysis strategies that are as conservative
+Problem 4: Effects on nominal error rates. A as possible with respect to those assumptions. As
+final problem with the “decision tree” approach to stated earlier, virtually any inferential analysis will
+diagnosing and responding to distributional require distributional assumptions of some sort, but
+assumption problems in preregistrations is the fact some analyses require stronger assumptions than
+that, whatever the primary analysis technique ends others. Some examples of analysis choices that may
+up being, its nominal Type I and Type II error rates reduce the reliance on at least some distributional
+(e.g., the pre-set alpha and 1-power) will typically be assumptions in commonly used statistical analyses
+based on an assumption that the analysis technique include:
+was fixed in advance. Unless they perform
+● Using bootstrapping or permutation tests rather
+simulation studies, researchers will not typically
+than normal theory to calculate confidence
+know what the applicable error rates are in the
+intervals and p values (thus obviating the need
+scenario of analysis decisions being made
+for normally distributed errors in linear models)
+contingent on particular features of the data. As
+noted previously, these error rates may vary ● Using Huber-White “sandwich” standard errors
+considerably from the nominal error rates of the rather than assuming homoscedasticity in
+individual techniques considered in isolation (e.g., regression-like models (White, 1980)
+Zimmerman, 2004).
+● Using so-called robust methods that are
+Specifying simulations to estimate error rates
+designed to rely less on distributional
+and power for the decision tree approach could
+assumptions (Wilcox, 2012).
+often present significant challenges. Such an
+analysis would require a simulation in which Beyond these familiar examples, the possibility of
+multiple samples are simulated from a population in using Bayesian models estimated using Markov
+which there is a particular hypothesised effect size, Chain Monte Carlo (MCMC) means that researchers
+the analysis method for each sample is decided can quite readily estimate models where specific
+according to the preregistered decision rule, and assumptions are loosened in specific ways. For
+the data analysis then conducted. This alone may be example, a Bayesian regression model can be
+challenging for many researchers to program, but an estimated in which the distribution of the error
+even more difficult challenge would be deciding terms is modelled not with a normal distribution,
+what distributional characteristics or but rather, for example, a skew-normal distribution
+
+===== PAGE 7/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 7
+in which a skewness parameter is freely estimated of not having distorted Type I error rates if the
+(and in which a the normal distribution is a special assumptions are violated comes at the cost of
+case; see Azzalini, 1985). Similarly, one can specify a structurally lower power, thus a higher Type II error
+Bayesian regression model in which the variance of rate, if the assumptions actually hold true.
+the errors is not necessarily constant across all the Admittedly, the extent of this problem differs
+values of the predictor variables, but instead some depending on the planned test. For instance, the
+function of the values of the predictor variables Welch t test, for unequal variances, barely has lower
+(with constant variance again being a special case). power than the standard Student t test (Delacre,
+Bayesian models are by no means assumption-free, Lakens, & Leys, 2017).
+but do give the researcher the capacity to Power analysis may again be challenging when
+thoughtfully loosen specific distributional applying the robust primary analysis strategy,
+assumptions, and thus may be an attractive option mainly in that there may be ambiguity in terms of
+in the context of preregistered research. Excellent the distributional characteristics that should be
+introductions to Bayesian data analysis can be found assumed when simulating data for the purposes of
+in Kruschke and Liddell (2018) and Etz and power analysis. For example, if a Welch’s t test is
+Vandekerckhove (2018). The programming language planned, should we nevertheless simulate data from
+Stan (Carpenter et al., 2017) provides a framework two populations with equal variances? If not, how
+for implementing Bayesian analyses that apply different should the variances be? This said, the
+flexible sets of assumptions. complication of programming a simulation in which
+In attempting to select a robust primary analysis the analysis method applied to each sample differs
+method, researchers should carefully consider what depending on its characteristics (as for Strategy 1) is
+distributional issues or problems are most likely to avoided, making power analysis slightly easier for
+arise in the context of their specific study. A Strategy 2 (robust primary analysis strategy) than is
+researcher conducting a study will often have some the case for Strategy 1 (decision tree).
+familiarity with the measurement instruments being
+used (whether these are survey scales, Strategy 3: Robustness Analysis
+electromyography devices, counts of particular
+The third strategy we consider here is that of
+incidents, or reaction times), and the typical
+deliberately preregistering multiple analyses that
+characteristics of the data produced by these
+answer the same research questions (while making
+instruments. Researchers may thus be able to draw
+different distributional assumptions). We will term
+on their own contextual knowledge to anticipate the
+this strategy that of performing robustness analyses.
+distributional issues that might arise, and pick a
+Two related terms are sensitivity analysis (which
+statistical analysis method that is robust to the most
+investigates how uncertainty pertaining to the
+plausible problems.
+inputs into scientific models relate to uncertainty in
+The approach of selecting a primary analysis
+the outputs; see Saltelli, Tarantola, Campolongo, &
+method that makes distributional assumptions that
+Ratto, 2004), and multiverse analysis (which focuses
+are as weak as possible can definitely be useful in
+on how different decisions made during data
+preregistrations. Doing so avoids the need to make
+processing can lead to different datasets and
+analytic decisions contingent on data. In
+different conclusions; see Steegen, Tuerlinckx,
+comparison to the other strategies discussed in this
+Gelman, & Vanpaemel, 2016). We prefer the term of
+section, this strategy also minimises the need for
+robustness analysis over robustness checks because
+conducting multiple data analyses, thus
+we see the purpose of this strategy as to investigate
+streamlining the analysis process and resulting in a
+how the results vary across numerous plausible
+more concise write-up. This said, this strategy can
+choices of analysis, rather than just to check that
+also be applied in combination with the two
+some favoured conclusions holds up under an
+strategies we will consider below.
+alternative specification.
+However, this strategy is not without its
+As an example of the robustness analysis
+problems either. If all the assumptions of the linear
+approach, imagine a researcher seeking to test the
+model are met, then the standard parametric
+hypothesis that one continuous variable has a
+methods are uniformly most powerful. The benefit
+
+===== PAGE 8/15 =====
+8
+WILLIAMS & ALBERS
+positive relationship with another continuous we will conclude that the data supports the
+variable (with both variables comprising series of hypothesis”). However, such decision rules are
+observations gathered over time). Here the necessarily arbitrary, and designing a sensible
+researcher might preregister a simple ordinary least interpretation structure may be more difficult for a
+squares regression as a primary analysis, with a larger number of analyses (e.g., what if the
+model that also includes an autoregressive coefficient is statistically significant in six out of
+correlated error structure as a robustness analysis. seven planned robustness analyses?) There is also
+This robustness analysis would help to deal with the no strong reason to assume that a combined
+potential problem of a breach of the assumption of hypothesis test based on multiple statistical
+independent error terms, which is a problem that methods would have more desirable long-run
+often arises when analysing time series data. properties than any one of the single analyses that
+Robustness analyses are useful especially when are included within the combined test. As such, it
+there is genuine ambiguity over which analysis may be more appropriate to preregister multiple
+technique is the most appropriate choice to address robustness analyses, preregister criteria for the
+a given research question. interpretation of each, and to subsequently attempt
+When employing this strategy, one might to sensibly integrate the findings produced across
+designate one particular analysis as the primary these analyses—but not to specify an overarching
+analysis, and a set of other analyses as the decision rule based on the combined results of
+robustness analyses. One could also regard all the multiple analyses. This means that the synthesis of
+planned analyses as having equal priority (and all findings (e.g., in a discussion section) may be more
+being “robustness analyses”). Regardless, the key to complex when applying robustness analyses than
+an effective preregistered robustness analysis is when using any of the other strategies, with more
+identifying different analysis methods that test the ambiguity about whether a particular set of findings
+same (preregistered) hypotheses, but while making supports or does not support a particular
+different (but plausible) distributional assumptions. hypothesis. It may nevertheless allow the researcher
+As some examples: to clearly communicate the degree to which a
+particular finding “holds up” across multiple
+• If planning a correlational analysis, one could
+reasonable analysis options.
+specify both an analysis that assumes that the
+Power in robustness analyses. Conducting a
+variables have a linear relationship (Pearson’s
+power analysis when planning to apply Strategy 3
+correlation) as well as an analysis that assumes
+could be either straightforward or very complex. If a
+only a monotonic relationship (Spearman’s rho).
+relatively simple analysis method with strong
+• If planning a linear regression, one could specify assumptions is selected as the primary analysis
+an analysis that assumes homoscedasticity (OLS strategy (in conjunction with some additional
+estimation), as well as an analysis that produces robustness analyses with different assumptions), it
+consistent estimates even in the presence of could be justifiable to perform the power analysis
+heteroscedasticity (Huber-White sandwich solely for the primary analysis strategy. This means
+standard errors). that it could be possible to perform the power
+analysis using point-and-click software such as
+• If planning a linear regression, one could specify
+G*Power (Faul, Erdfelder, Buchner, & Lang, 2009).
+both an analysis using standard OLS estimation
+Such an analysis would nevertheless need to come
+as well as a model including an autoregressive
+with an acknowledgement that the power of the
+AR(1) term, to allow for possible serial
+additional analyses is almost inevitably likely to be
+dependence in the data.
+lesser (depending in part on the actual degree to
+Synthesising the results from robustness which any assumptions are breached), and that the
+analyses. It is possible to preregister a specific reported power analysis should be interpreted as
+decision rule for interpreting the results of multiple representing a best-case scenario. When taking this
+analyses (e.g., “If the relationship is positive and approach, it would probably be helpful to increase
+statistically significant in both the Pearson’s the planned sample size somewhat beyond what the
+correlation analysis and the Spearman’s rho analysis, power analysis suggests is required.
+
+===== PAGE 9/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 9
+On the other hand, a more comprehensive power which power analysis is available in easy-to-use
+analysis would check power for all of the planned software such as G*Power. Furthermore, the fact
+robustness analyses, and do so based on data that is that the distributional assumption checks would not
+simulated so as to display plausible assumption need to be used to make binary decisions (unlike the
+violations. Such a power analysis could be case in strategy 1) means that graphical methods
+challenging to conduct. could be used to convey information about the
+Robustness analysis and meta-analyses. A magnitude of any assumption breaches.
+problem with the robustness analysis approach is The primary downside of this strategy would be
+the ambiguity in terms of how the findings of a study the resulting ambiguity with respect to how the
+that conducted a robustness analysis should be findings of the assumption checks should impact the
+coded if included a later meta-analysis, given that interpretation of the results of the primary analysis.
+each statistical method included in the robustness We would essentially suggest that the preregistered
+analysis may have produced a different estimated primary analysis should be conducted, reported and
+effect size. A researcher conducting a meta-analysis interpreted as planned in the preregistration
+and aiming to code the effect sizes reported in an effectively regardless of the outcomes of the
+individual study conducted using robustness check distributional assumption checks, but that the
+may thus face uncertainty about whether to include researcher should identify any apparent
+just one effect size estimate (and if so, which one), distributional problems as a reason to interpret the
+or whether to aggregate the findings of the various results with some extra caution. There is a risk here,
+analyses in some way. While this may be an however, that a researcher might describe and
+ambiguity that can satisfactorily be resolved within emphasise evidence for a particular distributional
+the preregistration for a given meta-analysis (see problem differently depending on whether the
+Quintana, 2015), the use of a robustness analysis results of the primary analysis are “positive” or not
+within an individual study probably presents greater (e.g., ignoring a distributional problem if the main
+complications for meta-analysis than do the other findings are positive, vs. emphasising the
+strategies discussed in this article. distributional problem as a possible explanation of
+the results if the data would otherwise appear to
+Strategy 4: Exploratory Assumption Checks falsify a favoured theory). As such, this strategy has
+The final strategy we consider here is its dangers, but may be useful in some contexts—
+preregistering a primary (confirmatory) analysis particularly student research, where preregistering
+method that will be followed regardless of the a relatively simple analysis plan and using a relatively
+characteristics of the data, without necessarily simple power analysis, while allowing some capacity
+making this primary analysis method a robust one, for distributional assumption checks, may be
+but including in the ensuing data analyses some desirable.
+exploratory investigations of distributional
+assumptions (or “assumption checks”). A plan for
+Example
+these investigations could be specified to at least
+some degree in the preregistration (perhaps making In this section, we will give a practical example of
+them more confirmatory in nature), but this is not the four strategies suggested in this paper. In a
+absolutely necessary—provided that the analyses paper published in Psychological Science,
+are explicitly tagged as exploratory in the final Schroeder and Epley (2015) reported multiple
+report. related organizational psychological studies. These
+This strategy has the advantage of allowing for studies investigated the effect of voice on
+the communication of information about (hypothetical) job applications. In this paper, we look
+distributional assumptions without increasing the only at their Experiment 4, and use the description
+complexity of the preregistration too greatly. It also of this experiment by McIntyre (2016).
+makes power analysis straightforward, since there In this experiment, 39 professional recruiters
+would be just one primary analysis method to plan were assigned to one of two conditions. The
+(for each research question), and the analysis recruiters either listened to a spoken job application
+method might well be a commonly-used one for
+
+===== PAGE 10/15 =====
+10
+WILLIAMS & ALBERS
+or read a written transcript of the application. The “We will recruit 39 professional recruiters. Each
+recruiters rated the participants on intelligence, recruiter is assigned at random to the “written” or
+competence, and thoughtfulness, resulting in an “spoken” condition. [+some detailed description of the
+average rating denoted as intellect. Some covariates materials.] After reading/hearing the job pitch, the
+were measured as well, but we will ignore these for recruiter scores the candidate on three categories.
+the sake of simplicity. The main research question The average score will be designated the intellect
+was whether ratings differed between spoken and rating.”
+written job pitches. Even for such a seemingly
+simple design, there are many researcher degrees of We should note in passing that the sample size in
+freedom. For instance, the choice to define this example is quite small, meaning that this study
+“intellect” as the arithmetic mean of competence, only has adequate power to detect fairly large
+thoughtfulness and intelligence implies that these effects. For example, if the primary analysis was to
+three variables are equally important ingredients of be an independent-samples Student’s t test (with a
+intellect. 2-sided test), and if the assumptions of the Student’s
+t test were satisfied, then this study would have just
+. 33% power to detect a “medium” effect size of d =
+Table 1. Data for Experiment 4 of Schroeder & Epley 0.5. The power to detect an effect of this magnitude
+(2015) would be lower again for the other analysis methods
+Written 1.67 2.00 2.67 2.67 specified below, even if the t test assumptions were
+job pitch met, and potentially even lower again in the
+3.00 3.33 4.33 4.33
+presence of violations of the assumptions of these
+4.67 4.67 4.67 4.67 methods (depending on the nature of those
+assumption violations). In short, the data are useful
+5.67 5.67 6.67 7.33
+for the purposes of illustration, but the sample size
+is not one that we would typically recommend.
+7.67 8.00
+Please note that this is no criticism towards
+Spoken 3.33 4.33 4.67 5.67 Schroeder and Epley (2015), as they base their
+job pitch conclusions on four separate experiments, three of
+5.67 6.00 6.00 6.00
+which have a sample size much larger than 39.
+For the sake of brevity, we have not included
+6.33 6.67 6.67 6.67
+individual power analyses for each of the four
+7.00 7.00 7.00 7.00 separate strategies we illustrate.
+7.00 7.67 8.67 10.00
+Strategy 1, the Decision Tree
+10.00 To compare the intellect ratings of both groups,
+we could apply a Student’s t test. However, this test
+assumes (i) normality of the dependent variable
+As these issues are besides the focus of our
+within each of the two populations, (ii) equal
+paper, we will not discuss them further, and instead
+variances between populations. We will therefore
+take the 39 intellect ratings as given and work from
+apply the following decision tree:
+there. The scores are given in Table 1, and are also
+available (along with analysis code) in the OSF
+1. First, we apply the Shapiro Wilk for normality
+project for this paper https://osf.io/h2xry/ .
+test on the deviations from the group average
+Below, we indicate how the test for comparing both
+and denote the resulting p-value by p .
+experimental groups could be preregistered, SW
+according to the four strategies. The beginning of a. If p < 0.05 we deem the normality
+SW
+the preregistration, describing the data collection assumption breached and we will apply
+itself, will be the same for each of the strategies: the non-parametric Mann-
+Whitney/Wilcoxon test.
+
+===== PAGE 11/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 11
+b. If p > 0.05, there is no evidence to reject samples and a seed set to 1. This last test mimics that
+SW
+the assumption of normality and we used in Strategy 2 above.
+proceed with:
+Strategy 4, Exploratory Assumption Checks
+2. Second, we apply the F test for equality of
+To compare the intellect rating of both groups,
+variances and denote the resulting p-value by p .
+F
+we perform Student’s t test. We also provide
+a. If p < 0.05 we deem this assumption
+F
+exploratory checks of the validity of the
+violated and we will apply the Welch t test.
+distributional assumptions underlying this test.
+b. If p > 0.05, we will apply Student’s t test.
+F
+Example: Results for Each Strategy
+For the chosen test, we will report the p value of
+In this case we obviously already have the data,
+the two-sided comparison.
+so we can see how the four preregistrations work
+Note that this decision tree is just one way to
+out:
+check the assumptions. We chose the Shapiro-Wilks
+Strategy 1, decision tree. The Shapiro-Wilk test
+procedure after the recommendation by Razali and
+Wah (2011), but could have employed other was non-significant (p = .124), and so was the two-
+normality tests instead. A similar argument holds for sided F test for equality of variances (p = .458). We
+the F test for equality of variances. Furthermore, the therefore conducted Student’s t test, and this test
+order of testing both assumptions matters, but is found a significant difference between both groups,
+arbitrary. t(37) = -3.525, p = .001.
+Strategy 2, robust primary analysis strategy.
+Strategy 2, Robust Primary Analysis Strategy The bootstrap version of the Yuen test provided a p
+value of .002 and a 95% confidence interval for the
+To compare the intellect ratings of both groups,
+trimmed mean difference [-3.323, -0.698].
+we will use a bootstrapped version of Yuen’s (1974)
+Strategy 3, robustness analysis. All five tests
+two-sample trimmed t test. This test is an
+yielded a significant difference (at α = 0.05) in favour
+alternative to the independent samples Student’s t
+of the audio group, with the following test results.
+test designed for situations where there are both
+Student’s t: t(37) = -3.525, p = .001; Welch’s t: t(33.441)
+unequal variances across groups and non-normality
+= -3.478, p = .001; Wilcoxon test: W = 84.5, p = .003;
+within groups. The test is particularly useful with
+Yuen’s test: trimmed mean difference -2.010, p =
+very long-tailed error distributions. To apply this
+.004, bootstrapped Yuen’s test: trimmed mean
+test, we use the function yuenbt from the WRS2
+difference -2.010, p = .002. Thus, we conclude that
+package (Mair & Wilcox, 2018) in the statistical
+applicants with a spoken job pitch receive higher
+software R (R Core Team, 2018). We trim 20% of the
+ratings than those with a written job pitch.
+data, thus removing the 10% smallest and 10%
+Strategy 4, exploratory assumption checks.
+largest observations. This way, the influential effect
+Student’s t test indicated that the audio-group
+of outliers is diminished. We employ 1,000 bootstrap
+performed significantly better than the written-
+samples, which is sufficient for accurate results
+group, t(37) = -3.525, p = .001. The Shapiro-Wilk test
+(Mair & Wilcox, 2018). Before bootstrapping we set
+for normality provided no significant evidence for
+the random number generator to seed 1. We will
+non-normality (W = 0.966, p = .124) and the F test for
+report the p value of this test as well as the 95%
+equality of variances did not provide significant
+confidence interval for the trimmed mean.
+evidence for violation of this assumption, F(17, 20) =
+Strategy 3, Robustness Analysis 1.411, p = .458.
+To compare the intellect rating of both groups,
+Example: Summary
+we will perform the following tests, each based on a
+It will be clear that all four strategies have their
+different set of assumptions: (i) Student’s t test, (ii)
+own benefits and drawbacks. A clear benefit of
+Welch t test, (iii) the Mann-Whitney/Wilcoxon test,
+Strategy 2, for instance, is that the results can be
+(iv) Yuen’s test for the 20% trimmed means, (v) the
+reported in a very condensed form. A drawback,
+bootstrap version of test (iv) with 1,000 bootstrap
+however, is that fewer people are familiar with the
+
+===== PAGE 12/15 =====
+12
+WILLIAMS & ALBERS
+Yuen test compared to more conventional tests. In Tactic 1: Clearly and Accurately Describe
+this example, we deliberately kept the methodology Distributional Assumptions
+as simple as possible with a single test for a two-
+The first of these tactics is to transparently and
+group comparison. The complexity of some
+accurately describe the distributional assumptions
+strategies will grow beyond feasible limits when the
+of the statistical analyses employed, and then
+research questions are more complex.
+acknowledge in the limitations section of the
+discussion that any uncertainty with respect to the
+Summary: Strategies for Distributional validity of these assumptions adds to the
+Assumption Checks uncertainty surrounding the substantive
+conclusions. A description of the assumptions of
+In the subsections above, we have outlined four various statistical analyses is beyond the scope of
+strategies for dealing with distributional this article, but some useful sources include Gelman
+assumptions in preregistered research. Obviously, and Hill (2007), Williams et al. (2013), and Casella and
+however, we have not considered all possible Berger (2002). We note in passing that is not
+approaches that researchers could take to dealing uncommon for distributional assumptions to be
+with distributional issues in a preregistration. Of the described incorrectly in resources aimed at
+four strategies we have discussed, strategy 1 (a psychologists; it can often be useful to look to more
+decision tree) seems the least desirable on several rigorous sources written for statisticians.
+counts, although it may be useful in some research
+contexts—particularly when applied by researchers Tactic 2: Open Data
+with particularly strong statistical expertise. The second tactic which we suggest applying in
+Strategy 3 (preregistering robustness analyses) is virtually any study—subject to any restrictions
+probably the most comprehensive and sophisticated necessary to safeguard the privacy of the
+way of dealing with the uncertainty arising from participants, or necessary for legal reasons—is to
+distributional assumptions. It is nevertheless a make a de-identified copy of the raw data openly
+relatively challenging strategy to adequately specify accessible for readers and reviewers (see Houtkoop
+in a preregistration (and to perform a power analysis et al., 2018; Munafò et al., 2017; Nosek et al., 2015).
+for), and the strategy that would result in the most Although the authors of any given piece of research
+verbose write-up of the results. On the other hand, will always have the primary responsibility for
+strategy 4 would be the easiest to specify in a conducting and reporting data analyses that address
+preregistration, and may be useful for student uncertainty arising due to distributional
+research, or for researchers new to preregistration. assumptions, sharing open data nevertheless helps
+Finally, Strategy 2 represents something of a to ensure that others who might wish to apply a
+compromise between difficulty level and level of different approach to checking distributional
+sophistication, would produce a very concise write- assumptions—or a different approach to the primary
+up of results, and could also be applied in analyses—are able to check the robustness of the
+conjunction with any of the three other strategies. findings to such alternative approaches. Along with
+the raw data it is useful to post the programming
+code or syntax necessary to process the data and
+Additional Tactics for Dealing with Distributional
+apply the analyses reported in a given article. The
+Assumptions
+Open Science Framework (https://osf.io) is a
+The four strategies listed above are, to at least particularly useful venue for posting data and
+some degree, competing strategies. On the other analysis syntax, but other options are available—
+hand, there are two additional tactics that may be including posting supplementary materials along
+useful in virtually any preregistered research with the article on a journal’s website.
+project, and that can be employed in conjunction When preregistering a study that will use an open
+with whichever of the four strategies above is data policy, it is important to consider how this will
+selected. be signalled to participants and in any institutional
+review board/ethics committee application (see
+
+===== PAGE 13/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 13
+Meyer, 2018). In some parts of the world, depending on the presence of particular assumption
+institutional review boards may expect that data will breaches has several problems, preregistering
+be kept entirely confidential to the research team, analyses that make weaker distributional
+and boilerplate information sheet and consent assumptions, or preregistering robustness analyses,
+materials may encode this expectation. It is thus may be more useful approaches. Alternatively,
+crucial to plan an open data policy from the students and other researchers new to
+beginning of a project, rather than leaving any preregistration may find it useful to preregister a
+decisions about data sharing to after data has been simple primary analysis strategy—and stick with
+collected (at which point the researchers may find that regardless of the characteristics of the data—
+themselves inadvertently locked in to a restrictive but also conduct and report an exploratory post hoc
+data sharing policy). analysis of the validity of the distributional
+assumptions made. We recommend that
+researchers use the guidance above to select the
+Templates for Preregistrations
+strategy—or combination of strategies—that is most
+appropriate for their given context. Finally, we
+In order to assist researchers prepare
+suggest that transparently and accurately
+preregistrations that pre-emptively deal with the
+communicating the assumptions of the analyses
+prospect of distributional assumption violations, we
+employed, and making raw data openly available,
+suggest that preregistration templates include
+can be useful tactics for ensuring that readers and
+prompts leading researchers to consider employ
+reviewers have sufficient information available to
+some of the strategies described above. The specific
+reach an informed judgment about the impact of any
+prompts we would suggest would be:
+distributional problems on the validity of a study’s
+conclusions.
+What are the distributional assumptions of the
+statistical analyses you will be applying?
+How have you accounted for the possibility of
+References
+violations of these distributional assumptions?
+(Some options include selecting analysis
+methods that make assumptions that are as Albers, W., Boon, P. C., & Kallenberg, W. C. M.
+conservative as possible; preregistering (2000). Size and power of pretest
+robustness analyses which test the robustness of procedures. The Annals of Statistics, 28(1),
+your findings to analysis strategies that make 195–214.
+different assumptions; and/or pre-specifying a https://doi.org/10.1214/aos/1016120369
+single primary analysis strategy, but noting that Azzalini, A. (1985). A class of distributions which
+you will also report an exploratory investigation includes the normal ones. Scandinavian
+of the validity of distributional assumptions). Journal of Statistics, 12(2), 171–178.
+Bancroft, T. A. (1964). Analysis and inference for
+incompletely specified models involving the
+Conclusion
+use of preliminary test(s) of significance.
+Preregistration is a valuable strategy in Biometrics, 20(3), 427–442.
+confirmatory research projects, but it does come https://doi.org/10.2307/2528486
+with challenges. One of those challenges is the need Carpenter, B., Gelman, A., Hoffman, M. D., Lee, D.,
+to make decisions about how distributional Goodrich, B., Betancourt, M., … Riddell, A.
+assumption violations will be dealt with before (2017). Stan: A probabilistic programming
+examining the data itself. In this article, we have language. Journal of Statistical Software,
+examined several strategies that researchers could 76(1). https://doi.org/10.18637/jss.v076.i01
+adopt for addressing distributional assumptions in Casella, G., & Berger, R. L. (2002). Statistical
+preregistered research. While preregistering inference (2nd ed.). Pacific Grove, CA:
+“decision trees” for changing the primary analysis Duxbury.
+
+===== PAGE 14/15 =====
+14
+WILLIAMS & ALBERS
+Delacre, M., Lakens, D., & Leys, C. (2017). Why Bulletin & Review, 25(1), 155–177.
+psychologists should by default use Welch’s https://doi.org/10.3758/s13423-017-1272-1
+t-test instead of Student’s t-test. Liu, R. Y. (1988). Bootstrap procedures under some
+International Review of Social Psychology, non-iid models. The Annals of Statistics,
+30(1), 92–101. 16(4), 1696–1708.
+https://doi.org/10.5334/irsp.82 https://doi.org/10.1214/aos/1176351062
+Ernst, A. F., & Albers, C. J. (2017). Regression Lumley, T., Diehr, P., Emerson, S., & Chen, L. (2002).
+assumptions in clinical psychology research The importance of the normality
+practice—a systematic review of common assumption in large public health data sets.
+misconceptions. PeerJ, 5. Annual Review of Public Health, 23, 151–169.
+https://doi.org/10.7717/peerj.3323 https://doi.org/annurev.publhealth.23.100
+Etz, A., & Vandekerckhove, J. (2018). Introduction to 901.140546
+Bayesian inference for psychology. Mair, P., & Wilcox, R. (2018). WRS2: A collection of
+Psychonomic Bulletin & Review, 25(1), 5–34. robust statistical methods (Version 0.10-0).
+https://doi.org/10.3758/s13423-017-1262- Retrieved from https://CRAN.R-
+3 project.org/package=WRS2
+Fagerland, M. W., & Sandvik, L. (2009). The McIntyre, K. P. (2016). Do spoken or written words
+Wilcoxon–Mann–Whitney test under better express intelligence? Retrieved
+scrutiny. Statistics in Medicine, 28(10), 1487– August 3, 2018, from Open Stats Lab
+1497. https://doi.org/10.1002/sim.3561 website:
+Faul, F., Erdfelder, E., Buchner, A., & Lang, A.-G. https://sites.trinity.edu/osl/data-sets-
+(2009). Statistical power analyses using and-activities/t-test-activities
+G*Power 3.1: Tests for correlation and Meuleman, B., Loosveldt, G., & Emonds, V. (2015).
+regression analyses. Behavior Research Regression analysis: Assumptions and
+Methods, 41(4), 1149–1160. diagnostics. In H. Best & C. Wolf (Eds.),
+https://doi.org/10.3758/BRM.41.4.1149 Regression analysis and causal inference (pp.
+Ferguson, C. J., & Heene, M. (2012). A vast graveyard 83–110). London, United Kingdom: Sage.
+of undead theories: Publication bias and Meyer, M. N. (2018). Practical tips for ethical data
+psychological science’s aversion to the null. sharing. Advances in Methods and Practices
+Perspectives on Psychological Science, 7(6), in Psychological Science, 1(1), 131–144.
+555–561. https://doi.org/10.1177/2515245917747656
+https://doi.org/10.1177/1745691612459059 Munafò, M. R., Nosek, B. A., Bishop, D. V. M., Button,
+Gelman, A., & Hill, J. (2007). Data analysis using K. S., Chambers, C. D., Sert, N. P. du, …
+regression and multilevel/hierarchical Ioannidis, J. P. A. (2017). A manifesto for
+models. Cambridge, United Kingdom: reproducible science. Nature Human
+Cambridge University Press. Behaviour, 1.
+Gelman, A., & Loken, E. (2014). The statistical crisis https://doi.org/10.1038/s41562-016-0021
+in science. American Scientist, 102(6), 460– Nosek, B. A., Alter, G., Banks, G. C., Borsboom, D.,
+465. https://doi.org/10.1511/2014.111.460 Bowman, S. D., Breckler, S. J., … Yarkoni, T.
+Houtkoop, B. L., Chambers, C., Macleod, M., Bishop, (2015). Promoting an open research culture.
+D. V. M., Nichols, T. E., & Wagenmakers, E.- Science, 348(6242), 1422–1425.
+J. (2018). Data sharing in psychology: A https://doi.org/10.1126/science.aab2374
+survey on barriers and preconditions. Quintana, D. S. (2015). From pre-registration to
+Advances in Methods and Practices in publication: A non-technical primer for
+Psychological Science, 1(1), 70–85. conducting a meta-analysis to synthesize
+https://doi.org/10.1177/2515245917751886 correlational data. Frontiers in Psychology,
+Kruschke, J. K., & Liddell, T. M. (2018). Bayesian data 6.
+analysis for newcomers. Psychonomic https://doi.org/10.3389/fpsyg.2015.01549
+
+===== PAGE 15/15 =====
+DEALING WITH DISTRIBUTIONAL ASSUMPTIONS IN PREREGISTERED RESEARCH 15
+R Core Team. (2018). R: A language and environment https://doi.org/10.1371/journal.pone.01527
+for statistical computing. Retrieved from 19
+http://www.R-project.org/ White, H. (1980). A heteroskedasticity-consistent
+Razali, N. M., & Wah, Y. B. (2011). Power covariance matrix estimator and a direct
+comparisons of Shapiro-Wilk, Kolmogorov- test for heteroskedasticity. Econometrica:
+Smirnov, Lilliefors and Anderson-Darling Journal of the Econometric Society, 48(4),
+tests. Journal of Statistical Modeling and 817–838. https://doi.org/10.2307/1912934
+Analytics, 2(1), 21–33. Wilcox, R. (2012). Introduction to robust estimation
+Saltelli, A., Tarantola, S., Campolongo, F., & Ratto, and hypothesis testing (3rd ed.). Waltham,
+M. (2004). Sensitivity analysis in practice: A MA: Academic Press.
+guide to assessing scientific models. Wilkinson, L., & Task Force on Statistical Inference.
+Chichester, United Kingdom: Wiley. (1999). Statistical methods in psychology
+Schroeder, J., & Epley, N. (2015). The sound of journals: Guidelines and explanations.
+intellect: speech reveals a thoughtful mind, American Psychologist, 54(8), 594–604.
+increasing a job candidate’s appeal. https://doi.org/10.1037/0003-
+Psychological Science, 26(6), 877–891. 066X.54.8.594
+https://doi.org/10.1177/0956797615572906 Williams, M. N., Grajales, C. A. G., & Kurkiewicz, D.
+Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011). (2013). Assumptions of multiple regression:
+False-positive psychology: Undisclosed Correcting two misconceptions. Practical
+flexibility in data collection and analysis Assessment, Research & Evaluation, 18(11).
+allows presenting anything as significant. Retrieved from
+Psychological Science, 22(11), 1359–1366. http://www.pareonline.net/getvn.asp?v=1
+https://doi.org/10.1177/0956797611417632 8&n=11
+Steegen, S., Tuerlinckx, F., Gelman, A., & Yuen, K. K. (1974). The two-sample trimmed t for
+Vanpaemel, W. (2016). Increasing unequal population variances. Biometrika,
+transparency through a multiverse analysis. 61(1), 165–170.
+Perspectives on Psychological Science, 11(5), https://doi.org/10.1093/biomet/61.1.165
+702–712. Zimmerman, D. W. (2004). A note on preliminary
+https://doi.org/10.1177/1745691616658637 tests of equality of variances. British Journal
+van ’t Veer, A. E., & Giner-Sorolla, R. (2016). Pre- of Mathematical and Statistical Psychology,
+registration in social psychology—A 57(1), 173–181.
+discussion and suggested template. Journal https://doi.org/10.1348/000711004849222
+of Experimental Social Psychology, 67, 2–12.
+https://doi.org/10.1016/j.jesp.2016.03.004
+Wagenmakers, E.-J., Wetzels, R., Borsboom, D., van
+der Maas, H. L. J., & Kievit, R. A. (2012). An
+agenda for purely confirmatory research.
+Perspectives on Psychological Science, 7(6),
+632–638.
+https://doi.org/10.1177/1745691612463078
+Wells, C. S., & Hintze, J. M. (2007). Dealing with
+assumptions underlying statistical tests.
+Psychology in the Schools, 44(5), 495–502.
+https://doi.org/10.1002/pits.20241
+Westfall, J., & Yarkoni, T. (2016). Statistically
+controlling for confounding constructs is
+harder than you think. PLOS ONE, 11(3),
+e0152719.

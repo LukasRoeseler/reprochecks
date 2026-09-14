@@ -1,0 +1,295 @@
+---
+title: 'French lexicon project: ex-Gaussian fits'
+author: "Guillaume A. Rousselet"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    fig_caption: no
+    number_sections: no
+    toc: yes
+    toc_depth: 2
+---
+
+```{r message=FALSE}
+# dependencies
+library(ggplot2)
+library(cowplot)
+library(tibble)
+library(retimes)
+library(HDInterval)
+```
+
+```{r}
+sessionInfo()
+```
+
+# Lexical decision dataset
+
+Data from the [French Lexicon Project](https://sites.google.com/site/frenchlexicon/results).
+Click on "French Lexicon Project trial-level results with R scripts.zip".
+The `.RData` dataset was created by applying the script `/code/getflprtdata.Rmd`.
+
+```{r}
+# get data - tibble = `flp`
+load("./data/french_lexicon_project_rt_data.RData")
+# columns =
+#1 = participant
+#2 = rt
+#3 = acc = accuracy 0/1
+#4 = condition = word/non-word
+p.list <- unique(flp$participant)
+Np <- length(p.list)
+exg_param_w <- matrix(ncol=3, nrow=Np)
+exg_param_nw <- matrix(ncol=3, nrow=Np)
+```
+
+N = `r length(unique(flp$participant))` participants.
+
+# Check ex Gaussian fit
+
+Word / non-word comparison:
+```{r eval=TRUE}
+# select participant
+p.list <- unique(flp$participant)
+sp <- p.list[1]
+
+# make KDE
+flp.w <- sort(flp$rt[flp$participant==sp & flp$condition=="word"])
+flp.nw <- sort(flp$rt[flp$participant==sp & flp$condition=="non-word"])
+out <- timefit(flp.w, plot = TRUE)
+```
+
+```{r}
+out <- timefit(flp.nw, plot = TRUE)
+```
+
+## Get distribution of parameters by resampling
+
+```{r}
+out <- timefit(flp.w, plot = TRUE, iter = 100)
+```
+
+```{r}
+out <- timefit(flp.nw, plot = TRUE, iter = 100)
+```
+
+# Get parameters for all participants
+
+```{r eval=FALSE}
+for(P in 1:Np){
+  # Word
+  flp.w <- sort(flp$rt[flp$participant==p.list[P] & flp$condition=="word"])
+  out <- timefit(flp.w)
+  exg_param_w[P,] <- out@par
+  
+  # Non-Word
+  flp.nw <- sort(flp$rt[flp$participant==p.list[P] & flp$condition=="non-word"])
+  out <- timefit(flp.nw)
+  exg_param_nw[P,] <- out@par
+}
+
+colnames(exg_param_w) <- c("mu", "sigma", "tau")
+colnames(exg_param_nw) <- c("mu", "sigma", "tau")
+
+save(exg_param_w,
+     exg_param_nw,
+     file = './data/flp_exg_param.RData')
+```
+
+# Illustrate parameters
+
+```{r}
+load('./data/flp_exg_param.RData')
+
+# create data frame
+df <- tibble(values = c(as.vector(exg_param_w),as.vector(exg_param_nw)),
+             Condition = c(rep("Word", Np*3), rep("Non-Word", Np*3)),
+             Parameter = rep(rep(c("Mu", "Sigma", "Tau"), each = Np),2)
+             )
+
+# make plot
+ggplot(df, aes(x = values)) + theme_classic() +
+  geom_density() +
+  facet_grid(rows = vars(Condition), cols = vars(Parameter), scales = "free_x")
+```
+
+# Compare parameters
+
+## Mu
+```{r}
+params <- c("Mu", "Sigma", "Tau")
+paste("Word","Non-Word","Difference")
+P <- 1
+hdires <- round(hdi(exg_param_nw[,P]-exg_param_w[,P],credMass=0.80))
+paste0(params[P],": ",round(median(exg_param_w[,P])),", ",
+  round(median(exg_param_nw[,P])),", ",            round(median(exg_param_nw[,P])-median(exg_param_w[,P]))," [",
+            hdires[1],", ", hdires[2],"]")
+```
+
+```{r}
+plot(exg_param_w[,P],exg_param_nw[,P], 
+     xlab = paste0(params[P],": Word"),
+     ylab = paste0(params[P],": Non-Word"))
+abline(a = 0, b = 1)
+```
+
+## Sigma
+```{r}
+P <- 2
+hdires <- round(hdi(exg_param_nw[,P]-exg_param_w[,P],credMass=0.80))
+paste0(params[P],": ",round(median(exg_param_w[,P])),", ",
+  round(median(exg_param_nw[,P])),", ",            round(median(exg_param_nw[,P])-median(exg_param_w[,P]))," [",
+            hdires[1],", ", hdires[2],"]")
+```
+
+```{r}
+plot(exg_param_w[,P],exg_param_nw[,P], 
+     xlab = paste0(params[P],": Word"),
+     ylab = paste0(params[P],": Non-Word"))
+abline(a = 0, b = 1)
+```
+
+## Tau
+```{r}
+P <- 3
+hdires <- round(hdi(exg_param_nw[,P]-exg_param_w[,P],credMass=0.80))
+paste0(params[P],": ",round(median(exg_param_w[,P])),", ",
+  round(median(exg_param_nw[,P])),", ",            round(median(exg_param_nw[,P])-median(exg_param_w[,P]))," [",
+            hdires[1],", ", hdires[2],"]")
+```
+
+```{r}
+plot(exg_param_w[,P],exg_param_nw[,P], 
+     xlab = paste0(params[P],": Word"),
+     ylab = paste0(params[P],": Non-Word"))
+abline(a = 0, b = 1)
+```
+
+
+## Parameter correlations: Word
+
+```{r}
+pairs(exg_param_w)
+```
+## Parameter correlations: Non-Word
+
+```{r}
+pairs(exg_param_nw)
+```
+
+# Covariance matrices
+
+```{r}
+# covmat_w <- cov(exg_param_w)
+cov(exg_param_w)
+```
+
+```{r}
+# covmat_nw <- cov(exg_param_nw)
+cov(exg_param_nw)
+```
+
+# Correlation matrices
+
+```{r}
+# covmat_w <- cov(exg_param_w)
+cov2cor(cov(exg_param_w))
+```
+
+```{r}
+# covmat_nw <- cov(exg_param_nw)
+cov2cor(cov(exg_param_nw))
+```
+
+# ExG fit of ExG parameters
+
+## Word
+
+### Mu
+```{r}
+exg_param_w_meta <- list()
+exg_param_nw_meta <- list()
+
+out <- timefit(exg_param_w[,1], plot = TRUE)
+out@par
+exg_param_w_meta$mu <- out@par
+```
+
+### Sigma
+```{r}
+out <- timefit(exg_param_w[,2], plot = TRUE)
+out@par
+exg_param_w_meta$sigma <- out@par
+```
+
+### Tau
+```{r}
+out <- timefit(exg_param_w[,3], plot = TRUE)
+out@par
+exg_param_w_meta$tau <- out@par
+```
+
+## Non-Word
+
+### Mu
+```{r}
+out <- timefit(exg_param_nw[,1], plot = TRUE)
+out@par
+exg_param_nw_meta$mu <- out@par
+```
+
+### Sigma
+```{r}
+out <- timefit(exg_param_nw[,2], plot = TRUE)
+out@par
+exg_param_nw_meta$sigma <- out@par
+```
+
+### Tau
+```{r}
+out <- timefit(exg_param_nw[,3], plot = TRUE)
+out@par
+exg_param_nw_meta$tau <- out@par
+```
+
+```{r}
+save(exg_param_w,
+     exg_param_nw,
+     exg_param_w_meta,
+     exg_param_nw_meta,
+     file = './data/flp_exg_param.RData')
+```
+
+# Simulate RT distributions using exG parameters
+
+## Sample participants' parameters with replacement
+
+```{r}
+Np.total <- nrow(exg_param_w)
+Np <- 20 # participants
+Nt <- 100 # trials
+rt_data <- matrix(ncol=Np, nrow=Nt)
+
+# Resample participants' triads
+bootsample <- sample(Np.total, Np, replace = TRUE)
+
+# Generate random trials for each participant
+# based on their triads of ex Gaussian parameters
+for(P in 1:Np){
+  rt_data[,P] <- rexgauss(Nt, 
+                     mu = exg_param_w[bootsample[P],1], 
+                     sigma = exg_param_w[bootsample[P],2], 
+                     tau = exg_param_w[bootsample[P],3])
+}
+
+```
+
+## Illustrate results
+```{r}
+df <- tibble(rt = as.vector(rt_data),
+             Participant = factor(rep(seq(1,Np),each = Nt)))
+
+ggplot(df, aes(x = rt, colour = Participant)) + 
+  geom_density()
+```
+

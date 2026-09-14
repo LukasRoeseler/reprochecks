@@ -1,0 +1,40 @@
+{
+  "paper": "Brand et al. (2019) MP.2017.840 Posterior Passing",
+  "audit_date": "2026-09-14",
+  "audit_type": "RE-AUDIT",
+  "advisories": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "advice": "Make the exact simulation regenerable.",
+      "action": "Record set.seed(<value>) and JAGS/rjags/lme4 versions in the README, and commit a 'smoke-test' script that runs one (e,var) combo through population->data->analyses->meta in minutes so the pipeline is verifiable without the full multi-day run.",
+      "effort": "medium",
+      "verifiability": "Run the smoke test and confirm its (e,var) row matches the corresponding row in Results/meta_results_18_09_16.txt within MCMC tolerance."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "advice": "Quantify the PP convergence claim.",
+      "action": "Ship the per-experiment PP estimate trajectory (set pp_final_expt_only=FALSE for at least one combo and log all 60) so the '10-15 analyses' figure is checkable; otherwise reword to 'converges well before the 60th analysis'. The from-scratch trajectory in this audit already supports the qualitative claim.",
+      "effort": "low",
+      "verifiability": "Plot the per-experiment PP estimate vs experiment index; locate where it stabilises near the true e."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "advice": "Document the differing 'positive result' rules and the var=0 random effect.",
+      "action": "Add a methods sentence: 'positive result' = 95% CI/credible interval excludes 0 for ANOVA-except methods and p<.05 for the ANOVA. Optionally note that at var=0 the GLMM/BGLMM random participant effect is unidentified (the DGM has no between-participant variance), which produces boundary/singular fits without affecting estimates.",
+      "effort": "low",
+      "verifiability": "Cross-check util.R lines 305-307 (ANOVA p<.05) vs 309-329 (CI-excludes-0) against the methods text."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "advice": "Remove or wire up the inert variance parameters.",
+      "action": "Delete var_sexs/var_conds/var_sex_conds from main.R (or implement them) and add a one-line note that the only varied between-individual parameter is the baseline-performance variance (var_base).",
+      "effort": "low",
+      "verifiability": "Confirm simulation.R uses only var_base (line 6) and that removing the inert variables does not change any output."
+    }
+  ],
+  "summary": "4 advisories (1x P2, 3x P3). None threatens the core conclusion. The re-audit independently reproduced the method from-scratch (R + Python + a custom Bayesian Gibbs sampler), so the strongest advisory (ADV-001) is now purely about regenerating the EXACT shipped table, not about whether the result is trustworthy. ADV-002 to ADV-004 are documentation/clarity items."
+}

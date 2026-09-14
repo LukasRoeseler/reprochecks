@@ -1,0 +1,772 @@
+---
+title: "Quantile estimation bias: Harrell-Davis and quantile(type=8)"
+author: "Guillaume A. Rousselet"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    fig_caption: no
+    number_sections: no
+    toc: yes
+    toc_depth: 2
+---
+
+```{r message=FALSE, warning=FALSE}
+# dependencies
+# install.packages("devtools")
+# devtools::install_github("GRousselet/rogme")
+library(rogme)
+library(tibble)
+library(tidyr)
+library(cowplot)
+library(retimes)
+source("./functions/gh.txt")
+source("./functions/akerd.txt")
+source("./functions/skew.txt")
+library(beepr)
+```
+
+```{r}
+sessionInfo()
+```
+
+Goal: to illustrate bias of quantiles using g & h distributions and Miller's 12 ex-Gaussian distributions. We limit our investigation to deciles, estimated using `hd()` and `quantile(type = 8)`.
+
+The `quantile` function in base R offers 9 options. Option 8 was recommended by Hyndman and Fan (1996). It gives quantile estimates that are approximately median-unbiased regardless of the distribution of x. Preliminary tests suggest weaker bias for the extreme deciles compared to the Harrell-Davis quantile estimator. If this is the case, should be tested in `sim_gp_fp` in the hierarchical context. 
+
+# g & h distributions
+
+The ghdist() function is used to generate random numbers from g & h distributions. All such distributions have a median of zero. The parameter g controls the asymmetry of the distribution, while the parameter h controls the thickness of the tails. The g & h distributions are described in this 1985 book:
+http://eu.wiley.com/WileyCDA/WileyTitle/productCd-047004005X.html
+There is also a description in Rand Wilcox's book Introduction to Robust Estimation.
+
+## Estimate population parameters from large samples
+
+```{r}
+set.seed(4)
+
+gvec <- seq(0, 1, 0.1) # g values
+pop.hd <- matrix(NA, nrow = length(gvec), ncol = 9)
+pop.q <- matrix(NA, nrow = length(gvec), ncol = 9)
+pop.skew <- matrix(NA, nrow = length(gvec), ncol = 1)
+pop.kurt <- matrix(NA, nrow = length(gvec), ncol = 1)
+n <- 1000000
+
+for(G in 1:length(gvec)){
+  pop <- sort(ghdist(n, g = gvec[G], h = 0))
+  pop.hd[G,] <- hdseq(pop)
+  for(D in 1:9){
+  pop.q[G,D] <- pop[round(n*D/10)] # population deciles
+  }
+  pop.skew[G] <- skew(pop) 
+  pop.kurt[G] <- kurt(pop) 
+}
+```
+
+## Population HD
+```{r}
+round(pop.hd, digits = 2)
+```
+
+## Population deciles
+```{r}
+round(pop.q, digits = 2)
+```
+
+## Population skewness
+```{r}
+pop.skew
+```
+
+## Population kurtosis
+```{r}
+pop.kurt
+```
+
+## Simulation 
+
+```{r eval=FALSE}
+gvec <- seq(0, 1, 0.1) # g values
+nvec <- c(seq(30,100,10), 150, 200, 300) # vector of sample sizes to test
+nsim <- 10000 # simulation samples
+nboot <- 200 # samples for bias correction
+prob.seq <- seq(0.1, 0.9, 0.1) # input to quantile function
+q.type <- 8 # quantile type input - type 8 recommended by Hyndman and Fan (1996) - quantile estimates approximately median-unbiased regardless of the distribution of x.
+
+# declare matrices of results - save all iterations
+sim.hd.bias <- array(NA, dim = c(nsim, length(gvec), length(nvec), 9))
+sim.hd.bc <- array(NA, dim = c(nsim, length(gvec), length(nvec), 9))
+boot.hd <- array(NA, dim = c(nboot, 9))
+sim.q.bias <- array(NA, dim = c(nsim, length(gvec), length(nvec), 9))
+sim.q.bc <- array(NA, dim = c(nsim, length(gvec), length(nvec), 9))
+boot.q <- array(NA, dim = c(nboot, 9))
+
+set.seed(21)
+beep(3)
+
+for(S in 1:nsim){ # simulation iterations
+  
+  if(S %% 500 == 0){
+    print(paste0("HD bias: simulation ",S," out of ",nsim,"..."))
+    beep(2)
+  }
+  
+  for(G in 1:length(gvec)){
+    
+    large.sample <- ghdist(max(nvec), g = gvec[G], h = 0)  
+    
+    for(N in 1:length(nvec)){ # sample sizes
+      
+      current.sample <- large.sample[1:nvec[N]]
+      
+      sim.hd.bias[S,G,N,] <- hdseq(current.sample)
+      sim.q.bias[S,G,N,] <- quantile(current.sample, probs = prob.seq, type = 8)
+      
+      for(b in 1:nboot){
+        boot.hd[b,] <- hdseq(sample(current.sample, nvec[N], replace = TRUE))
+        boot.q[b,] <- quantile(sample(current.sample, nvec[N], replace = TRUE), 
+                               probs = prob.seq, type = 8)
+      }
+      sim.hd.bc[S,G,N,] <- 2*sim.hd.bias[S,G,N,] - apply(boot.hd, 2, mean) - pop.q[G,]
+      sim.q.bc[S,G,N,] <- 2*sim.q.bias[S,G,N,] - apply(boot.q, 2, mean) - pop.q[G,]
+      
+      sim.hd.bias[S,G,N,] <- sim.hd.bias[S,G,N,] - pop.q[G,]
+      sim.q.bias[S,G,N,] <- sim.q.bias[S,G,N,] - pop.q[G,]
+      
+    }
+  }
+}
+save(
+  sim.hd.bias,
+  sim.q.bias,
+  sim.hd.bc,
+  sim.q.bc,
+  gvec,
+  nvec,
+  nsim,
+  file=paste0('./data/sim_hd_bias.RData'))
+beep(8)
+```
+
+## Compute bias
+Bias = average of sample estimates minus population value (already subtracted during simulation).
+
+```{r}
+load('./data/sim_hd_bias.RData')
+
+bias.hd <- apply(sim.hd.bias, c(2,3,4), mean, na.rm = TRUE)
+bias.hd.md <- apply(sim.hd.bias, c(2,3,4), median, na.rm = TRUE)
+bias.hd.bc <- apply(sim.hd.bc, c(2,3,4), mean, na.rm = TRUE)
+
+bias.q <- apply(sim.q.bias, c(2,3,4), mean, na.rm = TRUE)
+bias.q.md <- apply(sim.q.bias, c(2,3,4), median, na.rm = TRUE)
+bias.q.bc <- apply(sim.q.bc, c(2,3,4), mean, na.rm = TRUE)
+
+x.labels <- c("30","","50","","70","","90","", "150", "200", "300")
+```
+
+## Illustrate bias results
+
+### Make function
+```{r}
+plot_bias_res <- function(data, gvec, nvec, x.labels){
+df <- tibble(Bias = as.vector(data),
+             g = factor(rep(gvec, length(nvec)*9)),
+             Size = rep(rep(nvec,each=length(gvec)), 9),
+             q = factor(rep(seq(1,9), each=length(gvec)*length(nvec))))
+
+# make plot
+p <- ggplot(df) + theme_classic() +
+  geom_line(aes(x=Size, y=Bias, colour = g), size = 1) + 
+  geom_abline(intercept=0, slope=0, colour="black") +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  scale_y_continuous(breaks=seq(0,0.6,0.2)) +
+  coord_cartesian(ylim=c(-0.1,0.7)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right",
+        # legend.position = c(0.55,0.85),
+        legend.direction = "vertical",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.background=element_rect(fill="grey", colour="black"),
+        strip.text=element_text(size=16, colour="white", face="bold")) +
+  labs(x = "Sample size", y = "Bias") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3))) +
+  facet_wrap( ~ q, ncol = 3)
+p
+}
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.hd, gvec, nvec, x.labels)
+p <- p + ggtitle("HD mean bias") 
+p
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.q, gvec, nvec, x.labels)
+p <- p + ggtitle("QT8 mean bias") 
+p
+```
+
+## Illustrate median bias results
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.hd.md, gvec, nvec, x.labels)
+p <- p + ggtitle("HD median bias") 
+p
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.q.md, gvec, nvec, x.labels)
+p <- p + ggtitle("QT8 median bias") 
+p
+```
+
+## Illustrate bias corrected bias results
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.hd.bc, gvec, nvec, x.labels)
+p <- p + ggtitle("HD mean bias (BC)") 
+p
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.q.bc, gvec, nvec, x.labels)
+p <- p + ggtitle("QT8 mean bias (BC)") 
+p
+```
+
+## Illustrate sampling distributions: HD
+
+### Sample size = 30, q = 1
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.hd.bias[,,1,1]),
+             g = factor(rep(gvec, each = nsim))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18)) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3)))
+ # + ggtitle("Median RT") 
+p
+# save figure
+# ggsave(filename=paste0('figure_miller_bias_md.pdf'),width=10,height=6) 
+```
+
+### Sample size = 30, q = 5
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.hd.bias[,,1,5]),
+             g = factor(rep(gvec, each = nsim))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18)) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3)))
+ # + ggtitle("Median RT") 
+p
+# save figure
+# ggsave(filename=paste0('figure_miller_bias_md.pdf'),width=10,height=6) 
+```
+
+### Sample size = 30, q = 9
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.hd.bias[,,1,9]),
+             g = factor(rep(gvec, each = nsim))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18)) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3)))
+ # + ggtitle("Median RT") 
+p
+# save figure
+# ggsave(filename=paste0('figure_miller_bias_md.pdf'),width=10,height=6) 
+```
+
+### Sample size = 30
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.hd.bias[,,1,]),
+             g = factor(rep(rep(gvec, each = nsim),9)),
+             q = factor(rep(seq(1,9), each = nsim*length(gvec)))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.background=element_rect(fill="grey", colour="black"),
+        strip.text=element_text(size=16, colour="white", face="bold")) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3))) +
+ facet_wrap( ~ q, ncol = 3)
+ # + ggtitle("Median RT") 
+p
+# save figure
+# ggsave(filename=paste0('figure_miller_bias_md.pdf'),width=10,height=6) 
+```
+
+### Sample size = 300
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.hd.bias[,,11,]),
+             g = factor(rep(rep(gvec, each = nsim),9)),
+             q = factor(rep(seq(1,9), each = nsim*length(gvec)))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-1,1)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.background=element_rect(fill="grey", colour="black"),
+        strip.text=element_text(size=16, colour="white", face="bold")) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3))) +
+ facet_wrap( ~ q, ncol = 3)
+ # + ggtitle("Median RT") 
+p
+```
+
+## Illustrate sampling distributions: QT8
+
+### Sample size = 30, q = 1
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.q.bias[,,1,1]),
+             g = factor(rep(gvec, each = nsim))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18)) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3)))
+ # + ggtitle("Median RT") 
+p
+# save figure
+# ggsave(filename=paste0('figure_miller_bias_md.pdf'),width=10,height=6) 
+```
+
+### Sample size = 30, q = 5
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.q.bias[,,1,5]),
+             g = factor(rep(gvec, each = nsim))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18)) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3)))
+ # + ggtitle("Median RT") 
+p
+```
+
+### Sample size = 30, q = 9
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.q.bias[,,1,9]),
+             g = factor(rep(gvec, each = nsim))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18)) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3)))
+ # + ggtitle("Median RT") 
+p
+```
+
+### Sample size = 30
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.q.bias[,,1,]),
+             g = factor(rep(rep(gvec, each = nsim),9)),
+             q = factor(rep(seq(1,9), each = nsim*length(gvec)))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-2.5,2.5)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.background=element_rect(fill="grey", colour="black"),
+        strip.text=element_text(size=16, colour="white", face="bold")) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3))) +
+ facet_wrap( ~ q, ncol = 3)
+ # + ggtitle("Median RT") 
+p
+```
+
+### Sample size = 300
+
+```{r}
+# fig.width = 10, fig.height = 6
+df <- tibble(Difference = as.vector(sim.q.bias[,,11,]),
+             g = factor(rep(rep(gvec, each = nsim),9)),
+             q = factor(rep(seq(1,9), each = nsim*length(gvec)))
+             )
+
+# make plot
+p <- ggplot(df, aes(x = Difference, colour = g)) + theme_classic() +
+  geom_density() +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  coord_cartesian(xlim=c(-1,1)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right", #c(0.85,0.65),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.background=element_rect(fill="grey", colour="black"),
+        strip.text=element_text(size=16, colour="white", face="bold")) +
+  # labs(x = "Sample size", y = "Bias in ms") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3))) +
+ facet_wrap( ~ q, ncol = 3)
+ # + ggtitle("Median RT") 
+p
+```
+
+# Ex-Gaussian distributions
+
+## Define Miller's ex-Gaussian parameters 
+```{r}
+load('./data/miller_exg_param.RData')
+```
+
+## Population HD
+```{r}
+round(pop.hd)
+```
+
+## Population deciles
+```{r}
+round(pop.q)
+```
+
+## Population skewness
+```{r}
+pop.skew
+```
+
+## Population kurtosis
+```{r}
+pop.kurt
+```
+
+## Simulation 
+
+```{r eval=FALSE}
+nvec <- c(seq(30,100,10), 150, 200, 300) # vector of sample sizes to test
+nsim <- 10000 # simulation samples
+nboot <- 200 # samples for bias correction
+prob.seq <- seq(0.1, 0.9, 0.1) # input to quantile function
+q.type <- 8 # quantile type input - type 8 recommended by Hyndman and Fan (1996) - quantile estimates approximately median-unbiased regardless of the distribution of x.
+
+# declare matrices of results - save all iterations
+sim.hd.bias <- array(NA, dim = c(nsim, nP, length(nvec), 9))
+sim.hd.bc <- array(NA, dim = c(nsim, nP, length(nvec), 9))
+boot.hd <- array(NA, dim = c(nboot, 9))
+sim.q.bias <- array(NA, dim = c(nsim, nP, length(nvec), 9))
+sim.q.bc <- array(NA, dim = c(nsim, nP, length(nvec), 9))
+boot.q <- array(NA, dim = c(nboot, 9))
+
+set.seed(21)
+beep(3)
+
+for(S in 1:nsim){ # simulation iterations
+  
+  if(S == 1){beep(2)}
+  if(S %% 500 == 0){
+    print(paste0("HD bias: simulation ",S," out of ",nsim,"..."))
+    beep(2)
+  }
+  
+  for(P in 1:nP){ # ex-Gaussian parameters
+    
+    mu <- miller.param[P,1]
+    sigma <- miller.param[P,2]
+    tau <- miller.param[P,3]
+    large.sample <- rexgauss(max(nvec), mu = mu, sigma = sigma, tau = tau)  
+    
+    for(N in 1:length(nvec)){ # sample sizes
+      
+      current.sample <- large.sample[1:nvec[N]]
+      sim.hd.bias[S,P,N,] <- hdseq(current.sample) 
+      sim.q.bias[S,P,N,] <- quantile(current.sample, probs = prob.seq, type = 8)
+      
+      for(b in 1:nboot){
+        boot.hd[b,] <- hdseq(sample(current.sample, nvec[N], replace = TRUE))
+        boot.q[b,] <- quantile(sample(current.sample, nvec[N], replace = TRUE), 
+                               probs = prob.seq, type = 8)
+      }
+      sim.hd.bc[S,P,N,] <- 2*sim.hd.bias[S,P,N,] - apply(boot.hd, 2, mean) - pop.q[P,]
+      sim.q.bc[S,P,N,] <- 2*sim.q.bias[S,P,N,] - apply(boot.q, 2, mean) - pop.q[P,]
+      
+      sim.hd.bias[S,P,N,] <- sim.hd.bias[S,P,N,] - pop.q[P,]
+      sim.q.bias[S,P,N,] <- sim.q.bias[S,P,N,] - pop.q[P,]
+    }
+  }
+}
+save(
+  sim.hd.bias,
+  sim.hd.bc,
+  sim.q.bias,
+  sim.q.bc,
+  gvec,
+  nvec,
+  nsim,
+  file=paste0('./data/sim_hd_bias_exg.RData'))
+beep(8)
+```
+
+## Compute bias
+Bias = average of sample estimates minus population value (already subtracted during simulation).
+
+```{r}
+load('./data/sim_hd_bias_exg.RData')
+bias.hd <- apply(sim.hd.bias, c(2,3,4), mean, na.rm = TRUE)
+bias.hd.md <- apply(sim.hd.bias, c(2,3,4), median, na.rm = TRUE)
+bias.hd.bc <- apply(sim.hd.bc, c(2,3,4), mean, na.rm = TRUE)
+
+bias.q <- apply(sim.q.bias, c(2,3,4), mean, na.rm = TRUE)
+bias.q.md <- apply(sim.q.bias, c(2,3,4), median, na.rm = TRUE)
+bias.q.bc <- apply(sim.q.bc, c(2,3,4), mean, na.rm = TRUE)
+
+x.labels <- c("30","","50","","70","","90","", "150", "200", "300")
+```
+
+## Illustrate bias results
+
+### Make function
+```{r}
+plot_bias_res <- function(data, pop.m, pop.md, nvec, nP, x.labels){
+  df <- tibble(Bias = as.vector(data),
+             Skewness = factor(rep(round(pop.m-pop.md), length(nvec)*9)),
+             Size = rep(rep(nvec,each=nP), 9),
+             q = factor(rep(seq(1,9), each=nP*length(nvec))))
+
+# make plot
+p <- ggplot(df) + theme_classic() +
+  geom_line(aes(x=Size, y=Bias, colour = Skewness), size = 1) + 
+  geom_abline(intercept=0, slope=0, colour="black") +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=nvec, labels = x.labels) +
+  scale_y_continuous(breaks=seq(0,50,10)) +
+  coord_cartesian(ylim=c(-5,50)) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        legend.position = "right",
+        # legend.position = c(0.55,0.85),
+        legend.direction = "vertical",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.background=element_rect(fill="grey", colour="black"),
+        strip.text=element_text(size=16, colour="white", face="bold")) +
+  labs(x = "Sample size", y = "Bias") +
+  # make thicker legend lines
+  guides(colour = guide_legend(override.aes = list(size=3))) +
+  facet_wrap( ~ q, ncol = 3)
+p
+}
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.hd, pop.m, pop.md, nvec, nP, x.labels)
+p <- p + ggtitle("HD mean bias") 
+p
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.q, pop.m, pop.md, nvec, nP, x.labels)
+p <- p + ggtitle("QT8 mean bias") 
+p
+```
+
+## Illustrate median bias results
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.hd.md, pop.m, pop.md, nvec, nP, x.labels)
+p <- p + ggtitle("HD median bias") 
+p
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.q.md, pop.m, pop.md, nvec, nP, x.labels)
+p <- p + ggtitle("QT8 median bias") 
+p
+```
+
+## Illustrate bias corrected bias results
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.hd.bc, pop.m, pop.md, nvec, nP, x.labels)
+p <- p + ggtitle("HD mean bias (BC)") 
+p
+```
+
+```{r, fig.width = 12, fig.height = 7}
+p <- plot_bias_res(bias.q.bc, pop.m, pop.md, nvec, nP, x.labels)
+p <- p + ggtitle("QT8 mean bias (BC)") 
+p
+```

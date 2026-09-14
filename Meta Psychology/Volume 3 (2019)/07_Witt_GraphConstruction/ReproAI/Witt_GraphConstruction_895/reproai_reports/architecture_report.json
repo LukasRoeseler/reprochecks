@@ -1,0 +1,84 @@
+{
+  "paper": "Witt, J. K. (2019). Graph Construction: An Empirical Investigation on Setting the Range of the Y-Axis. Meta-Psychology, 3, MP.2018.895.",
+  "doi": "10.5626/MP.2018.895",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "audit_type": "RE-AUDIT — empirical (5 behavioral graph-comprehension experiments)",
+  "mode": "static + independent R & Python reimplementation (not live author-tool execution)",
+  "paper_title_confirmed": true,
+  "paper_authors": "Jessica K. Witt (Colorado State University)",
+  "source": "Meta-Psychology, 2019, vol 3, MP.2018.895; Open data/materials/reproducible analysis: Yes; Analysis reproduced by Tobias Muhlmeister; DOI 10.5626/MP.2018.895",
+  "host_environment": {
+    "os": "Windows 11 Pro (build 26100), x64",
+    "locale": "German_Germany.utf8, LC_NUMERIC=C",
+    "r": "R 4.6.1 (2026-06-24 ucrt), x86_64-w64-mingw32",
+    "r_packages": {"BayesFactor": "0.9.12.4.8", "psych": "2.6.5", "reshape2": "1.4.5"},
+    "python": "3.8.10 (tags/v3.8.10:3d8993a, May 3 2021)",
+    "python_packages": ["pandas", "numpy", "scipy"]
+  },
+  "seed_handling": "set.seed(42) in R and a fixed deterministic pipeline in Python. The analysis is closed-form OLS / student-t / analytic BayesFactor (ttest.tstat) — NO simulation/MCMC RNG anywhere, so results are exactly reproducible across runs and languages; seed is informational only.",
+  "design": {
+    "experiments": 5,
+    "recruited_N_per_exp": [9, 14, 13, 20, 15],
+    "recruited_N_total": 71,
+    "analyzed_N_per_exp": [7, 11, 11, 16, 13],
+    "analyzed_N_total": 58,
+    "manuscript_claimed_total_N": 57,
+    "exclusions": {
+      "Exp1": [1, 8], "Exp2": [13, 17, 24], "Exp3": [3, 4], "Exp4": [4, 9, 15, 16], "Exp5": [7, 13],
+      "Exp3_subanalysis": [2, 3, 4, 5]
+    },
+    "manipulated_factor": "y-axis range: full (0-100) vs standardized (mean +/- k SD) vs minimal (data extent +/- 1)",
+    "standardized_range_SD": [2.0, 1.4, 0.6, 1.4, 1.0],
+    "graph_type": ["bar (Exp1-3)", "line (Exp4-5)"],
+    "dep_effect_sizes_d": {"Exp1-2": [0.1, 0.3, 0.5, 0.8], "Exp3-5": [0.0, 0.3, 0.5, 0.8]},
+    "per_participant_trials_nominal": 480,
+    "measure": "per-subject per-condition lm(resp ~ corrCentered): slope=sensitivity, intercept->bias%",
+    "bias_formula": "(intercept - 2.5)/2.5*100",
+    "effect_code": "d=0->1, d=0.1->1.5, d=0.3->2, d=0.5->3, d=0.8->4, centered -2.5",
+    "dz_convention": "Lakens (2013) paired dz = |t|/sqrt(n); 95% CI via psych::cohen.d.ci; BF via BayesFactor::ttest.tstat(rscale=0.707 medium prior)"
+  },
+  "open_artifacts": {
+    "open_data": true,
+    "open_materials": true,
+    "open_reproducible_analysis": true,
+    "osf_project": ["HXK2U (supplementary)", "hw2ac (data/scripts)"],
+    "osf_note": "OSF API returned a transient 404 at audit time (2026-09-14) even for the known project; files were retrieved previously and are present locally in data/ and code/.",
+    "data_files": {
+      "axisSize 1-24.csv": "Exp1 (S1-9) + Exp2 (S10-24); cols Subject,Session,axisRange,graphImg,resp,RT,effectSize; 10990 rows",
+      "axisRangeEBv2 1-14.csv": "Exp3 (S1-14); cols Subject,effectSize,errBarType,graphImg,graphType,resp,RT,cycle,sample; 6240 rows",
+      "axisRangeLineV2 1-20.csv": "Exp4 (S1-20); 9273 rows",
+      "axisRangeLine 1-14.csv": "Exp5 (S1-15); incl corr; 6908 rows"
+    }
+  },
+  "reimplementation": {
+    "strategy": "Faithful independent reimplementation of the author's per-subject per-condition LM pipeline from raw per-trial data, in BOTH R (exec_check/reimpl_R.R) and Python (exec_check/reimpl_py.py), using the author notebook's documented exclusions and the explicit graphType->condition mapping by NAME.",
+    "cross_language_agreement": "R and Python agree exactly on every slope M(SD), bias M(SD), t, p, and dz (all closed-form). -> 100% closed-form agreement.",
+    "author_script_run": "The shipped notebook (Witt_AnalyzeGraphSD_V4.Rmd) hardcodes setwd('C:/Users/jkwitt/Dropbox/InfoVis/bigLittle'); it is an interactive notebook and cannot be run end-to-end as distributed. The analysis is nonetheless fully reproducible from the raw data.",
+    "key_results_reproduced": [
+      "All 5 experiments' all-trial sensitivity slopes M(SD) reproduce to reported 2-dp precision (R==Python).",
+      "All 5 experiments' bias % M(SD) reproduce to reported precision.",
+      "Every primary paired t-test (t, p, dz) and one-sample bias t-test reproduces within rounding.",
+      "Every reported Bayes factor reproduces; every '>100' claim confirmed as a very large BF.",
+      "Exp3 main-text subtests reproduce exactly (N=11, df=10).",
+      "Exp3 unplanned sub-analyses: all t-values reproduce; reported dz & BF were computed with denominator n=11 (full N) while df is reported as 8 (N=9) - internal inconsistency (ADV-005)."
+    ],
+    "discrepancies": [
+      "ADV-001: shipped notebook not runnable as distributed (hardcoded path / interactive chunks).",
+      "ADV-002: '57 participants' vs 71 recruited / 58 analyzed.",
+      "ADV-003: cross-experiment Table A3/A4/A5 Exp1 use exclusion set {1,3}, main text uses {1,8}.",
+      "ADV-004: cross-experiment Table A3/A4/A5 Exp3 use the N=9 sub-analysis sample, main text uses N=11.",
+      "ADV-005: Exp3 sub-analysis dz & BF use n=11 denominator while df is reported as 8 (N=9).",
+      "ADV-006: Exp4 Std-bias test printed t(14) but N=16 -> df=15 (value 0.72 reproduces).",
+      "ADV-007: Exp1 incomplete participant '431' vs 430 trials.",
+      "ADV-008: Exp4/Exp5 incomplete participants (<480 trials) included without disclosure.",
+      "ADV-009: Exp1 Table A5 Full-bias SD reported as 5, computed ~10.2 for any sample; Min-bias SD 21 vs 19.5.",
+      "ADV-010: pooled prose percentages (Fig2 '86%' ~86.7%; Fig3 '49%' minimal-big not reproduced - 42-54% by definition)."
+    ]
+  },
+  "verdict": {
+    "overall": "reproduces (near-exact) at the statistic level",
+    "p0": 0, "p1": 0, "p2": 5, "p3": 5,
+    "headline": "The core finding - that a standardized y-axis range of about 1.5 SD improves sensitivity to depicted effect size and reduces bias relative to the full and minimal ranges - is robustly and exactly reproduced from the open data in both R and Python. The primary per-experiment statistics (slopes, bias, t-tests, BFs) reproduce; the caveats are runnability of the shipped notebook and several sample/table-consistency + effect-size-denominator inconsistencies in secondary and summary exhibits."
+  }
+}

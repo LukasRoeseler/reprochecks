@@ -1,0 +1,56 @@
+{
+  "report_type": "risk_register",
+  "paper_id": "MP.2018.880",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "severity_summary": {"total_findings": 5, "P0": 0, "P1": 0, "P2": 3, "P3": 2},
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Study 2 victim-group main effect F not exactly reproducible",
+      "evidence": "Reported F(1,92)=15.74, p<.001, eta2p=.17. Independent raw recompute (R=Python, Type III SPSS-matching sum contrasts on residualized prejudice change) gives F=18.53, p<.001, eta2p=.168. Significance, direction and partial-eta2 concur; only the exact F differs (-2.79). Alternative DV recipes (raw change, raw post, naive residual) do not yield 15.74.",
+      "impact": "Affects one significant-but-secondary main effect in Study 2 only; the two primary hypothesis tests (bogus-pipeline main F=0.046 p=.830 and interaction F=0.010 p=.919) reproduce exactly. No study conclusion changes.",
+      "fix": "Re-run the Study 2 residual-change ANOVA on the final dataset and reconcile the published F (15.74) with the shipped data (18.53); restate or confirm the exact residualization/analysis version."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Reported participant exclusions are not reflected in shipped-data denominators",
+      "evidence": "Study 4b: text says 'recruited 196 ... four participants excluded' (=>192), but shipped raw data contain 200 rows and the 4 excluded (missing >=10 of 18 items) yield analyzed N=196, matching t(194). Study 5: text says 'two participants dropped out and were deleted' (=>96), but shipped data contain N=98 and empathy t(96) is run on N=98.",
+      "impact": "Prose-vs-data inconsistency in sample bookkeeping; the t-tests themselves reproduce exactly on the analyzed N, so no statistical conclusion is affected.",
+      "fix": "Align the Methods prose (recruited/excluded N) with the actual analysed N reflected in Table 1 and the t-test df."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Study 3 exclusion-count prose internally inconsistent",
+      "evidence": "Methods says 'Five other participants were excluded ... (six exclusions in Study 3b and four in Study 3c)'. Five versus (six+four = ten). Shipped phase2 OSF CSVs contain exactly the reported final rater Ns (56/43/64), so the retained N is correct; the parenthetical count is wrong.",
+      "impact": "Textual/supplement inconsistency only; no statistical conclusion affected.",
+      "fix": "Correct the parenthetical to match 'five' or state exact per-study exclusion numbers that sum to the observed retained N."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Meta-analysis Q/I2 differ slightly from values recomputed from Table 1 rounded inputs",
+      "evidence": "Reported Q(7)=27.14, I2=72.26%. Recomputed from Table 1's two-decimal g and SE: Q=26.32 (p=.0004), I2=71.9% (REML) / 73.4% (fixed, DL-style). Difference fully explained by rounding the published g/SE to two decimals.",
+      "impact": "Headline (substantial heterogeneity ~72%, pooled effect ~0) unchanged; pure precision/rounding.",
+      "fix": "Optional: report Q/I2 from unrounded inputs or state that values use full-precision effect sizes."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Study 5 donation t magnitude rounds 0.735 -> reported 0.74 with a sign orientation note",
+      "evidence": "Reported t(46)=0.74, p=.466, Hedges' g=-0.21, CI[-.78,.36], Holocaust M=18.48 < control M=21.52. Independent recompute gives |t|=0.735 (p=.466). g_s recomputes to -0.208; the reported t sign (positive) is the reverse of the M1-M2 order (18.48-21.52 is negative), an orientation choice already reflected in the negative g.",
+      "impact": "Nothing; magnitude, p, CI, and conclusion all reproduce.",
+      "fix": "Optional: report t(46) = -0.73 for consistency with the negative g if group-order is (Holocaust - Control)."
+    }
+  ],
+  "previous_audit_correction": {
+    "id": "REAUDIT-REV-001",
+    "severity": "informational (not scored)",
+    "title": "Prior audit's central P1 'open data/analysis absent' finding is REFUTED",
+    "evidence": "The prior audit (2026-09-10) searched only the main node z6sdm and component 8au5x, missed that 8au5x links to project ja3yx, and concluded no raw data/scripts existed. Following the linked node yields complete per-study raw datasets and analysis syntax. All primary manuscript statistics are therefore RAW-level checkable and all but one reproduce.",
+    "impact": "The paper's 'Open data: Yes / Open and reproducible analysis: Yes' badges ARE substantiated. The prior P1 severity should be withdrawn."
+  }
+}

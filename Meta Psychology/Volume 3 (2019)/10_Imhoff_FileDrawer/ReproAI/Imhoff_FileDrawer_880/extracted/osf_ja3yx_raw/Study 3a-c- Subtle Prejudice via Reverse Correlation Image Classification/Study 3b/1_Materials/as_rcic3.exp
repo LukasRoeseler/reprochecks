@@ -1,0 +1,1574 @@
+** Gruppen:
+1: jüdisch / reparationsforderung
+2: christlich / reparationsforderung
+3: jüdisch / bewahrung von waldgebieten
+4: christlich / bewahrung von waldgebieten
+
+
+
+
+
+<expt >
+/ blocks = [	1 = intro;
+				2 = david;
+				3 = panas;
+				4 = facial_davids;
+				5 = suspicion1;
+				6 = david_fragen;
+				7 = wsc;
+				8 = mc;
+				9 = demog;
+				10 = comment]
+</expt>
+
+
+<variables>
+/ group = (1 of 4) (david_text = david1)
+/ group = (2 of 4) (david_text = david2)
+/ group = (3 of 4) (david_text = david3)
+/ group = (4 of 4) (david_text = david4)
+/ groupassignment = subjectnumber
+</variables>
+
+
+
+
+<data>
+/ columns = [date, time, subject, variables.currentgroupnumber, blockcode, blocknum, trialcode, trialnum, response, correct, latency, stimulusnumber, stimulusitem, stimulusnumber, stimulusitem, stimulusnumber, stimulusitem]
+</data>
+
+<defaults>
+/ screencolor = (255, 255, 255)
+/ txbgcolor = (255, 255, 255)
+/ fontstyle = ("Arial", 3%, false, false, false, false, 5, 0)
+/ endlock = true("Vielen Dank für Ihre Teilnahme!") 
+/ valign = center
+/ halign =center
+</defaults>
+
+<instruct>
+/ inputdevice = mouse
+/ nextlabel = "Weiter"
+/ lastlabel = "Weiter"
+/ fontstyle = ("Arial", 2%)
+/ windowsize=(98%,95%)
+</instruct>
+
+*********************INTRO**********************
+***************************************************
+
+<picture logo>
+/ items = ("humfak_leiste.jpg")
+/ position = (50,10)
+</picture>
+
+<text introtext1>
+/ fontstyle = ("Arial", 3%, false, false, true)
+/ items = ("S O C I A L     C O G N I T I O N     C O L O G N E")
+/ position = (50, 20)
+</text>
+
+<text introtext2>
+/ fontstyle = ("Arial", 5%)
+/ items = ("Herzlich Willkommen!")
+/ position = (50, 40)
+</text>
+
+
+<text intronext>
+/ fontstyle = ("Arial", 3%)
+/ items = ("Drücken Sie eine beliebige Taste um zu beginnen.")
+/ position = (50, 80)
+</text>
+
+<trial intro>
+/ stimulustimes = [0=logo, introtext1, introtext2; 500=intronext]
+/ validresponse = (anyresponse)
+</trial>
+
+
+
+
+<page start>
+^^Herzlich Willkommen und Danke für Ihre Teilnahme!
+^^Bevor Sie beginnen, lesen Sie bitte die folgenden Informationen zu dieser Studie.
+
+^^In dieser Studie interessieren wir uns dafür, wie wir andere Menschen wahrnehmen und wie wir uns an diese erinnern.
+Sie werden im Folgenden gebeten, sich einen Eindruck von einer Person zu bilden, verschiedene Fragebogen zu beantworten sowie eine Bildklassifikationsaufgabe zu bearbeiten.
+Zwischen den einzelnen Teilen dieser Studie werden wir Sie bitten, eine kurze Vorstudie zur Erstellung von Untersuchungsmaterial für zukünftige Forschungsprojekte zu bearbeiten.
+Insgesamt wird die Teilnahme etwa 25 bis 30 Minuten dauern.
+
+^^Die Teilnahme an dieser Studie ist freiwillig. Weiterhin werden alle in dieser Studie erhobenen Daten anonym gespeichert.
+Es ist daher unmöglich Untersuchungsteilnehmer rückwirkend zu identifizieren.
+Die Daten werden nicht individuell, sondern nur über alle TeilnehmerInnen hinweg ausgewertet. 
+
+^^Sie haben das Recht, die Teilnahme jederzeit ohne Angabe von Gründen abzubrechen, ohne dass Ihnen dadurch Nachteile entstehen.
+Der Anspruch auf Vergütung entfällt in diesem Fall jedoch.
+
+^^Nach Abschluss der Studie werden wir Sie gerne über die wissenschaftliche Fragestellung und die Ziele der Untersuchung vollständig aufklären, sofern Sie dies wünschen.
+
+^^^^Wenn Sie die oben stehenden Informationen über die Studie gelesen haben und bereit sind, daran teilzunehmen, klicken Sie bitte auf WEITER, um zu beginnen.
+^^Falls Sie nicht teilnehmen möchten oder die Untersuchung abbrechen möchten, wenden Sie sich bitte an die Versuchsleitung.
+</page>
+
+
+<block intro>
+/trials = [1=intro]
+/ postinstructions = (start)
+</block>
+
+
+
+
+********************************
+********** Target: David ***
+********************************
+
+<picture weiter>
+/ items = ("weiter.jpg")
+/ position = (90,90)
+</picture>
+
+<text david_instr>
+/ items = ("Bilden Sie sich bitte einen ersten Eindruck von der geschilderten Person")
+/ fontstyle = ("Arial", 3%, true)
+/ position = (50,10)
+/ valign = bottom
+</text>
+
+
+<text face_instr>
+/ fontstyle = ("Arial", 2%)
+/ items = ("Ihnen wird im Folgenden eine Person vorgestellt. Zuerst werden Sie kurz das Gesicht der Person gezeigt bekommen. Danach werden Sie einen kurzen Text über die Person lesen. Bilden Sie sich bitte einen ersten Eindruck von der geschilderten Person. Wir werden Ihnen später Fragen zu dieser Person stellen.~n~n
+Wenn Sie bereit sind, klicken Sie auf ~"Weiter~", um das Gesicht anzuzeigen. ~n~nNach 10 Sekunden geht es dann automatisch weiter zum Text.")
+/ position = (50,20)
+/ size = (50%,70%)
+/ hjustify = left
+/ valign = top
+</text>
+
+<trial face_instr>
+/ stimulustimes = [0 = david_instr, face_instr, weiter]
+/ inputdevice = mouse
+/ validresponse = (weiter)
+</trial>
+
+
+<picture david_pic>
+/ items = ("m4_KDEF.jpg")
+</picture>
+
+<trial david_pic>
+/ stimulustimes = [0 = david_pic]
+/ response = timeout(10000)
+/ validresponse = (noresponse)
+</trial>
+
+
+
+<text david>
+/ fontstyle = ("Arial", 2%)
+/ hjustify = left
+/ items = david_text
+/ size = (50%, 70%)
+/ position = (50,20)
+/ valign = top
+</text>
+
+<item david1>
+/1 = "David S. arbeitet als Abteilungsleiter in einer großen Firma in Frankfurt am Main. Er beginnt seinen Arbeitstag meist gegen 8:30 Uhr und beendet ihn um 18 Uhr, freitags macht er etwas früher Schluss.~n~n
+Aufgrund seiner beruflichen Erfahrung wurde er schon mehrfach gefragt, ob er sich vorstellen könnte, im Gemeinderat der örtlichen Synagoge mitzuarbeiten, in dem auch sein Vater tätig ist. Bislang hat er sich jedoch dagegen entschieden.~n~n
+In seiner Freizeit treibt er zweimal die Woche Sport, liest viel und engagiert sich in einer Organisation, die sich für Entschädigungszahlungen an noch lebende ehemalige jüdische KZ-Insassen einsetzt.~n~n
+Gesundheitlich geht es David S. gut. Außer einem geringfügig erhöhten Blutdruck hat er keinerlei Beschwerden. Er lebt alleine in einer geräumigen Dachgeschosswohnung."
+</item>
+
+<item david2>
+/1 = "David S. arbeitet als Abteilungsleiter in einer großen Firma in Frankfurt am Main. Er beginnt seinen Arbeitstag meist gegen 8:30 Uhr und beendet ihn um 18 Uhr, freitags macht er etwas früher Schluss.~n~n
+Aufgrund seiner beruflichen Erfahrung wurde er schon mehrfach gefragt, ob er sich vorstellen könnte, im Gemeinderat der örtlichen Kirchengemeinde mitzuarbeiten, in dem auch sein Vater tätig ist. Bislang hat er sich jedoch dagegen entschieden.~n~n
+In seiner Freizeit treibt er zweimal die Woche Sport, liest viel und engagiert sich in einer Organisation, die sich für Entschädigungszahlungen an noch lebende ehemalige jüdische KZ-Insassen einsetzt.~n~n
+Gesundheitlich geht es David S. gut. Außer einem geringfügig erhöhten Blutdruck hat er keinerlei Beschwerden. Er lebt alleine in einer geräumigen Dachgeschosswohnung."
+</item>
+
+<item david3>
+/1 = "David S. arbeitet als Abteilungsleiter in einer großen Firma in Frankfurt am Main. Er beginnt seinen Arbeitstag meist gegen 8:30 Uhr und beendet ihn um 18 Uhr, freitags macht er etwas früher Schluss.~n~n
+Aufgrund seiner beruflichen Erfahrung wurde er schon mehrfach gefragt, ob er sich vorstellen könnte, im Gemeinderat der örtlichen Synagoge mitzuarbeiten, in dem auch sein Vater tätig ist. Bislang hat er sich jedoch dagegen entschieden.~n~n
+In seiner Freizeit treibt er zweimal die Woche Sport, liest viel und engagiert sich in einer Organisation, die sich für die Bewahrung von Waldgebieten einsetzt.~n~n
+Gesundheitlich geht es David S. gut. Außer einem geringfügig erhöhten Blutdruck hat er keinerlei Beschwerden. Er lebt alleine in einer geräumigen Dachgeschosswohnung."
+</item>
+
+<item david4>
+/1 = "David S. arbeitet als Abteilungsleiter in einer großen Firma in Frankfurt am Main. Er beginnt seinen Arbeitstag meist gegen 8:30 Uhr und beendet ihn um 18 Uhr, freitags macht er etwas früher Schluss.~n~n
+Aufgrund seiner beruflichen Erfahrung wurde er schon mehrfach gefragt, ob er sich vorstellen könnte, im Gemeinderat der örtlichen Kirchengemeinde mitzuarbeiten, in dem auch sein Vater tätig ist. Bislang hat er sich jedoch dagegen entschieden.~n~n
+In seiner Freizeit treibt er zweimal die Woche Sport, liest viel und engagiert sich in einer Organisation, die sich für die Bewahrung von Waldgebieten einsetzt.~n~n
+Gesundheitlich geht es David S. gut. Außer einem geringfügig erhöhten Blutdruck hat er keinerlei Beschwerden. Er lebt alleine in einer geräumigen Dachgeschosswohnung."
+</item>
+
+<text david_instr2>
+/ items = ("Bitte lesen Sie die Informationen über die Person aufmerksam durch, um sich einen ersten Eindruck von der geschilderten Person zu bilden.")
+/ fontstyle = ("Arial", 3%, true)
+/ position = (50,20)
+/ valign = bottom
+/ size = (70%,15%)
+</text>
+
+<trial david>
+/ stimulustimes = [0 = david, david_instr2, weiter]
+/ validresponse = (weiter)
+/ inputdevice = mouse
+</trial>
+
+
+
+
+<block david>
+/ trials = [1=face_instr; 2=david_pic; 3=david]
+</block>
+
+
+
+
+
+********************************
+********** PANAS ***********
+********************************
+
+<page panas>
+^^Gefühle und Empfindungen
+^^Dieser Fragebogen enthält eine Reihe von Wörtern, die unterschiedliche Gefühle und Empfindungen beschreiben.
+Lesen Sie jedes Wort und wählen Sie dann mit der Maus in der darunter eingeblendeten Skala Ihre Antwort aus.
+Geben Sie bitte an, wie sehr Sie sich gerade jetzt in diesem Moment in dieser Weise fühlen.
+^^Benutzen Sie für Ihre Antwort die eingeblendete Skala von 1 = "sehr leicht oder gar nicht" bis 5 = "äußerst".
+</page>
+
+<item panas>
+/ 1 ="aktiv"
+/ 2 ="interessiert"
+/ 3 ="freudig erregt"
+/ 4  ="stark"
+/ 5 ="angeregt"
+/ 6 ="stolz"
+/ 7 ="begeistert"
+/ 8 ="wach"
+/ 9 ="entschlossen"
+/ 10 ="aufmerksam"
+/ 11 ="bekümmert"
+/ 12 ="verärgert"
+/ 13 ="schuldig"
+/ 14 ="erschrocken"
+/ 15 ="feindselig"
+/ 16 ="gereizt"
+/ 17 ="beschämt"
+/ 18 ="nervös"
+/ 19 ="durcheinander"
+/ 20 ="ängstlich"
+</item>
+
+<text panas>
+/ fontstyle =("Arial", 3.5%, true)
+/ items = panas
+/ position = (50%, 50%)
+/ select = sequence
+</text>
+
+<likert panas>
+/ anchors = [1="sehr leicht oder gar nicht"; 2="ein bisschen"; 3="einigermaßen"; 4="erheblich"; 5="äußerst"]
+/ frames = [1 = panas]
+/ anchorwidth = 15%
+/ fontstyle = ("Arial", 1.5%, false)
+/ mouse = true
+/ numpoints = 5
+/ position = (50%, 80%)
+</likert>
+
+<block panas>
+/ preinstructions = (panas)
+/ trials = [1-20 = panas]
+</block>
+
+
+
+
+********************************************
+*******Reversed Correlation**********
+********************************************
+<page rating_task_davids>
+^^In der nun folgenden visuellen Aufgabe werden Ihnen jeweils zwei Gesichter präsentiert. Bitte wählen Sie jeweils das Gesicht aus, welches Ihrer Meinung nach eher David S. ähnelt.
+^^Vorherige Forschung hat ergeben, dass Studienteilnehmer relativ gut darin sind, zu entscheiden, welches Gesicht einer anderen zuvor nur kurz gesehenen Person ähnelt.
+Um die Aufgabe schwieriger zu machen, sind beide Gesichter etwas verschwommen, als wenn Sie sie durch eine Milchglasscheibe betrachten würden.
+Versuchen Sie trotzdem, dasjenige auszuwählen, das Sie für ähnlicher halten, als das andere.
+Auch wenn sich die Gesichter teilweise sehr ähnlich sind und sich nur leicht unterscheiden, wird jedes Gesicht nur einmal im Laufe der Aufgabe gezeigt.
+^^Sollten Sie Zweifel an Ihrer Entscheidung haben, antworten Sie einfach aus dem Bauch heraus.
+^^Um Ihre visuelle Leistung in diesem Test stabil schätzen zu können, werden Sie 400 dieser Entscheidungen treffen.
+Wir möchten Sie bitten, konzentriert und aufmerksam zu bleiben und gleichzeitig zügig zu antworten.
+^^Um Ihnen dies zu erleichtern, haben wir die große Menge an Durchgängen in vier gleich große Blöcke aufgeteilt. Zwischen den Blöcken können Sie immer eine kurze Pause machen.
+^^^^Bitte drücken Sie die Taste "E" für das linke Gesicht und die Taste "I" für das rechte Gesicht! 
+</page>
+
+<block facial_davids>
+/ preinstructions=(rating_task_davids)
+/ trials = [1-100 = noreplace(binary_face_davids); 101=interim1; 102-201 = noreplace(binary_face_davids); 202=interim2;
+ 203-302= noreplace(binary_face_davids); 303=interim3; 304-403= noreplace(binary_face_davids); 404=interimend]
+</block>
+
+
+
+
+<text zwischenblock1a>
+/ position = (50,45)
+/ items = ("Sie haben nun den ersten von vier Blöcken geschafft!")
+/ numitems = 1
+</text>
+
+<text zwischenblock1b>
+/ position = (50,80)
+/ items = ("Weiter geht es durch Drücken der Enter-Taste!")
+/ numitems = 1
+</text>
+
+<text zwischenblock2>
+/ position = (50,45)
+/ items = ("Sie haben nun den zweiten von vier Blöcken geschafft!")
+/ numitems = 1
+</text>
+
+<text zwischenblock3>
+/ position = (50,45)
+/ items = ("Sie haben nun den dritten von vier Blöcken geschafft!")
+/ numitems = 1
+</text>
+
+<text zwischenblockend>
+/ position = (50,45)
+/size = (900,200)
+/ items = ("Sie haben nun diesen Teil der Untersuchung geschafft! ~nWenn Sie bereit sind drücken Sie bitte die Enter-Taste um fortzufahren.")
+/ numitems = 1
+</text>
+
+<shape erase>
+/ position = (50,10)
+/ size = (80%,10%)
+/ color = white
+</shape>
+
+
+
+<trial interim1>
+/ stimulustimes = [1=erase, zwischenblock1a,zwischenblock1b]
+/ font = ("Arial", -30, 700, 0, 49)
+/ validresponse = (28)
+</trial>
+
+<trial interim2>
+/ stimulustimes = [1=erase, zwischenblock2,zwischenblock1b]
+/ font = ("Arial", -30, 700, 0, 49)
+/ validresponse = (28)
+</trial>
+
+<trial interim3>
+/ stimulustimes = [1=erase, zwischenblock3, zwischenblock1b]
+/ font = ("Arial", -30, 700, 0, 49)
+/ validresponse = (28)
+</trial>
+
+<trial interimend>
+/ stimulustimes = [1=erase, zwischenblockend]
+/ font = ("Arial", -30, 700, 0, 49)
+/ validresponse = (28)
+</trial>
+
+
+
+<text face_davids>
+/ position = (50,10)
+/ items = ("Welches Gesicht ähnelt David S. Ihrer Meinung nach eher?")
+/ size = (80%,5%)
+/ erase = false
+</text>
+
+
+<TRIAL binary_face_davids> 
+/ stimulustimes= [1 = face_davids, stimuli0, stimuli1] 
+/ validresponse = (18, 23)
+</trial>
+
+
+<picture stimuli0>
+/ position = (25, 50)
+/ numitems = 400
+/ items = stimuli0
+/ select = noreplace
+</picture>
+
+<picture stimuli1>
+/ position = (75, 50)
+/ numitems = 400
+/ items = stimuli1
+/ select = current(stimuli0)
+</picture>
+
+<item stimuli0>
+/1= "stimuli/as_rcic2_MNES_2_1.jpg"
+/2= "stimuli/as_rcic2_MNES_2_2.jpg"
+/3= "stimuli/as_rcic2_MNES_2_3.jpg"
+/4= "stimuli/as_rcic2_MNES_2_4.jpg"
+/5= "stimuli/as_rcic2_MNES_2_5.jpg"
+/6= "stimuli/as_rcic2_MNES_2_6.jpg"
+/7= "stimuli/as_rcic2_MNES_2_7.jpg"
+/8= "stimuli/as_rcic2_MNES_2_8.jpg"
+/9= "stimuli/as_rcic2_MNES_2_9.jpg"
+/10= "stimuli/as_rcic2_MNES_2_10.jpg"
+/11= "stimuli/as_rcic2_MNES_2_11.jpg"
+/12= "stimuli/as_rcic2_MNES_2_12.jpg"
+/13= "stimuli/as_rcic2_MNES_2_13.jpg"
+/14= "stimuli/as_rcic2_MNES_2_14.jpg"
+/15= "stimuli/as_rcic2_MNES_2_15.jpg"
+/16= "stimuli/as_rcic2_MNES_2_16.jpg"
+/17= "stimuli/as_rcic2_MNES_2_17.jpg"
+/18= "stimuli/as_rcic2_MNES_2_18.jpg"
+/19= "stimuli/as_rcic2_MNES_2_19.jpg"
+/20= "stimuli/as_rcic2_MNES_2_20.jpg"
+/21= "stimuli/as_rcic2_MNES_2_21.jpg"
+/22= "stimuli/as_rcic2_MNES_2_22.jpg"
+/23= "stimuli/as_rcic2_MNES_2_23.jpg"
+/24= "stimuli/as_rcic2_MNES_2_24.jpg"
+/25= "stimuli/as_rcic2_MNES_2_25.jpg"
+/26= "stimuli/as_rcic2_MNES_2_26.jpg"
+/27= "stimuli/as_rcic2_MNES_2_27.jpg"
+/28= "stimuli/as_rcic2_MNES_2_28.jpg"
+/29= "stimuli/as_rcic2_MNES_2_29.jpg"
+/30= "stimuli/as_rcic2_MNES_2_30.jpg"
+/31= "stimuli/as_rcic2_MNES_2_31.jpg"
+/32= "stimuli/as_rcic2_MNES_2_32.jpg"
+/33= "stimuli/as_rcic2_MNES_2_33.jpg"
+/34= "stimuli/as_rcic2_MNES_2_34.jpg"
+/35= "stimuli/as_rcic2_MNES_2_35.jpg"
+/36= "stimuli/as_rcic2_MNES_2_36.jpg"
+/37= "stimuli/as_rcic2_MNES_2_37.jpg"
+/38= "stimuli/as_rcic2_MNES_2_38.jpg"
+/39= "stimuli/as_rcic2_MNES_2_39.jpg"
+/40= "stimuli/as_rcic2_MNES_2_40.jpg"
+/41= "stimuli/as_rcic2_MNES_2_41.jpg"
+/42= "stimuli/as_rcic2_MNES_2_42.jpg"
+/43= "stimuli/as_rcic2_MNES_2_43.jpg"
+/44= "stimuli/as_rcic2_MNES_2_44.jpg"
+/45= "stimuli/as_rcic2_MNES_2_45.jpg"
+/46= "stimuli/as_rcic2_MNES_2_46.jpg"
+/47= "stimuli/as_rcic2_MNES_2_47.jpg"
+/48= "stimuli/as_rcic2_MNES_2_48.jpg"
+/49= "stimuli/as_rcic2_MNES_2_49.jpg"
+/50= "stimuli/as_rcic2_MNES_2_50.jpg"
+/51= "stimuli/as_rcic2_MNES_2_51.jpg"
+/52= "stimuli/as_rcic2_MNES_2_52.jpg"
+/53= "stimuli/as_rcic2_MNES_2_53.jpg"
+/54= "stimuli/as_rcic2_MNES_2_54.jpg"
+/55= "stimuli/as_rcic2_MNES_2_55.jpg"
+/56= "stimuli/as_rcic2_MNES_2_56.jpg"
+/57= "stimuli/as_rcic2_MNES_2_57.jpg"
+/58= "stimuli/as_rcic2_MNES_2_58.jpg"
+/59= "stimuli/as_rcic2_MNES_2_59.jpg"
+/60= "stimuli/as_rcic2_MNES_2_60.jpg"
+/61= "stimuli/as_rcic2_MNES_2_61.jpg"
+/62= "stimuli/as_rcic2_MNES_2_62.jpg"
+/63= "stimuli/as_rcic2_MNES_2_63.jpg"
+/64= "stimuli/as_rcic2_MNES_2_64.jpg"
+/65= "stimuli/as_rcic2_MNES_2_65.jpg"
+/66= "stimuli/as_rcic2_MNES_2_66.jpg"
+/67= "stimuli/as_rcic2_MNES_2_67.jpg"
+/68= "stimuli/as_rcic2_MNES_2_68.jpg"
+/69= "stimuli/as_rcic2_MNES_2_69.jpg"
+/70= "stimuli/as_rcic2_MNES_2_70.jpg"
+/71= "stimuli/as_rcic2_MNES_2_71.jpg"
+/72= "stimuli/as_rcic2_MNES_2_72.jpg"
+/73= "stimuli/as_rcic2_MNES_2_73.jpg"
+/74= "stimuli/as_rcic2_MNES_2_74.jpg"
+/75= "stimuli/as_rcic2_MNES_2_75.jpg"
+/76= "stimuli/as_rcic2_MNES_2_76.jpg"
+/77= "stimuli/as_rcic2_MNES_2_77.jpg"
+/78= "stimuli/as_rcic2_MNES_2_78.jpg"
+/79= "stimuli/as_rcic2_MNES_2_79.jpg"
+/80= "stimuli/as_rcic2_MNES_2_80.jpg"
+/81= "stimuli/as_rcic2_MNES_2_81.jpg"
+/82= "stimuli/as_rcic2_MNES_2_82.jpg"
+/83= "stimuli/as_rcic2_MNES_2_83.jpg"
+/84= "stimuli/as_rcic2_MNES_2_84.jpg"
+/85= "stimuli/as_rcic2_MNES_2_85.jpg"
+/86= "stimuli/as_rcic2_MNES_2_86.jpg"
+/87= "stimuli/as_rcic2_MNES_2_87.jpg"
+/88= "stimuli/as_rcic2_MNES_2_88.jpg"
+/89= "stimuli/as_rcic2_MNES_2_89.jpg"
+/90= "stimuli/as_rcic2_MNES_2_90.jpg"
+/91= "stimuli/as_rcic2_MNES_2_91.jpg"
+/92= "stimuli/as_rcic2_MNES_2_92.jpg"
+/93= "stimuli/as_rcic2_MNES_2_93.jpg"
+/94= "stimuli/as_rcic2_MNES_2_94.jpg"
+/95= "stimuli/as_rcic2_MNES_2_95.jpg"
+/96= "stimuli/as_rcic2_MNES_2_96.jpg"
+/97= "stimuli/as_rcic2_MNES_2_97.jpg"
+/98= "stimuli/as_rcic2_MNES_2_98.jpg"
+/99= "stimuli/as_rcic2_MNES_2_99.jpg"
+/100= "stimuli/as_rcic2_MNES_2_100.jpg"
+/101= "stimuli/as_rcic2_MNES_2_101.jpg"
+/102= "stimuli/as_rcic2_MNES_2_102.jpg"
+/103= "stimuli/as_rcic2_MNES_2_103.jpg"
+/104= "stimuli/as_rcic2_MNES_2_104.jpg"
+/105= "stimuli/as_rcic2_MNES_2_105.jpg"
+/106= "stimuli/as_rcic2_MNES_2_106.jpg"
+/107= "stimuli/as_rcic2_MNES_2_107.jpg"
+/108= "stimuli/as_rcic2_MNES_2_108.jpg"
+/109= "stimuli/as_rcic2_MNES_2_109.jpg"
+/110= "stimuli/as_rcic2_MNES_2_110.jpg"
+/111= "stimuli/as_rcic2_MNES_2_111.jpg"
+/112= "stimuli/as_rcic2_MNES_2_112.jpg"
+/113= "stimuli/as_rcic2_MNES_2_113.jpg"
+/114= "stimuli/as_rcic2_MNES_2_114.jpg"
+/115= "stimuli/as_rcic2_MNES_2_115.jpg"
+/116= "stimuli/as_rcic2_MNES_2_116.jpg"
+/117= "stimuli/as_rcic2_MNES_2_117.jpg"
+/118= "stimuli/as_rcic2_MNES_2_118.jpg"
+/119= "stimuli/as_rcic2_MNES_2_119.jpg"
+/120= "stimuli/as_rcic2_MNES_2_120.jpg"
+/121= "stimuli/as_rcic2_MNES_2_121.jpg"
+/122= "stimuli/as_rcic2_MNES_2_122.jpg"
+/123= "stimuli/as_rcic2_MNES_2_123.jpg"
+/124= "stimuli/as_rcic2_MNES_2_124.jpg"
+/125= "stimuli/as_rcic2_MNES_2_125.jpg"
+/126= "stimuli/as_rcic2_MNES_2_126.jpg"
+/127= "stimuli/as_rcic2_MNES_2_127.jpg"
+/128= "stimuli/as_rcic2_MNES_2_128.jpg"
+/129= "stimuli/as_rcic2_MNES_2_129.jpg"
+/130= "stimuli/as_rcic2_MNES_2_130.jpg"
+/131= "stimuli/as_rcic2_MNES_2_131.jpg"
+/132= "stimuli/as_rcic2_MNES_2_132.jpg"
+/133= "stimuli/as_rcic2_MNES_2_133.jpg"
+/134= "stimuli/as_rcic2_MNES_2_134.jpg"
+/135= "stimuli/as_rcic2_MNES_2_135.jpg"
+/136= "stimuli/as_rcic2_MNES_2_136.jpg"
+/137= "stimuli/as_rcic2_MNES_2_137.jpg"
+/138= "stimuli/as_rcic2_MNES_2_138.jpg"
+/139= "stimuli/as_rcic2_MNES_2_139.jpg"
+/140= "stimuli/as_rcic2_MNES_2_140.jpg"
+/141= "stimuli/as_rcic2_MNES_2_141.jpg"
+/142= "stimuli/as_rcic2_MNES_2_142.jpg"
+/143= "stimuli/as_rcic2_MNES_2_143.jpg"
+/144= "stimuli/as_rcic2_MNES_2_144.jpg"
+/145= "stimuli/as_rcic2_MNES_2_145.jpg"
+/146= "stimuli/as_rcic2_MNES_2_146.jpg"
+/147= "stimuli/as_rcic2_MNES_2_147.jpg"
+/148= "stimuli/as_rcic2_MNES_2_148.jpg"
+/149= "stimuli/as_rcic2_MNES_2_149.jpg"
+/150= "stimuli/as_rcic2_MNES_2_150.jpg"
+/151= "stimuli/as_rcic2_MNES_2_151.jpg"
+/152= "stimuli/as_rcic2_MNES_2_152.jpg"
+/153= "stimuli/as_rcic2_MNES_2_153.jpg"
+/154= "stimuli/as_rcic2_MNES_2_154.jpg"
+/155= "stimuli/as_rcic2_MNES_2_155.jpg"
+/156= "stimuli/as_rcic2_MNES_2_156.jpg"
+/157= "stimuli/as_rcic2_MNES_2_157.jpg"
+/158= "stimuli/as_rcic2_MNES_2_158.jpg"
+/159= "stimuli/as_rcic2_MNES_2_159.jpg"
+/160= "stimuli/as_rcic2_MNES_2_160.jpg"
+/161= "stimuli/as_rcic2_MNES_2_161.jpg"
+/162= "stimuli/as_rcic2_MNES_2_162.jpg"
+/163= "stimuli/as_rcic2_MNES_2_163.jpg"
+/164= "stimuli/as_rcic2_MNES_2_164.jpg"
+/165= "stimuli/as_rcic2_MNES_2_165.jpg"
+/166= "stimuli/as_rcic2_MNES_2_166.jpg"
+/167= "stimuli/as_rcic2_MNES_2_167.jpg"
+/168= "stimuli/as_rcic2_MNES_2_168.jpg"
+/169= "stimuli/as_rcic2_MNES_2_169.jpg"
+/170= "stimuli/as_rcic2_MNES_2_170.jpg"
+/171= "stimuli/as_rcic2_MNES_2_171.jpg"
+/172= "stimuli/as_rcic2_MNES_2_172.jpg"
+/173= "stimuli/as_rcic2_MNES_2_173.jpg"
+/174= "stimuli/as_rcic2_MNES_2_174.jpg"
+/175= "stimuli/as_rcic2_MNES_2_175.jpg"
+/176= "stimuli/as_rcic2_MNES_2_176.jpg"
+/177= "stimuli/as_rcic2_MNES_2_177.jpg"
+/178= "stimuli/as_rcic2_MNES_2_178.jpg"
+/179= "stimuli/as_rcic2_MNES_2_179.jpg"
+/180= "stimuli/as_rcic2_MNES_2_180.jpg"
+/181= "stimuli/as_rcic2_MNES_2_181.jpg"
+/182= "stimuli/as_rcic2_MNES_2_182.jpg"
+/183= "stimuli/as_rcic2_MNES_2_183.jpg"
+/184= "stimuli/as_rcic2_MNES_2_184.jpg"
+/185= "stimuli/as_rcic2_MNES_2_185.jpg"
+/186= "stimuli/as_rcic2_MNES_2_186.jpg"
+/187= "stimuli/as_rcic2_MNES_2_187.jpg"
+/188= "stimuli/as_rcic2_MNES_2_188.jpg"
+/189= "stimuli/as_rcic2_MNES_2_189.jpg"
+/190= "stimuli/as_rcic2_MNES_2_190.jpg"
+/191= "stimuli/as_rcic2_MNES_2_191.jpg"
+/192= "stimuli/as_rcic2_MNES_2_192.jpg"
+/193= "stimuli/as_rcic2_MNES_2_193.jpg"
+/194= "stimuli/as_rcic2_MNES_2_194.jpg"
+/195= "stimuli/as_rcic2_MNES_2_195.jpg"
+/196= "stimuli/as_rcic2_MNES_2_196.jpg"
+/197= "stimuli/as_rcic2_MNES_2_197.jpg"
+/198= "stimuli/as_rcic2_MNES_2_198.jpg"
+/199= "stimuli/as_rcic2_MNES_2_199.jpg"
+/200= "stimuli/as_rcic2_MNES_2_200.jpg"
+/201= "stimuli/as_rcic2_MNES_2_201.jpg"
+/202= "stimuli/as_rcic2_MNES_2_202.jpg"
+/203= "stimuli/as_rcic2_MNES_2_203.jpg"
+/204= "stimuli/as_rcic2_MNES_2_204.jpg"
+/205= "stimuli/as_rcic2_MNES_2_205.jpg"
+/206= "stimuli/as_rcic2_MNES_2_206.jpg"
+/207= "stimuli/as_rcic2_MNES_2_207.jpg"
+/208= "stimuli/as_rcic2_MNES_2_208.jpg"
+/209= "stimuli/as_rcic2_MNES_2_209.jpg"
+/210= "stimuli/as_rcic2_MNES_2_210.jpg"
+/211= "stimuli/as_rcic2_MNES_2_211.jpg"
+/212= "stimuli/as_rcic2_MNES_2_212.jpg"
+/213= "stimuli/as_rcic2_MNES_2_213.jpg"
+/214= "stimuli/as_rcic2_MNES_2_214.jpg"
+/215= "stimuli/as_rcic2_MNES_2_215.jpg"
+/216= "stimuli/as_rcic2_MNES_2_216.jpg"
+/217= "stimuli/as_rcic2_MNES_2_217.jpg"
+/218= "stimuli/as_rcic2_MNES_2_218.jpg"
+/219= "stimuli/as_rcic2_MNES_2_219.jpg"
+/220= "stimuli/as_rcic2_MNES_2_220.jpg"
+/221= "stimuli/as_rcic2_MNES_2_221.jpg"
+/222= "stimuli/as_rcic2_MNES_2_222.jpg"
+/223= "stimuli/as_rcic2_MNES_2_223.jpg"
+/224= "stimuli/as_rcic2_MNES_2_224.jpg"
+/225= "stimuli/as_rcic2_MNES_2_225.jpg"
+/226= "stimuli/as_rcic2_MNES_2_226.jpg"
+/227= "stimuli/as_rcic2_MNES_2_227.jpg"
+/228= "stimuli/as_rcic2_MNES_2_228.jpg"
+/229= "stimuli/as_rcic2_MNES_2_229.jpg"
+/230= "stimuli/as_rcic2_MNES_2_230.jpg"
+/231= "stimuli/as_rcic2_MNES_2_231.jpg"
+/232= "stimuli/as_rcic2_MNES_2_232.jpg"
+/233= "stimuli/as_rcic2_MNES_2_233.jpg"
+/234= "stimuli/as_rcic2_MNES_2_234.jpg"
+/235= "stimuli/as_rcic2_MNES_2_235.jpg"
+/236= "stimuli/as_rcic2_MNES_2_236.jpg"
+/237= "stimuli/as_rcic2_MNES_2_237.jpg"
+/238= "stimuli/as_rcic2_MNES_2_238.jpg"
+/239= "stimuli/as_rcic2_MNES_2_239.jpg"
+/240= "stimuli/as_rcic2_MNES_2_240.jpg"
+/241= "stimuli/as_rcic2_MNES_2_241.jpg"
+/242= "stimuli/as_rcic2_MNES_2_242.jpg"
+/243= "stimuli/as_rcic2_MNES_2_243.jpg"
+/244= "stimuli/as_rcic2_MNES_2_244.jpg"
+/245= "stimuli/as_rcic2_MNES_2_245.jpg"
+/246= "stimuli/as_rcic2_MNES_2_246.jpg"
+/247= "stimuli/as_rcic2_MNES_2_247.jpg"
+/248= "stimuli/as_rcic2_MNES_2_248.jpg"
+/249= "stimuli/as_rcic2_MNES_2_249.jpg"
+/250= "stimuli/as_rcic2_MNES_2_250.jpg"
+/251= "stimuli/as_rcic2_MNES_2_251.jpg"
+/252= "stimuli/as_rcic2_MNES_2_252.jpg"
+/253= "stimuli/as_rcic2_MNES_2_253.jpg"
+/254= "stimuli/as_rcic2_MNES_2_254.jpg"
+/255= "stimuli/as_rcic2_MNES_2_255.jpg"
+/256= "stimuli/as_rcic2_MNES_2_256.jpg"
+/257= "stimuli/as_rcic2_MNES_2_257.jpg"
+/258= "stimuli/as_rcic2_MNES_2_258.jpg"
+/259= "stimuli/as_rcic2_MNES_2_259.jpg"
+/260= "stimuli/as_rcic2_MNES_2_260.jpg"
+/261= "stimuli/as_rcic2_MNES_2_261.jpg"
+/262= "stimuli/as_rcic2_MNES_2_262.jpg"
+/263= "stimuli/as_rcic2_MNES_2_263.jpg"
+/264= "stimuli/as_rcic2_MNES_2_264.jpg"
+/265= "stimuli/as_rcic2_MNES_2_265.jpg"
+/266= "stimuli/as_rcic2_MNES_2_266.jpg"
+/267= "stimuli/as_rcic2_MNES_2_267.jpg"
+/268= "stimuli/as_rcic2_MNES_2_268.jpg"
+/269= "stimuli/as_rcic2_MNES_2_269.jpg"
+/270= "stimuli/as_rcic2_MNES_2_270.jpg"
+/271= "stimuli/as_rcic2_MNES_2_271.jpg"
+/272= "stimuli/as_rcic2_MNES_2_272.jpg"
+/273= "stimuli/as_rcic2_MNES_2_273.jpg"
+/274= "stimuli/as_rcic2_MNES_2_274.jpg"
+/275= "stimuli/as_rcic2_MNES_2_275.jpg"
+/276= "stimuli/as_rcic2_MNES_2_276.jpg"
+/277= "stimuli/as_rcic2_MNES_2_277.jpg"
+/278= "stimuli/as_rcic2_MNES_2_278.jpg"
+/279= "stimuli/as_rcic2_MNES_2_279.jpg"
+/280= "stimuli/as_rcic2_MNES_2_280.jpg"
+/281= "stimuli/as_rcic2_MNES_2_281.jpg"
+/282= "stimuli/as_rcic2_MNES_2_282.jpg"
+/283= "stimuli/as_rcic2_MNES_2_283.jpg"
+/284= "stimuli/as_rcic2_MNES_2_284.jpg"
+/285= "stimuli/as_rcic2_MNES_2_285.jpg"
+/286= "stimuli/as_rcic2_MNES_2_286.jpg"
+/287= "stimuli/as_rcic2_MNES_2_287.jpg"
+/288= "stimuli/as_rcic2_MNES_2_288.jpg"
+/289= "stimuli/as_rcic2_MNES_2_289.jpg"
+/290= "stimuli/as_rcic2_MNES_2_290.jpg"
+/291= "stimuli/as_rcic2_MNES_2_291.jpg"
+/292= "stimuli/as_rcic2_MNES_2_292.jpg"
+/293= "stimuli/as_rcic2_MNES_2_293.jpg"
+/294= "stimuli/as_rcic2_MNES_2_294.jpg"
+/295= "stimuli/as_rcic2_MNES_2_295.jpg"
+/296= "stimuli/as_rcic2_MNES_2_296.jpg"
+/297= "stimuli/as_rcic2_MNES_2_297.jpg"
+/298= "stimuli/as_rcic2_MNES_2_298.jpg"
+/299= "stimuli/as_rcic2_MNES_2_299.jpg"
+/300= "stimuli/as_rcic2_MNES_2_300.jpg"
+/301= "stimuli/as_rcic2_MNES_2_301.jpg"
+/302= "stimuli/as_rcic2_MNES_2_302.jpg"
+/303= "stimuli/as_rcic2_MNES_2_303.jpg"
+/304= "stimuli/as_rcic2_MNES_2_304.jpg"
+/305= "stimuli/as_rcic2_MNES_2_305.jpg"
+/306= "stimuli/as_rcic2_MNES_2_306.jpg"
+/307= "stimuli/as_rcic2_MNES_2_307.jpg"
+/308= "stimuli/as_rcic2_MNES_2_308.jpg"
+/309= "stimuli/as_rcic2_MNES_2_309.jpg"
+/310= "stimuli/as_rcic2_MNES_2_310.jpg"
+/311= "stimuli/as_rcic2_MNES_2_311.jpg"
+/312= "stimuli/as_rcic2_MNES_2_312.jpg"
+/313= "stimuli/as_rcic2_MNES_2_313.jpg"
+/314= "stimuli/as_rcic2_MNES_2_314.jpg"
+/315= "stimuli/as_rcic2_MNES_2_315.jpg"
+/316= "stimuli/as_rcic2_MNES_2_316.jpg"
+/317= "stimuli/as_rcic2_MNES_2_317.jpg"
+/318= "stimuli/as_rcic2_MNES_2_318.jpg"
+/319= "stimuli/as_rcic2_MNES_2_319.jpg"
+/320= "stimuli/as_rcic2_MNES_2_320.jpg"
+/321= "stimuli/as_rcic2_MNES_2_321.jpg"
+/322= "stimuli/as_rcic2_MNES_2_322.jpg"
+/323= "stimuli/as_rcic2_MNES_2_323.jpg"
+/324= "stimuli/as_rcic2_MNES_2_324.jpg"
+/325= "stimuli/as_rcic2_MNES_2_325.jpg"
+/326= "stimuli/as_rcic2_MNES_2_326.jpg"
+/327= "stimuli/as_rcic2_MNES_2_327.jpg"
+/328= "stimuli/as_rcic2_MNES_2_328.jpg"
+/329= "stimuli/as_rcic2_MNES_2_329.jpg"
+/330= "stimuli/as_rcic2_MNES_2_330.jpg"
+/331= "stimuli/as_rcic2_MNES_2_331.jpg"
+/332= "stimuli/as_rcic2_MNES_2_332.jpg"
+/333= "stimuli/as_rcic2_MNES_2_333.jpg"
+/334= "stimuli/as_rcic2_MNES_2_334.jpg"
+/335= "stimuli/as_rcic2_MNES_2_335.jpg"
+/336= "stimuli/as_rcic2_MNES_2_336.jpg"
+/337= "stimuli/as_rcic2_MNES_2_337.jpg"
+/338= "stimuli/as_rcic2_MNES_2_338.jpg"
+/339= "stimuli/as_rcic2_MNES_2_339.jpg"
+/340= "stimuli/as_rcic2_MNES_2_340.jpg"
+/341= "stimuli/as_rcic2_MNES_2_341.jpg"
+/342= "stimuli/as_rcic2_MNES_2_342.jpg"
+/343= "stimuli/as_rcic2_MNES_2_343.jpg"
+/344= "stimuli/as_rcic2_MNES_2_344.jpg"
+/345= "stimuli/as_rcic2_MNES_2_345.jpg"
+/346= "stimuli/as_rcic2_MNES_2_346.jpg"
+/347= "stimuli/as_rcic2_MNES_2_347.jpg"
+/348= "stimuli/as_rcic2_MNES_2_348.jpg"
+/349= "stimuli/as_rcic2_MNES_2_349.jpg"
+/350= "stimuli/as_rcic2_MNES_2_350.jpg"
+/351= "stimuli/as_rcic2_MNES_2_351.jpg"
+/352= "stimuli/as_rcic2_MNES_2_352.jpg"
+/353= "stimuli/as_rcic2_MNES_2_353.jpg"
+/354= "stimuli/as_rcic2_MNES_2_354.jpg"
+/355= "stimuli/as_rcic2_MNES_2_355.jpg"
+/356= "stimuli/as_rcic2_MNES_2_356.jpg"
+/357= "stimuli/as_rcic2_MNES_2_357.jpg"
+/358= "stimuli/as_rcic2_MNES_2_358.jpg"
+/359= "stimuli/as_rcic2_MNES_2_359.jpg"
+/360= "stimuli/as_rcic2_MNES_2_360.jpg"
+/361= "stimuli/as_rcic2_MNES_2_361.jpg"
+/362= "stimuli/as_rcic2_MNES_2_362.jpg"
+/363= "stimuli/as_rcic2_MNES_2_363.jpg"
+/364= "stimuli/as_rcic2_MNES_2_364.jpg"
+/365= "stimuli/as_rcic2_MNES_2_365.jpg"
+/366= "stimuli/as_rcic2_MNES_2_366.jpg"
+/367= "stimuli/as_rcic2_MNES_2_367.jpg"
+/368= "stimuli/as_rcic2_MNES_2_368.jpg"
+/369= "stimuli/as_rcic2_MNES_2_369.jpg"
+/370= "stimuli/as_rcic2_MNES_2_370.jpg"
+/371= "stimuli/as_rcic2_MNES_2_371.jpg"
+/372= "stimuli/as_rcic2_MNES_2_372.jpg"
+/373= "stimuli/as_rcic2_MNES_2_373.jpg"
+/374= "stimuli/as_rcic2_MNES_2_374.jpg"
+/375= "stimuli/as_rcic2_MNES_2_375.jpg"
+/376= "stimuli/as_rcic2_MNES_2_376.jpg"
+/377= "stimuli/as_rcic2_MNES_2_377.jpg"
+/378= "stimuli/as_rcic2_MNES_2_378.jpg"
+/379= "stimuli/as_rcic2_MNES_2_379.jpg"
+/380= "stimuli/as_rcic2_MNES_2_380.jpg"
+/381= "stimuli/as_rcic2_MNES_2_381.jpg"
+/382= "stimuli/as_rcic2_MNES_2_382.jpg"
+/383= "stimuli/as_rcic2_MNES_2_383.jpg"
+/384= "stimuli/as_rcic2_MNES_2_384.jpg"
+/385= "stimuli/as_rcic2_MNES_2_385.jpg"
+/386= "stimuli/as_rcic2_MNES_2_386.jpg"
+/387= "stimuli/as_rcic2_MNES_2_387.jpg"
+/388= "stimuli/as_rcic2_MNES_2_388.jpg"
+/389= "stimuli/as_rcic2_MNES_2_389.jpg"
+/390= "stimuli/as_rcic2_MNES_2_390.jpg"
+/391= "stimuli/as_rcic2_MNES_2_391.jpg"
+/392= "stimuli/as_rcic2_MNES_2_392.jpg"
+/393= "stimuli/as_rcic2_MNES_2_393.jpg"
+/394= "stimuli/as_rcic2_MNES_2_394.jpg"
+/395= "stimuli/as_rcic2_MNES_2_395.jpg"
+/396= "stimuli/as_rcic2_MNES_2_396.jpg"
+/397= "stimuli/as_rcic2_MNES_2_397.jpg"
+/398= "stimuli/as_rcic2_MNES_2_398.jpg"
+/399= "stimuli/as_rcic2_MNES_2_399.jpg"
+/400= "stimuli/as_rcic2_MNES_2_0.jpg"
+</item>
+
+<item stimuli1>
+/1= "stimuli/as_rcic2_MNES_2_1_neg.jpg"
+/2= "stimuli/as_rcic2_MNES_2_2_neg.jpg"
+/3= "stimuli/as_rcic2_MNES_2_3_neg.jpg"
+/4= "stimuli/as_rcic2_MNES_2_4_neg.jpg"
+/5= "stimuli/as_rcic2_MNES_2_5_neg.jpg"
+/6= "stimuli/as_rcic2_MNES_2_6_neg.jpg"
+/7= "stimuli/as_rcic2_MNES_2_7_neg.jpg"
+/8= "stimuli/as_rcic2_MNES_2_8_neg.jpg"
+/9= "stimuli/as_rcic2_MNES_2_9_neg.jpg"
+/10= "stimuli/as_rcic2_MNES_2_10_neg.jpg"
+/11= "stimuli/as_rcic2_MNES_2_11_neg.jpg"
+/12= "stimuli/as_rcic2_MNES_2_12_neg.jpg"
+/13= "stimuli/as_rcic2_MNES_2_13_neg.jpg"
+/14= "stimuli/as_rcic2_MNES_2_14_neg.jpg"
+/15= "stimuli/as_rcic2_MNES_2_15_neg.jpg"
+/16= "stimuli/as_rcic2_MNES_2_16_neg.jpg"
+/17= "stimuli/as_rcic2_MNES_2_17_neg.jpg"
+/18= "stimuli/as_rcic2_MNES_2_18_neg.jpg"
+/19= "stimuli/as_rcic2_MNES_2_19_neg.jpg"
+/20= "stimuli/as_rcic2_MNES_2_20_neg.jpg"
+/21= "stimuli/as_rcic2_MNES_2_21_neg.jpg"
+/22= "stimuli/as_rcic2_MNES_2_22_neg.jpg"
+/23= "stimuli/as_rcic2_MNES_2_23_neg.jpg"
+/24= "stimuli/as_rcic2_MNES_2_24_neg.jpg"
+/25= "stimuli/as_rcic2_MNES_2_25_neg.jpg"
+/26= "stimuli/as_rcic2_MNES_2_26_neg.jpg"
+/27= "stimuli/as_rcic2_MNES_2_27_neg.jpg"
+/28= "stimuli/as_rcic2_MNES_2_28_neg.jpg"
+/29= "stimuli/as_rcic2_MNES_2_29_neg.jpg"
+/30= "stimuli/as_rcic2_MNES_2_30_neg.jpg"
+/31= "stimuli/as_rcic2_MNES_2_31_neg.jpg"
+/32= "stimuli/as_rcic2_MNES_2_32_neg.jpg"
+/33= "stimuli/as_rcic2_MNES_2_33_neg.jpg"
+/34= "stimuli/as_rcic2_MNES_2_34_neg.jpg"
+/35= "stimuli/as_rcic2_MNES_2_35_neg.jpg"
+/36= "stimuli/as_rcic2_MNES_2_36_neg.jpg"
+/37= "stimuli/as_rcic2_MNES_2_37_neg.jpg"
+/38= "stimuli/as_rcic2_MNES_2_38_neg.jpg"
+/39= "stimuli/as_rcic2_MNES_2_39_neg.jpg"
+/40= "stimuli/as_rcic2_MNES_2_40_neg.jpg"
+/41= "stimuli/as_rcic2_MNES_2_41_neg.jpg"
+/42= "stimuli/as_rcic2_MNES_2_42_neg.jpg"
+/43= "stimuli/as_rcic2_MNES_2_43_neg.jpg"
+/44= "stimuli/as_rcic2_MNES_2_44_neg.jpg"
+/45= "stimuli/as_rcic2_MNES_2_45_neg.jpg"
+/46= "stimuli/as_rcic2_MNES_2_46_neg.jpg"
+/47= "stimuli/as_rcic2_MNES_2_47_neg.jpg"
+/48= "stimuli/as_rcic2_MNES_2_48_neg.jpg"
+/49= "stimuli/as_rcic2_MNES_2_49_neg.jpg"
+/50= "stimuli/as_rcic2_MNES_2_50_neg.jpg"
+/51= "stimuli/as_rcic2_MNES_2_51_neg.jpg"
+/52= "stimuli/as_rcic2_MNES_2_52_neg.jpg"
+/53= "stimuli/as_rcic2_MNES_2_53_neg.jpg"
+/54= "stimuli/as_rcic2_MNES_2_54_neg.jpg"
+/55= "stimuli/as_rcic2_MNES_2_55_neg.jpg"
+/56= "stimuli/as_rcic2_MNES_2_56_neg.jpg"
+/57= "stimuli/as_rcic2_MNES_2_57_neg.jpg"
+/58= "stimuli/as_rcic2_MNES_2_58_neg.jpg"
+/59= "stimuli/as_rcic2_MNES_2_59_neg.jpg"
+/60= "stimuli/as_rcic2_MNES_2_60_neg.jpg"
+/61= "stimuli/as_rcic2_MNES_2_61_neg.jpg"
+/62= "stimuli/as_rcic2_MNES_2_62_neg.jpg"
+/63= "stimuli/as_rcic2_MNES_2_63_neg.jpg"
+/64= "stimuli/as_rcic2_MNES_2_64_neg.jpg"
+/65= "stimuli/as_rcic2_MNES_2_65_neg.jpg"
+/66= "stimuli/as_rcic2_MNES_2_66_neg.jpg"
+/67= "stimuli/as_rcic2_MNES_2_67_neg.jpg"
+/68= "stimuli/as_rcic2_MNES_2_68_neg.jpg"
+/69= "stimuli/as_rcic2_MNES_2_69_neg.jpg"
+/70= "stimuli/as_rcic2_MNES_2_70_neg.jpg"
+/71= "stimuli/as_rcic2_MNES_2_71_neg.jpg"
+/72= "stimuli/as_rcic2_MNES_2_72_neg.jpg"
+/73= "stimuli/as_rcic2_MNES_2_73_neg.jpg"
+/74= "stimuli/as_rcic2_MNES_2_74_neg.jpg"
+/75= "stimuli/as_rcic2_MNES_2_75_neg.jpg"
+/76= "stimuli/as_rcic2_MNES_2_76_neg.jpg"
+/77= "stimuli/as_rcic2_MNES_2_77_neg.jpg"
+/78= "stimuli/as_rcic2_MNES_2_78_neg.jpg"
+/79= "stimuli/as_rcic2_MNES_2_79_neg.jpg"
+/80= "stimuli/as_rcic2_MNES_2_80_neg.jpg"
+/81= "stimuli/as_rcic2_MNES_2_81_neg.jpg"
+/82= "stimuli/as_rcic2_MNES_2_82_neg.jpg"
+/83= "stimuli/as_rcic2_MNES_2_83_neg.jpg"
+/84= "stimuli/as_rcic2_MNES_2_84_neg.jpg"
+/85= "stimuli/as_rcic2_MNES_2_85_neg.jpg"
+/86= "stimuli/as_rcic2_MNES_2_86_neg.jpg"
+/87= "stimuli/as_rcic2_MNES_2_87_neg.jpg"
+/88= "stimuli/as_rcic2_MNES_2_88_neg.jpg"
+/89= "stimuli/as_rcic2_MNES_2_89_neg.jpg"
+/90= "stimuli/as_rcic2_MNES_2_90_neg.jpg"
+/91= "stimuli/as_rcic2_MNES_2_91_neg.jpg"
+/92= "stimuli/as_rcic2_MNES_2_92_neg.jpg"
+/93= "stimuli/as_rcic2_MNES_2_93_neg.jpg"
+/94= "stimuli/as_rcic2_MNES_2_94_neg.jpg"
+/95= "stimuli/as_rcic2_MNES_2_95_neg.jpg"
+/96= "stimuli/as_rcic2_MNES_2_96_neg.jpg"
+/97= "stimuli/as_rcic2_MNES_2_97_neg.jpg"
+/98= "stimuli/as_rcic2_MNES_2_98_neg.jpg"
+/99= "stimuli/as_rcic2_MNES_2_99_neg.jpg"
+/100= "stimuli/as_rcic2_MNES_2_100_neg.jpg"
+/101= "stimuli/as_rcic2_MNES_2_101_neg.jpg"
+/102= "stimuli/as_rcic2_MNES_2_102_neg.jpg"
+/103= "stimuli/as_rcic2_MNES_2_103_neg.jpg"
+/104= "stimuli/as_rcic2_MNES_2_104_neg.jpg"
+/105= "stimuli/as_rcic2_MNES_2_105_neg.jpg"
+/106= "stimuli/as_rcic2_MNES_2_106_neg.jpg"
+/107= "stimuli/as_rcic2_MNES_2_107_neg.jpg"
+/108= "stimuli/as_rcic2_MNES_2_108_neg.jpg"
+/109= "stimuli/as_rcic2_MNES_2_109_neg.jpg"
+/110= "stimuli/as_rcic2_MNES_2_110_neg.jpg"
+/111= "stimuli/as_rcic2_MNES_2_111_neg.jpg"
+/112= "stimuli/as_rcic2_MNES_2_112_neg.jpg"
+/113= "stimuli/as_rcic2_MNES_2_113_neg.jpg"
+/114= "stimuli/as_rcic2_MNES_2_114_neg.jpg"
+/115= "stimuli/as_rcic2_MNES_2_115_neg.jpg"
+/116= "stimuli/as_rcic2_MNES_2_116_neg.jpg"
+/117= "stimuli/as_rcic2_MNES_2_117_neg.jpg"
+/118= "stimuli/as_rcic2_MNES_2_118_neg.jpg"
+/119= "stimuli/as_rcic2_MNES_2_119_neg.jpg"
+/120= "stimuli/as_rcic2_MNES_2_120_neg.jpg"
+/121= "stimuli/as_rcic2_MNES_2_121_neg.jpg"
+/122= "stimuli/as_rcic2_MNES_2_122_neg.jpg"
+/123= "stimuli/as_rcic2_MNES_2_123_neg.jpg"
+/124= "stimuli/as_rcic2_MNES_2_124_neg.jpg"
+/125= "stimuli/as_rcic2_MNES_2_125_neg.jpg"
+/126= "stimuli/as_rcic2_MNES_2_126_neg.jpg"
+/127= "stimuli/as_rcic2_MNES_2_127_neg.jpg"
+/128= "stimuli/as_rcic2_MNES_2_128_neg.jpg"
+/129= "stimuli/as_rcic2_MNES_2_129_neg.jpg"
+/130= "stimuli/as_rcic2_MNES_2_130_neg.jpg"
+/131= "stimuli/as_rcic2_MNES_2_131_neg.jpg"
+/132= "stimuli/as_rcic2_MNES_2_132_neg.jpg"
+/133= "stimuli/as_rcic2_MNES_2_133_neg.jpg"
+/134= "stimuli/as_rcic2_MNES_2_134_neg.jpg"
+/135= "stimuli/as_rcic2_MNES_2_135_neg.jpg"
+/136= "stimuli/as_rcic2_MNES_2_136_neg.jpg"
+/137= "stimuli/as_rcic2_MNES_2_137_neg.jpg"
+/138= "stimuli/as_rcic2_MNES_2_138_neg.jpg"
+/139= "stimuli/as_rcic2_MNES_2_139_neg.jpg"
+/140= "stimuli/as_rcic2_MNES_2_140_neg.jpg"
+/141= "stimuli/as_rcic2_MNES_2_141_neg.jpg"
+/142= "stimuli/as_rcic2_MNES_2_142_neg.jpg"
+/143= "stimuli/as_rcic2_MNES_2_143_neg.jpg"
+/144= "stimuli/as_rcic2_MNES_2_144_neg.jpg"
+/145= "stimuli/as_rcic2_MNES_2_145_neg.jpg"
+/146= "stimuli/as_rcic2_MNES_2_146_neg.jpg"
+/147= "stimuli/as_rcic2_MNES_2_147_neg.jpg"
+/148= "stimuli/as_rcic2_MNES_2_148_neg.jpg"
+/149= "stimuli/as_rcic2_MNES_2_149_neg.jpg"
+/150= "stimuli/as_rcic2_MNES_2_150_neg.jpg"
+/151= "stimuli/as_rcic2_MNES_2_151_neg.jpg"
+/152= "stimuli/as_rcic2_MNES_2_152_neg.jpg"
+/153= "stimuli/as_rcic2_MNES_2_153_neg.jpg"
+/154= "stimuli/as_rcic2_MNES_2_154_neg.jpg"
+/155= "stimuli/as_rcic2_MNES_2_155_neg.jpg"
+/156= "stimuli/as_rcic2_MNES_2_156_neg.jpg"
+/157= "stimuli/as_rcic2_MNES_2_157_neg.jpg"
+/158= "stimuli/as_rcic2_MNES_2_158_neg.jpg"
+/159= "stimuli/as_rcic2_MNES_2_159_neg.jpg"
+/160= "stimuli/as_rcic2_MNES_2_160_neg.jpg"
+/161= "stimuli/as_rcic2_MNES_2_161_neg.jpg"
+/162= "stimuli/as_rcic2_MNES_2_162_neg.jpg"
+/163= "stimuli/as_rcic2_MNES_2_163_neg.jpg"
+/164= "stimuli/as_rcic2_MNES_2_164_neg.jpg"
+/165= "stimuli/as_rcic2_MNES_2_165_neg.jpg"
+/166= "stimuli/as_rcic2_MNES_2_166_neg.jpg"
+/167= "stimuli/as_rcic2_MNES_2_167_neg.jpg"
+/168= "stimuli/as_rcic2_MNES_2_168_neg.jpg"
+/169= "stimuli/as_rcic2_MNES_2_169_neg.jpg"
+/170= "stimuli/as_rcic2_MNES_2_170_neg.jpg"
+/171= "stimuli/as_rcic2_MNES_2_171_neg.jpg"
+/172= "stimuli/as_rcic2_MNES_2_172_neg.jpg"
+/173= "stimuli/as_rcic2_MNES_2_173_neg.jpg"
+/174= "stimuli/as_rcic2_MNES_2_174_neg.jpg"
+/175= "stimuli/as_rcic2_MNES_2_175_neg.jpg"
+/176= "stimuli/as_rcic2_MNES_2_176_neg.jpg"
+/177= "stimuli/as_rcic2_MNES_2_177_neg.jpg"
+/178= "stimuli/as_rcic2_MNES_2_178_neg.jpg"
+/179= "stimuli/as_rcic2_MNES_2_179_neg.jpg"
+/180= "stimuli/as_rcic2_MNES_2_180_neg.jpg"
+/181= "stimuli/as_rcic2_MNES_2_181_neg.jpg"
+/182= "stimuli/as_rcic2_MNES_2_182_neg.jpg"
+/183= "stimuli/as_rcic2_MNES_2_183_neg.jpg"
+/184= "stimuli/as_rcic2_MNES_2_184_neg.jpg"
+/185= "stimuli/as_rcic2_MNES_2_185_neg.jpg"
+/186= "stimuli/as_rcic2_MNES_2_186_neg.jpg"
+/187= "stimuli/as_rcic2_MNES_2_187_neg.jpg"
+/188= "stimuli/as_rcic2_MNES_2_188_neg.jpg"
+/189= "stimuli/as_rcic2_MNES_2_189_neg.jpg"
+/190= "stimuli/as_rcic2_MNES_2_190_neg.jpg"
+/191= "stimuli/as_rcic2_MNES_2_191_neg.jpg"
+/192= "stimuli/as_rcic2_MNES_2_192_neg.jpg"
+/193= "stimuli/as_rcic2_MNES_2_193_neg.jpg"
+/194= "stimuli/as_rcic2_MNES_2_194_neg.jpg"
+/195= "stimuli/as_rcic2_MNES_2_195_neg.jpg"
+/196= "stimuli/as_rcic2_MNES_2_196_neg.jpg"
+/197= "stimuli/as_rcic2_MNES_2_197_neg.jpg"
+/198= "stimuli/as_rcic2_MNES_2_198_neg.jpg"
+/199= "stimuli/as_rcic2_MNES_2_199_neg.jpg"
+/200= "stimuli/as_rcic2_MNES_2_200_neg.jpg"
+/201= "stimuli/as_rcic2_MNES_2_201_neg.jpg"
+/202= "stimuli/as_rcic2_MNES_2_202_neg.jpg"
+/203= "stimuli/as_rcic2_MNES_2_203_neg.jpg"
+/204= "stimuli/as_rcic2_MNES_2_204_neg.jpg"
+/205= "stimuli/as_rcic2_MNES_2_205_neg.jpg"
+/206= "stimuli/as_rcic2_MNES_2_206_neg.jpg"
+/207= "stimuli/as_rcic2_MNES_2_207_neg.jpg"
+/208= "stimuli/as_rcic2_MNES_2_208_neg.jpg"
+/209= "stimuli/as_rcic2_MNES_2_209_neg.jpg"
+/210= "stimuli/as_rcic2_MNES_2_210_neg.jpg"
+/211= "stimuli/as_rcic2_MNES_2_211_neg.jpg"
+/212= "stimuli/as_rcic2_MNES_2_212_neg.jpg"
+/213= "stimuli/as_rcic2_MNES_2_213_neg.jpg"
+/214= "stimuli/as_rcic2_MNES_2_214_neg.jpg"
+/215= "stimuli/as_rcic2_MNES_2_215_neg.jpg"
+/216= "stimuli/as_rcic2_MNES_2_216_neg.jpg"
+/217= "stimuli/as_rcic2_MNES_2_217_neg.jpg"
+/218= "stimuli/as_rcic2_MNES_2_218_neg.jpg"
+/219= "stimuli/as_rcic2_MNES_2_219_neg.jpg"
+/220= "stimuli/as_rcic2_MNES_2_220_neg.jpg"
+/221= "stimuli/as_rcic2_MNES_2_221_neg.jpg"
+/222= "stimuli/as_rcic2_MNES_2_222_neg.jpg"
+/223= "stimuli/as_rcic2_MNES_2_223_neg.jpg"
+/224= "stimuli/as_rcic2_MNES_2_224_neg.jpg"
+/225= "stimuli/as_rcic2_MNES_2_225_neg.jpg"
+/226= "stimuli/as_rcic2_MNES_2_226_neg.jpg"
+/227= "stimuli/as_rcic2_MNES_2_227_neg.jpg"
+/228= "stimuli/as_rcic2_MNES_2_228_neg.jpg"
+/229= "stimuli/as_rcic2_MNES_2_229_neg.jpg"
+/230= "stimuli/as_rcic2_MNES_2_230_neg.jpg"
+/231= "stimuli/as_rcic2_MNES_2_231_neg.jpg"
+/232= "stimuli/as_rcic2_MNES_2_232_neg.jpg"
+/233= "stimuli/as_rcic2_MNES_2_233_neg.jpg"
+/234= "stimuli/as_rcic2_MNES_2_234_neg.jpg"
+/235= "stimuli/as_rcic2_MNES_2_235_neg.jpg"
+/236= "stimuli/as_rcic2_MNES_2_236_neg.jpg"
+/237= "stimuli/as_rcic2_MNES_2_237_neg.jpg"
+/238= "stimuli/as_rcic2_MNES_2_238_neg.jpg"
+/239= "stimuli/as_rcic2_MNES_2_239_neg.jpg"
+/240= "stimuli/as_rcic2_MNES_2_240_neg.jpg"
+/241= "stimuli/as_rcic2_MNES_2_241_neg.jpg"
+/242= "stimuli/as_rcic2_MNES_2_242_neg.jpg"
+/243= "stimuli/as_rcic2_MNES_2_243_neg.jpg"
+/244= "stimuli/as_rcic2_MNES_2_244_neg.jpg"
+/245= "stimuli/as_rcic2_MNES_2_245_neg.jpg"
+/246= "stimuli/as_rcic2_MNES_2_246_neg.jpg"
+/247= "stimuli/as_rcic2_MNES_2_247_neg.jpg"
+/248= "stimuli/as_rcic2_MNES_2_248_neg.jpg"
+/249= "stimuli/as_rcic2_MNES_2_249_neg.jpg"
+/250= "stimuli/as_rcic2_MNES_2_250_neg.jpg"
+/251= "stimuli/as_rcic2_MNES_2_251_neg.jpg"
+/252= "stimuli/as_rcic2_MNES_2_252_neg.jpg"
+/253= "stimuli/as_rcic2_MNES_2_253_neg.jpg"
+/254= "stimuli/as_rcic2_MNES_2_254_neg.jpg"
+/255= "stimuli/as_rcic2_MNES_2_255_neg.jpg"
+/256= "stimuli/as_rcic2_MNES_2_256_neg.jpg"
+/257= "stimuli/as_rcic2_MNES_2_257_neg.jpg"
+/258= "stimuli/as_rcic2_MNES_2_258_neg.jpg"
+/259= "stimuli/as_rcic2_MNES_2_259_neg.jpg"
+/260= "stimuli/as_rcic2_MNES_2_260_neg.jpg"
+/261= "stimuli/as_rcic2_MNES_2_261_neg.jpg"
+/262= "stimuli/as_rcic2_MNES_2_262_neg.jpg"
+/263= "stimuli/as_rcic2_MNES_2_263_neg.jpg"
+/264= "stimuli/as_rcic2_MNES_2_264_neg.jpg"
+/265= "stimuli/as_rcic2_MNES_2_265_neg.jpg"
+/266= "stimuli/as_rcic2_MNES_2_266_neg.jpg"
+/267= "stimuli/as_rcic2_MNES_2_267_neg.jpg"
+/268= "stimuli/as_rcic2_MNES_2_268_neg.jpg"
+/269= "stimuli/as_rcic2_MNES_2_269_neg.jpg"
+/270= "stimuli/as_rcic2_MNES_2_270_neg.jpg"
+/271= "stimuli/as_rcic2_MNES_2_271_neg.jpg"
+/272= "stimuli/as_rcic2_MNES_2_272_neg.jpg"
+/273= "stimuli/as_rcic2_MNES_2_273_neg.jpg"
+/274= "stimuli/as_rcic2_MNES_2_274_neg.jpg"
+/275= "stimuli/as_rcic2_MNES_2_275_neg.jpg"
+/276= "stimuli/as_rcic2_MNES_2_276_neg.jpg"
+/277= "stimuli/as_rcic2_MNES_2_277_neg.jpg"
+/278= "stimuli/as_rcic2_MNES_2_278_neg.jpg"
+/279= "stimuli/as_rcic2_MNES_2_279_neg.jpg"
+/280= "stimuli/as_rcic2_MNES_2_280_neg.jpg"
+/281= "stimuli/as_rcic2_MNES_2_281_neg.jpg"
+/282= "stimuli/as_rcic2_MNES_2_282_neg.jpg"
+/283= "stimuli/as_rcic2_MNES_2_283_neg.jpg"
+/284= "stimuli/as_rcic2_MNES_2_284_neg.jpg"
+/285= "stimuli/as_rcic2_MNES_2_285_neg.jpg"
+/286= "stimuli/as_rcic2_MNES_2_286_neg.jpg"
+/287= "stimuli/as_rcic2_MNES_2_287_neg.jpg"
+/288= "stimuli/as_rcic2_MNES_2_288_neg.jpg"
+/289= "stimuli/as_rcic2_MNES_2_289_neg.jpg"
+/290= "stimuli/as_rcic2_MNES_2_290_neg.jpg"
+/291= "stimuli/as_rcic2_MNES_2_291_neg.jpg"
+/292= "stimuli/as_rcic2_MNES_2_292_neg.jpg"
+/293= "stimuli/as_rcic2_MNES_2_293_neg.jpg"
+/294= "stimuli/as_rcic2_MNES_2_294_neg.jpg"
+/295= "stimuli/as_rcic2_MNES_2_295_neg.jpg"
+/296= "stimuli/as_rcic2_MNES_2_296_neg.jpg"
+/297= "stimuli/as_rcic2_MNES_2_297_neg.jpg"
+/298= "stimuli/as_rcic2_MNES_2_298_neg.jpg"
+/299= "stimuli/as_rcic2_MNES_2_299_neg.jpg"
+/300= "stimuli/as_rcic2_MNES_2_300_neg.jpg"
+/301= "stimuli/as_rcic2_MNES_2_301_neg.jpg"
+/302= "stimuli/as_rcic2_MNES_2_302_neg.jpg"
+/303= "stimuli/as_rcic2_MNES_2_303_neg.jpg"
+/304= "stimuli/as_rcic2_MNES_2_304_neg.jpg"
+/305= "stimuli/as_rcic2_MNES_2_305_neg.jpg"
+/306= "stimuli/as_rcic2_MNES_2_306_neg.jpg"
+/307= "stimuli/as_rcic2_MNES_2_307_neg.jpg"
+/308= "stimuli/as_rcic2_MNES_2_308_neg.jpg"
+/309= "stimuli/as_rcic2_MNES_2_309_neg.jpg"
+/310= "stimuli/as_rcic2_MNES_2_310_neg.jpg"
+/311= "stimuli/as_rcic2_MNES_2_311_neg.jpg"
+/312= "stimuli/as_rcic2_MNES_2_312_neg.jpg"
+/313= "stimuli/as_rcic2_MNES_2_313_neg.jpg"
+/314= "stimuli/as_rcic2_MNES_2_314_neg.jpg"
+/315= "stimuli/as_rcic2_MNES_2_315_neg.jpg"
+/316= "stimuli/as_rcic2_MNES_2_316_neg.jpg"
+/317= "stimuli/as_rcic2_MNES_2_317_neg.jpg"
+/318= "stimuli/as_rcic2_MNES_2_318_neg.jpg"
+/319= "stimuli/as_rcic2_MNES_2_319_neg.jpg"
+/320= "stimuli/as_rcic2_MNES_2_320_neg.jpg"
+/321= "stimuli/as_rcic2_MNES_2_321_neg.jpg"
+/322= "stimuli/as_rcic2_MNES_2_322_neg.jpg"
+/323= "stimuli/as_rcic2_MNES_2_323_neg.jpg"
+/324= "stimuli/as_rcic2_MNES_2_324_neg.jpg"
+/325= "stimuli/as_rcic2_MNES_2_325_neg.jpg"
+/326= "stimuli/as_rcic2_MNES_2_326_neg.jpg"
+/327= "stimuli/as_rcic2_MNES_2_327_neg.jpg"
+/328= "stimuli/as_rcic2_MNES_2_328_neg.jpg"
+/329= "stimuli/as_rcic2_MNES_2_329_neg.jpg"
+/330= "stimuli/as_rcic2_MNES_2_330_neg.jpg"
+/331= "stimuli/as_rcic2_MNES_2_331_neg.jpg"
+/332= "stimuli/as_rcic2_MNES_2_332_neg.jpg"
+/333= "stimuli/as_rcic2_MNES_2_333_neg.jpg"
+/334= "stimuli/as_rcic2_MNES_2_334_neg.jpg"
+/335= "stimuli/as_rcic2_MNES_2_335_neg.jpg"
+/336= "stimuli/as_rcic2_MNES_2_336_neg.jpg"
+/337= "stimuli/as_rcic2_MNES_2_337_neg.jpg"
+/338= "stimuli/as_rcic2_MNES_2_338_neg.jpg"
+/339= "stimuli/as_rcic2_MNES_2_339_neg.jpg"
+/340= "stimuli/as_rcic2_MNES_2_340_neg.jpg"
+/341= "stimuli/as_rcic2_MNES_2_341_neg.jpg"
+/342= "stimuli/as_rcic2_MNES_2_342_neg.jpg"
+/343= "stimuli/as_rcic2_MNES_2_343_neg.jpg"
+/344= "stimuli/as_rcic2_MNES_2_344_neg.jpg"
+/345= "stimuli/as_rcic2_MNES_2_345_neg.jpg"
+/346= "stimuli/as_rcic2_MNES_2_346_neg.jpg"
+/347= "stimuli/as_rcic2_MNES_2_347_neg.jpg"
+/348= "stimuli/as_rcic2_MNES_2_348_neg.jpg"
+/349= "stimuli/as_rcic2_MNES_2_349_neg.jpg"
+/350= "stimuli/as_rcic2_MNES_2_350_neg.jpg"
+/351= "stimuli/as_rcic2_MNES_2_351_neg.jpg"
+/352= "stimuli/as_rcic2_MNES_2_352_neg.jpg"
+/353= "stimuli/as_rcic2_MNES_2_353_neg.jpg"
+/354= "stimuli/as_rcic2_MNES_2_354_neg.jpg"
+/355= "stimuli/as_rcic2_MNES_2_355_neg.jpg"
+/356= "stimuli/as_rcic2_MNES_2_356_neg.jpg"
+/357= "stimuli/as_rcic2_MNES_2_357_neg.jpg"
+/358= "stimuli/as_rcic2_MNES_2_358_neg.jpg"
+/359= "stimuli/as_rcic2_MNES_2_359_neg.jpg"
+/360= "stimuli/as_rcic2_MNES_2_360_neg.jpg"
+/361= "stimuli/as_rcic2_MNES_2_361_neg.jpg"
+/362= "stimuli/as_rcic2_MNES_2_362_neg.jpg"
+/363= "stimuli/as_rcic2_MNES_2_363_neg.jpg"
+/364= "stimuli/as_rcic2_MNES_2_364_neg.jpg"
+/365= "stimuli/as_rcic2_MNES_2_365_neg.jpg"
+/366= "stimuli/as_rcic2_MNES_2_366_neg.jpg"
+/367= "stimuli/as_rcic2_MNES_2_367_neg.jpg"
+/368= "stimuli/as_rcic2_MNES_2_368_neg.jpg"
+/369= "stimuli/as_rcic2_MNES_2_369_neg.jpg"
+/370= "stimuli/as_rcic2_MNES_2_370_neg.jpg"
+/371= "stimuli/as_rcic2_MNES_2_371_neg.jpg"
+/372= "stimuli/as_rcic2_MNES_2_372_neg.jpg"
+/373= "stimuli/as_rcic2_MNES_2_373_neg.jpg"
+/374= "stimuli/as_rcic2_MNES_2_374_neg.jpg"
+/375= "stimuli/as_rcic2_MNES_2_375_neg.jpg"
+/376= "stimuli/as_rcic2_MNES_2_376_neg.jpg"
+/377= "stimuli/as_rcic2_MNES_2_377_neg.jpg"
+/378= "stimuli/as_rcic2_MNES_2_378_neg.jpg"
+/379= "stimuli/as_rcic2_MNES_2_379_neg.jpg"
+/380= "stimuli/as_rcic2_MNES_2_380_neg.jpg"
+/381= "stimuli/as_rcic2_MNES_2_381_neg.jpg"
+/382= "stimuli/as_rcic2_MNES_2_382_neg.jpg"
+/383= "stimuli/as_rcic2_MNES_2_383_neg.jpg"
+/384= "stimuli/as_rcic2_MNES_2_384_neg.jpg"
+/385= "stimuli/as_rcic2_MNES_2_385_neg.jpg"
+/386= "stimuli/as_rcic2_MNES_2_386_neg.jpg"
+/387= "stimuli/as_rcic2_MNES_2_387_neg.jpg"
+/388= "stimuli/as_rcic2_MNES_2_388_neg.jpg"
+/389= "stimuli/as_rcic2_MNES_2_389_neg.jpg"
+/390= "stimuli/as_rcic2_MNES_2_390_neg.jpg"
+/391= "stimuli/as_rcic2_MNES_2_391_neg.jpg"
+/392= "stimuli/as_rcic2_MNES_2_392_neg.jpg"
+/393= "stimuli/as_rcic2_MNES_2_393_neg.jpg"
+/394= "stimuli/as_rcic2_MNES_2_394_neg.jpg"
+/395= "stimuli/as_rcic2_MNES_2_395_neg.jpg"
+/396= "stimuli/as_rcic2_MNES_2_396_neg.jpg"
+/397= "stimuli/as_rcic2_MNES_2_397_neg.jpg"
+/398= "stimuli/as_rcic2_MNES_2_398_neg.jpg"
+/399= "stimuli/as_rcic2_MNES_2_399_neg.jpg"
+/400= "stimuli/as_rcic2_MNES_2_0_neg.jpg"
+</item>
+
+
+***********************************
+***** Suspicion Probe 1
+***********************************
+
+
+
+<textbox suspicion1>
+/ caption = "1. Beschreiben Sie in Ihren eigenen Worten, worum es Ihrer Meinung nach in dieser Studie geht."
+/ multiline = true
+/ required = false
+/ textboxsize = (50%, 20%)
+</textbox>
+
+<textbox suspicion2>
+/ caption = "2. Hatten Sie den Eindruck, dass bestimmte Reaktionen von Ihnen erwartet wurden? Wenn ja, welche?"
+/ multiline = true
+/ required = false
+/ textboxsize = (50%, 15%)
+</textbox>
+
+
+<surveypage suspicion1>
+/ caption = "Bevor es mit dem nächsten Teil weiter geht, möchten wir Sie um Feedback zu dem bisherigen Teil der Studie bitten. Wir möchten sicherstellen, dass der Aufbau der Studie stimmig ist und benötigen Ihre Rückmeldung, um uns bei der Verbesserung künftiger Studien zu helfen. Bitte beantworten Sie die folgenden Fragen so ehrlich wie möglich. Ihre Antworten sind äußerst wichtig für die wissenschaftliche Gültigkeit dieser Studie. Antworten Sie bitte so ausführlich, wie es Ihrer Meinung nach notwendig ist, um die jeweilige Frage vollständig zu beantworten."
+/ questions = [1=suspicion1; 2=suspicion2]
+/ finishlabel = "Weiter"
+/ nextlabel = "Weiter"
+/ showbackbutton = false
+/ fontstyle = ("Arial", 2%)
+/ showpagenumbers = false
+/ nextbuttonposition = (90,90) 
+/ showquestionnumbers = false
+</surveypage>
+
+<block suspicion1>
+/ trials = [1=suspicion1]
+</block>
+
+
+
+***********************************
+***** Explizites Rating David
+***********************************
+
+<page david_fragen>
+^^Welchen ersten Eindruck haben Sie von David S. bekommen?
+^^Es gibt bei den nun folgenden Fragen keine richtigen und falschen Antworten, sondern nur Ihren persönlichen Eindruck, den Sie von David S. bekommen haben.
+</page>
+
+<text david_fragen>
+/items = david_fragen
+/ fontstyle = ("Arial", 3%)
+/ select = sequence
+/ position = (50,50)
+</text>
+
+
+
+<item david_fragen>
+/1	= "Wie sehr würden Sie David S. wohl mögen?"
+/2	= "Wie sympathisch erscheint Ihnen David S.?"
+/3 = "Wie berechnend erscheint Ihnen David S.?"
+/4 = "Wie geizig erscheint Ihnen David S.?"
+/5 = "Wie warmherzig erscheint Ihnen David S.?"
+/6 = "Wie gerissen erscheint Ihnen David S.?"
+/7 = "Wie vertrauenswürdig erscheint Ihnen David S.?"
+/8 = "Wie rücksichtslos erscheint Ihnen David S.?"
+/9 = "Wie skrupellos erscheint Ihnen David S.?"
+/10 = "Wie ehrlich erscheint Ihnen David S.?"
+</item>
+
+
+
+<likert david_fragen>
+/ stimulustimes = [1=david_fragen]
+/ anchors = [1="gar nicht"; 2=""; 3=""; 4=""; 5=""; 6=""; 7="sehr"]
+/ anchorwidth = 5%
+/ numpoints = 7
+/ fontstyle = ("Arial", 1.5%, false)
+/ position = (50, 70)
+/ mouse=true
+</likert>
+
+<block david_fragen>
+/ preinstructions = (david_fragen)
+/ trials = [1-10 = david_fragen]
+/ postinstructions = (wsc_pre)
+</block>
+
+
+
+
+<page wsc_pre>
+^^Da wir uns in dieser Studie für Ihre Erinnerungsleistung interessieren, folgt nun eine kurze Pause, bevor es mit dem letzten Teil der eigentlichen Studie weiter geht.
+^^In dieser Zeit möchten wir Sie bitten, die folgende Wortstammergänzungsaufgabe zu bearbeiten.
+^^Diese dient zur Erstellung von Untersuchungsmaterial für zukünftige Forschungsprojekte.
+^^Bitte klicken Sie jetzt auf "Weiter" um mit der Wortstammergänzungsaufgabe zu beginnen.
+</page>
+
+******************************************************
+********** Word Stem Completion **************
+******************************************************
+
+<text wsc>
+/ fontstyle = ("Arial", 3.5%)
+/ select = noreplace
+/ items = wsc
+</text>
+
+<item wsc>
+/1 = "Depo_________"
+/2 = "Endl_________"
+/3 = "Erm__________"
+/4 = "Gask_________"
+/5 = "Geno_________"
+/6 = "Hol_________"
+/7 = "Konz_________"
+/8 = "Krem_________"
+/9 = "Verga_________"
+/10 = "Vern_________"
+/11 = "Akte_________"
+/12 = "Alte_________"
+/13 = "Bewe_________"
+/14 = "Einw_________"
+/15 = "Empf_________"
+/16 = "Erfa_________"
+/17 = "Fort_________"
+/18 = "Funk_________"
+/19 = "Gymn_________"
+/20 = "Hint_________"
+/21 = "Kilo_________"
+/22 = "Krei_________"
+/23 = "Lieb_________"
+/24 = "Mono_________"
+/25 = "Nage_________"
+/26 = "Pers_________"
+/27 = "Rege_________"
+/28 = "Rück_________"
+/29 = "Stei_________"
+/30 = "Zusa_________"
+</item>
+
+
+
+<openended wsc>
+/ charlimit = 20
+/ linelength = 30
+/ multiline = false
+/ position = (50,70)
+/ stimulustimes = [0 = wsc]
+/ posttrialpause = 250
+/ buttonlabel = "Weiter"
+</openended>
+
+<htmlpage wsc>
+/ file = "wsc_instr.html"
+</htmlpage>
+
+<block wsc>
+/ onblockbegin = [instruct.width = 60%]
+/ preinstructions = (wsc)
+/ trials = [1-30=wsc]
+/ onblockend = [instruct.width = 98%]
+</block>
+
+
+
+******************************************************
+********** Manipulation Check *****************
+******************************************************
+
+
+<radiobuttons a>
+/ caption = ""
+/ options = ("David S. studiert in Mannheim Psychologie.", "David S. arbeitet in Köln als Versicherungsangestellter.","David S. arbeitet in Frankfurt an der Oder als Börsenmakler.","David S. arbeitet als Abteilungsleiter in Frankfurt am Main.")
+/ optionvalues = ("1", "2","3","4")
+</radiobuttons>
+
+<radiobuttons b>
+/ caption = ""
+/ options = ("Er arbeitet werktags von 9-19 Uhr.", "Er arbeitet nur samstags von 12-19 Uhr.","Er arbeitet jeden Tag von 8.30-18 Uhr und macht freitags früher Schluss.","Er arbeitet jeden Tag von 8.30-18 Uhr und macht dienstags früher Schluss.")
+/ optionvalues = ("1", "2","3","4")
+</radiobuttons>
+
+<radiobuttons c>
+/ caption = ""
+/ options = ("Sein Vater arbeitet in der örtlichen Kirchengemeinde.", "Sein Vater arbeitet in der örtlichen Synagoge.","Sein Vater arbeitet in der städtischen Kreisverwaltung als leitender Angestellter.","Sein Vater ist bereits berentet und arbeitet nebenbei als Zeitungsausträger.")
+/ optionvalues = ("1", "2","3","4")
+</radiobuttons>
+
+<radiobuttons d>
+/ caption = ""
+/ options = ("David S. lebt mit seinem Hund in einer kleinen Parterrewohnung.", "David S. wohnt alleine in einer großen Mietswohnung.","David S. lebt mit Frau und Kindern in einem Frankfurter Reihenhaus.","David S. wohnt alleine in einer Dachgeschosswohnung.")
+/ optionvalues = ("1", "2","3","4")
+</radiobuttons>
+
+<radiobuttons e>
+/ caption = ""
+/ options = ("David S. geht gerne schwimmen.", "David S. treibt viel Sport.","David S. schaut gerne Fernsehen.","David S. geht gerne spazieren.")
+/ optionvalues = ("1", "2","3","4")
+</radiobuttons>
+
+<radiobuttons f>
+/ caption = ""
+/ options = ("David S. engagiert sich für krebskranke Kinder.","David S. engagiert sich für überlebende KZ-Insassen.","David S. engagiert sich für die Bewahrung von Waldgebieten.", "David S. engagiert sich in einer Partei.")
+/ optionvalues = ("1", "2","3","4")
+</radiobuttons>
+
+
+<surveypage mc_1>
+/ caption = "Bitte erinnern Sie sich nun an den Text über David S. und wählen Sie aus den jeweils 4 Alternativen die Aussage über David S. aus, die Sie für richtig halten."
+/ questions = [1=a; 2=b; 3=c; 4=d]
+/ finishlabel = "Weiter"
+/ nextlabel = "Weiter"
+/ showbackbutton = false
+/ fontstyle = ("Arial", 2%, true)
+/ itemfontstyle = ("Arial", 2%)
+/ showpagenumbers = false
+/ nextbuttonposition = (90,90) 
+/ showquestionnumbers = false
+</surveypage>
+
+<surveypage mc_2>
+/ caption = "Wählen Sie aus den jeweils 4 Alternativen die Aussage über David S. aus, die Sie für richtig halten."
+/ questions = [1=e; 2=f]
+/ finishlabel = "Weiter"
+/ nextlabel = "Weiter"
+/ showbackbutton = false
+/ fontstyle = ("Arial", 2%, true)
+/ itemfontstyle = ("Arial", 2%)
+/ showpagenumbers = false
+/ nextbuttonposition = (90,90) 
+/ showquestionnumbers = false
+</surveypage>
+
+
+
+<block mc>
+/ trials = [1=mc_1; 2=mc_2]
+</block>
+
+
+
+
+**********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************
+	demog & religion
+**********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************
+<page demog>
+^^Vielen Dank! Hiermit ist der Hauptteil der Studie abgeschlossen.
+^^Zum Schluss möchten wir Sie auf den folgenden Seiten bitten, einige Angaben zu Ihrer Person zu machen.
+</page>
+
+
+** demog.
+
+<textbox age>
+/ caption = "Alter:"
+/ required = false
+</textbox>
+
+<radiobuttons sex>
+/ caption = "Geschlecht:"
+/ options = ("weiblich", "männlich")
+/ optionvalues = ("1", "2")
+/ orientation = horizontal
+</radiobuttons>
+
+<radiobuttons bildung>
+/ caption = "Bildungsabschluss:"
+/ options = ("Hauptschule", "Realschule", "Gymnasium", "Universität", "keiner")
+/ optionvalues = ("1", "2", "3", "4", "0", "9")
+/ other = "sonstiger:"
+</radiobuttons>
+
+<textbox fach>
+/ caption = "Studienfach bzw. Beruf"
+/ required = false
+</textbox>
+
+<radiobuttons migration>
+/ caption = "Haben Sie einen Migrationshintergrund?"
+/ options = ("ja", "nein")
+/ optionvalues = ("1", "0")
+/ orientation = horizontal
+</radiobuttons>
+
+<textbox migration2>
+/ caption = "Falls ja, aus welchem Land?"
+/ required = false
+</textbox>
+
+<radiobuttons religion>
+/ caption = "Welcher Religion sind Sie angehörig?"
+/ options = ("Chr. Katholisch", "Chr. Evangelisch", "Muslimisch", "Jüdisch", "keiner")
+/ optionvalues = ("1", "2", "3", "4", "0", "9")
+/ other = "andere:"
+</radiobuttons>
+
+
+
+<surveypage demog1>
+/ caption = "Um beschreiben zu können, wer an dieser Studie teilgenommen hat, möchten wir Sie bitten, einige Angaben zu Ihrer Person zu machen."
+/ questions = [1=age; 2=sex; 3=bildung; 4=fach]
+/ finishlabel = "Weiter"
+/ nextlabel = "Weiter"
+/ showbackbutton = false
+/ fontstyle = ("Arial", 2%, true)
+/ responsefontstyle = ("Arial", 1.5%)
+/ showpagenumbers = false
+/ nextbuttonposition = (90,90) 
+/ txcolor = black
+/ showquestionnumbers = false
+</surveypage>
+
+<surveypage demog2>
+/ caption = ""
+/ questions = [1=migration; 2=migration2; 3=religion]
+/ finishlabel = "Weiter"
+/ nextlabel = "Weiter"
+/ showbackbutton = false
+/ fontstyle = ("Arial", 2%, true)
+/ responsefontstyle = ("Arial", 1.5%)
+/ showpagenumbers = false
+/ nextbuttonposition = (90,90) 
+/ txcolor = black
+/ showquestionnumbers = false
+</surveypage>
+
+<block demog>
+/ preinstructions = (demog)
+/ trials = [1=demog1; 2=demog2]
+</block>
+
+
+
+<textbox comment>
+/ caption = "Wenn Sie Anmerkungen zur Studie machen möchten, können Sie diese hier aufschreiben."
+/ multiline = true
+/ required = false
+/ textboxsize = (30%, 20%)
+</textbox>
+
+<surveypage comment>
+/ caption = "Vielen Dank für Ihre Teilnahme! ~nDie Studie ist jetzt beendet."
+/ questions = [1=comment]
+/ finishlabel = "Weiter"
+/ nextlabel = "Weiter"
+/ showbackbutton = false
+/ fontstyle = ("Arial", 2%)
+/ showpagenumbers = false
+/ nextbuttonposition = (90,90) 
+/ showquestionnumbers = false
+</surveypage>
+
+<block comment>
+/ trials = [1=comment]
+</block>
+

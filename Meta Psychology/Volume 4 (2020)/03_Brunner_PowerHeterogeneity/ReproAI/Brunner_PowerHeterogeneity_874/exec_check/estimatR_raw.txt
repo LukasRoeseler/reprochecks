@@ -1,0 +1,1020 @@
+
+##################################################################################
+# This is a collection of R functions for our work on estimating population mean power.
+# Copyright 2017 by Jerry Brunner. 
+# All rights are reserved for the present, but feel free to use these functions for 
+# non-commerical purposes.
+# 
+# At the R prompt, type source("http://www.utstat.toronto.edu/b/Rfunctions/estimatR.txt")
+# Then at the R prompt, type functions() to see a list of the functions.
+##################################################################################
+
+functions = function()
+    {cat("\n")
+     cat("rsigF:           Simulate only significant F statistics for a given non-centrality parameter.\n")
+     cat("rsigCHI:         Simulate only significant chi-squared statistics for a given non-centrality parameter.\n")
+     cat("heteroNpcurveCHI P-curve for a chi-squared test, heterogeneous in sample size only. \n")
+     cat("heteroNpunifCHI  P-uniform for a chi-squared test, heterogeneous in sample size only. \n")
+     cat("heteroNmleCHI    MLE for a chi-squared test, heterogeneous in sample size only. \n")
+     cat("heteroNpcurveF:  P-curve for an F-test, heterogeneous in sample size only.\n")
+     cat("heteroNpunifF:   P-uniform for an F-test, heterogeneous in sample size only.\n")
+     cat("heteroNmleF:     MLE for an F-test, heterogeneous in sample size only. \n")
+     cat("heteromleCHI:    MLE for a chi-squared test, continuous (gamma) effect size.  \n")
+     cat("heteromleF:      MLE for an F-test, continuous (gamma) effect size.  \n")
+     cat("mixedCHImle:     MLE for a collection of chi-squared tests with varying df and   \n")
+     cat("                 continuous (gamma) effect size: Weighted sum of MLEs.")
+                           cat("  Very slow, with 3 random starts.  \n")
+     cat("mixedFmle:       MLE for a collection of F-tests with varying numerator df and   \n")
+     cat("                 continuous (gamma) effect size: Weighted sum of MLEs.")
+                           cat("  Very slow, with 3 random starts.  \n")
+     cat("mixedCHIpcurve, mixedFpcurve, mixedCHIpuniform, mixedFpuniform: As above.   \n")
+     cat("zcurve:          Z-curve - Convert to Schimmack's Z and fit a finite mixture model.  \n")
+     cat("zboot:           Z-curve estimate with 95% conservative percentile bootstrap confidence interval. \n")
+     cat("\n")
+     cat("Copyright 2017 by Jerry Brunner. All rights are reserved for the present, but ")
+     cat("feel free to use these functions for non-commerical purposes.\n") 
+     cat("\n")} # End of the function called functions
+##################################################################################
+
+rsigF = function(nsim,DF1,DF2,NCP,matout=F,alpha=0.05)
+# Simulate significant F statistics for given (vector of) ncp value(s)
+    {   
+    cv = qf(1-alpha,DF1,DF2) # Critical value
+    g = 1-pf(cv,DF1,DF2,NCP) # Power
+    U = runif(nsim)
+    FF = qf(1-g*U,DF1,DF2,NCP); value = FF
+    if(matout) value=cbind(FF,DF1,DF2) # If matrix output return df too    
+    return(value)
+    } # End of function rsigF
+
+##################################################################################
+
+rsigCHI = function(nsim,DF,NCP,matout=F,alpha=0.05)
+# Simulate significant chi-squared statistics for given (vector of) ncp value(s)
+    {   
+    cv = qchisq(1-alpha,DF) # Critical value
+    g = 1-pchisq(cv,DF,NCP) # Power
+    U = runif(nsim)
+    Y = qchisq(1-g*U,DF,NCP); value = Y
+    if(matout) value=cbind(Y,DF) # If matrix output return df too    
+    return(value)
+    } # End of function rsigCHI
+
+
+##################################################################################
+heteroNpcurveCHI = function(Y,dfree,nn,alpha=0.05)
+    # P-curve estimate for a chi-squared test. There is no confidence interval.
+    {
+    critval = qchisq(1-alpha,df=dfree)
+    if(min(Y-critval)<0) stop("Function heteroNpcurveCHI assumes significant results.")
+    KSloss = function(es0,NN=nn,DF=dfree,datta=Y,crit=critval) # For a chi-squared test
+        {
+        newpp = (1-pchisq(datta,df=DF,ncp=NN*es0))/(1-pchisq(crit,df=DF,ncp=NN*es0))
+        ks.test(newpp,"punif")$statistic
+        } # End function KSloss
+     eshat = optimize(KSloss,interval=c(0,1),datta=Y)$minimum
+    PowerEst = mean( 1-pchisq(critval,df=dfree,ncp=nn*eshat) )
+    PowerEst
+    } # End function heteroNpcurveCHI
+
+##################################################################################
+heteroNpunifCHI = function(Y,dfree,nn,alpha=0.05,CI=T)
+    # P-uniform estimate for a chi-squared test, with 95% confidence interval. Fixed May 22, 2016
+    {
+    critval = qchisq(1-alpha,df=dfree); k = length(Y) 
+    if(min(Y-critval)<0) stop("Function heteroNpunifCHI assumes significant results.")
+    loss = function(es0,NN=nn,DF=dfree,datta=Y,crit=critval,criterion=k) 
+        {
+        # cat(es0,"\n") # Debugging
+        # Instead of newpp = (1-pchisq(datta,df=DF,ncp=NN*es0))/(1-pchisq(crit,df=DF,ncp=NN*es0))
+        # Lower tail in numerator yields 1 minus new pp
+        lognewpp = pchisq(datta,df=DF,ncp=NN*es0, log.p=T) - 
+                   pchisq(crit, df=DF,ncp=NN*es0, lower.tail=F,log.p=T)
+        Ygam = -sum(lognewpp)
+        (Ygam-criterion)^2
+        } # End function loss
+    eshat = optimize(loss,interval=c(0,1),criterion=k)$minimum
+    PowerEst = mean( 1-pchisq(critval,df=dfree,ncp=nn*eshat) )
+    value = PowerEst
+    if(CI) 
+        {lowcv = qgamma(0.025,shape=k)
+        hicv   = qgamma(0.975,shape=k)
+        value = numeric(3)
+        names(value) = c("Estimate","Lower","Upper")
+        value[1]=PowerEst
+        lowhat = optimize(loss,interval=c(0,1),criterion=lowcv)$minimum
+        value[3] = mean( 1-pchisq(critval,df=dfree,ncp=nn*lowhat) )
+        hihat = optimize(loss,interval=c(0,1),criterion=hicv)$minimum
+        value[2] = mean( 1-pchisq(critval,df=dfree,ncp=nn*hihat) )
+        } # End if confidence interval requested
+    value
+    } # End function heteroNpunifCHI
+
+##################################################################################
+heteroNmleCHI = function(Y,dfree,nn,alpha=0.05,CI=T,warn=F) 
+    # Maximum likelihood estimate for a chi-squared test, with 95% confidence interval.
+    {
+    critval = qchisq(1-alpha,df=dfree); k = length(Y) 
+    if(min(Y)<critval) stop("Function heteroNmleCHI assumes significant results.")
+    mll = function(es,NN=nn,DF=dfree,datta=Y,crit=critval) # Minus Log Likelihood
+        {
+        # cat("In mll, es =",es,"\n") # Debug
+        # Note absolute value of es in case the search leaves the parameter space.
+        sum(pchisq(crit, df=DF, ncp=NN*abs(es), lower.tail=F, log.p=T)) -
+        sum(dchisq(datta, df=DF, ncp=NN*abs(es), log=T))
+        } # End function mll
+    Search = nlminb(start=0.1,mll,lower=0)
+    eshat = abs(Search$par) # Absolute value in case negative value was located.
+    mle = mean( 1-pchisq(critval,df=dfree,ncp=nn*eshat) )
+    value = mle
+    if(CI) 
+        {
+        # cat("\n\n If CI=T:  \n\n") # Debug
+        value = numeric(3)
+        names(value) = c("MLE","Lower95","Upper95")
+        value[1] = mle
+        if(eshat==0) 
+            {  
+            value[2] = NA; value[3] = NA
+            if(warn) cat("\nEstimated effect size = 0; Confidence limits set to NA.\n\n")
+            }
+         if(eshat>0) 
+            {        
+            # Search = nlm(mll,p=eshat,hessian=T,gradtol=10) # gradtol=10 means stay put.
+            Search = nlm(mll,p=eshat,hessian=T) 
+            v = as.numeric(1/Search$hessian) # Estimated variance of eshat
+            # There can be nasty numerical trouble, especially when true es=0
+            if (v<0)
+                {
+                value[2] = NA; value[3] = NA
+                if(warn)
+                    {cat("Warning: Negative variance estimate in heteroNmleCHI: ")
+                     cat(" Confidence interval set to (NA,NA) \n") 
+                     print(Search); cat("\n")
+                     cat("     Old eshat =",eshat,"  New eshat = ",
+                     Search$estimate,"\n") # Debug
+                     } # End if want warning 
+                } # End if negative estimated variance
+            if (v>0)
+                {
+                eshat = Search$estimate # Use the new and possibly improved estimate. 
+                mle = mean( 1-pchisq(critval,df=dfree,ncp=nn*eshat) ) # New mle of mean power
+                se = sqrt(v)
+                lo = eshat-se*1.96; if(lo<0) lo=0 
+                hi = eshat+se*1.96; if(hi>1) hi=1
+                value[1] = mle
+                value[2] = mean( 1-pchisq(critval,df=dfree,ncp=nn*lo) )
+                value[3] = mean( 1-pchisq(critval,df=dfree,ncp=nn*hi) )
+                } # End if estimated variance is positive
+            } # End if estimated effect size is positive
+        } # End if confidence interval was requested
+    value
+    } # End function heteroNmleCHI
+
+
+##################################################################################
+heteroNpcurveF = function(FF,dfree1,dfree2,alpha=0.05)
+    # P-curve estimate for an F-test. There is no confidence interval.
+    # Heterogeneity in sample size only.
+    # Use Cohen's (1988, p. 414) lambda = f^2 * (df1+df2+1)
+    {
+    critval = qf(1-alpha,df1=dfree1,df2=dfree2)
+    if(sum(FF<critval)>0) stop("Function heteroNpcurveF assumes significant results.")
+    KSloss = function(es0,DF1=dfree1,DF2=dfree2,datta=FF,crit=critval)
+        {
+        lognewpp = pf(datta,df1=DF1,df2=DF2,ncp=(DF1+DF2+1)*es0, lower.tail=F,log.p=T) -
+                   pf(crit,df1=DF1,df2=DF2,ncp=(DF1+DF2+1)*es0, lower.tail=F,log.p=T)
+        newpp = exp(lognewpp)
+        ks.test(newpp,"punif")$statistic
+        } # End function KSloss
+     eshat = optimize(KSloss,interval=c(0,1))$minimum
+    PowerEst = mean( 1-pf(critval,df1=dfree1,df2=dfree2,
+                          ncp=(dfree1+dfree2+1)*eshat) )
+    PowerEst
+    } # End function heteroNpcurveF
+
+##################################################################################
+heteroNpunifF = function(FF,dfree1,dfree2,alpha=0.05,CI=T)
+    # P-uniform estimate for an F-test, with 95% confidence interval.
+    # Heterogeneity in sample size only.
+    # Use Cohen's (1988, p. 414) lambda = f^2 * (df1+df2+1)
+    {
+    critval = qf(1-alpha,df1=dfree1,df2=dfree2); k = length(FF) 
+    if(sum(FF<critval)>0) stop("Function heteroNpunifF assumes significant results.")
+    loss = function(es0,DF1=dfree1,DF2=dfree2,datta=FF,crit=critval,criterion=k) 
+        {
+        # cat(es0,"\n") # Debugging
+        # Lower tail in numerator yields 1 minus new pp
+        lognewpp = pf(datta,df1=DF1,df2=DF2,ncp=(DF1+DF2+1)*es0,log.p=T) - 
+                   pf(crit,df1=DF1,df2=DF2,ncp=(DF1+DF2+1)*es0, lower.tail=F,log.p=T)
+        Ygam = -sum(lognewpp)
+        (Ygam-criterion)^2
+        } # End function loss
+    eshat = optimize(loss,interval=c(0,1),criterion=k)$minimum
+    PowerEst = mean( 1-pf(critval,df1=dfree1,df2=dfree2,
+                          ncp=(dfree1+dfree2+1)*eshat) )
+    value = PowerEst
+    if(CI) # Certainly need to test this!
+        {lowcv = qgamma(0.025,shape=k)
+        hicv   = qgamma(0.975,shape=k)
+        value = numeric(3)
+        names(value) = c("Estimate","Lower95","Upper95")
+        value[1]=PowerEst
+        lowhat = optimize(loss,interval=c(0,1),criterion=lowcv)$minimum
+        value[3] = mean( 1-pf(critval,df1=dfree1,df2=dfree2,
+                          ncp=(dfree1+dfree2+1)*lowhat) )
+        hihat = optimize(loss,interval=c(0,1),criterion=hicv)$minimum
+        value[2] = mean( 1-pf(critval,df1=dfree1,df2=dfree2,
+                          ncp=(dfree1+dfree2+1)*hihat) )
+        } # End if confidence interval requested
+    value
+    } # End function heteroNpunifF
+
+
+##################################################################################
+heteroNmleF = function(FF,dfree1,dfree2,alpha=0.05,CI=T,warn=F) 
+    # Maximum likelihood estimate for an test, with 95% confidence interval.
+    # Heterogeneity in sample size only.
+    # Use Cohen's (1988, p. 414) lambda = f^2 * (df1+df2+1)
+    {
+    critval = qf(1-alpha,df1=dfree1,df2=dfree2); k = length(FF)
+    if(sum(FF<critval)>0) stop("Function heteroNmleF assumes significant results.")
+    mll = function(es, DF1=dfree1,DF2=dfree2,datta=FF,crit=critval) 
+    # Minus Log Likelihood
+        {
+        # cat("In mll, es =",es,"\n") # Debug
+        # Note absolute value of es in case the search leaves the parameter space.
+        # Convert the MLE to positive if necessary.
+        sum( pf(crit,df1=DF1,df2=DF2,ncp=(DF1+DF2+1)*abs(es),lower.tail=F,log.p=T) ) -
+        sum( df(datta,df1=DF1,df2=DF2,ncp=(DF1+DF2+1)*abs(es),log=T) )
+        } # End function mll
+    Search = nlminb(start=0.1,mll,lower=0)
+    eshat = abs(Search$par) # Absolute value in case negative value was located.
+    mle = mean( 1-pf(critval,df1=dfree1,df2=dfree2, ncp=(dfree1+dfree2+1)*eshat) )
+    value = mle
+    if(CI) 
+        {
+        # cat("\n\n If CI=T:  \n\n") # Debug
+        value = numeric(3)
+        names(value) = c("MLE","Lower95","Upper95")
+        value[1] = mle
+        if(eshat==0) 
+            {  
+            value[2] = NA; value[3] = NA
+            if(warn) cat("\nEstimated effect size = 0; Confidence limits set to NA.\n\n")
+            }
+         if(eshat>0) 
+            {        
+            Search = nlm(mll,p=eshat,hessian=T) 
+            v = as.numeric(1/Search$hessian) # Estimated variance of eshat
+            # There can be nasty numerical trouble, especially when true es=0
+            if (v<0)
+                {
+                value[2] = NA; value[3] = NA
+                if(warn)
+                    {cat("Warning: Negative variance estimate in heteroNmleF: ")
+                     cat(" Confidence interval set to (NA,NA) \n") 
+                     print(Search); cat("\n")
+                     cat("     Old eshat =",eshat,"  New eshat = ",
+                     Search$estimate,"\n") # Debug
+                     } # End if want warning 
+                } # End if negative estimated variance of eshat
+            if (v>0)
+                {
+                eshat = Search$estimate # Use the new and possibly improved estimate. 
+                mle = mean( 1-pf(critval,df1=dfree1,df2=dfree2, 
+                            ncp=(dfree1+dfree2+1)*eshat) ) # New mle of mean power
+                se = sqrt(v)
+                lo = eshat-se*1.96; if(lo<0) lo=0 
+                hi = eshat+se*1.96; if(hi>1) hi=1
+                value[1] = mle
+                value[2] = mean( 1-pf(critval,df1=dfree1,df2=dfree2, 
+                            ncp=(dfree1+dfree2+1)*lo) )
+                value[3] = mean( 1-pf(critval,df1=dfree1,df2=dfree2, 
+                            ncp=(dfree1+dfree2+1)*hi) )
+                } # End if estimated variance is positive
+            } # End if estimated effect size is positive
+        } # End if confidence interval was requested
+    value
+    } # End function heteroNmleF
+
+
+##################################################################################
+zcurve = function(pvalue, ncomp=3, Plot=1, Verbose=T, startval=NULL, alpha=0.05)
+# Mixture of truncated normals, but truncated on both sides.
+# This function transforms input p-values to Schimmack's Z, and estimates mean
+# power based on a truncated normal mixture model with ncomp components.  Numerical
+# search is over ncomp mu parameters and ncomp weights. Optional vector of starting 
+# values consists of ncomp mu values followed by ncomp weights.
+# Plot level 0 means no plot, 1 means plot the density estimate and final fitted
+# curve.  Plot level 2 shows the progress of the fit -- slow but fun to watch.
+###################################################################################
+{
+if(length(startval>0))
+     {   
+     if(length(startval) != 2*ncomp) stop("ncomp and startval are inconsistent.")   
+     }
+     
+if(Verbose) 
+    {cat("Running program zcurve \n")
+    cat("\nFitting a truncated normal mixture model with",ncomp,"components.\n")
+    }
+
+# Calculate Z. 
+if(max(pvalue)>alpha) stop("All tests must be significant.")
+Z = qnorm(1-pvalue/2) # Could have some Inf, no problem
+if(Verbose) cat("K =",length(Z),"p-values were input, of which ")
+highp = length(Z[Z>6])/length(Z)  # Proportion above 6 sigma: Estimate power = 1
+if(Verbose) cat(length(Z[Z<6]),"yielded Z < 6. \n\n")
+cv = qnorm(1-alpha/2)
+
+# Augmented Z for density estimate.
+Z = subset(Z,Z<Inf) ; augZ = c(Z,2*cv-Z)
+# Z-cv is positive, cv-Z is reflection, add another cv to bring it back.
+DensityEstimate = density(augZ,n=100,from=2,to=6) # Start at 2, not cv 
+# if(Plot==1) plot(DensityEstimate,main='Density Estimate of Z for Z<6',xlab='Z')
+z = DensityEstimate$x;  kurve = DensityEstimate$y;
+gap = z[2]-z[1]
+kurve = kurve/(sum(kurve*gap)) # Area under kurve now roughly equals one
+if(Plot==1) plot(z,kurve,type='l',main='Density Estimate for Z<6',xlab='Z',ylab='Density')
+
+if(length(startval)==0)
+    {# Automatic starting values for numerical search: 
+     # Random and uniform on (0,6) with equal weights to start.
+     mustart = sort(runif(ncomp,0,6))
+     wtstart = rep(1/ncomp,ncomp)
+     # This fix-up of the default starting values can be un-done easily.
+     # mustart[1] = 0 ; wtstart[1]=1; wtstart[2:ncomp] = numeric(ncomp-1)
+     # mustart[1] = 0 ; wtstart[1]=0.999; wtstart[2:ncomp] = numeric(ncomp-1) + 0.001/(ncomp-1)
+    startval = c(mustart,wtstart) 
+    } # End if starting values unspecified.
+# Boundaries for the numerical search.
+high1 = rep(6,ncomp);    high2 = rep(1,ncomp)
+low1 = rep(-6,ncomp); low2 = rep(0,ncomp)
+lowlim = c(low1,low2); highlim = c(high1,high2)
+
+if(Verbose)
+    {
+    cat("\nStarting values for the numerical search:\n")
+    print(startval)
+    cat("\nBoundaries for numerical search:\n")
+    showbounds = rbind(lowlim,highlim)
+    print(showbounds)
+    }
+
+# Minimize adiff to estimate mu and weight values. This adiff is different from 
+# adiff in the original zcurve.
+
+adiff = function(theta,xvals,yvals,PLOT=Plot,RetEst=F)
+    {
+    if(length(xvals)!=length(yvals)) stop("There must be the same number of x and y values.")
+    cv = qnorm(0.975)
+    Zvalue = xvals;  Kurve = yvals
+    nvalues = length(Kurve)
+    gap = Zvalue[2]-Zvalue[1]
+    # Commented out because kurve was normalized before input.  
+    # Kurve = Kurve/(sum(Kurve*gap)) # Area under Kurve now equals one for sure
+    if(PLOT==2) plot(Zvalue,Kurve,type='l',main='Density Estimate for Z < 6',xlab='Z')
+    nodes = length(theta)/2 # Check it's an integer with length(theta) %/% 2
+    Mu = theta[1:nodes]
+    weight = abs(theta[(nodes+1):(2*nodes)]) # Weights are positive no matter what
+    weight = weight/sum(weight) # Now weights add to one. 
+    EstimatedKurve = dens = numeric(nvalues)
+    for(j in 1:nodes)
+        {
+        dens = dnorm(Zvalue-Mu[j]) # Proportional to truncated normal
+        dens = dens/sum(dens*gap)  # Now area under dens from 2 to 6 equals 1
+        EstimatedKurve = EstimatedKurve + weight[j]*dens
+        }
+    if(PLOT==2) 
+        {
+        lines(Zvalue,EstimatedKurve,lty=1,col="red1")
+        points(Zvalue,EstimatedKurve,pch=20,col="red1")
+        }
+    sumabsdev = sum(abs(EstimatedKurve-Kurve))
+    value = sumabsdev
+    # cat("Sum of absolute differences in adiff =",value,"\n")
+    if(RetEst) value = EstimatedKurve
+    return(value)
+    } # End of function adiff 
+
+if(Verbose) cat("\nTrying to minimize the sum of Absolute differences from the density estimate ...\n\n")
+auto = nlminb(startval,adiff,lower=lowlim,upper=highlim,control=list(eval.max=100), xvals=z,yvals=kurve) # Is eval.max wise?
+
+if(Verbose) 
+    {cat("Search finishes with this message from nlminb: ",auto$message,"\n\n")
+     cat("Final sum of Absolute differences =", auto$objective,"\n\n") }
+
+Muhat = auto$par[1:ncomp]
+if(ncomp==1) Wt=1 else Wt = auto$par[(ncomp+1):length(startval)]
+Wt = abs(Wt); Wt = Wt/sum(Wt) # Weights are positive and sum to one.
+
+Pow = 1-pnorm(cv,mean=Muhat)
+PowerEstimate = sum(Pow*Wt) 
+PowerEstimate = PowerEstimate*(1-highp) + 1*highp # Reflects Z values over 6
+
+if(Verbose) 
+    {
+    cat("\n\nEstimated mu values, weights and power values for Z < 6: \n\n")
+    print(rbind(Muhat,Wt,Pow))
+    cat("\n\nFinal mu values, weights and power values: \n\n")  
+    # Display the mixture including Z>6
+    Mu=Muhat; Weight=Wt; Power=Pow
+    if(highp>0)
+        {
+        Mu = c(Mu,Inf); Weight = c(Weight*(1-highp),highp)
+        Power = c(Power,1)
+        } # End if any Z>6
+    ind = order(Mu) # Sort them together by rank of Mu
+    Mu = Mu[ind]; Weight = Weight[ind] ; Power = Power[ind]
+    fullmu = rbind(Mu,Weight,Power); print(fullmu)
+    cat("\nEstimated population mean power is",PowerEstimate,"\n\n")
+    } # End if long Verbose
+
+if(Plot > 0) 
+    {
+    estkurve = adiff(auto$par,xvals=z,yvals=kurve,PLOT=0,RetEst=T)
+    lines(z,estkurve,lty=1,col="red1")
+    points(z,estkurve,pch=20,col="red1")
+    ht1 = 0.80*max(kurve); ht2 = 0.70*max(kurve)
+    x1 = c(4.5,5); y1 = c(ht1,ht1); lines(x1,y1,lty=1)
+    text(5.5,ht1,"Density of Z    ")
+    x2 = c(4.5,5); y2 = c(ht2,ht2); lines(x2,y2,lty=1,col="red1")
+    points(x2,y2,pch=20,col="red1")
+    text(5.5,ht2,"Approximation",col="red1")
+    }
+# Finally, check for things that should never happen.
+if(is.na(PowerEstimate))
+    {
+    cat("\n\n WARNING: zcurve power estimate =",PowerEstimate,". Computation failed. \n")
+    cat("Final estimated effect sizes and weights for Z<6: \n")
+    print(rbind(Muhat,Wt))
+    cat("The problem may be caused by an unlucky starting value. Try running zcurve again. \n\n")
+    }
+if(is.na(PowerEstimate)==F && PowerEstimate<0)
+    {
+    cat("\n\nWARNING: zcurve power estimate =",PowerEstimate,"\n")
+    cat("Final estimated effect sizes and weights for Z<6: \n")
+    print(rbind(Muhat,Wt))
+    cat("Setting estimate to zero. \n")
+    cat("The problem may be caused by an unlucky starting value. ")
+    cat("Try running zcurve again. \n\n")
+    PowerEstimate = 0
+    }
+if(is.na(PowerEstimate)==F && PowerEstimate>1)
+    {
+    cat("\n\nWARNING: zcurve power estimate =",PowerEstimate,"\n")
+    cat("Final estimated effect sizes and weights for Z<6: \n")
+    print(rbind(Muhat,Wt))
+    cat("Setting estimate to one. \n")
+    cat("The problem may be caused by an unlucky starting value. ")
+    cat("Try running zcurve again. \n\n")
+    PowerEstimate = 1
+    }
+return(PowerEstimate)
+} # End function zcurve
+
+##################################################################################
+zboot = function(Pval, Ncomp=3, delta = 0.02, Start=NULL, nboot=500)
+    # A conservative bootstrap confidence interval for the z-curve estimate.
+    # Produces the z-curve estimate along with a 95% confidence interval.
+    # Start with a bootstrap interval using the percentile method, and then
+    # subtract delta from the lower limit and add delta to the upper limit.
+    # Uses the zcurve function, which must be defined in order for zboot
+    # to work. Numerical search is over Ncomp mu parameters and Ncomp weights.
+    # Optional vector of starting values consists of Ncomp mu values followed by
+    # Ncomp weights.
+    {
+    Estimate = zcurve(Pval, ncomp=Ncomp, startval=Start, Plot=0, Verbose=F)
+    k = length(Pval)
+    powstar = numeric(nboot) # powstar will hold bootstrapped power estimates.
+    for(boot in 1:nboot)
+        {
+        pvalstar = sample(Pval, size=k, replace=T)
+        estimate = zcurve(pvalstar, ncomp=Ncomp, startval=Start, Plot=0, Verbose=F)
+        # cat("Bootstrap estimated mean power = ",estimate,"\n")
+        powstar[boot] = estimate
+        } # End bootstrap loop
+    powstar = sort(powstar)
+    # Linear interpolation is needed unless nboot is a multiple of 1,000.
+    a = 0.025*nboot - floor(0.025*nboot)
+    Lower95 = a*powstar[floor(0.025*nboot)] + (1-a)*powstar[ceiling(0.025*nboot)]
+    b = 0.975*nboot - floor(0.975*nboot)
+    Upper95 = b*powstar[floor(0.975*nboot)] + (1-b)*powstar[ceiling(0.975*nboot)]
+    Lower95 = Lower95 - delta; Upper95 = Upper95 + delta
+    value = round(c(Estimate,Lower95,Upper95),3)
+    names(value) = c("Estimate","Lower95","Upper95")
+    return(value)
+    } # End function zboot2
+
+
+
+##################################################################################
+# May 3,2016
+heteromleCHI = function(YY,NN,dfree,alpha=0.05,startvals,info=F) 
+    # Maximum likelihood estimate of mean power for a chi-squared test
+    # Note that both Y and N are already conditional on significance. 
+    # This version minimizes over (a,b), taking absolute values rather than using bounds.
+    # Prouces a pair: (Estimate, Minus Log Likelihood) for multiple starting values
+    {
+    critval = qchisq(1-alpha,df=dfree)
+    if(min(YY)<critval) stop("Function heteroNmleCHI assumes significant results.")
+    
+    ####################################################################################
+    mll = function(theta,NN,YY,DF,crit=critval) # Minus Log Likelihood
+        {
+        kk = length(YY) 
+        a = theta[1]; b = theta[2]
+        # cat("(a,b) = (",a,b,") \n") # DEBUG: Before taking absolute value
+        a = abs(a); b = abs(b) # In case I want to take off the bounds
+        # Each term of minus log likelihood is a ratio of integrals. Note n and y are scalars.
+        funbot = function(w,A,B,n,cv=crit) 
+            { (1-pchisq(cv,df=DF,ncp=n*w^2)) * dgamma(w,shape=A,scale=B) }
+        funtop = function(w,y,A,B,n) 
+            { dchisq(y,df=DF,ncp=n*w^2) * dgamma(w,shape=A,scale=B) }
+        # Do bottom only once for each n value.
+        NNval = sort(unique(NN)); NNfreq = table(NN)
+        nNNval = length(NNval); BOT = numeric(kk)       # BOT is the same length as TOP
+        for(jj in 1:nNNval) 
+            {
+            area = try(integrate(funbot,0,Inf,n=NNval[jj],A=a,B=b)$value,silent=T) 
+            bottom = as.numeric(area) # Will be NA if integration fails
+            BOT[NN==NNval[jj]] = bottom 
+            }
+            # print(BOT) # DEBUG
+        # Must do the top separately for each (N,Y) pair
+        TOP = numeric(kk)
+        for(jj in 1:kk) 
+            {
+            area = try(integrate(funtop,0,Inf,y=YY[jj],n=NN[jj],A=a,B=b)$value, silent=T) 
+            TOP[jj] = as.numeric(area) # Same trick
+            }
+            # print(TOP)  # Debug
+        logRAT = log(BOT) - log(TOP) 
+        # print(logRAT)  # DEBUG
+        # cat("\n\n Sum of logRAT is",sum(logRAT),"\n\n")  # DEBUG
+        # Failure of numerical integration may be NA, NaN or Inf. Make them all NA.
+        logRAT[logRAT==Inf] = NA        # Also locates NA and makes it NA again - harmless.
+        logRAT[is.nan(logRAT)] = NA
+        # Count the NA values.
+        nNA = sum(is.na(logRAT))
+        if(nNA>0) 
+            {if(info) cat("Integration failed for ",nNA," out of ", kk, " observations. \n")}
+        mllvalue = sum(logRAT,na.rm=T) * kk/(kk-nNA)
+        if(is.nan(mllvalue)) mllvalue = 100*kk  # Make the numerical search go elsewhere
+        # cat("Minus log likelihood =",mllvalue,"\n\n") # DEBUG 
+        return( mllvalue )
+        } # End of minus log likelihood function mll  
+    ####################################################################################
+
+    Search = nlm(f=mll,p=startvals,hessian=T, NN=NN,YY=YY,DF=dfree)
+    thetahat = Search$estimate; minimum = Search$minimum # For nlm
+    thetahat[1] = abs(thetahat[1]); thetahat[2] = abs(thetahat[2]) 
+    # DEBUG: Display theta-hat to locate numerical problems calculating the MLE
+    if(info) cat("\n(Ahat,Bhat) = ",thetahat,"\n") 
+    if(info) cat("Minimum minus log likelihood =",minimum,"\n\n")
+    # Now estimate mean power after selection using double expectation:
+    # E(G|T>c) = Sum_n E(G|T>c,N=n) P(N=n|T>c)
+    #          = Sum_n E(G^2|N=n)/E(G|N=n) P(N=n|T>c)
+    #
+    # Empirical distribution of sample size after selection
+    nnval = sort(unique(NN))
+    nnprob = table(NN)/sum(table(NN))
+    nnn = length(nnval)
+    # Functions to be integrated -- Don't need to vectorize.
+    ftop = function(x,nn,DF,theta,crit=critval)
+        {
+        a = theta[1]; b = theta[2]
+        # a = mu^2/sigma^2; b = sigma^2/mu # Gamma parameters
+        (1-pchisq(crit,df=DF,ncp=nn*x^2))^2 * dgamma(x,shape=a,scale=b)
+        } # End of function ftop
+    fbot = function(x,nn,DF,theta,crit=critval)
+        {
+        a = theta[1]; b = theta[2]
+        # a = mu^2/sigma^2; b = sigma^2/mu # Gamma parameters
+        (1-pchisq(crit,df=DF,ncp=nn*x^2)) * dgamma(x,shape=a,scale=b)
+        } # End of function fbot
+    ttop = bbot = numeric(nnn)
+    # This could fail too.
+        for(jj in 1:nnn)
+            {
+            traptop = try(integrate(ftop,0,Inf,nn=nnval[jj],DF=dfree,theta=thetahat)$value, silent=T)
+            ttop[jj] = as.numeric(traptop)
+            trapbot = try(integrate(fbot,0,Inf,nn=nnval[jj],DF=dfree,theta=thetahat)$value, silent=T)
+            bbot[jj] = as.numeric(trapbot)
+            }
+    dirtyRAT = ttop/bbot * nnprob # Will be NA if error in integration was trapped.
+    dirtyRAT1 = dirtyRAT # Preserve it for debugging
+    # Failure of integration could also yield Inf or NaN; make these NA as well 
+    dirtyRAT[dirtyRAT==Inf] = NA        # Also locates NA and makes it NA again - harmless.
+    dirtyRAT[is.nan(dirtyRAT)] = NA
+    # Count the NA values.
+    numNA = sum(is.na(dirtyRAT))
+    if(info) cat(numNA,"Integration failures in the estimation phase.\n")
+    if(numNA>0)
+        {if(info) cat("Writing the file dirtyrat.txt \n")
+        if(info) write.table(cbind(nnval,round(nnprob,5),ttop,bbot,dirtyRAT),"dirtyrat.txt",quote=F)
+        }
+    mle = sum(dirtyRAT,na.rm=T) * nnn/(nnn-numNA) # Based on the average of other values
+    if(!is.na(mle) && length(mle)>0 && mle>1) mle = NA
+    value = c(mle,minimum)
+    # names(value) = c("MLE","Minus LL") # No good with error trapping?
+    return(value)
+    } # End of function heteromleCHI
+    
+##################################################################################
+
+heteromleF = function(FF,dfree1,dfree2,startvals,info=F) 
+    # Maximum likelihood estimate of mean power for an F-test, gamma effect size.
+    # This version minimizes over (a,b), taking absolute values rather than using bounds.
+    # Prouces a pair: (Estimate, Minus Log Likelihood) for multiple starting values
+    {
+    if(length(FF)!=length(dfree2)) stop("Must have same number of test statistics and dfree2 values.")
+    critval = qf(0.95,df1=dfree1,df2=dfree2)
+    if(min(FF-critval)<0) stop("Function heteroNmleF assumes significant results.")
+
+    ####################################################################################
+     mll = function(theta,Fstat,DF1,DF2) # Minus Log Likelihood
+        {
+        kk = length(Fstat) 
+        a = abs(theta[1]); b = abs(theta[2])
+        # cat("(a,b) = (",a,b,") \n") # DEBUG
+        # Each term of minus log likelihood is a ratio of integrals. 
+        # Note n, Df2 and y are scalars.
+        funbot = function(w,A,B,Df1,Df2) 
+            { 
+            n = Df1+Df2+1; cv = qf(0.95,df1=Df1,df2=Df2)
+            (1-pf(cv,df1=Df1,df2=Df2,ncp=n*w^2)) * dgamma(w,shape=A,scale=B) 
+            }
+        funtop = function(w,y,A,B,Df1,Df2) 
+            { 
+            n = Df1+Df2+1
+            df(y,df1=Df1,df2=Df2,ncp=n*w^2) * dgamma(w,shape=A,scale=B) 
+            }
+        # Do bottom only once for each n value.
+        NN = DF1+DF2+1 # A vector
+        NNval = sort(unique(NN)); DF2val = sort(unique(DF2))
+        NNfreq = table(NN)
+        nNNval = length(NNval); BOT = numeric(kk)       # BOT is the same length as TOP
+        for(jj in 1:nNNval) 
+            {
+            area = try(integrate(funbot,0,Inf,
+                   Df1=DF1,Df2=DF2[jj],A=a,B=b)$value,silent=T) 
+            bottom = as.numeric(area) # Will be NA if integration fails
+            BOT[NN==NNval[jj]] = bottom 
+            }
+            # print(BOT) # DEBUG
+        # Must do the top separately for each (N,Y) pair
+        TOP = numeric(kk) 
+        for(jj in 1:kk) 
+            {
+            area = try(integrate(funtop,0,Inf,
+                   y=Fstat[jj],Df1=DF1,Df2=DF2[jj],A=a,B=b)$value, silent=T) 
+            TOP[jj] = as.numeric(area) # Same trick
+            }
+            # print(TOP)  # Debug
+        logRAT = log(BOT) - log(TOP) # A vector. 
+        # print(logRAT)  # DEBUG
+        # cat("\n\n Sum of logRAT is",sum(logRAT),"\n\n")  # DEBUG
+        # Failure of numerical integration may be NA, NaN or Inf. Make them all NA.
+        logRAT[logRAT==Inf] = NA        # Also locates NA and makes it NA again - harmless.
+        logRAT[is.nan(logRAT)] = NA
+        # Count the NA values.
+        nNA = sum(is.na(logRAT))
+        # if(nNA>0) 
+        #   {cat("Integration failed for ",nNA," out of ", kk, " observations. \n")}
+        mllvalue = sum(logRAT,na.rm=T) * kk/(kk-nNA)
+        if(is.nan(mllvalue)) mllvalue = 100*kk  # Make the numerical search go elsewhere
+        # cat("Minus log likelihood =",mllvalue,"\n\n") # DEBUG 
+        return( mllvalue )
+        } # End of minus log likelihood function mll        
+    ####################################################################################
+    
+    Search = nlm(f=mll,p=startvals, Fstat=FF,DF1=dfree1,DF2=dfree2)
+    thetahat = Search$estimate; minimum = Search$minimum 
+    thetahat[1] = abs(thetahat[1]); thetahat[2] = abs(thetahat[2]) 
+    # DEBUG: Display theta-hat to locate numerical problems calculating the MLE
+    if(info) cat("\n(Ahat,Bhat) = ",thetahat,"\n") 
+    if(info) cat("Minimum minus log likelihood =",minimum,"\n")
+    # Now estimate mean power after selection using double expectation:
+    # E(G|T>c) = Sum_n E(G|T>c,N=n) P(N=n|T>c)
+    #          = Sum_n E(G^2|N=n)/E(G|N=n) P(N=n|T>c)
+    #
+    # Empirical distribution of sample size after selection
+    NN = dfree1+dfree2+1
+    nnval = sort(unique(NN))
+    df2val = sort(unique(dfree2))
+    nnprob = table(NN)/sum(table(NN))
+    nnn = length(nnval)
+    # Functions to be integrated -- Don't need to vectorize.         
+    ftop = function(x,DF1,DF2,theta)
+        {
+        crit = qf(0.95,df1=DF1,df2=DF2) # Will be a single number, like DF2
+        nn = DF1+DF2+1
+        a = theta[1]; b = theta[2]
+        (1-pf(crit,df1=DF1,df2=DF2,ncp=nn*x^2))^2 * dgamma(x,shape=a,scale=b)
+        } # End of function ftop
+    fbot = function(x,DF1,DF2,theta) # Should have just used funbot above
+        {
+        crit = qf(0.95,df1=DF1,df2=DF2) # Will be a single number, like DF2
+        nn = DF1+DF2+1
+        a = theta[1]; b = theta[2]
+        (1-pf(crit,df1=DF1,df2=DF2,ncp=nn*x^2)) * dgamma(x,shape=a,scale=b)
+        } # End of function fbot
+    if(info) cat("Estimating mean power: \n")
+    ttop = bbot = numeric(nnn)
+    # This could fail too, so trap errors.
+        for(jj in 1:nnn)
+            {
+            traptop = try(integrate(ftop,0,Inf,DF1=dfree1,DF2=df2val[jj],
+            theta=thetahat)$value, silent=!info)
+            ttop[jj] = as.numeric(traptop)
+            trapbot = try(integrate(fbot,0,Inf,DF1=dfree1,DF2=df2val[jj],
+            theta=thetahat)$value,  silent=!info)
+            bbot[jj] = as.numeric(trapbot)
+            }
+    dirtyRAT = ttop/bbot * nnprob # Will be NA if error in integration was trapped.
+    dirtyRAT1 = dirtyRAT # Preserve it for debugging
+    # Failure of integration could also yield Inf or NaN; make these NA as well 
+    dirtyRAT[dirtyRAT==Inf] = NA  # Also locates NA and makes it NA again - harmless.
+    dirtyRAT[is.nan(dirtyRAT)] = NA
+    # Count the NA values.
+    numNA = sum(is.na(dirtyRAT))
+    if(info) cat(numNA,"Integration failures in the estimation phase.\n")
+    if(numNA>0)
+        {if(info) cat("Writing the file dirtyrat.txt \n")
+        if(info) write.table(cbind(nnval,round(nnprob,5),ttop,bbot,dirtyRAT),"dirtyrat.txt",quote=F)
+        }
+    mle = sum(dirtyRAT,na.rm=T) * nnn/(nnn-numNA) # Based on the average of other values
+    if(!is.na(mle) && length(mle)>0 && mle>1) mle = NA
+    value = c(mle,minimum)
+    # names(value) = c("MLE","Minus LL") # No good with error trapping, commented out
+    return(value)
+    } # End of function heteromleF
+##################################################################################
+
+#  mixedCHIpcurve: Computes p-curve estimate for a collection of chi-squared 
+# tests with varying df. Uses heteroNpcurveCHI.
+mixedCHIpcurve = function(CHIstat,N,DF,info=F)
+    {
+    DFval = sort(unique(DF))
+    DFfreq = table(DF); DFfreq
+    DFprop = DFfreq/sum(DFfreq)
+    pcurve = numeric(length(DFval)); names(pcurve) = DFval
+    # Calculate a separate estimate for each df value
+    for(jj in 1:length(pcurve))
+        { 
+        ddff = DFval[jj]  
+        if(info) cat("df =",ddff,"\n")
+        CHIstar = subset(CHIstat,DF==ddff)
+        Nstar = subset(N,DF==ddff)
+        pcurve[jj] = heteroNpcurveCHI(Y=CHIstar,dfree=ddff,nn=Nstar)
+        } # Next jj (df1 value)
+    if(info) 
+        {infomat = rbind(pcurve,DFprop)
+        rownames(infomat) = c("Estimate","Weight")
+        colnames(infomat) = DFval
+        print(infomat)
+        }
+    # Base overall estimate on non-missing components
+    # keep = !is.na(pcurve)
+    # pcurve = pcurve[keep]; DFprop = DFprop[keep] 
+    # DFprop = DFprop/sum(DFprop) # Make sum equal one.
+    return(sum(pcurve*DFprop))
+    } # End function mixedCHIpcurve
+
+#######################################################################
+
+# mixedFpcurve: Computes MLE for a collection of F-tests with varying numerator df and   
+# continuous (gamma) effect size: Weighted sum of MLEs.  Very slow, with 3 random starts.
+# Uses heteroNpcurveF. 
+mixedFpcurve = function(Fstat,DF1,DF2,info=F) 
+    {
+    DF1val = sort(unique(DF1)); DF1val
+    DF1freq = table(DF1); DF1freq
+    DF1prop = DF1freq/sum(DF1freq)
+    pcurve = numeric(length(DF1val)); names(pcurve) = DF1val
+    # Calculate a separate estimate for each df1 value
+    for(jj in 1:length(pcurve))
+        { 
+        numdf = DF1val[jj]  
+        if(info) cat("df1 =",numdf,"\n")
+        dendf = subset(DF2,DF1==numdf)
+        Fstar = subset(Fstat,DF1==numdf)
+        pcurve[jj] = heteroNpcurveF(FF=Fstar,dfree1=numdf,dfree2=dendf)
+        } # Next jj (df1 value)
+    if(info) 
+        {infomat = rbind(pcurve,DF1prop)
+        rownames(infomat) = c("Estimate","Weight")
+        colnames(infomat) = DF1val
+        print(infomat)
+        }
+    # Base estimate on non-missing components
+    # keep = !is.na(pcurve)
+    # pcurve = pcurve[keep]; DF1prop = DF1prop[keep] 
+    # DF1prop = DF1prop/sum(DF1prop) # Make sum equal one.
+    return(sum(pcurve*DF1prop))
+    } # End function mixedFpcurve
+
+
+#######################################################################
+
+# mixedCHIpuniform: Computes p-uniform estimate for a collection of chi-squared 
+# tests with varying df. Uses heteroNpunifCHI.
+mixedCHIpuniform = function(CHIstat,N,DF,info=F)
+    {
+    DFval = sort(unique(DF))
+    DFfreq = table(DF); DFfreq
+    DFprop = DFfreq/sum(DFfreq)
+    puniform = numeric(length(DFval)); names(puniform) = DFval
+    # Calculate a separate estimate for each df value
+    for(jj in 1:length(puniform))
+        { 
+        ddff = DFval[jj]  
+        if(info) cat("df =",ddff,"\n")
+        CHIstar = subset(CHIstat,DF==ddff)
+        Nstar = subset(N,DF==ddff)
+        puniform[jj] = heteroNpunifCHI(Y=CHIstar,dfree=ddff,nn=Nstar,CI=F)
+        } # Next jj (df1 value)
+    if(info) 
+        {infomat = rbind(puniform,DFprop)
+        rownames(infomat) = c("Estimate","Weight")
+        colnames(infomat) = DFval
+        print(infomat)
+        }
+    # Base overall estimate on non-missing components
+    keep = !is.na(puniform)
+    puniform = puniform[keep]; DFprop = DFprop[keep] 
+    DFprop = DFprop/sum(DFprop) # Make sum equal one.
+    return(sum(puniform*DFprop))
+    } # End function mixedCHIpuniform
+
+
+#######################################################################
+
+# mixedFpuniform: Computes MLE for a collection of F-tests with varying numerator df and   
+# continuous (gamma) effect size: Weighted sum of MLEs.  Very slow, with 3 random starts.
+# Uses heteroNpunifF. 
+mixedFpuniform = function(Fstat,DF1,DF2,info=F) 
+    {
+    DF1val = sort(unique(DF1)); DF1val
+    DF1freq = table(DF1); DF1freq
+    DF1prop = DF1freq/sum(DF1freq)
+    puniform = numeric(length(DF1val)); names(puniform) = DF1val
+    # Calculate a separate estimate for each df1 value
+    for(jj in 1:length(puniform))
+        { 
+        numdf = DF1val[jj]  
+        if(info) cat("df1 =",numdf,"\n")
+        dendf = subset(DF2,DF1==numdf)
+        Fstar = subset(Fstat,DF1==numdf)
+        puniform[jj] = heteroNpunifF(FF=Fstar,dfree1=numdf,dfree2=dendf,CI=F)
+        } # Next jj (df1 value)
+    if(info) 
+        {infomat = rbind(puniform,DF1prop)
+        rownames(infomat) = c("Estimate","Weight")
+        colnames(infomat) = DF1val
+        print(infomat)
+        }
+    # Base estimate on non-missing components
+    keep = !is.na(puniform)
+    puniform = puniform[keep]; DF1prop = DF1prop[keep] 
+    DF1prop = DF1prop/sum(DF1prop) # Make sum equal one.
+    return(sum(puniform*DF1prop))
+    } # End function mixedFpuniform
+
+
+#######################################################################
+
+#  mixedCHImle: Computes MLE for a collection of chi-squared tests with varying df and   
+# continuous (gamma) effect size: Weighted sum of MLEs.  Very slow, with 3 random starts. 
+# Uses heteromleCHI.
+mixedCHImle = function(CHIstat,N,DF,info=F)
+    {
+    DFval = sort(unique(DF)); DFval
+    DFfreq = table(DF); DFfreq
+    DFprop = DFfreq/sum(DFfreq)
+    mle = numeric(length(DFval)); names(mle) = DFval
+    # Calculate a separate MLE for each df value
+    for(jj in 1:length(mle))
+        { 
+        ddff = DFval[jj]  
+        if(info) cat("\ndf =",ddff,"\n\n")
+        CHIstar = subset(CHIstat,DF==ddff)
+        Nstar = subset(N,DF==ddff)
+        ######## Calculate the MLE with multiple starts - slow! ########
+        MLEmatrix = matrix(0,3,4)
+        colnames(MLEmatrix) = c("astart","bstart","MLE","Minus LL")
+        begin = c(rexp(1),runif(1)) # Random start
+        trapmle = try(heteromleCHI(YY=CHIstar, NN=Nstar, dfree=ddff, startvals=begin))
+        MaxLike = c(as.numeric(trapmle[1]),as.numeric(trapmle[2])) 
+        MLEmatrix[1,] = c(begin,MaxLike)
+        begin = rexp(2) # Another random start
+        trapmle = try(heteromleCHI(YY=CHIstar, NN=Nstar, dfree=ddff, startvals=begin))
+        MaxLike = c(as.numeric(trapmle[1]),as.numeric(trapmle[2])) 
+        MLEmatrix[2,] = c(begin,MaxLike)
+        begin = c(rexp(1,rate=1/2),runif(1)) # A third random start
+        trapmle = try(heteromleCHI(YY=CHIstar, NN=Nstar, dfree=ddff, startvals=begin))
+        MaxLike = c(as.numeric(trapmle[1]),as.numeric(trapmle[2])) 
+        MLEmatrix[3,] = c(begin,MaxLike)
+        MaxLike = subset(MLEmatrix[,3],MLEmatrix[,4]==min(MLEmatrix[,4]))
+        if(length(MaxLike)==0) MaxLike=NA
+        if(is.na(MaxLike)) # Will catch NaN too.
+            { # Discard NA and NaN values, then choose minimum
+            MLE = MLEmatrix[,3]; MLL = MLEmatrix[,4]
+            MLE[MLE>1] = NA
+            bad = subset(1:3,is.na(MLE)) 
+            MLE = MLE[-bad]; MLL = MLL[-bad] 
+            MaxLike = subset( MLE , MLL==min(MLL) )
+            if(length(MaxLike)==0) MaxLike=NA
+            } # End if MaxLike is NA or NaN
+        # Length of MaxLike could be more than one if there is a tie in 
+        # the minus log likelihood.
+        MaxLike = MaxLike[1]
+        if(info) {cat("  MLEmatrix = \n"); print(MLEmatrix) }
+        if(info) cat("  MaxLike = ",MaxLike,"\n")      
+        ######## End of Maximum Likelihood calculation ########
+        mle[jj] = MaxLike
+        } # Next jj (df1 value)
+    if(info) 
+        {infomat = rbind(mle,DFprop)
+        rownames(infomat) = c("Estimate","Weight")
+        colnames(infomat) = DFval
+        print(infomat)
+        }
+    # Base MLE on non-missing estimates
+    keep = !is.na(mle)
+    mle = mle[keep]; DFprop = DFprop[keep] 
+    DFprop = DFprop/sum(DFprop) # Make sum equal one.
+    return(sum(mle*DFprop))
+    } # End function mixedCHImle
+
+
+#######################################################################
+
+# mixedFmle: Computes MLE for a collection of F-tests with varying numerator df and   
+# continuous (gamma) effect size: Weighted sum of MLEs.  Very slow, with 3 random starts.
+# Uses heteromleF.
+mixedFmle = function(Fstat,DF1,DF2,info=F) 
+    {
+    DF1val = sort(unique(DF1)); DF1val
+    DF1freq = table(DF1); DF1freq
+    DF1prop = DF1freq/sum(DF1freq)
+    mle = numeric(length(DF1val)); names(mle) = DF1val
+    # Calculate a separate MLE for each df1 value
+    for(jj in 1:length(mle))
+        { 
+        numdf = DF1val[jj]  
+        if(info) cat("\ndf1 =",numdf,"\n\n")
+        dendf = subset(DF2,DF1==numdf)
+        Fstar = subset(Fstat,DF1==numdf)
+        ######## Calculate the MLE with multiple starts - slow! ########
+        MLEmatrix = matrix(0,3,4)
+        colnames(MLEmatrix) = c("astart","bstart","MLE","Minus LL")
+        begin = c(rexp(1),runif(1)) # Random start
+        trapmle = try(heteromleF(FF=Fstar, dfree1=numdf, dfree2=dendf, startvals=begin))
+        MaxLike = c(as.numeric(trapmle[1]),as.numeric(trapmle[2])) 
+        MLEmatrix[1,] = c(begin,MaxLike)
+        begin = rexp(2) # Another random start
+        trapmle = try(heteromleF(FF=Fstar, dfree1=numdf, dfree2=dendf, startvals=begin))
+        MaxLike = c(as.numeric(trapmle[1]),as.numeric(trapmle[2])) 
+        MLEmatrix[2,] = c(begin,MaxLike)
+        begin = c(rexp(1,rate=1/2),runif(1)) # A third random start
+        trapmle = try(heteromleF(FF=Fstar, dfree1=numdf, dfree2=dendf, startvals=begin))
+        MaxLike = c(as.numeric(trapmle[1]),as.numeric(trapmle[2])) 
+        MLEmatrix[3,] = c(begin,MaxLike)
+        MaxLike = subset(MLEmatrix[,3],MLEmatrix[,4]==min(MLEmatrix[,4]))
+        if(length(MaxLike)==0) MaxLike=NA
+        if(is.na(MaxLike)) # Will catch NaN too.
+            { # Discard NA and NaN values, then choose minimum
+            MLE = MLEmatrix[,3]; MLL = MLEmatrix[,4]
+            MLE[MLE>1] = NA
+            bad = subset(1:3,is.na(MLE)) 
+            MLE = MLE[-bad]; MLL = MLL[-bad] 
+            MaxLike = subset( MLE , MLL==min(MLL) )
+            if(length(MaxLike)==0) MaxLike=NA
+            } # End if MaxLike is NA or NaN
+        # Length of MaxLike could be more than one if there is a tie in 
+        # the minus log likelihood.
+        MaxLike = MaxLike[1]
+        if(info) {cat("  MLEmatrix = \n"); print(MLEmatrix) }
+        if(info) cat("  MaxLike = ",MaxLike,"\n")      
+        ######## End of Maximum Likelihood calculation ########
+        mle[jj] = MaxLike
+        } # Next jj (df1 value)
+    if(info) 
+        {infomat = rbind(mle,DF1prop)
+        rownames(infomat) = c("Estimate","Weight")
+        colnames(infomat) = DF1val
+        print(infomat)
+        }
+    # Base MLE on non-missing estimates
+    keep = !is.na(mle)
+    mle = mle[keep]; DF1prop = DF1prop[keep] 
+    DF1prop = DF1prop/sum(DF1prop) # Make sum equal one.
+    return(sum(mle*DF1prop))
+    } # End function mixedFmle
+
+
+#######################################################################
+

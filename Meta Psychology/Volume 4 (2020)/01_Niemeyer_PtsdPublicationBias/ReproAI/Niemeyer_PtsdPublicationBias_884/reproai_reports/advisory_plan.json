@@ -1,0 +1,56 @@
+{
+  "paper": "Niemeyer et al. (2020) MP.2018.884",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "recommendations": [
+    {
+      "id": "ADV-002",
+      "priority": "medium",
+      "action": "Harmonize the selection-model non-convergence count: state explicitly that two data sets do not converge in the Cohen's-d-scale analysis used for Table 1 (IDs 15 and 18) while the original-units run underlying Appendix A fails for IDs 44, 70, 80 (three 'No convergence' cells). Pick one convention and make Table A and prose agree.",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-003",
+      "priority": "medium",
+      "action": "Correct Figure 1 flowchart arithmetic: make the data-set exclusion categories sum to 2,017 (or change the total), ensure excluded + included = 2,110 (i.e. 2017+98=2115 off by 5), and report the exclusion % consistent with the adopted count (95.6% for 2017/2110; 95.4% only matches 2012/2110).",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-004",
+      "priority": "low",
+      "action": "Clarify the denominator of '16.7%': write 'six of the 36 contacted authors (16.7%)' or 'six of 83 meta-analyses (7.2%)'.",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-005",
+      "priority": "low",
+      "action": "Correct the ID=44 PET-PEESE CI to [-1.079, 1.958] and reconcile the sign of the illustrated traditional MA estimate with Appendix A (+0.153).",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-006",
+      "priority": "low",
+      "action": "Enumerate the 12 data sets analyzed on Hedges' g in place of Cohen's d and report the g-vs-d magnitude so readers can judge the metric mix.",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-007",
+      "priority": "low",
+      "action": "Make the shipped code self-contained: replace the XLConnect (Java) loader with a Java-free reader, bundle res_sim.txt and res2_*.RData (or the code to regenerate them), and remove absolute Dropbox paths/setwd calls.",
+      "effort": "medium",
+      "responsible": "authors (or repository maintainer)"
+    },
+    {
+      "id": "AUDITOR-PROCESS-001",
+      "priority": "high",
+      "action": "OSF API queries MUST include a browser User-Agent header; otherwise the API returns HTTP 404 and live artifacts appear dead (this caused the previous audit's false P1). Re-verify any 'link is dead' conclusion with a proper header before reporting.",
+      "effort": "low",
+      "responsible": "auditors"
+    }
+  ]
+}

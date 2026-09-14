@@ -1,0 +1,779 @@
+
+===== PAGE 1/16 =====
+Meta-Psychology, 2019, vol 3, MP.2017.840, Open data: Yes Edited by: Rickard Carlsson
+https://doi.org/10.15626/MP.2017.840 Open materials: Yes Reviewed by: Katherine S. Corker, Donald R. Williams,
+Article type: Original Article Open and reproducible analysis: Yes Stephen R. Martin, David Manheim
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes Analysis reproduced by: Jack Davis
+Preregistration: No All supplementary files can be accessed at OSF:
+https://doi.org/10.17605/OSF.IO/C4WN8
+Cumulative Science via Bayesian Posterior Passing:
+An introduction
+Charlotte O. Brand James P. Ounsley
+University of Exeter, Penryn Campus, University of St Andrews,
+College of Life and Environmental Science School of Biology
+Daniel J. van der Post Thomas J.H. Morgan
+University of St Andrews, Arizona State University, School of
+School of Biology Human Evolution and Social Change
+This paper introduces a statistical technique known as “posterior passing” in
+which the results of past studies can be used to inform the analyses carried out
+by subsequent studies. We first describe the technique in detail and show how
+it can be implemented by individual researchers on an experiment by experi-
+ment basis. We then use a simulation to explore its success in identifying true
+parameter values compared to current statistical norms (ANOVAs and GLMMs).
+We find that posterior passing allows the true effect in the population to be
+found with greater accuracy and consistency than the other analysis types con-
+sidered. Furthermore, posterior passing performs almost identically to a data
+analysis in which all data from all simulated studies are combined and analysed
+as one dataset. On this basis, we suggest that posterior passing is a viable means
+of implementing cumulative science. Furthermore, because it prevents the ac-
+cumulation of large bodies of conflicting literature, it alleviates the need for tra-
+ditional meta-analyses. Instead, posterior passing cumulatively and collabora-
+tively provides clarity in real time as each new study is produced and is thus a
+strong candidate for a new, cumulative approach to scientific analyses and pub-
+lishing.
+Keywords: Bayesian statistics, metascience, cumulative science, replication crisis, stereotype
+threat, psychological methods
+The past two decades have seen a great increase collaboration of scientists failed to replicate 64 of
+in the study of the scientific process itself, a field 100 findings published in top psychology journals in
+dubbed ‘metascience’ (Munafo et al. 2017). The 2008 (Open Science Collaboration 2015). Given this,
+growth of this field has been driven by a series of re- many scientists have turned their efforts towards
+sults that question the reliability of science as it is identifying potential improvements to the scientific
+currently practiced. For instance, in 2015 a global process.
+
+===== PAGE 2/16 =====
+2 BRAND ET AL.
+A key focus within metascience is how to im- across studies. Consequently, meta-analyses often
+prove the use of statistical methods and the pro- differ in their interpretations of the literature, de-
+cess of scientific publishing. Problems such as p- pending on the specific question that the authors
+hacking, “HARKing” and the “file-drawer” effect are interested in. Moreover, in some cases meta-
+have been discussed in science for many years analyses can actually increase uncertainty. For in-
+with mixed opinions and widespread debate (e.g. stance, they can uncover evidence of publication
+Bissell 2013; Bohannon 2014; Kahneman 2014; bias (as is the case with four of the stereotype threat
+Schnall 2014; Fischer 2015; Pulverer 2015). Recent meta-analyses), or researcher effects, both of which
+proposals such as guidelines against the mis-use undermine the credibility of individual studies. More
+of p-values (Wasserstein & Lazar 2016), banning generally, the lack of objective inclusion criteria can
+the p-value (Trafimow & Marks 2015), statistical render the conclusions of meta-analyses just as
+checking software (Epskamp & Nuijten, 2016), rede- fraught as the results of individual studies. An exam-
+fining statistical significance (Benjamin et al., ple of this is seen in the ‘cycle shift’ debate, which
+2018), justifying your alpha (Lakens et al., 2018), asks whether women’s mate preferences change
+pre-registering methods (Chambers et al. 2014; over their ovulatory cycle. Here, an initial meta-
+van ’t Veer & Giner-Sorolla, 2016) and the Open Sci- analysis argued against the existence of an effect,
+ence movement generally (e.g. Kidwell et al. 2016) only to be followed by another meta-analysis that
+are propagating discussion and endorsement of found the exact opposite to be the case
+substantial changes to scientific publishing and (Gildersleeve, Haselton, & Fales, 2014a, 2014b; Wood,
+research methods. Kressel, Joshi, & Louie, 2014). Despite both being
+One indication of the current scientific practice based on the aggregation of a large number of stud-
+underperforming is the presence of large numbers ies (many of which were included in both meta-anal-
+of publications presenting conflicting conclusions yses) one meta-analysis must be wrong. Given these
+about the same phenomenon. This is the case, for difficulties, meta-analyses do not provide an unam-
+instance, in the ‘stereotype threat’ literature, in biguous solution for resolving conflicted literatures.
+which experiments are designed to “activate” a neg- Meta-analyses are not the only way to mathe-
+ative stereotype in participants’ minds, and this matically combine the results of multiple studies.
+leads to reduced performance in participants for Many recent proposals fall within the category of
+which the stereotype is relevant. A common ques- “cumulative science”, a process in which each study
+tion is whether being told that women typically per- incorporates prior work into its analyses. For this
+form worse than men at mathematical or spatial reason, each study can be considered a meta-analy-
+tasks depresses the performance of female partici- sis of sorts, with its conclusions reflecting the data
+pants on these tasks (e.g. Flore & Wicherts 2015). De- collected both in that study as well as prior studies.
+spite the seemingly straight-forward nature of this As such, there is no need for traditional meta-anal-
+question, and the publication of over 100 papers on yses in a cumulative science framework. One exam-
+this topic, there are no clear conclusions about the ple of cumulative science is the use of Sequential
+veracity of stereotype threat. Bayes Factors, which can be used to update the ex-
+Traditionally, meta-analyses are conducted to tent to which evidence is weighted in favour of the
+clarify the existence of a purported effect in the lit- presence of an effect based on new data
+erature. This is also true of the stereotype threat lit- (Schönbrodt, Wagenmakers, Zehetleitner, & Peru-
+erature, which includes seven meta-analyses (Wal- gini, 2017). Similarly, ‘Curate Science’, and measures
+ton & Cohen 2003; Nguyen & Ryan 2008; Walton & of replication success, have gained support (LeBel,
+Spencer 2009; Stoet & Geary 2012; Picho, Rodriguez Vanpaemel, Cheung, & Campbell, 2018; Zwaan, Etz,
+& Finnie 2013; Flore & Wicherts 2014; Doyle & Voyer Lucas, & Donnellan, 2017). Here, we describe and
+2016). However, in many cases meta-analyses do not test another approach to cumulative science, “pos-
+lead to increased certainty (Ferguson 2014; Lakens terior passing”, which is a straightforward extension
+et al., 2017; Lakens, Hilgard, & Staaks, 2016). One rea- of Bayesian methods of data analysis. In what follows
+son is that meta-analyses are not just used to deter- we first cover Bayesian inference, which is the the-
+mine whether an effect truly exists but can also be oretical background of posterior passing. We then
+used to reveal the underlying causes of variation describe how posterior passing can be implemented
+
+===== PAGE 3/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 3
+in practice. Finally, using the case study of stereo- seek these out.
+type threat mentioned above, we use a simulation to Consider an urn containing a mix of blue and
+compare the ability of traditional analytic tech- white pebbles and imagine we are interested in un-
+niques and posterior passing to correctly identify derstanding what proportion of the pebbles are
+effects of different sizes (including 0). We demon- blue. To start with, we have two competing hypoth-
+strate that, given a representative number of studies eses: (1) 75% of the pebbles are blue, or (2) 75% of the
+characteristic of the stereotype threat literature, pebbles are white (we assume that these are the only
+posterior passing provides an up-to-date, accurate two possibilities). We will test these hypotheses by
+estimation of the true population level effect with- collecting data; three times we will draw a pebble
+out the need for a dedicated meta-analysis. Con- from the urn, note its color, and replace it. Before
+versely, using traditional analytic techniques such as collecting data, let us note our prior beliefs (p(h) in
+ANOVAs in “one-shot” analyses, produced an abun- the above equation). Without any knowledge we
+dance of conflicting effect size estimates as is found could assign each hypothesis equal prior probability
+in the stereotype threat literature at present. Fur- (i.e. 50% in both cases) but let us imagine we have
+thermore, posterior passing produces almost iden- reason to suspect hypothesis 2 is more likely (per-
+tical results to a ‘meta’ GLMM analysis in which all haps we know blue pebbles are rare, or we know that
+available data were combined and analysed as one the urn was filled at a factory that produces more
+dataset. white than blue pebbles, or maybe someone told us
+that they glanced inside the urn and it looked mostly
+white etc.). Given this we assign prior probabilities
+Bayes Rule and Posterior Passing
+of 0.4 and 0.6 to the two hypotheses.
+Now to data collection; let us assume we happen
+Bayes’ theorem (a.k.a. Bayes’ rule), is a method of
+to draw three blue pebbles. We need to use this data
+assigning probabilities to hypotheses. Given a set of
+to calculate the likelihood for each hypothesis, i.e.
+competing hypotheses and our beliefs about how
+the probability of drawing three blue pebbles under
+likely they are to be true, it provides us with the
+each hypothesis (p(d|h) in the above equation). The
+probability that each hypothesis is true when we
+probability of drawing a blue pebble three times un-
+collect more data. More formally this can be written
+der hypothesis 1 is 0.753 , and 0.253 under hypothesis
+as:
+2. This is 0.42 and 0.016 respectively. Note that the
+𝑝(ℎ)𝑝(𝑑|ℎ) likelihood is much higher for hypothesis 1, this
+𝑝(ℎ|𝑑)= means that the data are more consistent with hy-
+𝑝(𝑑)
+pothesis 1 than with hypothesis 2 and so we should
+expect Bayes’ theorem to shift the probabilities of
+where p(h|d) is the probability that each hypoth-
+each hypothesis in favor of hypothesis 1.
+esis is true taking the data into account (the “poste-
+The next step is to calculate the normalizing
+rior”), p(h) is the probability of each hypothesis be-
+constant, p(d), which is the probability of getting the
+ing true prior to collecting data (the “prior”), and
+data under any hypothesis. It is the sum of the prob-
+p(d|h) is the probability that each hypothesis would
+ability of getting the data under each hypothesis
+have produced the observed data (the “likelihood”).
+multiplied by the prior probability that each hypoth-
+The denominator, p(d), can be conceptualized as the
+esis is true, i.e. it is the sum of the likelihoods multi-
+probability of getting the data under any hypothesis,
+plied by the priors. In our case we only have two hy-
+but in practice it acts as a normalizing constant to
+potheses, so p(d) is p(h)p(d|h) + p(h)p(d|h ). We now
+ensure that the posterior probabilities sum to 1. To 1 1 2 2
+have all the necessary parts to execute Bayes’ rule
+illustrate the application of Bayes theorem we will
+and we can calculate the probability that each hy-
+now walk through a simple example based on a
+pothesis is true. The table below summarizes this
+thought experiment used by the 16th century statis-
+process, showing that because the data were more
+tician Jacob Bernoulli. Other introductions to Bayes-
+consistent with hypothesis 1 it is now the more likely
+ian inference can be found elsewhere (van de Schoot
+of the two hypotheses, even though it started with a
+et al. 2014; Morgan, Laland & Harris 2014; McElreath
+lower prior probability.
+2016, Kruschke 2011) and we encourage readers to
+
+===== PAGE 4/16 =====
+4 BRAND ET AL.
+Table 1. A summary of the example execution of Bayes’ theorem. The probability that
+each hypothesis is true, taking the data into account (the “posterior”, column 5), is the prior
+(column 2) multiplied by the likelihood (column 3) and divided by a normalizing constant
+(the sum of column 4).
+Hypothesis Prior, p(h) Likelihood, Prior * Likelihood, Posterior,
+p(d|h) p(h)p(d|h) p(h|d)
+1 0.4 0.42 0.17 0.95
+2 0.6 0.016 0.009 0.05
+This example can also illustrate how Bayes’ theo- Posterior passing in practice
+rem facilitates cumulative science. Assume someone
+else decides to draw more pebbles from the same While the above example is much simpler than
+urn. How can they include our data in their anal- most scientific problems, it is relatively straightfor-
+yses? The solution is straightforward: they simply ward to generalize the theory to continuous hy-
+need to use our posterior as their prior. More gen- pothesis spaces as is characteristic of much scien-
+erally, by using the posterior from a previous study tific research. For instance, say we are hypothesiz-
+as the prior in the next one, the posterior of the sec- ing about the value of a parameter in a model. Rather
+ond study will reflect the data collected in both than assigning prior probabilities to specific hypoth-
+studies, forming a chain of studies each of which eses (such as “the parameter is 2.5”) we describe a
+builds on the last to provide an increasingly precise probability density function across the range of pos-
+understanding of the world. This method is referred sible values for the parameter. For instance, if we
+to as “posterior passing” (Beppu & Griffiths 2009) have reason to believe the parameter is close to 10,
+and is the focus of this manuscript. If posterior pass- we might use a normal distribution with a mean of
+ing is effectively implemented, it is mathematically 10 and standard deviation of 1 (this permits any value
+equivalent to collecting all the data in a single high- from positive to negative infinity, but 10 is the single
+power study (Beppu & Griffiths 2009). In both a the- most likely value and 95% of the probability mass
+oretical analysis and a lab experiment, Beppu and falls between 8 and 12). The likelihood, too, becomes
+Griffiths (2009) found that posterior passing led to a function over the hypothesis space and the nor-
+successively better inferences over time. Given this, malizing constant is calculated the same way as be-
+posterior passing may offer a valuable addition to fore: the prior is multiplied by the likelihood and the
+the scientific process, with particular benefits for resulting function is summed across the hypothesis
+fields suffering from ambiguous literatures or repli- space. The posterior, again calculated as the prior
+cation crises. The passing of posteriors across stud- multiplied by the likelihood and divided by the nor-
+ies not only incorporates information from prior malizing constant, is also a probability density func-
+studies, but also prevents any experimental dataset tion, allocating posterior probability over the pa-
+from carrying too much weight. In the next section rameter space which can then be passed as the prior
+we discuss how posterior passing can be imple- in subsequent studies.
+mented as part of the Bayesian analysis of data. The application of Bayes’ rule to continuous hy-
+pothesis spaces (such as in parameter estimation)
+runs into problems, however, because it is often im-
+possible to calculate the normalizing constant. The
+
+===== PAGE 5/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 5
+samples
+circumnavigation of this problem relied on the de- the same values of the posterior probability density
+velopment of modern computers and new tech- function itself. For instance, the mean of the samples
+niques such as Markov Chain Monte Carlo (MCMC) approaches the mean of the posterior probability
+methods. The details of this technique are compli- density function, and an interval that contains 95%
+cated (for accessible introductions to MCMC see of the samples will also contain 95% of the probabil-
+McElreath 2016; Kruschke 2011), but it works by ity mass of the posterior distribution. So, even
+providing the user with a series of values (called though the posterior probability density function
+“samples”) that approximate values drawn from the technically remains unknown, we can nonetheless
+posterior probability density function even though describe it in a variety of ways.
+the exact density function itself remains unknown. In order to implement posterior passing we now
+As the number of samples approaches infinity, need a means by which samples from the posterior
+statistical descriptions of the samples converge on can be translated into a probability density function
+ycneuqerF
+−2 −1 0 1 2 3 4
+00001
+0008
+0006
+0004
+0002
+0
+Sample histogram
+Normal approximation
+Gamma approximation
+Normal with inflated variance
+Gamma with inflated variance
+Figure 1. The translation of a histogram of samples into a probability distribution. Here the samples (black histogram
+of 50,000 samples) look somewhat normal, but they are all positive and the histogram is positively skewed. Using the
+mean and variance to define a normal distribution (solid blue lines, scaled x10000) produces a reasonable fit, but the
+lower tail places non-zero probability density on negative values while the peak appears to be slightly higher than the
+peak of the histogram. Using a gamma distribution instead (solid red line) produces a perfect fit. Artificially inflating
+the variance (dashed lines) changes the distributions. In the case of the normal distribution it greatly widens it, placing
+increasing amount of probability mass below 0. In the case of the gamma distribution the positive skew grows, but all
+the probability mass remains above 0. In this way the variance is increased but the mean of the probability distribution
+remains the same as the mean of the samples.
+
+===== PAGE 6/16 =====
+6 BRAND ET AL.
+that will be the prior in subsequent studies. The sim- methods. If even a point estimate for the effect size
+plest approach is to assume the posterior is nor- is given then this can be used as the mean of the
+mally distributed and then define the prior as a nor- prior with the variance set to a suitable value corre-
+mal distribution with the same mean and standard sponding to the researcher level of uncertainty. Pre-
+deviation as the samples generated. So, if the mean cisely how much a prior should be watered down in
+of the samples is 5.3 and the standard deviation is cases such as these will depend on the similarity of
+0.8, then this can be assumed to correspond to the the studies in question and discussion of this should
+probability distribution N(5.3, 0.8). However, assum- be an important part of the peer-review and publi-
+ing normality could lead to an inaccurate descrip- cation process. Moreover, where concerns are
+tion of the posterior. To alleviate this concern re- raised, robustness analyses can be used in which the
+searchers can inflate the standard deviation of the prior is varied and the resultant effect on the con-
+passed posterior, for instance changing N(5.3, 0.8) to clusions described and discussed. In the short term,
+N(5.3, 8). This will broaden the prior, effectively it may be beneficial to compare results with and
+weakening its influence and so avoiding distorting without posterior passing to show the difference in
+results due to the posterior passing process. By the inference that results from either approach.
+same token, however, broadening the prior will also
+lessen the influence of past research and potentially
+The simulation
+slow down scientific accumulation.
+A more nuanced approach is to build bespoke
+In this section we present a simulation of the sci-
+priors for each set of posterior samples. The re-
+entific process, testing the hypothesis that posterior
+searcher can choose a probability distribution that
+passing will benefit science relative to other meth-
+closely matches the shape of the posterior samples
+ods of data analysis and avoid the accumulation of
+(e.g. normal, exponential, gamma or beta) and ap-
+large, ambiguous literatures. We simulate a series of
+propriate parameter values can be calculated from
+experiments testing for an interaction between two
+the samples. For instance, a normal distribution with
+variables. We vary (i) the true effect size of the in-
+the same mean and standard deviation as the sam-
+teraction, (ii) the scale of between individual differ-
+ples, or a gamma distribution with shape and rate
+ences and (iii) the statistical technique employed by
+parameters calculated from the mean and variance
+scientists. The simulation is, in part, based on the
+of the samples. As before, if the researcher wishes to
+stereotype threat literature as this produced an am-
+err on the side of caution by weakening the effect of
+biguous and conflicted literature, as discussed pre-
+the passed posterior on subsequent analyses they
+viously. As such, we refer to the interacting variables
+need to simply inflate the variance of the distribu-
+as sex and condition, and various simulation param-
+tion. Figure 1 shows an example of this in action il-
+eters (e.g. the number of participants per study) are
+lustrating that a highly suitable distribution is de-
+set to values representative of the stereotype threat
+rived in this manner. Inflating the uncertainty in the
+literature.
+prior also facilitates posterior passing in cases
+We use the simulation to compare four different
+where there are differences in experimental design
+analysis methods; an analysis of variance (ANOVA), a
+or analytic technique. Even within a single area of
+generalised linear mixed model (GLMM), a Bayesian
+research it is rare that any two studies are exactly
+GLMM using MCMC estimation (henceforth
+the same. These differences mean that the posterior
+“BGLMM") and a Bayesian GLMM using MCMC esti-
+produced by one study may not be entirely appro-
+mation and posterior passing (henceforth “PP”).
+priate for the prior in another. However, experi-
+ANOVAs have been widely used in psychology for
+ments do not have to be identical to engage in pos-
+decades and still represent one of the most com-
+terior passing: as long as they are addressing the
+monly used analytic approaches (including for stud-
+same theoretical “effect” then there is reason to
+ies of stereotype threat), despite suggestions of
+draw on previous knowledge. In these cases, the un-
+their inadequacy for many types of experimental de-
+certainty in the posterior should be inflated to ac-
+sign (Jaeger 2008). A move towards using general-
+count for differences in experimental design.
+ised linear mixed models for categorical and bino-
+Another possibility is that the prior could be
+mial data has been suggested as more appropriate
+based on a previous study that used non-Bayesian
+
+===== PAGE 7/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 7
+than methods often used by psychologists and ecol- Data Collection
+ogists (Jaeger 2008; Bolker et al. 2009) and so we in-
+Datasets were generated by randomly selecting a
+clude both a frequentist GLMM and a Bayesian
+sample of 80 individuals who were then split into a
+equivalent. Finally, we include “posterior passing”
+control group and an experimental group (20 of each
+(Beppu & Griffiths 2009) to examine whether imple-
+sex in each group). Each simulated participant was
+menting posterior passing as a form of cumulative
+presented with 25 binary-choice trials and the num-
+knowledge updating would be beneficial. Addition-
+ber of trials they answered correctly was generated
+ally, we performed a single BGLMM analysis over all
+by sampling from a binomial distribution in which
+simulated datasets combined (henceforth “meta
+the likelihood of success per trial was:
+BGLMM") in order to compare posterior passing
+against the best possible scenario of a single high-
+𝑝 =𝑙𝑜𝑔𝑖𝑠𝑡𝑖𝑐(𝑝𝑒𝑟𝑓𝑜𝑟𝑚𝑎𝑛𝑐𝑒 +𝑒∗𝑐𝑜𝑛𝑑𝑖𝑡𝑖𝑜𝑛 ∗𝑠𝑒𝑥 )
+power study. ( ( ( (
+Each repeat of the simulation involved the fol-
+where e is the unknown interaction effect that
+lowing three steps: 1) a population of one million po-
+the simulated experiments are attempting to iden-
+tential experimental subjects was created, 2) 60 se-
+tify. In the context of stereotype threat, it can be
+quential experiments were carried out, each involv-
+considered as the magnitude of the effect of the ste-
+ing 80 participants taking part in 25 experimental
+reotype threat condition on the behaviour of women
+trials (numbers chosen as representative of the ste-
+(i.e. participants of sex 1). Note that participants of
+reotype threat literature) and 3) the 60 datasets
+sex 0 (i.e. men) are insensitive to condition, and con-
+were analysed using the four different analysis
+dition 0 (the control condition) does not affect par-
+methods. For each combination of parameter values,
+ticipant behaviour.
+we carried out 20 repeat simulations. Further details
+Across simulations, we consider five different
+are given below, and full model code is available at
+values for e (the magnitude of the effect in question):
+www.github.com/thomasmorgan/posterior-pass-
+0, 0.5, 1, 1.5 and 2. Given that the average population
+ing.
+performance was 0 (equivalent to a 50% chance of
+success per trial) these values increase the average
+Population Creation
+probability of success from 0.5 to 0.5, 0.62, 0.73, 0.82
+Each of the 1,000,000 simulated participants is and 0.88 respectively. Thus, the cases we explored
+defined by two values; their sex (0 or 1, with half of range from no interaction effect, up to a large effect,
+the population having each value) and their perfor- exceeding the effect sizes reported in meta-anal-
+mance at the experimental task relative to the pop- yses of the stereotype threat literature (e.g. Doyle &
+ulation average (positive values indicate above aver- Voyer 2016).
+age performance, and negative values below average
+performance). Each participant’s performance value
+was drawn randomly from a normal distribution Data Analysis
+with mean 0 and with variance that varied across
+We performed four methods of analysis on each
+simulations (from 0 to 1 in steps of 0.25). For each
+simulated dataset. The first is the predominant
+participant there was another participant of the
+method of analysis used in the stereotype threat lit-
+same sex but with the opposite performance value,
+erature; analysis of variance (2 x 2 ANOVA). Average
+and another of the opposite sex, but with the same
+success on the task (i.e. number of successes/num-
+performance value. This ensured that the average
+ber of trials) was subjected to a 2(Sex) x 2(Condition)
+performance value in the population was exactly 0
+ANOVA, that included a main effect of sex, a main
+(equivalent to 50% success on a binary choice trial),
+effect of condition, and an interaction between sex
+and the variation in performance within each sex
+and condition at a significance value of p<0.05.
+was equal.
+The second method is a generalised linear mixed
+model (GLMM) which models number of successes
+as a binomially distributed variable and uses a logit
+
+===== PAGE 8/16 =====
+8 BRAND ET AL.
+Figure 2. Analysis estimates produced from a single simulation of 60 experiments. The true effect sizes (displayed by
+the horizontal black line) are (a) 0 and (b) 2 (equivalent to an increase in the probability of responding correctly of 0.38).
+In both cases there is no individual variation. Across experiments, the estimates produced by the ANOVA, GLMM and
+BGLMM vary stochastically around the true population average, with the accuracy or certainty of each analysis
+unrelated to its position in the series. Furthermore, in panel (b) the ANOVA estimates are considerably less certain than
+those of the GLMM or bGLMM. In contrast to all other methods considered, posterior passing allows the analysis to
+become more accurate and more certain over time. Note that a particularly skewed data set (data set 9, in panel a)
+prompts all analyses to find a positive result, despite this, posterior passing is nonetheless able to correct itself by the
+end of the simulation.
+link function. The same outcome and predictor var- on the posterior from the most recent previous ex-
+iables are used as in the ANOVA (i.e. a baseline effect, periment. As a deliberately coarse implementation
+and effects of sex and condition as well as a of posterior passing we assumed the posterior was
+sex*condition interaction), but a random effect for normal and defined it solely by its mean and preci-
+participant is implemented. This method fits param- sion.
+eters based on a maximum likelihood approach and
+estimates the linear effect that our manipulation and Results
+independent variables have on the log odds of suc-
+cess in any given trial. Within each simulation, the general pattern was
+The third approach uses the same model formu- for posterior passing to converge on the true effect
+lation as the GLMM, but uses Bayesian MCMC meth- size while the other analysis types produce a series
+ods to generate parameter estimates in JAGS. Mini- of independent results distributed stochastically
+mally informative priors (normal distributions with around the true value with no convergence over
+mean 0 and precision 0.01) were used for all param- time (see Fig. 2A and 2B). Five metrics were used to
+eters, and so we expect that the outcomes of this more thoroughly examine the performance of each
+analysis should be extremely similar to that of the analytic technique across simulations, 1) the average
+frequentist GLMM. point estimate; 2) the true positive rate; 3) the false
+The fourth approach is a Bayesian GLMM with positive rate; 4) the average width of the 95% confi-
+“posterior passing,” (Beppu & Griffiths 2009) in dence/credible interval; and 5) the average differ-
+which the prior for e (the interaction effect) is based ence between the effect estimate and the true value.
+
+===== PAGE 9/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 9
+Figure 3. Average effect size estimates from the five analysis types over 20 simulations of 60 datasets (Bayesian GLMM
+not shown as it is identical to the GLMM). The true population average is on the x axis, and the individual variation on
+the y axis. Colour corresponds to effect size estimate according to the key to the right of the panels.
+These were calculated for the analysis of each sim- True positive result rates
+ulated data set, except in the case of posterior pass-
+For all analyses, the ability to detect a positive ef-
+ing where only the final analysis in each simulation
+fect increased with the true effect size (Fig. 4). How-
+was used. This is because, with posterior passing, in-
+ever, for the ANOVA, GLMM and BGLMM increasing
+formation from each dataset is incorporated into
+individual variation decreased the true positive re-
+subsequent analyses and so the final analysis con-
+sult rate. With posterior passing, there is no such ef-
+tains information from all 60 datasets.
+fect; positive results are likely to be found whenever
+the true effect is non-zero
+Effect size estimates
+All analysis types were generally effective at esti-
+mating the size of the effect (see Fig. 3). However, as
+the between-individual variation increases, the
+ANOVA underestimates the effect size to a modest
+extent.
+
+===== PAGE 10/16 =====
+10 BRAND ET AL.
+Figure 4. Positive rate for the five analysis types over 20 simulations of 60 datasets (Bayesian GLMM not shown as it is
+identical to the GLMM). The size of the true population average is on the x axis, and the individual variation on the y
+axis. Colour gives the positive result rate, ranging from 0 - 1, according to the key to the right of the panels. An analysis
+finds a positive effect in the population if the upper and lower bounds for its 95% confidence/credible interval do not
+include zero, the proportion of analyses in which a positive effect is found is the positive results rate.
+two false positives, while the meta BGLMM pro-
+False positive result rates duced one.
+When the true effect was 0, all analyses were un-
+likely to produce (false-)positive results but did oc- Uncertainty
+casionally do so (see Fig. 4). Across all datasets
+In general, the width of the 95% confi-
+(N=6000) the ANOVA produced 304 false positives
+dence/credible intervals (henceforth “uncertainty”)
+(5.1%, close to the expected false positive rate of 5%),
+decreases with the true effect size, but increases
+the GLMM 341 false positives (5.7%) and the BGLMM
+with individual variation (Fig. 5). There are differ-
+304 false positives (5.1%). For posterior passing (and
+ences between analyses however. The ANOVA is
+the meta BGLMM), we are concerned only with
+much more sensitive to individual variation than to
+whether the final analysis in each series produced a
+the true effect size, i.e. increasing the true effect
+false-positive result. Over 100 simulations in which
+size only modestly reduces uncertainty, while in-
+the true effect size was zero (i.e. 20 repeats of 5 dif-
+creasing individual variation greatly increases un-
+ferent variance levels), posterior passing produced
+certainty. Both the GLMM and BGLMM produce
+
+===== PAGE 11/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 11
+Figure 5. Analysis uncertainty measure for the five analysis types as a function of true population average and individual
+variation (Bayesian GLMM not shown as it is identical to the GLMM). Colour represents the uncertainty of each analysis
+as given by the key to the right of the panels.
+confident results provided either the true effect size considered, except in the case of the ANOVA (Fig.6).
+is high or individual variation is low, however if the This is because the ANOVA systematically underes-
+effect size is small, but variation high, then model timates the value of the parameter when the true
+estimates are highly uncertain. Finally, while the un- population average is high and individual variation is
+certainty of both PP and the combined BGLMM is high (see Fig. 6).
+sensitive to the effect size and individual variation,
+it is only minimally so and confidence is very high
+Discussion
+across all of the parameter space we explored. The
+meta BGLMM, in which all data are analysed in a sin-
+This paper introduces posterior passing; a statis-
+gle analysis, performs almost identically to posterior
+tical technique, based on Bayes’ Theorem, that uses
+passing.
+the results of prior studies to inform future work. In
+this way it allows the operationalization of cumula-
+Error
+tive science, allowing individual studies to build on
+The average difference between the parameter each other, avoiding conflicted literatures and
+estimates and the parameter’s true value was very
+low across all of the parameter combinations we
+
+===== PAGE 12/16 =====
+12 BRAND ET AL.
+Figure 6. Analysis estimate error as a function of true population average and individual variation (Bayesian GLMM not
+shown as it is identical to the GLMM) . Colour gives the size of the error, ranging from -0.1 to 0.1, according to the key
+to the right of the panels.
+thereby reducing the need for dedicated meta-anal- analytic techniques have led to the build-up of an
+yses. To test the performance of posterior passing ambiguous literature, such as that concerning ste-
+we conducted a simulation of datasets sampled from reotype threat. Such literatures are defined by a mix
+populations with varying effect sizes. Different sta- of positive and negative findings, and in practice
+tistical techniques were used to analyse the datasets they have remained ambiguous despite multiple
+and compared to a posterior passing approach over meta-analyses. In our simulations, examination of
+the same datasets. We found that although no the positive result rate shows that such ambiguity is
+method was perfect (e.g. all methods produced a common to all non-cumulative analyses when be-
+non-zero number of false-positive results), poste- tween individual variation is high and when the ef-
+rior passing leads to greater certainty over time fect size is small. Nonetheless, posterior passing is
+about the existence and size of an effect compared highly successful at correctly identifying the effect-
+with the other statistical methods considered. As size in these cases (only 2% of simulations produced
+such this work supports the proposal that posterior a false-positive result).
+passing is a viable means by which cumulative sci- These findings have important implications for
+ence can be implemented. the way scientists conduct, analyse and publish their
+One of the goals of this project was to test research. Firstly, the use of ANOVAs (the current
+whether posterior passing could effectively identify norm in priming studies) is shown to be particularly
+the true value of an effect in a context where other problematic. In our results, the ANOVA was the least
+
+===== PAGE 13/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 13
+accurate at identifying the effect size, especially posterior passing. According to all of our metrics for
+when the effect size was small and the variation evaluating the performance of different analytic
+high. The priming literature is precisely when re- techniques, posterior passing was virtually indistin-
+searchers predict effect sizes to be small and indi- guishable from this ‘meta Bayesian GLMM’. None-
+vidual variation to be high, as the mechanism under- theless, further work could measure the effect of
+lying the effect is unknown and some individuals are more refined implementations of posterior passing
+expected to be more or less susceptible to the effect (including passing all parameters) as this may accel-
+depending on various moderating variables (see erate the convergence of knowledge concerning the
+Bargh 2012; Gelman 2016). Therefore, the fact that effects in question.
+ANOVAs are less likely than other methods to be Posterior passing is not the only means to
+able to accurately decipher an effect in these types achieve cumulative science, however, and, as men-
+of datasets suggests that researchers studying tioned in the introduction, Sequential Bayes Factors
+priming effects (as well as other small, variable ef- and Curated Replications hold similar promise. Our
+fects) should move away from the ANOVAs and on to results cannot comment on the efficacy of these
+other methods, as has been previously suggested methods relative to posterior passing, however,
+(e.g. Jaeger 2008). there are some key differences between the ap-
+A second implication of our results is that poste- proaches. First, the use of Bayes Factors is not un-
+rior passing is considerably better than using Bayes- controversial and their application has been debated
+ian methods per se. With minimally informative pri- elsewhere (e.g. Robert, 2016). One such argument is
+ors, the Bayesian GLMM did not provide any detect- that Bayes Factors retain the “accept/reject” philos-
+able improvement in performance compared to the ophy of null hypothesis significance testing,
+frequentist GLMM. This was expected because the whereas other researchers have called for a shift to-
+important difference between the GLMM and the wards more accurate parameter estimation and
+Bayesian GLMM was the use of priors, but by using model comparison approaches (Cumming, 2013;
+minimally informative priors we masked this differ- McElreath, 2016). We agree with the sentiment of
+ence. This might appear to suggest that there is little Schönbrodt and colleagues (2017) that estimation
+benefit to using Bayesian methods over frequentist and hypothesis testing answer different questions
+methods if priors are implemented uninformatively. and have separate goals, reflected by a trade-off be-
+However, other benefits exist that are not consid- tween accuracy and efficiency respectively. We ar-
+ered in our simulation. For instance, the philosophy gue that ultimately scientists should value both ac-
+of Bayesian inference is arguably more intuitive than curacy and efficiency, but not prioritise efficiency at
+null hypothesis significance testing (McElreath the expense of accuracy. Furthermore, posterior
+2016), with Bayesian credible intervals more readily passing offers a means of achieving both accurate
+understood than frequently misinterpreted p-val- and (more) efficient estimates than the other analy-
+ues and confidence intervals (Belia, Fidler, Williams, sis techniques included in our simulation, as poste-
+& Cumming, 2005; Greenland et al., 2016). Nonethe- rior passing converges on the correct effect size
+less, bearing these other benefits in mind, our sim- within 10-15 analyses (compared to the full 60 da-
+ulation results clearly suggest that posterior passing tasets). With regards to Curated Replications and
+is a major benefit to using a Bayesian approach. calls for measures of replication success (LeBel et al.,
+Reassuringly, even our deliberately coarse imple- 2018; Zwaan et al., 2017), these approaches can be
+mentation of posterior passing (in which only the distinguished from posterior passing in that they
+posterior for the interaction term was passed, and it formalize the process of replication to ensure the
+was assumed to be normal) was highly successful. robustness of findings. Posterior passing, con-
+Moreover, even when spurious results are present versely, does away with the notion of replications as
+(e.g. Fig.2a, dataset 9), posterior passing rapidly re- studies build on each other rather than specifically
+verts to the true population effect. As a measure of testing the results of prior studies.
+the success of posterior passing we compared it to Despite its success in our simulation, posterior
+a single, “meta”, Bayesian GLMM conducted over all passing is unlikely to be a scientific cure-all. One
+60 datasets combined, as this is equivalent to the factor identified as a problem in science, but not
+greatest possible performance achievable through considered in our simulation, is publication bias (the
+
+===== PAGE 14/16 =====
+14 BRAND ET AL.
+increased likelihood of publishing positive findings non-cumulative, analyses produce conflicting re-
+compared to null findings). It is likely that the per- sults across multiple studies. The use of posterior
+formance of posterior passing, along with the other passing in these contexts would potentially identify
+analyses considered, will be negatively affected by the true effect with confidence, and without relying
+publication bias. Indeed, posterior passing may ex- on meta-analyses that, in practice, often fail to re-
+acerbate the problem of publication bias if research- solve debates. Nonetheless further work is needed
+ers only put forward their positive results to be part to evaluate posterior passing, in particular, how well
+of a posterior passing framework. That said, if avail- it fares when faced with other known problems in
+able data from multiple studies are put towards a science, such as biases in publication.
+cumulative analysis, regardless of their novelty, re-
+searchers may be more motivated to publish their
+Open Science Practices
+null results, as well as replications, and so the imple-
+mentation of posterior passing may reduce publica-
+tion bias indirectly. Given these uncertainties, it
+would be valuable for further work to ascertain how
+sensitive each analysis type is to various levels of
+publication bias.
+This article earned the Open Data and the Open
+Another assumption of our simulation is that all
+Materials badge for making the data and materials
+analyses are similar or comparable enough to use in
+available. It has been verified that the analysis repro-
+a posterior passing framework. In actual scientific
+duced the results presented in the article. The entire
+practice, however, scientists may struggle to use the
+editorial process, including the open reviews, are
+results of one analysis to inform the next one due to
+published in the online supplement.
+differences in experimental design or analytic model
+structure. Moreover, even where a single model
+structure is agreed this may systematically differ
+from reality, introducing bias into model estimates.
+References
+Further work is needed to explore the effects of this
+kind of mismatch on the performance of posterior
+passing. Nonetheless, as previously discussed, pos- Bargh, J.A. (2012). Priming Effects Replicate Just Fine,
+teriors can be watered down by increasing their var- Thanks. Psychology Today. from:
+iance, thereby lessening the effect of prior work on www.psychologytoday.com
+current findings. While such practice necessarily Belia, S., Fidler, F., Williams, J., & Cumming, G.
+slows down scientific accumulation, it will reduce (2005). Researchers misunderstand confidence
+the risks that inter-study incompatibilities pose to intervals and standard error bars. Psychological
+posterior passing. This highlights how appropriate methods, 10(4), 389.
+use of priors will be an important issue for research- Benjamin, D. J., Berger, J. O., Johannesson, M.,
+ers, as well as editors and reviewers, and that it is Nosek, B. A., Wagenmakers, E. J., Berk, R., ... &
+important that manuscripts make clear which priors Cesarini, D. (2018). Redefine statistical
+were used and why. Researchers may also wish to significance. Nature Human Behaviour, 2(1), 6.
+include robustness checks in which priors are mod- Beppu, A., & Griffiths, T. L. (2009). Iterated learning
+estly adjusted and the subsequent change in results and the cultural ratchet. In Proceedings of the
+included in supplementary materials. 31st annual conference of the cognitive science
+In this manuscript, we have presented posterior society (pp. 2089-2094). Austin, TX: Cognitive
+passing as one way in which cumulative science can Science Society.
+be implemented. Among the benefits of posterior Bissell, M. (2013). Nature Comment: Reproducibility:
+passing is that it is easy to implement as a simple ex- The risks of the replication drive. Nature, 503,
+tension beyond standard Bayesian analyses of data. 333-334.
+Moreover, our simulations suggest that posterior Bohannon J. (2014) Replication effort provokes
+passing works well in contexts where traditional, praise—and ‘bullying’ charges. Science. 2014;
+344:788–789.
+
+===== PAGE 15/16 =====
+CUMULATIVE SCIENCE VIA BAYESIAN POSTERIOR PASSING 15
+Bolker, B. M., Brooks, M. E., Clark, C. J., Geange, S. misinterpretations. European journal of
+W., Poulsen, J. R., Stevens, M. H. H., & White, J. epidemiology, 31(4), 337-350.
+S. S. (2009). Generalized linear mixed models: a Jaeger, T. F. (2008). Categorical data analysis: Away
+practical guide for ecology and from ANOVAs (transformation or not) and
+evolution. Trends in ecology & evolution, 24(3), towards logit mixed models. Journal of memory
+127-135. and language, 59(4), 434-446.
+Chambers, C. D., Feredoes, E., Kahneman, D. (2014). A new etiquette for
+Muthukumaraswamy, S. D., & Etchells, P. (2014). replication. Social Psychology. 45, 310–311
+Instead of" playing the game" it is time to Kidwell, M. C., Lazarević, L. B., Baranski, E.,
+change the rules: Registered Reports at AIMS Hardwicke, T. E., Piechowski, S., Falkenberg, L.
+Neuroscience and beyond. AIMS S., ... & Errington, T. M. (2016). Badges to
+Neuroscience, 1(1), 4-17. acknowledge open practices: a simple, low-
+Cumming, G. (2013). Understanding the new cost, effective method for increasing
+statistics: Effect sizes, confidence intervals, and transparency. PLoS Biol, 14(5), e1002456.
+meta-analysis. Routledge. Kruschke, J. (2011). Doing Bayesian data analysis: A
+Doyle, R. A., & Voyer, D. (2016). Stereotype tutorial with R, JAGS, and Stan. Academic
+manipulation effects on math and spatial test Press.
+performance: A meta-analysis. Learning and Lakens, D., Adolfi, F. G., Albers, C. J., Anvari, F.,
+Individual Differences, 47, 103-116. Apps, M. A., Argamon, S. E., ... & Buchanan, E.
+Epskamp S, Nuijten MB. statcheck: Extract M. (2018). Justify your alpha. Nature Human
+statistics from articles and recompute p values. Behaviour, 2(3), 168.
+R package version 1.0.1. http://CRAN.R- Lakens, D., Hilgard, J., & Staaks, J. (2016). On the
+project.org/package=statcheck2015. reproducibility of meta-analyses: Six practical
+Ferguson, C. J. (2014). Comment: Why meta- recommendations. BMC psychology, 4(1), 24.
+analyses rarely resolve ideological Lakens, D., LeBel, E. P., Page-Gould, E., van Assen,
+debates. Emotion Review, 6(3), 251-252. M. A. L. M., Spellman, B., Schönbrodt, F. D., …
+Fischer, M. R. (2015). Replication–The ugly duckling Hertogs, R. (2017, July 9). Examining the
+of science? GMS Z Med Ausbild, 32, 5. Reproducibility of Meta-Analyses in
+Flore, P. C., & Wicherts, J. M. (2015). Does Psychology. Retrieved from osf.io/q23ye
+stereotype threat influence performance of LeBel, E. P., McCarthy, R., Earp, B. D., Elson, M., &
+girls in stereotyped domains? A meta- Vanpaemel, W. (2018). A Unified Framework To
+analysis. Journal of School Psychology. Quantify The Credibility Of Scientific
+Gelman, A. (2016, Feburary 12). Priming Effects Findings. OpenLeBel, Etienne P et al.“A Unified
+Replicate Just Fine, Thanks. from Framework to Quantify the Credibility of
+www.andrewgelman.com/2012 Scientific Findings”. PsyArXiv, 13.
+Gildersleeve, K., Haselton, M. G., & Fales, M. R. McElreath, R. (2016). Statistical rethinking: A
+(2014). Do women’s mate preferences change Bayesian course with examples in R and Stan
+across the ovulatory cycle? A meta-analytic (Vol. 122). CRC Press.
+review. Psychological Bulletin, 140(5), 1205. Morgan, T. J., Laland, K. N., & Harris, P. L. (2015).
+Gildersleeve, K., Haselton, M. G., & Fales, M. R. The development of adaptive conformity in
+(2014). Meta-analyses and p-curves support young children: effects of uncertainty and
+robust cycle shifts in women’s mate consensus. Developmental science, 18(4), 511-
+preferences: Reply to Wood and Carden (2014) 524.
+and Harris, Pashler, and Mickes (2014). Munafò, M. R., Nosek, B. A., Bishop, D. V., Button, K.
+Greenland, S., Senn, S. J., Rothman, K. J., Carlin, J. S., Chambers, C. D., du Sert, N. P., ... &
+B., Poole, C., Goodman, S. N., & Altman, D. G. Ioannidis, J. P. (2017). A manifesto for
+(2016). Statistical tests, P values, confidence reproducible science. Nature Human
+intervals, and power: a guide to Behaviour, 1, 0021. Chicago.
+
+===== PAGE 16/16 =====
+16 BRAND ET AL.
+Nguyen, H. H. D., & Ryan, A. M. (2008). Does underestimate the intellectual ability of
+stereotype threat affect test performance of negatively stereotyped students. Psychological
+minorities and women? A meta-analysis of Science, 20(9), 1132-1139.
+experimental evidence. Journal of Applied Wood, W., Kressel, L., Joshi, P. D., & Louie, B. (2014).
+Psychology, 93(6), 1314. Meta-analysis of menstrual cycle effects on
+Open Science Collaboration. (2015). Estimating the women’s mate preferences. Emotion Re-
+reproducibility of psychological science. view, 6(3), 229-249.
+Science, 349(6251), aac4716. Zwaan, R. A., Etz, A., Lucas, R. E., & Donnellan, M. B.
+Pulverer, B. (2015). Reproducibility blues. The EMBO (2017). Making replication mainstream. Behav-
+journal, 34(22), 2721-2724. ioral and Brain Sciences, 1-50.
+Picho, K., Rodriguez, A., & Finnie, L. (2013).
+Exploring the moderating role of context on
+the mathematics performance of females
+under stereotype threat: A meta-analysis. The
+Journal of social psychology, 153(3), 299-333.
+Robert, C. P. (2016). The expected demise of the
+Bayes factor. Journal of Mathematical
+Psychology, 72, 33-37
+Schnall, S. (2014). Clean data: Statistical artifacts
+wash out replication efforts. Social Psychology,
+45(4), 315-317
+Schönbrodt, F. D., Wagenmakers, E. J., Zehetleitner,
+M., & Perugini, M. (2017). Sequential hypothesis
+testing with Bayes factors: Efficiently testing
+mean differences. Psychological Methods, 22(2),
+322.
+Stoet, G., & Geary, D. C. (2012). Can stereotype
+threat explain the gender gap in mathematics
+performance and achievement? Review of
+General Psychology, 16(1), 93
+Trafimow, D, Marks, M. (2015). Editorial. Basic and
+Applied Social Psychology, 37(1),1-2.
+van de Schoot, R., Kaplan, D., Denissen, J.,
+Asendorpf, J. B., Neyer, F. J., & Aken, M. A.
+(2014). A gentle introduction to Bayesian
+analysis: applications to developmental
+research. Child development, 85(3), 842-860.
+van't Veer, A. E., & Giner-Sorolla, R. (2016). Pre-
+registration in social psychology—A discussion
+and suggested template. Journal of
+Experimental Social Psychology, 67, 2-12.
+Wasserstein, R. L., & Lazar, N. A. (2016). The ASA's
+statement on p-values: context, process, and
+purpose. The American Statistician.
+Walton, G. M., & Cohen, G. L. (2003). Stereotype
+lift. Journal of Experimental Social
+Psychology, 39(5), 456-467.
+Walton, G. M., & Spencer, S. J. (2009). Latent ability
+grades and test scores systematically

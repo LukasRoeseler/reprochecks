@@ -1,0 +1,79 @@
+﻿==== START (status: OK) ====
+# ReproAI console - Lakens & Delacre (2020) MP.2018.933
+# Engine: anomalyco/opencode (ReproAI) -- DeepSeek V4 Flash via uniGPT
+# rules: REPRO_STANDARDS.md 2026.06.27 ; audit date 2026-09-14
+# R 4.6.1 (2026-06-24) ; Python 3.8.10 (numpy 1.24.4, scipy 1.10.1)
+----- R 4.6.1 reimplementation -----
+=== FIGURE 1: means 140..150, n=30, sd=2, eq=[143,147] ===
+mean=140  TOST p=1.0000  SGPV=0.0000  (author p_delta=0.0000)
+mean=141  TOST p=1.0000  SGPV=0.0000  (author p_delta=0.0000)
+mean=142  TOST p=0.9948  SGPV=0.0000  (author p_delta=0.0000)
+mean=143  TOST p=0.5000  SGPV=0.5000  (author p_delta=0.5000)
+mean=144  TOST p=0.0052  SGPV=1.0000  (author p_delta=1.0000)
+mean=145  TOST p=0.0000  SGPV=1.0000  (author p_delta=1.0000)
+mean=146  TOST p=0.0052  SGPV=1.0000  (author p_delta=1.0000)
+mean=147  TOST p=0.5000  SGPV=0.5000  (author p_delta=0.5000)
+mean=148  TOST p=0.9948  SGPV=0.0000  (author p_delta=0.0000)
+mean=149  TOST p=1.0000  SGPV=0.0000  (author p_delta=0.0000)
+mean=150  TOST p=1.0000  SGPV=0.0000  (author p_delta=0.0000)
+At mean=145: t(29)=5.48  paper: 5.48
+At mean=140: t(29)=-8.22  paper: -8.22
+corr: mean=143  TOST_p=0.5000 (want 0.5)  SGPV=0.5000 (want 0.5)
+corr: mean=147  TOST_p=0.5000 (want 0.5)  SGPV=0.5000 (want 0.5)
+situation B mean=143.7468  TOST_p=0.0250 (want 0.025)  SGPV=1.0000 (want 1)
+situation C mean=147.7468  TOST_p=0.9750 (want 0.975)  SGPV=0.0000 (want 0)
+
+=== FIGURE 4: m-diff 1.5,1.4,1.3,1.2 (mu=144.5, sd=500, n=1e6, eq=+/-2) ===
+SGPV A-D: 0.76 0.81 0.86 0.91   (paper: 0.76 0.81 0.86 0.91)
+diffs A-B=-0.05 C-D=-0.05 (paper both -0.05)
+tail p A-D: 0.16 0.12 0.08 0.05   (paper: 0.16 0.12 0.08 0.05)
+tail diffs A-B=0.04 C-D=0.03 (paper 0.04 vs 0.03)
+
+=== CORRELATION CIs via Fisher z ===
+n=10 r=0.0: 95%CI=[-0.63, 0.63]
+n=10 r=0.7: 95%CI=[0.13, 0.92]
+n=30 r=0.45: 95%CI=[0.11, 0.70]  (paper 0.11 to 0.70)
+SGPV overlap r=0.45 eq[-.45,.45]: 58.1062 (paper 58.11%)
+n=30 r=-0.45 CI=[-0.70,-0.11] overlap=58.11% (claim >50 when r=+/-.45)
+n=30 r=0.00 CI=[-0.36,0.36] overlap=100.00% (claim >50 when r=+/-.45)
+n=30 r=0.45 CI=[0.11,0.70] overlap=58.11% (claim >50 when r=+/-.45)
+
+=== extreme case: n=4, true r=0.99, eq[-0.99,0.99] (Blume) ===
+99%CI in r: [0.5959, 0.9998]
+SGPV overlap: 97.57%  (paper 97.60%)
+(value 97.60 from Blume et al 2018; exact depends on CI truncation handling)
+
+=== Fig6/7: n=10, sd=2, eq[-0.4,0.4]; SGPV=0.5 range, TOST p never <0.05 ===
+CI width=2.861 eq width=0.8 ratio=3.58 (>2 => SGPV=0.5 correction)
+min TOST p over means=0.2714 (claim: never <0.05 -> OK if >=0.05)
+Fig6/7 SGPV constant @0.5 across plateau (-1.03..1.03): TRUE, value=0.500
+
+=== Fig9/10: n=10, sd=1, eq[-0.4,0.4]; ratio 1.79, SGPV=0.56 plateau ===
+CI width=1.431 eq width=0.8 ratio=1.788 (paper 1.79)
+SGPV at mean 0 = 0.559 (paper 0.56)
+plateau mean range: (-0.315, 0.315)
+SGPV constant across plateau (-0.32..0.32): TRUE, value=0.559
+
+=== author p_delta vs paper formula consistency (50 random CIs) ===
+formula==author p_delta: 50/50 agree
+
+==== R DONE ====
+
+----- Python 3.8.10 cross-check -----
+=== Figure 1 (Python) ===
+Figure 1 agreement vs R: 11/11
+t(29) at 145 = 5.48 (paper 5.48) | at 140 = -8.22 (paper -8.22)
+TOST p at 145 = 3.37e-06 | SGPV=1.0
+=== Correlation CIs (Python) ===
+r=0.0 n=10: CI=[-0.630,0.630] expect (-0.63, 0.63) OK
+r=0.7 n=10: CI=[0.126,0.923] expect (0.13, 0.92) OK
+r=0.45 n=30: CI=[0.107,0.697] expect (0.11, 0.7) OK
+SGPV overlap r=0.45: 58.11% (paper 58.11%)
+=== Figure 4 (Python) ===
+SGPV A-D = [0.76, 0.81, 0.86, 0.91] (paper 0.76 0.81 0.86 0.91)
+tails    = [0.16, 0.12, 0.08, 0.05] (paper 0.16 0.12 0.08 0.05)
+=== extreme case sampling dist (Python simulation: future r in [-.99,.99]) ===
+P(r in [-0.99,0.99]) = 35.6%  (cited 36%; n=4, rho=0.99, 200000 sims)
+==== PYTHON DONE ====
+
+==== END (status: OK) ====

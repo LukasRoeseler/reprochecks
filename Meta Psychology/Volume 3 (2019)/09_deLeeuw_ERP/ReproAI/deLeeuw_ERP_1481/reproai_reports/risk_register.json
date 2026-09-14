@@ -1,0 +1,45 @@
+{
+  "report_id": "MP.2018.1481",
+  "audit_date": "2026-09-14",
+  "severity_summary": {
+    "P0_blocker": 0,
+    "P1_high": 0,
+    "P2_medium": 2,
+    "P3_low": 2,
+    "total": 4
+  },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Appendix RATN full-model Bayes factor '431,034x' reproduces as 418,304x (~3% low)",
+      "evidence": "Paper: data '431,034 times less likely' under full 3-way RATN model than null. Reimplementation (same BayesFactor::anovaBF, same data, same seed 12604, 1/bf_full) gives 418,303.8 (3.0% lower). The author's own rendered notebook (analysis.nb.html, 1/bf.anova.RATN[18]) gives a THIRD value, 430,597 +/-6.69%. Three MC draws (paper 431,034; notebook 430,597+/-6.69%; this audit 418,304) differing by up to ~3-6% confirms this is pure Monte-Carlo sampling noise in BayesFactor at BF~1e5.",
+      "impact": "Appendix only, non-preregistered, conclusion (overwhelming support against RATN 3-way interaction) unchanged.",
+      "fix": "Report to 2 significant figures or note ~2-3% MC error at this magnitude."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Appendix RATN '39 times' three-way ratio reproduces as 37.77x",
+      "evidence": "Paper: full vs no-three-way model '39 times less likely'. Reimpl: inverse of BF ratio = 37.77 (paper 39; 1.5% low). Same MC-noise source as ADV-001.",
+      "impact": "Direction and interpretation unchanged.",
+      "fix": "Round to ~38 or note MC error."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Behavioral Table 1 computed on N=36 (includes excluded subject 8), not the stated analytic N=35",
+      "evidence": "Author's exclusion filter `filter(!subject_id %in% c(8,21,11,23,25,40))` where subject_id is a ZERO-PADDED string ('08','11',...) fails to exclude subject 8: R coerces 8->'8', which never equals '08'. Verified: author-style filter removes {11,21,23,25,40} but keeps 8 (N=36); proper integer filter removes all 6 (N=35). Paper's Table 1 (93.3/88.2/84.5/69.1) equals the 36-subject computation, confirming it includes excluded subject 8. Intended 35-subject values are 93.43/88.19/84.29/69.29.",
+      "impact": "The reported Table 1 numbers reproduce exactly from the shipped code, but the behavioral analysis sample differs from the stated analytic N=35 and includes a participant the Methods says was removed (technical problems). Numeric impact tiny (0.1-0.2 pts); does not change the qualitative conclusion (accuracy consistent with Patel). Raises a sample-consistency/provenance issue.",
+      "fix": "In the exclusion filter, convert subject_id to integer (as.integer(subject_id)) before %in%, or store IDs without leading zeros, so excluded subject 8 is dropped from the behavioral analysis too. Recompute Table 1 on N=35."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "RATN/N350 appendix analysis was not pre-registered",
+      "evidence": "Appendix explicitly states it was added 'in response to a reviewer's request' and was not pre-registered.",
+      "impact": "Exploratory add-on; does not affect the pre-registered headline P600 conclusion. Transparently disclosed.",
+      "fix": "Label the appendix analysis as exploratory/post-hoc in the main text."
+    }
+  ]
+}

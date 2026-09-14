@@ -1,0 +1,63 @@
+{
+  "paper": "Haverkamp & Beauducel (2019) MP.2018.898 - Type I error rates ANOVA vs MLM (SAS/SPSS)",
+  "audit_date": "2026-09-14",
+  "summary": "3x P2, 3x P3 (plus 1 rescinded prior finding). The paper's empirical conclusions are substantially supported: rANOVA/rANOVA-HF and MLM-CS reproduce, and the headline MLM-UN progressive liberal bias is reproduced in magnitude (R 35%/68%, Python 39%). The remaining advisories concern exact-number transparency and script hygiene, not substantive conclusions.",
+  "advisories": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "advice": "Make the exact Table 3 / figure numbers independently reproducible.",
+      "action": "Upload (a) the generated population .sav files (or a reseedable generation script with the exact SPSS MT seed=1000 and software versions), and (b) the per-condition Type I error result tables that the SPSS scripts already SAVE ('Mauchly_Epsilon_Greenhouse_Huynh.sav', 'MLM_CS.sav', 'MLM_UN.sav', 'final_*.sav'). This converts the current script-level archive into a full output-level archive.",
+      "effort": "medium",
+      "verifiability": "Re-run the shipped scripts on the released data; compare per-condition Type I error rates to Table 3 and Figs 1-4. (This audit's rANOVA already matches; MLM-UN m12/n15 R=0.68 brackets SAS 56.33%/SPSS 69.42%.)"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "RESCINDED",
+      "advice": "No author action required - audit correction.",
+      "action": "Record that the prior audit's P1 'prose vs Table 3 inconsistency' was a false positive: p.7-8 'close to five per cent' refers to MLM-CS and rANOVA, not MLM-UN.",
+      "effort": "none",
+      "verifiability": "Re-read paper_extracted.txt p.8 (lines ~392-400): the sentence's subject is 'The MLM-CS and rANOVA results'."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "advice": "Scope or fulfil the 'Open and reproducible analysis' badge.",
+      "action": "Either upload the SAVE'd result tables and data (ADV-001) so the exact numbers are verifiable, or amend the badge statement to note that the MLM-UN/SAS-SPSS comparison requires the original proprietary software and that only scripts + figures are archived.",
+      "effort": "low",
+      "verifiability": "OSF em62j contents become either complete (outputs present) or accurately scoped."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P2",
+      "advice": "Fix the SAS m=9 sphericity-violation data reference.",
+      "action": "Change 'data=C:\\Pop_long_violation _12.sav' to 'data=C:\\Pop_long_violation_9.sav' in all MLM blocks of SAS_simulation_9.txt (remove the stray space and correct the suffix), then re-run the m=9 MLM-violation block to confirm Figs 2/4.",
+      "effort": "low",
+      "verifiability": "Diff the corrected script against SAS_simulation_12.txt; confirm the m=9 file path resolves and the numbers are unaffected."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "advice": "Document compute/runtime and provide a reduced-S reproduction.",
+      "action": "Publish the per-condition runtime and provide one representative reduced-S (e.g. S=500) seed-fixed reproduction so reviewers can size a replication without the full 5000-condition S=5000 run.",
+      "effort": "medium",
+      "verifiability": "Run the reduced-S reproduction and compare its point estimates to the full-S figures within sampling error (~SE at S=500 ~1 pp)."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "advice": "Tabulate the per-condition Type I error rates.",
+      "action": "Publish the main-grid per-condition Type I error rates as a CSV alongside Figs 1-4 so the figures are numerically auditable.",
+      "effort": "low",
+      "verifiability": "CSV values can be cross-checked against figure bars and (with ADV-001) against a re-run."
+    },
+    {
+      "id": "ADV-007",
+      "severity": "P3",
+      "advice": "Verify the MLM-KR partial-correction claim with a proper UN+KR fit.",
+      "action": "Test 'MLM-KR lowers but does not fully correct MLM-UN inflation' by fitting the UN model with ddf='Kenward-Roger' (R: lmerTest anova(ddf='Kenward-Roger') on an UN model, or pbkrtest) and comparing to uncorrected MLM-UN; or obtain the SAS MLM-KR Type I error output (Table 3 already reports it).",
+      "effort": "medium",
+      "verifiability": "Corrected vs uncorrected MLM-UN Type I error at n=15/25/30; target: correction lowers but does not reach 5%."
+    }
+  ]
+}

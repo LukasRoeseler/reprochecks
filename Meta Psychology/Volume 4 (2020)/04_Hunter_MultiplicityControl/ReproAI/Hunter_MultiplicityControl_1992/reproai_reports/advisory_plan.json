@@ -1,0 +1,42 @@
+{
+  "paper": "Hunter et al. (2020) MP.2019.1992",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "recommendations": [
+    {
+      "id": "ADV-002",
+      "priority": "medium",
+      "action": "Re-ship the R script configured for the full analysis: nsim<-5000, an explicit loop over all 12 mean-structure x n (J=4 and J=7) configurations (=108 conditions), and set.seed(). Archive the corresponding output tables.",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-003",
+      "priority": "low",
+      "action": "Fix the meta_vard variance-column indices (lines 117-125) so rep1 variance uses k+npair and rep2 variance uses k+npair*2, matching meta_d.",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-004",
+      "priority": "low",
+      "action": "Add set.seed() to the script and report the seed in supplementary materials to allow exact bit-for-bit reproduction.",
+      "effort": "low",
+      "responsible": "authors"
+    },
+    {
+      "id": "ADV-005",
+      "priority": "low",
+      "action": "Replace the in-loop metafor::rma calls with a closed-form inverse-variance weighted meta z-test (precomputed outside the simulation loop) to make full reproduction practical.",
+      "effort": "medium",
+      "responsible": "authors/editor"
+    },
+    {
+      "id": "ADV-006",
+      "priority": "low",
+      "action": "Archive the editorial reproduction log and output tables in the OSF project to substantiate the 'Analysis reproduced by' badge.",
+      "effort": "low",
+      "responsible": "editor/authors"
+    }
+  ]
+}

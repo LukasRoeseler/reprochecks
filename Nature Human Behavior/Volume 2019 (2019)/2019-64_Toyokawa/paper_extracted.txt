@@ -1,0 +1,1210 @@
+Articles
+https://doi.org/10.1038/s41562-018-0518-x
+Social learning strategies regulate the wisdom
+and madness of interactive crowds
+Wataru Toyokawa 1,2,3*, Andrew Whalen1 and Kevin N. Laland1
+Why groups of individuals sometimes exhibit collective ‘wisdom’ and other times maladaptive ‘herding’ is an enduring conun-
+drum. Here we show that this apparent conflict is regulated by the social learning strategies deployed. We examined the pat-
+terns of human social learning through an interactive online experiment with 699 participants, varying both task uncertainty
+and group size, then used hierarchical Bayesian model fitting to identify the individual learning strategies exhibited by partici-
+pants. Challenging tasks elicit greater conformity among individuals, with rates of copying increasing with group size, leading
+to high probabilities of herding among large groups confronted with uncertainty. Conversely, the reduced social learning of
+small groups, and the greater probability that social information would be accurate for less-challenging tasks, generated ‘wis-
+dom of the crowd’ effects in other circumstances. Our model-based approach provides evidence that the likelihood of collective
+intelligence versus herding can be predicted, resolving a long-standing puzzle in the literature.
+Understanding the mechanisms that account for accurate be independent, they will fail to exploit the benefits of aggregating
+collective decision-making among groups of animals— information through social interactions. The extent to which indi-
+‘collective intelligence’—has been a central focus of ani- viduals should use social information should fall between these two
+mal behaviour research1–5. There are a large number of biological extremes. Evolutionary models predict that the balance between
+examples showing that collectives of poorly informed individu- independence and interdependence in collective decision-making
+als can achieve high performance in solving cognitive problems may be changeable and contingent on the individual-level flexibility
+under uncertainty6–10. Although these findings suggest fundamental and inter-individual variability associated with the social learning
+cognitive benefits of grouping11, there is also a long-standing rec- strategies deployed in diverse environmental states28,30,31.
+ognition, especially for humans, that interacting individuals may Experimental studies report that animals (including humans)
+sometimes be overwhelmed by the ‘extraordinary popular delusions increase their use of social information as the returns from asocial
+and madness of crowds’12. Herd behaviour (that is, an alignment of learning become more unreliable32–37, while theory and data suggest
+thoughts or behaviours of individuals in a group) occurs because that the benefits to individuals of social learning increase with group
+individuals imitate each other13–15, even if each is a rational decision- size34,38–42. Selectivity in the predicted use of social information may
+maker16. Imitation is thought to be a cause of financial bubbles12,17, impact on collective decision-making because slight differences
+‘groupthink’18 and volatility in cultural markets19,20. More generally, in the parameter values of social information use are known to be
+interdependence between individual decisions may undermine the able to alter qualitatively the collective behavioural dynamics1,2,5,43,44.
+wisdom of the crowds effect21 (but see ref. 22), while potential dis- Therefore, researchers should expect populations to exhibit a higher
+advantages of information transfer are well-recognized in the bio- risk of being trapped with maladaptive behaviour with increasing
+logical literature23,24. It seems that information transmission among group size and decreasing reliability of asocial learning (and con-
+individuals, and making decisions collectively, is a double-edged comitant increased reliance on social learning).
+sword: combining decisions may provide the benefits of collective From the viewpoint of the classic wisdom of the crowds theory,
+intelligence, but at the same time increase the risk of an informa- increasing group size may increase collective accuracy45–48. The
+tional cascade16. Collectively, an understanding of whether, and if so relative advantage of collective over solitary individuals may also
+how, it is possible to prevent or reduce the risk of maladaptive herd- be highlighted by increased task difficulty, because there would be
+ing while concurrently keeping or enhancing collective intelligence more room for the performance of difficult tasks to be improved
+is largely lacking. compared with easier tasks in which high accuracy can be achieved
+A balance between using individual and social information may by asocial learning only. To understand the collective decision per-
+play a key role in determining the trade-off between collective wis- formance of social learners fully requires fine-grained quantitative
+dom and ‘madness’25. If individuals are too reliant on copying oth- studies of social learning strategies and their relations to collective
+ers’ behaviour, any idea—even a maladaptive one—can propagate dynamics, linked to sophisticated computational analysis.
+in the social group through positive feedbacks2,26. For instance, dis- The aims of this study were twofold. First, we set out to test the
+proportionally strong positive responses to recruitment signals in hypothesis that the circumstances under which collective decision-
+social insects have been shown to trap the whole colony to exploit making will generate ‘wisdom’ can be predicted with knowledge of
+a suboptimal, outdated resource24,27. Likewise, conformity-biased the precise learning strategies individuals deploy, through a combi-
+transmission in humans and other animals can potentially lead nation of experimentation and theoretical modelling. The choice of
+groups to converge on a maladaptive behaviour16,23,28,29. In contrast, an abstract decision-making task allowed us to implement a compu-
+however, if individuals completely ignore social information so as to tational modelling approach, which has been increasingly deployed
+1School of Biology, University of St Andrews, St Andrews, UK. 2Japan Society for the Promotion of Science, Tokyo, Japan. 3Department of Evolutionary
+Studies of Biosystems, School of Advanced Sciences, The Graduate University for Advanced Studies, Hayama, Japan. *e-mail: wt25@st-andrews.ac.uk
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviOur
+1.00
+σ = 0.3, θ = 1
+0.75
+0.50
+0.25
+0.00
+0 20 40 70 90
+Rounds
+in quantitative studies of animal social learning strategies35,49–51. In social information use: (1) is affected by different group size and
+particular, computational modelling allowed us to conduct a para- task uncertainty; and (2) affects both collective intelligence and the
+metric description of different information-gathering processes and risk of maladaptive herding.
+to estimate the parameter values at an individual-level resolution.
+This approach allows us to characterize the complex relationship results
+between individual-level decisions, learning strategies and collec- Relationship between social learning and collective behav-
+tive-level behavioural dynamics. iour. Figure 1 shows the relationship between the average deci-
+Second, we added resolution to our analyses by manipulating sion accuracy and individual-level social information use obtained
+both task uncertainty and group size in our web-based experiments from our individual-based model simulations, highlighting the
+with adult human subjects, predicting that these factors would trade-off between accuracy and flexibility of collective decision-
+induce heavier use of social information in humans, and thereby making. When the mean conformity exponent is small (that is,
+alter the balance between collective intelligence and the risk of θ=(∑ iθ i)∕individuals=1), large groups are able to recover
+inflexible herding. To do this, we focused on human groups exposed the decision accuracy quickly, as do small groups after the loca-
+to a simple gambling task called a multi-player ‘multi-armed ban- tion of the optimal option has been switched, whereas overall
+dit’, where both asocial and social sources of information were avail- improvement by increasing group size in decision accuracy is
+able35,51,52. Through the development of an interactive, web-based subtle when the average social learning weight is also small (that
+collective decision-making task, and the use of hierarchical Bayesian is, σ=(∑ i∑ tσ i,t)∕(individuals × rounds)=0.3; Fig. 1a,c). In
+statistical methods in fitting our computational model to the experi- contrast, when both the conformity exponent θ and the social
+mental data, we identify the individual-level learning strategies of learning weight σ are large, the average performance no longer
+participants and quantify variation in different learning parameters, monotonically improves with increasing group size, and it is under
+allowing us to conduct an informed exploration of the population- these circumstances that the strong herding effect becomes promi-
+level outcomes. The results provide clear evidence that the collective nent (Fig. 1d). Although the high conformity bias with low social
+behavioural dynamics can be predicted with knowledge of human learning weight makes large groups more accurate before the envi-
+social learning strategies. ronment changes, larger groups are less flexible in performance
+Below, we first deploy agent-based simulation to illustrate how recovery (Fig. 1b). This pattern is robust for other parameter regions
+the model parameters relating to social learning can in principle (Supplementary Fig. 2).
+affect the collective-level behavioural dynamics. This simulation
+provides us with precise, quantitative predictions concerning the Figure 2 indicates that when both θ and σ are large, the collec-
+complex relationship between individual behaviour and group tive choices converge either on the good option or on one of the
+dynamics. Second, we present the findings of a multi-player web- poor options almost randomly, regardless of the option’s quality,
+based experiment with human participants that utilizes the gam- and that once individuals start converging on an option the popula-
+bling task framework. Applying a hierarchical Bayesian statistical tion gets stuck. As a result, the distribution of the groups’ average
+method, we estimated the model’s parameters for each of 699 dif- performance over the replications becomes a bimodal ‘U-shape’.
+ferent individuals, allowing us to examine whether, and if so how Interestingly, however, the maladaptive herding effect remains
+gnisoohc
+noitroporP
+noitpo
+tseb
+eht
+a
+1.00
+σ = 0.3, θ = 3
+0.75
+0.50
+n = 3 0.25
+n = 10
+n = 30 0.00
+0 20 40 70 90
+Rounds
+gnisoohc
+noitroporP
+noitpo
+tseb
+eht
+b
+1.00
+σ = 0.9, θ = 1
+0.75
+0.50
+0.25
+0.00
+0 20 40 70 90
+Rounds
+gnisoohc
+noitroporP
+noitpo
+tseb
+eht
+c
+1.00
+σ = 0.9, θ = 3
+0.75
+0.50
+0.25
+0.00
+0 20 40 70 90
+Rounds
+gnisoohc
+noitroporP
+noitpo
+tseb
+eht
+d
+Fig. 1 | Findings of the individual-based model showing the effects of social information use on the average decision accuracy over replications. The
+x axis gives the round and the y axis gives the proportion of individuals expected to choose the optimal slot (that is, decision accuracy) averaged over all
+replications. The vertical dashed line indicates the timing of environmental (that is, payoff) change (at t = 41). Black dotted, orange dashed and red solid
+lines represent group sizes of n = 3, 10 and 30, respectively. We set the average slopes for the social learning weight to be equal to zero for the sake of
+s (sim eep l Ti aci bt ly e; 2n a am nde l Sy,
+u
+μ
+pδ
+p
+=
+le
+0 m. eO nt th ae ryr f Tr ae be
+l
+ep a 1)ra .meter values (that is, μ α, μ β0*, μ ε, ν α, ν β0*, ν ε, ν σ, ν
+δ
+and ν θ) are best approximates to the experimental fitted values
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+NaTure HumaN BeHaviOur Articles
+θ = 0.5 θ = 1 θ = 3 θ = 6
+0.90
+0.80
+0.70
+0.60
+0.50
+0.40
+0.30
+0.20
+0.10
+0.01
+0 0.25 0.50 0.75 1.00 0 0.25 0.50 0.75 1.00 0.00 0.25 0.50 0.75 1.00 0 0.25 0.50 0.75 1.00
+Groups' average performance
+relatively weak in smaller groups (see dotted line in Fig. 1d). This Table 1), suggesting that larger groups were more likely to get stuck
+is because the majority of individuals in smaller groups (that is two in the outdated option in the moderate-uncertainty condition. In
+individuals out of three) are more likely to break the cultural inertia the high-uncertainty condition, the main effect of group size was
+by simultaneously exploring another option by chance than are the positive in the pre-change period and negative post-change (mean
+majority in larger groups (for example, six out of ten). and 95% Bayesian CIs: ω = 0.07 (0.00 to 0.15); ω = − 0.10 (− 0.17
+1 2
+In summary, the model simulation suggests an interaction to − 0.02); Table 1), although the effect size was too small to dif-
+between the social learning weight σ and conformity exponent θ ferentiate between the performances of different group sizes visu-
+on decision accuracy and the risk of inflexible herding. When the ally (Fig. 3a). Using monetary earnings as an outcome variable of
+conformity exponent is not too large, increasing the group size can decision performance did not change our conclusions qualitatively
+increase the decision accuracy while concurrently retaining the (supporting Supplementary Fig. 4 and Supplementary Table 2).
+decision flexibility across a broad range of mean social learning Our phenomenological model regression established that
+weights. However, when the conformity bias becomes large, the risk manipulating both task uncertainty and group size indeed affected
+of inflexible herding arises, and when both social learning param- the collective decision dynamics. Below, we address whether or not
+eters are large, collective intelligence is rare and inflexible herd the pattern could be explained with knowledge of human social
+behaviour dominates. learning strategies estimated through our learning-and-decision-
+making computational model.
+Collective performance of human participants. Figure 3a shows
+the behavioural dynamics of human participants in different group Estimation of human social information use. Using posterior esti-
+sizes and different task uncertainty conditions (see Supplementary mation values obtained by the hierarchical Bayesian model-fitting
+Fig. 3 for each group’s behaviour). The average decision performance method (Table 2), we were able to categorize the participants as
+of collectives (that is, group size ≥ 2) exceeded that of solitary indi- deploying one of three different learning strategies based on their
+viduals (that is, group size = 1) in the moderate-uncertainty condi- fitted conformity exponent values; namely, the ‘positive frequency-
+tion (that is, the 95% Bayesian credible interval (CI) of ξ exceeds dependent copying’ strategy (θ≫0), ‘negative frequency-depen-
+t i
+0 at regions t ∈ 9–40 and 67–70; Fig. 3b). In other uncertainty dent copying’ strategy (θ≪0) and ‘random choice’ strategy (θ ~ 0).
+i i
+conditions, no global positive effect of grouping was observed, Note that we could not reliably detect the ‘weak positive’ frequency-
+suggesting that collective intelligence was prominent only in the dependent strategy (0 < θ ≤ 1) due to the limitation of statistical
+i
+moderate-uncertainty condition. However, the main effect of group power (Supplementary Fig. 5). Some individuals whose ‘true’ con-
+size was positive in the post-change period of the low-uncertainty formity exponent fell between zero and one would have been cat-
+condition (mean and 95% Bayesian CI of ω = 0.67 (0.44 to 0.91); egorized as exhibiting a random choice strategy (Supplementary
+2
+Table 1), suggesting that the average performances of large groups Fig. 7). Individuals identified as exhibiting the positive frequency-
+(for example, 12 ≤ group size ≤ 16) were better, and hence more dependent copying strategy were mainly those whose conformity
+flexible, than smaller groups and solitaries (Fig. 3a). In contrast, in exponent was larger than 1 (θ > 1).
+i
+the moderate-uncertainty condition, the average performance of Figure 4a shows the estimated frequencies of different learning
+the collectives dropped below that of the solitaries after the envi- strategies. Generally speaking, participants were more likely to uti-
+ronmental change (that is, ξ < 0 at a region t ∈ 42–45; Fig. 3b). lize a positive frequency-dependent copying strategy than the other
+t
+Also, the main effect of group size was negative in the post-change two strategies (the 95% Bayesian CI of the intercept of the general-
+period (mean and 95% Bayesian CI of ω = − 0.26 (− 0.44 to − 0.11); ized linear mixed model (GLMM) predicting the probability to use
+2
+σ
+thgiew
+gninrael
+laicoS
+Group size: n = 3; n = 10; n = 30
+Fig. 2 | results from the individual-based model simulations showing the distribution of each group’s mean accuracy before environmental change
+(t ≤ 40). The x axis gives the mean decision accuracy over the first 40 rounds (that is, environment 1) for each replication. Black dotted, orange dashed
+and red solid lines represent group sized of n = 3, 10 and 30, respectively. The other free parameter values are the same as in Fig. 1.
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviOur
+a Low uncertainty Moderate uncertainty High uncertainty
+1.00
+0.75
+0.50
+0.25 12 ≤ n ≤ 16 8 ≤ n ≤ 17 12 ≤ n ≤ 27
+0 2 ≤ n ≤ 9 2 ≤ n ≤ 6 2 ≤ n ≤ 9
+0 20 40 60 0 20 40 60 0 20 40 60
+Rounds
+b Low uncertainty Moderate uncertainty High uncertainty
+1
+0
+–1
+0 20 40 60 0 20 40 60 0 20 40 60
+Rounds
+c
+Low uncertainty Moderate uncertainty High uncertainty
+1.00
+0.75
+0.50
+0.25
+0
+0 20 40 70 90 0 20 40 70 90 0 20 40 70 90
+Rounds
+d Low uncertainty Moderate uncertainty High uncertainty
+1st – Group size
+40th
+Large
+41st – Small
+70th Single
+0 0.5 1.0 0 0.5 1.0 0 0.5 1.0
+Groups’ average proportion choosing the best option
+the positive frequency-dependent copying strategy was above zero We also investigated the effects of group size and task uncer-
+(1.05 to 2.50); Supplementary Table 4). We found that positive fre- tainty on the fitted individual parameter values. We found that
+quency-dependent copying decreased with increasing task uncer- the individual mean social learning weight parameter (that is,
+tainty (the 95% Bayesian CI of task uncertainty effect was below σ i=(∑ tσ i,t)∕(total rounds)) increased with group size (95%
+zero (− 1.88 to − 0.25); Supplementary Table 4). We found no clear Bayesian CI = 0.15 to 0.93; Fig. 4b and Supplementary Table 5), and
+effects of either the group size, age or gender on adoption of the decreased with uncertainty (95% Bayesian CI = − 0.98 to − 0.22) and
+positive frequency-dependent copying strategy, except for the nega- the age of the subject (95% Bayesian CI = − 0.36 to − 0.02). However,
+tive interaction effect between age and task uncertainty (the 95% the negative effects of task uncertainty and age disappeared when
+Bayesian CI of the age × uncertainty interaction was − 1.46 to − 0.15; we focused only on σ of the positive frequency-dependent copy-
+i
+Supplementary Table 4). ing individuals, and only the positive effect of the group size was
+noitroporP gnisoohc
+noitpo
+tseb
+eht
+1.0
+noitroporP
+secnereffiD
+gnisoohc
+seiratilos
+neewteb
+ytisneD
+noitpo
+tseb
+eht
+tξ
+spuorg
+dna
+)delacs(
+0.5
+0
+1.0
+0.5
+0
+Fig. 3 | Time evolutions and distributions of decision performance for each condition. a, Average decision accuracies of experimental participants
+(red, large groups; orange, small groups; dark grey, lone individuals). All individual performances were averaged within the same size category (solid lines).
+The light-shaded areas, dark-shaded areas and dashed curves show the 95%, 50% and median Bayesian CIs of the phenomenological, time-series logistic
+regression. Sample sizes for large, small and lone groups are: n = 43, 44 and 38 for the low-uncertainty condition; n = 52, 56 and 37 for the moderate-
+uncertainty condition; and n = 259, 168 and 58 for the high-uncertainty condition, respectively. b, Change in the main effect of the dummy variable of
+grouping on the decision accuracy at the phenomenological regression model. The light- and dark-shaded areas are the 95 and 50% Bayesian CIs and
+the solid curves are the medians. c,d, Change and distribution of average decision accuracy of the individual-based post hoc simulations of the learning
+process model using the experimentally fit parameter values. In c, all replications were averaged within the same size category (solid lines); the shaded
+areas give the 50% quantiles; and the experimental horizon (that is, t = 70) is indicated by the vertical line. In d, the performance was averaged within
+pre- (top, 1st–40th) and post-change periods (bottom, 41st–70th) for each replication for each group-size category.
+Table 1 | mean and 95% Bayesian Cis of the posterior for the group size effect in the phenomenological logistic model
+Low uncertainty moderate uncertainty High uncertainty
+ω1 0.08 − 0.15 to 0.33 0.10 − 0.06 to 0.26 0.07 0.00 to 0.15
+ω2 0.67 0.44 to 0.91 − 0.26 − 0.44 to − 0.11 − 0.10 − 0.17 to − 0.02
+All R ̂values are 1.0 and the effective sample sizes are larger than 837.
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+NaTure HumaN BeHaviOur Articles
+Table 2 | mean and the 95% Bayesian Cis of the posterior global means for the parameter values.
+Groups Solitary individuals
+uncertainty Low (n = 77) moderate (n = 98) High (n = 398) Low (n = 36) moderate (n = 34) High (n = 56)
+μ (Learning rate) 0.99 0.90 0.61 0.85 − 0.17 0.46
+α*
+0.34 to 1.73 0.43 to 1.44 0.21 to 1.03 − 0.07 to 1.95 − 1.27 to 0.89 − 0.39 to 1.36
+μ (Inverse temperature) 1.84 1.68 1.38 1.10 1.44 0.85
+β0*
+1.15 to 2.70 1.25 to 2.18 1.16 to 1.62 0.69 to 1.54 0.80 to 2.07 0.46 to 1.22
+μ (Inverse temperature) 3.70 3.01 2.97 2.39 2.81 2.27
+ε
+1.98 to 5.71 1.88 to 4.27 2.37 to 3.60 1.46 to 3.53 1.64 to 4.07 1.40 to 3.31
+μ (Social learning weight) − 1.55 − 2.37 − 2.16 — — —
+σ0*
+− 2.71 to − 0.71 − 4.12 to − 1.01 − 2.81 to − 1.63 — — —
+μ (Social learning weight) − 1.39 − 1.55 − 1.87 — — —
+δ
+− 2.66 to − 0.03 − 4.29 to 0.91 − 3.04 to − 0.81 — — —
+μ (Conformity coefficient) 1.65 3.00 2.67 — — —
+θ
+0.83 to 2.82 1.57 to 4.85 1.80 to 3.73 — — —
+a
+Low uncertainty Moderate uncertainty High uncertainty
+1.00 Positive frequency
+dependence
+0.75
+Random choice
+Negative
+frequency
+dependence
+b
+c
+fo
+noitroporP
+ytimrofnoC
+seigetarts
+iθ tnenopxe
+1.00 1.00
+0.75 0.75
+0.50 0.50 0.50
+0.25 0.25 0.25
+0 0 0
+10 20 10 20 10 20
+Group size Group size Group size
+1.00 Negative frequency dependence 1.00 1.00
+Positive frequency dependence
+0.75 0.75 0.75
+Random choice
+0.50 0.50 0.50
+0.25 0.25 0.25
+0 0 0
+–1 0 1 2 –1 0 1 2 –1 0 1 2
+Group size (standardized) Group size (standardized) Group size (standardized)
+Negative frequency dependence
+10 10 10
+Positive frequency dependence
+5 Random choice 5 5
+0 0 0
+–5 –5 –5
+–1 0 1 2 –1 0 1 2 –1 0 1 2
+Group size (standardized) Group size (standardized) Group size (standardized)
+laicos
+naeM
+iσ
+thgiew
+gninrael
+Fig. 4 | model fitting for the three different task’s uncertain conditions (low-, moderate- and high-uncertainty) and the different group sizes.
+Three different learning strategies are shown (red triangle, positive frequency-dependent learning; blue circle, negative frequency-dependent learning;
+grey circle, nearly random choice strategy). a, Frequencies of three different learning strategies. Note that a sum of the frequencies of these three
+strategies in the same group size does not necessarily equal to 1, because there are a small number of individuals eliminated from this analysis due to
+insufficient data. b,c, Estimated social learning weight (b) estimated conformity exponent (c) for each individual shown for each learning strategy.
+The 50% Bayesian CIs of the fitted GLMMs are shown by dashed lines and shaded areas. The horizontal lines in c show the region − 1 < θi < 1. The sample
+sizes for negative frequency-dependent, positive frequency-dependent and random choice strategies were n = 2, 61 and 14, respectively, for the
+low-uncertainty condition; n = 3, 80 and 15, respectively, for the moderate-uncertainty condition; and n = 32, 260 and 106, respectively, for the
+high-uncertainty condition.
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviOur
+Low uncertainty Moderate uncertainty High uncertainty
+1.00
+0.75
+0.50
+0.25
+0
+0 20 40 60 0 20 40 60 0 20 40 60
+Round
+confirmed (Supplementary Table 6 and Supplementary Fig. 6). It is temperature β =(∑ β ) ∕(total rounds) (Supplementary Tables 9
+i t i,t
+worth noting that the meaning of the social learning weight is dif- and 10 and Supplementary Fig. 6).
+ferent between these three different strategies. The social learning In summary, our experiments on adult humans revealed asym-
+weight regulates positive reactions to the majorities’ behaviour for metric influences of increasing task uncertainty and increasing
+positive frequency-dependent copiers, whereas it regulates avoid- group size on the social learning parameters. The conformity expo-
+ance of the majority for negative frequency-dependent copiers, and nent increased with task uncertainty on average, but the propor-
+determines the probability of random decision-making for the ran- tion of positive frequency-dependent copying individuals showed
+dom choice strategists. a corresponding decrease, due to the extensive individual variation
+The individual conformity exponent parameter θ increased emerging in the high-uncertainty condition. Conversely, group size
+i
+with task uncertainty (95% Bayesian CI = 0.38 to 1.41), but we had a positive effect on the mean social learning weight, but did not
+found no significant effects of group size, age, gender or interac- affect conformity.
+tions (Fig. 4c and Supplementary Table 7). These results were
+qualitatively unchanged when we focused only on the positive fre- Social learning strategies explain the collective dynamics. The
+quency-dependent copying individuals (Supplementary Table 8 and post-hoc simulation provides statistical predictions on how likely
+Supplementary Fig. 6). it is, given the fitted learning model parameters, that groups of
+We observed extensive individual variation in social information individuals make accurate decisions and that they exhibit inflexible
+use. The greater the task’s uncertainty, the larger the individual vari- herding. Figure 3c shows the change over time in performance with
+ances in both the mean social learning weight and the conformity different group sizes and different uncertainty conditions, gener-
+exponent (the 95% Bayesian CI of the GLMM’s variation parameter ated by the post-hoc simulation (see also Supplementary Fig. 3).
+for σ was 1.11 to 1.62 (Supplementary Table 5) and for θ it was 1.07 The trajectories of the simulated dynamics recover nicely the pat-
+i i
+to 1.54 (Supplementary Table 7)). This was confirmed when focus- tern observed in the experiment (Fig. 3a,c), suggesting that the
+ing only on the positive frequency-dependent copying individuals strategic changes in individual-level social information use (Fig. 4)
+(the Bayesian 95% CIs were 1.14 to 1.80 (Supplementary Table 6) could explain the collective-level behavioural pattern.
+and 0.71 to 1.10 (Supplementary Table 8), respectively). Figure 3d shows that larger groups are more likely to make accu-
+The manner in which individual variation in social information rate decisions than both small groups and solitaries in the period
+use of positive frequency-dependent copying individuals changes before change across all uncertainty conditions, suggesting that
+over time is visualized in Fig. 5. The social learning weights gener- collective intelligence is operating. However, in the post-change
+ally decreased with experimental round. However, some individu- period, performance differed between the conditions. In the low-
+als in the moderate- and high-uncertainty conditions accelerated uncertainty condition, where we found that the participants were
+rather than decreased their reliance on social learning over time. most likely to have a relatively weak positive frequency-dependence
+Interestingly, those accelerating individuals tended to have a larger (that is, θ=1.65), large groups performed better than small groups
+conformity exponent (Supplementary Fig. 5). In addition, the time- over 59.5% of a total of 10,000 repetitions. However, in the moder-
+dependent θ in our alternative model generally increased with ate-uncertainty condition, where we found that participants were
+i,t
+experimental round in the moderate- and the high-uncertainty most likely to have strong positive frequency dependence (θ=3.00
+conditions (Supplementary Fig. 10), although the fitting of θ in compared with 1.65 in the low-uncertainty condition), the large
+i,t
+the alternative model was relatively unreliable (Supplementary groups were more likely to get stuck on the suboptimal option, and
+Fig. 9). These findings suggest that conformists tended to use hence the small groups performed better than the large groups over
+asocial learning at the outset (that is, exploration asocially), but 69.5% of repetitions (Fig. 3d). The decision accuracy did not sub-
+increasingly started to conform as the task proceeded (that is, stantially differ with group size in the post-change period in the
+exploitation socially). high-uncertainty condition, although the large groups performed
+Extensive variation in the temporal dynamics of the social learn- slightly better than the small groups (50.8% of the repetitions).
+ing weight σ was also found for the negative frequency-depen- Interestingly, although their relatively low conformity biases,
+i,t
+dent copying individuals, but not for random choice individuals there were some groups in the low-uncertainty condition that
+(Supplementary Fig. 5). Individuals deploying a random choice strat- seemed to exhibit herding (the ‘humped’ area at the left-hand side to
+egy exhibited a σ that approached zero, indicating that their deci- the peak of the performance distribution in the post-change period;
+i,t
+sion-making increasingly relied exclusively on the softmax choice Fig. 3d). This might be due to the lower softmax exploration rates
+rule, rather than unguided random choices, as the task proceeded. among social learners in the low-uncertainty condition (that is,
+No significant fixed effects were found in other asocial learn- both μ β0* and μ ε were large; Table 2): the whole population gets stuck
+ing parameters, such as the learning rate α and the mean inverse because all individuals are very exploitative on their past experience.
+i
+tiσ
+thgiew
+gninrael
+laicoS
+9
+6
+3
+exponent
+θi
+Conformity
+Fig. 5 | Change in fitted values (that is, the median of the Bayesian posterior distribution) of the social learning weight σi,t with time for each positive
+frequency-dependent individual for each level of task uncertainty. Thick dashed lines are the median values of σi,t across the subjects for each uncertainty
+condition. Individual conformity exponent values θi are shown in different colours (darker = higher θi). Sample sizes for each task uncertainty condition are
+n = 61 (low uncertainty), n = 80 (moderate uncertainty) and n = 260 (high uncertainty).
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+NaTure HumaN BeHaviOur Articles
+Discussion but concurrently diminishing the decision accuracy in high-
+We investigated whether and how human social learning strategies uncertainty circumstances (Fig. 3).
+regulate the trade-off between collective intelligence and inflexible A methodological advantage of using computational models to
+herding behaviour using a collective learning-and-decision-making study social learning strategies is its explicitness of assumptions
+task combined with simulation and model fitting. We examined about the temporal dynamics of behaviour, which enabled us to dis-
+whether manipulating the reliability of asocial learning and group tinguish between different learning strategies63–65. For example, very
+size would affect the use of social information, and thereby alter the exploitative asocial reinforcement learners (that is, those for whom
+collective human decision dynamics, as suggested by our computa- the exploitation parameter β is large and the social learning weight
+i,t
+tional model simulation. Although a theoretical study has suggested σ is nearly zero, as seen in the low-uncertainty condition) and con-
+i,t
+that reliance on social learning and conformity bias would play a formity-biased social learners (where the conformity exponent θ is
+i
+role in collective dynamics2,5,53, thus far no empirical studies have large and σ is positive, as seen in the moderate-uncertainty condi-
+i,t
+quantitatively investigated the population-level consequences of tion) would eventually converge on the same option, resulting in the
+these two different social learning processes. Our high-resolution, same final behavioural steady state. However, how they explored the
+model-based behavioural analysis using hierarchical Bayesian statis- environment, as well as how they reacted to the other individuals in
+tics enabled us to identify individual-level patterns and variation of the same group, was significantly different, and they could produce
+different learning parameters, and to explore their population-level qualitatively different collective temporal dynamics.
+outcomes. The results provide quantitative support for our hypoth- However, our computational model could not fully capture
+esis that the collective decision performance can be predicted with other, potentially more sophisticated forms of social learning strat-
+quantitative knowledge of social learning strategies. egies that participants might deploy, which might be a reason for
+Overall, our individual-based computational model recovered the seemingly low rate of social learning observed in the experi-
+the behavioural pattern suggested by the phenomenological regres- ment compared with theory57,58. Indeed, the post-hoc simulation
+sion (Fig. 3). Using the post-hoc simulation with individually fit sometimes failed to recover the observed behavioural trajectories.
+model parameters, we confirmed that, in the low-uncertainty con- In particular, experimental groups with n = 12 or 16, and 1 group
+dition, where individuals had weaker positive frequency bias (that with n = 9 in the low-uncertainty condition performed very well,
+is, θ≈1.65), larger groups were able to be more accurate than exceeding the 95% CIs of the post-hoc simulation after the envi-
+smaller groups while retaining flexibility in their decision-making9, ronmental change (Supplementary Fig. 3). This indicates that col-
+although their low asocial exploration rates seemed to undermine lective behaviour in these groups was more flexible than our model
+the potential flexibility. However, in the moderate- and the high- predicted. Further empirical studies that consider a wider range of
+uncertain conditions, where individuals had the higher conformity possible social learning strategies (for example, the ‘copy-rapidly-
+exponent parameters (that is, θ≈3.0 and 2.7, respectively), larger increasing-option’ strategy66 or Bayesian updating57,67) are needed
+groups performed better before environmental change but were vul- to explore computational underpinnings of social learning and
+nerable to getting stuck with an outdated maladaptive option post- collective behaviour.
+change. Therefore, the changes in the level of conformity in human The Internet-based experimentation allowed us to conduct a
+individuals34,41 indeed incurred a trade-off between the collective real-time interactive behavioural task with larger subject pools
+intelligence effect and the risk of inflexible herding. than a conventional laboratory-based experiment. This enabled
+Although the social learning weight increased with increas- us not only to quantify the individual-level learning-and-decision
+ing group size, the overall mean value was σ≈0.3 (Fig. 4b and processes68 but also to map these individual-level processes on
+i
+Supplementary Figs. 5 and 6), and it decreased on average as the to the larger-scale collective behaviour5,15,20. Although there are
+task proceeded (Fig. 5). This implies a weaker social than asocial always questions about the validity of participants’ behaviour when
+influence on decision-making, as reported in several other experi- recruited via web-based tools, we believe that the computational
+mental studies35,54–56, although evolutionary models tend to pre- modelling approach, coupled with higher statistical power due to
+dict heavier reliance on social learning than experimental studies the large sample size, compensates for any drawbacks. The fact
+report57,58. Thanks to this relatively weak reliance of social learning, that our learning model could approximate the participants’ deci-
+the kind of extreme herding that would have blindly led a group to sion trajectories effectively suggests that most of the participants
+any option regardless of its quality, such as the ‘symmetry breaking’ engaged seriously with solving the task. An increasing body of evi-
+known in trail-laying ant collective foraging systems2,5,26, did not dence supports the argument that web-based behavioural experi-
+occur (Fig. 2). ments are as reliable as results from the laboratory69,70.
+Individual differences in rates of exploration might also help The diverse effects of social influence on the collective wisdom
+to mitigate potential herding. Although a majority of partici- of a group has been drawing substantial attention19,21,22,71,72. The
+pants adopted a positive frequency-dependent copying strategy, bulk of this literature, including many jury models and election
+some individuals exhibited negative frequency dependence or models45,73, has focused primarily on the static estimation prob-
+random decision-making (Fig. 4a). The random choice strategy lem, where the ‘truth’ is fixed from the outset. However, in reality,
+was associated with more exploration than the other strategies, there are many situations under which the state of the true value is
+because it led to an almost random choice at a rate σ, irrespec- changing over time so that monitoring and tracking the pattern of
+i
+tive of the options’ quality. Negative frequency-dependent copy- change is a crucial determinant of decision performance74. In such
+ing individuals could also be highly exploratory. These individuals temporally dynamic environments, decision-making and learning
+tended to avoid choosing an option on which other people had are coordinated to affect future behavioural outcomes recursively75.
+converged and would explore the other two ‘unpopular’ options. Our experimental task provides a simple vehicle for exploring col-
+Interestingly, in the high-uncertainty condition, the mean social lective intelligence in a dynamic situation, which encompasses this
+learning weights of the negative frequency-dependent copy- learning-and-decision-making feedback loop. Potentially, inte-
+ing individuals (σ≈0.5) were larger than those of the other two grating the wisdom of crowds with social learning and collective
+i
+strategies (σ≈0.1; Supplementary Fig. 5), indicating that these dynamics research will facilitate the more tractable use of collective
+i
+individuals engaged in such majority-avoiding exploration rela- intelligence in a temporary changing world.
+tively frequently. Such a high variety in social information use59–62 In summary, a combination of experimentation and theoretical
+and exploratory tendencies would prevent individuals from modelling sheds light on when groups of individuals will exhibit
+converging on a single option, leading to a mitigation of herding the wisdom of the crowds and when they will choose inflexible
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviOur
+herding. Our analysis implies that herding is most likely among Task uncertainty was experimentally manipulated by changing the difference
+individuals in large groups exposed to challenging tasks. This is between the mean payoffs for the slot machines. In the task with the least
+uncertainty, the distribution of payoffs barely overlapped, while in the task with
+because challenging tasks lead to greater uncertainty and thereby
+the greatest uncertainty the distribution of payoffs overlapped considerably
+elicit greater conformist learning among individuals, while rates (Supplementary Fig. 1).
+of copying increase with group size. Difficult tasks, by definition,
+render identification of the optimal behaviour harder, allow- Computational learning-and-decision-making model. We modelled individual
+ing groups to sometimes converge on maladaptive outcomes. behavioural processes by assuming that individual i makes a choice for option m
+at round t, in accordance with the choice probability (m), which is a weighted
+Conversely, the reduced conformity levels of individuals in small Pi,t
+average of social and asocial influences:
+groups, and the greater probability that social information would
+be accurate for less challenging tasks, generated ‘wisdom of the P i,t(m)=σi,t×socialinfluence i,m,t+(1−σi,t)×asocialinfluence i,m,t (1)
+crowd’ effects in most other circumstances. Our findings provide
+clear evidence that the conflict between collective intelligence and
+where σi,t is the social learning weight (0 ≤ σi,t ≤ 1).
+For the social influence, we assumed a frequency-dependent copying strategy
+maladaptive herding can be predicted with knowledge of human
+by which an individual copies others’ behaviour in accordance with the distribution
+social learning strategies. of social frequency information49–51,55:
+m Pare tit ch ipo ad nts
+s. The experimental procedure was approved by the Ethics Committee
+Socialinfluence i,m,t=
+∑
+k∈( oF pt ti− on1( sm (F) t−+ 1(0 k.1 )) +θi
+0.1)θi
+(2)
+at the University of St Andrews (BL10808). A total of 755 subjects (354 females,
+377 males, 2 others and 22 unspecified; mean age (1 s.d.) = 34.33 years (10.9 years)) where F (m) is a number of choices made by other individuals (excluding her/his
+participated through Amazon’s Mechanical Turk. All participants consented to own
+chot− ic1
+e) for the option m in the preceding round t − 1 (t ≥ 2). θi is individual
+participation through an online consent form at the beginning of the task. We i’s conformity exponent, − ∞ ≤ θi ≤ + ∞ . When this exponent is larger than zero
+excluded subjects who disconnected from the online task before completing at (θi > 0), higher social influence is given to an option that was chosen by more
+least the first 30 rounds from our computational model-fitting analysis due to individuals (that is, positive frequency bias), with conformity bias arising when
+unreliability of the model-parameter estimation, resulting in 699 subjects (573 θi > 1, such that disproportionally more social influence is given to the most
+subjects entered the group condition (that is, n ≥ 2) and 126 entered the solitary common option28. In contrast, when θi < 0, higher social influence is afforded
+condition (that is, n = 1)). The task was only available for individuals who had a ≥ to the option that fewest individuals chose in the preceding round t − 1 (that is,
+90% Human Intelligence Task (HIT) approval rate and who accessed the task from negative frequency bias). To implement the negative frequency dependence, we
+t oh ue
+r
+U pan ri ate md
+e
+S teta rt re es c. oA vl eth ryo u teg sh
+t
+cn oo
+n
+s fia rm mp el de- ts hiz ae
+t
+c tha elc su al mati po ln
+e
+sw iza es wpe ar sf o surm ffie cd
+ie
+nin
+t
+fa od rv ance, a cod ud le dd
+p
+a
+r
+s om via dl el n thu em hb ige hr e0 s.1
+t
+st oo
+c
+F
+ia
+s lo
+in
+th fla ut
+e
+a nn
+c
+eo wpt hio en
+n
+c θh
+i
+<os 0e .n
+N
+b oy
+t
+en to
+h
+o an
+t
+te
+h
+( et rh ea it
+s
+i s n,
+o
+F st− o1 c=
+ia
+0
+l
+)
+estimation of individual parameters using a hierarchical Bayesian method (HBM). influence when θi = 0 because in this case the ‘social influence’ favours a uniformly
+Design of the experimental manipulations. The 3 uncertainty conditions sra on cid ao l m fre c qh uo ei nce c y( t dh ia st t ri is b, uS i t, it( om n.) N= of tm0 e ∕ a( lf s1 o0 + thf a2 t0 , + inf t30 h) e= fir1 s∕ t3 r) o, uin nd de tp =en 1d , e wn et ao sf s t uh me ed
+were: low uncertainty (differences between mean payoffs were 1.264), moderate that the choice was only determined by the asocial softmax function because there
+uncertainty (differences between mean payoffs were 0.742) and high uncertainty was no social information available.
+(differences between mean payoffs were 0.3). The mean payoff associated with For the asocial influence, we used a standard reinforcement learning with
+the ‘excellent’ slot in all 3 conditions was fixed at 3.1 cents (Supplementary Fig. 1). ‘softmax’ choice rule75 that is widely applied in human social learning studies
+Each task uncertainty condition was randomly assigned for each different HIT (for example, refs. 35,51,55). An individual i updates the estimated average reward
+session, and participants were allowed to participate in one HIT only. The sample associated with an option m at round t; namely, the Q value (Q (m)), according to
+sizes after data exclusion for each uncertainty condition were: n = 113 (low the Rescorla–Wagner rule as follows: i,t
+uncertainty), n = 132 (moderate uncertainty) and n = 454 (high uncertainty). We
+assigned more sessions to the high-uncertainty condition compared with the other Q i,t+1(m)=Q i,t(m)+αi1(m,m i,t)(r i,t(m)−Q i,t(m)) (3)
+two conditions because we expected that larger group sizes would be needed to
+generate the collective wisdom in noisier environments. where αi (0 ≤ αi ≤ 1) is a learning rate parameter of individual i determining the
+To manipulate the size of each group, we varied the capacity of the waiting weight given to new experience and r (m) is the amount of monetary reward
+i,t
+room from 10 to 30. Because the task was being advertised on the Worker obtained from choosing the option m in round t. 1(m, m ) is the binary action-
+i,t
+website at Amazon’s Mechanical Turk for approximately 2 h, some participants indicator function of individual i, given by:
+occasionally arrived after the earlier groups had already started. In these cases,
+t nh ee x tp 5ar mti ic nip . a Tn ht e e nn ute mre bd e ra on fe pw al ry t io cp ipe an ne td s w ara ri it vin ing g r do eo cm li, n w edh i wch it hw ta is m o ep ben ec f ao ur s t eh ne e wly 1(m,m i,t)=  1 0, , oif thm ei r,t w= ism e ort=1   (4)
+posted alternative HITs were advertised at the top of the task list, which decreased
+our task’s visibility. This meant that later-starting sessions tended to begin before
+Therefore, Q (m) was updated only when the option m was chosen; when
+reaching maximum room capacity, resulting in smaller group sizes. Therefore, the i,t
+actual sizes differed between groups (Supplementary Fig. 3 and Supplementary
+the option m was not chosen, Q i,t(m) was not updated (that is, Q i,t+1(m) = Q i,t(m)).
+Note that, only in the first round t = 1 were all Q values updated using the chosen
+Table 1). Data collection and analysis were not performed blind to the conditions
+option’s reward r (m), so that the individual could set a naïve ‘intuition’ about
+of the experiments. i,1
+the magnitude of reward values she/he would expect to earn from a choice in
+Multiplayer three-armed bandit task. To study the relationship between social
+the task; namely, Q i,t=2(1) = Q i,t=2(2) = Q i,t=2(3) = αir i,t=1(m). In practical terms, this
+prevents the model from being overly sensitive to the first experience. Before
+information use and collective behavioural dynamics, we focused on a well-
+the first choice, individuals had no previous preference for either option (that is,
+established learning-and-decision problem called a ‘multi-armed bandit’ task,
+represented here as repeated choices between three slot machines (Supplementary
+Q i,1(1) = Q i,1(2) = Q i,1(3) = 0).
+The Q value is then translated into the asocial influence through the softmax
+Fig. 1 and Supplementary Video 1; for details, see the Supplementary Methods).
+(or logit choice) function:
+Participants played the task for 70 rounds. The slots paid off money noisily (in US
+c
+w
+fre oan
+s
+mt s
+o
+) tn,
+h
+ev
+e
+a
+‘ g
+4r oy 1oi sn
+td
+g
+’
+r
+osa
+l
+ur oo ntu dan
+,n
+1d
+d
+o2
+t fw
+d toi hf f eoe
+t
+‘r phe oen
+r
+ot rom
+’p
+se
+t
+lia oon
+tn
+ss
+s
+ad bgu
+i
+rvr ui
+i
+pn
+n
+tg
+g
+l y
+t
+p
+h
+io
+ne
+o
+cf
+r
+ri er ers
+a
+t
+sa
+4
+ev
+d0
+e r
+r
+ia
+to sgu
+e
+mn rd
+ee
+as
+tu
+ns
+r
+u pnc ash
+y.
+oHth
+fo
+fa
+w
+tt
+o
+t
+e
+h ve er re
+, A i,t(m)=
+∑
+k∈e opx tp ion(β
+si e,t
+xQ
+pi, (t
+β(m i,tQ))
+i,t(k))
+(5)
+become ‘excellent’ (that is, superior to ‘good’). The purpose of this environmental
+change was to observe the effects of maladaptive herding by potentially trapping where βi,t, called the inverse temperature, manipulates individual i’s sensitivity
+groups in the out-of-date suboptimal (good) slot, as individuals did not know to the Q values (in other words, controlling the proneness to explore). As βi,t
+whether or how an environmental change would occur. Through making choices goes to zero, asocial influence approximates to a random choice (that is, highly
+and earning a reward from each choice, individuals could gradually learn which explorative). Conversely, if βi,t → + ∞ , the asocial influence leads to a deterministic
+slot generated the highest rewards. choice in favour of the option with the highest Q value (that is, highly exploitative).
+In addition to this asocial learning, we provided social information for each For intermediate values of βi,t, individual i exhibits a balance between exploration
+member of the group specifying the frequency with which group members chose and exploitation35,68. We allowed for the possibility that the balance between
+each slot. All group members played the same task with the same conditions exploration and exploitation could change as the task proceeds. To depict such time
+simultaneously, and all individuals had been instructed that this was the case, and dependence in exploration, we used the equation β i,t=β i* ,0+εit∕70. If the slope εi
+hence understood that the social information would be informative. is positive (negative), asocial influence A becomes more and more exploitative
+i,t
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+NaTure HumaN BeHaviOur Articles
+(explorative) as round t increases. For a model-fitting purpose, the time-dependent hierarchical Bayesian logistic regression model with a random effect of group.
+term εit is scaled by the total round number 70. The dependent variable was whether the participant used the positive frequency-
+We allowed that the social learning weight σi,t could also change over time as dependent copying (1) or not (0). The model includes fixed effects of group size
+assumed in the inverse temperature βi,t. To let σi,t satisfy the constraint 0 ≤ σi,t ≤ 1, (standardized), task uncertainty (0, low; 0.5, moderate; 1, high), age (standardized),
+we used the following sigmoidal function: gender (0, male; 1, female; NA, others or unspecified), and possible two-way
+interactions between these fixed effects.
+σi,t=
+1 +
+exp(−(σ1
+i* ,0 + δit∕70))
+(6)
+on
+tW hee
+f
+a itl ts eo
+d
+i vn av le us eti sg oa ft e td
+h
+et h lee
+a
+e rf nfe inc gts
+p
+o af
+r
+b amot eh
+t
+eg rr so .u Wp es i uz se
+e
+a dn ad hth iee
+r
+ata rcsk h’ is
+c
+u aln Bce ar yt ea si in at ny
+Gaussian regression model predicting the individual fitted parameter values. The
+If the slope δi is positive (negative), the social influence increases (decreases) model includes effects of group size (standardized), task uncertainty (0, low; 0.5,
+over time. We set the social learning weight equal to zero when the group size moderate; 1, high), age (standardized), gender (0, male; 1, female; NA, others or
+was one (that is, when an individual participated in the task alone and/or when unspecified) and two-way interactions between these fixed effects. We assumed
+∑ k∈ Wo ept i mon osF dt e− l1 l( ek d) b= o0 th).
+the inverse temperature βi,t and the social learning weight
+t uh na ct
+e
+t rh tae
+i
+v na tyri a bn ecc ae
+u
+o sf
+e
+t whe
+e
+i hn ad div fi od uu na dl p inar ta hm
+e
+e ct oe mr v pa ul tu ae ts
+io
+m naig
+l
+h mt ob de ec lo -fn itt ti in ng ge n ret
+s
+o un
+lt
+t ta hs ak
+t
+σi,t as a time function since otherwise it would be challenging to distinguish the fitted global variance parameters (that is, ν σ0*, ν δ and ν θ) were larger in more
+between different patterns of learning in this social learning task63. The parameter uncertain conditions (Supplementary Table 2).
+recovery test confirmed that we were able to differentiate such processes under
+these assumptions (Supplementary Figs. 7 and 8). While we also considered Statistical analysis. We used a HBM to estimate the free parameters of our
+the possibility of the conformity exponent being time dependent (that is statistical models, including both the phenomenological regression model and
+θi,t=θi* ,0+γ it∕70), the parameter recovery test suggested that the individual the computational learning-and-decision-making model. The HBM allows us to
+slope parameter γi was not reliably recovered (Supplementary Fig. 9), and hence estimate individual differences, while ensuring that these individual variations are
+we concentrated our analysis on the time-independent θi model. We confirmed bounded by the group-level global parameters. The HBM was performed under
+that using the alternative model where both social learning parameters were Stan 2.16.2 (http://mc-stan.org) in R 3.4.1 (https://www.r-project.org) software.
+time dependent (that is, σi,t and θi,t) did not qualitatively change our results The models contained at least four parallel chains and we confirmed convergence
+(Supplementary Fig. 10). of the MCMC using both the Gelman–Rubin statistics and the effective sample
+One concern might be the asymmetry between the asocial softmax sizes. Full details of the model-fitting procedure and prior assumptions are shown
+influence, which takes many previous experiences into account (depending on a in the appendix.
+learning rate), and the social influence referring only the most recent frequency
+information F . The choice frequency appearing at round t is the most reliable Parameter recovery test. To check the validity of our model-fitting method, we
+t−1
+social information, compared with past frequencies, because it could be the conducted a ‘parameter recovery test’ to examine how well our model-fitting
+most ‘updated’ information as long as the other individuals have made informed procedure had been able to reveal true individual parameter values. To do this, we
+decisions to their best knowledge. On the other hand, the accumulated Q values generated synthetic data by running a simulation with the empirically fitted global
+are the most reliable asocial information, compared with an option’s reward earned parameter values, then re-fitted the model with these synthetic data using the same
+at the most recent round, which was independently and randomly drawn from a procedure. The parameter recovery test showed that the all-true global parameter
+probability distribution. Therefore, although many other formulations for asocial values fell within the 95% Bayesian credible interval (Supplementary Fig. 7), and
+and social learning processes were possible, we believe that our current choice— at least 93% of the true individual parameter values were correctly recovered (that
+time-depth asocial reinforcement learning with the most updated frequency- is, 96% of αi, 93% of β i* ,0, 95% of εi, 97% of σi* ,0, 96% of δi and 97% of θi values fell
+dependent copying—was a reasonable first step. within into the 95% Bayesian CI; Supplementary Fig. 7).
+In summary, the model has six free parameters that were estimated for each
+individual human participant; namely, αi, β i* ,0, εi, σi* ,0, δi and θi. To fit the model, Categorization of individual learning strategies. Based on the 50% CI of the
+cgw ole o
+n
+bu das ile
+t
+id v oa na r siH a (t tB i hoM an ts,
+i
+e ( sνs
+,
+t α li o,m ν wa β
+,
+0t m*i ,n ν og ε d, t eνh rσe a0* tg ,
+e
+l ν o aδ b naa dnl d hm iν ge θ ha ) n f uos
+n
+r( cμ e eaα r, c thμ
+ai
+β no0* f t,
+y
+tμ )h ,ε e,
+w
+μ t hhσ ir0* ce,
+h
+eμ δ ge oxan p ved e rr nμ imθ t) he a n en td al ii fnn eltd lo i av t bi hd oeu
+v
+f ea o l
+z
+lc l eoo rw on f i (o n θr g lom wt ehi rt r >y e e 0e x )d ,p i bfo f en e lr oe en wnt t zp s ea o rr oca i m (a θl e ul pt e pe a er rr <nva i 0nl )u g e
+o
+ss rt rθ ia ni, t cew lg ue i
+d
+ed is ni .v gIi f d zhe eed rr
+o
+t / h h (θe is
+l
+op w5a e0 rr ≤%ti c 0Ci ≤p Ia θon uft
+p
+s θ
+p
+ei
+r ),
+overall distributions of individual parameter values. It has become recognized she/he was categorized as a ‘positive frequency-dependent copier’, a ‘negative
+that the HBM can provide more robust and reliable parameter estimation than frequency-dependent copier’ or a ‘random choice individual’, respectively. We
+conventional maximum-likelihood point estimation in complex cognitive used the 50% Bayesian CI to conduct this categorization instead of using the
+models76—a conclusion with which our parameter recovery test agreed more conservative 95% CI because the 95% CI would have caused much higher
+(Supplementary Figs. 7 and 8). rates of ‘false negatives’, by which an individual who applied either a positive
+frequency-dependent copying strategy or negative frequency-dependent copying
+Agent-based model simulation. We ran a series of individual-based model strategy would have been falsely labelled as an asocial random choice individual
+simulations assuming that a group of individuals play our 3-armed bandit (Supplementary Fig. 7). Of 572 agents, 400 (~70%) were falsely categorized as
+task for 90 rounds (under the moderate-uncertainty condition) and that random choice learners in the recovery test when we used the 95% criterion
+individuals behave in accordance with the computational learning-and-decision (Supplementary Fig. 7). In contrast, the 50% CI criterion seemed to be much better
+model. We varied the group size (n ∈ {3, 10, 30}), mean social learning weight in terms of the false negative rate, which was only 18.5% (that is, 106 agents),
+(σ∈{0.01,0.1,0.2,0.3,...,0.9}) and mean conformity exponent (θ∈{0.5,1,3,6}) although it might be slightly worse in terms of ‘false positives’: 37 agents (6.5%)
+, running 10,000 replications for each of the possible parameter × group size were falsely labelled as either a positive frequency-dependent copier or negative
+combinations. As for the other parameter values (for example, the asocial frequency-dependent copier by the 50% CI, whereas the false positive rate of the
+reinforcement learning parameters α,β*,ε), here we used the experimentally fitted 95% CI was only 0.2% (Supplementary Fig. 7). To balance the risk of false positives
+global means (Table 2 and Supplementa0 ry Table 3). Relaxation of this assumption and false negatives, we decided to use the 50% CI, which seemed to have more
+(that is. using a different set of asocial learning parameters) does not qualitatively strategy-detecting power.
+change our story (Supplementary Fig. 2). Note that each individual’s parameter
+values were randomly drawn from the distributions centred by the global mean The post-hoc model simulation. To evaluate how accurately our model can generate
+parameter values fixed to each simulation run. Therefore, the actual composition observed decision patterns in our task setting, we ran a series of individual-based
+of individual parameter values was different between individuals even within the model simulations using the fitted individual parameter values (that is, means of
+same social group. the individual posterior distributions) for each group size for each uncertainty
+condition. At the first step of the simulation, we assigned a set of fitted parameters
+Generalized linear mixed models. To directly analyse the effects of group size of a randomly chosen experimental subject from the same group size and the same
+and task uncertainty on the time evolution of decision performance, we conducted uncertainty condition to a simulated agent, until the number of agents reached the
+a statistical analysis using a phenomenological model; namely, a hidden Markov simulated group size. We allowed duplicate choices of experimental subjects in this
+process logistic regression without assuming any specific learning-and-decision- parameter assignment. At the second step, we let this synthetic group of agents play
+making processes. The dependent variable was whether the participant chose the bandit task for 90 rounds. We repeated these steps 10,000 times for each group
+the best option (1) or not (0). The model includes fixed effects of grouping ξ, size and task uncertainty.
+standardized group size ω and an intercept with a random effect of individuals
+μ + ρi. We assumed that the intercept and effect of grouping changed from round Reporting Summary. Further information on experimental design is available in
+to round, as a random walk process. For the effect of group size, we considered the Nature Research Reporting Summary linked to this article.
+the effect of the first environment 1 ≤ t ≤ 40 and that of the second environment
+(namely, ω1 and ω2), separately. Code availability
+To examine whether increasing the group size and task uncertainty affected The browser-based online task was built by Node.js (https://nodejs.org/en/) and
+individual use of the positive frequency-dependent copying strategy, we used a socket.io (https://socket.io), and the codes are available from GitHub
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviOur
+(https://github.com/WataruToyokawa/MultiPlayerThreeArmedBanditGame). 29. Richerson, P. J. & Boyd, R. Not by Genes Alone (Univ. Chicago Press,
+Analyses were conducted in R (https://www.r-project.org) and simulations of Chicago, 2005).
+individual-based models were conducted in Mathematica (https://www.wolfram. 30. Feldman, M. W., Aoki, K. & Kumm, J. Individual versus social learning:
+com), and the codes for both of these are available from GitHub (https://github. evolutionary analysis in a fluctuating environment. Anthropol. Sci. 104,
+com/WataruToyokawa/ToyokawaWhalenLaland2018). 209–231 (1996).
+31. Laland, K. N. Social learning strategies. Anim. Learn. Behav. 32, 4–14 (2004).
+Data availability 32. Kameda, T. & Nakanishi, D. Cost–benefit analysis of social/cultural
+learning in a nonstationary uncertain environment. Evol. Hum. Behav. 23,
+Both experimental and simulation data are available in an online repository
+373–393 (2002).
+(https://github.com/WataruToyokawa/ToyokawaWhalenLaland2018).
+33. Kendal, R. L., Coolen, I. & Laland, K. N. The role of conformity in
+foraging when personal and social information conflict. Behav. Ecol. 15,
+Received: 8 June 2018; Accepted: 12 December 2018;
+269–277 (2004).
+Published: xx xx xxxx 34. Morgan, T. J. H., Rendell, L. E., Ehn, M., Hoppitt, W. & Laland, K. N.
+The evolutionary basis of human social learning. Proc. Biol. Sci. B 279,
+references 653–662 (2012).
+1. Bonabeau, E, Dorigo, M. & Theraulaz, G. Swarm Intelligence: From Natural to 35. Toyokawa, W., Saito, Y. & Kameda, T. Individual differences in learning
+Artificial Systems (Oxford Univ. Press, New York, 1999). behaviours in humans: asocial exploration tendency does not predict reliance
+2. Camazine, S. et al. Self-Organization in Biological Systems (Princeton Univ. Press, on social learning. Evol. Hum. Behav. 38, 325–333 (2017).
+Princeton, 2001). 36. Webster, M. M. & Laland, K. N. Social learning strategies and predation
+3. Krause, J., Ruxton, G. D. & Krause, S. Swarm intelligence in animals and risk: minnows copy only when using private information would be costly.
+humans. Trends Ecol. Evol. 25, 28–34 (2010). Proc. R. Soc. B 275, 2869–2876 (2008).
+4. Seeley, T. D. The Wisdom of the Hive (Harvard Univ. Press, Cambridge, 37. Webster, M. M. & Laland, K. N. Reproductive state affects reliance on public
+MA, 1995). information in sticklebacks. Proc. Biol. Sci. B 278, 619–627 (2011).
+5. Sumpter, D. J. T. Collective Animal Behavior (Princeton Univ. Press, 38. Boyd, R. & Richerson., P. J. Social learning as an adaptation. Lect. Math. Life
+Princeton, 2010). Sci. 20, 1–26 (1989).
+6. King, A. J. & Sueur, C. Where next? Group coordination and collective 39. Bond, R. Group size and conformity. Group Process. Intergroup Relat. 8,
+decision making by primates. Int. J. Primatol. 32, 1245–1267 (2011). 331–354 (2005).
+7. Morand-Ferron, J. & Quinn, J. L. Larger groups of passerines are more 40. Kline, M. A. & Boyd, R. Population size predicts technological complexity in
+efficient problem solvers in the wild. Proc. Natl Acad. Sci. USA 108, Oceania. Proc. R. Soc. B 277, 2559–2564 (2010).
+15898–15903 (2011). 41. Muthukrishna, M., Shulman, B. W., Vasilescu, V. & Henrich, J. Sociality
+8. Sasaki, T. & Biro, D. Cumulative culture can emerge from collective influences cultural complexity. Proc. R. Soc. B 281, 20132511 (2014).
+intelligence in animal groups. Nat. Commun. 8, 1–6 (2017). 42. Street, S. E., Navarrete, A. F., Reader, S. M. & Laland, K. N. Coevolution of
+9. Shaffer, Z., Sasaki, T. & Pratt, S. C. Linear recruitment leads to allocation cultural intelligence, extended life history, sociality, and brain size in
+and flexibility in collective foraging by ants. Anim. Behav. 86, primates. Proc. Natl Acad. Sci. USA 114, 1–7 (2017).
+967–975 (2013). 43. Nicolis, S. & Deneubourg., J. Emerging patterns and food recruitment in ants:
+10. Reid, C. R. & Latty, T. Collective behaviour and swarm intelligence in slime an analytical study. J. Theor. Biol. 198, 575–592 (1999).
+moulds. FEMS Microbiol. Rev. 40, 798–806 (2016). 44. Pratt, S. C. & Sumpter, D. J. T. A tunable algorithm for collective decision-
+11. Krause, J. & Ruxton, G. D. Living in Groups (Oxford Univ. Press, Oxford & making. Proc. Natl Acad. Sci. USA 103, 15906–15910 (2006).
+New York, 2002). 45. List, C. Democracy in animal groups: a political science perspective.
+12. Mackay, C. Extraordinary Popular Delusions and the Madness of Crowds Trends Ecol. Evol. 19, 166–168 (2004).
+(Richard Bentley, London, 1841). 46. King, A. J. & Cowlishaw, G. When to use social information: the advantage of
+13. Kameda, T. & Hastie, R. in Emerging Trends in the Social and Behavioral large group size in individual decision making. Biol. Lett. 3, 137–139 (2007).
+Sciences: An Interdisciplinary, Searchable, and Linkable Resource 1–14 47. Wolf, M. et al. Accurate decisions in an uncertain world: collective cognition
+(Wiley, Hoboken, NJ, USA, 2015). increases true positives while decreasing false positives. Proc. R. Soc. B Biol.
+14. Le Bon, G. The Crowd: A Study of the Popular Mind 4th edn Sci. 280, 20122777 (2013).
+(Unwin, London, 1896). 48. Laan, A., Madirolas, G. & Polavieja, G. G. D. Rescuing collective wisdom
+15. Raafat, R. M., Chater, N. & Frith, C. Herding in humans. Trends Cogn. Sci. when the average group opinion is wrong. Front. Robot. AI 4, 1–28 (2017).
+13, 420–428 (2009). 49. Aplin, L. M., Sheldon, B. C. & McElreath, R. Conformity does not perpetuate
+16. Bikhchandani, S., Hirshleifer, D. & Welch, I. A theory of fads, fashion, suboptimal traditions in a wild population of songbirds. Proc. Natl Acad. Sci.
+custom, and cultural change as informational cascades. J. Polit. Econ. 100, USA 114, 7830–7837 (2017).
+992–1026 (1992). 50. Barrett, B. J., Mcelreath, R. L., Perry, S. E. & Barrett, B. J. Pay-off-biased social
+17. Chari, V. V. & Kehoe, P. J. Financial crises as herds: overturning the critiques. learning underlies the diffusion of novel extractive foraging traditions in a
+J. Econ. Theory 119, 128–150 (2004). wild primate. Proc. R. Soc. B 284, 20170358 (2017).
+18. Janis, I. L. Victims of Groupthink: A Psychological Study of Foreign Policy 51. McElreath, R. et al. Beyond existence and aiming outside the laboratory:
+(Houghton Mifflin Company, Boston, 1972). estimating frequency-dependent and pay-off-biased social learning strategies.
+19. Muchnik, L., Aral, S. & Taylor, S. J. Social influence bias: a randomized Phil. Trans. R. Soc. Lond. B 363, 3515–3528 (2008).
+experiment. Science 341, 647–651 (2013). 52. Toyokawa, W., Kim, H.-R. & Kameda, T. Human collective intelligence under
+20. Salganik, M. J., Dodds, P. S. & Watts, D. J. Experimental study of inequality dual exploration-exploitation dilemmas. PLoS One 9, e95789 (2014).
+and unpredictability in an artificial cultural market. Science 311, 53. Kandler, A. & Laland, K. N. Tradeoffs between the strength of conformity
+854–856 (2006). and number of conformists in variable environments. J. Theor. Biol. 332,
+21. Lorenz, J., Rauhut, H., Schweitzer, F. & Helbing, D. How social influence can 191–202 (2013).
+undermine the wisdom of crowd effect. Proc. Natl Acad. Sci. USA 108, 54. Efferson, C., Lalive, R., Richerson, P. J., McElreath, R. & Lubell, M.
+9020–9025 (2011). Conformists and mavericks: the empirics of frequency-dependent cultural
+22. Jayles, B. et al. How social information can improve estimation accuracy in transmission. Evol. Hum. Behav. 29, 56–64 (2008).
+human groups. Proc. Natl Acad. Sci. USA 114, 201703695 (2017). 55. McElreath, R. et al. Applying evolutionary models to the laboratory study of
+23. Giraldeau, L.-A., Valone, T. J. & Templeton, J. J. Potential disadvantages of social learning. Evol. Hum. Behav. 26, 483–508 (2005).
+using socially acquired information. Phil. Trans. R. Soc. Lond. B 357, 56. Mesoudi, A. An experimental comparison of human social learning strategies:
+1559–1566 (2002). payoff-biased social learning is adaptive but underused. Evol. Hum. Behav. 32,
+24. Detrain, C. & Deneubourg, J. L. Collective decision-making and foraging 334–342 (2011).
+patterns in ants and honeybees. Adv. Insect Physiol. 35, 123–173 (2008). 57. Perreault, C., Moya, C. & Boyd, R. A Bayesian approach to the evolution of
+25. List, C., Elsholtz, C. & Seeley, T. D. Independence and interdependence in social learning. Evol. Hum. Behav. 33, 449–459 (2012).
+collective decision making: an agent-based model of nest-site choice by 58. Rendell, L. et al. Why copy others? Insights from the social learning strategies
+honeybee swarms. Phil. Trans. R. Soc. Lond. B 364, 755–762 (2009). tournament. Science 328, 208–213 (2010).
+26. Deneubourg, J. L., Aron, S., Goss, S. & Pasteels, J. M. The self-organizing 59. Jolles, J. W., Laskowski, K. L., Boogert, N. J. & Manica, A. Repeatable group
+exploratory pattern of the Argentine ant. J. Insect Behav. 30, 159–168 (1990). differences in the collective behaviour of stickleback shoals across ecological
+27. Beckers, R., Deneubourg, J. L. D., Goss, S. & Pasteels, J. M. Collective contexts. Proc. R. Soc. B 285, 13–16 (2018).
+decision making through food recruitment. Insectes Soc. 37, 258–267 (1990). 60. Michelena, P., Jeanson, R., Deneubourg, J.-L. & Sibbald, A. M. Personality
+28. Boyd, R. & Richerson, P. J. Culture and the Evolutionary Process and collective decision-making in foraging herbivores. Proc. R. Soc. B 277,
+(Univ. Chicago Press, Chicago, 1985). 1093–1099 (2010).
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+NaTure HumaN BeHaviOur Articles
+61. Planas-Sitjà, I., Deneubourg, J.-L., Gibon, C. & Sempo, G. Group personality 75. Sutton, R. S. & Barto, A. G. Reinforcement Learning: an Introduction
+during collective decision-making: a multi-level approach. Proc. R. Soc. B (MIT Press, Cambridge, MA, 1998).
+282, 20142515 (2015). 76. Ahn, W. Y. et al. Decision-making in stimulant and opiate addicts in
+62. Mesoudi, A., Chang, L., Dall, S. R. X. & Thornton, A. The evolution of protracted abstinence: evidence from computational modeling with pure
+individual and cultural variation in social learning. Trends Ecol. Evol. 31, users. Front. Psychol. 5, 849 (2014).
+215–225 (2016).
+63. Barrett, B. J. Equifinality in empirical studies of cultural transmission. Acknowledgements
+Behav. Process. (in the press). This experiment was supported by The John Templeton Foundation (40128 to K.N.L.)
+64. Biro, D., Sasaki, T. & Portugal., S. J. Bringing a time-depth perspective to and Suntory Foundation research support (2015-311 to W.T.). The computer simulations
+collective animal behaviour. Trends Ecol. Evol. 31, 550–562 (2016). and computational model analyses were supported by JSPS overseas research fellowships
+65. Hoppitt W. & Laland K. N. Social Learning: An Introduction to Mechanisms, (H27-11 to W.T.). The phenomenological model analyses were supported by JSPS
+Methods, and Models (Princeton Univ. Press, Princeton, NJ, USA, 2013). KAKENHI (grant number 17J01559). The funders had no role in study design, data
+66. Toelch, U., Bruce, M. J., Meeus, M. T. H. & Reader, S. M. Humans copy collection and analysis, decision to publish or preparation of the manuscript.
+rapidly increasing choices in a multiarmed bandit problem. Evol. Hum. Behav.
+31, 326–333 (2010). Author contributions
+67. Bahrami, B. et al. Optimally interacting minds. Science 329, 1081–1085 (2010).
+W.T., A.W. and K.N.L. planned the study and built the computational model. W.T. ran
+68. Daw, N. D., O’Doherty, J. P., Dayan, P., Seymour, B. & Dolan., R. J. Cortical
+the simulations. W.T. and A.W. made the experimental material, ran the web-based
+substrates for exploratory decisions in humans. Nature 441, 876–879 (2006).
+experiment and collected the experimental data. W.T., A.W. and K.N.L. analysed the data
+69. Hergueux, J. & Jacquemet, N. Social preferences in the online laboratory: a
+and wrote the manuscript.
+randomized experiment. Exp. Econ. 18, 251–283 (2015).
+70. Dandurand, F., ShultzEmail, T. R. & Onishi, K. H. Comparing online and
+lab methods in a problem-solving experiment. Behav. Res. Methods 40, Competing interests
+428–434 (2008). The authors declare no competing interests.
+71. Becker, J., Brackbill, D. & Centola, D. Network dynamics of social influence
+in the wisdom of crowds. Proc. Natl Acad. Sci. USA 114,
+Additional information
+E5070–E5076 (2017).
+72. Lorge, I., Fox, D., Davitz, J. & Brenner, M. A survey of studies contrasting the Supplementary information is available for this paper at https://doi.org/10.1038/
+quality of group performance and individual performance, 1920–1957. s41562-018-0518-x.
+Psychol. Bull. 55, 337–372 (1958). Reprints and permissions information is available at www.nature.com/reprints.
+73. Hastie, R. & Kameda, T. The robust beauty of majority rules in group
+Correspondence and requests for materials should be addressed to W.T.
+decisions. Psychol. Rev. 112, 494–508 (2005).
+74. Payzan-Lenestour, E. & Bossaerts, P. Risk, unexpected uncertainty, and Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+estimation uncertainty: Bayesian learning in unstable settings. PLoS Comput. published maps and institutional affiliations.
+Biol. 7, e1001048 (2011). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NATure HumAN BeHAviour | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2018
+Corresponding author(s): Wataru Toyokawa
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistical parameters
+When statistical analyses are reported, confirm that the following items are present in the relevant location (e.g. figure legend, table legend, main
+text, or Methods section).
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+An indication of whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistics including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient) AND
+variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Clearly defined error bars
+State explicitly what error bars represent (e.g. SD, SE, CI)
+Our web collection on statistics for biologists may be useful.
+Software and code
+Policy information about availability of computer code
+Data collection Simulations of individual-based models were conducted in Mathematica (version: 10.0.0.0). Experimental data were collected through a
+browser based online task built by Node.js and socket.io. Code are available on a GitHub repository (https://github.com/
+WataruToyokawa/MultiPlayerThreeArmedBanditGame).
+Data analysis Analyses were conducted in R (3.4.1) and Stan (2.16.2). Code are available on a GitHub repository (https://github.com/WataruToyokawa/
+ToyokawaWhalenLaland2018).
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers
+upon request. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+2
+nature
+research
+|
+reporting
+summary
+April
+2018
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+We included "Code Availability" and "Data Availability" subsections.
+Field-specific reporting
+Please select the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/authors/policies/ReportingSummary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Computer-based experimental study using a web-based multi-player task. Data are quantitative.
+Research sample A total of 755 subjects (354 females, 377 males, 2 others and 22 unspecified; mean age (1 SD.) = 34.33 (10.9)) participated through
+Amazon's Mechanical Turk. The online task was only available for individuals whose 'HIT Approval Rate' was greater than or equal to 90%
+and who live in the US. A rationale behind the US-only sampling was that social learning strategies might vary across different cultures
+(e.g. America and India), which would confound our focal effects of group size and task uncertainty on social learning.
+Sampling strategy Upon connecting to the experimental game web page, participants were randomly assigned for one of three different conditions (i.e.
+Low-, Moderate-, and High-uncertainty condition). Sample size for each condition were: N = 113 (Low-uncertainty condition), N = 132
+(Moderate-Uncertain condition), and N = 454 (High-uncertain condition). We recruited more participants in the High-uncertainty
+condition compared to the other two because we expected that larger group sizes would be needed to generate the collective wisdom in
+noisier environments. Although no sample-size calculation was performed in advance, our parameter recovery test confirmed that the
+sample size was sufficient for estimation of individual parameters using a hierarchical Bayesian method.
+Data collection Experimental data were collected through a computer-based online task that can be played in a web browser. To minimise the risk of
+multiple accesses from the same person, we introduced the restriction that a single ‘worker ID’ associated with participants’ AMT
+accounts, could participate only once in the experiment. We rejected access from the same IP address: If a participant’s IP address had
+already been stored in our database, the participant directly proceeded from the instruction page to the questionnaire page. In that case,
+25 cents show-up fee was still paid because it was possible that different persons might use the same IP address.
+To minimise the risk of opening other browser windows during the task (for example, browsing other websites), we used ‘Page Visibility
+API’ (https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) to track whether the experimental browser window was
+always active and not hidden by other browser windows or tabs for more than 1 second. If it was detected that the experimental window
+was in a hidden state, the participant was automatically redirected to the questionnaire page. In that case, 25 cents show-up fee plus a
+waiting-bonus (if applicable) and a game-bonus earned so far were paid. In the instruction, participants were warned not to open any
+other browser windows/tabs during the task and were informed that they would not be able to participate in the task if they do so.
+Timing The experimental sessions were conducted between the 11th of November 2015 and the 12th of January 2016.
+Data exclusions We excluded subjects who disconnected to the online task before completing at least the first 30 rounds from our learning model fitting
+analysis, resulted in 699 subjects (573 subjects entered the group (i.e. N ≥ 2) condition and 126 entered the solitary (i.e. N = 1) condition).
+A rationale behind the 30-round criterion was that we could not reliably estimate parameter values of our computational model for a
+subject who played less than 30 rounds.
+Non-participation Fifty-six out of 755 participants disconnected to the online task before completing at least the first 30 rounds. The reasons of these
+declines might vary, e.g. opening other browser window during the task or bad Internet connection. However, we could not fully detect a
+reason for each dropping.
+Randomization Participants were allocated randomly to one of three uncertainty conditions. To manipulate the size of each group, we varied the
+capacity of the "waiting room" from 10 to 30. Because the task was being advertised on the Worker website at AMT for approximately 2
+hours, some participants occasionally arrived after the earlier groups had already started. In that case the participant entered the newly
+opened waiting room which was open for the next 5 minutes. The number of participants arriving declined with time because newly
+posted alternative tasks were advertised on the top of the task list, which decreased our task’s visibility. This meant that a later-starting
+session tended to begin before reaching maximum room capacity, resulting in the smaller group size. Therefore, the actual size differed
+between groups.
+3
+nature
+research
+|
+reporting
+summary
+April
+2018
+Reporting for specific materials, systems and methods
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Unique biological materials ChIP-seq
+Antibodies Flow cytometry
+Eukaryotic cell lines MRI-based neuroimaging
+Palaeontology
+Animals and other organisms
+Human research participants
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics See above.
+Recruitment Participants were recruited through Amazon's Mechanical Turk. The online task was only available for individuals whose 'HIT
+Approval Rate' was greater than or equal to 90%. This selection criterion might elicit a self-selection bias toward individuals who
+have already participated in other behavioural experiments in AMT. Although it is difficult to rule out the possibility that prior
+experiences in similar tasks might potentially have an influence on subjects’ behavioural strategies, that concern is no greater
+than for any behavioural experiments on humans, particularly as the description of the task given to potential recruits was kept
+deliberately vague. We believe that the computational modelling approach coupled with higher statistical power due to the large
+sample size that AMT recruitment affords, compensates for any drawbacks, and that our conclusions were not likely to be
+altered qualitatively by any such bias.

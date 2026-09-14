@@ -1,0 +1,28 @@
+==== START (RE-AUDIT: Brand MP.2017.840 Posterior Passing) audit date 2026-09-14 ====
+Engine: anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT. Rules: 2026.06.27.
+Host: R 4.6.1; Python 3.8.10. JAGS absent; Stan/brms cannot compile (no Rtools/make).
+
+[env] lme4=TRUE rjags=FALSE rstan/brms/rstanarm present but un-runnable (no 'make'/Rtools)
+[env] Python 3.8.10: numpy 1.24.4, scipy 1.10.1, pandas 2.0.3, statsmodels 0.14.1, pdfplumber OK
+
+[step1] R 01_shipped_falsepos.R  -> rows 500; N=6000; ANOVA 304 (5.067%) GLMM 341 (5.683%)
+        BGLMM 304 (5.067%) PP 2 (2.0%) MEGA 1 (1.0%). MANUSCRIPT 304/341/304/2/1  => ALL EXACT.
+[step2] R 02_shipped_metrics.R    -> e->P 0.5,0.6225,0.7311,0.8176,0.8808 (+0.38 at e=2);
+        cor(pp,mega)=0.9999 mean|pp-mega|=0.0097 mean|glmm-bglmm|=0.0055;
+        ANOVA e=2 est 0.381->0.345 (delta -1.62..-1.66); TPR/uncertainty patterns reproduced. => OK.
+[step3] R 03_scratch_sim_freq.R   -> INDEPENDENT from-scratch, seed 20260914, full 25x4x60 grid:
+        e=0 FP: ANOVA 64/1200=5.33%, GLMM 69/1200=5.75% (paper ~5.07%/5.68%);
+        ANOVA e=2 est 0.385->0.335 vs GLMM ~1.87-2.04 (recovers e);
+        TPR rises with e, falls with var (ANOVA e=1: 1.000->0.500; GLMM: 1.000->0.521). => OK.
+[step4] R 04b_scratch_sim_bayes.R -> INDEPENDENT Bayesian PP (Polya-Gamma Gibbs in base R),
+        seed 20260914, e=1 var=1, 20 expts: PP median expt1=0.17 -> expt5=0.68 -> expt20=0.81,
+        CI narrows [-0.73,1.13]->[0.60,1.01] (excludes 0, C30 positive). C38 BGLMM 0.289 vs GLMM 0.247.
+[step5] R 05_scratch_bayes_mega.R -> C37 PP(final)=0.815 vs pooled glm=0.895 / pooled glmer=1.053. => OK.
+[step6] Python py01_dgm_crosscheck.py -> e->P exact; ANOVA underestimation 0.387->0.336;
+        ANOVA FP 130/2400=5.42%. => OK.
+[note]  Author addendum PDF (MP.2017.840_Author_note_addendum.pdf) = author contributions/funding only.
+[claims] C1-C42 inventory regenerated: 42 claims; 39 checked (mostly ✅/≈), 1 ≈ (C39), 1 ➖ (C42 lit.).
+[findings] ADV-001 P2 (exact MCMC not regenerable, no seed/JAGS/Stan); ADV-002 P3 (10-15 not in
+           shipped summary but confirmed behaviourally); ADV-003 P3 (positive-rule by method; var=0 RE);
+           ADV-004 P3 (inert variance params).  P0=0 P1=0 P2=1 P3=3.
+==== END (status: OK) ====

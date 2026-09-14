@@ -1,0 +1,43 @@
+fig.fp1 <- function(fp.m.m, pop.m, pop.md, ntseq, npseq, nP){
+
+df <- tibble(`FP`=as.vector(fp.m.m),
+             `Skewness`=rep(round(pop.m - pop.md),length(ntseq)*length(npseq)),           
+             `Trials`=rep(rep(ntseq,each=nP), length(npseq)),
+             `Participants`=rep(npseq,each=nP*length(ntseq))
+             )
+
+df$Skewness <- as.character(df$Skewness)
+df$Skewness <- factor(df$Skewness, levels=unique(df$Skewness))
+
+df$Participants <- as.character(df$Participants)
+df$Participants <- factor(df$Participants, levels=unique(df$Participants))
+
+# make plot
+p <- ggplot(df, aes(x=Trials, y=FP, colour = Skewness)) + theme_classic() +
+  # Bradley's (1978) satisfactory range
+   geom_ribbon(aes(x=Trials), ymin = 0.025, ymax = 0.075, fill = "grey85", show_guide=FALSE) + 
+  # 0.05 reference line
+  geom_abline(intercept = 0.05, slope = 0, colour="black") + 
+  geom_line(size = 1) + 
+  geom_abline(intercept=0, slope=0, colour="black") +
+  scale_colour_viridis_d() +
+  scale_x_continuous(breaks=ntseq) + 
+  # scale_y_continuous(breaks=c(-5,seq(0,50,10))) +
+  theme(plot.title = element_text(size=22),
+        axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14, colour="black"),
+        axis.text.y = element_text(size = 16, colour="black"),
+        axis.title.y = element_text(size = 18),
+        legend.key.width = unit(1.5,"cm"),
+        # legend.position = c(0.85,0.70),
+        legend.position = c(0.55,0.85),
+        legend.direction = "horizontal",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=18),
+        strip.text = element_text(size=18, face="bold"),
+        strip.background = element_rect(colour="black", fill="white")) +
+  labs(x = "Number of trials", y = "Prop. of false positives") +
+  guides(colour = guide_legend(override.aes = list(size=3))) + # make thicker legend lines
+  facet_grid(cols = vars(Participants))
+p
+}

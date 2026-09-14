@@ -1,0 +1,18 @@
+==== START reproai re-audit deLeeuw_ERP_1481 (status: OK) ====
+Engine: anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT
+Rules: REPRO_STANDARDS.md 2026.06.27 | Audit date: 2026-09-14
+Host: R 4.6.1 (ucrt), ez 4.5.0, BayesFactor 0.9.12.4.8; Python 3.8.10 (scipy 1.10.1). Seed 12604.
+Paper audited: de Leeuw et al. (2019), MP.2018.1481 (ERP music-language P600 replication). EMPIRICAL.
+NOTE: task header label 'jsPsych...' is INCORRECT; the actual paper is the ERP replication (folder deLeeuw_ERP).
+
+-> 10_env.R: R 4.6.1, all deps present (OK)
+-> 11_demographics_beh.R: Age 19.8(1.21), exp 9.71(3.43), hpw 5.83(3.42); Table 1 = 93.3/88.2/84.5/69.1; EEG rows 2,002,000; usable trials LG 27.63 LU 27.71 MG 33.34 MU 33.03 (vs paper 27.7/27.7/33.3/33.0) (OK)
+-> 12_anovas.R: Table 2 all 12 cells match; Table 3 all 6 cells match; RATN 3-way F(4,136)=0.366 p=.832 matches (OK)
+-> 13_bayes.R: Table 4 all 8 BFs match within stated bands; midline 6.0226, lateral 1.459/4.228 (OK)
+-> 14_ratn_bf.R: RATN full vs null 418,304 (paper 431,034, ~3% low); no-3way/full 37.77 (paper 39) (OK - MC noise)
+-> 15_beh_excl_check.R + 15b_diag.R: discovered ADV-003 - Table 1 sample is N=36 including excluded subject 8 ('08' != 8 in filter) (OK)
+-> python_crosscheck.py: independent scipy ANOVA SS decomposition reproduces all F/p (OK)
+
+Severity: P0=0, P1=0, P2=2 (ADV-001 RATN BF, ADV-003 Table1 subject-8), P3=2 (ADV-002 39x, ADV-004 non-prereg)
+Claims enumerated: 49 (C1-C49), all empirical; 44 numeric/test claims reproduce at manuscript precision.
+==== END reproai re-audit (status: OK) ====

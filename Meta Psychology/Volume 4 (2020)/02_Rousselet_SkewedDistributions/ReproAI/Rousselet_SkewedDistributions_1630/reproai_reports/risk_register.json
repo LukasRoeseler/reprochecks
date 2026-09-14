@@ -1,0 +1,58 @@
+{
+  "paper": "Rousselet & Wilcox (2020) Meta-Psychology MP.2019.1630",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Shipped reproducibility data does not regenerate printed Table 2 exactly",
+      "description": "The paper's Table 2 (120 median mean-bias integers) is a Monte-Carlo integer table. Running the author's own committed sim_miller1988.RData through the notebook formula (apply(sim.md,c(2,3),mean) - pop.md, rounded) yields integers matching the printed table in only 73/120 cells (118/120 within +/-2 ms, max deviation 3 ms). Independent reimplementation (R set.seed(21); Python numpy own seed) likewise matches only ~64-68/120 exactly. The printed run's exact RNG stream is not pinned to the shipped data.",
+      "evidence": "committed sim_miller1988.RData -> row sk92 = [41,27,19,15,9,7,6,4,3,1] vs printed [41,26,19,18,8,8,6,4,3,1]; all pairwise agreements within Monte-Carlo error +/-3 ms.",
+      "impact": "Medium (on a secondary, illustrative simulation table). The qualitative bias pattern (bias increases with skewness, decreases with n) and all conclusions are unchanged; no primary result affected.",
+      "fix": "Regenerate Table 2 from the committed sim_miller1988.RData and update the printed integers, and/or ship seed + RNGkind + R version so a fresh run byte-reproduces them, and/or report bias with Monte-Carlo SE instead of bare integers."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Figure 1/4/5 bootstrap illustration decimals not byte-reproducible across R versions",
+      "description": "The single-sample bootstrap illustration (sample = [355.0,...,1193.2], median 535.6; bootstrap mean 722.6, bias 187, BC 348.6) and the 100/1000-experiment averages (515.1/498.8 and 522.1/508.6) depend on R's sample() over the simulated population, whose default algorithm changed (Rounding->Rejection) at R 3.6.0. They reproduce the qualitative message (median > population median; BC too strong for a single sample, near-exact in the long run) but not the printed decimals.",
+      "evidence": "R 4.6.1 draws a different single sample and bootstrap mean under both sample.kind settings vs the printed numbers.",
+      "impact": "Low. Purely illustrative figures; the methodological point (bootstrap BC reduces bias in the long run) is confirmed.",
+      "fix": "Pin RNGkind(sample.kind=...) and R version, or report these illustration values to fewer decimals / describe them as representative."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "One FLP decile estimate off by 1 ms",
+      "description": "Of the nine 20%-trimmed-mean decile values reported in the 'A closer look' paragraph (59 66 72 77 82 86 89 91 89), the 5th decile recomputed to 81 ms vs the printed 82 ms; the other eight match exactly. Likely a small trimming/quantile convention difference in the notebook.",
+      "evidence": "raw FLP deciles (type-8) + 20% trimmed mean: 59 66 72 77 81 86 89 91 89.",
+      "impact": "Negligible (1-ms rounding on an illustrative decile trend).",
+      "fix": "Clarify/deduplicate the 20%-trimming and decile-estimator convention; either value supports the same conclusion."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Materials fragmented across OSF and figshare; OSF DOI alone does not host the reproducibility package",
+      "description": "The OSF project (10.17605/OSF.IO/3UZAM, cited in the paper header) contains only a cover-letter PDF and wiki images. The full reproducibility package (code, notebooks, functions, figures, 1.6 GB data) lives on figshare (10.6084/m9.figshare.6911924). Verified live this audit: every referenced notebook/data file was downloaded and the claims reproduced. The 'Open materials' badge is substantiated, but a reader following only the OSF DOI would not find the materials.",
+      "evidence": "OSF API lists 1 file + wiki images folder; figshare article 6911924 lists README.pdf, code/notebooks/functions/data/figures zips, all downloadable.",
+      "impact": "Low-moderate transparency/wiring issue. Rectifies the prior audit's ADV-001/ADV-002, which claimed the figshare package was 'not machine-verifiable' — it is.",
+      "fix": "Add the figshare DOI/landing link prominently in the OSF description and paper; consider mirroring the package on OSF."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "flp_sim_precision.Rmd as shipped would not run (undefined variable)",
+      "description": "In flp_sim_precision.Rmd the simulation references 'bootsamples' (lines ~92-93, ~100, ~112) but only 'all.bootsamples' is assigned (line ~90); evaluating as written would raise 'object bootsamples not found'. The committed output sim_precision.RData exists and exactly reproduces the paper's precision numbers (59/56, 37/38), so the analysis is preserved even though the script would need the rename fixed to regenerate.",
+      "evidence": "notebook source inspection; committed sim_precision.RData reproduces paper values.",
+      "impact": "Low. Results reproducible via committed data; live regeneration blocked until one-line fix.",
+      "fix": "Rename all.bootsamples to bootsamples (or vice-versa) in lines 90-112 of flp_sim_precision.Rmd."
+    }
+  ],
+  "rectified_prior_findings": [
+    "Prior ADV-002 ('figshare/GitHub links not machine-verifiable') is REFUTED: the figshare package is live and fully verified (downloaded and used to reproduce Table 1, Table 2 approx, FLP claims, precision, group bias).",
+    "Prior ADV-001 ('code/data not on OSF') is partly upheld but rescoped as ADV-004: OSF hosts only cover letter/wiki images; the package is on figshare, which the paper cites and which is complete.",
+    "Prior ADV-003 ('no random seed reported') is corrected: the code DOES report set.seed() values; but a seed alone is insufficient — the exact run that produced Table 2 is not reproduced by the shipped data (see ADV-001)."
+  ],
+  "summary": { "P0": 0, "P1": 0, "P2": 1, "P3": 4, "total": 5 }
+}

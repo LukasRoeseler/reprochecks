@@ -1,0 +1,58 @@
+================================================================================
+ReproAI console log — Francis & Thunell (2020) MP.2019.2266
+Re-audit. Engine: anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT
+Rules: REPRO_STANDARDS.md 2026.06.27 | Audit date: 2026-09-14 | R 4.6.1 / Python 3.8
+================================================================================
+==== START (status: OK) ====
+
+[1] Env check
+  Rscript -e 'cat(R.version.string,...)'  => R version 4.6.1 (2026-06-24 ucrt)
+  pwr: TRUE   MBESS: TRUE
+
+[2] LIVE author-code re-run (post-corrigendum 'AC' files)
+  Rscript --vanilla -e "source('MetaanalysisPowerAC.R')"
+     pooled g = 0.2365894   (paper in-text g*=0.2366)
+     power n: 282 322 377 466 658 ; half: 1123 1285 1503 1859 2627
+  Rscript --vanilla -e "source('AnalysisAC.R')"
+     Study1 0.4582 | Study2 0.5426402 | Study3 0.36262 | S1 0.5357745 | S2 0.56661 | S3 0.49526
+     All experiments = 0.01355559   (paper: 0.014)   [OK]
+  Rscript --vanilla -e "source('Study1AC.R')"  (seed 3947194)
+     0.4582  (exact match Table 1)   ANOVA 0.65847 | L-R 0.54867 | L-N 0.71201
+  Rscript --vanilla -e "source('Study3AC.R')"  (seed 3947194)
+     0.36262 (exact match Table 1)   L-R 0.50871 | R-N 0.55515
+  Rscript --vanilla -e "source('StudyS2.R')"   (NO seed)
+     0.56738  [paper 0.5667 ; MC drift within SE ~0.0016]
+  Rscript --vanilla -e "source('StudyS3.R')"   (NO seed)
+     0.49435  [paper 0.4953 ; MC drift within SE ~0.0016]
+
+[3] LIVE author-code re-run (pre-corrigendum files, for provenance comparison)
+  Rscript --vanilla -e "source('MetaanalysisPower.R')"  (study1 right n=55)
+     pooled g = 0.2366623
+     power n: 282 322 377 465 658 ; half: 1123 1284 1502 1858 2626
+     => EXACTLY the paper's printed Table 2  (ADV-001)
+
+[4] Independent reimplementation (R 4.6.1) — reimpl_tes.R
+  Product of paper Table-1 powers = 0.01355773 (paper 0.014)      [OK]
+  Study 2 : power 0.54264 (paper 0.5426)   Study S1: power 0.53577 (0.5358)
+  Pooled g POST = 0.2365894 ; PRE = 0.2366623
+  Table2 PRE  full 282 322 377 465 658 / half 1123 1284 1502 1858 2626  (matches paper)
+  Table2 POST full 282 322 377 466 658 / half 1123 1285 1503 1859 2627  (does NOT)
+  => ADV-001 confirmed via pwr (author's own tool) and via hand-computed Hedges' g
+  Wrote output/reimpl_tes_results.csv
+
+[5] Independent reimplementation (Python 3.8 numpy/scipy) — reimpl_python.py
+  TES MC (vectorised, M=100000, shared pooled SD):
+     Study1 0.45847 (paper 0.4582) | Study3 0.36338 (0.3626)
+     StudyS2 0.56610 (0.5667) | StudyS3 0.49552 (0.4953)   [all within MC SE]
+  Closed-form: Study2 power 0.54204, StudyS1 0.53480
+  Product of TES powers = 0.013547  (paper 0.014)            [OK]
+  Meta pooled g POST 0.2365894 / PRE 0.2366623  (both match author R exactly)
+  Table2 normal-approx underscores PRE-vs-POST marginal diffs; pwr-based check is authoritative
+  Wrote output/reimpl_python_results.json
+
+[6] Claim inventory: 29 claims (C1-C29) -> exec_check/manuscript_claims.md
+    ✓/≈ 27 ; ⚠ (ADV-001) C18/C20 ; ≈ C7/C8/C13 ; ➖ C28
+
+Findings: P0:0 P1:0 P2:2 (ADV-001, ADV-002) P3:1 (ADV-003)
+==== END (status: OK) ====
+================================================================================

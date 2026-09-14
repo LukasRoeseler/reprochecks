@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Kuper &amp; Bott (2019) MP.2018.878</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report (RE-AUDIT) — <em>Has the evidence for moral licensing been inflated by publication bias?</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>KuperBott_MoralLicensing_878</code> — Kuper &amp; Bott, <em>Meta-Psychology</em> 3 (2019). Paper ID <code>MP.2018.878</code>; DOI <code>https://doi.org/10.17605/MP.2018.878</code>; OSF <code>10.17605/OSF.IO/H2RX7</code> (Open data/materials badge).
+<strong>Mode:</strong> <strong>static audit + independent R (4.6.1) and Python (3.8) reimplementation.</strong> The archived package ships one R analysis script (<code>reviewer,analysis_JH.R</code>) that runs on a <strong>k=102</strong> reviewer dataset (<code>dat_new_s.txt</code>); the manuscript's <strong>headline k=76</strong> analytic dataset and the Table 1/2 exclusion+aggregation code are <strong>not</strong> in the archive. I therefore (a) ran the shipped script on the shipped k=102 data, and (b) <strong>faithfully re-derived the k=76 set from the raw k=102 data by applying only the paper's own Table 1 &amp; Table 2 rules</strong>, in R (metafor/weightr) and independently in Python (self-written REML meta-analysis + WLS PET-PEESE). <strong>Originals untouched</strong>; all work on copies in <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>2</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The conceptual headline of this paper is recoverable, but the packaged analysis cannot regenerate the manuscript's k=76 tables.</strong> A faithful independent re-derivation of the paper's own Table 1/2 rules from the raw archived data reproduces the sample construction <em>exactly</em> — k=76 with North America=40, Europe=30, South-East Asia=1 (all matching Table 3) — and reproduces the overall naïve effect size almost exactly (d=0.266, 95%CI [0.181;0.350] vs manuscript d=0.27 [0.19;0.35]). The uncorrected comparison moderator (β=−.42, Z=−3.72, p&lt;.001) and the single South-East-Asian study (d=−.372, matches −.37) reproduce exactly or very well. <strong>However</strong>, (ADV-001, P1) the definitive k=76 analytic dataset and the Table 1/2 aggregation code were never archived — the shipped script analyses a different k=102 set whose output (d=.253, PET d=−.10, 3-PSM d=.105, X²(1)=11.67) does <em>not</em> match the manuscript's Table 3 (d=.27, PET d=−.05, 3-PSM d=.18, X²=3.42), so the "analysis reproduced &amp; verified" badge was checked against a different analysis than the one reported; and (ADV-002, P1) the manuscript's own heterogeneity value I²=.26 is internally inconsistent with its own Q(75)=175.77, which implies I²≈57%. Secondary/exploratory values (Z=6.57 vs my 6.17, 3-PSM, appendix simulations) are not exactly reproducible (P2). <strong>No P0 blocker:</strong> the substantive conclusions (publication-bias-adjusted d≈0, culture moderation, comparison moderator) hold up directionally from the raw data.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/R/../_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). R 4.6.1 (2026-06-24 ucrt) with <code>metafor</code>, <code>weightr</code>; Python 3.8.10.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/01_shipped_k102.R</code></td><td>The archived <code>reviewer,analysis_JH.R</code> verbatim on <code>dat_new_s.txt</code> (k=102)</td><td>What the shipped code actually produces (badge analysis)</td><td>OK (≠ Table 3)</td></tr>
+<tr><td><code>exec_check/R/02_reconstruct_k76.R</code></td><td>Faithful Table 1 &amp; 2 exclusions/aggregations → k=76; RE meta-analysis, PET-PEESE, 3-PSM, subgroups</td><td>Table 3 headline + sample construction (C8–C22)</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/03_moderators.R</code></td><td>Moderator meta-regressions (comparison/culture/se) on k=76 and uncorrected k=106</td><td>Results prose, Discussion (C23–C31)</td><td>OK</td></tr>
+<tr><td><code>exec_check/reimpl_python.py</code></td><td>Independent second-language re-derivation (self-written REML MA + WLS PET-PEESE) + I²/Q/power arithmetic</td><td>Cross-check of d/CI/Z, I² inconsistency (C9–C10, C33)</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Full claim inventory (41 claims, C1–C41): <code>exec_check/manuscript_claims.md</code>. The verified pathway is fully deterministic (REML, WLS, selection-model MLE with nlm) — no RNG; seed handling therefore does not affect any audited number. The unarchived Appendix A1 simulation would be seed-sensitive but its code/seed are absent, so it is marked ➖.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close / methodologically explicable · ⚠ discrepant · ➖ not independently checkable.</p>
+<h3>A. Sample construction (Table 1 &amp; 2 rules)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R &amp; Python agree)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>k after exclusions+aggregation</td><td>76</td><td>76 (NOA=40, EUR=30, SEA=1, NA=5)</td><td>✅</td></tr>
+<tr><td>Excluded non-licensing studies</td><td>3 studies, 7 ES</td><td>Effron(2014) 2 + Kouchaki(2011) 4 + Jordan(2011) s1</td><td>✅</td></tr>
+<tr><td>Two d&gt;3 ES, immoral condition (uncorrected)</td><td>"two effect sizes with d&gt;3"</td><td>Mazar &amp; Zhong yi=3.19, 3.55 present in <code>dat_old_s</code></td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>B. Headline results — naïve random-effects, entire dataset (Table 3)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript (k=76)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>d</td><td>0.27</td><td>0.2657</td><td>✅</td></tr>
+<tr><td>95% CI</td><td>[0.19; 0.35]</td><td>[0.181; 0.350]</td><td>≈ (lb .181 vs .19)</td></tr>
+<tr><td>Z</td><td>6.57</td><td>6.168</td><td>⚠ ADV-003 (dataset not archived)</td></tr>
+<tr><td>Heterogeneity Q (df)</td><td>175.77 (75)</td><td>187.75 (75)</td><td>⚠ ADV-001/002</td></tr>
+<tr><td>I²</td><td><strong>0.26</strong></td><td>0.62 recon; but paper's own Q⇒0.57</td><td>⚠ ADV-002 (internal contradiction)</td></tr>
+</tbody>
+</table>
+<h3>C. Publication-bias analyses, entire dataset (Table 3)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>PET-PEESE intercept d</td><td>−0.05 [−0.26;0.16] t(74)=−0.46 p=.64</td><td>−0.030 t=−0.27 p=.79</td><td>≈</td></tr>
+<tr><td>PET-PEESE slope b</td><td>1.36 t(74)=2.73 p=.008</td><td>1.237 t=2.43 p=.018</td><td>⚠ (direction ✅)</td></tr>
+<tr><td>3-PSM corrected d</td><td>0.18 [0.06;0.29] Z=3.11 p=.002</td><td>0.266 ; X²(1)=5.31 p=.021 (shipped k=102: 0.105, X²=11.67)</td><td>⚠</td></tr>
+<tr><td>3-PSM fit improvement</td><td>χ²(1)=3.42 p=.065</td><td>5.31 p=.021</td><td>⚠</td></tr>
+</tbody>
+</table>
+<h3>D. Culture subgroups (Table 3)</h3>
+<table>
+<thead><tr><th>Group</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>NOA naïve (k=40)</td><td>d=.38 [.27;.48] Z=7.01</td><td>d=.368 [.261;.476] Z=6.74</td><td>≈</td></tr>
+<tr><td>NOA PET</td><td>d=−.13 [−.37;.12] t(38)=−1.07 p=.29; b=2.12 p&lt;.001</td><td>int −.104; slope 1.97 p=.001</td><td>≈</td></tr>
+<tr><td>NOA 3-PSM</td><td>d=.31 [.15;.47] Z=3.76; χ²=1.02 p=.31</td><td>d=.368; X²=1.51 p=.219</td><td>≈</td></tr>
+<tr><td>EUR naïve (k=30)</td><td>d=.21 [.09;.32] Z=3.45</td><td>d=.213 [.077;.348] Z=3.06</td><td>≈</td></tr>
+<tr><td>EUR PET</td><td>d=.10 [−.28;.48] t(28)=.54 p=.59; b=.49 p=.58</td><td>int .10; slope .478</td><td>✅</td></tr>
+<tr><td>EUR 3-PSM</td><td>d=.11 [−.03;.24] Z=1.53; χ²=2.40 p=.12</td><td>d=.212; X²=3.59 p=.058</td><td>⚠</td></tr>
+<tr><td>SEA naïve (k=1)</td><td>d=−.37 [−.75;.004] Z=−1.94 p=.052</td><td>d=−.372 [−.744;.000] Z=−1.96 p=.050</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>E. Moderators (Results prose / Discussion)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Comparison, uncorrected</td><td>β=−.42 Z=−3.72 p&lt;.001</td><td>β=−.421 Z=−3.72 p&lt;.001 (k=106)</td><td>✅ EXACT</td></tr>
+<tr><td>Comparison, corrected</td><td>β=−.19 Z=−1.97 p=.049</td><td>β=−.185 Z=−1.93 p=.054</td><td>≈ (p .049 vs .054)</td></tr>
+<tr><td>EUR vs SEA (corrected)</td><td>β=.54 Z=1.76 p=.078</td><td>β=.540 Z=1.66 p=.096</td><td>✅ β exact</td></tr>
+<tr><td>NA vs EUR (corrected)</td><td>β=.17 Z=2.17 p=.030</td><td>NOA−EUR≈.148</td><td>≈</td></tr>
+<tr><td>meta-reg +se (PET+mods)</td><td>β=1.20 Z=2.00 p=.045</td><td>β=1.05 Z=1.69 p=.091</td><td>⚠</td></tr>
+<tr><td>NA vs SEA (PET+mods)</td><td>β=.66 Z=2.26 p=.024</td><td>.644 Z=2.02 p=.043</td><td>≈</td></tr>
+</tbody>
+</table>
+<h3>F. Power analysis &amp; concrete arithmetic (verified independently in Python)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>N for 80% power, d=0.18, one-tailed</td><td>766</td><td>2·(z.05+z.80)²/0.18² ≈ 764</td><td>≈ (764 vs 766)</td></tr>
+<tr><td>I² implied by paper's own Q</td><td>I²=.26</td><td>(175.77−75)/175.77 = 57.3%</td><td>⚠ ADV-002</td></tr>
+<tr><td>Overlap region of PET &amp; 3-PSM CIs</td><td>d=0.06–0.16</td><td>[−.26;.16] ∩ [.06;.29] = [.06;.16]</td><td>✅</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — The primary k=76 analytic dataset and its Table 1/2 derivation code are not archived; the shipped script analyses a different k=102 set that does not reproduce Table 3.</strong> The archive ships only <code>reviewer,analysis_JH.R</code> (loads <code>dat_new_s.txt</code>, k=102) and the raw <code>dat_{new,old}_{s,b}.txt</code> files; there is <em>no</em> k=76 dataset and <em>no</em> code applying the Table 1 exclusions / Table 2 aggregations. Running the shipped script gives naive d=.253, I²=62%, Q(101)=257.6, PET d=−.10/slope 1.47, 3-PSM corrected d=.105 with X²(1)=11.67 (p=.0006) — none of which match the manuscript's k=76 Table 3 (d=.27, I²=.26, PET d=−.05, 3-PSM d=.18, X²=3.42). Consequently the p.14 statement "verified that the analysis reproduced the results presented in the article" (Open Data/Materials badge, verified by R. Carlsson) holds for the k=102 reviewer analysis, <em>not</em> for the k=76 analyses actually reported. <em>Fix:</em> ship the k=76 dataset and the exclusion/aggregation script (incl. the Simbrunner multi-outcome pooling method), state which analysis the badge covers.</p>
+<p><strong>ADV-002 — Reported heterogeneity I²=0.26 is internally inconsistent with the paper's own Q(75)=175.77 (which implies I²≈57%).</strong> Using the standard relation I²=(Q−df)/Q with the values the paper itself prints gives (175.77−75)/175.77=0.573. A reported I²=.26 cannot coexist with Q(75)=175.77 for the same model; the reconstruction likewise gives I²≈62–66%. <em>Fix:</em> recompute I² from the fitted k=76 model and correct the printed value (expected ≈0.57 from their own Q).</p>
+<h3>P2 — medium</h3>
+<p><strong>ADV-003 — Precise secondary statistics are not exactly reproducible because the definitive k=76 dataset is missing.</strong> My faithful re-derivation gives d=.266 CI[.181;.350] Z=6.17 vs manuscript d=.27 CI[.19;.35] Z=6.57 (Z off by 0.40); EUR 3-PSM .212 vs .11; NOA PET slope 1.97 vs 2.12; Q 187.75 vs 175.77. Two aggregation variants for the 5 Simbrunner outcomes per sample (simple-mean vs inverse-variance pool) gave Z=6.17 and Z=5.92, neither hitting 6.57 — so the exact manuscript dataset is not reconstructable from the archive. <em>Fix:</em> covered by ADV-001.</p>
+<p><strong>ADV-004 — Appendix A1 simulation, Figure 3 selection-threshold exploration, and funnel-plot source data are not archived.</strong> No simulation code, no Fig 3 code/scans, and no k=76 funnel data are in the OSF archive; the exploratory/simulation claims (averaging bias &gt; d=.10; selection threshold d≈0; Bonferroni n=981) are therefore not independently verifiable (C39–C41 ➖, C24/C32 partial). <em>Fix:</em> ship appendix simulation code + seeds and Fig 1/2/3 source data.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-005 — Dataset-comparison claims (93% / k=85 / 6 ES / 6 N; "100%/100% identical") have no shipped derivation script.</strong> The original <code>dat_old_s/b</code> files are present but no study-to-study map/diff script is shipped (C1–C6 ➖). <em>Fix:</em> add the Table 1 comparison script.</p>
+<p><strong>ADV-006 — Background meta-analytic figures (d=.31, d=.32, fail-safe N=4531, n=801/1274/3134) are citations, not independently recomputable from this package.</strong> They come from Blanken (2015), Simbrunner &amp; Schlegelmilch (2017), Ebersole (2016) etc.; no raw source for them is in the archive. <em>Fix:</em> none required for this manuscript.</p>
+<hr />
+<h2>What this package already does right</h2>
+<ul>
+<li><strong>Data are genuinely open:</strong> raw per-study effect sizes and SEs for both the corrected (k=102/k=90) and uncorrected (k=106/k=91) Blanken and Simbrunner datasets, plus a codebook, are archived.</li>
+<li><strong>Table 1/2 rules are documented precisely and reproducibly:</strong> my independent re-derivation from the raw data under those rules reproduces the sample construction exactly (k=76; NOA=40/EUR=30/SEA=1), confirming the written methods are faithful to the resultant analytic set.</li>
+<li><strong>The headline magnitude and the direction of every moderation/pressure finding reproduce.</strong> Overall d≈0.27, the uncorrected comparison moderator (β=−.42), the single SEA study (d=−.372), and the NA/EUR subgroup PET values all come out in agreement.</li>
+</ul>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No live reproduction of the true k=76 analysis.</strong> Because the authors never shipped that dataset or its aggregation code, I could not run the genuine k=76 analysis end-to-end; I ran (a) the shipped k=102 script and (b) my own faithful re-derivation of the k=76 set. A definitive byte-level check of Table 3 is impossible until the authors upload the k=76 set.</li>
+<li><strong>3-PSM-with-moderators values (C32) and the Appendix A1 / Figure 3 simulations are not checked</strong> (no code/data/seed archived).</li>
+<li>The "93% / 95% / 6 discrepancies" comparison claims (Table 1 preamble) are not regenerated (no mapping script).</li>
+<li>Background numbers quoted from prior papers are not recomputed from the archive (they are citations).</li>
+<li>Funnel plots (Fig 1, 2) are only reported as visual asymmetry; no k=76 funnel data were shipped, so asymmetry is not regenerable here.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>41 numbered claims (C1–C41), each with verdict</td></tr>
+<tr><td><code>exec_check/R/01_shipped_k102.R</code></td><td>Shipped methodology on k=102 (what the badge analysis produced)</td></tr>
+<tr><td><code>exec_check/R/02_reconstruct_k76.R</code></td><td>Faithful k=76 re-derivation + headline stats</td></tr>
+<tr><td><code>exec_check/R/03_moderators.R</code></td><td>Moderator meta-regressions (corrected k=76 and uncorrected k=106)</td></tr>
+<tr><td><code>exec_check/reimpl_python.py</code></td><td>Independent Python recompute (REML MA, WLS PET-PEESE, I²/Q, power)</td></tr>
+<tr><td><code>exec_check/output/</code></td><td><code>01_shipped_k102.txt</code>, <code>02_reconstruct_k76.txt</code>, <code>03_moderators.txt</code>, <code>dat2_k76_recon.rds</code></td></tr>
+<tr><td><code>exec_check/data/</code></td><td>Copies of <code>dat_{new,old}_{s,b}.txt</code> + <code>codebook.xlsx</code></td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log (<code>==== START/END (status: OK) ====</code>)</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/reimplementation + environment description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-006 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Prioritized remediation steps</td></tr>
+<tr><td><code>extracted/</code>, <code>downloads/</code>, <code>R/</code>, <code>output/</code></td><td>Prior-audit / downloaded originals (untouched reference); fresh results in <code>exec_check/</code></td></tr>
+</tbody>
+</table>
+</body>
+</html>

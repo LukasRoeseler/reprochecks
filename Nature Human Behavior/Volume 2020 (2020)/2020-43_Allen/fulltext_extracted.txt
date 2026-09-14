@@ -1,0 +1,1147 @@
+Articles
+https://doi.org/10.1038/s41562-020-00944-2
+Population-scale longitudinal mapping of
+COVID-19 symptoms, behaviour and testing
+William E. Allen 1,2,3,18 ✉, Han Altae-Tran1,3,4,18, James Briggs 1,3,5,18, Xin Jin 1,2,3,18, Glen McGee 1,6,18,
+Andy Shi 1,6,18, Rumya Raghavan 1,3,7, Mireille Kamariza 1,2,3, Nicole Nova 1,8, Albert Pereta1,
+Chris Danford1, Amine Kamel1, Patrik Gothe1, Evrhet Milam1, Jean Aurambault 1, Thorben Primke1,
+Weijie Li 1, Josh Inkenbrandt1, Tuan Huynh1, Evan Chen1, Christina Lee1, Michael Croatto1,
+Helen Bentley1, Wendy Lu 1, Robert Murray1, Mark Travassos 1,9, Brent A. Coull6,
+John Openshaw 1,10, Casey S. Greene 1,11, Ophir Shalem1,12, Gary King 1,13, Ryan Probasco1,
+David R. Cheng1, Ben Silbermann1, Feng Zhang 1,3,4,14,15,16 ✉ and Xihong Lin 1,3,6,17 ✉
+Despite the widespread implementation of public health measures, coronavirus disease 2019 (COVID-19) continues to spread
+in the United States. To facilitate an agile response to the pandemic, we developed How We Feel, a web and mobile application
+that collects longitudinal self-reported survey responses on health, behaviour and demographics. Here, we report results from
+over 500,000 users in the United States from 2 April 2020 to 12 May 2020. We show that self-reported surveys can be used to
+build predictive models to identify likely COVID-19-positive individuals. We find evidence among our users for asymptomatic
+or presymptomatic presentation; show a variety of exposure, occupational and demographic risk factors for COVID-19 beyond
+symptoms; reveal factors for which users have been SARS-CoV-2 PCR tested; and highlight the temporal dynamics of symp-
+toms and self-isolation behaviour. These results highlight the utility of collecting a diverse set of symptomatic, demographic,
+exposure and behavioural self-reported data to fight the COVID-19 pandemic.
+T
+he rapid global spread of severe acute respiratory syn- demographics of individuals at the population scale with granular
+drome coronavirus 2 (SARS-CoV-2), the novel virus caus- location information. These data will allow medical professionals,
+ing COVID-19 (refs. 1–3), has created an unprecedented public health officials and policy makers to understand the effects
+public health emergency. In the United States, efforts to slow the of the pandemic on society, tailor intervention measures, efficiently
+spread of disease have included, to varying extents, social distanc- allocate testing resources and address disparities.
+ing, home-quarantine and treating of infected patients, mandatory One approach to collecting these types of data on a population
+facial covering, closure of schools and non-essential businesses, and scale is to use web- and mobile-phone-based surveys that enable
+test–trace–isolate measures4,5. The COVID-19 pandemic and ensu- large-scale collection of self-reported data. Previous studies, such
+ing response has produced a concurrent economic crisis of a scale as FluNearYou, have demonstrated the potential for using online
+not seen for nearly a century6, exacerbating the effect of the pan- surveys for disease surveillance7. Since the start of the COVID-
+demic on different socioeconomic groups and producing adverse 19 pandemic, several different applications have been launched
+health outcomes beyond COVID-19. As a result, there is currently throughout the world to collect COVID-19 symptoms, testing
+intense pressure to safely wind down these measures. Yet, in spite of and contact-tracing information8. Studies in the United States and
+widespread lockdowns and social distancing throughout the United Canada (CovidNearYou, https://covidnearyou.org/us/en-US/; and
+States, many states continue to exhibit steady increases in the num- ref. 9), the United Kingdom (Covid Symptom Study10,11, also in the
+ber of cases (https://www.worldometers.info/coronavirus/). To United States) and Israel (PredictCorona12) have reported large
+understand where and why the disease continues to spread, there cohorts of users drawn from the general population with a goal
+is a pressing need for real-time individual-level data on COVID- towards capturing information about COVID-19 along a variety of
+19 infections and tests, as well as on the behaviour, exposure and dimensions, from symptoms to behaviour, and have demonstrated
+1The How We Feel Project, San Leandro, CA, USA. 2Society of Fellows, Harvard University, Cambridge, MA, USA. 3Broad Institute of MIT and Harvard,
+Cambridge, MA, USA. 4Department of Biological Engineering, Massachusetts Institute of Technology, Cambridge, MA, USA. 5Schmidt Science Fellows,
+Oxford, UK. 6Department of Biostatistics, Harvard T.H. Chan School of Public Health, Boston, MA, USA. 7Health Sciences and Technology Program,
+Massachusetts Institute of Technology and Harvard Medical School, Cambridge, MA, USA. 8Department of Biology, Stanford University, Stanford, CA,
+USA. 9Center for Vaccine Development and Global Health, University of Maryland School of Medicine, Baltimore, MD, USA. 10Division of Infectious
+Diseases and Geographic Medicine, Department of Medicine, Stanford University School of Medicine, Stanford, CA, USA. 11Department of Systems
+Pharmacology and Translational Therapeutics, University of Pennsylvania Perelman School of Medicine, Philadelphia, PA, USA. 12Department of Genetics,
+University of Pennsylvania Perelman School of Medicine, Philadelphia, PA, USA. 13Albert J. Weatherhead III University Professor, Institute for Quantitative
+Social Sciences, Harvard University, Cambridge, MA, USA. 14McGovern Institute for Brain Research, Massachusetts Institute of Technology, Cambridge,
+MA, USA. 15Department of Brain and Cognitive Sciences, Massachusetts Institute of Technology, Cambridge, MA, USA. 16Howard Hughes Medical
+Institute, Chevy Chase, MD, USA. 17Department of Statistics, Harvard University, Cambridge, MA, USA. 18These authors contributed equally: William E.
+Allen, Han Altae-Tran, James Briggs, Xin Jin, Glen McGee, Andy Shi. ✉e-mail: weallen@fas.harvard.edu; zhang_f@mit.edu; xlin@hsph.harvard.edu
+972 NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav
+NATURE HUMAN BEHAVIOUR Articles
+some ability to detect and predict the spread of disease10–12. This field which has experienced the highest mortality rate from COVID-19
+has rapidly evolved since the beginning of the pandemic, with many (Fig. 1e)22,23. Users were primarily female (82.7%) (Fig. 1f) and white
+analyses of these datasets focusing on COVID-19 diagnostics (that (75.5%, excluding 20.3% with missing data) (Fig. 1g). Although the
+is, symptoms, test results, medical background)9, care seeking13, survey ran from April 2 until May 12, users could report test results
+contact tracing14, patient care15, effects on healthcare workers16, from earlier than April 2.
+hospital attendance13, cancer17, primary care18, clinical symptoms19 A major ongoing problem in the United States is the overall
+and triage20. Here, we perform a comprehensive analysis of a source lack of testing across the country24 and disparities in test accessi-
+of COVID-19-related information spanning diagnostic and behav- bility, infection rates and mortality rates in different regions and
+ioural factors sampled from the general population during the communities25. In the absence of population-scale testing, it will
+beginning of the pandemic in the United States. We investigate be critical during a reopening to allocate limited testing resources
+exposure, demographic and behavioural factors that affect the chain to the groups or individuals most likely to be infected to track the
+of transmission; understand the factors for who has been tested; and spread of disease and break the chain of infection. We therefore first
+study the degree of presence of asymptomatic, presymptomatic and examined who in our user base was currently receiving testing. We
+mildly symptomatic cases21. analysed 4,759 users who took the Version 3 (V3) survey and who
+To fill the gap and achieve these goals, we developed How We were PCR tested for SARS-CoV-2 (of 272,392 total users) (Fig. 2a
+Feel (HWF; http://www.howwefeel.org) (Fig. 1a–d), a web and and Extended Data Fig. 3a). Of these, 8.8% were PCR positive. The
+mobile-phone application for collecting de-identified self-reported number of tests reported by test date displays a similar trend to the
+COVID-19-related data. Rather than targeting patients with sus- estimated number of tests across the United States, suggesting that
+pected COVID-19 or existing study cohorts, HWF aims to collect our sampling captures the increase in test availability (Fig. 2a). The
+data from users representing the population at large. By drawing number of PCR tests per HWF user is highly correlated with exter-
+from a large user base across the United States who learn about nal estimates of per-capita tests by state (Fig. 2b and Extended Data
+the study through word of mouth and government partnerships, Fig. 3b; Pearson correlation 0.77)26.
+these results are complementary to other studies such as the Covid We first examined via logistic regression which factors either
+Symptom Study and CovidNearYou that also include sizable US collected in the survey or inferred from US Census data by user
+populations and are targeted towards the general public. Users are ZIP code were associated with receiving a SARS-CoV-2 PCR test,
+asked to share information on demographics (gender, age, race/ regardless of test result. As expected, we observed a higher frac-
+ethnicity, household structure, ZIP code), COVID-19 exposure and tion of tested users from states with higher per-capita test numbers,
+pre-existing medical conditions. They then self-report daily how according to the COVID Tracking Project26 (Extended Data Fig.
+they feel (well or not well), any symptoms they may be experiencing, 3b). Healthcare workers (odds ratio (OR), 2.94; 95% confidence
+test results, behaviour (for example, use of face coverings) and senti- interval (95% CI), 2.75, 3.15; P < 0.001) and other essential work-
+ment (for example, feeling safe to go to work) (Fig. 1c and Extended ers (OR, 1.39; 95% CI, 1.28, 1.52; P < 0.001) were more likely to
+Data Fig. 1). To protect privacy, users are not identifiable beyond have received a PCR test compared with users who did not report
+a randomly generated number that links repeated logins on the those professions (Fig. 2c). Users who reported experiencing fever,
+same device. A key feature of the app is the ability to rapidly release cough or loss of taste/smell (among other symptoms) had higher
+revised versions of the survey as the pandemic evolves. In the first odds of being tested compared with users who never reported these
+month of operation, we released three iterations of the survey with symptoms (Fig. 2c). The majority of these symptoms are listed as
+increasingly expanded sets of questions (Fig. 1b). common for COVID-19 cases by the Centers for Disease Control
+We find symptomatic subjects, healthcare workers and essen- and Prevention (CDC) (Fig. 2c, starred)27. A less-common symp-
+tial workers are more likely to be tested. Due to asymptomatic and tom, reporting a tight feeling in one’s chest, was also associated with
+mildly symptomatic individuals and heterogeneous symptom pre- receiving a PCR-based test (OR, 2.27; 95% CI, 1.93, 2.66; P < 0.001).
+sentation, our results show that commonly used symptoms may not These results suggest that the most commonly reported symptoms
+be sufficient criteria for evaluating COVID-19 infection. Further, are being used as screening criteria for determining who receives
+we find that exposure both outside and within the household is a a test, potentially missing asymptomatic and mildly symptomatic
+major risk factor for users testing positive and build a predictive individuals. This group could include those who are at high risk for
+model to identify likely COVID-positive users. African-American infection but do not meet the testing eligibility criteria.
+users, Hispanic/Latinx users, and healthcare workers and essential To obtain a global view of self-reported symptom patterns, we
+workers are at a higher risk of infection, after accounting for the applied an unsupervised manifold learning algorithm to visual-
+effects of pre-existing medical conditions. Finally, we find that even ize how symptoms were correlated across users (see Methods). As
+at the height of lockdowns throughout the United States, the major- expected, we found that symptom presentation separated broadly
+ity of users were leaving their homes, and a large fraction were not by feeling well versus feeling unwell (Fig. 2d and Extended Data Fig.
+engaging in social distancing or face protection. 4). Users who felt unwell were concentrated in a single cluster indi-
+cating similar overall symptom profiles, which was characterized by
+Results high proportions of common COVID-19 symptoms as defined by
+The app was launched on 2 April 2020 in the United States. As of the CDC27 (Fig. 2e), and contained the vast majority of responses
+12 May 2020, the app had 502,731 users in the United States, with from users with both positive (+) and negative (−) SARS-CoV-2
+3,661,716 total responses (Fig. 1b and Supplementary Table 1). In PCR tests (Fig. 2f). Thus, COVID-19 symptoms tend to overlap
+total, 74% of users responded on multiple days, with an average of with symptoms for other diseases and do not necessarily predict
+seven responses per user (Extended Data Fig. 2). Each day, ~5% of positive test results.
+users who accessed the app reported feeling unwell (Fig. 1b). The This overlap suggests that commonly used symptoms may not be
+user base was distributed across all 50 states and several US territo- sufficient criteria for evaluating COVID-19 infection. It has previ-
+ries, with the largest numbers of users in more populous states such ously been reported that many people infected with SARS-CoV-2 are
+as California, Texas, Florida and New York (Fig. 1d). Connecticut asymptomatic, mildly symptomatic or in the presymptomatic phase
+had the largest number of users per state, as the result of a partner- of their presentation28–30 and therefore unaware that they are infected.
+ship with the Connecticut state government (Fig. 1d). Users were In our dataset, on the day of their test, most users (73%) that tested
+required to be 18 years of age or older and were 42 years old on aver- PCR positive for SARS-CoV-2 reported feeling unwell with the com-
+age (mean, 42.0; s.d., 16.3), including 18.4% in the bracket of 60+, mon symptoms listed by the CDC (dry cough, shortness of breath,
+NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav 973
+Articles NATURE HUMAN BEHAVIOUR
+60,000
+0
+20 30 40 50 60 70 80 90
+chills/shaking, fever, muscle/joint pain, sore throat, loss of taste/ (+) users reported a higher rate of common COVID-19 symp-
+smell). However, 11.5% of positive users reported feeling unwell and toms, including dry cough, fever, loss of appetite, and loss of taste
+exclusively reported symptoms not listed as common for COVID-19 and/or smell, than PCR test (−) users (Fig. 2h). Many PCR-tested
+by the CDC on the day of their test, and 15.4% reported feeling no users longitudinally reported symptoms in the app in an interval
+symptoms at all (Fig. 2g). Because of the commonly used symptom- extending ±2 weeks from their test date (Extended Data Fig. 5). We
+and occupation-based screening criteria for receiving a PCR test and used these data to examine the time course of symptoms among
+under-testing, this total of 36.9% probably underestimates the true those who tested positive. In the days preceding a test, dry cough,
+fraction of asymptomatic, presymptomatic and mildly symptomatic muscle pain and nasal congestion were among the most commonly
+cases, which in Wuhan, China, was estimated to be ~87% (ref. 21), reported symptoms. Reported symptoms peaked in the week fol-
+and in the United States was estimated to be >80%. A large number lowing a test and declined thereafter (Fig. 2i). Taking the ratio of
+of asymptomatic cases were also observed in serological studies31,32. the symptom rates at each point in time between PCR test (+) and
+In total, 48.9% of users testing negative for SARS-CoV-2 reported (−) users showed that the most distinguishing feature in users who
+feeling unwell with the most common COVID-19 symptoms, com- tested positive was loss of taste and/or smell, as has been previously
+pared with an expected false-negative rate of 20–30% for PCR-based reported11 (Fig. 2j).
+tests of symptomatic patients33, again suggesting symptom presenta- We next investigated medical and demographic factors associ-
+tion overlap with other diseases (Fig. 2g). ated with testing PCR positive for acute SARS-CoV-2 infection,
+We investigated the symptoms that were most predictive of focusing on 3,829 users who took the V3 survey within ±2 weeks
+COVID-19 by exploring the distribution and dynamics of symp- of their reported PCR test date (315 positive, 3,514 negative) (Fig.
+toms in PCR test (+) and (−) users around the test date. PCR test 3a and Supplementary Tables 2–6). These users are a subset of all of
+sresU
+100,000
+50,000
+0
+April
+1
+April
+8
+April
+15
+April
+22
+May
+1
+May
+8
+yad
+rep
+sesnopseR
+20
+15
+10
+5
+0
+Feeling
+not
+well
+(%)
+a b
+The HWF app
+Survey Survey Survey
+V1 V2 V3 500,000 users in United States
+>3,600,000 responses
+c d Users by state 45,000 Demographic Medical
+Age Pre-existing conditions
+Location Feel well/not well
+Race/ethnicity Symptoms
+Gender COVID test results
+Occupation Contact with infected 0
+Household size Hours of sleep
+Smoking
+Behaviour
+Sentiment
+Left home today
+Wear mask Feel safe to return to work
+Socially distance Skipped doctors
+Food source appointments
+e f g
+Gender Race/ethnicity
+Female
+Other
+Male
+Number
+of
+users
+Partnership
+with state of
+connecticut
+White
+Asian
+Other
+African-American
+Multiracial
+Hispanic/Latinx
+Age
+Fig. 1 | The HWF application and user base. a, The HWF app: longitudinal tracking of self-reported COVID-19-related data. b, Responses over time, as
+well as percentage of users reporting feeling unwell, with releases of major updates to survey indicated. c, Information collected by the HWF app. d, Users
+by state across the United States. e, Age distribution of users. Note: users had to be older than 18 to use the app. f, Distribution of self-reported gender. g,
+Distribution of self-reported race or ethnicity. Users were allowed to report multiple races. ‘Multiracial’ means the user indicated more than one category.
+‘Other’ includes American Indian/Alaskan Native and Hawaiian/Pacific Islander, as well as users who selected ‘Other’.
+974 NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav
+NATURE HUMAN BEHAVIOUR Articles
+d Well e No. CDC symptoms f Untested
+Negative Not well 0 1 2 3+ Positive
+h i j
+Runny nose
+Sore throat
+Dry cough
+Muscle and joint pain
+Nasal congestion
+Loss of taste and/or smell
+Tight feeling in chest
+Loss of appetite
+Fever
+Chills/shaking
+Diarrhoea
+Nausea and vomiting
+Wet cough
+Mild cough
+SARS-CoV-2(+)
+Mild fatigue
+SARS-CoV-2(–)
+Mild headache
+0 5 10 –7 0 7 14 –7 0 7 14
+Percentage reporting symptom
+the users who reported taking a test in the V3 survey, as some of the of taste and/or smell was most strongly associated with a positive
+reported test results were outside of this time window. To correct for test result (OR, 33.17; 95% CI, 17.3, 67.94; P < 0.001). Other symp-
+selection bias of receiving a PCR test when studying the risk factors toms associated with testing positive included fever (OR, 6.27; 95%
+of a positive test result, we incorporated the probability of receiv- CI, 2.82, 13.70; P < 0.001) and cough (OR, 4.45; 95% CI, 2.83, 6.99;
+ing PCR tests as inverse probability weights (IPWs) into our logis- P < 0.001). Women were less likely to test positive than men (OR,
+tic model of PCR test result status (+/−) (see Methods)34. As with 0.55; 95% CI, 0.38, 0.80; P = 0.002), and both Hispanic/Latinx users
+the analysis of who received a test, the reported symptom of loss (OR, 2.59; 95% CI, 1.67, 3.97; P < 0.001) and African-American/
+Fraction
+reporting
+symptom
+0.4
+0.05
+Days since SARS-CoV-2 test
+log(risk
+ratio:
+positive/negative)
+400 400
+0 0
+March 02 March 16 March 30 April 13 April 27 May 11
+3
+0
+–3
+Days since SARS-CoV-2 test
+stset
+RCP
+FWH
+tests
+(×103)
+COVID
+tracking
+Test result Factors associated with getting tested
+Unknown
+95% CI
+Negative Predictor log OR OR (lower, upper)
+Positive
+COVID tracking HWF users
+test percentage test percentage
+8
+3
+2 1
+scihpargomeD
+smotpmyS
+a c
+b
+1
+PAMU
+Population
+tested
+(%)
+HWF
+users
+tested
+(%)
+UMAP 2
+1
+PAMU
+UMAP 2
+1
+PAMU
+Healthcare worker 2.94 2.75 3.15 Other essential worker 1.39 1.28 1.52 Hispanic/Latinx 1.39 1.25 1.55
+African-American/Black 1.47 1.29 1.68
+Asian 0.88 0.71 1.08
+Multi-racial 1.00 0.72 1.40
+Other race 0.81 0.62 1.06
+Unknown race 0.93 0.69 1.27
+Fever 4.34 3.56 5.30
+Cough 3.05 2.72 3.42
+Sore throat 2.37 1.98 2.84
+Tight feeling in chest 2.27 1.93 2.66
+Shortness of breath 1.97 1.60 2.42
+Fatigue 1.69 1.50 1.91
+Loss of taste and/or smell 1.52 1.22 1.89
+Diarrhoea 1.44 1.13 1.84
+Loss of appetite 1.40 1.11 1.76 Muscle and joint pain 1.32 1.17 1.49
+Nasal congestion 1.25 1.12 1.39
+Chills shaking 1.16 0.92 1.46
+Nausea and vomiting 1.12 0.87 1.44
+Runny nose 0.91 0.80 1.05 Tingling sensation 0.61 0.44 0.85
+−1 0 1 2 3
+g SARS-CoV-2(+) SARS-CoV-2(–)
+symptoms symptoms
+No reported
+symptoms
+15% 34%
+Non-CDC
+12% symptoms 171%7%
+73% 49%
+CDC
+UMAP 2 symptoms
+Runny nose
+Sore throat
+Dry cough
+Muscle and joint pain
+Nasal congestion
+Loss of taste and/or smell
+Tight feeling in chest
+Shortness of breath Shortness of breath
+Loss of appetite
+Fever
+Chills/shaking
+Diarrhoea
+Nausea and vomiting
+Wet cough
+Mild cough
+Mild fatigue
+Mild headache
+Fig. 2 | SARS-CoV-2 PCR testing and symptoms. a, Stacked bar plot of user-reported test results over time, overlaid with official number of tests across
+the United States based on COVID Tracking Project data (n = 4,759 users who took the V3 survey and reported a test result, of 277,151 users). b, Left: map
+of per-capita test rates across the United States. Right: map of COVID-19 tests per number of users by state. c, Associations of professions and symptoms
+with receiving a SARS-CoV-2 PCR test, adjusted for demographics and other covariates (see Methods). Common symptoms listed by the CDC are starred
+(n = 4,759 users with a reported test within 14 d of a survey response of 277,151 users). d–f, UMAP visualization of 667,651 multivariate symptom responses
+among HWF users that reported at least one symptom. Colouring indicates responses according to users feeling well (d), the reported number of COVID-19
+symptoms listed by the CDC (e), and the COVID-19 test result among tested users (f). g, Proportions of patients positive for COVID-19 (red) and negative
+for COVID-19 (blue) experiencing CDC common symptoms (dark), only non-CDC symptoms (light) or no symptoms (grey) on the day of their test.
+n = 1,170 positive users and 8,892 negative users who reported a test result between 2 April and 12 May 2020. h, Histogram of reported symptoms among
+COVID-19-tested users. i, Longitudinal self-reported symptoms from users that tested positive for COVID-19. Dates are centred on the self-reported test
+date. j, Ratio of symptoms comparing users that tested positive versus those that tested negative for COVID-19.
+NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav 975
+Articles NATURE HUMAN BEHAVIOUR
+a
+Associations with testing positive Unweighted IPW selection bias correction
+Predictor log OR OR log OR
+–2.5 0 2.5 5.0
+b
+scihpargomeD
+snoitidnoc
+gnitsixe-erP
+smotpmyS
+erusopxE
+95% CI 95% CI
+Baseline (L , U) OR (L , U)
+30–44 years 1.07 0.70 1.65
+45–54 years 18–29 1.07 0.66 1.76
+55–64 years 0.99 0.58 1.68
+65–99 years 1.06 0.48 2.32
+Female Male 0.58 0.39 0.86
+Hispanic/Latinx 2.32 1.44 3.73
+African-American/Black 2.26 1.28 3.99
+Asian White 0.99 0.31 3.14
+Multi-racial 0.98 0.17 5.68
+Other expanded 1.29 0.35 4.73
+Household income US$0–40k 0.97 0.51 1.85
+Household income US$70–100k US$40–70k 0.74 0.51 1.07
+Household income US$100k+ 0.87 0.55 1.39
+Healthcare worker Non- 1.98 1.36 2.89
+Other essential worker essential 1.67 1.09 2.56
+Po Pp ou pla ut laio tn io nd e dn es nit sy i t1 y 5 10 ,0– 09 09 +9 0–149 per mile2 21 .. 07 35 10 .. 19 27 33 .. 71 07
+Used to smoke Never 0.99 0.70 1.40
+Pregnant 6.44 2.39 17.38
+Liver disease 1.63 0.59 4.47
+Chronic kidney disease 1.28 0.39 4.20
+Diabetes 1.19 0.69 2.05
+Hypertension 1.15 0.76 1.74
+Not say 1.07 0.26 4.46
+Immunodeficiency 0.98 0.47 2.03
+Allergies 0.69 0.50 0.97
+Cancer 0.66 0.26 1.66
+Chronic lung disease 0.60 0.17 2.04
+Asthma 0.42 0.27 0.66
+Autoimmune disease 0.42 0.23 0.76
+Cardiovascular disease 0.39 0.15 1.03
+Loss of taste and or smell 19.23 10.70 34.54
+Fever 4.59 2.26 9.35
+Cough 4.13 2.56 6.67
+Loss of appetite 1.89 0.80 4.46
+Tingling sensation 1.75 0.46 6.66
+Muscle and joint pain 1.42 0.81 2.50
+Nasal congestion 1.18 0.72 1.94
+Fatigue 1.13 0.60 2.15
+Nausea and vomiting 0.97 0.33 2.83
+Diarrhoea 0.94 0.34 2.57
+Shortness of breath 0.90 0.38 2.11
+Runny nose 0.72 0.38 1.36
+Tight feeling in chest 0.67 0.34 1.34
+Sore throat 0.65 0.30 1.40
+Chills shaking 0.50 0.19 1.30
+Symptoms in household None 3.69 2.49 5.47
+Exposure in household 15.99 10.18 25.13
+Exposure outside household None 3.35 2.32 4.83
+Most likely exposed 2.17 1.52 3.10
+−2 0 2 4
+CDC symptom questions Major HWF survey questions Four-question survey sample Four-question survey
+1.0 1.0
+(1) Are you experiencing loss of taste
+0.8 0.8
+and/or smell?
+0.6 (2a) Were you exposed to someone 0.6
+with COVID-19?
+0.4 0.4
+(2b) If yes, do they live with you?
+0.2 Pre-test (0.69) Pre-test (0.79) 0.2 Pre-test (0.80)
+(3) Does anyone in your household
+All data (0.76) All data (0.92) All data (0.87)
+0 have COVID-19 symptoms? 0
+0 0.25 0.50 0.75 1.00
+False positive rate
+etar
+evitisop
+eurT
+1.15 0.77 1.74
+1.13 0.71 1.76
+1.03 0.61 1.70
+0.94 0.44 1.95
+0.55 0.38 0.80
+2.59 1.67 3.97
+2.35 1.29 4.18
+0.54 0.23 2.05
+3.74 0.25 83.66
+0.99 0.36 3.25
+0.94 0.51 1.68
+0.70 0.50 1.00
+0.80 0.52 1.21
+1.92 1.36 2.73
+1.69 1.13 2.52
+1.59 0.96 2.72 1.85 1.15 3.07
+1.07 0.76 1.47
+6.30 2.45 14.68
+1.43 0.40 3.80
+1.45 0.28 4.81
+1.02 0.58 1.70
+1.21 0.80 1.76
+1.13 0.21 4.64
+0.89 0.41 1.81
+0.73 0.53 0.98
+0.54 0.17 1.34
+0.48 0.08 1.95
+0.42 0.27 0.64
+0.41 0.22 0.70
+0.25 0.09 0.65
+33.17 17.30 67.94
+6.27 2.82 13.70
+4.45 2.83 6.99
+1.76 0.68 4.52
+1.85 0.22 12.13
+1.26 0.74 2.14
+1.27 0.76 2.08
+1.20 0.62 2.27
+1.25 0.34 4.10
+0.88 0.24 2.73
+0.88 0.33 2.17
+0.59 0.28 1.17
+0.73 0.34 1.49
+0.50 0.21 1.15
+0.66 0.22 1.78
+4.16 2.76 6.24
+19.10 12.30 30.51
+3.61 2.54 5.18
+2.28 1.65 3.18
+1.0
+0.8
+0.6
+0.4
+0.2
+0
+0 0.25 0.50 0.75 1.00 0 0.25 0.50 0.75 1.00
+False positive rate False positive rate
+Fig. 3 | SARS-CoV-2 PCR test result associations and predictions. a, Factors associated with respondents receiving and reporting a positive test
+result, as determined through logistic regression. Left: results from unweighted model. Right: results from model incorporating selection probabilities via
+IPWs. Reference categories are indicated where relevant; when not indicated, the reference is not having that specific feature. log ORs and their
+confidence intervals are plotted, with red indicating positive association and blue indicating negative association. Darker colours indicate confidence
+intervals that do not cover 0. Population density and neighbourhood household income were approximated using county-level data. L, lower bound;
+U, upper bound of 95% CIs; n = 3,829 users (315 positive, 3,514 negative) who took the V3 survey within ±2 weeks of receiving a test. b, Prediction
+of positive test results using ±2 weeks of data from the test date, using fivefold cross-validation, shown as ROC curves. The XGBoost model was
+trained on different subsets of questions: CDC symptom questions, using just the subset of COVID-19 symptoms listed by the CDC; all survey
+questions, using the entire survey; four-question survey, using a reduced set of four questions that were found to be highly predictive. Numerical
+values are AUC; n = 3,829 users.
+976 NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav
+NATURE HUMAN BEHAVIOUR Articles
+Black users (OR, 2.35; 95% CI, 1.29, 4.18; P = 0.004) were more under the receiver operating characteristic (ROC) curve (AUC) of
+likely to test positive than white users, highlighting potential racial 0.76 using data before and after a test, and AUC 0.69 using just the
+disparities involved with COVID-19 infection risk. The odds of pre-test data. Expanding the set of features to include other survey
+testing positive were also higher for those in high-density neigh- questions substantially improved performance (cross-validated
+bourhoods (OR, 1.85; 95% CI, 1.15, 3.07; P = 0.014). Healthcare AUC 0.92 all data, 0.79 pre-test). In the minimal-features model,
+workers (OR, 1.92; 95% CI, 1.36, 2.73; P < 0.001) and other essential we were able to retain high accuracy (cross-validated AUC 0.87 all
+workers (OR, 1.69; 95% CI,1.13, 2.52; P = 0.01) also had higher odds data, AUC 0.80 pre-test) despite only including four questions, one
+of testing positive compared with non-essential workers. Pregnant referring to a symptom and three referring to potential contact with
+women were substantially more likely to test positive (OR, 6.30; known infected individuals. Restricting the observed inputs to the
+95% CI, 2.45, 14.68; P < 0.001). However, we note that this result 1,613 users (89 positive, 1,524 negative) who answered the survey
+is based on a small sample of 48 pregnant women included in this in the 14 d before being tested limited the sample size and reduced
+analysis (9 test positive, 39 test negative) and is unstable, subject to the overall accuracy, but the relative performance of the models was
+potentially high selection bias. Performing this analysis with and similar (Fig. 3b).
+without correction for selection bias produced similar results (Fig. The fact that a fraction of SARS-CoV-2(+) users report no
+3a). As a further sensitivity analysis, we reran the analyses exclud- symptoms or only less-common symptoms (Fig. 2g) raises the pos-
+ing users from the states of California and Connecticut, the state sibility that many infected users might behave in ways that could
+containing most users (Extended Data Fig. 7a), and correcting for spread disease, such as leaving home while unaware that they are
+broader demographic differences using US Census data (Extended infectious. In spite of widespread shelter-in-place orders during the
+Data Fig. 7b), obtaining similar results to the uncorrected model in sample period, we found extensive heterogeneity across the United
+both cases. Finally, we performed Firth-corrected logistic regression States in the fraction of users reporting leaving home each day, with
+to check for bias in our testing model related to the large fraction 61% of the responses from 24 April to 12 May indicating the user
+of users testing negative, and obtained similar results to our uncor- had left home that day (Fig. 4a). The majority (77%) of these users
+rected model (Extended Data Fig. 8). reported leaving for non-work reasons, including exercising; 19%
+Motivated by previous studies that reported that high cluster left for work (Fig. 4b). Of people who left home, a majority of users,
+transmissions occurred in families in China, Korea and Japan35–37, but not all, reported social distancing and using face protection (Fig.
+we explored household and community exposures as risk factors 4c). Different states had persistently different levels of people wear-
+for users testing PCR positive. The odds of testing positive were ing masks and leaving home (Extended Data Fig. 9). This incom-
+much higher for those who reported within-household exposure to plete shutdown with partial adherence, and lack of total social and
+someone with confirmed COVID-19 than for those who reported physical protective measures, coupled with insufficient isolation of
+no exposure at all (see Methods) (OR, 19.10; 95% CI, 12.30, 30.51; infected cases, may contribute to continued disease spread.
+P < 0.001) (Fig. 3a and Supplementary Table 5). This is stronger than Given the large number of people leaving home each day, it is
+comparing the odds of testing positive among those who reported important to understand the behaviour of people who are poten-
+exposure outside their household versus no exposure at all (OR, tially infectious and therefore likely to spread SARS-CoV-2. To this
+3.61; 95% CI, 2.54, 5.18; P < 0.001). Further, the odds of testing PCR end, we further analysed the behaviour of people reporting to be
+positive are much higher for those exposed in the household versus PCR test (+) or (−). There was an abrupt, large increase in users
+those exposed outside their household or not exposed at all, after reporting staying home after receiving a positive test result (Fig.
+adjusting for similar factors (OR, 10.3; 95% CI, 6.7, 15.8; P < 0.001) 4d,e). Many, but not all, PCR test (+) users reported staying home
+(Supplementary Table 10). These results are consistent with previ- in the 2–7 d after their test date (7% still went to work, n = 14 of
+ous findings that indicate a very high relative risk associated with 203 users), whereas 23% (n = 62,483 of 269,833 users) of untested
+within-household infection36,38–41. This is compatible with the find- and 26% (n = 664 of 2,533 users) of PCR test (−) users left for work
+ings that other closed areas with high levels of congregation and (Fig. 4d,e). Similarly, 3% of PCR test (+) (n = 7 of 203 users) users
+close proximity, such as churches42, food-processing plants43 and reported going to work without a mask, in contrast with untested
+nursing homes44, have shown similarly high risks of transmission. (12.7%, n = 34,481 of 269,833 users) and PCR test (−) (10%, n = 255
+Developing models to predict who is likely to be SARS-CoV-2(+) of 2,533 users) users (Fig. 4f). Positive individuals reported com-
+from self-reported data has been proposed as a means to help over- ing into close contact with a median of 1 individual over 3 days in
+come testing limitations and identify disease hotspots11,12. We used contrast to individuals who tested negative or were untested, who
+data from the 3,829 users who used the app within ±2 weeks of typically came into close contact with a median of 4 people within
+their reported PCR test results to develop a set of prediction mod- 3 days (Fig. 4g). Regression analysis suggested that healthcare work-
+els that were able to distinguish positive and negative results with ers (OR, 9.3; 95% CI, 7.3, 11.8; P < 0.001) and other essential work-
+a high degree of predictive accuracy on cross-validated data (Fig. ers (OR, 6.8; 95% CI, 5.2, 8.9; P < 0.001) were much more likely to
+3b). We used the machine learning method XGBoost, which out- go to work after taking a positive or negative test, and PCR-positive
+performed other classification methods (Extended Data Fig. 6). For users were more likely to stay home (OR, 0.1; 95% CI, 0.1, 0.2;
+each user, we predicted their test results either using data before the P < 0.001) (Fig. 4h and Supplementary Table 15).
+test (pre-test), which would be most useful in predicting COVID-19
+cases in the absence of molecular testing, or using data before and Discussion
+after the test (all data) as a benchmark for the best possible pre- Using individual-level data collected from the HWF app, we showed
+diction we could make using all available data. We considered: (1) that incorporating information beyond symptoms—in particu-
+a symptoms-only model, which included only the most common lar, household and community exposure—is vital for identifying
+COVID-19 symptoms listed by the CDC; (2) an expanded model, infected individuals from self-reported data. This finding is particu-
+which further incorporated other features observed in the survey; larly important for risk assessment at the early stage of transmission
+and (3) a minimal-features model, which retained only the four most (for example, during the latent and presymptomatic periods when
+predictive features (loss of taste and/or smell, exposure to some- subjects have not developed symptoms yet), so that high-risk sub-
+one with COVID-19, exposure in the household to someone with jects can have priorities for being tested and quarantined and close
+confirmed COVID-19 and exposure to household members with contacts can be traced, to block the transmission chain early on. Our
+COVID-19 symptoms) (see Methods and Supplementary Tables results show that vulnerable groups include subjects with household
+11–14). The symptoms-only model achieved a cross-validated area and community exposure, healthcare workers and essential workers,
+NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav 977
+Articles NATURE HUMAN BEHAVIOUR
+70
+50
+and African-American and Hispanic/Latinx users. They are at substantial fraction of users leaving their homes on a daily basis
+higher risk of infection and should have priorities for being tested across the United States; users who claim to not socially isolate or
+and protected. Our findings also show statistically significant racial return to work after receiving a PCR test (+) result; self-reports
+disparity after adjusting for the effects of pre-existing medical con- of asymptomatic, mildly symptomatic or presymptomatic pre-
+ditions, which needs to be addressed. sentation; and a much higher risk of infection for people with
+We find evidence among our users for several factors that within-household exposure.
+could contribute to continued COVID-19 spread despite wide- That said, we note several limitations of this study. The HWF
+spread implementation of public health measures. These include a user base is inherently a non-random sample of voluntary users of
+Percentage
+leaving
+home
+Reason for leaving home
+Left home No 39%
+Work Other
+61%
+Yes
+19% 77%
+4%
+d
+1.0
+Tested (+)
+Tested (–)
+0.5
+0
+–7 0 7 –7 0 7 –7 0 7
+Days since test
+95% CI
+Predictor log OR OR (LB, UB)
+sresu
+fo
+noitroporP
+a b
+c
+Protective measures
+Social distancing
+None
+Mask/face protection
+0 50
+Stayed home Left for work Left for other
+e f
+Went to work at least once Went to work without a mask
+U U
+T(–) T(–)
+T(+) T(+)
+0 0.1 0.2 0.3 0.4 0 0.1 0.2 0.3 0.4
+Proportion of users Proportion of users
+g h
+Estimated number of contacts Going to work after test
+0 5 10 15 20 25
+Covid+ 0.1 0.1 0.2
+T(–)
+Healthcare worker 9.3 7.3 11.8
+T(+) Other essential 6.8 5.2 8.9
+U 55–99 versus 18–45 0.7 0.5 0.8
+Female versus male 0.7 0.5 0.9
+−3 0 3
+Fig. 4 | Behavioural factors potentially contributing to COVID-19 spread. a, Proportion of responses indicating users leaving home across the United
+States (map) or overall (inset pie chart) (n = 1,934,719 responses from 279,481 users). b, Percentage of responses for users reporting work or other
+reason for leaving home (n = 1,176,360 responses from 244,175 users). c, Reported protective measures taken by users upon leaving home per response
+(n = 1,176,360 responses from 244,175 users). d, Time course of proportion of SARS-CoV-2 PCR-tested (+) or (−) users staying home, leaving for work
+and leaving for other reasons (n = 4,396 total users who reported being tested positive or negative in the V3 survey and responded on at least 1 d within
+±1 week of being tested). e,f, Proportion of users SARS-CoV-2 PCR-tested (+) or (−), or untested, going to work (e) (n = 14 of 203 positive, 664 of 2,533
+negative, 62,483 of 269,833 untested), and going to work without a mask (f) (n = 7 of 203 positive, 255 of 2,533 negative, 34,481 of 269,833 untested),
+who responded within the 2–7 d post-test for tested (T) or the 3 weeks since last check-in for untested (U). Healthcare workers and other essential
+workers are compared with non-essential workers as the baseline. g, Average reported number of contacts per 3 d in the 2–7 d after their test date. T(+),
+n = 138 users; T(−), n = 2,269 users; U, n = 254,751 users. LB, lower bound; UB, upper bound. h, Logistic regression analysis of factors contributing to users
+going to work in the 2–7 d after their COVID-19 test (n = 678 users going to work of 2,736 users with definitive test outcome and survey responses in the
+2–7 d after their test date).
+978 NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav
+NATURE HUMAN BEHAVIOUR Articles
+a smartphone app, and hence our results may not fully generalize Application. The HWF application was developed in React Native (https://
+to the broader US population. In particular, the study may be sub- reactnative.dev/), using Google App Engine (https://cloud.google.com/appengine)
+and Google BigQuery (https://cloud.google.com/bigquery) for the backend, and
+ject to selection bias by not capturing populations without internet
+launched on the Android and iOS platforms. Users were identified only with a
+access, such as low-income or minority populations, who may be device-specific randomly generated number. Users below the age of 18 were not
+at elevated risk, and over-representation of females. Our results are allowed to use the application.
+based on self-reported survey data, and hence may suffer from mis-
+classification bias—particularly those based on self-reported behav- Inclusion criteria. If a user logged in multiple times in a day, only the first time
+was retained. We excluded any users who responded to a survey version on one
+iours. Moreover, a relatively small percentage of subjects received
+day and then on a later day responded to an older survey version. We excluded
+PCR testing. As shown in Fig. 2, the subjects who were tested were any users who reported different genders on different days, and we excluded any
+more likely to be symptomatic, healthcare workers and essential observations with missing feeling, gender or smoking history.
+workers, and people of colour. Naïve regression analysis of test Before survey V3, users responded only whether or not they received a
+COVID-19 test, and we assumed that they received a PCR test. In survey V3, users
+results using responses of subjects who were tested could be subject
+reported the type of test they received, and we excluded antibodies tests from
+to selection bias. To mitigate this, we have attempted to correct for
+analyses.
+these selection biases via the inverse probability weighting approach
+by estimating the selection probability, the probability of receiving Logistic regression: receiving a test. The HWF app allows users to report previous
+tests, using the observed covariates (see Methods). Some residual COVID-19 test information, including test date, test type (swab versus antibody),
+test result (positive, negative or unknown), location of test and reason for receiving
+bias may persist if there remain some unobserved factors related
+the test (Fig. 2). A user may report that the test result is not yet known, and then
+to underlying disease status and receiving a test, or if the selection
+update this information in future check-ins. A test was considered to be ‘unique’
+model is misspecified. What is more, the HWF user base may not be if it was reported by the same user with the same test date (including ‘NA’ (not
+representative of the broader US population. Although our regres- available), n = 11) and type. For this analysis, ‘swab’ tests were assumed to be
+sion analysis conditioned on a wide range of covariates to account PCR-based tests for SARS-CoV-2. Tests with a reported test date before 1 January
+2020 were excluded. Before V3, users were not asked about their test type. Tests
+for possible selection bias, if any unobserved factors associated
+from the same user with the same test date may have been missing a reported test
+with underlying disease status are also related to using the app—for
+type in earlier check-ins, but the user may have filled in this information at later
+example, health literacy and access to the internet, particularly in check-ins; in this case, we consider this to be the same test and assign the reported
+vulnerable groups such as low-income families—the results may be test type. For each unique test, all test information (including result) from the
+subject to additional selection bias. user’s most recent check-in was used.
+We compared testing data from HWF with the COVID Tracking Project
+Although there is enormous economic pressure on states,
+(https://covidtracking.com/) for all 50 states and the District of Columbia. For
+businesses and individuals to be able to return to work as comparison with HWF data used in this analysis, we extracted COVID Tracking
+quickly as possible, our findings highlight the ongoing impor- Project data until 11 May 2020. Tests with a ‘not yet known’ test result were
+tance of social distancing, mask wearing and large-scale testing excluded from this analysis. In Extended Data Fig. 6, the left panel compares the
+of symptomatic, asymptomatic and mildly symptomatic people, number of unique swab tests divided by the number of unique users in HWF with
+the total tests per state (totalTestResults) reported by the COVID Tracking Project
+exposure assessment and, potentially, even more rigorous ‘test–
+divided by the state population as estimated by the 2010 Census (https://pypi.org/
+trace–isolate’ approaches45–48 as implemented in several states, such project/CensusData/). The right panel compares the proportion of unique swab
+as Massachusetts, New York, New Jersey and Connecticut, which tests in HWF with a positive result with the proportion of tests in the COVID
+have bent the infection curve45–48. Applying predictive models on a Tracking Project with a positive result.
+population scale will be vitally important to provide an ‘early warn- For the analysis of who received a test, the outcome was 1 if a user reported a
+swab test, or 0 otherwise. We fit a logistic regression model using demographics,
+ing’ system for timely detection of a second wave of infections in the
+professions, exposure and symptoms, among other covariates. Time-varying
+United States and for guiding an effective public policy response. measures (for example, symptoms) were averaged over their V3 survey responses.
+As testing resources are expected to continue to be limited, Analysis was conducted with the statsmodel package (v.0.11.1) in Python54,55. We
+HWF results could be used to identify which groups should be pri- reported the log ORs and ORs, along with corresponding 95% CIs. Supplementary
+Table 3 lists the covariates used in the selection (who received a test) regression
+oritized, or potentially to triage individuals for molecular testing
+model, as well as the estimated coefficients, 95% CIs and P values.
+based on predicted risk. HWF’s integration of behavioural, symp-
+tom, exposure and demographic data provides a powerful platform
+Uniform manifold approximation and project for dimension deduction
+to address emerging problems in controlling infection chains, to (UMAP). Of the 3,661,716 survey responses collected by HWF up until 12 May
+rapidly assist public health officials and governments with develop- 2020, 667,651 reported having at least one symptom (excluding ‘feeling_not_well’)
+ing evidence-based guidelines in real-time and to stop the spread of from the set of 25 symptom questions asked across all surveys. Only these
+responses were used for UMAP analysis (Fig. 2d–f). Each of the 25 queried
+COVID-19.
+symptoms was treated as a binary variable. The input data were therefore a
+matrix of 667,651 survey responses with 25 binary symptom variables. UMAP
+Methods was applied to this matrix following McInnes and Healy60 using the Python
+Ethics statement. The HWF application was approved as exempt by the package umap-learn with parameters: n_neighbors=1000, min_dist=0.5,
+Ethical & Independent Review Services LLP IRB (Study ID 20049–01). The metric = ’hamming’. The resulting two-dimensional embedding was plotted
+analysis of HWF data was also approved as exempt by Harvard University with different colourmaps for each response in Fig. 2. The distributions of all 25
+Longwood Medical Area Institutional Review Board (IRB) (Protocol no. IRB20- symptoms are shown individually in Extended Data Fig. 4.
+0514) and the Broad Institute of MIT and Harvard IRB (Protocol no. EX-1653).
+Informed consent was obtained from all users and the data were collected in Asymptomatic analysis. Status of each symptom was categorized as a CDC
+de-identified form. symptom, a non-CDC symptom or asymptomatic (Fig. 2g). The CDC symptoms
+were defined as patients that reported feeling well or unwell with a dry cough,
+Open-source software. We used the following open-source software in the
+shortness of breath, chills/shaking, fever, muscle/joint pain, sore throat or loss of
+analysis:
+taste/smell. The non-CDC symptoms were defined as patients that reported feeling
+• Numpy: https://www.numpy.org (ref. 49) well or unwell with any symptoms that were not defined by the CDC, including
+• Matplotlib: https://www.matplotlib.org (ref. 50) abdominal pain, confusion, diarrhoea, facial numbness, headache, irregular
+• Pandas: https://pandas.pydata.org/ (ref. 51) heartbeat, loss of appetite, nasal congestion, nausea/vomiting, tinnitus, wet cough,
+• Scikit-learn: https://scikit-learn.org/stable/index.html (ref. 52) runny nose and so on.
+• SciPy: https://www.scipy.org (ref. 53) We restricted analysis to the subset of patients for which we observed
+• Statsmodels: https://www.statsmodels.org/stable/index.html (ref. 54) symptom data on their test date. For each user that tested positive or negative, we
+• R: http://www.r-project.org (ref. 55,56) categorized participants into three groups: {CDC symptoms, Non-CDC symptoms,
+• Tidyverse: http://www.tidyverse.org (ref. 57) Asymptomatic}. Participants were grouped into CDC symptoms if they reported
+• Data.table: https://CRAN.R-project.org/package=data.table (ref. 58) any CDC symptoms and participants that reported only non-CDC symptoms
+• sampleSelection59 were grouped in the Non-CDC symptoms category. Participants were considered
+NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav 979
+Articles NATURE HUMAN BEHAVIOUR
+asymptomatic if they reported none of the above symptoms. Proportions were used in the full information maximum likelihood estimates of the selection and
+reported and graphically represented for each group in Fig. 2g. outcome regression model, as well as the estimated coefficients, 95% CIs and P
+values. Qualitatively, the trends observed in the simultaneous selection/outcome
+COVID-19 symptoms and dynamics. In the HWF survey data up to 12 May 2020, model fitting are similar to those found in the two-step selection + IPW outcome
+a total of 8,429 unique users reported the result of a quantitative PCR (qPCR) logistic models.
+COVID-19 test (1,067 positive, 7,362 negative) (Fig. 2h–j). For surveys V1–2, we To address sample bias in the user distribution in comparison with the
+assumed that all tests were qPCR tests since antibody tests were rare before 24 distribution of individuals in the United States, we employed a poststratification
+April. In the V3 survey (24 April to 12 May 12) the test type was explicitly asked. correction for non-probability sampling models as an additional analysis.
+Among qPCR-tested users, each response was assigned a date in days relative to the Poststratification using age, gender, ethnicity and location was performed on
+self-reported test date. The aggregate fraction of responses reporting each symptom the testing selection model which generates the IPWs for the testing positive
+was visualized in a histogram in Fig. 2h. The aggregate fraction of responses model. The United States was subdivided into the nine major census regions (see
+reporting each symptom at each timepoint among users that tested positive was Supplementary Table 7). A joint distribution of estimated population over age,
+visualized in a heatmap in Fig. 2i. Figure 2j shows the element-wise log ratio of gender, ethnicity and region was obtained from the American Community Survey
+the positive-test and negative-test heatmaps. That is, each element = log(fraction 5-year estimates from 2018. The corresponding distribution of users was generated
+positive responses reporting symptom at time t/fraction negative responses across the same variables, and the ratio between each cell in the census distribution
+reporting symptom at time t). The heatmaps were smoothed by taking the average and the user distribution was used as the corresponding inverse probability weight
+for each symptom within a sliding window of ±1 d for visualization. in the testing selection model. The testing selection model thus should represent a
+user’s probability of getting tested from a corrected user base distribution matching
+Logistic regression: test results. A large number of risk factor survey questions major US Census demographics. The census-corrected testing selection model
+were added in V3 of the survey, so we restricted analysis to V3 survey data for was used to generate IPWs for the subsequent testing positive model and was
+the purposes of identifying risk factors associated with SARS-CoV-2(+) test otherwise performed in the same way as that calcuated using only the probablility
+results (Fig. 3a). User responses were selected using a symmetric 28-d window of receiving a test, as calculated using the HowWeFeel samples. Bootstrapping was
+around the last reported COVID-19 swab test date for any given user. Users that performed on the entire process. The coefficient estimates for the poststratification
+had no reported test outcome, or reported both positive and negative outcomes testing model are shown in Supplementary Table 8, while estimates and confidence
+in different responses, were removed. Users who identified as ‘other’ in the intervals for the subsequent poststratified IPW test outcome model are shown in
+gender response were dropped due to small sample size. Median neighbourhood Supplementary Table 9. A comparison of results with and without poststratification
+household income was estimated by mapping user ZIP codes to corresponding can be found in Extended Data Fig. 9. A comparison of the census-based
+ZCTAs (ZIP code tabulation areas) from the census, and then using the American poststratification-corrected models with the uncorrected models can be found in
+Community Survey 5-year average results from 2018 to infer a neighbourhood Extended Data Fig. 7. Performing census-based poststratification correction yields
+household income (B19013_001E). Population density was calculated at the county model coefficients and confidence intervals that are similar compared with when
+level for each user based on data from the Yu Group at University of California at no census-based poststratification is performed.
+Berkeley61. To assess whether or not the states with the largest numbers of users bias
+Race was a categorical variable, with distinct groups: ‘white’; the results, we also performed a comparison between the selection and outcome
+‘African-American’; ‘Hispanic/Latinx’; ‘Asian’; ‘multiracial’ for those who marked models with IPW correction with and without users from California and
+two or more race categories; ‘other’ for those who marked ‘other’, ‘Native American’ Connecticut (Extended Data Fig. 7). When removing California and Connecticut
+or ‘Hawaiian/Pacific Islander’; and ‘unknown’ for those who did not disclose their data, coefficient estimates from the selection and outcome models remain largely
+race. A given food source was marked as ‘True’ if the user had indicated the use of similar, suggesting limited bias due to California and Connecticut. Moreover,
+that food source over any response within the given time window. there is an overall increase in confidence interval widths of the outcome model,
+Because the HWF app asks for a separate set of symptoms depending reflecting an overall increase in variance. Together, this comparison suggests
+on whether or not the user reports feeling ‘well’, there is not a one-to-one that the California and Connecticut user base adds observations without adding
+correspondence between symptoms reported by those feeling ‘well’ and ‘not well’. substantial bias that may make the overall sample and corresponding analyses
+We excluded symptoms that were only present among those feeling ‘well’ or only unrepresentative of the entire US population.
+among those feeling ‘not well’. For symptoms reported by both those who were
+‘well’ and ‘not well’, we combined them into single symptoms. Supplementary Table Household transmission analysis. In the HWF survey V3, users were first asked if
+2 shows the variables merged using the ‘any’ function. Each symptom’s responses they were exposed to someone with confirmed COVID-19. If they answered ‘yes’,
+were then averaged over all available responses over the 28-d window. Similarly, then they were asked if that person lived in their household. We removed users
+distribution of sleep was averaged across the time window. who answered something other than ‘yes’ to the first question and who answered
+Multiple logistic regression was performed using statsmodels with the binary the second question. Additionally, we restricted the analysis to users who reported
+response outcome being the swab test outcome (positive coded as 1, negative as a negative or positive COVID-19 swab test and those who reported two or more
+0) to estimate coefficients, which were converted to ORs using exponentiation. household members. The outcome of interest was the binary outcome of testing
+Supplementary Table 4 lists the covariates used in this outcome regression model, positive on the COVID-19 swab test. The exposure of interest was the binary
+as well as the estimated coefficients, 95% CIs and P values. variable of having a household member test positive for COVID-19; we grouped
+To mitigate selection bias inherent in restricting the analysis to those who respondents who answered ‘no’ with those who did not answer the question
+have received a test, we used several inverse probability weighting adjustments. regarding household members.
+The probability of selection was estimated via the logistic regression analysis The rest of the analysis proceeded similarly to the analysis for Fig. 3a, including
+of who received a test (Fig. 2c). These estimated selection probabilities were the covariates used and the symptom collapsing strategy for each user across their
+incorporated into the outcome model via inverse probability weighting, and we responses within the 2-week window before the test and 2-week window after the
+reported confidence intervals based on robust (sandwich-form) standard errors test. We also performed sensitivity analysis using symptoms before the test. The
+and bootstrap standard errors. As inverse probability weighting can be sensitive difference between this analysis and that in Fig. 3a is that the reference group for
+to very small selection probability, we truncated them at several different values, household exposure was any other exposure or no exposure, whereas the reference
+using 0.1 and 0.9; and 0.05 and 0.95. The results using the truncated IPW selection group for household exposure and for other exposure in Fig. 3a is no exposure.
+probabilities at 0.1 and 0.9 are reported in Fig. 3. The result using truncated For both the unadjusted and the adjusted analyses, we performed logistic
+IPW selection probabilities at 0.05 and 0.95 were similar. Supplementary Table regression without and with the covariates. Supplementary Table 10 shows
+5 lists the covariates used in the outcome regression model with IPW truncation that the 95% CIs were calculated on the log OR scale and then exponentiated
+at 0.1 and 0.9, as well as the estimated coefficients, and 95% CIs. Confidence to obtain ORs.
+intervals were obtained by bootstrapping the entire model selection process with
+2,000 replicates. Specifically, for each bootstrap replicate, the entire dataset was Sensitivity analysis: Firth regression. Because of the small number of users in
+resampled with replacement, a new selection/propensity model was fitted for the user base who received a SARS-CoV-2 PCR test (1.7%) and the small number
+who gets a test, followed by a new IPW model fit using the inferred propensities of tested users who received a positive test (8.2%), it is possible for standard
+from the bootstrap sample. Coefficient estimates for the IPW models across the logistic regression to be biased. To address this issue, we performed sensitivity
+bootstrap samples were used to generate the confidence intervals and mean value analysis with Firth regression62, as implemented in the logistf R package (https://
+of the coefficient. cran.r-project.org/package=logistf). We found very little difference between the
+For additional sensitivity analysis, we used the bivariate probit model with Firth regression results and the logistic regression results presented in the paper
+sample selection used in econometrics to simultaneously estimate a selection (who (Extended Data Fig. 8), indicating that the imbalance of tested users or users who
+gets tested) equation and an outcome (who tests positive) equation incorporating tested positive was not so severe as to bias the results.
+the selection probability as an additional covariate. Due to possible collinearities,
+not all features could be used in both the selection model and the outcome model. Prediction models. XGBoost was compared across different featurizations and
+Specifically, profession could only be included in the selection model, and thus subsets of the data to assess the predictiveness of the algorithm on the HWF test
+should be interpreted with caution. Supplementary Table 6 lists the covariates result data (Fig. 3c). Two datasets were generated according to the data selection
+980 NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav
+NATURE HUMAN BEHAVIOUR Articles
+and featurization used in the regression analysis of COVID-19 swab test outcomes, References
+with the difference between the two sets being the time span used for the window, 1. Zhou, P. et al. A pneumonia outbreak associated with a new coronavirus of
+and the inclusion of additional features not used for inference. In the pre-test probable bat origin. Nature 579, 270–273 (2020).
+dataset, the window was selected such that only responses from 14 days before the 2. Wölfel, R. et al. Virological assessment of hospitalized patients with
+test up until the day before the last reported test were included for analysis. The COVID-2019. Nature 581, 465–469 (2020).
+post-test dataset, on the other hand, is identical to the regression analysis dataset, 3. Sanche, S. et al. High contagiousness and rapid spread of severe
+using data from 14 days before and after the last reported test. The features for the acute respiratory syndrome coronavirus 2. Emerg. Infect. Dis. J. 26,
+different feature sets are shown in Supplementary Tables 11–13. Mask wearing 1470–1477 (2020).
+and social isolation were computed as time averages of the responses to these 4. Schuchat, A. Public health response to the initiation and spread of pandemic
+questions. Models were trained and tested using five-fold cross-validation over the COVID-19 in the United States, February 24–April 21, 2020. MMWR. Morb.
+datasets. Within each fold, an additional threefold cross-validation was performed Mortal. Wkly. Rep. 69, 551–556 (2020).
+on the training set to optimize model hyperparameters before testing on the test 5. Kraemer, M. U. G. et al. The effect of human mobility and control measures
+set of that fold (see Supplementary Table 14 for grid-search coordinates). Test set on the COVID-19 epidemic in China. Science 368, 493–497 (2020).
+AUCs from each fold were averaged to form a final AUC estimate. Final ROC 6. Chen, H., Qian, W. & Wen, Q. The impact of the COVID-19 pandemic on
+curves were computed using the combined test set scoring and test set labels consumption: learning from high frequency transaction data. SSRN https://
+from each fold. doi.org/10.2139/ssrn.3568574 (2020).
+In addition to the models shown in the main text, we tested a range of 7. Smolinski, M. S. et al. Flu near you: crowdsourced symptom reporting
+classifiers, feature sets and data aggregation strategies for their performance at spanning 2 influenza seasons. Am. J. Public Health 105, 2124–2130 (2015).
+predicting COVID-19 test results from HWF survey data (shown in Extended 8. Segal, E. et al. Building an international consortium for tracking coronavirus
+Data Fig. 6). Input data were restricted to V3 survey data collected between 24 health status. Nat. Med. 26, 1161–1165 (2020).
+April and 12 May, and to qPCR-tested users who responded within −10 and 9. Lapointe-Shaw, L. et al. Syndromic surveillance for COVID-19 in Canada.
++14 d of their test: a total of 3,514 negative tests and 315 positive tests. Three Preprint at medRxiv https://doi.org/10.1101/2020.05.19.20107391 (2020).
+different feature sets, each consisting of a series of binary input variables from the 10. Drew, D. A. et al. Rapid implementation of mobile technology for real-time
+HWF survey, were used: 56 symptoms, 77 additional features or all 133 features epidemiology of COVID-19. Science eabc0473 (2020).
+together. Note that this featurization differs slightly from the featurization used in 11. Menni, C. et al. Real-time tracking of self-reported symptoms to predict
+the logistic regression in Fig. 3a, the goal of which was estimation and inference potential COVID-19. Nat. Med. 26, 1037–1040 (2020).
+rather than prediction. Each of the 3,829 qPCR-tested users responded between 1 12. Rossman, H. et al. A framework for identifying regional outbreak and
+and 25 times within the time window of analysis. To account for time and sparse spread of COVID-19 from one-minute population-wide surveys. Nat. Med.
+response rates, we binned data across time in four different ways: (1) average 26, 634–638 (2020).
+response for each feature in the 9 d preceding the test data (pre-test); (2) average 13. Lochlainn, M. N. et al. Key predictors of attending hospital with COVID19:
+response from −10 to +14 d (average); (3) binning the data into 3 weeks ([−10,−1], an association study from the COVID Symptom Tracker App in 2,618,948
+[0,7], [8,14]) and averaging each separately, creating a separate time-indexed individuals. Preprint at medRxiv https://doi.org/10.1101/2020.04.25.20079251
+feature label for each time bin (week_bins_avg); or (4) imputing the response (2020).
+for days with no data by backfilling, then forward filling, then proceeding as 14. Azad, M. A. et al. A first look at contact tracing apps. Preprint at arXiv
+in point ‘(3)’ (week_bins_imp). The classifiers were implemented from the https://arxiv.org/abs/2006.13354v3 (2020).
+scikit-learn and XGBoost Python packages with the following parameter choices: 15. Krausz, M., Westenberg, J. N., Vigo, D., Spence, R. T. & Ramsey, D.
+LogisticRegression(), LassoCV(max_iter=2000), ElasticNetCV(max_iter=2000), Emergency response to COVID-19 in Canada: platform development and
+RandomForestClassifier(n_estimators=100), MLPClassifier(max_iter=2000), implementation for eHealth in crisis management. JMIR Public Heal. Surveill.
+XGBClassifier(). Hyperparameters for cross-validation (CV) methods were 6, e18995 (2020).
+automatically optimized by grid-search using fivefold cross-validation. Mean AUC 16. Nguyen, L. H. et al. Risk of COVID-19 among front-line health-care workers
+was calculated for each classifier using fivefold cross-validation. and the general community: a prospective cohort study. Lancet https://doi.
+org/10.1016/S2468-2667(20)30164-X (2020).
+Post-test behaviour analysis. Users with post-test information (in the 2–7 d) after 17. Lee, K. A. et al. Cancer and risk of COVID-19 through a general community
+their test date (or hypothetical test date for untested users) were collected and survey. Preprint at medRxiv https://doi.org/10.1101/2020.05.20.20103762
+analysed (Fig. 4d–g). All featurization on this post-test window was (2020).
+identical to that of the selection/test outcome models. For computing whether a 18. Mizrahi, B. et al. Longitudinal symptom dynamics of COVID-19 infection in
+user went to work at least once, all responses for which users either leaving the primary care. Preprint at medRxiv https://doi.
+house or not from V3 were used, and if any response for a user contained a ‘yes’ org/10.1101/2020.07.13.20151795 (2020).
+answer to leaving the house for work, the user was marked as leaving the home 19. Keshet, A. et al. The effect of a national lockdown in response to COVID-19
+for work. Similar analysis was performed for leaving to work without a mask by pandemic on the prevalence of clinical symptoms in the population. Preprint
+marking the user as a ‘yes’ if they reported they were going to work and separately at medRxiv https://doi.org/10.1101/2020.04.27.20076000 (2020).
+reported not using a mask when leaving the house that day. Proportions of each 20. Shoer, S. et al. Who should we test for COVID-19? A triage model built from
+behaviour across the three populations (tested positive, tested negative and national symptom surveys. Preprint at medRxiv https://doi.
+untested) were computed, and were bootstrapped with 2,000 replicates to generate org/10.1101/2020.05.18.20105569 (2020).
+confidence intervals. 21. Hao, X. et al. Reconstruction of the full transmission dynamics of COVID-19
+Estimated number of contacts was performed similarly, except using the in Wuhan. Nature 584, 420–424 (2020).
+average value over individual user responses across the 2–7 d after their test. 22. Verity, R. et al. Estimates of the severity of coronavirus disease 2019: a
+Logistic analysis was performed to understand the effect of PCR test result on model-based analysis. Lancet Infect. Dis. 20, 669–677 (2020).
+user behaviour in the 2–7 d after the test, adjusting for other potential covariates. 23. Onder, G., Rezza, G. & Brusaferro, S. Case-fatality rate and characteristics of
+Supplementary Table 15 lists the covariates used in the unadjusted outcome patients dying in relation to COVID-19 in Italy. JAMA 323, 1775–1776 (2020).
+regression model, as well as the estimated coefficients, 95% CIs and P values. 24. Maxmen, A. Thousands of coronavirus tests are going unused in US labs.
+Nature 580, 312–313 (2020).
+Reporting Summary. Further information on research design is available in the 25. Rader, B. et al. Geographic access to United States SARS-CoV-2 testing sites
+Nature Research Reporting Summary linked to this article. highlights healthcare disparities and may bias transmission estimates. J. Travel
+Med. https://doi.org/10.1093/jtm/taaa076 (2020).
+Data availability 26. How to use the data. The COVID Tracking Project. (Accessed 17 May 2020).
+This work used data from the How We Feel project (http://www.howwefeel.org/). https://covidtracking.com/about-data
+The data are not publicly available but researchers can apply to use the resource. 27. Centers for Disease Control and Prevention. (accessed July 1, 2020)
+Researchers with an appropriate IRB approval and data security approval to Coronavirus Disease 2019 (COVID-19); https://www.cdc.gov/
+perform research involving human subjects using the HowWeFeel data can apply to coronavirus/2019-ncov/symptoms-testing/symptoms.html
+obtain access to data used in the analysis. 28. Wei, W. E. et al. Presymptomatic transmission of SARS-CoV-2—Singapore,
+January 23–March 16, 2020. MMWR Morb. Mortal. Wkly Rep. 69,
+Code availability 411–415 (2020).
+29. Linton, N. M. et al. Incubation period and other epidemiological
+The analysis code developed for this paper can be found online at https://github.
+characteristics of 2019 novel coronavirus infections with right truncation: a
+com/weallen/HWFPaper20.
+statistical analysis of publicly available case data. J. Clin. Med. 9, 538 (2020).
+30. Li, R. et al. Substantial undocumented infection facilitates the rapid
+Received: 8 June 2020; Accepted: 5 August 2020; dissemination of novel coronavirus (SARS-CoV2). Science 368,
+Published online: 26 August 2020 489–493 (2020).
+NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav 981
+Articles NATURE HUMAN BEHAVIOUR
+31. Sutton, D., Fuchs, K., D’Alton, M. & Goffman, D. Universal screening for 55. R Core Team. R: a Language and Environment for Statistical Computing (R
+SARS-CoV-2 in women admitted for delivery. N. Engl. J. Med. 382, Foundation for Statistical Computing, 2020).
+2163–2164 (2020). 56. Xie, Y. Dynamic Documents with R and knitr. 2nd edn (Chapman and Hall/
+32. Baggett, T. P., Keyes, H., Sporn, P.-C. N. & Gaeta, J. M. Prevalence of CRC, 2015).
+SARS-CoV-2 infection in residents of a large homeless shelter in Boston. 57. Wickham, H. et al. Welcome to the tidyverse. J. Open Source Softw. 4, 1686
+JAMA 323, 2191–2192 (2020). (2019).
+33. Kucirka, L. M., Lauer, S. A., Laeyendecker, O., Boon, D. & Lessler, J. Variation 58. Dowle, M. & Srinivasan, A. data.table: Extension of ‘data.frame’. R package
+in false-negative rate of reverse transcriptase polymerase chain reaction– version 1.12.8 https://cran.r-project.org/package=data.table (2019).
+based SARS-CoV-2 tests by time since exposure. Ann. Intern. Med. 172, 59. Toomet O., Henningsen, A. Sample Selection Models in R: Package
+577–582 (2020). sampleSelection. J. Stat. Software. https://doi.org/10.18637/jss.v027.i07 (2008).
+34. Griffith, G., Morris, T. T., Tudball, M., Herbert, A. & Mancano, G. Collider 60. McInnes, L., Healy, J. & Melville, J. UMAP: Uniform manifold approximation
+bias undermines our understanding of COVID-19 disease risk and severity. and projection for dimension reduction. Preprint at arXiv https://arxiv.org/
+Preprint at medRxiv https://doi.org/10.1101/2020.05.04.20090506 (2020). abs/1802.03426 (2018).
+35. World Health Organization. Report of the WHO-China joint mission on 61. Altieri, N., et al. Curating a COVID-19 data repository and forecasting
+coronavirus disease 2019 (COVID-19). https://www.who.int/docs/ county-level death counts in the United States. Prepirnt at arXiv https://arxiv.
+default-source/coronaviruse/who-china-joint-mission-on-covid- org/abs/2005.07882 (2020)
+19-final-report.pdf (2020) 62. Firth, D. Bias reduction of maximum likelihood estimates. Biometrika 80,
+36. Nishiura, H. et al. Closed environments facilitate secondary transmission of 27–38 (1993).
+coronavirus disease 2019 (COVID-19). Preprint at medRxiv https://doi.
+org/10.1101/2020.02.28.20029272 (2020). Acknowledgements
+37. Park, Y. J. et al. Contact tracing during coronavirus disease outbreak, South
+The How We Feel Project thanks operational volunteers A. Simon, R. Seidman, A.
+Korea. Emerg. Infect. Dis. J. https://doi.org/10.3201/eid2610.201315 (2020).
+Ranganathan, C. O’Neil-Hart, D. Adler, D. Silbermann, J. Chou, L. Determann, M.
+38. He, X. et al. Temporal dynamics in viral shedding and transmissibility of
+Terry, R. Macrae, R. Barretto, R. Conway, S. Shenai, T. Falzone and Y. Shimabukuro.
+COVID-19. Nat. Med. 26, 672–675 (2020).
+We also thank A. Tang for graphic design support. We thank the HWF participants
+39. Wang, Z., Ma, W., Zheng, X., Wu, G. & Zhang, R. Household transmission of
+who took our survey and allowed us to share our analysis. The funders had no role in
+SARS-CoV-2. J. Infect. 81, 179–182 (2020).
+study design, data collection and analysis, decision to publish or preparation of the
+40. Jing, Q.-L. et al. Household secondary attack rate of COVID-19 and
+manuscript. The How We Feel Project is a non-profit corporation. Funding and in-kind
+associated determinants in Guangzhou, China: a retrospective cohort study.
+donations for the How We Feel Project came from B. and D. Silbermann, F. Zhang
+Lancet Infect. Dis. https://doi.org/10.1016/S1473-3099(20)30471-0 (2020).
+and Y. Shi, L. Harp McGovern, D. Cheng, A. Azhir, K.H. Yoon and the Bill & Melinda
+41. Bi, Q. et al. Epidemiology and transmission of COVID-19 in 391 cases and
+Gates Foundation. X.L. acknowledges support from Harvard University and NCI grant
+1286 of their close contacts in Shenzhen, China: a retrospective cohort study.
+no. R35-CA197449-05. F.Z. is supported by the Howard Hughes Medical Institute, the
+Lancet Infect. Dis. 20, 911–919 (2020).
+McGovern Foundation, and J. and P. Poitras and the Poitras Center.
+42. County, S. et al. High SARS-CoV-2 attack rate following exposure at a choir
+practice. MMWR Morb. Mortal. Wkly Rep. 69, 606–610 (2020).
+43. Gibbins, J. D. et al. COVID-19 among workers in meat and poultry Author contributions
+processing facilities. MMWR Morb. Mortal. Wkly Rep. 69, 557–561 (2020). W.E.A., H.A.-T., J.B., X.J., G.M., A.S., R.R., N.N. and M.K. contributed to analysis.
+44. McMichael, T. M. et al. Epidemiology of COVID-19 in a long-term care W.E.A., H.A.-T., J.B., X.J. and G.M. performed the majority of data cleaning, data analysis
+facility in King County, Washington. N. Engl. J. Med. 382, 2005–2011 (2020). and figure production, and wrote the manuscript with F.Z. and X.L. A.S. and R.R.
+45. Pan, A. et al. Association of public health interventions with the performed household transmission and symptom-type analysis. W.E.A. coordinated the
+epidemiology of the COVID-19 outbreak in Wuhan, China. JAMA 323, analysis effort. P.G., E.M., J.A., T.P., W. Li, A.P., C.D., A.K., J.I., T.H., E.C., C.L., M.C.,
+1915–1923 (2020). H.B., W. Lu, R.M., R.P. and B.S. designed and implemented the How We Feel application.
+46. Clark, G. et al. COVID-19 Pandemic: Some Lessons Learned So Far (UK B.A.C., M.T., J.O., C.S.G., O.S., G.K., B.A.C. and D.R.C. designed the survey, and
+House of Commons Science and Technology Committee, 2020). provided feedback on app design and analysis. B.S. and F.Z. initiated the project. F.Z. and
+47. Finberg, H. V. Ten weeks to crush the curve. N. Engl. J. Med. 382, e37 (2020). X.L. supervised all aspects of the work.
+48. Kim, J. Y. It’s not too late to go on offense against the coronavirus. New
+Yorker https://www.newyorker.com/science/medical-dispatch/
+Competing interests
+its-not-too-late-to-go-on-offense-against-the-coronavirus (20 April, 2020).
+49. van der Walt, S., Colbert, S. C. & Varoquaux, G. The NumPy array: a The authors declare no competing interests.
+structure for efficient numerical computation. Comput. Sci. Eng. 13,
+22–30 (2011).
+50. Hunter, J. D. Matplotlib: a 2D graphics environment. Comput. Sci. Eng. 9, Additional information
+90–95 (2007). Extended data is available for this paper at https://doi.org/10.1038/s41562-020-00944-2.
+51. McKinney, W. Data structures for statistical computing in Python. in
+Supplementary information is available for this paper at https://doi.org/10.1038/
+Proc. 9th Python in Science Conference (eds van der Walt, S. & Millman, J.)
+s41562-020-00944-2.
+51–56 (2010).
+52. Pedregosa, F. et al. Scikit-learn: machine learning in Python. J. Mach. Learn. Correspondence and requests for materials should be addressed to W.E.A., F.Z.
+Res. 12, 2825–2830 (2011). or X.L.
+53. Virtanen, P. et al., and SciPy 1.0 Contributors. SciPy 1.0: fundamental Peer review information Primary handling editor: Charlotte Payne.
+algorithms for scientific computing in Python. Nat. Methods 17,
+Reprints and permissions information is available at www.nature.com/reprints.
+261–272 (2020)..
+54. Seabold et al. Statsmodels: econometric and statistical modelling with Python. Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+in Proc. 9th Python in Science Conference (eds van der Walt, S. & Millman, J.) published maps and institutional affiliations.
+92 (2010). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+982 NATuRE HuMAN BEHAVIOuR | VOL 4 | SEPTEMBER 2020 | 972–982 | www.nature.com/nathumbehav
+NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR AArrttiicclleess
+Extended Data Fig. 1 | HWF Survey Structure. Flow of questions through the HWF survey V3 for both first time users and returning users.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+AArrttiicclleess NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR
+Extended Data Fig. 2 | Number of Repeat uses Per HWF user. The number of times each HWF user checked into the app.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR AArrttiicclleess
+Extended Data Fig. 3 | Analyses Regarding Receiving PCR-based Viral Tests. a, A univariate plot of the frequency of people receiving a PCR-based viral
+test in each state. b, Correlations of viral tests per person (left) and percent of tests with positive results (right) comparing state-level data from How
+We Feel to testing data collected by the COVID Tracking Project. Each point represents a state, and the size of the point scales continuously with the
+total number of viral tests reported to How We Feel. Tests with an unresolved result at time of analysis were excluded. Several sizes shown in legend for
+reference. The dark blue dotted line is the x=y line and represents the expectation if sampling was random with respect to testing and test-positive results.
+The gray line is the best-fit linear regression line (and 95% CI) weighted by the number of viral tests reported to How We Feel.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+AArrttiicclleess NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR
+Extended Data Fig. 4 | uMAP Visualization of Multivariate Self-Reported Symptom Structure. Plots show individual distributions for 25 self-reported
+symptoms on the UMAP embedding shown in main text Fig. 2.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR AArrttiicclleess
+Extended Data Fig. 5 | HWF usage Over Time Per COVID-19 Tested user. Left: Response rate of tested users. COVID-19 HWF users provided between 1
+and 39 responses each, with a mean of 9 responses per user. Right: Aggregate temporal information showing number of responses relative to COVID-19
+test date. In aggregate, we obtains > 1,843 survey responses each day within a window of 7 days of the COVID-19 test.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+AArrttiicclleess NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR
+Extended Data Fig. 6 | COVID-19 Test-Result Prediction Model Comparisons. Six classified models (heatmap rows) were trained to predict COVID-19
+test results from survey data among users tested within the V3 survey (N=3,829; 315 positive; April 24 - May 12), as assessed by cross-validation AUC
+measurement. Hyperparameters were optimized by grid search. The input survey data was treated in a variety of ways with models trained on either: the
+average of responses provided before the test (pre-test), the average of responses provided from 10 days before to 14 days after the test (average), the
+weekly average in this window (week_bins_avg), or the weekly average after imputing missing responses by back-filling (week_bins_imp). The analysis
+was performed on three different feature sets: all survey features (N=133), symptoms only (N=56) or non-symptoms only (N=77). The overall most
+accurate classifier was XGBoost, which was used for the analysis in Fig. 3.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR AArrttiicclleess
+Extended Data Fig. 7 | Results of Sensitivity Analyses for Biased Geographic Locations of users and Demographics. Comparison of testing outcome
+regression analysis between IPW correction alone and a, census based post-stratification + IPW correction and b, IPW correction on dataset with CT
+and CA users removed from the analysis. From left to right is 1) the comparison of the testing selection logistic regression model, 2) comparison of the
+predicted probability of getting tested using the testing selection logistic regression model, 3) comparison of the bootstrapped mean model coefficient
+from the testing outcome model, 4) comparison of the bootstrapped 95% confidence interval widths from the testing outcome model.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+AArrttiicclleess NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR
+Extended Data Fig. 8 | Firth regression sensitivity analysis. a, Comparison of regression coefficients (left), p-values (center) and standard errors (right)
+from Firth regression (y-axis) vs. logistic regression from Fig. 2c in the manuscript (x-axis) for the model predicting which users would be tested. The
+dotted line is the identity (y = x) line. b, Comparison of regression coefficients (left), p-values (center) and standard errors (right) from Firth regression
+(y-axis) vs. unweighted logistic regression from Fig. 3a in the manuscript (x-axis) for the model predicting which users among the tested users would test
+positive. The dotted line is the identity (y = x) line.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+NNAATTUURREE HHUUMMAANN BBEEHHAAVVIIOOUURR AArrttiicclleess
+Extended Data Fig. 9 | Timecourse of user Behavior in Different States. Time course of fraction of users in each state reporting wearing masks, socially
+distancing, covering their faces when leaving home, as well as leaving home for other reasons or for work from April 25 through May 11. Arrows indicate
+states that reopened before May 10. The wide dark bands in “Left for Work” and “Left for Other” correspond to weekends. Users per state: AK 487, AL
+2590, AR 1858, AZ 5302, CA 28860, CO 6373, CT 45295, DC 749, DE 752, FL 12621, GA 6803, HI 702, IA 2797, ID 1483, IL 9799, IN 4882, KS 2476, KY
+2879, LA 1882, MA 7174, MD 4696, ME 1242, MI 8157, MN 5269, MO 4544, MS 1176, MT 784, NC 7314, ND 451, NE 1508, NH 1425, NJ 5758, NM 1667,
+NV 2057, NY 11072, OH 8244, OK 2608, OR 4371, PA 9804, RI 1051, SC 3298, SD 551, TN 4513, TX 17088, UT 3755, VA 7239, VT 587, WA 7560, WI
+4711, WV 1153, WY 440.
+NATuRE HuMAN BEHAVIOuR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2020
+Corresponding author(s): William E. Allen, Feng Zhang, Xihong Lin
+Last updated by author(s): Jul 2, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see our Editorial Policies and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection We used custom software made with React Native and Google App Engine to implement the application.
+Data analysis Data analysis was performed in Python and R using the following packages: Numpy, Matplotlib, Pandas, Scikit-learn, scipy,
+statsmodels,Tidyverse, Data.table. Custom software for analysis will be available at: https://github.com/weallen/HWFPaper20
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+Data include potentially identifiable subject-level data and so are available by request with a signed Data Use Agreement and IRB approval.
+2
+nature
+research
+|
+reporting
+summary
+April
+2020
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description This was a longitudinal association study of qualitative and quantitative data, including symptoms, demographic information, and
+behavior.
+Research sample The research sample are de-identified, volunteer users of a web and mobile-phone based application. The app was freely available
+for download and users
+Sampling strategy Users could freely download the application and use it for as many days as they wanted.
+Data collection Data were collected using a web and mobile-phone based application that allowed individuals to report demographic information,
+symptoms, and other COVID-19-related information in a de-identified way.
+Timing Data were collected from April 2 2020 to May 12 2020.
+Data exclusions If a user logged in multiple times in a day, only the first was retained. We excluded any users who responded to a survey version on
+one day and then on a later day responded to an older survey version. We excluded any users who reported different genders on
+different days, and we excluded any observations with missing feeling, gender, or smoking history.
+Prior to survey version 3, users responded only whether or not they received a COVID-19 test, and we assumed that they received a
+PCR test. In survey version 3, users reported the type of test they received, and we excluded antibodies tests from analyses.
+Non-participation Users used the app on average 7 times.
+Randomization There was no randomization.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology and archaeology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Dual use research of concern
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics See above.
+Recruitment Users could freely download the application. They heard about it through word of mouth, online advertising, government
+press releases, and media coverage. Users who had tested COVID-19 positive or were in high risk groups may have been
+more likely to use the app, which would bias the results towards more severe
+Ethics oversight The How We Feel application was approved as exempt by the Ethical & Independent Review Services LLP IRB (Study ID:
+20049 – 01). The analysis of HWF data was also approved as exempt by Harvard University Longwood Medical Area IRB
+3
+nature
+research
+|
+reporting
+summary
+April
+2020
+(Protocol #: IRB20-0514) and the Broad Institute of MIT and Harvard IRB (Protocol #: EX-1653). Informed consent was
+obtained from all users and the data were collected in de-identified form.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

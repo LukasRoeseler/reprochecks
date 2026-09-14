@@ -1,0 +1,2095 @@
+Articles
+https://doi.org/10.1038/s41562-019-0682-7
+Idiosyncratic choice bias naturally emerges from
+intrinsic stochasticity in neuronal dynamics
+Lior Lebovich 1*, Ran Darshan1,2, Yoni Lavi 3,4, David Hansel5,7 and Yonatan Loewenstein 1,3,6,7
+Idiosyncratic tendency to choose one alternative over others in the absence of an identified reason is a common observation in
+two-alternative forced-choice experiments. Here we quantify idiosyncratic choice biases in a perceptual discrimination task and
+a motor task. We report substantial and significant biases in both cases that cannot be accounted for by the experimental con-
+text. Then, we present theoretical evidence that even in an idealized experiment, in which the settings are symmetric, idiosyn-
+cratic choice bias is expected to emerge from the dynamics of competing neuronal networks. We thus argue that idiosyncratic
+choice bias reflects the microscopic dynamics of choice and therefore is virtually inevitable in any comparison or decision task.
+D
+ecision making is the cognitive process of choosing an action dynamics of competing populations of spiking neurons. Our work
+among a set of alternatives. Decision making is often studied thus suggests that ICBs are inevitable unless they are actively sup-
+in experiments, composed of trials, each associated with a pressed, for example. by the reward schedule.
+single decision. While a decision in a trial is primarily determined
+by the relevant features of the alternatives in that trial, biases are Results
+commonly observed1. Of specific relevance to this work are partic- ICBs in the bisection discrimination task. We quantified ICBs
+ipant-specific tendencies to prefer one alternative over the other(s). in the bisection discrimination task depicted in Fig. 1a (inset). In
+Such biases, which we term idiosyncratic choice biases (ICBs) have each trial, a vertical transected line was presented on the screen and
+been described as early as half a century ago in perceptual discrimi- participants were instructed to indicate the offset direction of the
+nation2–4 and operant learning tasks5–7. transecting line (see Methods). Figure 1a depicts the fraction of an
+In discrimination tasks, the ICBs interfere with the estimate of ‘Up’ response, p as a function of the offset for three participants.
+up
+perceptual noise. In operant learning experiments these biases mask As expected, the probability of a correct response increased with the
+the learning behavior. That is why such biases are typically consid- magnitude of the offset ΔL/L ≡ (LU – LD)/(LU + LD), where LU and LD
+ered as nuisance. When analyzing choice behavior, these biases are denote the lengths of the Up and Down segments of the vertical line.
+often accounted for by adding an ad hoc participant-specific bias However, the responses differed between the three participants: the
+parameter3 or by counterbalancing the choices to average them out. blue psychometric curve is shifted to the right of the black curve,
+Many factors can contribute to ICBs. For example, in perceptual whereas the red curve is shifted to its left.
+discrimination tasks, a stimulus in a given trial is often perceived We considered the choices of the participants in 20
+as being more similar to the stimuli presented in previous trials8–10. ‘impossible’ trials (1/6 of the trials), in which the line was
+Similarly, participants tend to choose those actions that were previ- transected at its midpoint (ΔL = 0). The participant whose psycho-
+ously more often rewarded11,12. Finally, participants may exhibit a metric curve is plotted in black in Fig. 1a responded Up in 11/20
+preference towards an alternative because the corresponding motor impossible trials, which is statistically indistinguishable from
+action requires the least effort. Heterogeneity between the partici- chance (P = 0.82, two-sided binomial test; n = 20). By contrast,
+trials
+pants along any of these factors is sufficient to generate ICBs. One the two other participants (red and blue in Fig. 1a) exhibited signif-
+may thus expect that these biases would be diminished if these fac- icant choice biases, responding Up in 18/20 and 1/20 of the trials,
+tors are controlled for in the experimental design or are factored respectively (P < 0.001, two-sided binomial tests). Overall, 48% of
+out in the analysis. In contrast to this expectation, here we argue the 100 participants exhibited a significant choice bias (24% signif-
+that even in an idealized gedanken experiment, in which symmetry icant Up, P < 0.05, two-sided binomial test; 24% significant ‘Down’,
+between subjects in all the above factors is kept, substantial ICBs are P < 0.05, two-sided binomial tests, not corrected for multiple
+expected. These ICBs that cannot be accounted for by the experi- comparisons). These ICBs were not restricted to the impossible
+mental context are the subject of this study. trials. Rather, they were also observed in the possible trials albeit
+We quantify ICBs in a perceptual discrimination task and in a to a lesser degree (mean absolute ICB ± s.e.m. in the impossible
+sensory-motor task, in which sequential and operant factors are and possible trials were 0.46 ± 0.03 and 0.056 ± 0.007 respectively).
+controlled for. We then analyze the ICBs in the framework of a Drift Biases in the possible and impossible trials were highly correlated
+Diffusion Model (DDM) and show that they are primarily the result (Supplementary Fig. 1; two-sided Pearson’s ρ = 0.64, P < 0.001). At
+of biased drift rates. Finally, we show analytically and numerically the population level, we could not detect a global bias. The frac-
+that ICBs naturally emerge from the intrinsic stochasticity of the tion of Up choices in the impossible trials across all participants
+1The Edmond and Lily Safra Center for Brain Sciences, The Hebrew University, Jerusalem, Israel. 2Janelia Research Campus, Ashburn, VA, USA. 3The
+Alexander Silberman Institute of Life Sciences, The Hebrew University, Jerusalem, Israel. 4Code Institute, Dublin, Ireland. 5Center for Integrative and
+Cognitive Neuroscience, Learning and Memory Lab; CNRS-UMR8002, 45 Rue des Saints Pères, Paris, France. 6Department of Cognitive Sciences and
+The Federmann Center for the Study of Rationality, The Hebrew University, Jerusalem, Israel. 7These authors contributed equally: David Hansel and
+Yonatan Loewenstein. *e-mail: lior.lebovich@mail.huji.ac.il
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHavIour
+a c ICBs, participants received only sparse feedback every 30 trials on
+1
+their accumulated performance until that point. Another potential
+contributor to ICBs is a propensity to repeat in a trial the actions
+0.5 taken in the previous trials. To minimize sequential effects, the
+impossible trials were always preceded by three irrelevant trials (see
+Methods). Indeed, the probability that a participant would repeat
+0 in an impossible trial the action she took in the previous (possible)
+–0.1 0 0.1 trial was 0.50 ± 0.01 (average over participants ± s.e.m.) (see also
+ΔL/L Supplementary Fig. 2).
+We then analyzed the ICBs in the framework of the DDM.
+b 1
+According to the DDM, noisy evidence in favor of each alternative is
+integrated over the course of the trial. The difference in evidence, a
+quantity known as the decision variable, is computed and a decision
+0.5
+is reached once this variable reaches one of two decision thresh-
+olds. The DDM has been extensively used to explain both behav-
+ioral and neurophysiological data13–18. In this framework, ICBs in
+0 the impossible trials can emerge via two mechanisms. In the first
+–1 0 1
+mechanism, the bias results from the initial condition of the deci-
+ICB
+sion variable being not equidistant from the two thresholds. In the
+second mechanism, the bias results from a drift bias of the decision
+variable, which is unrelated to the veridical evidence19–22.
+We investigated which of these two mechanisms best accounts
+for the ICBs, which we observed experimentally. To that end, we fit
+choices and reaction-times of participants in the impossible trials
+to four versions of the DDM. The goodness of each fit was assessed
+using the Deviance Information Criterion (DIC; Methods). The
+first model was a baseline DDM with symmetric, that is, equidis-
+tant initial condition and no drift bias. By construction, there are no
+ICBs in this model and it was only used as a baseline for compari-
+son with the other three models. To dissect the relative contribu-
+tions of the drift and initial condition to the ICBs, we added to this
+baseline DDM (1) idiosyncratic drift rates (‘drift bias’ DDM), (2)
+idiosyncratic initial conditions (‘IC bias’ DDM) or (3) both idio-
+syncratic drift rates and idiosyncratic initial conditions (‘IC + drift
+bias’ DDM). The DICs of all three models were compared to the
+DIC of the baseline model. As depicted in Fig. 1c, all three models
+did better than the baseline model. The ‘drift bias’ DDM (green) did
+substantially better than the ‘IC bias’ DDM (purple). These results
+suggest that in the framework of the DDM, bias in initial condition
+contributes less to the observed ICBs than the bias in the drift rate.
+We further dissected the relative contributions of the drift and IC
+to the ICBs in the ‘IC + drift’ DDM (black), which did better than
+the other models (Fig. 1c). To that goal, we computed for each par-
+ticipant the ICB expected from the DDM with parameters extracted
+from the ‘IC + drift’ DDM. As shown in Fig. 1d (black X marks),
+the expected and observed ICBs are in good agreement. They are
+also in good agreement when instead of the extracted initial condi-
+tions, symmetric ones are used (green circles). This indicates that
+asymmetry in the initial conditions does not play an important role
+was 0.505, which is not significantly different from chance in the generation of the ICBs. Indeed, when using the extracted ini-
+(95% CI 0.45–0.56, bootstrap). tial conditions but unbiased drift we failed to account for the ICBs
+To quantify the heterogeneity of these ICBs across the popula- (purple squares).
+tion, we computed for each participant the difference between the
+fraction of Up and Down responses in the impossible trials. This ICB in the motor task. Next, we constructed a motor task, in which
+measure quantifies the bias because it vanishes for unbiased choices ICBs are unlikely to emerge from idiosyncratic sensory asymme-
+(ICB = 0 for p = 0.5) and its magnitude is maximal if choices are tries. In each trial, two adjacent colored dots were displayed on a
+up
+deterministic (ICB = −1 for p = 0; ICB = 1 for p = 1). The dis- white circular background (inset in Fig. 2a, see also Supplementary
+up up
+tribution of ICBs across the participants is depicted in Fig. 1b. Its Fig. 3a). Participants were instructed to drag, as fast as possible, these
+width is a measure of idiosyncrasy of these biases across the partici- two dots into a central region indicated by a larger black disk. To
+pants. We found that the variance of the distribution is significantly ensure that the participants would make two temporally-separated
+larger than expected by chance (P < 0.001, two-sided bootstrap reaching movements, we introduced a 1.1 s delay after the comple-
+test, Bernoulli process; n = 100, n = 20 per participant). tion of the dragging of the first colored dot (Methods). The task
+participants trials
+These results further establish the existence of ICBs in the vertical was presented to the participants as a motor-speed task, in which
+bisection task. faster movements are more rewarded (see Methods). However, the
+As mentioned in the Introduction, operant effects can con- behavioral parameter that we were interested in was the order in
+tribute to ICBs. To minimize the contribution of feedback to the which participants chose to execute the two dragging movements.
+FDP
+IC bias
+Drift bias
+IC + drift bias
+0 –200 –400 –600
+ΔDIC
+p pu
+d 1
+0.5
+0
+0 0.5 1
+Observed p
+up
+p
+detcepxE
+pu
+Fig. 1 | ICBs in the vertical bisection task. a, Psychometric curves of three
+participants: the observed fraction of responding Up, p , vs. the sensory
+up
+offset ΔL/L. Error bars denote the s.e.m. Curves are best-fit logistic
+functions. Inset: a schematic illustration of the stimulus in a single trial.
+b, Distribution of ICBs (ICB = p up – p down) of all participants (n = 100).
+The ICBs of the three participants in a are denoted in the histogram by
+arrows of corresponding colors. c, Model comparison using DIC (Methods).
+The DIC of the ‘IC bias’ DDM (purple), ‘drift bias’ DDM (green) and
+‘IC + drift bias’ DDM (black) were measured relative to the baseline DDM,
+ΔDIC = DIC model – DIC baseline. Error bars are s.e.m., based on three repetitions
+of the fitting procedures. Results indicate that the ‘IC + drift’ DDM
+accounts for the data slightly better than the ‘drift bias’ DDM and much
+better than the ‘IC bias’ DDM. d, Relative contributions of the drift-bias
+and IC-bias to the ICBs in the ‘IC + drift bias’ DDM. Each symbol depicts
+a single participant. Abscissa: the observed p in the impossible trials.
+up
+Ordinate: expected p , based on average posteriors of each participant in
+up
+the biased ‘IC + drift’ DDM (equation 6 in Methods). Black X marks: both
+initial conditions and drifts were taken from the ‘IC + drift’ DDM. Green
+circles: drifts were taken from the ‘IC + drift’ DDM with symmetric initial
+conditions (z = 0.5 in equation 6). Purple squares: initial conditions were
+taken from the ‘IC + drift’ DDM assuming no drift (A = 0 in equation 6).
+Gray line is the diagonal. Slopes of best-fit orthogonal regressions are:
+black X marks, 0.96; green circles, 0.93; purple squares, 0.04. Note that in
+contrast to c, in which the three different DDM variants are compared,
+d dissects the contribution of the drift and IC biases in a single model,
+the ‘IC + drift bias’ DDM. Expected (simulated responses) vs. observed
+probability for all three DDM variants are depicted in Supplementary Fig. 9a.
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+NaTure HumaN BeHavIour Articles
+c in the bisection task (compare Figs. 1b, right, and 2b; standard
+deviations are 0.55 and 0.70, respectively, P < 0.001, shuffling;
+motor, n = 20, n = 10 per participant, n = 20 per partici- participants pairs trials
+pant per pair; bisection, n = 100, n = 20 per participant). participants trials Moreover, the distribution of ICBs in the motor task seems bimodal.
+Indeed, a dip test for unimodality23 revealed that the ICB distribu-
+tion in the motor task, but not in the bisection task, significantly
+deviated from unimodality (P < 0.001, n = 200 and P = 0.14,
+ICBs
+d n = 100, respectively). ICBs
+We then analyzed the ICBs using the DDM framework
+b (Fig. 2c,d). As in the bisection task, the ‘drift bias’ model (green)
+1 did substantially better than the ‘IC bias’ model (purple) for all ten
+pairs, indicating a smaller contribution to behavior of the biased
+initial conditions relative to the contribution of biased drift rates.
+0.5
+The DIC of the ‘IC + drift bias’ DDM (black) was comparable to the
+DIC of the ‘drift bias’ DDM (Fig. 2c). In half of the pairs, the DIC
+of the ‘IC + drift bias’ DDM model was the lowest, whereas in the
+0
+other half, the DIC of the ‘drift bias’ DDM was the lowest. We fur-
+–1 0 1
+ther dissected the contributions of drift biases and initial conditions
+ICB
+to the observed ICBs using the ‘IC + drift bias’ DDM (Fig. 2d). As in
+the bisection task, we found that drift bias, rather than asymmetry
+in the initial conditions, is the dominant contributor to ICBs in the
+motor task.
+ICB in the Poisson network model. What underlies participant-
+to-participant differences in drift rates in the bisection and motor
+tasks? To address this question, we constructed a simple neuronal
+network model of decision making and used it to study behavior
+in the bisection task. The network consists of two populations of
+neurons representing Up and Down choices, denoted by ‘U’ and ‘D’
+(Fig. 3a, left). Each population is made of N/2 independent Poisson
+neurons, such that the spike train of each neuron in a trial is an inde-
+pendent homogeneous Poisson process. The firing rates of the neu-
+In that sense, this paradigm is a symmetric, binary, implicit, deci- rons depend on the offset in the input (ΔL) such that the firing rates
+sion-making task. In this task, choice bias manifests as a particular of the U neurons increase with ΔL, whereas that of the D neurons
+preference in the order in which the two dots are dragged. Each decrease with ΔL (Fig. 3a, right). In addition, each neuron receives
+participant was presented with 10 pairs of dots, each pair differing an offset-independent input, which captures the heterogeneity in
+in colors and locations. Each of these pairs was presented 20 times the firing rates of the neurons within each population (see equation
+in a pseudorandom order. The ICB of a participant for a given pair 1 in Methods). Specifically, the firing rates of the neurons are drawn
+of dots was defined as the difference between the fraction of trials from log-normal distributions, whose parameters depend on the
+in which the clockwise (CW) and counterclockwise (CCW) dot was offset (orange and pink distributions in Fig. 3a). In the absence of an
+dragged first (ICB p cw p ccw). This allowed us to measure 10 dif- offset (ΔL = 0), the firing rate distributions of the two populations
+¼ �
+ferent ICBs (onIe for each pair) for each participant. are the same (blue distribution in Fig. 3a, right). Both the Poisson-
+Figure 2a depicts the distribution of choice biases across the par- like firing of action potentials24 and the log-normal distribution of
+ticipants for a particular pair of dots (inset). At the population level, firing rates25,26 are hallmarks of cortical dynamics.
+we could not detect a global bias. The fraction of clockwise choices In this model, we consider the cumulative number of spikes,
+across all participants was 0.55, which is not significantly different nU t and nD t , emitted by populations U and D up to time t in
+ð Þ ð Þ
+from chance (95% CI 0.40–0.70, bootstrap, n = 20, n = 20 aI trial. A deIcision is made at time t*, at which the absolute value of
+participants trials
+per participant). Nevertheless, 65% of the participants (13 partici- the difference in the numbers of spikes,Δn t nU t nD t ,
+j ð Þj¼j ð Þ� ð Þj
+pants) exhibited significant ICB for this pair (35% significant pref- reaches a given threshold, θ, for the first tiIme. The decision is Up if
+erence towards choosing first the clockwise dot and 30% significant Δn t* θ, whereas it is Down if Δn t* θ (Fig. 3b).
+ð Þ¼ ð Þ¼�
+ICB in favor of choosing first the counterclockwise dot; P < 0.05, I The psychometric curve of an Iexample network is depicted in
+range from P < 0.001 to P = 0.04, two-sided binomial tests, not cor- Fig. 4a (center; black). Because of the dependence of the firing
+rected for multiple comparisons). Consistent with that, the vari- rate distributions on ΔL, the larger ΔL the more likely it is that the
+ance of the distribution of ICBs in that pair was significantly larger network would choose Up. However, the outcome of this decision
+than expected by the population-average (P < 0.001, two-sided process is not deterministic. Because spiking is stochastic, Δn(t)
+bootstrap test, Bernoulli process, n = 20, n = 20 per par- occasionally reaches the threshold that is incongruent with the
+participants trials
+ticipant). Variance of the distributions of ICBs that is significantly stimulus, resulting in an error. More generally, because of this sto-
+larger than expected by the population-average (P < 0.001, two- chasticity, the psychometric curve is a smooth sigmoidal function of
+sided bootstrap test, Bernoulli process) was observed in all ten pairs ΔL rather than a step function. Note that in the black psychometric
+(Supplementary Fig. 3b). The distribution of ICBs over all pairs is curve of Fig. 4a (center), the network’s perceptual decision in the
+depicted in Fig. 2b. As in the bisection task, at the population level ‘impossible trials’ is approximately at chance level. Thus, this par-
+we did not detect a global bias. The fraction of clockwise choices ticular network does not exhibit a substantial ICB.
+across all pairs was 0.49 (95% CI 0.44–0.54, n = 20, n = 10 The black psychometric curve in Fig. 4a (center) was obtained for
+participants pairs
+per participant, n = 20 per participant per pair). The distribu- a particular realization of the network. The red and blue lines in Fig. 4a
+trials
+tion of ICBs in the motor task was broader than that distribution (center) depict the psychometric curves of two other realizations
+FDP
+a
+4
+IC bias
+Drift bias
+IC + drift 2 bias
+0 –125 –250
+ΔDIC
+0
+–1 0 1 1
+ICB
+0.5
+0
+0 0.5 1
+stnapicitrap
+fo
+.oN
+3
+1
+Observed p
+cw
+p
+devresbO
+wc
+Fig. 2 | ICBs in the motor task. ICB = p cw – p ccw where p cw and p ccw are the
+probabilities of choosing first the clockwise and the counterclockwise
+dot. a, The distribution of ICBs of all participants (n = 20) for the pair
+of dots in the inset. b, The distribution of ICBs for all 10 pairs of dots
+in the experiment (color-coded as in Supplementary Fig. 3b). c, Model
+comparison using DIC, as in Fig. 1c. Model fits were performed separately
+on each pair of dots. Bars and error bars denote the average and s.e.m.
+ΔDIC, over the 10 pairs of dots. d, Same as Fig. 1d, demonstrating that the
+ICBs in the motor task are dominated by the drift-biases. Slopes of best-fit
+orthogonal regressions are: black X marks, 0.98; green circles, 0.99; purple
+squares, −0.01.
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHavIour
+a
+nD(t) nU(t)
+Σ Σ
+t,i t,i
+k
+0 1
+ΔL/L
+of the network. Despite the fact that the three networks were con- of the order of 1=pN, where N is the number of neurons. Thus at
+structed in the same way, that is, by randomly drawing the firing first sight, heteroIgeneity in the firing rates should not play a sig-
+ffiffiffiffi
+rates of the neurons from the same distributions, the red and blue nificant role in the decision process in large networks. This, how-
+curves are horizontally shifted relative to the black psychometric ever, is incorrect in this case because the larger the network is, the
+curve. Thus, in contrast to the ‘black’ network, the ‘red’ and ‘blue’ more sensitive it is to the difference in the average firing rates of
+networks exhibit ICBs in favor and against responding Up. The dis- the two populations. This increased sensitivity ‘compensates’ for the
+tribution of the ICBs across networks is depicted in Fig. 4b (center). decrease in the difference in the average firing rates. To understand
+It demonstrates that a wide distribution of ICBs naturally emerges why larger networks are more sensitive to this difference, we note
+in this decision network model. that by construction, a population with a smaller average firing rate
+It is possible to mathematically prove that for a large network, can ‘win’ in a trial over a population with a higher average firing
+the behavior of this Poisson network model is equivalent to that of rate only if in that trial, its population-average spike count is larger
+a DDM with a biased drift (Methods). The accumulation of the dif- than the population-average spike count of the latter network. (note
+ference in the spike counts can be mapped to the accumulation of that the population-average spike count but not the population-
+noisy evidence in the DDM; trial-to-trial variability results from the average firing rate differs between trials). Specifically, because of
+stochasticity in the neuronal firing; the drift bias stems from the the Poisson firing of the neurons, the population-average spike
+heterogeneity in the firing rates in the two populations. In what fol- count in a trial is a stochastic variable whose mean is given by the
+lows, we provide an intuitive explanation for the emergence of ICBs population-average firing rate and its standard deviation decreases
+in the Poisson network model. with the population size (in proportion to 1=pN). Thus, the larger
+A wide distribution of ICBs in a network consisting of a small the network, the more sensitive it is to the Ipopulation-average fir-
+number of neurons is easy to understand. Let us consider the ing rate heterogeneity (in proportion to pN). Bffi effiffiffi cause the sensitiv-
+impossible trials in a network composed of only two Poisson neu- ity to the heterogeneity increases in propIortion to pN, while the
+rons (equation 1 in Methods), each representing one alternative (Up heterogeneity itself decreases in proportiffi offiffiffi n to 1=pIN, the effect
+ffiffiffiffi
+or Down). The firing rates of the two neurons are independently of the heterogeneity in firing rates on behavior isI independent of
+ffiffiffiffi
+drawn from the same lognormal distribution. However, the actual N (in the limit of large N). Thus, even if N is very large, the distribu-
+firing rates of these two neurons will, in general, differ in any given tion of ICBs is wide (Methods).
+network. In some realizations of the network the firing rate of the U Unlike network size, the decision threshold has a large effect
+neuron will be higher than that of the D neuron, whereas in others, on the magnitude of the ICB. This is depicted in Fig. 4a, where the
+it will be lower. Choice is determined by the first threshold-reaching psychometric curves of three networks, only differing in the value
+of the accumulated difference in the number of spikes fired by the of the decision threshold, are plotted. The larger the threshold,
+neurons. It will more often be congruent with the neuron whose fir- the steeper is the psychometric curves. This is because the time it
+ing rate is higher. However, because the firing of spikes in the model takes the network to reach a decision increases with the threshold
+is stochastic, the decision in a minority of trials will be incongru- (Fig. 4c). Thus, a larger threshold results in the integration of spikes
+ent with that neuron. This argument implies that this two-neuron over longer durations before a decision is made. Therefore, the deci-
+network exhibits an ICB, which results from the interplay between sion outcome is less sensitive to the Poisson noise (and thus more
+the Poisson noise and the heterogeneity in the firing rates of the two sensitive to the difference in the population-average firing rates).
+neurons. The spiking stochasticity decreases the bias, whereas the On the other hand, the network heterogeneity is independent of
+firing-rate heterogeneity increases it. decision time. Because the magnitude of the ICB is determined by
+It is thus clear why ICB is natural in such small decision-mak- the interplay of the Poisson noise and networks heterogeneity, the
+ing networks. However, it is not immediately clear why ICBs are larger the threshold is, the broader will be the distribution of ICBs
+observed in Fig. 4, in which the number of neurons in the net- (Fig. 4b; see also equation (5) and Supplementary Fig. 4c,d).
+work is large (N = 200,000). In this case, the difference between
+the population averaged firing rates of the U and D neurons is van- ICB in the recurrent spiking network. Our analysis of the Poisson
+ishingly small. This is because in large networks, this difference is model suggests that decision making networks exhibit ICBs if (1)
+FDP
+b
+0
+log(FR)
+U
+D
+–k 0 0.1 0.2
+–1
+Time (s)
+)t(nΔ
+θ
+–θ
+D chosen
+Fig. 3 | the Poisson network model. a, Schematic illustration of the network. It consists of two populations of independent Poisson neurons (center),
+receiving stimulus-selective input (bottom). Direction of triangle denotes selectivity to the visual offset, ΔL, as in Fig. 1. The neurons emit spikes, which
+are accumulated (top). Right: the stimulus-dependent distribution of firing rates. In the absence of offset (ΔL = 0), the rates of U and D neurons are
+drawn from the same distribution (blue curve). When the upper segment of the line is the longer (ΔL > 0), neurons in population U increase their firing
+rates (pink curve), whereas neurons in population D decrease their firing rates (orange curve). Note that the lognormal distribution of rates is equivalent
+to normal distribution of log-rates. b, Example trial. The absolute value of the difference in spike counts is accumulated over time, until the threshold is
+reached. The decision corresponds to the ‘winning’ population, which here is D.
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+NaTure HumaN BeHavIour Articles
+the constituting neurons fire irregularly (for example, Poisson), connected by strong synapses in a random and non-specific manner,
+(2) the neuronal firing rates are heterogeneous (for example, log- that is, independent of the selectivity properties of the pre- and
+normally distributed) and (3) decision is based on competition (for post-synaptic neurons. The competition between the U and the D
+example, threshold crossing of the difference in spike counts). In the neurons is mediated by an additional set of inhibitory connections,
+Poisson model, these three ingredients are introduced ad hoc. Here which are functionally specific, less numerous but stronger than the
+we investigate a spiking network model in which these features are unspecific ones (Fig. 5a, center; black, specific; gray, non-specific).
+emergent properties of the network dynamics. To investigate the dynamics of this model we performed numerical
+This model builds on previous studies that have shown that simulations (See Methods).
+recurrent networks of excitatory and inhibitory neurons connected Figure 5d,e depict the spike times of 2,000 excitatory and 2,000
+by numerous and strong synapses readily operate in a regime in inhibitory neurons in two ‘impossible’ trials. Before the stimulus is
+which excitation is dynamically balanced by inhibition27. Two hall- presented (t < 0), the activities of neurons in population U and D
+marks of this regime are (1) Poisson-like temporal variability of are similar (Fig. 5d). In response to the sensory stimulus (t = 0), the
+spike timing (Fig. 5b and Supplementary Fig. 5) and (2) approxi- neurons in both populations increase their firing rates. Because of the
+mately log-normally distribution of firing rates (Fig. 5c). These competition induced by the specific inhibitory connectivity, popula-
+features emerge from the intrinsic deterministic dynamics of the tion D inhibits population U and as a result population U disinhibits
+network (even when the neurons are identical and receive the same the excitatory neurons in population D. In our model, the decision
+external input)28,29. Similar to previous models of decision mak- occurs once the relative difference in the average firing rates of the
+ing30,31, competition between the alternative actions in our model is excitatory neurons of the U and the D populations exceeds a threshold.
+mediated by inhibition. After the decision is made, the feedforward stimulus-dependent input
+Our model consists of 32,000 excitatory and 8,000 inhibitory ceases and the network activity reverts to its baseline levels (Methods).
+Leaky Integrate and Fire (LIF) neurons (Fig. 5a; see Methods). The dynamics of the decision of the same network in an impossible
+All neurons receive a feedforward input, which is selective to the trial in which the opposite decision is made is depicted in Fig. 5e.
+stimulus. For half of the neurons (U neurons), this input linearly While a decision in the model is determined by the activities of
+increases with ΔL, whereas for the other half, (D neurons), it is a the excitatory populations, the inhibitory neurons are also selective
+decreasing function of ΔL (Fig. 5a, bottom). When the two seg- (compare the activities of the inhibitory neurons in the two impos-
+ments are of equal length (impossible trials), the U and D neurons sible decisions in Fig. 5d,e). To test this, we simulated 10 networks
+receive the same feedforward input. All neurons are recurrently (500 impossible trials per network). At the time of decision, the
+FDP
+1 1 1
+0.5 0.5 0.5
+0 0 0
+–0.1 0 0.1 –0.1 0 0.1 –0.1 0 0.1
+ΔL/L ΔL/L ΔL/L
+1 1
+5
+0 0
+–1 0 1 –1 0 1 –1 0 1
+ICB ICB ICB
+FDP
+a 3 7
+θ = θ* θ = θ* θ = θ*
+4 4
+b
+0
+c
+10 6 2.5
+0 0 0
+0 1 2 3 0 1 2 3 0 1 2 3
+RT (s) RT (s) RT (s)
+p
+pu
+Fig. 4 | ICBs in the Poisson network model. Left, center and right correspond to network behaviors with low, intermediate and high thresholds, respectively
+(see Methods). a, The psychometric curves of three networks. Each color corresponds to a different network, and the same color in different panels
+corresponds to the psychometric curves of the same network with different thresholds (equation 2 in Methods). b, ICB distributions (equation 3 in
+Methods). The ICBs of the three networks in a are denoted in the histogram by arrows of corresponding colors. c, Distribution of reaction times (RTs)
+(equation 4 in Methods). Number of neurons in the network is N = 200,000, θ* 0:65 pN.
+I ¼ 
+ffiffiffiffi
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHavIour
+a d
+VD VU Excitatory neurons Excitatory neurons
+D chosen U chosen
+–I I 0.08 s s
+–0.08
+–1 0 1
+ΔL/L
+Inhibitory neurons Inhibitory neurons
+population-average firing rates of the U and D inhibitory neurons As g increases, the width of the distribution decreases and its
+were congruent with the decision in all the simulations. shape changes from concave to convex. The distribution of deci-
+Figure 6a (center, black) depicts the psychometric curve of a spe- sion times also varies with g. The larger g the faster is the aver-
+cific network. When the magnitude of ΔL is large, the perceptual age decision time (Fig. 6c). When the recurrent network model is
+decision of the network is almost always correct; as ΔL decreases, analyzed in the framework of the ‘drift bias’ DDM, decreasing the
+the error rate increases. Considering the ‘impossible trials’ (ΔL = 0), specific inhibition g manifests primarily as an increase in the deci-
+the network’s perceptual decision is approximately at chance level sion threshold (Supplementary Fig. 6). Moreover, we found that
+(p = 0.504 ± 0.022). However, different realizations of the connec- a ‘drift bias’ DDM better explains the network dynamics than ‘IC
+up
+tivity matrix yield psychometric curves, which are laterally shifted bias’ DDM (Supplementary Fig. 7a). Finally, when the relative con-
+(red and blue curves in Fig. 6a). In contrast to the ‘black’ network, tribution of the drift bias and IC bias are tested in the ‘IC + drift
+the ‘red’ and ‘blue’ networks exhibit substantial ICBs (p = 0.94 ± bias’ DDM, the contribution of drift bias dominates the emergent
+up
+0.01 and 0.15 ± 0.02, respectively). ICBs (Supplementary Fig. 7b). The latter results are similar to those
+To estimate the distribution of ICBs in our recurrent network observed in the behavioral data (Figs. 1d and 2d).
+model, we simulated 200 networks, which only differed in their real-
+izations of the connectivity matrix. We computed the ICB of each The conditional bias function. Responses in decision-making
+network from its choices in 500 ‘impossible’ trials. The center panel tasks can also be analyzed using the conditional bias function
+in Fig. 6b depicts the distribution of these ICBs across the 200 net- (CBF). This function quantifies the relationship between bias
+works. It is significantly wider than expected by chance (P < 0.001, magnitude and reaction time within the responses of the deci-
+two-sided bootstrap test, fair Bernoulli process, n = 200, sion-maker19. In the ‘bias drift’ DDM, the distributions of deci-
+networks
+n = 500 per network). sion times for congruent and incongruent choices are equal17,32–34.
+trials
+The level of competition in our model is determined by the Therefore, the bias of a ‘bias drift’ DDM decision-maker is inde-
+strength of the functionally specific inhibition, g (see Methods). pendent of its decision time. By contrast, in the ‘IC bias’ DDM, the
+Figure 6b depicts the distribution of ICBs for three values of g. bias decreases with decision time19,20.
+)zH(
+ytivitcA
+pU
+nwoD
+9
+6
+3
+0
+–1 –0.5 0 0.5 1
+Time (s)
+)zH(
+ytivitcA
+pU
+nwoD
+9
+6
+3
+0
+–1 –0.5 0 0.5 1
+Time (s)
+)zH(
+ytivitcA
+pU
+nwoD
+6
+4
+2
+0
+–1 –0.5 0 0.5 1
+)zH(
+ytivitcA
+pU
+nwoD
+6
+4
+2
+0
+–1 –0.5 0 0.5 1
+0 1 2 3
+Time (s)
+)zH(
+egatloV
+e
+b
+0
+–60
+0
+–60
+c
+FDP
+2
+1
+0
+–1 0 1
+log (FR) (Hz)
+10
+Fig. 5 | the recurrent spiking network model. a, Schematic illustration of the network architecture. The network consists of recurrently connected
+excitatory (red) and inhibitory (blue) LIF neurons receiving stimulus-selective feed-forward input (bottom). Direction of triangle indicates the selectivity.
+b, Spontaneous activity of example excitatory (red) and inhibitory (blue) neurons in the network. c, Distribution of the spontaneous firing rates of the
+excitatory and inhibitory neurons. d, Example of an impossible trial, in which Down was chosen. Raster plots of Up excitatory (dark red), Down excitatory
+(light red), Up inhibitory (dark blue) and Down inhibitory (light blue) neurons (1,000 of each) and the corresponding average firing rates in response
+to a stimulus (gray region). The decision is made when the relative difference between the firing rates of the excitatory neurons of the Up and Down
+populations crosses the decision threshold (after which the feedforward input ceases). e, As in d for an impossible trial in which Up was chosen. The same
+network was used in panels b–e.
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+NaTure HumaN BeHavIour Articles
+We applied the CBF analysis to the impossible trials in our tasks. This discrepancy prompted us to compute the CBF in our
+Figure 7a depicts the CBF of the responses of the recurrent network behavioral data. We found no significant difference in the slopes
+model, averaged over the 200 networks of Fig. 6. For all values of g between the behavior in the motor task and the corresponding
+tested, the magnitude of the choice bias decreases with reaction time ‘IC + drift bias’ DDM fit (gray in Fig. 7c, mean ± s.e.m. slopes are
+(one-sample t-test, t(199) = −2.67, −8.91, −16.06, −23.01, −19.70, −0.0005 ± 0.0003 and −0.0002 ± 0.0001, respectively; paired t-test,
+−18.40, −19.67 and −21.65 for g = 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3 and t(197) = −1.04, P = 0.30, n = 198). By contrast, the mag-
+participants×pairs
+3.4, respectively; P = 0.008 for g = 2.7 and P < 0.001 for all other nitude of the slope in the bisection task was significantly and sub-
+values of g; n = 200). The larger g, the more negative is the stantially larger than that of the corresponding DDM fit (black in
+networks
+slope of the CBF (Fig. 7a, inset, slope of average slopes = −0.0023, Fig. 7c, slopes are −0.0023 ± 0.0004 and −0.0005 ± 0.0002, respec-
+95% CI −0.0034 to −0.0012). In comparison, the fitted ‘IC + drift tively; paired t-test, t(99) = −6.02, P < 0.001, n = 100). Note
+participants
+bias’ DDM captures only a fraction of this dependence. The slopes that the ICB distribution in the motor task is wider than that dis-
+of choice bias vs. reaction time are of a smaller magnitude in the tribution in the bisection task. In the framework of the recurrent
+DDM model (paired t-test, t(199) = −3.44, −11.17, −18.38, −25.00, network model, the motor task corresponds to a smaller value of
+−19.75, −20.47, −20.06 and −21.42 for g = 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, g, whereas the bisection task corresponds to a larger g. Indeed, this
+3.3 and 3.4, respectively, P < 0.001 for all values of g, n = 200). correspondence of motor and bisection tasks to smaller and larger
+networks
+The difference in slopes between the recurrent network model and g in the recurrent network is also maintained in the CBF analysis.
+the DDM is particularly pronounced for the larger values of g (com- Together, these results indicate that the recurrent network model
+pare insets of Fig. 7a,b). captures additional features of behavior, beyond the ‘IC + drift bias’
+We hypothesize that the discrepancy between the CBF of the DDM (and the Poisson network model).
+recurrent network model and that of the corresponding ‘IC + drift
+bias’ DDM results from a qualitative difference between the deci- Discussion
+sion process in the DDM and the recurrent network. Competition We experimentally investigated human ICBs in a discrimination
+in the recurrent network but not in the DDM results in an effective task and in a motor task. We analyzed the behavior of the partici-
+positive feedback. As a result, evidence accumulated in the begin- pants in the framework of the DDM. We found that in this frame-
+ning of the decision process has a larger effect on the responses work, idiosyncratic biases in the drift rate account for these ICBs.
+than the evidence accumulated later in that process. This is par- We proved mathematically in a particular model that ICBs due to
+ticularly pronounced for large values of g, in which the positive idiosyncratic drift biases naturally emerge in a network character-
+feedback is stronger. ized by (1) irregular firing of the neurons, (2) heterogeneity of their
+FDP
+ICB ICB ICB
+FDP
+a
+g = 3.4 g = 3 g = 2.7
+1 1 1
+0.5 0.5 0.5
+0 0 0
+–0.1 0 0.1 –0.1 0 0.1 –0.1 0 0.1
+ΔL/L ΔL/L ΔL/L
+b
+2.5 2.5 2.5
+0 0 0
+–1 0 1 –1 0 1 –1 0 1
+c
+10 6 2.5
+0 0 0
+0 1 2 3 0 1 2 3 0 1 2 3
+RT (s) RT (s) RT (s)
+p
+pu
+Fig. 6 | ICBs in the recurrent spiking network model. The strength of the selective inhibition is: left, g = 3.4; center, g = 3.0; right, g = 2.7. a, Psychometric
+curves. Each color corresponds to a different network, and the same color in different panels corresponds to the psychometric curves of the same network
+but with a different g. Each point is an average over 500 trials. Error bars correspond to s.e.m. b, Distribution of ICBs for 200 networks. Arrows correspond
+to the specific ICBs in a (same color coded). c, Distribution of reaction times (RTs).
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHavIour
+a
+0.9
+g = 2.7
+0.7
+0.5
+firing rates and (3) competition. Finally, we constructed a recurrent To identify the potential contribution of stochasticity at minutes’
+network model of spiking neurons, in which these three features are time-scale, we tested whether ICBs differed between the first and
+the result of the deterministic dynamics. We numerically simulated second halves of our experiments. We did not observe changes in
+this network and demonstrated that it exhibits ICBs, whose features the ICBs in this time-scale that are statistically significant (verti-
+are similar to those observed experimentally. Taken together, our cal bisection + motor: two-sided permutation test identified signifi-
+results show that ICBs naturally emerge from the intrinsic dynamics cant, differences in only 17/300 of the pairs, P < 0.05, not corrected
+of decision-making neural circuits. for multiple comparisons). It will be interesting to quantify the
+In the framework of the DDM, choice bias can emerge either dynamics of ICBs over longer time-scales.
+from a drift-bias in the decision variable or from asymmetry in its With respect to the effect of correlations, spikes in the Poisson
+initial condition19–22. There is an active area of research that maps model are uncorrelated in time and between neurons and as a
+different factors affecting choice bias to these two mechanisms. In result, the magnitudes of both fast and frozen sources of stochas-
+perceptual tasks, stimuli affect responses via the drift rate13. Other ticity decrease as 1=pN for sufficiently large networks. Their ratio
+factors such as decision cutoff19,21 and the bias induced by the action and hence the distIribution of ICBs become independent of N for
+ffiffiffiffi
+taken in the previous trial35 have both been primarily associated sufficiently large networks. The two sources of stochasticity also sat-
+with biases in the drift rate. Arousal levels also affect the magni- isfy these scalings in the recurrent network model. This is because
+tude of choice biases through the drift rate36. By contrast, asymme- the network operates in the balanced regime27,40. Noise correlations
+tries in the prior distribution of stimuli or in the reward schedule in the spike count of the neurons are therefore very weak41–43 and
+predominantly manifests as an asymmetric initial condition19,21,22,37 the firing rates are widely distributed and are uncorrelated between
+(but see ref. 38, for an example when manipulations on prior prob- neurons28. In networks exhibiting correlations in the neuronal activ-
+ability of the rewarded choice do not manifest as an asymmetric ity42,43, averaging over neurons may not decrease the fast noise and
+initial condition but rather mediated by a biased accumulation of the heterogeneities as 1=pN. If the dependence of the two on N is
+evidence). Heterogeneity among the participants along any of these very different, one sourIce of stochasticity could dominate, resulting
+ffiffiffiffi
+factors is expected to result in ICBs. Our modeling work predicts in deterministic or unbiased choices.
+the existence of additional, irreducible, ICBs. These ICBs cannot In relation to other spiking network models, the dynamics of
+be explained by the experimental context and manifest as drift rate decision-making has been previously modeled using networks of
+idiosyncrasies in the DDM. Our experimental work reports such LIF neurons. There are several key differences between our recur-
+ICBs in a discrimination task and a motor task. rent spiking network model and those previous models. In previous
+Considering the temporal-scale of stochasticity, ICBs in the two studies31,44, the recurrent connectivity of the competing populations
+models that we have investigated emerge from the interplay of two encoding for the decision outcome is all-to-all and fully symmetric,
+sources: (1) stochasticity in the timing of action potentials; (2) het- and individual connections are weak (of the order of 1/N where N is
+erogeneity in the neuronal firing rates. Stochasticity in the timing the number of neurons in the network). By contrast, the connectivity
+of action potentials differs between trials and therefore we can refer in our decision-making network is sparse and random and the con-
+to it as fast noise. By contrast, the second source of stochasticity is nections are strong, with postsynaptic potentials that are comparable
+the same in all trials and therefore, we can refer to it as frozen noise. to physiological data45. As a result, our network operates in the bal-
+Cortical dynamics exhibits additional time-scales39. Incorporating anced regime, in which irregular firing as well as heterogeneity in the
+additional time-scales to the models will not qualitatively affect the firing rates are generated by the intrinsic recurrent dynamics, rather
+results, as long as the contributions of these additional sources of than being due to extrinsic heterogeneity and stochastic input.
+stochasticity are of the order of 1=pN (where N is the number of Another difference between our spiking model and those used
+neurons in the network). I in previous modeling studies is in the connectivity which mediates
+ffiffiffiffi
+p
+saib
+b
+0.9
+g = 2.7
+g = 2.8
+g = 2.9 0.7
+g = 3.0
+g = 3.1
+g = 3.2
+g = 3.3
+g = 3.4
+0.5
+p
+saib
+c
+0.9
+g = 2.8
+g = 2.9
+g = 3.0
+g = 3.1 g = 3.2 0.7
+g = 3.3
+g = 3.4
+0.5
+p
+saib
+×10–4
+%d/pd
+×10–4 0
+–20
+2.7
+%d/pd
+0
+–20
+3.4 2.7 3.4
+g g
+QU QU QU QU QU QU QU QU QU QU QU QU QU QU QU
+1 2 3 4 5 1 2 3 4 5 1 2 3 4 5
+RT RT RT
+Fig. 7 | Conditional bias functions. a, The recurrent network model. We numerically simulated the recurrent network model in the impossible trials.
+Responses of each network were divided into five quantiles (quintiles, QU) according to the reaction time (RTs). Within each quintile, the fraction of
+choices congruent with the overall bias of the network, p bias, was computed and averaged over the different networks (n = 200 networks, 500 trials per
+network). This analysis was performed independently for different values of g (different colors; data for g = 2.7, 3.0, 3.4 are the same as in Fig. 6). Inset: the
+slopes of the different curves, defined as the change in p bias per percentile of reaction time, dp bias/d%. b, ‘IC + drift bias’ DDM fits to the recurrent networks.
+Same analysis as in a was performed on the fitted ‘IC + drift bias’ DDM to the networks’ responses using 10,000 simulated responses for each network. c,
+Responses of human participants. Solid lines, the conditional bias function for the impossible trials in the bisection task (black) and the motor task (gray).
+Dashed lines, the corresponding conditional bias functions for the fitted ‘IC + drift bias’ DDMs, based on 2,000 simulated responses for each decision-
+maker. Error bars are s.e.m.
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+NaTure HumaN BeHavIour Articles
+the competition between the two alternatives. Previous models Procedure. Participants were instructed to indicate the offset direction of the
+assumed that the competition between the populations encoding the transecting line, out of two alternative responses. Possible responses were either
+‘Left’ or ‘Right’, for the horizontal discrimination task, or Up or Down, for the
+alternatives is mediated by a single pool of inhibitory neurons. In
+vertical discrimination task. Participants were asked to answer as quickly and
+other words, in all these models the inhibition is non-selective31,46,47. accurately as possible.
+By contrast, in our model, the inhibitory connectivity depends on In each trial, a 200 pixel-long white line, transected by a perpendicular 20
+the functional specificity of the pre and postsynaptic neurons. As pixel-long white line was presented on a black screen (Fig. 1a, inset). The stimuli
+a consequence, the activity of the inhibitory neurons is selective were limited to a 400-pixel × 400-pixel square at the center of the screen. Window
+resolution was verified for each participant individually, to make sure that it did
+and the nature of the decision (Up or Down) can be read out from
+not exceed the centric box in which all stimuli were presented. The horizontal
+the inhibitory populations as well as from the excitatory ones (Fig. location of all vertical bisection lines and the vertical location of all horizontal
+5d,e). This feature, which previous spiking network models did not bisection lines were centered. After 1 s, the stimulus was replaced by a decision
+exhibit, is consistent with a recent experimental report48. screen composed of two arrows buttons, appearing in opposite sides of the screen,
+and a middle 4-squares submit button. The participants indicated their decision by
+We would like to note that there are alternative interpretations
+moving the initially centered cursor to one of the arrow buttons, pressing it, and
+to the observed ICBs. For instance, idiosyncratic postures can
+finalizing their decision by pressing the ‘submit’ button. No feedback was given
+affect the perception of the visual stimuli or the effort associated regarding the correct response. The participants were, however, informed about the
+with motor responses. One cannot rule out the possibility that such accumulated bonus fee every 30 trials.
+idiosyncrasies contributed to the ICBs in the bisection task, which The experiment consisted of 240 trials, 120 horizontal and 120 vertical. Trials
+were ordered in 80 alternating blocks of 3 horizontal and 3 vertical transected
+was performed online. In the motor task, by contrast, all partici-
+lines. Unbeknown to the participants, there were 20 impossible horizontal and
+pants were dextral and the positions of the chair, screen and mouse
+20 impossible vertical trials (1/6 of the trials). To minimize sequential effects
+pad were kept the same for all participants. Nevertheless, we cannot in the impossible vertical bisection trials, each impossible vertical bisection
+exclude the possibility that differences in participants’ anatomy, for trial was preceded by three horizontal bisection trials. The order of the trials
+example, their arm length, contributed to the ICBs. was pseudorandom but identical for all participants. For the possible trials, the
+deviation from the veridical midpoint was uniformly distributed between 5 and
+Reinforcers49–51 and more generally, the specific history of stim-
+10 pixels (ΔL=L between 0.05 and 0.1, where ΔL=L LU LD =LU LD and
+uli also influences preferences in perceptual tasks9,52. Along these LU and LD dj Ienj ote the lengths of the Up and DowIn seg mð ents � of theÞ vð erticþ al linÞ e),
+lines, it is natural to attribute ICBs to the specific histories of the with an equal number of offsets in each direction. Because it is well established
+participants during the experiment. We therefore designed our that in the horizontal bisection task participants exhibit a global bias (attributed
+tasks to minimize operant and sequential effects. Nevertheless, we to pseudoneglect55), we focused on the vertical bisection trials in quantifying
+ICBs and performance. Mean performance in the possible vertical trials was
+cannot exclude the possibility that the observed ICBs are the result
+96.4% ± 4.6% (standard deviation), range 71%–100%. No participants were
+of operant or sequential effects which occurred before the experi- excluded from the analysis. In the DDM analysis we excluded trials, in which the
+ment. For example, considering the impossible trials in our bisec- reaction time was longer than 3 s. This excluded 1% of the vertical bisection trials.
+tion task, participants may favor the Down arrow button because To verify that the participants understood the instructions, they were required
+they are accustomed to pressing taskbar icons that are located at the prior to the experiment to successfully complete a horizontal-bisection practice
+session and a vertical-bisection practice session. A session consisted of blocks of
+bottom of their computer monitor. Other participants may prefer
+4 easy trials (ΔL=L 0:2) with feedback and balanced polarity of ΔL. The main
+the Up arrow button because they are used to a taskbar located at experiment stj aIrtej d af¼ ter the participant completed one horizontal and one vertical
+the top of the screen. In such a view, ICBs in the vertical bisection block successfully. Responses in this practice session were not included in the analysis.
+task can be attributed to idiosyncratic histories of computer usage
+prior to the experiment. The motor task. The study was approved by the Hebrew University Committee
+for the Use of Human Subjects in Research and all participants provided informed
+All of the above effects can contribute to ICBs. However, we
+consent. The experiment was described as an academic survey testing speed of
+showed that these and similar explanations are not necessary. All motion. Data were collected from 20 participants (13 males, 7 females; all dextrals;
+that is required for ICBs are minute differences between the popu- mean age = 25 years, min = 19 years, max = 41 years) who were recruited using on-
+lations encoding the two alternatives. Such differences are almost campus advertising. All participants reported normal or corrected to normal vision
+and no history of neurological disorders.
+inevitable in any 2-alternative task, in which the two alternatives are
+represented by different populations of neurons.
+Procedure. In each trial, a pair of dots, equally distant from a central black disk, were
+Substantial ICBs were observed in genetically-identical flies that
+presented on a background of a larger white disk (Fig. 2a and Supplementary Fig.
+were reared in the same environment53. The results of that study 3a). Participants were instructed to drag as quickly as possible the two dots into the
+suggest that biases can emerge from effects that are unpredict- black disk using the mouse cursor. Each trial started with a forced delay period of
+able from genetic, environmental or anatomical variables. This is 0.75 s. Then, the mouse cursor appeared in the center of the disc. The participant
+used the mouse to move the cursor to one of the dots. She then dragged the chosen
+in line with our study that showed that the random differences in
+dot to the central black disk by pressing the mouse and moving it. If accurate, a
+the fine structure of connectivity between the neuronal populations
+release of the dot on the central black disk resulted in a 1.1 s ‘swallowing’ of the dot
+involved in decision-making are sufficient to account for the ICBs. animation, indicating a successful drag. The dragging time (measured from the time
+In conclusion, the occurrence of ICBs in a cortical-based decision of clicking on the dot to the time of its release) appeared on the screen. It disappeared
+task is thus almost inevitable. It would be therefore surprising to after a forced delay of 1.1 s and the cursor reappeared in the center of the disk. The
+participant pulled the second dot in the same way as the first dot. We used 10 different
+find a decision task that is devoid of ICBs, unless they are actively
+pairs of dots, each presented 20 times. Each pair of dots was of equal distance from
+suppressed, for example, by penalizing them. the center of the black disk, but of a different color and a different angular location
+(Supplementary Fig. 3b). The order of presentation was pseudorandom such that
+methods in every consecutive group of 10 trials all pairs appeared. Decision time in a trial is
+The perceptual discrimination task. The study was approved by the Hebrew defined as the time elapsed from cursor appearance to the beginning of the dragging
+University Committee for the Use of Human Subjects in Research and all of the first dot (the dragging of the second dot is not a ‘choice’ because after dragging
+participants provided informed consent. Recruitment was based on the online the first dot, only a single dot remains, see Supplementary Fig. 3a). The positions of
+labor market Amazon Mechanical Turk54. Data were collected from 100 the chair, screen and mouse pad were fixed and identical for all participants in order
+participants (51 males, 49 females; 91 dextrals, 7 sinistral, 2 ambidextrous; mean to minimize heterogeneity between participants.
+age = 39 years, min = 22 years, max = 71 years). All participants were Mechanical A base monetary compensation was given to all participants for their
+Turk’s Masters, located in the United States of America. All participants reported participation. An additional bonus fee was given based on dragging times in order
+normal or corrected to normal vision and no history of neurological disorders. to encourage good performance throughout the experiment.
+The experiment was described as an academic survey of visual acuity. A base In the DDM analysis we excluded trials, in which the reaction time was longer
+monetary compensation was given to all applied participants for the participation. than 3 s. This excluded 2% of the motor trials.
+In order to encourage good performance throughout the experiment, an
+additional bonus fee was given for every correct response and another bonus was Sample sizes. We had little a-priori basis for determining the sample size because
+guaranteed to 10% of participants with highest scores. we did not know what would be the shape of the distribution of ICBs. We
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHavIour
+hypothesized that the ICB distribution can be estimated from 100 tasks. Therefore, The corresponding distribution of decision times is computed by averaging the
+we used 100 participants in the bisection task. The number of trials per task was drift-conditioned distribution of first-passage times over the distribution of Δv,
+limited by the total duration of the experiment. To avoid fatigue and to ensure yielding17,32,33:
+compliance we aimed at limiting the total length of the experiment to no more
+t
+a w
+uh
+p
+sea
+ep
+rn
+dr e To
+oa
+tix m
+hp
+ci
+ep
+m p o
+r smoo
+a
+astx
+mpe
+si
+il
+am
+eby r l e
+na
+2 e
+t
+u
+4
+te
+v h0
+ml ey
+e rt
+b
+tr
+d3
+i
+ei0
+c ia rsa l
+m
+ts ol r . fib
+i bTn
+ii
+musou
+e t
+t
+a pc
+ie
+ov t
+os
+i
+no.
+o
+s
+siT
+snd
+ioh
+b
+ts f
+li
+r e
+es
+Ii q a
+Ci tm
+u l rBs ie .
+ap
+sn
+l
+l siti
+n
+ie iad
+ntl h
+et th
+e hff
+a ebet
+c i
+m
+sw
+t es
+oe
+ca
+t
+tc
+on
+io
+o rd
+u
+n
+t
+d
+al ad
+se n
+k
+tn
+e d
+(o
+c
+2mtt
+0i
+u
+o o
+tns
+t
+re
+o,
+i
+arom
+l
+n t
+so
+a )ly
+.sr ke
+B2 s
+et
+0
+,h
+c
+woa aun
+f e
+s
+th
+e
+em
+f ´ðt
+mÞ 1¼
+1m2π
+θ2
+siν neγ2 π2σ 2m2
+q exffi1 ffi pþ ffiffiffit ffiν ffi �ffie ffiγ ffi2 ffi2
+t1
+ffiσ ffi2 ffi mffið ffie 2 8ffiγ ffi π2 ffiffi 2σ ffi2 ffi ~θffi ν� 2ffiffi1 ffi effiÞ ffi
+γ2e 2σx 2p
+0
+@1
+2 tνeγ2 2σ2
+þ~θ2
+ðeγ2σ1 2 �1Þ1 A ð4 Þ
+in the motor task each trial is an ‘impossible’ trial, we were able to test ICBs in 10 P¼ �   
+different tasks (pairs of dots) for each participant. This allowed us to use only 20 Two points are worthwhile noting:
+participants in this task, while doubling the total number of tasks. (1) The neuronal gain parameter γ affects Pr(p) through the term eγ2σ2 1 ~θ2.
+Importantly, all of the sample sizes were predetermined and not altered based This implies that considering the distribution of ICBs, increasinIg the(cid:31) gain is
+on the results.
+effectively equivalent to increasing the threshold parameter
+~θ(cid:31)
+, and
+thus(cid:30)
+is
+likely to broaden the distribution of ICBs. I
+The Poisson model. We consider two populations of neurons, denoted by U
+(2) The assumption of a lognormal distribution of firing rates is not essential to
+and D, representing choices Up and Down (Fig. 3a). Each population consists
+our analysis. For a general distribution of firing rates, equation (3) becomes
+of N/2 independent Poisson neurons. The stimulus-dependent feedforward
+i aμn Inα ip d¼u tt rs k
+i
+at αo
+l-
+in Δ ne dLu e=r pLo en
+þ n
+i
+d
+z( eii α nI,2 tw
+,
+df h1 re a; r we¼ nk
+I
+U; inN
+¼
+d= e2
+�
+pg ek)
+n
+Di dn
+¼ e
+np to k lp yis u
+o
+l a na t p ci eao rn fa
+r
+omα
+m
+e(α t e aIr 2
+z
+a ef n roU d
+-
+; mz ID iα
+e
+g i as)
+n
+si ts Gi mg ai uv u se l sun is
+a
+b -
+n
+y : Pr ðp
+Þ¼pπp
+ðλ
+1 �p
+Þe�ðλ ðlog ðp Þ�log ð1 �p ÞÞÞ2
+d Ti hs etr fi ib ru inti go n ra w tei t νh Iα i ,v dar ifi fa en rc ee n tσ f2, o (cid:31)rI z eiα a (cid:30)ch¼
+ν
+n
+α
+i0 e ¼, u DrI (cid:31)νo �nz i ,α
+e
+i γs 2 μE
+α i
+¼σ2, where 〈…〉 denotes avera ðg 1e Þ. and Pr ðICB Þ¼ffiffi pffi
+π
+ð12 �λ
+ICB2
+Þe�ðλlog ð1 1þ �I IC CB BÞÞ2 ð5
+Þ
+w fuh ne cr te io (cid:31)ν nI a i ns d a tb ha es nel oin rme f ai lr i dn ig st r ra ibte u ta in od n γ o fis i nth pe u tg sa ,i tn h2 e8. fD iru ine g t o ra t th ee s e ax rep lo on ge -n nt oia rml tr aa lln ys fer where λ ¼p8 ~θE ½να i V ½να i and E Iνα i anffiffiffid V I να i are the mean and variance of the
+distributed. In each trial, the cumulative number of spikes, nU(t) and nD(t), emitted distribuItion of the firing rate(cid:31)s in(cid:30) the imp(cid:31)oss(cid:30)ible trials.
+by populations U and D up to time t in a trial is counted (Fig. 3a). A decision is The paraffi mffi ep terffiffi sffiffi ffi uffiffi sffiffi ed in all simulations are (cid:31)ν 1:26Hz, γ = 1 k = 0.133 and
+made at time t* , at which the absolute value of the difference in the numbers of σ2 = 1. For ΔL = 0, the average and standard deviIa¼ tion firing rate are 2.1 Hz and
+spikes, Δnt I nU t nD t , reaches a given threshold θ pN ~θ, where ~θ 2.7 Hz. These numbers are compatible with experimental data in the cortex26,56.
+is a paraj Imeð teÞ rj .¼j ðÞ� ðÞj I¼  I The dependence of the width of the ICB distributions on the model parameters are
+ffiffiffiffi
+For N ≫ 1 and neglecting the threshold effect, the difference in spike count depicted in Supplementary Fig. 4.
+a Σt ν ti ¼me it i νs U igi þven
+i
+b νy D iΔ .I n Bð et cÞ a useN Nð Δ ≫ν 1 ,t ; bΣ oν th Δt Þ v, w anh de r Σe
+I
+νΔ Iaν re¼ nPoi rmν aU i ll� y dPii stν riD i b ua tn ed d : T inh tee
+g
+s rp ai tk e-i an ng
+d
+n -e fit rw
+e
+o (Lrk
+IF
+m
+)
+no ed ue rl.
+o
+T nsh ,e
+N
+m
+E
+o =d 0e .l
+8
+i Ns a
+e
+r xe cc itu ar tr oe rn yt an ne dtw No
+I
+r =k o 0f
+.2
+N
+N
+l ie na hk iy b-
+itory
+I P Δν P N(cid:31)νeγ2 2σ2 sinh γkΔL ;N(cid:31)ν2 eγ2σ2 1 eγ2σ2cosh 2γkΔL (the superscript denotes neuron type, excitatory or inhibitory).
+N L � L
+(cid:31) (cid:31) (cid:30) (cid:29) (cid:28) (cid:31) (cid:30)(cid:30) Single neuron dynamics. The sub-threshold dynamics of the membrane potential,
+Σν N(cid:31)νeγ2 2σ2 cosh γkΔL ;N(cid:31)ν2 eγ2σ2 1 eγ2σ2cosh 2γkΔL V Iiα ðt Þ, of neuron i in population α Iði ¼1;¼;Nα;α ¼E;I Þ follow:
+N L � L dVα t
+(cid:31) (cid:31) (cid:30) (cid:29) (cid:28) (cid:31) (cid:30)(cid:30) τ m di tðÞ ¼� V iα ðt Þ�VL þI rα ec;iðt ÞþI Fα F;iðt ÞþI bα
+Note that Δn and Δv are different stochastic processes: the stochasticity of Δn
+(cid:31) (cid:30)
+stems from trial-by-trial variability, conditioned on the firing rates of the neurons. where τm is the neuron membrane time constant, V L is the reversal potential of the
+By contrast, the stochasticity of Δv reflects heterogeneity in these firings rates leak current. Inputs to the neuron are modeled as currents: I rα ec;iðt
+Þ
+is the recurrent
+across different realizations of the decision-making network. input into neuron (i,α), due to its interactions with other neuIrons in the network,
+Bis y O cT ( oNh n)e t r es avt sa e tn ,n id nwa r h td he end re Δ ev gLia i→ mtio e0n . i n To hf w et hh re ie cf hod r is e Δt , r Lii nb = u Lthti eo n lim Oof i t 1Σ NI =ν p ≫is N o 1f ,, O tΣI hI�ν ep (cid:31) mN ffiffiffi effiN  a, n(cid:31)ν w e aγh n2 2σe d2r c e soa ts as h nit ds γ a km rdΔ Le L an . isI dtF Iα iF em; nið u tt ilÞ cu ai ss l, ft a oh n re d af e lI le b Iα td hif s eo a r n w b ea ua cr rkd og n i rn so p auu nnt dd i n c f oeto ne d st th f aoa nrt tw n iae nru d tr i o minn ep e .u l Ti tc , h i i et ne sdd ee su p up e bo n tn d h e rp enr ste h s o oe f ln dtt h a det y i so ntn i am mo uf i l ct uh ss e a, re
+pd re ov bi Ta lt h ei meo n p
+,
+s r
+y
+o io ebf
+l
+a dt bh inie l
+g
+id tyis otr fi ab nu t Uio pn d o ef c Δ isv io j a nIr e is c oo bmj t¼ ap ia nr ea d�b l be y, b sffi oo ffiffiffi lt  vh i nar ge a O fIi �rp st-N ffiffip ffiffia. ssage (cid:31) (cid:30) i(s tiu s,αp vp )
+o
+l r le e tm aa gce ehn e rt ese sd t eh tb e sy t
+t
+h oa rr Vee s is αhe ðot
+t
+iαlc d þo ,
+Þ
+n Vd
+I
+¼iαit (cid:31)Vi to iα Rn � .:
+(cid:30)
+if ¼ at Vt IT¼ , tt hα i e t h ne e um roe nm fb ir ra esn e a np o acte tn iot nia pl o of t en ne tu iar lo an n d
+I
+Subsp ti tutP inr ð gU tp hÞ e ¼ dep e1 nþ dee n� c2 eΔ oνp f ffiN Δffiffi~θ v= Σ oν n Δ�1 L¼ in0 @ eq1 uþ ate io� n2 p Δ (ffiNν ffi 2 ν )c o ysh ið eγ lk dΔ~θ LL sÞ  teγ h2 2σ e2 1 A�1 ð2 Þ fT t f soey eh ep r lee d e w c fsf toe h ioe r vid f w c e f hn o a n e rr Δ eu dw uLr a rio n or >nd p n s u 0 s,i .n t ,n Tp IIa F IαF Iu α hm FFt e;;. iie ðð oE l tty pÞa Þ pc U i¼ nh o- t s p o0a it o n eUfp od i-u r ssD l a e ta r- llt els ui ceo t eh tln e i we v, c e hne ti x ee nvc nue ei . r ut Δoa I rnt n o Lo s n tr <.h s y U e i 0o spa . r sb o S ti s n pn re o eh pn n ci rc ib ge fei e is t cro eo a nfr t l hty ls ya, t a ,i tc nm i wo o In eu n F Iα s l F tu oi a;s ifs kðt , as t e t Þ :o h s itf e ni mt tw ou o Dl u -s
+psychometric curve. In particular, when the two populations are symmetric,
+Δν ¼N(cid:31)νeγ2 2σ2 sinh γkΔ LL , and Iα FF;iðt Þ¼Iα 0þεΔ LL Iα
+1
+I
+p ¼(cid:31) 1 þ(cid:30) e�2pN ~θtanh ðγkΔ LL Þ �1  1 þe�2pN θ γk Δ LL �1 where I 0αandI 1α are constants and positive and ε characterizes the selectivity of
+ ffiffiffi   ffiffiffi  the neurIon: ε = +1 for U neurons and ε = −1 for D neurons. We denote the set of
+When the two populations are drawn from the same disetribution (but are not U-selective (or D-selective) neurons in population α = E,I by Uα (or Dα). Neuron
+completely identical), the psychometric curve is horizontally shifted relative to the ði;α Þ2Uα if i ¼1¼N 2α and ði;α Þ2Dα if i ¼N 2α þ1¼Nα.
+case of identical populations. I I I I
+To compute the distribution of ICBs, we consider the case in which the external The recurrent input. The connectivity has two components. One is functionally
+input is symmetric, ΔL = 0 and thus Δν 0;N(cid:31)ν2 eγ2σ2 1 eγ2σ2 . After a specific and the other is not. The non-specific component is fully random (Erdös-
+N � 
+change of variables, I Renyi graph) and does not depend on the selectivity of the pre- and post-synaptic
+Pr ðp
+Þ¼p
+ð11
+�p Þ
+8π
+ðeγ21 σ(cid:31)
+2 �1
+Þ~θ(cid:31) 2e�ðlo 8 ðgð ep γÞ2�σl 2og �(cid:30) ð1 1� Þp ~θÞ2Þ2 (cid:30) n
+n
+βC
+I
+.ue Nα Tu mβ S;r hijo
+b
+en ¼
+e
+srs
+t
+. o1
+r
+T
+e
+fw nh
+n
+gie ot
+t
+h nc
+h
+o
+-
+p osr r
+p
+fr o e
+e
+tbs hcp a
+i
+efbo
+i
+ni cn l
+o
+id it nnyin
+-p
+K sg
+u
+p
+/ tN eN
+s
+c
+α tβ
+i
+h
+f× a ian
+c
+tN d caβ
+o
+C nc nINαo
+e
+nβ S un e;i rn cj
+o
+te ¼
+n
+ic
+o
+t
+r
+n0i ev
+s
+o ci dt ety h
+i ev
+pem er eswa
+n
+ft di rr s oi sex m, s, owC
+n
+lIh eα N
+e
+lβ eS yu, r re oi os nK ns u αsi sc
+,i
+β
+nh t h ypt e ih
+o
+e
+a a
+lp
+dt v
+u
+e inlr aa gtg
+i
+:
+oe
+n
+Because ICB
+P
+r=
+ðI
+2 Cp
+B
+−
+Þ
+¼1,
+1
+�2
+ICB2qffiffiffi 8ffiffi πffiffiffi ðffi effiffi γffiffi 2ffi
+1
+σffiffi 2ffiffiffi �ffiffiffiffiffi 1ffiffi Þffiffi ~θffiffi
+2e�ð 8l ðog eγð21 1 σþ �2I I �C CB B
+1
+ÞÞ ~θÞ22
+ð3 Þ
+a
+n
+mJ N Iα
+d
+uβ aS
+d
+m; ti iTj
+rt
+e
+i¼
+ih cro eoe n
+s
+J
+uc a
+,Nα
+so l
+CSβ
+m
+bsC
+α
+Se
+u
+;βN pα
+it
+jt
+β ,S
+e o
+s; ati
+f
+tj
+i
+r
+rt
+cw
+eoi oo
+h
+n
+snn
+ue
+gn
+cr ebe
+e hre c
+J
+t
+t
+ttN wI
+h
+hiα oS aE
+ae n
+n
+te>
+:sn
+t.0
+h
+Tt
+eh( he
+e
+ux
+e nU
+sc ei
+s
+t paa
+cn
+et oi
+cd
+no
+i
+fnn
+t ih e
+c)
+e c
+a
+o
+tn
+D
+niod
+e
+ns
+sJ
+e s
+.I N
+l
+α
+Te
+aSI
+c r
+h<
+et ei v s
+0
+cpe
+o( eni rcn
+re i
+eh
+fu
+sii
+r c
+pb
+o
+i oant
+n
+ni so
+d
+d
+n
+i is a
+n) rm.
+ge e cmd oi nua c nt he ed cl teb is vy s
+i
+ta yn
+qffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi I
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+NaTure HumaN BeHavIour Articles
+1. C Sα ;E ij¼0 that is, we assume no specific excitation. trial and the resulting bias affects both fast and slow decisions19,20. Therefore, it is
+2 3. . C CI IS Sα α; ;I Ii ij j¼ ¼0 1 wif ii t han pd r oj b h aa bv ie li tt yh e 2 psa Km =e N se I l ie f c i t aiv ni dty j p hr ao vp e e dr it ffie es r. ent selectivity properties. p ano ass l Wyib s eil se f. it to
+f
+od uis rs e dc ift
+f
+t eh ree
+n
+t tw vo
+a
+rm iae nc th sa on fi s tm hes Dby
+D
+i Mnc to or p tho er a bt ein hg
+a
+vth ioe
+r
+ad le dci as ti ao n
+an
+t dim es in the
+I I
+Therefore, each neuron (excitaffitffiffioffiry as well as inhibitory) receives, on average, simulations. (1) A baseline DDM with A = 0 (because we consider only the
+pK connections from inhibitory neurons whose selectivities are different from its impossible trials) and z = 0.5. This model has a single parameter, the decision
+oIwn and on average, K non-selective inhibitory connections. threshold, a. To fit the model to the data, a second parameter, which accounts for
+ffiffiffiffi
+The strength of the specific connections depends solely on the neurons’ type the component of the reaction-time that is independent of the decision process,
+J Sα ;I ij¼J SαIC Sα ;I ij; g ¼J SαI=J NαI S. T er, is added61,64,65. By construction, there are no ICBs in this model and it was used
+I The total cuIrrent into neuron (i,α) due to the recurrent interactions is as a baseline for comparison with the other three models. (2) In the ‘IC bias’ DDM
+atI hr Iα ne ec d; i d Hð tt y heÞ n er¼ a
+e
+sm
+,
+u
+τP mj i S; cβ
+i
+s
+s
+i s
+τJ
+t
+IS hS oα ;β i vedj S eþ sα i d rβ yt ð antJ Þ lNα
+a
+l¼β S
+p
+s;i
+t
+pj i �
+ic
+k
+S S
+t
+eα j iα i smβ β ð eð et mtÞ Þ cw ioþ th
+tn
+ee sf dPr tte jβ
+a
+ag nS tδ tIα i
+t
+β
+i(
+mað t st � eÞ
+s
+sua t
+m
+tr jβ jβe 
+e
+<s d.y tn
+t
+.oa p bt ei c
+t
+hv ea r si aa mbl ee s f,
+o
+w
+r
+h ali lc h
+sy
+f no al plo sw
+es )
+HA t 0 eh s. i5 ti= eis rma ai0 ns ra, d
+c
+i ta n he es id s cai t an d fi r lmd ot Bih mat ae i t yo e tb en d h sa iet As ao e nd, l a i aa en t sa aae tn i,n
+m
+D d id n aD T T taM ie e d or r. . nd . ( ( i3H 4 ot) i f)o o I tIw n hn n ee tt t ov Dh he e ae Dr , ‘ ‘ d a MIb nCry i d
+p
+fc +t aT o b
+r
+dn e ai ra .r mtr s ifa ’
+e
+ts D
+t
+ebt, rD i sz a .M s i T’s D,
+h
+e w es D t e di M m aa ts ,a
+a
+s bt sue eomd tt h oef r fd z o
+t
+ht am h n ea dt vth eAze
+r t
+=d w ica e at r la e,
+I bisection task includes 20 impossible trials performed by 100 participants. The motor
+Decision-making and decision criterion. In response to the sensory stimulus, the task includes 10 datasets (each pair of dots was considered a task and was analyzed
+activities of the U-selective and D-selective neurons change differently (Fig. 5d). separately). Each task was tested on 20 participants, each performing 20 decisions.
+We compute at every time step the population-averaged activity of all the excitatory The recurrent network simulations included 8 datasets, each corresponding to a
+sn pe iu kr eo tn ims i en s t whe it hse at na , e ( xa p- os nel ee nc tt ii av le f) i, l d tee rn wot ite hd ab y ti mν Ia e; ca o2 nsf taU n; t D og f , 5 b 0y m c so .n Dvo eclv isin iog n t h ise d mif af de ere bn yt 2le 0v 0e l n o ef t wsp oe rc ki sf ,i c e ain chh i tb ei st ti eo dn . o E na 5c 0h 0 o if m th pe os se s id ba lt ea ts re it a c lso .nsisted of the responses
+tb oh pa as pte
+o
+d u
+s
+p io tp en e
+,
+t r wh s he e egr ra m et i e ϕo n :
+>
+tν ν iIU U s 0� þ l iν ν o sD D n .
+t
+g hIf e
+e
+rν ν
+d
+IU U t eh� þ caν ν iD D n
+si
+> oth nϕ e ,
+t
+l ht oh rw ee se d hr e ooc ln dis e .i ,o wn hp er ro ev ai sd fe od r b ν νy ID
+D
+� þth ν νU Ue >ne ϕtw ito ir sk t his e P Dy Dth MW o sne
+6
+6f t .i o t
+H
+oe l Da bc Doh x
+M
+o , wf ut hh si ee c
+s
+hf Bo au al yr lo eD w siD s
+a
+nfM o Mr v t aa h rr e ki a ocn o vt -ns
+c
+st hto r
+a
+u ie nca tc Mih o ono
+n
+f o tt f eh B Ce a ad y ra e lt osa i as sne at
+m
+s h piu e ls r ii nan r gg c fht oh i rce a H l DDM
+The ability of the network to make a decision depends on the network generating posterior distributions over both subject-level and group-level model
+parameters. In particular, it depends on the parameter g, which characterize the parameters, rather than point estimates of only subject-level parameters. To
+strength of the competition between U and D neurons, on the value chosen for the accomplish this, HDDM uses informative prior distributions on the group-
+threshold ϕ as well as on the stimulus parameters, (cid:31)I 0α and (cid:31)I 1α. level parameters, that constrain the parameters to a plausible range given past
+I I experiments66,67. As a result, constraining the parameter estimates for individual
+Numerical integration. The dynamics of the model circuit were numerically subjects by group-level inference leads to a better recovery of the true parameters,
+integrated using the Euler method supplemented with an interpolation estimate especially with few trials per subject66.
+of the spike times57. In all simulations the integration time step was 0.1 ms. We Our analysis required three minor modifications to the code: (1) in the
+verified the validity of the results by performing complementary simulations with unbiased and ‘IC bias’ DDMs, we posit that A = 0, which corresponds to an
+smaller time steps. unbiased drift rate. This is because in the bisection task and the recurrent network
+simulations we only analyzed the case of ΔL = 0. This constraint was lifted in
+Model parameters. The parameters used in all the simulations (except the ‘drift bias’ and ‘IC + drift bias’ DDMs, in which A was a free parameter. (2)
+Supplementary Fig. 8, see below) are: V L = −60 mV; τm = 10 ms; V T = −40 mV; In the HDDM fitting procedure, the estimation of each of the model parameters
+V R = −60 mV. Unless otherwise specified the interaction strengths are: is constrained by the informative priors relevant for the group level statistics
+wJ IE iE th¼ τS3 =m 3V m s,m cs o; rJ rI eE sp¼ on2 d0 im ngV to m pos; stJ -E sI y¼ nap� t1 ic5 pm oV ten tm ias ls; J oII
+f
+a¼ m� pl2 it0 um deV
+:
+0 .1m 8s m; a Vll
+,
+o isf dth rae
+w
+s nam frp ol me’s ap a nr oa rm me at le dr.
+i
+S stp re ibc uif ti ic oa nll y w, ii tt
+h
+is
+a
+a pss ou sm itie vd
+e
+mth ea at nth
+,
+e
+m
+m =e 2a ,n
+c
+od nri cf et ir va at be
+ly
+1 I. I 02 ¼mV 1, : 6− m1. V2 m , IV E 1, ¼res 2p :e 6c 7ti mve Vly , ; I I I 1IE b ¼¼ 22 :6:4 7m mV V, . I TII b he¼ to1 t: a6 l m nuV m, I bIE 0 er¼ of2 n:4 eum roV n, s and b ise ac bau ovse e b cheh anav ci eo . r B i es c t ay up si ec a inlly t hst eu id mie pd o i sn si bp lo es ts rib ial le s t tr hia el rs e, ii sn nw oh aic ph r ip oe rr if ro er am soa nn c te o
+aIverage non-spIecific connectivIity is N = 40,000, K = 400, ϕ = 0.4. The value of g assume that one action is more likely than the other, we modified the code such
+in all Figures except Figs. 6 and 7a,b (in which g was systematically studied) is g = 3. that m = 0. Notably, comparable posteriors are obtained also when using m = 2
+The single-neuron parameters and the average number of inputs per neuron (not shown). (3) The assumptions regarding the width of the prior distribution
+are as in42. The network size and fraction of inhibitory neurons are as in29. The of initial conditions can constrain the values of the estimated initial conditions
+strengths of E→E and E→I connections, as well as the unstructured components in the HDDM fitting procedure, thus limiting the extent to which the initial
+of I→E and I→I interactions are as in42. The corresponding size of the PSPs have conditions can capture the ICBs in the DDM. Therefore, we considered a wider
+physiological reasonable values45. prior distribution of initial conditions, by increasing the standard deviation of σz
+The background external inputs as well as the E→I connection strength were in66 from 0.05 to 5. Notably, when keeping the standard deviation of σz at 0.05, the
+chosen to obtain spontaneous and evoked firing rates that are comparable with the contribution of initial conditions to the ICBs in the resultant fitted DDMs is even
+experimental data. The decision threshold was chosen so that decision occurs only smaller (not shown). As is standard in the HDDM fitting procedure, we allowed
+when the differences in the firing rates of the two populations is comparable to the 5% of responses to be considered ‘contaminants’64, that is, trials which do not
+experimentally observed15. follow the DDM dynamics (for example, due to attentional lapses).
+To test the robustness of the model we simulated impossible trials in networks In order to estimate the posteriors, we ran 12 separate Markov chains with
+with different parameters. The results are depicted in Supplementary Fig. 8. 40,000 samples each. Of those, the first half was discarded as burn-in and to reduce
+Supplementary Fig. 8a depicts the ICB distribution of Fig. 6b, center (g = 3). sample autocorrelations, 4/5 of the remaining samples were discarded for thinning.
+Supplementary Fig. 8b depicts the ICB distribution of networks with N = 80,000; This left 4,000 samples per chain. We computed the R^ Gelman-Rubin statistic, to
+Supplementary Fig. 8c depicts the ICB distribution of networks, in which the assess model convergence by comparing between-chaIin and within-chain variance
+ratio of excitatory and inhibitory neurons is 1:1, rather than the 4:1 of the original of each posterior distribution. For all datasets and all models, the R^ of all group-
+network. In Supplementary Fig. 8d, the values of J , J , J and J were doubled. level posteriors (0.9998–1.01) and that of the observer-level posteriIor (0.9998–1.035)
+EE IE EI II
+indicated a proper convergence68,69. All chains were concatenated for further analyses,
+DDM analysis. According to the DDM13–15,17,18,58–60, noisy evidence in favor of resulting in 48,000 samples per model, from which each posterior was estimated.
+choosing each of the two alternatives is integrated over the course of the trial. The
+difference in evidence, a quantity known as the decision variable, is then computed. Model comparison using the DIC. Using the HDDM Python toolbox66, we also
+Mathematically, dx=dt A ξ, where x is the decision variable, A is the drift computed the Deviance Information Criterion (DIC70) and used it to compare the
+¼ þ
+rate, t is time withIin the trial and ξ denotes white noise such that Eξt 0 different variants of the DDM. The DIC compares models by the goodness of fit,
+½ ðÞ¼
+a pn rod
+v
+E eIn½ξ uðt sÞ eξ fð ut l0 Þ fo r¼ mδ oð dt e� lint0 gÞ .
+c
+I hn
+o
+t ih cee
+s
+f ere ve e- nr e wsp ho enn s te
+h
+v
+e
+e sr ts ii mon
+u
+lo uf
+s
+t ih
+s
+e
+p
+D reD sI eM nt,
+e
+w
+d
+h foic rh
+a
+h fia xs
+e d
+w (sh eeil e
+re
+p f.e 7n 0)a .l i Bzi en cg
+a
+ufo ser om
+f
+o thd ee l
+n
+c oo nm dp el te ex rmity i.
+n
+T ish tie
+c
+l now ate ur
+r
+eth oe
+f
+D hiI eC
+r
+at rh ce
+h
+b ice at lt e mr oth de
+e
+lm ino gd
+,
+wel
+e
+duration61–63, a decision is made once the decision variable reaches one of two also computed confidence intervals of the ΔDIC (DIC of the variant of the DDM
+decision thresholds, 0 or a > 0. The initial condition is set to x t 0 z a, relative to the DIC of the baseline, unbiased DDM). For the vertical bisection task
+ð ¼ Þ¼ 
+where 0 < z < 1. I and the numerical simulations of the recurrent network, the s.e.m. of the ΔDIC
+We focus on the impossible trials in which ΔL = 0. Evidence for A ≠ 0 in was estimated by repeating the fitting procedure and DIC analysis 3 times. For the
+those trials is interpreted as drift bias; evidence for z ≠ 0.5 is interpreted as initial motor datasets, the ΔDIC of each biased DDM variant was obtained separately for
+condition bias (IC bias). The two bias mechanisms exhibit distinct patterns of each pair of dots, and the s.e.m. was then evaluated over all 10 pairs.
+dependence of bias on reaction-times. The effect of ‘IC bias’ is mostly prominent
+early in the trial and it therefore predicts that faster decisions are more biased than Posterior-based simulations. The quality of the DDM models can also be evaluated
+slower ones. By contrast, ‘drift bias’ affects evidence accumulation throughout the by comparing the behavior of the decision-maker to the behavior predicted by the
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHavIour
+estimated posteriors. Specifically, we simulated responses (choices and reaction 11. Skinner, B. F. The Behavior of Organisms: An Experimental Analysis.
+time) using the posteriors obtained from the HDDM procedure for each dataset (Appleton Century Crofts, 1938).
+separately. For all datasets, the simulated probabilities of choice well-matched the 12. Thorndike, E. L. Animal Intelligence. (Macmillan, 1911).
+observed ones for the ‘drift bias’ and for the ‘IC + drift bias’ DDM variants but not 13. Bogacz, R., Brown, E., Moehlis, J., Holmes, P. & Cohen, J. D. The physics of
+for the ‘IC bias’ DDM (Supplementary Fig. 9a). All models provided reasonable fits optimal decision making: a formal analysis of models of performance in
+of the normalized distribution of reaction times to the data (Supplementary Fig. 9b). two-alternative forced-choice tasks. Psychol. Rev. 113, 700–765 (2006).
+14. Ratcliff, R. & McKoon, G. The diffusion decision model: theory and data for
+Relative contributions of the IC bias and drift bias to the ICBs in the ‘IC + drift bias’ two-choice decision tasks. Neural Comput. 20, 873–922 (2008).
+DDM. Here we describe the procedures underlying Figs. 1d, 2d and Supplementary 15. Gold, J. I. & Shadlen, M. N. The neural basis of decision making. Annu. Rev.
+Fig. 7. It is well-known that in the DDM17,32 Neurosci. 30, 535–574 (2007).
+16. Kira, S., Yang, T. & Shadlen, M. N. A neural implementation of Wald’s
+Pr ð0Up0Þ¼1 þ1
+e
+�Aaþ1 e� Aae �Aa eð1 �� A2 az Þ ð6
+Þ 17.
+Rse aq tu cle in fft
+,
+ia Rl
+.
+p Ar o tb ha eb oi rl yit y
+o
+fr a mti eo
+m
+te os rt y. N ree tu rr ieo vn
+a
+l8
+.
+5 P, s8 y6 ch1 o– l8
+.
+7 R3
+e
+v( .2 0 81 55
+,
+) 5.
+9–108 (1978).
+18. Ratcliff, R. & Smith, P. L. A comparison of sequential sampling models for
+To dissect the relative contributions of the IC and drift biases to the ICBs, we two-choice reaction time. Psychol. Rev. 111, 333–367 (2004).
+computed the average parameters A, a and z from the estimated posteriors of each 19. White, C. N. & Poldrack, R. A. Decomposing bias in different types of simple
+observer in the ‘IC + drift bias’ DDM. We then computed the predicted Pr ðUp Þ decisions. J. Exp. Psychol. Learn. Mem. Cogn. 40, 385–398 (2014).
+in three conditions: all estimated parameters (black X marks), estimated iInitial 20. Ratcliff, R. Theoretical interpretations of the speed and accuracy of positive
+tc ho en d thit ri eo sn hs
+o
+z ldI(cid:31)
+,
+a
+w
+a hn ild
+e
+A
+as
+=
+su
+0
+m
+( ip nu gr p
+z
+l =e 0sq .5u (a gre res e) na n cd
+ir
+ce ls et sim ).ated product, Aa, of drift with
+21.
+Lan eid
+t
+en
+,
+e Fg
+.
+a Pt .i v &e Rre as tp co lin ffs
+,
+e Rs.
+.
+P Wsy hc ah to cl.
+o
+R gnev i.
+t
+i9 v2
+e
+,
+p
+2 r1 o2 c– es2 s2 e5
+s
+( d1 r9 iv8 e5 ) r.
+esponse biases? A
+diffusion model analysis. Judgm. Decis. Mak. 6, 651–687 (2011).
+Relative contribution of idiosyncratic thresholds to the ICBs. According to equation 22. Mulder, M. J., Wagenmakers, E., Ratcliff, R., Boekel, W. & Forstmann, B. U.
+(6), the drift bias A and the threshold a contribute to the ICB via their product Aa. Bias in the brain: a diffusion model analysis of prior probability and potential
+Importantly, while the drift parameter, A, can be positive or negative, the threshold payoff. J. Neurosci. 32, 2335–2343 (2012).
+parameter, a, is strictly positive. Therefore, the direction of the bias is necessarily 23. Hartigan, J. A. & Hartigan, P. M. The dip test of unimodality. Ann. Stat. 13,
+determined by the drift A. Nevertheless, idiosyncrasies in a can also contribute to 70–84 (1985).
+the heterogeneity in the bias between the decision makers. We studied the relative 24. Shinomoto, S., Shima, K. & Tanji, J. Differences in spiking patterns among
+contributions of these two parameters in the framework of the ‘drift bias’ DDM, in cortical neurons. Neural Comput. 15, 2823–2842 (2003).
+which the product Aa is the sole contributor to the ICBs. For each decision maker 25. Hromadka, T., Deweese, M. R. & Zador, A. M. Sparse representation of
+we computed the posterior-averaged values of a and A. We then used equation sounds in the unanesthetized auditory cortex. PLoS Biol. 6, e16 (2008).
+(6) to predict the ICBs assuming that all decision-makers are characterized by the 26. Buzsáki, G. & Mizuseki, K. The log-dynamic brain: how skewed distributions
+same (average) threshold or the same (average) drift ( jA j). In all datasets we found affect network operations. Nat. Rev. Neurosci. 15, 264–278 (2014).
+that the contribution to the ICBs of heterogeneity in thIe thresholds is small relative 27. Van Vreeswijk, C. & Sompolinsky, H. Chaos in neuronal networks with
+to that of the drift (Supplementary Fig. 10). balanced excitatory and inhibitory activity. Science 274, 1724–1726 (1996).
+28. Roxin, A., Brunel, N., Hansel, D., Mongillo, G. & Vreeswijk, C. Van. On the
+The Poisson model is equivalent to the drift bias DDM. Comparing equations distribution of firing rates in networks of cortical neurons. J. Neurosci. 31,
+( e2 q)
+u
+a ivn ad
+le
+( n6 t) ,
+t
+ow ee
+q
+n uo at te
+i
+ot nh a (t
+2
+f )o .r a I¼2p ffiN ffiffiffi~θ, A = Δv/Σv and z = 0.5, equation (6) is
+29.
+M16 o2 n1 g7 i– ll1 o6
+,
+2 G26
+.,
+( R2 u0 m11 p) e.
+l, S. & Loewenstein, Y. Inhibitory connectivity defines
+the realm of excitatory plasticity. Nat. Neurosci. 21, 1463–1467 (2018).
+Reporting Summary. Further information on research design is available in the 30. Amari, S. I. & Arbib, M. A. Competition and cooperation in neural nets. in
+Nature Research Reporting Summary linked to this article. Systems Neuroscience (ed. Metzler, J.) 119–165 (1977).
+31. Wang, X. J. Probabilistic decision making by slow reverberation in cortical
+Data availability circuits. Neuron 36, 955–968 (2002).
+The datasets generated and analyzed during the current study are available from 32. Feller, W. An Introduction to Probability Theory and Its Applications.
+the corresponding author and in the ICB repository, https://github.com/Lior- (Wiley, 1968).
+Lebovich/ICB. 33. Smith, P. L. A note on the distribution of response times for a random walk
+with Gaussian increments. J. Math. Psychol. 34, 445–459 (1990).
+Code availability 34. Broderick, T., Wong-lin, K. F. & Holmes, P. Closed-form approximations of
+first-passage distributions for a stochastic decision-making model. Appl.
+The custom codes used for simulations and analyses are in the ICB repository,
+Math. Res. eXpress 2009, 123–141 (2009).
+https://github.com/Lior-Lebovich/ICB.
+35. Urai, A. E., De Gee, J. W., Tsetsos, K. & Donner, T. H. Choice history biases
+subsequent evidence accumulation. eLife 8, e46331 (2019).
+Received: 30 March 2018; Accepted: 10 July 2019;
+36. De Gee, J. W. et al. Dynamic modulation of decision biases by brainstem
+Published: xx xx xxxx arousal systems. eLife 6, e23232 (2017).
+37. Rorie, A. E., Gao, J., Mcclelland, J. L. & Newsome, W. T. Integration of
+References sensory and reward information during perceptual decision-making in lateral
+1. Poulton, E. C. Bias in Quantifying Judgements. (Lawrence Erlbaum, 1989). intraparietal cortex (LIP) of the macaque monkey. PLoS One 5, e9308 (2010).
+2. Green, D. M. & Swets, A. J. Signal detection theory and psychophysics. 38. Hanks, T. D., Mazurek, M. E., Kiani, R., Hopp, E. & Shadlen, M. N. Elapsed
+(Peninsula Press, 1966). decision time affects the weighting of prior probability in a perceptual
+3. Klein, S. A. Measuring, estimating, and understanding the psychometric decision task. J. Neurosci. 31, 6339–6352 (2011).
+function: a commentary. Atten. Percept. Psychophys. 63, 1421–1455 (2001). 39. Bernacchia, A., Seo, H., Lee, D. & Wang, X. A reservoir of time constants for
+4. Daniel, L. & López-Moliner, J. Humans do not evidence choice biases in memory traces in cortical neurons. Nat. Neurosci. 14, 366–372 (2011).
+simple discrimination tasks. Preprint at bioRxiv https://www.biorxiv.org/ 40. Van Vreeswijk, C. & Sompolinsky, H. Chaotic balanced state in a model of
+content/10.1101/062380v2.abstract (2016). cortical circuits. Neural Comput. 10, 1321–1371 (1998).
+5. Baum, W. M. On two types of deviation from the matching law: bias and 41. Renart, A. et al. The asynchronous state in cortical circuits. Science 327,
+undermatching. J. Exp. Anal. Behav. 22, 231–242 (1974). 587–590 (2010).
+6. Laquitaine, S., Piron, C., Abellanas, D., Loewenstein, Y. & Boraud, T. 42. Darshan, R., Wood, W. E., Peters, S., Leblois, A. & Hansel, D. A canonical
+Complex population response of dorsal putamen neurons predicts the ability neural mechanism for behavioral variability. Nat. Commun. 8, 1–13 (2017).
+to learn. PLoS One 8, e80683 (2013). 43. Doiron, B., Litwin-kumar, A., Rosenbaum, R., Ocker, G. K. & Josić, K. The
+7. Barraclough, D. J., Conroy, M. L. & Lee, D. Prefrontal cortex and decision mechanics of state-dependent neural correlations. Nat. Neurosci. 19,
+making in a mixed-strategy game. Nat. Neurosci. 7, 404–410 (2004). 383–393 (2016).
+8. Ashourian, P. & Loewenstein, Y. Bayesian inference underlies the contraction 44. Wimmer, K. et al. Sensory integration dynamics in a hierarchical network
+bias in delayed comparison tasks. PLoS One 6, e19551 (2011). explains choice probabilities in cortical area MT. Nat. Commun. 6,
+9. Raviv, O., Ahissar, M. & Loewenstein, Y. How recent history affects 6177 (2015).
+perception: the normative approach and its heuristic approximation. PLoS 45. Levy, R. B. & Reyes, A. D. Spatial profile of excitatory and inhibitory
+Comput. Biol. 8, e1002731 (2012). synaptic connectivity in mouse primary auditory cortex. J. Neurosci. 32,
+10. Yeshurun, Y., Carrasco, M. & Maloney, L. T. Bias and sensitivity in 5609–5619 (2012).
+two-interval forced choice procedures: tests of the difference model. Vis. Res. 46. Deneve, S., Latham, P. E. & Pouget, A. Reading population codes: a neural
+48, 1837–1851 (2008). implementation of ideal observers. Nat. Neurosci. 2, 740–745 (1999).
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+NaTure HumaN BeHavIour Articles
+47. Mi, Y., Katkov, M. & Tsodyks, M. Synaptic correlates of working memory 66. Wiecki, T. V., Sofer, I. & Frank, M. J. HDDM: hierarchical bayesian estimation
+capacity. Neuron 93, 323–330 (2017). of the drift-diffusion model in python. Front. Neuroinform. 7, 14 (2013).
+48. Najafi, F. et al. Excitatory and inhibitory subnetworks are equally selective 67. Matzke, D. & Wagenmakers, E.-J. Psychological interpretation of the
+during decision-making and emerge simultaneously during learning. Preprint ex-Gaussian and shifted Wald parameters: A diffusion model analysis.
+at bioRxiv https://www.biorxiv.org/content/10.1101/354340v5 (2018). Psychon. Bull. Rev. 16, 798–817 (2009).
+49. Ferster, C. B. & Skinner, B. F. Schedules of Reinforcement. (Appleton Century 68. Gelman, A. & Rubin, D. B. Inference from iterative simulation using multiple
+Crofts, 1957). sequences. Stat. Sci. 7, 457–472 (1992).
+50. Mongillo, G., Shteingart, H. & Loewenstein, Y. The misbehavior of 69. Brooks, S. P. & Gelman, A. General methods for monitoring convergence of
+reinforcement learning. Proc. IEEE 102, 528–541 (2014). iterative simulations. J. Comput. Graph. Stat. 7, 434–455 (1998).
+51. Shteingart, H. & Loewenstein, Y. Reinforcement learning and human 70. Spiegelhalter, D. J., Best, N. G., Carlin, B. P. & Van Der Linde, A. Bayesian
+behavior. Curr. Opin. Neurobiol. 25, 93–98 (2014). measures of model complexity and fit. J. R. Stat. Soc. Ser. B Stat. Methodol.
+52. Körding, K. Decision theory: what “should” the nervous system do? Science 64, 583–639 (2002).
+318, 606–610 (2007).
+53. Buchanan, S. M., Kain, J. S. & de Bivort, B. L. Neuronal control of locomotor acknowledgements
+handedness in Drosophila. Proc. Natl Acad. Sci. 112, 6700–6705 (2015).
+We thank T. Boraud, G. Mongillo, H. Sompolinsky and T. Tron for discussions and
+54. Horton, J. J., Rand, D. G. & Zeckhauser, R. J. The online laboratory:
+L. Kaplan for assistance with the online experiments. This work was conducted within
+conducting experiments in a real labor market. Exp. Econ. 14, 399–425 (2011).
+the scope of the France-Israel Laboratory of Neuroscience. D. H. thanks the Department
+55. Jewell, G. & Mccourt, M. E. Pseudoneglect: a review and meta-analysis of
+of Neurobiology at the Hebrew University for its warm hospitality. This work was
+performance factors in line bisection tasks. Neuropsychologia 38, 93–110 (2000).
+supported by the Israel Science Foundation (Y. LO., Grant No. 757/16), the DFG
+56. Gentet, L. J., Avermann, M., Matyas, F., Staiger, J. F. & Petersen, C. C. H.
+(CRC 1080 to Y. LO.), the Gatsby Charitable Foundation (Y. LO.), ANR-09-SYSC-002-01
+Membrane potential dynamics of GABAergic neurons in the barrel cortex of
+(D. H.) and the France-Israel High Council for Science and Technology (D. H. and Y. LO.).
+behaving mice. Neuron 65, 422–435 (2010).
+The funders had no role in study design, data collection and analysis, decision to publish
+57. Hansel, D., Mato, G., Meunier, C. & Neltner, L. On numerical simulations of
+or preparation of the manuscript.
+integrate-and-fire neural networks. Neural Comput. 10, 467–483 (1998).
+58. Ratcliff, R., Cherian, A. & Segraves, M. A comparison of macaque behavior
+author contributions
+and superior colliculus neuronal activity to predictions from models of
+two-choice decisions. J. Neurophysiol. 90, 1392–1407 (2003). L. L., Y. Lavi, D. H. and Y. Loewenstein. conceived and planned the experiments; L. L.,
+59. Philiastides, M. G., Ratcliff, R. & Sajda, P. Neural representation of task R. D., D. H. and Y. Loewenstein. developed the models; L. L., D. H. and Y. Loewenstein.
+difficulty and decision making during perceptual categorization: A timing wrote the manuscript.
+diagram. J. Neurosci. 26, 8965–8975 (2006).
+60. Heekeren, H. R., Marrett, S. & Ungerleider, L. G. The neural systems that Competing interests
+mediate human perceptual decision making. Nat. Rev. Neurosci. re 9,
+The authors declare no competing interests.
+467–479 (2008).
+61. Ratcliff, R. Modeling response signal and response time data. Cogn. Psychol.
+53, 195–237 (2006). additional information
+62. Ratcliff, R. Continuous versus discrete information processing: modeling Supplementary information is available for this paper at https://doi.org/10.1038/
+accumulation of partial information. Psychol. Rev. 95, 238–255 (1988). s41562-019-0682-7.
+63. Kiani, R., Hanks, T. D. & Shadlen, M. N. Bounded integration in parietal
+Reprints and permissions information is available at www.nature.com/reprints.
+cortex underlies decisions even when viewing duration is dictated by the
+environment. J. Neurosci. 28, 3017–3029 (2008). Correspondence and requests for materials should be addressed to L.L.
+64. Ratcliff, R. & Tuerlinckx, F. Estimating parameters of the diffusion model: Peer review information: Primary Handling Editor: Mary Elizabeth Sutherland
+Approaches to dealing with contaminant reaction times and parameter
+Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+variability. Psychon. Bull. Rev. 9, 438–481 (2002).
+published maps and institutional affiliations.
+65. Ratcliff, R. & Rouder, J. N. Modeling response times for two-choice decisions.
+Psychol. Sci. 9, 347–356 (1998). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NatuRe HumaN BeHavIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Lior Lebovich
+Last updated by author(s): Jun 11, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection PHP; HTML; MATLAB.
+Data analysis MATLAB R2016a; Fortran; PYTHON 3.4 with HDDM 0.6.1 toolbox.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+All data and accession codes that appear in the manuscript are posted online.
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Life sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Sample size Sample sizes - perceptual discrimination experiment: 100 participants; motor task: 20 participants. Choice of group sizes was determined in
+advanced as a tradeoff between difficulty of data collection and measurement noise.
+Data exclusions No data were excluded from the analysis.
+Replication We assessed the bias distribution in two different models and in two different tasks, each performed by a different sample. All 4 yielded a bias
+distribution that is significantly different than expected by chance level (for the experimental tasks, this was verified using Bootstrap test).
+Randomization The order of the trial types was pseudorandom but identical for all participants.
+Blinding N/A - no group allocation.
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Briefly describe the study type including whether data are quantitative, qualitative, or mixed-methods (e.g. qualitative cross-sectional,
+quantitative experimental, mixed-methods case study).
+Research sample State the research sample (e.g. Harvard university undergraduates, villagers in rural India) and provide relevant demographic information
+(e.g. age, sex) and indicate whether the sample is representative. Provide a rationale for the study sample chosen. For studies involving
+existing datasets, please describe the dataset and source.
+Sampling strategy Describe the sampling procedure (e.g. random, snowball, stratified, convenience). Describe the statistical methods that were used to
+predetermine sample size OR if no sample-size calculation was performed, describe how sample sizes were chosen and provide a rationale
+for why these sample sizes are sufficient. For qualitative data, please indicate whether data saturation was considered, and what criteria
+were used to decide that no further sampling was needed.
+Data collection Provide details about the data collection procedure, including the instruments or devices used to record the data (e.g. pen and paper,
+computer, eye tracker, video or audio equipment) whether anyone was present besides the participant(s) and the researcher, and whether
+the researcher was blind to experimental condition and/or the study hypothesis during data collection.
+Timing Indicate the start and stop dates of data collection. If there is a gap between collection periods, state the dates for each sample cohort.
+Data exclusions If no data were excluded from the analyses, state so OR if data were excluded, provide the exact number of exclusions and the rationale
+behind them, indicating whether exclusion criteria were pre-established.
+Non-participation State how many participants dropped out/declined participation and the reason(s) given OR provide response rate OR state that no
+participants dropped out/declined participation.
+Randomization If participants were not allocated into experimental groups, state so OR describe how participants were allocated to groups, and if
+allocation was not random, describe how covariates were controlled.
+Ecological, evolutionary & environmental sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Briefly describe the study. For quantitative data include treatment factors and interactions, design structure (e.g. factorial, nested,
+hierarchical), nature and number of experimental units and replicates.
+Research sample Describe the research sample (e.g. a group of tagged Passer domesticus, all Stenocereus thurberi within Organ Pipe Cactus National
+Monument), and provide a rationale for the sample choice. When relevant, describe the organism taxa, source, sex, age range and
+any manipulations. State what population the sample is meant to represent when applicable. For studies involving existing datasets,
+describe the data and its source.
+Sampling strategy Note the sampling procedure. Describe the statistical methods that were used to predetermine sample size OR if no sample-size
+calculation was performed, describe how sample sizes were chosen and provide a rationale for why these sample sizes are sufficient.
+Data collection Describe the data collection procedure, including who recorded the data and how.
+Timing and spatial scale Indicate the start and stop dates of data collection, noting the frequency and periodicity of sampling and providing a rationale for
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Timing and spatial scale these choices. If there is a gap between collection periods, state the dates for each sample cohort. Specify the spatial scale from which
+the data are taken
+Data exclusions If no data were excluded from the analyses, state so OR if data were excluded, describe the exclusions and the rationale behind them,
+indicating whether exclusion criteria were pre-established.
+Reproducibility Describe the measures taken to verify the reproducibility of experimental findings. For each experiment, note whether any attempts to
+repeat the experiment failed OR state that all attempts to repeat the experiment were successful.
+Randomization Describe how samples/organisms/participants were allocated into groups. If allocation was not random, describe how covariates were
+controlled. If this is not relevant to your study, explain why.
+Blinding Describe the extent of blinding used during data acquisition and analysis. If blinding was not possible, describe why OR explain why
+blinding was not relevant to your study.
+Did the study involve field work? Yes No
+Field work, collection and transport
+Field conditions Describe the study conditions for field work, providing relevant parameters (e.g. temperature, rainfall).
+Location State the location of the sampling or experiment, providing relevant parameters (e.g. latitude and longitude, elevation, water
+depth).
+Access and import/export Describe the efforts you have made to access habitats and to collect and import/export your samples in a responsible manner and
+in compliance with local, national and international laws, noting any permits that were obtained (give the name of the issuing
+authority, the date of issue, and any identifying information).
+Disturbance Describe any disturbance caused by the study and how it was minimized.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Antibodies
+Antibodies used Describe all antibodies used in the study; as applicable, provide supplier name, catalog number, clone name, and lot number.
+Validation Describe the validation of each primary antibody for the species and application, noting any validation statements on the
+manufacturer’s website, relevant citations, antibody profiles in online databases, or data provided in the manuscript.
+Eukaryotic cell lines
+Policy information about cell lines
+Cell line source(s) State the source of each cell line used.
+Authentication Describe the authentication procedures for each cell line used OR declare that none of the cell lines used were authenticated.
+Mycoplasma contamination Confirm that all cell lines tested negative for mycoplasma contamination OR describe the results of the testing for
+mycoplasma contamination OR declare that the cell lines were not tested for mycoplasma contamination.
+Commonly misidentified lines Name any commonly misidentified cell lines used in the study and provide a rationale for their use.
+(See ICLAC register)
+4
+nature
+research
+|
+reporting
+summary
+October
+2018
+Palaeontology
+Specimen provenance Provide provenance information for specimens and describe permits that were obtained for the work (including the name of the
+issuing authority, the date of issue, and any identifying information).
+Specimen deposition Indicate where the specimens have been deposited to permit free access by other researchers.
+Dating methods If new dates are provided, describe how they were obtained (e.g. collection, storage, sample pretreatment and measurement),
+where they were obtained (i.e. lab name), the calibration program and the protocol for quality assurance OR state that no new
+dates are provided.
+Tick this box to confirm that the raw and calibrated dates are available in the paper or in Supplementary Information.
+Animals and other organisms
+Policy information about studies involving animals; ARRIVE guidelines recommended for reporting animal research
+Laboratory animals For laboratory animals, report species, strain, sex and age OR state that the study did not involve laboratory animals.
+Wild animals Provide details on animals observed in or captured in the field; report species, sex and age where possible. Describe how animals
+were caught and transported and what happened to captive animals after the study (if killed, explain why and describe method; if
+released, say where and when) OR state that the study did not involve wild animals.
+Field-collected samples For laboratory work with field-collected samples, describe all relevant parameters such as housing, maintenance, temperature,
+photoperiod and end-of-experiment protocol OR state that the study did not involve samples collected from the field.
+Ethics oversight Identify the organization(s) that approved or provided guidance on the study protocol, OR state that no ethical approval or
+guidance was required and explain why not.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics Perceptual discrimination experiment: 51 males, 49 females; mean age = 39 years, max = 71 years, min = 22 years; all
+Mechanical Turk’s Masters, located in the United States of America. Motor experiment: 13 males, 7 females; mean age = 25
+years, max = 41 years, min = 19 years; all students recruited using on-campus advertising, located in Israel. All participants
+(n=120) reported normal or corrected to normal vision and no history of neurological disorders that could have been otherwise
+accounting for biased responses (e.g. pseudoneglect).
+Recruitment Perceptual discrimination experiment: recruitment was based on the online labor market Amazon Mechanical Turk, all of whom
+are Mechanical Turk’s Masters, located in the United States of America.
+Motor task: recruitment was based on an on-campus advertising directed to dextrals students. This, in order to avoid
+handedness accounts for heterogeneity in the motor task (irrelevant for the vertical perceptual task).
+Ethics oversight The Hebrew University Committee for the Use of Human Subjects in Research.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Clinical data
+Policy information about clinical studies
+All manuscripts should comply with the ICMJE guidelines for publication of clinical research and a completed CONSORT checklist must be included with all submissions.
+Clinical trial registration Provide the trial registration number from ClinicalTrials.gov or an equivalent agency.
+Study protocol Note where the full trial protocol can be accessed OR if not available, explain why.
+Data collection Describe the settings and locales of data collection, noting the time periods of recruitment and data collection.
+Outcomes Describe how you pre-defined primary and secondary outcome measures and how you assessed these measures.
+ChIP-seq
+Data deposition
+Confirm that both raw and final processed data have been deposited in a public database such as GEO.
+Confirm that you have deposited or provided access to graph files (e.g. BED files) for the called peaks.
+5
+nature
+research
+|
+reporting
+summary
+October
+2018
+Data access links For "Initial submission" or "Revised version" documents, provide reviewer access links. For your "Final submission" document,
+May remain private before publication. provide a link to the deposited data.
+Files in database submission Provide a list of all files available in the database submission.
+Genome browser session Provide a link to an anonymized genome browser session for "Initial submission" and "Revised version" documents only, to
+(e.g. UCSC) enable peer review. Write "no longer applicable" for "Final submission" documents.
+Methodology
+Replicates Describe the experimental replicates, specifying number, type and replicate agreement.
+Sequencing depth Describe the sequencing depth for each experiment, providing the total number of reads, uniquely mapped reads, length of
+reads and whether they were paired- or single-end.
+Antibodies Describe the antibodies used for the ChIP-seq experiments; as applicable, provide supplier name, catalog number, clone
+name, and lot number.
+Peak calling parameters Specify the command line program and parameters used for read mapping and peak calling, including the ChIP, control and
+index files used.
+Data quality Describe the methods used to ensure data quality in full detail, including how many peaks are at FDR 5% and above 5-fold
+enrichment.
+Software Describe the software used to collect and analyze the ChIP-seq data. For custom code that has been deposited into a
+community repository, provide accession details.
+Flow Cytometry
+Plots
+Confirm that:
+The axis labels state the marker and fluorochrome used (e.g. CD4-FITC).
+The axis scales are clearly visible. Include numbers along axes only for bottom left plot of group (a 'group' is an analysis of identical markers).
+All plots are contour plots with outliers or pseudocolor plots.
+A numerical value for number of cells or percentage (with statistics) is provided.
+Methodology
+Sample preparation Describe the sample preparation, detailing the biological source of the cells and any tissue processing steps used.
+Instrument Identify the instrument used for data collection, specifying make and model number.
+Software Describe the software used to collect and analyze the flow cytometry data. For custom code that has been deposited into a
+community repository, provide accession details.
+Cell population abundance Describe the abundance of the relevant cell populations within post-sort fractions, providing details on the purity of the samples
+and how it was determined.
+Gating strategy Describe the gating strategy used for all relevant experiments, specifying the preliminary FSC/SSC gates of the starting cell
+population, indicating where boundaries between "positive" and "negative" staining cell populations are defined.
+Tick this box to confirm that a figure exemplifying the gating strategy is provided in the Supplementary Information.
+Magnetic resonance imaging
+Experimental design
+Design type Indicate task or resting state; event-related or block design.
+Design specifications Specify the number of blocks, trials or experimental units per session and/or subject, and specify the length of each trial
+or block (if trials are blocked) and interval between trials.
+Behavioral performance measures State number and/or type of variables recorded (e.g. correct button press, response time) and what statistics were used
+to establish that the subjects were performing the task as expected (e.g. mean, range, and/or standard deviation across
+subjects).
+6
+nature
+research
+|
+reporting
+summary
+October
+2018
+Acquisition
+Imaging type(s) Specify: functional, structural, diffusion, perfusion.
+Field strength Specify in Tesla
+Sequence & imaging parameters Specify the pulse sequence type (gradient echo, spin echo, etc.), imaging type (EPI, spiral, etc.), field of view, matrix size,
+slice thickness, orientation and TE/TR/flip angle.
+Area of acquisition State whether a whole brain scan was used OR define the area of acquisition, describing how the region was determined.
+Diffusion MRI Used Not used
+Preprocessing
+Preprocessing software Provide detail on software version and revision number and on specific parameters (model/functions, brain extraction,
+segmentation, smoothing kernel size, etc.).
+Normalization If data were normalized/standardized, describe the approach(es): specify linear or non-linear and define image types
+used for transformation OR indicate that data were not normalized and explain rationale for lack of normalization.
+Normalization template Describe the template used for normalization/transformation, specifying subject space or group standardized space (e.g.
+original Talairach, MNI305, ICBM152) OR indicate that the data were not normalized.
+Noise and artifact removal Describe your procedure(s) for artifact and structured noise removal, specifying motion parameters, tissue signals and
+physiological signals (heart rate, respiration).
+Volume censoring Define your software and/or method and criteria for volume censoring, and state the extent of such censoring.
+Statistical modeling & inference
+Model type and settings Specify type (mass univariate, multivariate, RSA, predictive, etc.) and describe essential details of the model at the first
+and second levels (e.g. fixed, random or mixed effects; drift or auto-correlation).
+Effect(s) tested Define precise effect in terms of the task or stimulus conditions instead of psychological concepts and indicate whether
+ANOVA or factorial designs were used.
+Specify type of analysis: Whole brain ROI-based Both
+Statistic type for inference Specify voxel-wise or cluster-wise and report all relevant parameters for cluster-wise methods.
+(See Eklund et al. 2016)
+Correction Describe the type of correction and how it is obtained for multiple comparisons (e.g. FWE, FDR, permutation or Monte
+Carlo).
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis
+Functional and/or effective connectivity Report the measures of dependence used and the model details (e.g. Pearson correlation, partial
+correlation, mutual information).
+Graph analysis Report the dependent variable and connectivity measure, specifying weighted graph or binarized graph,
+subject- or group-level, and the global and/or node summaries used (e.g. clustering coefficient, efficiency,
+etc.).
+Multivariate modeling and predictive analysis Specify independent variables, features extraction and dimension reduction, model, training and evaluation
+metrics.

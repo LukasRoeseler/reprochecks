@@ -1,0 +1,33 @@
+{
+  "report": "ReproAI advisory plan — Kuper & Bott (2019) MP.2018.878 (re-audit)",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "audit_date": "2026-09-14",
+  "prioritized_remediation": [
+    {
+      "priority": 1,
+      "finding_ref": "ADV-001, ADV-003",
+      "action": "Upload the actual k=76 analytic dataset used for every Table 3/Results figure, together with the exact Table 1/2 exclusion-and-aggregation script (including how the multiple Simbrunner & Schlegelmilch outcomes per sample were pooled).",
+      "verification": "Re-run R metafor/weightr on the shipped k=76 set and confirm it returns d=.27, CI [0.19;0.35], Z=6.57, I2, PET d=-.05, 3-PSM d=.18, X2(1)=3.42."
+    },
+    {
+      "priority": 2,
+      "finding_ref": "ADV-002",
+      "action": "Recompute I2 from the fitted k=76 model and correct the printed heterogeneity value; the current I2=.26 cannot coexist with Q(75)=175.77 (which implies ~57%).",
+      "verification": "I2=(Q-df)/Q using the reported Q should equal the newly printed I2."
+    },
+    {
+      "priority": 3,
+      "finding_ref": "ADV-004",
+      "action": "Archive the Appendix A1 simulation code, the Figure 3 selection-threshold exploration, and the funnel-plot source data (with seeds), and note that the reproducibility badge covers only the shipped k=102 'reviewer' analysis, not these.",
+      "verification": "Run the archived simulation with the fixed seed and confirm Fig A1 bias pattern (bias > d=.10 in the extreme case)."
+    },
+    {
+      "priority": 4,
+      "finding_ref": "ADV-005",
+      "action": "Add the Table 1 comparison/diff script that maps the two original datasets, making the 93%/k=85/6-discrepancy and '100% identical' claims regenerable.",
+      "verification": "Diff script output reproduces the 6 ES and 6 N discrepancies and the 100%/100% post-correction claim."
+    }
+  ],
+  "notes": "Corrections to I2 (ADV-002) and archival of the k=76 pipeline (ADV-001/003) are the highest-value fixes. No P0 blocker: the conceptual headline (d~0.27, culture moderation, comparison moderator) is recoverable from the raw data and no primary DV is wrong."
+}

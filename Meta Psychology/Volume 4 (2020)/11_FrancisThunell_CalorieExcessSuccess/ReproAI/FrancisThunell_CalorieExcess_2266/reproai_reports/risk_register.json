@@ -1,0 +1,35 @@
+{
+  "paper": "Francis & Thunell (2020) MP.2019.2266",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Mixed provenance: Table 1 / TES product use post-corrigendum inputs, but Table 2 (meta-analysis sample sizes) uses the pre-corrigendum study-1 sample size",
+      "description": "The published Table 2 values (282/322/377/465/658; halves 1123/1284/1502/1858/2626) reproduce exactly from the PRE-corrigendum meta-analysis (study 1 right-label n=55, g=0.2366623), whereas the paper's Table 1 power values and the 0.014 product come from the POST-corrigendum inputs (study-1 n=54, and study-3 no-label corrections). Running the post-corrigendum (AC) meta-analysis gives 466 and 1285/1503/1859/2627 in place of the printed 465 and 1284/1502/1858/2626. The in-text g*=0.2366 is consistent with both, which hid the inconsistency.",
+      "evidence": "Live R: MetaanalysisPower.R (n1R=55) -> full 282/322/377/465/658, half 1123/1284/1502/1858/2626 (Table 2 exact). MetaanalysisPowerAC.R (n1R=54) -> full 282/322/377/466/658, half 1123/1285/1503/1859/2627. AnalysisAC.R product 0.01355559.",
+      "impact": "Low on conclusions (differences of <=2 participants in a few power rows; headline 0.014 unaffected), but it is an internal consistency/provenance defect: the two tables of one paper are generated from two different data revisions without disclosure.",
+      "fix": "Regenerate Table 2 from the post-corrigendum meta-analysis (the AC files already used for Table 1) and restate any altered cells (95% row and half-effect rows); or simply disclose the exact inputs used for each table. Ensure one self-consistent data version across all exhibits."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "OSF code ships BOTH pre- and post-corrigendum variants at the project root; running the non-'AC' files does not reproduce the paper's Study-3 power",
+      "description": "osf.io/xrdhj contains Analysis.R/Study1.R/Study3.R/MetaanalysisPower.R (pre-corrigendum, README dated Oct 2019) alongside the 'AC' post-corrigendum files (READMEAC dated 14 June 2020). A casual downloader running Study3.R (the top-level non-AC file) gets power ~0.376, not the paper's 0.3626, because Study3.R still uses the pre-corrigendum no-label parameters (mean 1441.45, sd 382.43, n=83) instead of the corrected 1436.79/378.47/81 used in Table 1. Both give product ~0.014, so the headline is robust, but code-to-paper tracing is ambiguous without reading READMEAC.txt.",
+      "evidence": "Live R: Study3.R (pre) -> 0.37647 in shipped Results.txt and ~0.376 on re-run; Study3AC.R (seed 3947194) -> 0.36262 = Table 1.",
+      "impact": "Medium reproducibility/documentation hazard: the most prominent files do not reproduce the published Table-1 values for Study 3; only the AC variants do.",
+      "fix": "Archive the pre-corrigendum variants in a clearly-labelled legacy subfolder (or delete after peer review) and leave a single canonical post-corrigendum set at the root; make the README the first thing read. State explicitly in the paper's data-availability note which files match the published tables."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Simulations for Studies S2 and S3 ship without a seed, so the paper's 0.5667 / 0.4953 are single irreproducible Monte Carlo draws",
+      "description": "StudyS2.R and StudyS3.R contain no set.seed(). Re-runs drift: S2 -> R 0.56738, Python 0.56610 vs paper 0.5667; S3 -> R 0.49435, Python 0.49552 vs paper 0.4953. All within the Monte Carlo SE (~0.0016 for 100,000 replications), so the paper's values are legitimate draws and the inference (each study ~0.5 power, product 0.014) is unaffected. Studies 1 and 3 DO ship a seed (3947194) and reproduce exactly.",
+      "evidence": "live R runs + independent Python numpy MC; SE = sqrt(p*(1-p)/100000) ~0.0016.",
+      "impact": "None on conclusions; hygiene only. The paper's own README already warns 'your numbers may vary'.",
+      "fix": "Publish fixed seeds (as already done for Studies 1 and 3) for the remaining two simulations so the exact reported figures are bit-reproducible."
+    }
+  ],
+  "summary": { "P0": 0, "P1": 0, "P2": 2, "P3": 1, "total": 3 }
+}

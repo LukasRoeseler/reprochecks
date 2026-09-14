@@ -1,0 +1,46 @@
+{
+  "paper": "Rousselet & Wilcox (2020) Meta-Psychology MP.2019.1630",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "recommendations": [
+    {
+      "id": "ADV-001",
+      "priority": "medium",
+      "action": "Regenerate Table 2 from the shipped sim_miller1988.RData and either update the printed integers or ship the exact seed + RNGkind + R version so a fresh run byte-reproduces them; optionally report Monte-Carlo SE alongside the bias integers.",
+      "effort": "low",
+      "owner": "authors"
+    },
+    {
+      "id": "ADV-002",
+      "priority": "low",
+      "action": "Pin RNGkind(sample.kind=...) and R version for the Figure 1/4/5 bootstrap illustrations, or describe them as representative rather than exact decimals.",
+      "effort": "low",
+      "owner": "authors"
+    },
+    {
+      "id": "ADV-003",
+      "priority": "low",
+      "action": "Clarify the decile-estimator and 20%-trimming convention used for the 'A closer look' decile values (5th decile 82 vs 81).",
+      "effort": "trivial",
+      "owner": "authors"
+    },
+    {
+      "id": "ADV-004",
+      "priority": "low",
+      "action": "Add the figshare DOI/landing URL (10.6084/m9.figshare.6911924) prominently to the OSF project description and consider mirroring the package on OSF so the cited OSF DOI resolves to the materials.",
+      "effort": "low",
+      "owner": "authors"
+    },
+    {
+      "id": "ADV-005",
+      "priority": "low",
+      "action": "Fix the bootsamples/all.bootsamples variable-name mismatch in flp_sim_precision.Rmd (lines ~90-112) so the notebook can regenerate sim_precision.RData.",
+      "effort": "trivial",
+      "owner": "authors"
+    }
+  ],
+  "auditor_next_steps": [
+    "Optionally re-run the Section 4 g&h power/FP simulations and the FLP ex-Gaussian fitted true/false-positive simulations (sim_gp_tp_flp) to tabulate the figure-only power curves.",
+    "If an R VM at the author's original 2018-era R version is available, byte-reconcile Table 2 and the bootstrap illustrations."
+  ]
+}

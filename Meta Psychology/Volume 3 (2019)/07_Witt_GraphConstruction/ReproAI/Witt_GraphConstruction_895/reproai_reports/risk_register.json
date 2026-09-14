@@ -1,0 +1,89 @@
+{
+  "paper": "Witt (2019) MP.2018.895 Graph Construction",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "note": "All primary per-experiment statistics reproduce. No P0/P1. Findings below are secondary/transparency issues.",
+  "risks": [
+    {
+      "id": "ADV-001", "severity": "P2",
+      "title": "Author analysis notebook is not runnable as distributed",
+      "detail": "Witt_AnalyzeGraphSD_V4.Rmd hardcodes setwd('C:/Users/jkwitt/Dropbox/InfoVis/bigLittle') (author's local Dropbox) and is an interactive document with many exploratory chunks. 'Open and reproducible analysis: Yes / Analysis reproduced by: Tobias Muehlmeister' therefore requires an analyst to manually fix the path and reassemble chunks. The underlying analysis IS fully reproducible from the raw data (this audit did so; R==Python).",
+      "evidence": "exec_check/output/reimpl_R_console.txt + data present; notebook setwd line.",
+      "impact": "A third party cannot one-command reproduce without adapting the notebook. Core conclusions unaffected (reproduced from data).",
+      "fix": "Ship a self-contained, relative-path analysis script + README with the exact per-experiment exclusion lists and the corr-mapping, so the badge is actionable."
+    },
+    {
+      "id": "ADV-002", "severity": "P2",
+      "title": "Abstract/main text '57 participants' does not match the data",
+      "detail": "Main text: '57 participants across 5 experiments'. Data files contain 71 recruited (9+14+13+20+15); after the paper's IQR-outlier exclusions the analyzed N is 58 (7+11+11+16+13). Neither equals 57.",
+      "evidence": "verify_tables_console.txt (TOTAL recruited = 71; analyzed 58).",
+      "impact": "Inaccurate sample-size statement could mislead re power/scale; does not affect the (correctly computed) per-experiment statistics.",
+      "fix": "Restate as recruited=71 (9/14/13/20/15), analyzed=58 (7/11/11/16/13), or explain the 57 figure."
+    },
+    {
+      "id": "ADV-003", "severity": "P2",
+      "title": "Cross-experiment Table A3/A4/A5 for Experiment 1 uses a different exclusion set than the main text",
+      "detail": "Main-text Exp1 analysis excludes subjects {1,8} (N=7) giving Std=.47/Full=.30/Min=.28, t(SDvsFull)=3.84. But cross-experiment Table A3 (.28/.46/.27), A4 (.17/.42/.07) and A5 for Exp1 were computed excluding {1,3} (N=7). The manuscript states only one outlying-exclusion rule; it does not disclose that the summary table uses a different participant sample than the experiment's own analysis.",
+      "evidence": "forensic_tables_console.txt: excl {1,3} -> F .28(.11) S .46(.13) M .27(.03); excl {1,8} -> .30/.47/.28; _exp1check.R t(SDvsFull) 3.836 for {1,8} vs 4.309 for {1,3}.",
+      "impact": "Reader cannot tell which 7 Exp1 participants underlie the summary table vs the main analysis. Values differ (e.g. Full slope .28 vs .30). Secondary exhibit; primary conclusions unchanged.",
+      "fix": "Disclose per-sample exclusion lists, or recompute the summary table on the same sample as the main text."
+    },
+    {
+      "id": "ADV-004", "severity": "P2",
+      "title": "Cross-experiment Table A3/A4/A5 for Experiment 3 silently use the N=9 sub-analysis sample",
+      "detail": "Table A3 Exp3 (.21/.58/.49), A4 (.09/.46/.25) and A5 (-25/14/23) match the N=9 sample (excl {2,3,4,5}), while the main text reports Exp3 at N=11 (excl {3,4}) giving .24/.62/.55. The 2 extra sub-analysis exclusions are silently reflected in the summary tables without stating the reduced N.",
+      "evidence": "forensic_tables_console.txt: A3 excl{2,3,4,5}=.21/.58/.49 (=table), excl{3,4}=.24/.62/.55 (=main); A4 N=9=.09/.46/.25 (=table), N=11=.16/.59/.42; A5 N=9=-25/14/23 (=table).",
+      "impact": "Cross-experiment table Exp3 entries do not correspond to the main-text analysis sample; potential confusion about which N underlies Figure 2/3 summary points.",
+      "fix": "Label Table A3/A4/A5 with the per-experiment N used, or make Exp3 consistent (N=11) with the main text."
+    },
+    {
+      "id": "ADV-005", "severity": "P2",
+      "title": "Exp3 unplanned sub-analysis dz and Bayes factors use n=11 as denominator while df is reported as 8 (N=9)",
+      "detail": "For the Exp3 sub-analyses (df=8, N=9) every t-value reproduces exactly, but the reported dz and BF equal t/sqrt(11) (full N) rather than t/sqrt(9). Examples: d=.3-.8 StdvsFull t=9.310 -> dz reported 2.81 = 9.31/sqrt(11) (with n=9 it is 3.10); d=0-.3 StdvsFull t=2.82 -> dz .85 = 2.82/sqrt(11) (n=9: .94), BF 3.76 (n=11) vs 3.36 (n=9); d=.3-.8 StdvsMin BF 65 (n=11) vs 37.8 (n=9).",
+      "evidence": "reimpl_R_console.txt + verify_tables_console.txt (denominator test: t/sqrt(9) vs t/sqrt(11), BF n=9 vs n=11).",
+      "impact": "Effect sizes and Bayes factors for the unplanned sub-analyses are internally inconsistent with their stated df (an n=11 denominator under an n=9 test). Direction/significance unaffected; this is a secondary (unplanned) analysis.",
+      "fix": "Recompute dz and BF with the analytic n=9 (df=8) denominator, or report the correct df if n=11 was intended."
+    },
+    {
+      "id": "ADV-006", "severity": "P3",
+      "title": "Experiment 4 standardized-bias t-test df typo (t(14) vs t(15))",
+      "detail": "Manuscript reports the Exp4 standardized-bias test as t(14)=0.73. All other Exp4 tests use N=16 (df=15). The reimplementation (N=16) gives t=0.719, df=15, dz=.18, BF=.32; M(SD) 1.81(10.06) matches Table A5 (2(10)). The df is a typo.",
+      "evidence": "reimpl_R_console.txt (Exp4 cond2 bias t=0.719).",
+      "impact": "Cosmetic; conclusion (bias ~0, ns) unchanged.",
+      "fix": "Correct to t(15)."
+    },
+    {
+      "id": "ADV-007", "severity": "P3",
+      "title": "Experiment 1 incomplete-participant trial count off by one",
+      "detail": "Manuscript: 'One participant only completed 431 trials, but their data were still included.' The retained Exp1 incomplete participant (S7) completed 430 trials.",
+      "evidence": "verify_tables_console.txt (Exp1 non-480: 7=430).",
+      "impact": "Negligible.",
+      "fix": "Correct to 430 (or clarify rounding)."
+    },
+    {
+      "id": "ADV-008", "severity": "P3",
+      "title": "Several <480-trial participants retained without disclosure",
+      "detail": "Exp4 retains S6=405 and S14=389 trials; Exp5 retains S5=289 and S9=379 trials (all included in analyses). Only the single Exp1 incomplete participant is disclosed. Per-subject regressions use whatever trials are present, so results are valid, but data completeness is unequal and unreported.",
+      "evidence": "verify_tables_console.txt (Exp4 non-480 6=405 14=389; Exp5 5=289 9=379).",
+      "impact": "Transparency; minor (regression is robust to differing trial counts per cell).",
+      "fix": "Report per-participant trial counts and justify retaining incomplete participants."
+    },
+    {
+      "id": "ADV-009", "severity": "P3",
+      "title": "Experiment 1 Table A5 full-bias SD not reproducible",
+      "detail": "Table A5 lists Exp1 full bias as -27 (SD 5) and minimal bias as 36 (SD 21). Means reproduce (-27.02, 36.21) but the full-bias SD recomputes to ~10.2 for any natural participant sample (e.g. {1,8} and {1,3} both ~10), and minimal-bias SD computes to 19.5. The reported full SD=5 does not reproduce.",
+      "evidence": "forensic_tables_console.txt (A5 Exp1 variants all give Full SD ~10).",
+      "impact": "Small table typo; does not affect any inference.",
+      "fix": "Verify and correct the Exp1 Table A5 SD entries."
+    },
+    {
+      "id": "ADV-010", "severity": "P3",
+      "title": "Pooled prose response-category percentages are only approximate",
+      "detail": "Fig 2 '86% of full-graph trials null/small' matches the all-trials pooled value 86.7% (d>0.1-only is 83.6%). Fig 3/prose 'minimal d=.10-.80 trials, effect big on 49%' does not reproduce directly: pooled minimal 'big' is 54.4% (d>0.1) or 42.0% (all trials). Wording is loose about subset & graph-type pooling.",
+      "evidence": "percent_claims_console.txt (per-exp and pooled counts).",
+      "impact": "Illustrative prose percentages are not exactly reproducible; no bearing on inferential claims.",
+      "fix": "Specify the exact subset (trials, conditions, exclusions) over which pooled percentages are computed, or report the computable value."
+    }
+  ],
+  "counts": { "P0": 0, "P1": 0, "P2": 5, "P3": 5 }
+}

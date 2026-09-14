@@ -1,0 +1,11 @@
+datadir <- "C:/Users/lroesele.IVV5NET/AppData/Local/Temp/opencode/flpdata/extracted/data"
+load(file.path(datadir, "french_lexicon_project_rt_data.RData"))
+cat("class condition:", class(flp$condition), "\n")
+if(is.factor(flp$condition)) cat("levels:", paste(levels(flp$condition), collapse=","), "\n")
+cat("unique:", paste(sort(unique(flp$condition)), collapse=","), "\n")
+cat("rows condition==1:", sum(flp$condition==1, na.rm=TRUE), "\n")
+cat("rows condition=='word':", sum(flp$condition=='word'), "\n")
+cat("rows condition=='non-word':", sum(flp$condition=='non-word'), "\n")
+cat("cols:", paste(names(flp), collapse=","), "\n")
+cat("first rows participant|cond|rt:\n")
+print(head(flp, 5))

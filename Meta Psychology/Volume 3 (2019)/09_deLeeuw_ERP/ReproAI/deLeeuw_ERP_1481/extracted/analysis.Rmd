@@ -1,0 +1,571 @@
+---
+title: "219 Study 1 Analysis"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(grid)
+library(cowplot)
+library(ggplot2)
+library(ez)
+library(BayesFactor)
+```
+
+# Subject Exclusions
+
+44 people participated in the experiment. Of those, 5 had severe technical difficulties that either resulted in a failure to launch the experiment or total data loss. 3 of the 5 are not listed in the data because they never started data collection. The other 2, subjects 8 and 21, are included in the list of excluded subjects below.
+
+With the remaining 39 subjects, we examined how many artifact-free EEG segments each subject had per condition. Based on these distributions we decided to exclude subjects with fewer than 19 good segments per condition. We made this determination prior to looking at any data that was relevant to the main analysis. We did not attempt to specify this number in advance because we did not know what the rate of artifacts would be and we knew that there was a way to make this decision post data collection without introducing bias in favor of any particular hypothesis.
+
+```{r}
+technical.problems <- c(8, 21)
+too.few.segments <- c(11, 23, 25, 40)
+excluded.subjects <- c(technical.problems, too.few.segments)
+```
+
+
+# Subject Demographics
+
+We start by loading in the data and excluding subjects (see section above for exclusion reasons).
+
+```{r message=FALSE, warning=FALSE}
+demographic.data <- read_csv('data/raw/demographics/demographic_data.csv') %>%
+  filter(!Subject %in% excluded.subjects)
+```
+
+Table of gender frequencies (Female, Male, Non-binary)
+
+```{r}
+table(demographic.data$Gender)
+```
+
+Calculating summary statistics for age, years of musical experience, and weekly music playing.
+
+```{r}
+demographic.summary <- demographic.data %>% 
+  summarize(mean.age = mean(Age), 
+            sd.age = sd(Age),
+            min.age = min(Age),
+            max.age = max(Age),
+            mean.years.experience = mean(YearsMusicalExperience),
+            sd.years.experience = sd(YearsMusicalExperience),
+            mean.hours.per.week = mean(HoursPerWeek),
+            sd.hours.per.week = sd(HoursPerWeek))
+demographic.summary
+```
+
+# Behavioral Analysis
+
+Load in the data and exclude subjects (see first section for exclusion reasons). We remove the trials associated with the filler condition, which are not relevant to any analysis.
+
+```{r message=FALSE, warning=FALSE}
+behavioral.data <- read_csv('data/generated/beh_data_tidy.csv') %>%
+  filter(!subject_id %in% excluded.subjects) %>%
+  filter(!syntax_cat %in% c('Filler-Gram', 'Filler-Ungram'))
+```
+
+We want to know how accurate subjects were at the acceptable/unacceptable judgments in each condition, and compare this to the accuracy reported by Patel et al. (1998).
+
+```{r}
+summary.behavioral <- behavioral.data %>%
+  group_by(syntax_cat, subject_id) %>%
+  summarize(accuracy = mean(correct) * 100) %>%
+  group_by(syntax_cat) %>%
+  summarize(mean = mean(accuracy), sd= sd(accuracy))
+summary.behavioral
+```
+
+# EEG Analysis
+
+Load in the data, which has been previously filtered to focus only on key electrodes
+
+```{r message=FALSE, warning=FALSE}
+eeg.data <- read_csv('data/generated/eeg_data_tidy.csv', col_types = cols(electrode = col_factor(levels=NULL), 
+                                                                          subject=col_factor(levels=NULL), 
+                                                                          stimulus.condition = col_factor(levels=NULL),
+                                                                          grammar.condition = col_factor(levels=NULL))) %>% 
+  filter(!subject %in% excluded.subjects)
+
+```
+
+
+Calculate grand average waveforms for language. Display the grand averages in approximate topographic locations. Shading on plots represents +/- 1 SE.
+
+```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+electrode.locations <- data.frame(electrode = character(), name = character(), x = numeric(), y= numeric()) %>%
+  rbind(data.frame(electrode="11", name = "Fz (11)", x=8/16, y=12/16)) %>%
+  rbind(data.frame(electrode="33", name = "F7 (33)", x=5/16, y=12/16)) %>%
+  rbind(data.frame(electrode="39", name = "ATL (39)", x=2/16, y=12/16)) %>%
+  rbind(data.frame(electrode="42", name = "WL (42)", x=5/16, y=8/16)) %>%
+  rbind(data.frame(electrode="45", name = "TL (45)", x=2/16, y=8/16)) %>%
+  rbind(data.frame(electrode="62", name = "Pz (62)", x=8/16, y=4/16)) %>%
+  rbind(data.frame(electrode="70", name = "O1 (70)", x=5/16, y=4/16)) %>%
+  rbind(data.frame(electrode="83", name = "O2 (83)", x=11/16, y=4/16)) %>%
+  rbind(data.frame(electrode="93", name = "WR (93)", x=11/16, y=8/16)) %>%
+  rbind(data.frame(electrode="108", name = "TR (108)", x=14/16, y=8/16)) %>%
+  rbind(data.frame(electrode="115", name = "ATR (115)", x=14/16, y=12/16)) %>%
+  rbind(data.frame(electrode="122", name = "F8 (122)", x=11/16, y=12/16)) %>%
+  rbind(data.frame(electrode="129", name = "Cz (129)", x=8/16, y=8/16))
+
+grand.average.data <- eeg.data %>% group_by(t, electrode, stimulus.condition, grammar.condition) %>%
+  summarize(mean.voltage = mean(voltage), sd.voltage = sd(voltage), se.voltage = sd.voltage / sqrt(n()), voltage.upper = mean.voltage + se.voltage, voltage.lower = mean.voltage - se.voltage)
+
+make.plot <- function(plotting.data){
+  p <- ggplot(plotting.data, aes(x=t, y=mean.voltage, color=grammar.condition))+
+    scale_color_brewer(name="Grammar", type="qual", palette="Set1", guide=F)+
+    scale_fill_brewer(guide=F, type="qual", palette="Set1")+
+    annotate("rect", xmin=500,xmax=800,ymin=-2,ymax=2,fill='black',alpha=0.2)+
+    coord_cartesian(ylim=c(min(grand.average.data$mean.voltage), max(grand.average.data$mean.voltage)))+
+    geom_vline(xintercept=0)+
+    geom_hline(yintercept=0)+
+    geom_segment(data = ticks, aes(x=x,y=y,xend=xend,yend=yend), color="black")+ 
+    geom_segment(x=-50, y=2, xend=0,yend=2, color="black")+
+    geom_segment(x=-50, y=-2, xend=0,yend=-2, color="black")+
+    geom_ribbon(mapping=aes(ymin=mean.voltage - se.voltage, ymax = mean.voltage + se.voltage, fill=grammar.condition), color=NA, alpha = 0.4)+
+    geom_line()+
+    theme_void()
+  return(p)
+}
+
+ticks <- data.frame(x=seq(-100,1000,100),xend=seq(-100,1000,100),y=-0.25,yend=0.25)
+
+legend.plot <- ggplot(grand.average.data, aes(x=t,y=mean.voltage,color=grammar.condition))+
+  geom_blank()+
+  theme_void()+
+  geom_vline(xintercept=0)+
+  geom_hline(yintercept=0)+
+  annotate("rect", xmin=500,xmax=800,ymin=-2,ymax=2,fill='black',alpha=0.2)+
+  scale_color_brewer(guide=F)+
+  geom_segment(data = ticks, aes(x=x,y=y,xend=xend,yend=yend), color="black")+ 
+  annotate("text", label="500", x=500, y = -1.0, size=3)+
+  annotate("text", label="1000", x=1000, y = -1.0, size=3)+
+  geom_segment(x=-50, y=2, xend=0,yend=2, color="black")+
+  geom_segment(x=-50, y=-2, xend=0,yend=-2, color="black")+
+  coord_cartesian(ylim=c(min(grand.average.data$mean.voltage), max(grand.average.data$mean.voltage)), xlim=c(-100,1100))
+
+condition.legend <- (ggplot(grand.average.data, aes(x=t,y=mean.voltage,color=grammar.condition))+
+  geom_line(size=1)+
+  theme_minimal(base_size = 12)+
+  scale_color_brewer(palette="Set1", type="seq", name=NULL)) %>%
+  get_legend()
+
+plots <- grand.average.data %>% group_by(electrode, stimulus.condition) %>% nest() %>% mutate(plot = map(data, make.plot)) %>% right_join(electrode.locations)
+
+scale.factor.x <- (1 / (max(plots$x) - min(plots$x))) * 0.8
+scale.factor.y <- (1 / (max(plots$y) - min(plots$y))) * 0.8
+
+plots$x <- (plots$x - 0.5) * scale.factor.x + 0.5
+plots$y <- (plots$y - 0.5) * scale.factor.y + 0.5
+
+x.size <- .17
+y.size <- .25
+
+
+language.data <- plots %>% filter(stimulus.condition == "Language")
+language.scalp <- ggplot(language.data) + 
+  geom_blank() +
+  theme_void() + 
+  theme(plot.margin = unit(c(8,8,8,8), "pt"))
+
+for(i in 1:nrow(language.data)){
+  
+  language.scalp <- language.scalp + 
+    annotation_custom( grob = ggplotGrob(language.data$plot[[i]]), xmin = language.data$x[[i]] - x.size/2, xmax = language.data$x[[i]] + x.size/2, ymin = language.data$y[[i]] - y.size/2, ymax = language.data$y[[i]] + y.size/2) +
+    annotation_custom(grob = textGrob(language.data$name[[i]], just="center", gp=gpar(fontsize=10)), xmin = language.data$x[[i]] - x.size/2, xmax = language.data$x[[i]] + x.size/2, ymin = language.data$y[[i]] + y.size/2, ymax = language.data$y[[i]] + y.size/2 + 0.02)
+
+}
+
+language.scalp <- language.scalp + 
+  annotation_custom(grob = ggplotGrob(legend.plot), xmin = (0.1)-(x.size/2), xmax=0.1+(x.size/2), ymin = 0.1-y.size/2, ymax = 0.1+(y.size/2)) +
+  annotation_custom(grob = textGrob("Time since stimulus onset (ms)", just="center", gp=gpar(fontsize=8)), xmin = (2/16)-(x.size/2), xmax =(2/16)+(x.size/2) , ymin =-0.04 , ymax = -0.03 ) +
+  annotation_custom(grob = textGrob(expression("Amplitude ("*mu*"v)"), rot=90, gp=gpar(fontsize=8)), xmin = -0.03, xmax =0.0 , ymin =0.03 , ymax = 0.17 ) +
+  annotation_custom(grob = textGrob(expression("+2"), gp=gpar(fontsize=8)), xmin = 0, xmax = 0.02 , ymin =0.18 , ymax = 0.19 ) +
+  annotation_custom(grob = textGrob(expression("-2"), gp=gpar(fontsize=8)), xmin = 0, xmax =0.02 , ymin =0.01 , ymax = 0.02 ) +
+  annotation_custom(grob = condition.legend, xmin = 0.9, xmax = 0.9, ymin= 0.1, ymax = 0.1)
+
+ggsave("language-grand-averages.png", plot=language.scalp, device = "png", path="figures/", width=8, height = 4, units = "in", dpi=300) 
+
+language.scalp
+```
+
+
+Grand averages for music. 
+
+```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+music.data <- plots %>% filter(stimulus.condition == "Music")
+music.scalp <- ggplot(music.data) + 
+  geom_blank() +
+  theme_void() + 
+  theme(plot.margin = unit(c(8,8,8,8), "pt"))
+
+for(i in 1:nrow(music.data)){
+  
+  music.scalp <- music.scalp + 
+    annotation_custom( grob = ggplotGrob(music.data$plot[[i]]), xmin = music.data$x[[i]] - x.size/2, xmax = music.data$x[[i]] + x.size/2, ymin = music.data$y[[i]] - y.size/2, ymax = music.data$y[[i]] + y.size/2) +
+    annotation_custom(grob = textGrob(music.data$name[[i]], just="center", gp=gpar(fontsize=10)), xmin = music.data$x[[i]] - x.size/2, xmax = music.data$x[[i]] + x.size/2, ymin = music.data$y[[i]] + y.size/2, ymax = music.data$y[[i]] + y.size/2 + 0.02)
+
+}
+
+music.scalp <- music.scalp + 
+  annotation_custom(grob = ggplotGrob(legend.plot), xmin = (0.1)-(x.size/2), xmax=0.1+(x.size/2), ymin = 0.1-y.size/2, ymax = 0.1+(y.size/2)) +
+  annotation_custom(grob = textGrob("Time since stimulus onset (ms)", just="center", gp=gpar(fontsize=8)), xmin = (2/16)-(x.size/2), xmax =(2/16)+(x.size/2) , ymin =-0.04 , ymax = -0.03 ) +
+  annotation_custom(grob = textGrob(expression("Amplitude ("*mu*"v)"), rot=90, gp=gpar(fontsize=8)), xmin = -0.03, xmax =0.0 , ymin =0.03 , ymax = 0.17 ) +
+  annotation_custom(grob = textGrob(expression("+2"), gp=gpar(fontsize=8)), xmin = 0, xmax = 0.02 , ymin =0.18 , ymax = 0.19 ) +
+  annotation_custom(grob = textGrob(expression("-2"), gp=gpar(fontsize=8)), xmin = 0, xmax =0.02 , ymin =0.01 , ymax = 0.02 ) +
+  annotation_custom(grob = condition.legend, xmin = 0.9, xmax = 0.9, ymin= 0.1, ymax = 0.1)
+
+ggsave("music-grand-averages.png", plot=music.scalp, device = "png", path="figures/", width=8, height = 4, units = "in", dpi=300) 
+
+music.scalp
+```
+
+## ANOVAs
+
+Compute ANOVAs. Our pre-registration says:
+
+> Repeated-measures ANOVA, 2 (grammatical v. nongrammatical) x N (where N = the number of relevant electrodes; see below), of the mean amplitude of wave forms will be conducted in the 500 to 800 msec window separately for both the language and music conditions and separately for lateral and midline electrodes, following Patel et al. This is 4 total ANOVAs.
+
+First, some pre-analysis shared code. Define which electrodes are midline and which are lateral, declare analysis time window.
+
+```{r}
+lateral.electrodes <- c(33,39,42,45,70,83,93,108,115,122)
+midline.electrodes <- c(11,62,129)
+p600.time.window <- 500:800
+```
+
+#### Language, midline electrodes
+
+```{r warning=FALSE}
+language.midline.data <- eeg.data %>% 
+  filter(electrode %in% midline.electrodes, t %in% p600.time.window, stimulus.condition=='Language') %>% 
+  group_by(subject, electrode, grammar.condition) %>%
+  summarize(mean.amplitude = mean(voltage))
+language.midline.anova <- ezANOVA(language.midline.data, dv=mean.amplitude, wid=subject, within = c('electrode', 'grammar.condition'))
+language.midline.anova$ANOVA
+```
+
+#### Language, lateral electrodes
+
+```{r warning=FALSE}
+language.lateral.data <- eeg.data %>% 
+  filter(electrode %in% lateral.electrodes, t %in% p600.time.window, stimulus.condition=='Language') %>% 
+  group_by(subject, electrode, grammar.condition) %>%
+  summarize(mean.amplitude = mean(voltage))
+language.lateral.anova <- ezANOVA(language.lateral.data, dv=mean.amplitude, wid=subject, within = c('electrode', 'grammar.condition'))
+language.lateral.anova$ANOVA
+```
+
+#### Music, midline electrodes
+
+```{r warning=FALSE}
+music.midline.data <- eeg.data %>% 
+  filter(electrode %in% midline.electrodes, t %in% p600.time.window, stimulus.condition=='Music') %>% 
+  group_by(subject, electrode, grammar.condition) %>%
+  summarize(mean.amplitude = mean(voltage))
+music.midline.anova <- ezANOVA(music.midline.data, dv=mean.amplitude, wid=subject, within = c('electrode', 'grammar.condition'))
+music.midline.anova$ANOVA
+```
+
+#### Music, lateral electrodes
+
+```{r warning=FALSE}
+music.lateral.data <- eeg.data %>% 
+  filter(electrode %in% lateral.electrodes, t %in% p600.time.window, stimulus.condition=='Music') %>% 
+  group_by(subject, electrode, grammar.condition) %>%
+  summarize(mean.amplitude = mean(voltage))
+music.lateral.anova <- ezANOVA(music.lateral.data, dv=mean.amplitude, wid=subject, within = c('electrode', 'grammar.condition'))
+music.lateral.anova$ANOVA
+```
+
+### Plot of all ANOVA-relevant data
+
+```{r fig.height=6, fig.width=8}
+language.midline.plot <- ggplot(language.midline.data, aes(x=electrode,y=mean.amplitude,color=grammar.condition)) +
+  geom_point(position=position_jitterdodge(), alpha = 0.5, size=0.5)+
+  scale_color_brewer(type="qual", palette="Set1", guide=F)+
+  coord_cartesian(ylim=c(-20,20))+
+  geom_boxplot(stat="boxplot", coef=Inf, fill=NA)+
+  #labs(x="Electrode", y=expression("Mean amplitude ( "*mu*"v), 500-800ms"), title="Language Stimuli, Midline Electrodes")
+  labs(x=NULL,y=NULL, title="Language, Midline")+
+  theme(plot.title = element_text(face="plain", size=12))
+
+language.lateral.plot <- ggplot(language.lateral.data, aes(x=electrode,y=mean.amplitude,color=grammar.condition)) +
+  geom_point(position=position_jitterdodge(), alpha = 0.5, size=0.5)+
+  scale_color_brewer(type="qual", palette="Set1", name=NULL)+
+  coord_cartesian(ylim=c(-20,20))+
+  geom_boxplot(stat="boxplot", coef=Inf, fill=NA)+
+  #labs(x="Electrode", y=expression("Mean amplitude ( "*mu*"v), 500-800ms"), title="Language Stimuli, Midline Electrodes")
+  labs(x=NULL,y=NULL, title="Language, Lateral")+
+  theme(plot.title = element_text(face="plain", size=12), legend.position = c(0.7, 0.9))
+
+music.midline.plot <- ggplot(music.midline.data, aes(x=electrode,y=mean.amplitude,color=grammar.condition)) +
+  geom_point(position=position_jitterdodge(), alpha = 0.5, size=0.5)+
+  scale_color_brewer(type="qual", palette="Set1", guide=F)+
+  coord_cartesian(ylim=c(-20,20))+
+  geom_boxplot(stat="boxplot", coef=Inf, fill=NA)+
+  #labs(x="Electrode", y=expression("Mean amplitude ( "*mu*"v), 500-800ms"), title="Language Stimuli, Midline Electrodes")
+  labs(x=NULL,y=NULL, title="Music, Midline")+
+  theme(plot.title = element_text(face="plain", size=12))
+
+music.lateral.plot <- ggplot(music.lateral.data, aes(x=electrode,y=mean.amplitude,color=grammar.condition)) +
+  geom_point(position=position_jitterdodge(), alpha = 0.5, size=0.5)+
+  scale_color_brewer(type="qual", palette="Set1", guide=F)+
+  coord_cartesian(ylim=c(-20,20))+
+  geom_boxplot(stat="boxplot", coef=Inf, fill=NA)+
+  #labs(x="Electrode", y=expression("Mean amplitude ( "*mu*"v), 500-800ms"), title="Language Stimuli, Midline Electrodes")
+  labs(x=NULL,y=NULL, title="Music, Lateral")+
+  theme(plot.title = element_text(face="plain", size=12))
+
+anova.plot <- plot_grid(language.midline.plot, language.lateral.plot, music.midline.plot, music.lateral.plot, ncol=2,nrow=2, rel_widths = c(1,2.5), rel_heights=c(1,1), scale=0.9) +
+  draw_label("Electrode", size=12, y=0, vjust=0) +
+  draw_label(expression("Mean amplitude ("*mu*"v), 500-800ms window"), size=12, x=0, vjust=1, angle=90)
+
+ggsave("anova-data.png", plot=anova.plot, device = "png", path="figures/", width=8, height = 6.5, units = "in", dpi=300) 
+
+anova.plot
+```
+
+
+## Difference wave analysis comparing music and language directly
+
+We analyze the difference between language and music P600s. Our pre-registration describes the analysis:
+
+> Repeated-measures ANOVA, 2 (language v. music) x N (where N = the number of relevant electrodes; see below), of the mean amplitude of the difference wave forms (ungrammatical - grammatical) will be conducted in the 500 to 800 msec separately for lateral and midline electrodes. 
+
+First we calculate the difference waves (ungrammatical - grammatical) for each subject in each condition.
+
+```{r}
+difference.waves <- eeg.data %>% 
+  group_by(subject, electrode, t, stimulus.condition) %>%
+  mutate(difference.voltage = voltage - lag(voltage)) %>%
+  filter(!is.na(difference.voltage)) %>%
+  select(subject, t, electrode, stimulus.condition, difference.voltage) %>%
+  ungroup()
+```
+
+
+Plot of the difference waves.
+
+```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+
+difference.wave.grand.average.data <- difference.waves %>% group_by(t, electrode, stimulus.condition) %>%
+  summarize(mean.voltage = mean(difference.voltage), sd.voltage = sd(difference.voltage), se.voltage = sd.voltage / sqrt(n()))
+
+dw.make.plot <- function(plotting.data){
+  p <- ggplot(plotting.data, aes(x=t, y=mean.voltage, color=stimulus.condition))+
+    scale_color_brewer(name="Stimulus Type", type="qual", palette="Set2", guide=F)+
+    scale_fill_brewer(guide=F, type="qual", palette="Set2")+
+    annotate("rect", xmin=500,xmax=800,ymin=-2,ymax=2,fill='black',alpha=0.2)+
+    coord_cartesian(ylim=c(min(difference.wave.grand.average.data$mean.voltage - difference.wave.grand.average.data$se.voltage), max(difference.wave.grand.average.data$mean.voltage + difference.wave.grand.average.data$se.voltage)))+
+    geom_line()+
+    geom_vline(xintercept=0)+
+    geom_hline(yintercept=0)+
+    geom_segment(data = ticks, aes(x=x,y=y,xend=xend,yend=yend), color="black")+ 
+    geom_segment(x=-50, y=2, xend=0,yend=2, color="black")+
+    geom_segment(x=-50, y=-2, xend=0,yend=-2, color="black")+
+    geom_ribbon(mapping=aes(ymin=mean.voltage - se.voltage, ymax = mean.voltage + se.voltage, fill=stimulus.condition), color=NA, alpha = 0.4)+
+    theme_void()
+  return(p)
+}
+
+dw.legend.plot <- ggplot(difference.wave.grand.average.data, aes(x=t, y=mean.voltage, color=stimulus.condition))+
+  geom_blank()+
+  theme_void()+
+  geom_vline(xintercept=0)+
+  geom_hline(yintercept=0)+
+  annotate("rect", xmin=500,xmax=800,ymin=-2,ymax=2,fill='black',alpha=0.2)+
+  scale_color_brewer(guide=F)+
+  geom_segment(data = ticks, aes(x=x,y=y,xend=xend,yend=yend), color="black")+ 
+  annotate("text", label="500", x=500, y = -1.0, size=3)+
+  annotate("text", label="1000", x=1000, y = -1.0, size=3)+
+  geom_segment(x=-50, y=2, xend=0,yend=2, color="black")+
+  geom_segment(x=-50, y=-2, xend=0,yend=-2, color="black")+
+  coord_cartesian(ylim=c(min(difference.wave.grand.average.data$mean.voltage - difference.wave.grand.average.data$se.voltage), max(difference.wave.grand.average.data$mean.voltage + difference.wave.grand.average.data$se.voltage)), xlim=c(-100,1100))
+
+dw.condition.legend <- (ggplot(difference.wave.grand.average.data, aes(x=t,y=mean.voltage,color=stimulus.condition))+
+  geom_line(size=1)+
+  theme_minimal(base_size = 11)+
+  scale_color_brewer(palette="Set2", type="seq", name=NULL)) %>%
+  get_legend()
+
+dw.plots <- difference.wave.grand.average.data %>% group_by(electrode) %>% nest() %>% mutate(plot = map(data, dw.make.plot)) %>% right_join(electrode.locations)
+
+dw.scale.factor.x <- (1 / (max(dw.plots$x) - min(dw.plots$x))) * 0.8
+dw.scale.factor.y <- (1 / (max(dw.plots$y) - min(dw.plots$y))) * 0.8
+
+dw.plots$x <- (dw.plots$x - 0.5) * dw.scale.factor.x + 0.5
+dw.plots$y <- (dw.plots$y - 0.5) * dw.scale.factor.y + 0.5
+
+dw.x.size <- .2
+dw.y.size <- .15
+
+dw.scalp <- ggplot(dw.plots) + 
+  geom_blank() +
+  theme_void() + 
+  theme(plot.margin = unit(c(8,8,8,8), "pt"))
+
+for(i in 1:nrow(dw.plots)){
+  
+  dw.scalp <- dw.scalp + 
+    annotation_custom( grob = ggplotGrob(dw.plots$plot[[i]]), xmin = dw.plots$x[[i]] - x.size/2, xmax = dw.plots$x[[i]] + x.size/2, ymin = dw.plots$y[[i]] - y.size/2, ymax = dw.plots$y[[i]] + y.size/2) +
+    annotation_custom(grob = textGrob(dw.plots$name[[i]], just="center", gp=gpar(fontsize=10)), xmin = dw.plots$x[[i]] - x.size/2, xmax = dw.plots$x[[i]] + x.size/2, ymin = dw.plots$y[[i]] + y.size/2 - 0.02, ymax = dw.plots$y[[i]] + y.size/2 + 0.02)
+
+}
+
+dw.scalp <- dw.scalp + 
+  annotation_custom(grob = ggplotGrob(dw.legend.plot), xmin = (0.1)-(x.size/2), xmax=0.1+(x.size/2), ymin = 0.1-y.size/2, ymax = 0.1+(y.size/2)) +
+  annotation_custom(grob = textGrob("Time since stimulus onset (ms)", just="center", gp=gpar(fontsize=8)), xmin = (2/16)-(x.size/2), xmax =(2/16)+(x.size/2) , ymin =-0.04 , ymax = -0.03 ) +
+  annotation_custom(grob = textGrob(expression("Amp. diff. ("*mu*"v)"), rot=90, gp=gpar(fontsize=8)), xmin = -0.03, xmax =0.0 , ymin =0.03 , ymax = 0.17 ) +
+  annotation_custom(grob = textGrob(expression("+2"), gp=gpar(fontsize=8)), xmin = 0, xmax = 0.02 , ymin =0.18 , ymax = 0.19 ) +
+  annotation_custom(grob = textGrob(expression("-2"), gp=gpar(fontsize=8)), xmin = 0, xmax =0.02 , ymin =0.01 , ymax = 0.02 ) +
+  annotation_custom(grob = dw.condition.legend, xmin = 0.9, xmax = 0.9, ymin= 0.1, ymax = 0.1)
+
+ggsave("difference-waves-grand-averages.png", plot=dw.scalp, device = "png", path="figures/", width=8, height = 4, units = "in", dpi=300) 
+
+dw.scalp
+```
+
+#### Midline electrodes ANOVA
+
+```{r warning=FALSE}
+midline.difference.data <- difference.waves %>%
+  filter(electrode %in% midline.electrodes, t %in% p600.time.window) %>% 
+  group_by(subject, electrode, stimulus.condition) %>%
+  summarize(mean.amplitude = mean(difference.voltage)) %>%
+  as.data.frame()
+
+midline.difference.anova <- ezANOVA(midline.difference.data, dv=mean.amplitude, wid=subject, within=c('stimulus.condition','electrode'))
+midline.difference.anova$ANOVA
+```
+
+#### Lateral electrodes ANOVA
+
+```{r warning=FALSE}
+lateral.difference.data <- difference.waves %>%
+  filter(electrode %in% lateral.electrodes, t %in% p600.time.window) %>% 
+  group_by(subject, electrode, stimulus.condition) %>%
+  summarize(mean.amplitude = mean(difference.voltage)) %>%
+  as.data.frame()
+
+lateral.difference.anova <- ezANOVA(lateral.difference.data, dv=mean.amplitude, wid=subject, within=c(stimulus.condition,electrode))
+lateral.difference.anova$ANOVA
+```
+
+#### Plotting data used for ANOVA
+
+```{r fig.height=3.5, fig.width=8}
+dw.midline.plot <- ggplot(midline.difference.data, aes(x=electrode,y=mean.amplitude, color=stimulus.condition)) +
+  geom_hline(yintercept=0, alpha=0.3)+
+  geom_boxplot(stat="boxplot", coef=Inf, fill="white")+
+  geom_point(position=position_jitterdodge(), alpha = 0.5, size=0.5)+
+  scale_color_brewer(type="qual", palette="Set2", guide=F)+
+  coord_cartesian(ylim=c(-25,25))+
+  #labs(x="Electrode", y=expression("Mean amplitude ( "*mu*"v), 500-800ms"), title="Language Stimuli, Midline Electrodes")
+  labs(x=NULL,y=NULL, title="Language, Midline")+
+  theme(plot.title = element_text(face="plain", size=12))
+
+dw.lateral.plot <- ggplot(lateral.difference.data, aes(x=electrode,y=mean.amplitude, color=stimulus.condition)) +
+  geom_hline(yintercept=0, alpha=0.3)+
+  geom_boxplot(stat="boxplot", coef=Inf, fill="white")+
+  geom_point(position=position_jitterdodge(), alpha = 0.5, size=0.5)+
+  scale_color_brewer(type="qual", palette="Set2", name=NULL)+
+  coord_cartesian(ylim=c(-25,25))+
+  #labs(x="Electrode", y=expression("Mean amplitude ( "*mu*"v), 500-800ms"), title="Language Stimuli, Midline Electrodes")
+  labs(x=NULL,y=NULL, title="Language, Lateral")+
+  theme(plot.title = element_text(face="plain", size=12), legend.position = c(0.7, 0.9))
+
+dw.anova.plot <- plot_grid(dw.midline.plot, dw.lateral.plot, ncol=2,nrow=1, rel_widths = c(1,2.5), scale=0.9) +
+  draw_label("Electrode", size=12, y=0, vjust=0) +
+  draw_label(expression("Amp. difference ("*mu*"v), 500-800ms window"), size=12, x=0, vjust=1, angle=90)
+
+ggsave("difference-waves-anova-data.png", plot=dw.anova.plot, device = "png", path="figures/", width=8, height = 3.5, units = "in", dpi=300) 
+
+dw.anova.plot
+```
+
+
+#### Bayes factors
+
+Using BayesFactor package with default prior on fixed and random effects. Our pre-registration says:
+
+> We will also analyze this second model using Bayes factors to evaluate relative support for the null finding of no difference in Patel v. the alternative hypothesis of a moderate effect. In the absence of any strong prior beliefs about the size of a difference between music and language P600s, we will use the default prior of the BayesFactor R package (r scaling factor = 0.5) to represent the prior on the fixed effects in a Bayesian repeated-measures ANOVA.
+
+Estimating the BFs is stochastic. Setting a seed for the random number generator should create reproducible numbers.
+
+```{r message=FALSE, warning=FALSE}
+set.seed(12604)
+bf.anova.midline <- anovaBF(mean.amplitude ~ stimulus.condition * electrode + subject, data= midline.difference.data, whichRandom = "subject")
+summary(bf.anova.midline)
+```
+
+BF for model with electrode only vs. electrode + stimulus
+
+```{r}
+extractBF(bf.anova.midline)$bf[1] / extractBF(bf.anova.midline)$bf[3]
+```
+
+```{r}
+set.seed(12604)
+bf.anova.lateral <- anovaBF(mean.amplitude ~ stimulus.condition * electrode + subject, data= lateral.difference.data, whichRandom = "subject")
+summary(bf.anova.lateral)
+```
+
+BF for model with electrode only vs. full model.
+
+BF for full model vs. main effects only.
+
+```{r}
+extractBF(bf.anova.lateral)$bf[1] / extractBF(bf.anova.lateral)$bf[4]
+extractBF(bf.anova.lateral)$bf[4] / extractBF(bf.anova.lateral)$bf[3]
+```
+
+# Supplemental Analysis: RATN
+
+At the request of a reviewer, this is a *non-preregistered* analysis of the right-anterior temporal negativity reported by Patel et al., who state:
+
+> A new and interesting result is the observation of a brief right-hemisphere negativity in response to out-of-key target chords (N350). Previous studies of music perception using ERPs have often commented on the difference between negativities produced by violations of semantic expectancy in language (e.g., the N400) and positivities produced by violations of musical expectancy (e.g., Besson & Macar, 1987; Paller, McCarthy, & Wood,1992; see Besson,1997 for a review). Although the N350 does not resemble the semantic N400 (which differs in symmetry, duration, and scalp distribution), it is interestingly reminiscent of another ERP component recently associated with syntactic processing, the left anterior negativity, or LAN. The LAN, whose amplitude tends to be largest in the vicinity of Broca’s area in the left hemisphere, has been associated with violations of grammatical rules (Friederici & Mecklinger, 1996; Neville et al., 1991) and with an increase in working memory associated with the processing of disjunct syntactic dependencies (King & Kutas, 1995; Kluender & Kutas, 1993). Like the LAN, the N350 shows a significant condition x hemisphere x electrode site interaction in statistical analyses, reflecting an anterior-posterior asym- metry in its distribution. Unlike, the LAN, however, the N350 has an antero-temporal distribution and should thus perhaps be called the “right antero-temporal negativity,” or RATN.It is tempting to speculate that the RATN reflects the application of music-specific syntactic rules or music-specific working memory resources, especially because right fronto-temporal circuits have been implicated in working memory for tonal material (Zattore, Evans, & Meyer, 1994). However, more accurate characterization of this component will have to await future investigation. Here we simply note that the elicitation of this component in our study, in contrast to other recent studies of music perception using ERPs (e.g., Besson & Faïta, 1995, Janata, 1995), may be due to our use of musical phrases with chordal harmony and sequenceinternal (versus sequence-final) targets.
+
+The key statistical result supporting the existence of the RATN is (from the original Patel et al.): 
+
+> A hemispheric asymmetry developed in the 300 to 500- msec window, as revealed by the significant condition x hemisphere x electrode site interaction in the overall ANOVA for this time range. Follow-up comparisons showed that this interaction was also present in the 300 to 400-msec range (F(8, 112) = 5.29, p < 0.01), where a negative peak (N350) can be seen at frontal and temporal sites in the right hemisphere to the two out-of-key target chords. Pairwise analyses between conditions during this time window revealed that the three-way inter- action was significant for A versus C (F(4, 56) = 8.79, p <0.01) and marginally significant for A versus B (F(4, 56) = 3.30, p < 0.07) and B versus C (F(4, 56) = 3.01, p < 0.07). These data suggest a specifically right-hemi- sphere effect for the two out-of-key chords. In contrast to this right hemisphere N350, later positive compo- nents were quite symmetrical and showed no significant interactions of condition ´ hemisphere in any of the latency windows.
+
+Here we run the hemisphere x condition x electrode model for the 300-400ms window.
+
+```{r message=FALSE, warning=FALSE}
+RATN.time.window <- 300:400
+
+eeg_data_RATN <- eeg.data %>% 
+  filter(electrode %in% lateral.electrodes, t %in% RATN.time.window, stimulus.condition=='Music') %>% 
+  mutate(hemisphere = ifelse(electrode %in% c(33,39,42,45,70), "left", "right")) %>% mutate(electrode.site = ifelse(electrode %in% c(33,122),"F", ifelse(electrode %in% c(39,115),"A", ifelse(electrode %in% c(42,93),"W", ifelse(electrode %in% c(45,108),"T","O"))))) %>% 
+  group_by(subject, electrode.site, grammar.condition, hemisphere) %>% summarize(mean.amplitude = mean(voltage))
+                                  
+RATN.anova <- ezANOVA(eeg_data_RATN, dv=mean.amplitude, wid=subject, within = c('electrode.site', 'grammar.condition', 'hemisphere'))
+RATN.anova$ANOVA
+```
+
+Unlike Patel et al., we do not find a significant three-way interaction. 
+
+We followed this up with a Bayes Factor ANOVA, comparing the subject-only model to the full three-way interaction model. The subject-only model is overwhelmingly preferred.
+
+```{r}
+eeg_data_RATN$electrode.site <- as.factor(eeg_data_RATN$electrode.site)
+eeg_data_RATN$hemisphere <- as.factor(eeg_data_RATN$hemisphere)
+bf.anova.RATN <- anovaBF(mean.amplitude ~ electrode.site * grammar.condition * hemisphere + subject, data=data.frame(eeg_data_RATN), whichRandom = "subject")
+1/bf.anova.RATN[18]
+```
+
+Looking at the full set of models, the model with the most support is the grammar.condition + subject model, which suggests that there may be a main effect of grammar in the 300-400ms window, but that such an effect is roughly uniform across electrode sites and not localized to right anterior sites.
+
+```{r}
+summary(bf.anova.RATN)
+```

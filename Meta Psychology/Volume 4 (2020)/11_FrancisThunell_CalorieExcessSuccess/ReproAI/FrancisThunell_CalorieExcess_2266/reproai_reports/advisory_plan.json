@@ -1,0 +1,44 @@
+{
+  "paper": "Francis & Thunell (2020) MP.2019.2266",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "remediation": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "action": "Correct the provenance inconsistency between Table 1 and Table 2",
+      "steps": [
+        "Regenerate Table 2 from the post-corrigendum meta-analysis (MetaanalysisPowerAC.R): expected full row 282/322/377/466/658 and half row 1123/1285/1503/1859/2627.",
+        "OR retain the printed Table 2 and disclose that it was computed from the pre-corrigendum study-1 sample size while Table 1 used the corrigendum.",
+        "State the exact input data revision used for every exhibit; verify one self-consistent version across tables.",
+        "Confirm that the in-text narrative values (0.2366 pooled g; the 282/377/1123/1502 anchors) remain unchanged (they do) and only amend cell-level off-by-one entries."
+      ],
+      "owner": "Authors (G. Francis / E. Thunell); Meta-Psychology could issue a small corrigendum or data note.",
+      "priority": "do-before-next-version"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "action": "Consolidate the OSF code (osf.io/xrdhj) to a single canonical post-corrigendum set",
+      "steps": [
+        "Move the pre-corrigendum 'plain' files (Analysis.R, Study1.R, Study3.R, MetaanalysisPower.R, README.txt) into a clearly labelled legacy/ subfolder.",
+        "Leave the AC files at the project root as the canonical set; make READMEAC.txt the default README.",
+        "Add a short data-availability note in the paper directing readers to the post-corrigendum files (or an unambiguous subpath) so Table-1 values trace cleanly."
+      ],
+      "owner": "Authors",
+      "priority": "do-before-next-version"
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "action": "Add fixed seeds to the two unseeded simulations",
+      "steps": [
+        "Add set.seed(<seed>) to StudyS2.R and StudyS3.R (as already done for Studies 1 and 3), record the seeds, and re-publish.",
+        "Expected: S2 ~0.5666-0.5674 and S3 ~0.494-0.496 (within MC SE of the published values); the product remains ~0.014."
+      ],
+      "owner": "Authors",
+      "priority": "nice-to-have"
+    }
+  ],
+  "verification_note": "No P0/P1 findings: every primary statistic (the six TES power estimates and the product 0.014) reproduces, with Studies 1 and 3 exact under the shipped seed and Studies 2/S1 exact in closed form."
+}

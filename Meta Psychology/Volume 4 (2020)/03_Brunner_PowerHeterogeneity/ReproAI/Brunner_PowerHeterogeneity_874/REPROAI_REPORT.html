@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Brunner &amp; Schimmack (2020) MP.2018.874</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 1020px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .warn { background: #fff8e1; } .diff { background: #fdecea; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Estimating Population Mean Power Under Conditions of Heterogeneity and Selection for Significance</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &nbsp;·&nbsp; <strong>rules:</strong> 2026.06.27 &nbsp;·&nbsp; <strong>audit date:</strong> 2026-09-14</p>
+<p><strong>Package audited:</strong> <code>Brunner_PowerHeterogeneity_874</code> (Jerry Brunner &amp; Ulrich Schimmack, University of Toronto Mississauga; Meta-Psychology 2020, vol. 4, MP.2018.874; DOI <code>10.15626/MP.2018.874</code>; OSF project <code>PEUMW</code>)</p>
+<p><strong>Mode:</strong> <strong>static + deterministic theorem re-derivation + independent Monte-Carlo reimplementation + second-language recompute.</strong> Simulation-method paper ("Open data: N/A"; carries "Open Materials" and "Open and reproducible / analysis reproduced" claims). The theoretical component was re-derived exactly in R and cross-checked in Python. Study 1 (Table 1) was re-run as a reduced-MC independent reimplementation from the paper's described design, using the AUTHOR's recovered estimator functions (zcurve/pcurve/mle) plus corrected per-study-df2 implementations, and the headline results were recomputed a second time from scratch in Python (numpy/scipy). Study 2 and Study 3 were not reimplemented (reasons given).</p>
+<p><strong>Originals:</strong> untouched (<code>paper.pdf</code>, <code>paper_extracted.txt</code>). All work on copies in <code>exec_check/</code>; recovery copies in <code>extracted/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>5</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This is a substantively reproducible methods paper.</strong> The statistical core verifies cleanly: every theorem (1–5) and the appendix's deterministic numerical example reproduce to printed precision (seed 9999), Figure 2 (Beta(13,6)·0.95+0.05, 0.700/0.714) is exact, and <strong>Study 1's Table 1 reduces to the paper's values within Monte-Carlo error for all four methods —</strong> z-curve over k = 50/100/250, and p-curve 2.1 / ML / p-uniform over k = 100/250, at true power .05–.75 (all deltas ≤ 0.003; the four methods cross-validated in R <em>and</em> p-curve/p-uniform/ML independently in Python). The headline recommendation (z-curve, and the result that fixed-effect-size methods systematically overestimate mean power under effect-size heterogeneity) is supported. The one substantive defect is a <strong>code</strong> issue, not a results issue: the author's recovered <code>heteroNpunifF</code> contains a lower-tail/upper-tail error (uses <code>pf(datta, log.p=T)</code> for the numerator of the modified p-value) that makes it return a degenerate ≈0.84–0.91 estimate for every true power, contradicting its own published Table 1 p-uniform column; the corrected implementation reproduces the table exactly (<strong>ADV-001</strong>, P1). Availability is weak: the published code URL <code>osf.io/bvraz</code> resolves to no OSF node (404) and the OSF project holds manuscript files only (<strong>ADV-002/003</strong>, P2). Minor: Figure 1's "after selection 0.635" label is arithmetically impossible (correct 0.668; ADV-004, P3) and simulation seeds are unreported (ADV-005, P3).</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation</h2>
+<p>Reduced Monte-Carlo (S = 2000 z-curve; S = 1000 p-curve/p-uniform/ML in R; S = 500 Python), fixed seed <code>20260914</code>. Claims inventory: <code>exec_check/manuscript_claims.md</code> (kept at <code>extracted/manuscript_claims.md</code>).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>reaudit_01_theorems.R</code></td><td>Fig 1 &amp; 2 + Appendix theorems 1–5 (seed 9999)</td><td>Figs 1–2; Appendix</td><td>OK (Fig 1 "after" ⚠ 0.635)</td></tr>
+<tr><td><code>reaudit_02_study1_zcurve.R</code></td><td>z-curve column (author <code>zcurve()</code>, p-values only)</td><td>Table 1 z-curve</td><td>OK</td></tr>
+<tr><td><code>reaudit_03_study1_dflist.R</code></td><td>p-curve / p-uniform / ML with per-study df2 (R)</td><td>Table 1 pcurve / punif / ML</td><td>OK (punif author-code ⚠)</td></tr>
+<tr><td><code>reaudit_03b_study1_punif_correct.R</code></td><td>p-uniform with corrected upper-tail</td><td>Table 1 p-uniform</td><td>OK — reproduces Table 1</td></tr>
+<tr><td><code>reaudit_04_py_recompute.py</code></td><td>Independent Python/scipy: theorems + Table 1 pcurve/punif/ML</td><td>Figs; Appendix; Table 1</td><td>OK (True-power .05 cell hits optimizer boundary in Python — noted)</td></tr>
+<tr><td><code>reaudit_00_env.R</code></td><td>Provenance/environment (sessionInfo)</td><td>—</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Console logs / outputs in <code>exec_check/output/</code> with <code>==== START/END (status: OK) ====</code> markers in <code>_environment.txt</code>.</p>
+
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision (within declared MC tolerance) · ≈ close / explicable · ⚠ discrepant · ➖ not independently checkable.</p>
+
+<h3>Theorems &amp; illustrative figures (deterministic)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R / Python)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Fig 1 — E[p] before, Uniform[0.05,1]</td><td>0.525</td><td>0.52500 / 0.52500</td><td>✅</td></tr>
+<tr><td class="warn">Fig 1 — E[p|sig] after selection</td><td>0.635</td><td>0.66825 / 0.66825</td><td>⚠ ADV-004 (correct 0.668)</td></tr>
+<tr><td>Fig 2 — E[p] before, Beta(13,6)·.95+.05</td><td>0.700</td><td>0.70000 / 0.70000</td><td>✅</td></tr>
+<tr><td>Fig 2 — E[p|sig] after selection</td><td>0.714</td><td>0.71393 / 0.71393</td><td>✅</td></tr>
+<tr><td>Appendix: located chi-sq df (E(pow)=0.80)</td><td>14.36826</td><td>14.36826</td><td>✅</td></tr>
+<tr><td>Appendix: ∫(1−pf(c,3,26,λ))dchisq(λ,14.36826)</td><td>0.8000001</td><td>0.8000001</td><td>✅</td></tr>
+<tr><td>Appendix: mean(Power)</td><td>0.8002137</td><td>0.8002141</td><td>✅</td></tr>
+<tr><td>Appendix: P(significant)=E(G)</td><td>0.800177</td><td>0.8001770</td><td>✅</td></tr>
+<tr><td>Appendix: E(G|sig) (Thm 1/3)</td><td>0.8274357</td><td>0.8274361</td><td>✅</td></tr>
+<tr><td>Appendix: replication success rate</td><td>0.827172</td><td>0.827010</td><td>≈ (Δ1.6e-4, fresh RNG)</td></tr>
+<tr><td>Appendix: Thm 3 E[G²]/E[G]</td><td>0.8275373</td><td>0.8275377</td><td>✅</td></tr>
+<tr><td>Appendix: Thm 4 1/mean(1/P)</td><td>0.8000502</td><td>0.8000507</td><td>✅</td></tr>
+<tr><td>Appendix: Thm 5 Var(G)/E(G)</td><td>0.02732371</td><td>0.0273236</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<h3>Study 1 — Table 1 z-curve column (author <code>zcurve()</code>, Δ = reimpl − paper)</h3>
+<table>
+<thead><tr><th>true</th><th>k=50 (Δ)</th><th>k=100 (Δ)</th><th>k=250 (Δ)</th></tr></thead>
+<tbody>
+<tr><td>.05</td><td>.055 (−.003)</td><td>.047 (−.002)</td><td>.039 (−.001)</td></tr>
+<tr><td>.25</td><td>.290 (−.003)</td><td>.279 (−.001)</td><td>.268 (0)</td></tr>
+<tr><td>.50</td><td>.515 (+.002)</td><td>.507 (−.001)</td><td>.500 (−.002)</td></tr>
+<tr><td>.75</td><td>.719 (+.002)</td><td>.722 (−.001)</td><td>.728 (0)</td></tr>
+</tbody>
+</table>
+<p>All Δ ≤ 0.003, well inside 2–3 SE of the reduced MC. ✅ reproduces. 2000 sims/cell, 0 failures.</p>
+
+<h3>Study 1 — Table 1 p-curve 2.1, ML, p-uniform (per-study df2; Δ = reimpl − paper)</h3>
+<table>
+<thead><tr><th>Method</th><th>true .25▲</th><th>true .50▲</th><th>true .75▲</th><th>k</th></tr></thead>
+<tbody>
+<tr><td>p-curve 2.1</td><td>Δ +.001</td><td>Δ +.001</td><td>Δ ≈0</td><td>100 ✅</td></tr>
+<tr><td>p-curve 2.1</td><td>Δ −.001</td><td>Δ ≈0</td><td>Δ +.001</td><td>250 ✅</td></tr>
+<tr><td>ML-model</td><td>Δ +.001</td><td>Δ ≈0</td><td>Δ ≈0</td><td>100 ✅</td></tr>
+<tr><td>ML-model</td><td>Δ ≈0</td><td>Δ +.001</td><td>Δ +.001</td><td>250 ✅</td></tr>
+<tr><td class="warn">p-uniform (author function)</td><td>.844 vs .251</td><td>.873 vs .496</td><td>.911 vs .746</td><td>100 ⚠ ADV-001</td></tr>
+<tr><td class="diff">p-uniform (corrected upper-tail)</td><td>Δ ≈0</td><td>Δ ≈0</td><td>Δ ≈0</td><td>100/250 ✅</td></tr>
+</tbody>
+</table>
+<p>▲ per-cell means matched to ≤0.003 at k=100/250 for p-curve, ML and corrected p-uniform; the author's <code>heteroNpunifF</code> returns ≈0.84–0.91 independent of true power. Cross-validated independently in Python (S=500): p-curve/ML/p-uniform all match Table 1 for powers .25/.50/.75.</p>
+
+<h3>Table 2 / prose (internal consistency)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Check</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>"With 50% power at least 100 studies needed for MAE &lt; 6% for all methods"</td><td>Table 2, power .50: k=50 MAE = 8.14/7.80/7.60/7.44 (&gt;6%); k=100 = 5.80/5.56/5.41/5.48 (&lt;6%). k=100 is the minimal k.</td><td>✅</td></tr>
+<tr><td>OSC application: 66% mean power vs 37% actual vs 97% original</td><td>External (Schimmack &amp; Brunner 2016); OSC p-value set not shipped</td><td>➖</td></tr>
+<tr><td>Irvine-Hall &amp; bandwidth-0.05 numbers (.235/.492/.743; 24/76/99% etc.)</td><td>Parameters/ code not supplied</td><td>➖</td></tr>
+</tbody>
+</table>
+
+<h3>Study 2 (Tables 3 &amp; 4) and Study 3 (Table 5)</h3>
+<p>Not independently reimplemented: ML with gamma effect size + 3 random starts per sim (Study 2) and the correlated beta/Poisson driver tuned via <code>optim</code> (Study 3) are computationally prohibitive at 10,000 sims × 60–450 cells and require the (unrecovered) simulation drivers. These are <strong>➖ not independently checkable in this audit</strong> — but the Study-1 design they generalize reproduces, lending indirect confidence. Also the true-power .05 cell in the Python recompute hit an optimizer boundary (R returns the correct ~.057); noted as a numerical fragility, not a paper discrepancy.</p>
+
+<hr />
+<h2>Findings (for the authors)</h2>
+
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — The recovered/shipped p-uniform function <code>heteroNpunifF</code> has a tail-direction bug and does not reproduce its own published Table 1 column.</strong> In <code>heteroNpunifF</code> (and <code>heteroNpunifCHI</code>) the modified p-value's numerator uses <code>pf(datta, log.p=T)</code> — the log <em>lower</em> tail — instead of <code>pf(datta, lower.tail=F, log.p=T)</code> — the log <em>upper</em> tail (the correct conditional probability P(T&gt;t | T&gt;c)). Run as-is on Study-1-style significant-F data it returns a degenerate ≈0.80–0.91 estimate regardless of true power (true .25 → 0.844; true .05 → 0.808). This reproduces identically at the representative df2=84 and at true per-study df2, isolating the tail error as the cause. The paper's Table 1 p-uniform <em>numbers</em> are correct: the corrected implementation returns .251/.496/.746/.058 exactly matching. <em>Why it matters:</em> the paper carries the badge "verified the analysis reproduced the results", yet one of the four headline estimators' code, run as documented, contradicts its own published column. <em>Fix:</em> change the numerator term to <code>pf(..., lower.tail=FALSE, log.p=TRUE)</code> in <code>heteroNpunifF</code>/<code>heteroNpunifCHI</code>, re-verify Study 1, and host the corrected file.</p>
+
+<h3>P2 — medium</h3>
+<p><strong>ADV-002 — The published code-availability URL <code>https://osf.io/bvraz</code> does not resolve to an existing OSF node.</strong> OSF API <code>/v2/nodes/bvraz/</code> → HTTP 404 (node does not exist; the web 200 is OSF's generic fallback for unknown short-links). The draft LaTeX instead cites <code>http://www.utstat.toronto.edu/~brunner/zcurve2018</code>, also dead (recoverable only via the Wayback Machine, 9 captures 2018–2026; the estimator file <code>estimatR.txt</code> was recovered from the 2022-05-19 capture). <em>Fix:</em> create the <code>bvraz</code> component (or correct the statement) and host <code>estimatR.txt</code> + the simulation drivers; update the draft-URL references.</p>
+<p><strong>ADV-003 — OSF project <code>PEUMW</code> contains manuscript files only; the "Open Materials"/"analysis reproduced" badges are weakly substantiated.</strong> The project holds six folders (Submission, two Review Rounds, three Revisions) with LaTeX/PDF and editorial PDFs but no R source, no simulation data, no analysis scripts. The "All supplementary files can be accessed at OSF" statement is only partially true, and the only documented code path (bvraz) is dead. <em>Fix:</em> upload <code>estimatR.txt</code> and the full replication drivers to the project.</p>
+
+<h3>P3 — low</h3>
+<p><strong>ADV-004 — Figure 1's "after selection 0.635" caption is arithmetically inconsistent with Uniform[0.05,1].</strong> E[p|sig] = E[p²]/E[p] = ((1³−.05³)/3)/((1²−.05²)/2) = <strong>0.6683</strong>, not 0.635; no interval [a,b] yields before 0.525 and after 0.635 simultaneously. R and Python agree on 0.6683. Illustrative only; affects no simulation result. <em>Fix:</em> correct the label to 0.668 (or recompute for the shown distribution).</p>
+<p><strong>ADV-005 — Random seeds for the 10,000-sim coexistence runs are not reported.</strong> Exact replication of the specific published point estimates is impossible; reduced-MC fixed-seed re-runs reproduce all Table 1 means within ~0.003, so practical impact is low. <em>Fix:</em> state the seed(s) in the supplement.</p>
+
+<hr />
+<h2>Cross-check vs. the prior audit (two independent audits)</h2>
+<p><em>Convergent (factual):</em> OSF project <code>PEUMW</code> holds manuscript files only (no code/data); the draft's <code>utstat</code> code URL is dead (archive-only); Figure 1's "0.635 after selection" is arithmetically impossible (both audits compute 0.6683); z-curve/p-curve reproduce Table 1 within MC error. <em>Divergent (method), resolved:</em> the prior audit marked the p-uniform and ML Table-1 columns "➖ not verified" (its fixed-df2 application of the author functions gave ~0.85). This re-audit <em>deeper-reimplements</em>: with true per-study df2, ML and p-curve reproduce exactly, and the p-uniform ~0.85 artifact is traced to the author function's lower-tail bug — resolved in favor of the values that match the paper's own reported numbers (corrected upper-tail reproduces Table 1 exactly). The prior audit keyed availability to the dead <code>utstat</code> draft URL; this audit additionally confirms the <em>published</em> code URL (<code>osf.io/bvraz</code>) is a dead 404 node — a stronger provenance finding. Shared gap: neither audit re-ran the unrecovered 10,000-sim driver or Studies 2–3; those remain the natural next step.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>Studies 2 and 3 were not reimplemented</strong> (gamma-es ML and correlated n–es designs; computational infeasibility + unrecovered simulation drivers). Their Tables 3–5 are <strong>➖</strong>, not verified here.</li>
+<li><strong>The OSC-100 application (66%/37%/97%) and the Irvine-Hall / bandwidth-0.05 numbers are not independently recomputed</strong> (external data/method not shipped) — <strong>➖</strong>.</li>
+<li>The reduced Monte Carlo uses S ≈ 500–2000 (not the paper's 10,000) per cell; agreement is established to the reduced-MC tolerance (≈0.003 at k=100–250), not to the paper's own 10,000-sim precision.</li>
+<li>The exact simulation <em>drivers</em> that produced Tables 1, 3, 5 were not recovered; Study-1 agreement was obtained by reimplementing the described design with the author's estimator functions (not a byte-for-byte rerun of the unrecovered driver).</li>
+<li>The True-power .05 cell hit an optimizer boundary in the Python lane only (R is correct); a scipy bounded-optimizer fragility, not a manuscript error.</li>
+<li>No live re-run of the authors' original driver was possible (code not on OSF; only archived estimator functions recovered).</li>
+</ul>
+
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/</code></td><td>Untouched recovery copies (manuscript zip, supp PDFs, Wayback HTML, estimatR source, LaTeX draft <code>Zcurve6.7.tex</code>)</td></tr>
+<tr><td><code>extracted/manuscript_claims.md</code></td><td>Claims inventory, 17 numbered clusters C1–C17, each checked (✅/⚠/➖)</td></tr>
+<tr><td><code>exec_check/*.R</code></td><td><code>reaudit_00_env.R</code>, <code>reaudit_01_theorems.R</code>, <code>reaudit_02_study1_zcurve.R</code>, <code>reaudit_03_study1_dflist.R</code>, <code>reaudit_03b_study1_punif_correct.R</code></td></tr>
+<tr><td><code>exec_check/reaudit_04_py_recompute.py</code></td><td>Independent Python/scipy recompute (theorems + Table 1)</td></tr>
+<tr><td><code>exec_check/estimatR_raw.txt</code></td><td>Author's recovered estimator functions (Wayback, 2022-05-19 capture)</td></tr>
+<tr><td><code>exec_check/output/</code></td><td><code>_environment.txt</code>, <code>reaudit_theorems.txt</code>, <code>reaudit_study1_zcurve.txt</code>, <code>reaudit_study1_dflist.txt</code>, <code>reaudit_study1_punif_correct.txt</code>, <code>reaudit_py_recompute.txt</code></td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/reimplementation description + environment</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-005 with severities, evidence, fix</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation plan + auditor next steps</td></tr>
+</tbody>
+</table>
+</body>
+</html>

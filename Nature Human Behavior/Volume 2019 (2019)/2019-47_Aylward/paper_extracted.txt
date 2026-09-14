@@ -1,0 +1,837 @@
+Articles
+https://doi.org/10.1038/s41562-019-0628-0
+Altered learning under uncertainty in
+unmedicated mood and anxiety disorders
+Jessica Aylward1, Vincent Valton1, Woo-Young Ahn 2, Rebecca L. Bond1, Peter Dayan 3,
+Jonathan P. Roiser1 and Oliver J. Robinson 1,4*
+Anxiety is characterized by altered responses under uncertain conditions, but the precise mechanism by which uncertainty
+changes the behaviour of anxious individuals is unclear. Here we probe the computational basis of learning under uncertainty
+in healthy individuals and individuals suffering from a mix of mood and anxiety disorders. Participants were asked to choose
+between four competing slot machines with fluctuating reward and punishment outcomes during safety and stress. We pre-
+dicted that anxious individuals under stress would learn faster about punishments and exhibit choices that were more affected
+by those punishments, thus formalizing our predictions as parameters in reinforcement learning accounts of behaviour. Overall,
+the data suggest that anxious individuals are quicker to update their behaviour in response to negative outcomes (increased
+punishment learning rates). When treating anxiety, it may therefore be more fruitful to encourage anxious individuals to inte-
+grate information over longer horizons when bad things happen, rather than try to blunt their responses to negative outcomes.
+Mood and anxiety disorders are the most common mental how quickly the information is integrated over time (learning rate—
+health problems in the developed world, accounting for 4% how quickly one might switch bandits following a punishment or
+of all years lived with disability1. In spite of this, we have how long one persists in choosing a previously rewarded bandit). If
+very little understanding of the mechanisms driving pathological altered response to uncertainty were a core feature of anxiety symp-
+feelings of anxiety and the associated alterations to cognitive pro- toms, we would predict that the mechanisms parameterized by rein-
+cesses, such as decision-making, when people are anxious. This hin- forcement learning models should differ in individuals with high
+ders our ability to improve treatments2. levels of anxiety symptomatology11. Specifically, given that anxiety
+Altered psychological, behavioural and neural responses to is associated with a bias towards aversive processing (negative affec-
+uncertainty are thought to be key to the manifestation of anxiety3. tive bias12–14), we would predict that anxiety selectively increases the
+First, anxious individuals report finding uncertain situations dis- weights of aversive-specific parameters in reinforcement learning
+tressing4. Second, anxious individuals have been shown to be averse algorithms (punishment sensitivity and punishment learning rate).
+to uncertain decisions, preferring less profitable but more predict- In this study, we therefore sought to formalize the differences
+able options over more profitable but uncertain ones5. Finally, in in decision-making under uncertainty between healthy individuals
+translational research, a well-established dissociation is made and those with high levels of anxiety in terms of differences in the
+between the processing of predictable and unpredictable threats6, parameters of reinforcement learning models. Moreover, given that
+with unpredictable threats used as a preclinical model of anxiety the diathesis−stress hypothesis15 predicts that some symptoms of
+in which uncertainty is a central component, whereas predictable mood and anxiety disorders are revealed only when an individual
+shocks are a model for fear and phobias. In humans, the neural is under stress13, we also transiently induced stress in participants
+signatures of unpredictable-threat response7 overlap with those using a threat of unpredictable shock (where shock probability was
+of pathological anxiety8, indicating that this model is relevant to unrelated to the participant’s behaviour). Thus, we predicted that
+understanding the pathological state. anxiety symptoms would selectively increase punishment sensitivity
+Nevertheless, decision-making under uncertainty is ubiquitous and punishment learning rate in the reinforcement learning algo-
+in daily life9. Multi-armed bandit tasks can be used to probe deci- rithm, and that this would be exaggerated under acute stress.
+sion-making under uncertainty by asking individuals to select one of
+multiple slot machines (bandits) with slowly fluctuating pay-offs. In Results
+any given trial, the best option might be one that you chose recently Healthy controls (N = 88) and individuals with unmedicated mood
+(and so have some knowledge about) or it might be one you haven’t and anxiety symptoms (N = 44; see Table 1 for the full demograph-
+chosen (and so do not have up-to-date information about). It has ics) completed a four-armed bandit task under conditions of threat
+been demonstrated computationally that the balance of decision- of shock (stress) and safety as illustrated in Fig. 1. The data are avail-
+making regarding which bandit to choose can be captured through able online16 (see Data availability statement).
+reinforcement learning algorithms that approximately optimize
+decisions based on the history of feedback from the bandits9,10. Self-report analysis. As expected, the mood and anxiety group
+Specifically, decisions are made according to the relative weights demonstrated higher levels of trait anxiety (data missing from one
+afforded to rewards and punishments (sensitivity—how much one participant in each group; Student’s t-test: t(128) = 8.7; P < 0.001;
+anticipates liking being rewarded or disliking being punished) and Cohen’s d = 1.6; 95% confidence interval (CI): 1.2, 2.0) and recent
+1Neuroscience and Mental Health group, Institute of Cognitive Neuroscience, University College London, London, UK. 2Department of Psychology, Seoul
+National University, Seoul, Korea. 3Gatsby Computational Neuroscience Unit, University College London, London, UK. 4Research Department of Clinical,
+Educational and Health Psychology, University College London, London, UK. *e-mail: oliver.j.robinson@gmail.com
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviOur
+a
+YOUAREATRISKOFSHOCK
+2,000 ms
+Punishment
+Reward
+<3,500 ms
+100 ms
+750 ms
+2,000 ms
+<3,500 ms
+depression symptoms (data missing from three patients and four condition (data missing for the second block for one patient; vari-
+controls; t(124) = 9.0; P < 0.001; d = 1.7; 95% CI: 1.2, 2.01), rela- ance ratio F(1, 129) = 319; P < 0.001; η2 = 0.7; 95% CI: 0.62, 0.77),
+tive to healthy controls (Table 1). Moreover, participants reported but this did not differ according to group (group × condition inter-
+feeling more anxious under the threat condition relative to the safe action: F(1, 129) = 0.04; P = 0.8; η2 < 0.001; 95% CI: 0, 0.03).
+ytilibaborP
+Table 1 | Demographics and mood measures
+Asymptomatic Symptomatic
+N 88 44
+Female 50 28
+Higher education a 37
+Mean s.d. Minimum Maximum Mean s.d. Minimum Maximum
+Age (years) 23 5.1 18 41 29 8.7 20 64
+Raven’s IQ – – – – 8 2.6 3 12
+STAI state 38 9.8 18 53 47 10.7 21 68
+STAI trait 41 10.6 20 69 57 8.2 41 74
+BDI 7 7.1 0 36 20 9.4 6 54
+The higher education count represents those who were in undergraduate education or higher. Raven’s IQ refers to the IQ estimate obtained from Raven’s progressive matrices. STAI, State−Trait Anxiety
+Inventory; BDI, Beck Depression Inventory. aThis group was recruited from the institutional subject database and ~90% are estimated to be in the higher education group, but detailed information is
+unfortunately not available.
+b
+0.6 0.6
+0.4 0.4
+0.2 0.2
+0 0
+0 200 400 600 0 200 400 600
+0.6 0.6
+0.4 0.4
+0.2 0.2
+0 0
+0 200 400 600 0 200 400 600
+Trial number
+YOU ARE NOW SAFE!
+Fig. 1 | task schematic. a, Participants were asked to select one of four bandits in each trial. Following the selection of, for example, the top right bandit
+(under the threat condition, indicated by the red border) the outcome (here illustrated as a combined reward and punishment; these were black and white
+photos of real human happy or fearful faces in the original experiment) was overlaid on the selected bandit and the bandit border changed colour (to blue,
+indicating the safe condition). The task proceeded in the same manner under the safe condition, but with a different set of bandits. b, An example of the
+independent fluctuations of reward and punishment probabilities across four bandits. At the start of a new condition, the bandits had the same probabilities
+as at the end of the previous condition; that is, the bandits at the end of one safe block paused during the subsequent threat block and vice versa.
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+NATure HumAN BeHAviOur Articles
+Table 2 | model specification
+model NP Parameters
+bandit4arm_4par 4 Reward sensitivity Punishment sensitivity Reward learning rate Punishment
+learning rate
+bandit4arm_lapse 5 Reward sensitivity Punishment sensitivity Reward learning rate Punishment Lapse
+learning rate
+igt_pvl_decay 4 Decay rate Shape Consistency Loss aversion
+igt_pvl_delta 4 Learning rate Shape Consistency Loss aversion
+bandit4arm_2par_lapse 3 Reward learning rate Punishment Lapse
+learning rate
+bandit4arm_singleA_lapse 4 Reward sensitivity Punishment sensitivity Learning rate Lapse
+bandit4arm_lapse_decay 6 Reward sensitivity Punishment sensitivity Reward learning rate Punishment Lapse Decay
+learning rate
+We fitted seven different models using the hBayesDM package (v. 0.7.2). The model names are those implemented in the hBayesDM package. NP, number of parameters.
+Model-agnostic task analysis. As expected, participants were more prior; probably because the single prior failed to capture the nature
+likely to repeat a choice following a win than a loss (F(1, 130) = 78; of the underlying distribution (which may be better represented by
+P < 0.001; η2 = 0.4; 95% CI: 0.25, 0.48). However, this was not mod- two distributions as seen in Table 3). Specifically, there are mul-
+ulated by group (group × outcome interaction: F(1, 130) = 0.18; tiple Gelman−Rubin statistics17 (R^) greater than 1.1 (even if we
+P = 0.68; η2 = 0.001; 95% CI: 0, 0.04) or stress condition (stress con- increase the number of samples in the chains from 2,000 to 10,000).
+dition × outcome interaction: F(1, 130) = 2.6; P = 0.11; η2 = 0.019; Therefore, fit indices such as the Leave-One-Out Information
+95% CI: 0, 0.09) and the three-way interaction was not significant Criterion (LOOIC) are not meaningful and are not reported.
+(F(1, 130) = 3.6; P = 0.061; η2 = 0.026; 95% CI: 0, 0.1). Extracting the parameters from the models fitted using two pri-
+A Bayesian version of the same analysis confirmed that the win- ors (one for each group) demonstrated elevated punishment learn-
+ning model included only outcome (logBF = 91), which scored ing rates and lapse parameters in symptomatic relative to control
+10
+eight-times better than the next best model (main effects of out- individuals (the highest density interval (HDI) for the compari-
+come and stress condition; logBF = 89.3). The full set of Bayes son across groups does not overlap zero). In the model including
+10
+Factors from this analysis is presented in Supplementary Table 1. a decay parameter, decay rate was also elevated in the symptom-
+atic group (Table 4; Fig. 2). Note that this same pattern (main effect
+Modelling results. We fitted seven models to the data (Table 2). of group on punishment learning rates and lapse parameters only)
+The winning model fitted with a full prior specification was the was seen when parameters were extracted from the four-prior
+six-parameter model that included a lapse and a decay parameter model and there was no effect of condition on any parameter (see
+(Table 3, top). We then fitted the top two models with the different Supplementary Results 1).
+combinations of group/condition hierarchical priors and demon-
+strated that both models were actually best fitted using only two Model check. Finally, we simulated data for this model for each
+priors: one for each group (Table 3, bottom). However, our model- participant based on their parameter estimates. For both the simu-
+fitting procedure did not converge for the decay model with a single lated and real data we calculated the proportion of all trials in which
+Table 3 | model and prior fits
+model LOOiC
+bandit4arm 128,456
+bandit4arm_lapse 128,198
+igt_pvl_decay 132,008
+igt_pvl_delta 131,774
+bandit4arm_2par_lapse 140,144
+bandit4arm_singleA_lapse 129,120
+bandit4arm_lapse_decay 126,289
+Prior LOOiC
+bandit4arm_lapse bandit4arm_lapse_decay
+Diagnosis and condition priors (4) 128,198 126,289
+Diagnosis priors (2) 128,166 126,094
+Condition priors (2) 128,225 126,233
+Single prior (1) 128,174 a
+The winning model in the top part of table is that with the lowest LOOIC. The lowest two values (for bandit4arm_lapse and bandit4arm_lapse_decay) are displayed in bold. In the bottom part of the table,
+the lowest LOOIC is then obtained when those two models are fitted with two priors: one for symptomatic and one for healthy individuals (diagnosis priors). aFitting the decay model with a single prior did
+not converge, rendering the LOOIC value meaningless.
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviOur
+1.00
+0.75
+0.50
+0.25
+0
+ANX HC
+participants switched bandits. Real and simulated data showed close
+correspondence (coefficient of correlation r(132) = 0.84; P < 0.001;
+95% CI: 0.78, 0.89; for both models; Fig. 3).
+Moreover, simulated data recapitulated the model-agnostic anal-
+ysis. There was a main effect of outcome (F(1, 130) = 434; P < 0.001;
+η2 = 0.8; 95% CI: 0.70, 0.81) driven by greater stay probability fol-
+lowing wins than losses, which did not interact with diagnosis (F(1,
+130) = 0.003; P = 0.95; η2 < 0.001; 95% CI: 0, 0.008).
+Continuous symptom analyses. Extracting each individual’s
+posterior mean estimated parameters supported the existence of
+positive correlations between trait anxiety and the lapse (lapse:
+r(130) = 0.32, 95% CI: 0.16, 0.47, logBF = 4.5, P < 0.001; lapse_ the higher learning rate for punishments occurred in combination
+10
+decay: r(130) = 0.42, 95% CI: 0.27, 0.56, logBF = 10.44, P < 0.001) with lower reliance on the modelled reinforcement learning param-
+10
+and punishment learning rate (lapse: r(130) = 0.28, 95% CI: 0.11, eters in general (as evidenced by an increased influence of the lapse
+0.43, logBF = 2.9, P = 0.001; lapse_decay: r(130) = 0.42, 95% CI: parameter in the symptomatic group) and increased propensity to
+10
+0.27, 0.56, logBF = 10.4, P < 0.001), but no supported correla- forget the previous values of unchosen options (increased reliance
+10
+tion for the decay parameter (lapse_decay: r(130) = 0.19, 95% CI: on a decay parameter).
+0.02, 0.35, logBF = 0.074, P = 0.032) or any other parameter (all A greater punishment learning rate means that individuals with
+10
+logBF < 0.4). Trait anxiety was, as expected, strongly correlated mood and anxiety symptoms learn faster about punishments and
+10
+with recent depression symptoms (BDI; r(126) = 0.8, 95% CI: 0.73, will therefore more readily update their behaviour on the basis of
+0.85, logBF = 60, P < 0.001) and therefore similar correlations were more recent negative outcomes instead of integrating over longer
+10
+observed between BDI scores and model parameters (Fig. 4). Note time scales. This is also reflected in the lower stay probabilities
+that the interaction between trait anxiety and parameters of interest immediately following punishment in the model-agnostic analysis
+remained significant (all t = 3.1–5.1, P < 0.002) when age was also (which was recapitulated in the model simulations). Importantly,
+included as a predictor in the models, suggesting that the effects this occurred in the absence of evidence for a group difference
+were not driven by age. in punishment sensitivity, which suggests that anxious individu-
+als do not overweigh punishments per se. This lack of evidence
+Discussion for an effect of anxiety on punishment sensitivity is consistent
+We found that higher mood and anxiety symptoms were associated with our earlier work with reinforcement learning paradigms13
+with altered decision-making in the aversive domain (specifically, and work indicating similar loss aversion between anxious and
+greater punishment learning rates). This finding was partially con- healthy individuals (albeit in the context of higher risk aversion)5.
+sistent with our hypotheses. Contrary to our hypotheses, however, Taken together, these results indicate that it is not that anxious
+we found no evidence that this was influenced by stress and no evi- individuals weigh negative outcomes more heavily in themselves;
+dence of a group difference in punishment sensitivity. Moreover, they instead use that information differently. Specifically, a greater
+etamitse
+tniop
+rehgiH
+a b c
+1.00 1.00
+0.75 0.75
+0.50 0.50
+0.25 0.25
+0 0
+ANX HC ANX HC
+1.00
+0.75
+0.50
+0.25
+0
+ANX HC
+etamitse
+tniop
+rehgiH
+Table 4 | Parameter estimates and group comparison on the
+winning model and prior combination
+Symptomatic Control Between-
+group HDi
+bandit4arm_lapse
+Reward sensitivity 7.47 (2.91) 9.61 (4.87) −4.55 0.65
+Punishment sensitivity 7.41 (7.21) 6.67 (4.83) −4.95 2.24
+Reward learning rate 0.31 (0.30) 0.25 (0.22) −0.11 0.17
+Punishment learning 0.51 (0.18) 0.31 (0.15) 0.08 0.38
+rate
+Lapse 0.21 (0.10) 0.13 (0.11) 0.02 0.2
+bandit4arm_lapse_decay
+Reward sensitivity 11.41 (5.03) 10.94 (7.20) −4.77 6.35
+Punishment sensitivity 4.64 (5.02) 3.00 (3.10) −0.87 1.93 d e
+Reward learning rate 0.21 (0.23) 0.23 (0.22) −0.13 0.07 1.00
+Punishment learning 0.95 (0.01) 0.75 (0.14) 0.04 0.26
+rate
+0.75
+Lapse 0.22 (0.10) 0.10 (0.03) 0.04 0.18
+Decay 0.61 (0.25) 0.41 (0.31) 0.10 0.40
+Values represent the mean (standard deviation) of the final estimated posterior mean estimates 0.50
+for each individual. The between-group HDI comprises the upper and lower bounds of the
+95% HDI of the comparison between the symptomatic and control groups. If the HDI does not
+encompass zero, we consider there to be a meaningful difference between the groups. We found
+a main effect of group on only the punishment learning rate, lapse and decay (when included) 0.25
+parameters (in bold).
+0
+ANX HC
+Fig. 2 | Group difference in parameters. a−c, Higher point estimates
+of punishment learning rates (a), lapse rates (b) and decay rates (c) in
+the symptomatic group (ANX; N = 44) relative to the healthy controls
+(HC; N = 88) in the bandit4arm_lapse_decay model. d,e, The same
+pattern is seen in punishment learning rates (d) and lapse rates (e) in the
+bandit4arm_lapse model (which does not include a decay parameter). The
+final estimated posterior mean of each parameter for each individual is
+plotted in each panel.
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+NATure HumAN BeHAviOur Articles
+0.4
+0.3
+0.2
+0.1
+0
+0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+Real data Real data
+punishment learning rate implies that individuals with anxiety plane crash an anxious individual might overestimate the risk of
+integrate information about threats over fewer trials, overestimate it reoccurring and therefore avoid flying14. In the long run, such
+the probability of bad outcomes and hence engage in avoidance avoidance behaviour will reduce an anxious individual’s ability to
+behaviours18. Clinically, this might result in overestimating nega- update learning and hence overestimation persists and avoidance
+tive events. For example, in the aftermath of a heavily reported behaviour is upheld.
+atad
+delledoM
+a
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+atad
+delledoM
+b
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+Fig. 3 | Sensitivity plots. a,b, Simulated data for each individual (N = 132) show close correspondence with real data on a simple metric p switch (the
+proportion of trials in which the individual (or simulated agent) selected a different bandit from the previous trial) for the bandit4arm_lapse_decay (a) and
+bandit4arm_lapse (b) models. Healthy controls (N = 88) are plotted in blue and symptomatic individuals in red (N = 44).
+bandit4arm_lapse bandit4arm_lapse bandit4arm_lapse_decay bandit4arm_lapse_decay
+0.6 r = 0.32 r = 0.32 r = 0.46 r = 0.39
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+20 40 60 80
+r = 0.28 r = 0.26
+r = 0.43 r = 0.39
+espaL
+0.6 0.6 0.6
+0.5 0.5 0.5
+0.4 0.4 0.4
+0.3 0.3 0.3
+0.2 0.2 0.2
+0.1 0.1 0.1
+0 0 0
+0 20 40 60 20 40 60 80 0 20 40 60
+1.0
+0.8
+0.6
+0.4
+0.2
+0
+20 40 60 80
+STAI
+etar
+gninrael
+tnemhsinuP
+1.0 1.0 1.0
+0.8 0.8 0.8
+0.6 0.6 0.6
+0.4 0.4 0.4
+0.2 0.2 0.2
+0 0 0
+0 20 40 60 20 40 60 80 0 20 40 60
+BDI STAI BDI
+Fig. 4 | Continuous symptom analysis. Individual parameter posteriors for both models plotted against anxiety symptoms (STAI) and depression
+symptoms (BDI). Healthy controls (N = 88) are plotted in blue and symptomatic individuals (N = 44) in red. The punishment learning rate parameter is at
+the boundary for the symptomatic group in the decay model. The r values were calculated between the symptom and the parameter for the entire sample.
+The lowest score on the STAI is 20 (a score of 1 for ‘almost never’ on all 20 questions).
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviOur
+That it is the learning rate, rather than sensitivity to punish- feedback strength on task performance. Relatedly, it is possible that
+ment, which is elevated in mood and anxiety disorders12,19 may be the within-subject nature of the safe/threat conditions meant that
+important in relation to potential interventions that could miti- the overall context was anxiogenic and there was no true baseline.
+gate such a negative bias. In particular, we may not need to blunt Note though, that self-report measures did vary between conditions,
+aversive responses through treatment—rather we should focus on and also that many prior studies have shown within-subject differ-
+treatments that seek to modify how negative information is used20. ences using this manipulation12. However, a between-subject design
+Indeed, changing the way individuals use the same information is with separate groups, and critically a safe group with no electrode
+one principle underpinning psychological interventions for mood contact, would control for this. A final caveat is that we recruited
+and anxiety disorders, such as cognitive behavioural therapy20. One a mixed sample of people who had anxiety and people who had
+specific recommendation that follows from our findings is in line depression. Our post hoc analyses (see Supplementary Results 2)
+with what is already practised in exposure therapy20: therapists provide some evidence that there is no difference in parameters
+expose patients to sources of anxiety (for example, a spider) and across the different diagnostic groupings. However, the study was
+encourage them to hold off on implementing decisions (running not designed to disambiguate depression from anxiety, which are,
+away) based on predicted negative outcomes (the spider caus- in any case, highly comorbid (and highly correlated at a symptom
+ing them harm) until they learn how infrequent (or frequent) the scale level) and may not represent true natural kinds. Although we
+negative outcomes are20. The present work takes us a step towards have no a priori reason to suspect that IQ or socio-economic status
+formalizing the behavioural effect as a defined parameter in a rein- differed between our groups (or that it drives group differences), we
+forcement learning model that we can directly measure and hence do not have complete data on this and so cannot entirely rule it out.
+target to refine future treatments. These findings extend our prior work attempting to formalize the
+The altered punishment learning rates in the symptomatic group behavioural alterations seen in anxiety disorders in terms of com-
+do, however, need to be considered in the context of an accompa- putational models5,13. Such models aim to bridge the gap between
+nying increased reliance on the lapse and decay parameters. In the observable symptoms (which form the basis of current diagnostic
+model, the lapse parameter quantifies dependence on a form of categories) and the underlying cognitive computations in the brain.
+unexpected responding. This could occur as a result of participants Ultimately, the experience of debilitating anxiety emerges from
+losing concentration during a trial and choosing at random, or pos- interactions between an individual and their environment; fully
+sibly increasing their tendency towards undirected exploration in optimized treatments are unlikely to be developed without a clearer
+an attempt to avoid unpredictable punishments21. In other words, understanding of how these symptoms emerge mechanistically.
+anxiety may shift the balance in explore−exploit trade-offs towards Formally specifying some of the behavioural changes that occur in
+exploration, perhaps as a form of exploration-driven avoidance, in clinical anxiety takes us a step closer to this goal.
+which individuals shift their behaviour to avoid bad outcomes. This
+should be considered alongside prior work demonstrating that high
+anxiety (in healthy individuals) is associated with an impoverished methods
+ability to detect shifts from stable to unpredictable punishments, Participants. We recruited 132 participants, N = 88 healthy controls (50 female;
+perhaps because their default assumption is that the environment age = 23 ± 5 yr) and N = 44 people with unmedicated mood and anxiety symptoms
+is unpredictable22. Increased exploration may therefore be due to an (28 female; age = 28 ± 9 yr), from the local community (that is not through clinical
+services, but rather through advertisements on noticeboards and internet sites; this
+assumption of increased unpredictability. The effect on the decay was to increase the probability of recruiting unmedicated participants). The two
+parameter suggests that anxious individuals also forget the previ- groups were recruited through separate advertising campaigns. The symptomatic
+ous values of unchosen bandits more rapidly, which could also con- group responded to an advert asking for people for whom anxiety/depression
+tribute to their propensity towards increased exploration. Future was impacting their lives and then underwent a standardized clinical screen. The
+groups did not significantly differ in gender (Χ2 = 0.65; P = 0.5), but the patient
+experiments should test the different predictions made by these
+group was slightly older (mean ages: 29 versus 23 yr; t(130) = 4.4; P < 0.001; d = 0.8;
+explanations. However, the lapse parameter also captures aspects of 95% CI: 0.4, 1.2). We set an a priori minimum group size of N = 40 in the original
+decision-making that are not encompassed by the model. In other grant application (MR/K024280/1) based on a previously observed difference
+words, what we have consigned to categories of irreducible uncer- between groups of effect size d = 1.09 (ref. 24), which was decreased to 0.7 for the
+tainty might actually be reduced by more sophisticated and profi- purpose of a conservative power analysis. The final N = 44 in the clinical group
+and N = 88 in the healthy group provides >95% power for a between-groups t-test
+cient models. Our data are available online16 (see Data availability
+with α = 0.05 (two-tailed). Ultimately we wanted to collect as much data as possible
+statement) for the future exploration of different models as the field within our time and financial constraints, as parameter recovery in modelling
+and literature develop. is dependent on sample size25. Critically, model comparison and inference were
+Finally, it is worth noting that we found no evidence that the completed only after we stopped recruitment.
+Although our focus was on anxiety symptoms, we recruited a mixed sample
+modelled effects were affected by acute stress. We predicted that
+because mood and anxiety disorder symptoms show considerable overlap, and the
+they would be, because the diathesis−stress hypothesis predicts that
+disorders are strongly comorbid indicating that they may not be mechanistically
+symptoms of anxiety will be exacerbated in stressful circumstances15. dissociable. The majority of the people in our pathological sample (N = 28) had
+Indeed, our prior work indicated that reliance on Pavlovian avoid- a mixed diagnosis of generalized anxiety disorder (GAD) and major depressive
+ance biases in anxiety disorders is exacerbated by the same stress disorder (MDD); eight had a GAD diagnosis alone; three had panic disorder
+with MDD; and five had MDD alone. These diagnoses were assigned according
+manipulation adopted here13. Nevertheless, it remains possible that
+to the Mini International Neuropsychiatric Interview and completed by a trained
+such an effect exists, but that it is weak relative to the strong effects of researcher under the guidance of a clinical psychologist or psychiatrist26. The
+diagnosis and outcome, and the current study was simply too under- average number of depressive episodes was 5 (s.d. ± 7), with the average onset of
+powered to detect it. Alternatively, our threat of shock manipulation the first episode at 20 ± 8 yr. All were unmedicated at the time, but N = 18 had tried
+may not be sufficiently strong. Future work could consider measur- psychiatric medication more than 6 months before the experiment and N = 21
+had undergone some form of psychological treatment. Exclusion criteria were any
+ing concurrent startle response during the task to confirm the effi-
+form of psychiatric medication within the last 6 months, any current psychiatric
+cacy of the manipulation beyond self-report. Another caveat is that diagnosis (other than MDD or GAD), a neurological disorder or a pacemaker.
+the reinforcers we used (faces) may not have been as motivating as Continuous measures of anxiety symptomatology were obtained using the STAI
+other outcomes, such as money. It is possible that stronger outcomes and recent depression symptoms using the BDI. All participants provided written
+may have driven changes in sensitivities and/or revealed a signifi- informed consent and were reimbursed £7.50 h−1 for their participation. The study
+was given ethical approval from the UCL Research Ethics Committee (project nos.
+cant influence of stress. Alternatively, it may be that stronger feed-
+1764/001 and 6198/001). Note that all relevant data distributions are plotted. In
+back would actually remove the group effects we observe23. In either some cases they are non-normal, but the inference (for example using Bayesian
+case, future work should explicitly test the impact of modulating model comparison approaches) is not reliant on the same assumptions as classic
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+NATure HumAN BeHAviOur Articles
+f ar ne aq lu yse in st wist
+e
+rs eta nti os tt i pc es.
+r
+fD ou rme t eo
+d
+t bh le
+in
+n da t tu or te
+h
+o ef
+c
+t oh ne
+d
+r ie tic or nu sit om
+f
+e tn ht e, ed xa pta
+e
+rc io mll ee nct ti so an
+n
+a dn td
+h e
+Value tp (u i)n=Valuep t(u i)n+LearningRate pun×PredictionError tp (u i)n (2)
+participants were not randomized into groups. However, the task stimuli and threat
+condition were randomized across participants. PredictionError tr (e iw )=
+Four-armed bandit task. The task was adapted from Seymour et al.10 and Sensitivity rew×RewardOutcome(t)−Valuer te −w 1(i)ifi=chosen (3)
+Ppr oe ss ite in vt ee fd
+e
+eu dsi bn ag
+c
+kth we aC
+s
+o ag se in nt
+g
+t leo o hl ab po px
+y
+f o far
+c
+M
+e
+aA nT dL nA eB
+ga
+o tin
+v
+ea fl ea ep dto bp
+ac
+c ko wm ap su ate sr i2 n7.
+g le
+−Valuer te −w 1(i)ifi=unchosen
+fearful face (consistent with our prior work13,19). The task was completed under
+alternating conditions of safety and threat (see Stress manipulation section), with
+a different set of four bandits in each condition leading to a total of eight bandits
+PredictionError tp (u i)n=
+(a set of four that was consistent throughout the safe condition; four throughout Sensitivity pun×PunishmentOutcome(t)−Value tp −un 1(i)ifi=chosen (4)
+the threat condition).
+In each trial, participants were asked to select one of the four bandits (within
+−Value tp −un 1(i)ifi=unchosen
+3.5 s) and were then provided (for just the selected bandit; Fig. 1a) with one of:
+no feedback; positive feedback; negative feedback; or both positive and negative Choice probability was determined by passing the reward and punishment values
+feedback. The probabilities of these outcomes fluctuated independently and slowly through a softmax function in the _4par model, where j represents all the bandits:
+across bandits, such that the bandit that was most beneficial changed over time
+( NF oig te. ,1 hb o) wan evd e p r,a tr hti ac ti p tha en t os u h tca od m to e sk te he ep m tr sa ec lvk e o s f w r ee rw ea br id n a an ryd (p pu rn esi esh nm t oe rn nt ose t)p . a Tra ht ee ly. ChoiceProbability t(i)= ∑e jx ep x( pV (Val au le ur t e(e iw ) tr (e j+ w )+V Val au le utp e(u i t) pn (u j) )n) (5)
+participants were instructed to ‘Try to get happy faces! Avoid fearful!’. The bandits
+remained in the same spatial location on every trial. The face stimuli were chosen
+For the _lapse model, the addition of an irreducible noise parameter (lapse) allowed
+because our prior work using them showed that reinforcement learning (RL)
+for the possibility of decisions made at random, irrespective of the inferred values
+mechanisms (striatal prediction error signals) are sensitive to the same stress
+of the bandits (sometimes referred to as ‘trembling hand’ decisions)34. Note that this
+manipulation19 (and this study itself built on a line of studies28 that explored the
+lapse parameter serves a similar purpose as an (inverse) temperature parameter in
+impact of stress on the same stimuli in other contexts). There was no additional
+the softmax, but it is less liable to trade off against the other parameters35:
+outcome (for example monetary loss/gain).
+ChoiceProbability
+Stress manipulation. State anxiety was induced via the threat of unpredictable t(i)
+electric shocks delivered with two electrodes attached to the non-dominant wrist
+=
+exp(Valuer t(e iw )+Valuep t(u i)n) ×(1−Lapse)+Lapse (6)
+using a Digitimer Constant Current Stimulator (Digitimer Ltd). The appropriate ∑ jexp(Valuer t(e jw )+Valuep t(u j)n) 4
+shock level was established using a shock workup procedure before testing.
+Specifically, up to five shocks of increasing intensity were administered and
+For the _2par_lapse model, there are no sensitivity parameters in equations (3) and
+participants rated each one on a scale from 1 (barely felt) to 5 (unbearable), with
+(4). For the _singleA_lapse model, there is a single learning rate across equations
+the final shock level set to 4. The experimental task was programmed using the
+(1) and (2); this parameter is not allowed to take on separate values depending on
+Cogent toolbox for MATLAB 2014, presented on a laptop and administered under
+whether the outcome was rewarding or punishing. For the _lapse_decay model we
+alternating safe and threat blocks. At the start of the safe block, the background
+added a decay rate based on ref. 36 such that the weights of features that were not
+colour changed to blue and a 2,000 ms message stating ‘YOU ARE NOW SAFE!’
+chosen gradually decayed to 0, according to the decay rate:
+was displayed. At the start of the threat block, the background colour changed to
+r Te hd
+e
+a en led
+c
+t th roe
+d
+m ese s rs ea mge
+a
+i‘ nY eO dU
+o
+nA tR hE
+e
+pA aT
+r
+tR icI iS pK
+an
+O t’sF
+w
+S rH isO
+t
+C thK ro’ uw ga hs
+o
+p ur te bse on thte d
+ty
+f po er
+s
+2 o,0
+f
+00 ms. Value t(i)=(1−Decay)×Value t−1(i)ifi=unchosen (7)
+condition. Participants were told that they might receive a shock during only the We implemented the two IGT_pvl models, exactly following refs. 31,37. These
+threat condition but that the shocks were not dependent on their performance. models are substantially worse at describing the current data (Table 3, top) but are
+As a manipulation check, participants retrospectively rated how anxious they detailed in Supplementary Methods 1. Briefly, they are prospect valence learning
+felt during the safe and threat conditions on a scale from 1 (not at all) to 10 (very models that integrate aspects of reinforcement learning and prospect theory
+much so). This well-established12 manipulation has been shown to have high learning models.
+reliability19 and replicability29. There were four threat and four safe conditions, each
+involving 50 trials and lasting ~5 min each. Thus, there were a total of 400 trials Model selection. Parameters for all of the models were initially fitted under four
+for a maximum duration of ~45 min, depending on participant response times. separate hierarchical priors: anxious/depressed individuals under threat; healthy
+Participants received one shock per threat condition (four in total). They were controls under threat; anxious/depressed individuals under the safe condition; and
+given shocks on the 33rd trial of the 1st and 3rd threat conditions and the 15th trial healthy controls under the safe condition. The winning model was defined as the
+of the 2nd and 4th threat conditions. model with the lowest LOOIC summed across these four priors.
+We then followed up initial model selection with a subsequent exploration of
+Manipulation check and model-agnostic task analysis. The retrospective all four combinations of group and condition priors (all four; two representing
+manipulation check was taken once in the middle and once at the end of the each condition; two representing each group; and one pooling everyone
+task (first half and second half) and analysed in a 2 (half) × 2 (condition) × 2 together) on the top two models. We then compared parameter estimates from
+(diagnosis) repeated measures analysis of variance (ANOVA). For model-agnostic the top two models across the two groups using the 95% HDI. Specifically, for
+task analysis, we calculated stay probability following win-only and loss-only trials each comparison, we calculated the difference in the hyper parameters and
+(excluding trials in which both wins and losses were given) and included them reported the 95% HDI of the difference. If this HDI did not overlap zero, we
+in a 2 (outcome) × 2 (condition) × 2 (diagnosis) repeated measures ANOVA. We consider there to be a meaningful difference between the groups38,39. Note that
+implemented frequentist and Bayesian (adopting a default Cauchy prior) repeated the 95% HDIs do not test whether we can reject the null hypothesis (that is,
+measures ANOVAs using JASP30 (for data and associated JASP analyses see Data that two groups are the same on a given parameter), but instead whether the
+and Code availability statements). All t-tests are two-sided and effect sizes were hyper parameters differ between the groups/conditions38,39. To illustrate group
+calculated using the default settings in JASP. For frequentist tests we used differences, we plotted the individual mean posterior parameter estimates using
+an α-level of 0.05. raincloud plots40.
+Finally, parameter estimates from the top two model/prior combinations were
+Computational modelling. We fitted seven different models10 using the used to simulate choices for each individual and then compared to each individual’s
+hBayesDM package for R (ref. 31; see Code availability statement). This toolbox real choices to confirm that the models were not only the best of those tested, but
+simplifies the implementation of hierarchical Bayesian parameter estimation also realistic models of the data (we required a correlation of greater than 0.7).
+using Stan v. 2.18.232. We fitted three chains for each model with 1,000 burn-in Finally, we confirmed that the simulated data recapitulated patterns observed in
+samples and 2,000 samples. For more details please refer to ref. 31. Previous studies the model-agnostic task analysis.
+showed that hierarchical parameter estimation outperforms individual parameter
+estimation in parameter recovery33. We fitted the models, shown in Table 2, to Continuous symptom analysis. Individual parameters (mean posterior estimates)
+three pieces of information per trial: choice (1:4), gain (0, 1) and loss (0, −1). for the overall winning model were extracted and correlated with individual trait
+The bandit4arm models (where i refers to a given bandit and t refers to trial) anxiety and depression scores in Bayesian and frequentist correlation matrices
+were calculated by inputting reward (rew) and punishment (pun) values separately using JASP30.
+into the following equations:
+Reporting Summary. Further information on research design is available in the
+Valuer t(e iw )=Valuer t(e iw )+LearningRate rew×PredictionErrorr t(e iw ) (1) Nature Research Reporting Summary linked to this article.
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviOur
+Data availability 24. Robinson, O. J., Cools, R., Carlisi, C. O., Sahakian, B. J. & Drevets, W. C.
+All data used in this analysis are available on OSF at https://doi.org/10.17605/OSF. Ventral striatum response during reward and punishment reversal
+IO/UB6J7 (ref. 16). learning in unmedicated major depressive disorder. Am. J. Psychiat. 169,
+152–159 (2012).
+Code availability 25. Maxwell, S. E., Kelley, K. & Rausch, J. R. Sample size planning for statistical
+power and accuracy in parameter estimation. Annu. Rev. Psychol. 59,
+Scripts for model fitting are available on OSF at https://doi.org/10.17605/OSF.IO/
+537–563 (2008).
+UB6J7 (ref. 16) and in the Supplementary Software. For the hBayesDM package,
+26. Sheehan, D. et al. The validity of the Mini International Neuropsychiatric
+please see https://github.com/CCS-Lab/hBayesDM.
+Interview (MINI) according to the SCID-P and its reliability. Eur. Psychiat.
+12, 232–241 (1997).
+Received: 31 October 2018; Accepted: 9 May 2019; 27. Cogent 2000 Team at the FIL and the ICN. Cogent http://www.vislab.ucl.
+Published: xx xx xxxx ac.uk/cogent.php (2013).
+28. Carlisi, C. O. & Robinson, O. J.. The role of prefrontal–subcortical circuitry in
+References negative bias in anxiety: translational, developmental and treatment
+perspectives. Brain Neurosci. Adv. https://doi.org/10.1177/2398212818774223
+1. GBD Compare Data Visualization (IHME, accessed 17 November 2016).
+(2018).
+2. LeDoux, J. E. & Pine, D. S. Using neuroscience to help understand fear and
+29. Mkrtchian, A., Roiser, J. P. & Robinson, O. J. Threat of shock and aversive
+anxiety: a two-system framework. Am. J. Psychiat. 173, 1083–1093 (2016).
+inhibition: induced anxiety modulates Pavlovian-instrumental interactions.
+3. Grupe, D. W. & Nitschke, J. B. Uncertainty and anticipation in anxiety: an
+J. Exp. Psychol. Gen. 146, 1694–1704 (2017).
+integrated neurobiological and psychological perspective. Nat. Rev. Neurosci.
+30. JASP Team. JASP (Version 0.7. 5.5) Google Sch. 765, 766 (2016).
+14, 488–501 (2013).
+31. Ahn, W.-Y., Haines, N. & Zhang, L. Revealing neurocomputational
+4. Birrell, J., Meares, K., Wilkinson, A. & Freeston, M. Toward a definition of
+mechanisms of reinforcement learning and decision-making with the
+intolerance of uncertainty: a review of factor analytical studies of the
+hBayesDM package. Comp. Psychiat. 1, 24–57 (2017).
+Intolerance of Uncertainty Scale. Clin. Psychol. Rev. 31, 1198–1208 (2011).
+32. Stan Development Team. RStan: the R interface to Stan. R package version
+5. Charpentier, C. J., Aylward, J., Roiser, J. P. & Robinson, O. J. Enhanced risk
+2.17.3, http://mc-stan.org/ (2018).
+aversion, but not loss aversion, in unmedicated pathological anxiety. Biol.
+33. Ahn, W.-Y., Krawitz, A., Kim, W., Busemeyer, J. R. & Brown, J. W. A
+Psychiat. 81, 1014–1022 (2017).
+model-based fMRI analysis with hierarchical Bayesian parameter estimation.
+6. Grillon, C. Models and mechanisms of anxiety: evidence from startle studies.
+J. Neurosci. Psychol. Econ. 4, 95–110 (2011).
+Psychopharmacology 199, 421–437 (2008).
+34. Guitart-Masip, M. et al. Go and no-go learning in reward and
+7. Robinson, O. J., Overstreet, C., Allen, P. S., Pine, D. S. & Grillon, C. Acute
+punishment: interactions between affect and effect. Neuroimage 62,
+tryptophan depletion increases translational indices of anxiety but not fear:
+154–166 (2012).
+serotonergic modulation of the bed nucleus of the stria terminalis?
+35. Huys, Q. J., Pizzagalli, D. A., Bogdan, R. & Dayan, P. Mapping anhedonia
+Neuropsychopharmacology 37, 1963–1971 (2012).
+onto reinforcement learning: a behavioural meta-analysis. Biol. Mood Anxiety
+8. Robinson, O. J. et al. The dorsal medial prefrontal (anterior cingulate)
+Disord. 3, 12 (2013).
+cortex–amygdala aversive amplification circuit in unmedicated generalised
+36. Niv, Y. et al. Reinforcement learning in multidimensional environments relies
+and social anxiety disorders: an observational study. Lancet Psychiat. 1,
+on attention mechanisms. J. Neurosci. 35, 8145–8157 (2015).
+294–302 (2014).
+37. Ahn, W. Y., Busemeyer, J. R., Wagenmakers, E. J. & Stout, J. C. Comparison
+9. Daw, N. D., O’Doherty, J. P., Dayan, P., Seymour, B. & Dolan, R. J. Cortical
+of decision learning models using the generalization criterion method.
+substrates for exploratory decisions in humans. Nature 441, 876–879 (2006).
+Cogn. Sci. 32, 1376–1402 (2008).
+10. Seymour, B., Daw, N. D., Roiser, J. P., Dayan, P. & Dolan, R. Serotonin
+38. Ahn, W.-Y. et al. Decision-making in stimulant and opiate addicts in
+selectively modulates reward value in human decision-making. J. Neurosci.
+protracted abstinence: evidence from computational modeling with pure
+32, 5833–5842 (2012).
+users. Front. Psychol. 5, 849 (2014).
+11. Sharp, P. B. & Eldar, E. Computational models of anxiety: nascent efforts and
+39. Kruschke, J. Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan
+future directions. Curr. Dir. Psychol. Sci. 28, 170–176 (2019).
+(Academic, 2014).
+12. Robinson, O. J., Vytal, K., Cornwell, B. R. & Grillon, C. The impact of anxiety
+40. Allen, M., et al. Raincloud plots: a multi-platform tool for robust data
+upon cognition: perspectives from human threat of shock studies. Front.
+visualization [version 1; peer review: 2 approved]. Wellcome Open Res. 4,
+Human Neurosci. 7, 203 (2013).
+63 (2019).
+13. Mkrtchian, A., Aylward, J., Dayan, P., Roiser, J. P. & Robinson, O. J. Modeling
+avoidance in mood and anxiety disorders using reinforcement learning.
+Biol. Psychiat. 82, 532–539 (2017). Acknowledgements
+14. Gagne, C., Dayan, P. & Bishop, S. J. When planning to survive goes wrong: This research was funded by a Medical Research Foundation Equipment Competition
+predicting the future and replaying the past in anxiety and PTSD. Curr. Opin. grant (no. C0497; principal investigator O.J.R.) and a Medical Research Council
+Behav. Sci. 24, 89–95 (2018). Career Development Award to O.J.R. (no. MR/K024280/1). The funders had no role in
+15. Monroe, S. M. & Simons, A. D. Diathesis-stress theories in the context of life study design, data collection and analysis, decision to publish or preparation of
+stress research: implications for the depressive disorders. Psychol. Bull. 110, the manuscript.
+406–425 (1991).
+16. Robinson, O. J. Altered learning under uncertainty in unmedicated mood and
+Author contributions
+anxiety disorders—EU storage. Preprint at OSF https://doi.org/10.17605/OSF.
+IO/UB6J7 (2018). O.J.R., J.A. and R.L.B. conceived and designed the study and acquired the data. O.J.R.,
+17. Gelman, A. & Rubin, D. B. Inference from iterative simulation using multiple J.A., V.V., J.P.R., P.D. and W.-Y.A. analysed and interpreted the data. W.-Y.A. and O.J.R.
+sequences. Stat. Sci. 7, 457–472 (1992). contributed to the creation of new software used in this work. All authors drafted
+18. Bach, D. R. Anxiety-like behavioural inhibition is normative under the Article or substantively revised it and all authors approved the Article and are
+environmental threat-reward correlations. PLoS Comput. Biol. 11, individually accountable for their own contributions.
+e1004646 (2015).
+19. Robinson, O. J., Overstreet, C., Charney, D. S., Vytal, K. & Grillon, C. Stress Competing interests
+increases aversive prediction-error signal in the ventral striatum. Proc. Natl
+The authors declare no competing interests.
+Acad. Sci. USA 110, 4129–4133 (2013).
+20. Deacon, B. J. & Abramowitz, J. S. Cognitive and behavioral treatments for
+anxiety disorders: a review of meta‐analytic findings. J. Clin. Psychol. 60, Additional information
+429–441 (2004).
+Supplementary information is available for this paper at https://doi.org/10.1038/
+21. Wilson, A., Fern, A., Ray, S. & Tadepalli, P. Multi-task reinforcement learning:
+s41562-019-0628-0.
+a hierarchical Bayesian approach. In Proc. 24th International Conference on
+Machine Learning 1015−1022 (ACM, 2007). Reprints and permissions information is available at www.nature.com/reprints.
+22. Browning, M., Behrens, T. E., Jocham, G., O’Reilly, J. X. & Bishop, S. J. Correspondence and requests for materials should be addressed to O.J.R.
+Anxious individuals have difficulty learning the causal statistics of aversive
+Peer review information: Primary Handling Editor: Mary Elizabeth Sutherland.
+environments. Nat. Neurosci. 18, 590–596 (2015).
+23. Lissek, S., Pine, D. S. & Grillon, C. The strong situation: a potential Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+impediment to studying the psychobiology and pharmacology of anxiety published maps and institutional affiliations.
+disorders. Biol. Psychol. 72, 265–270 (2006). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NAtuRe HumAN BeHAViOuR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Oliver Robinson
+Last updated by author(s): May 3, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection We used the Cogent toolbox (version 2000) and MATLAB (versions from 2010-2014) to collect data
+Data analysis Data analysis was performed using MATLAB, JASP, R and the hBayesDM toolbox for R (Data, analyses and scripts available here
+osf.io/2jx87). Multiple versions of software used but will replicate on Matlab 2014, R 3.5 and JASP 0.9
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+Data, analyses and scripts available here osf.io/2jx87
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Quantitative experimental
+Research sample We recruited 132 participants, N=88 healthy controls (50 female; age=23±5) and N=44 with unmedicated mood and anxiety symptoms
+(28 female; age=28±9) from the local community (i.e. not through clinical services, but rather through advertisements on noticeboards
+and internet sites; this was to increase the probability of recruiting unmedicated participants). The two groups were recruited through
+separate advertising campaigns. The symptomatic group responded to an advert asking for people for whom anxiety/depression was
+impacting their lives, and then underwent a standardized clinical screen. The groups did not significantly differ in gender (X2=0.65, p=0.5)
+but the patient group was slightly older (mean ages: 29 vs 23; t(130)=4.4, p<0.001,d=0.8 [95% CI 0.4, 1.2]).
+Although our focus was on anxiety symptoms, we recruited a mixed sample because mood and anxiety disorder symptoms show
+considerable overlap, and the disorders are strongly comorbid indicating that they may not be mechanistically dissociable. The majority
+of our pathological sample (N=28) had a mixed diagnosis of Generalised Anxiety Disorder (GAD) and Major Depressive Disorder (MDD);
+eight had GAD diagnosis alone; three had panic disorder with MDD; and five had MDD alone (These diagnoses were assigned according
+to the Mini International Neuropsychiatric Interview (MINI) and completed by a trained researcher under the guidance of a clinical
+psychologist or psychiatrist)26. The average number of depressive episodes was 5 (SD±7), with the average onset of first episode 20±8
+years. All were currently unmedicated, but N=18 had tried psychiatric medication more than 6 months prior to the experiment, and N=21
+had undergone some form of psychological treatment. Exclusion criteria were any form of psychiatric medication within the last 6
+months, any current psychiatric diagnosis (other than major depression or anxiety disorder), neurological disorder, or pacemaker.
+Continuous measures of anxiety symptomatology were obtained using the State-Trait Anxiety Inventory (STAI) and recent depression
+symptoms using the Beck depression inventory (BDI). All participants provided written informed consent and were reimbursed £7.50/
+hour for participation.
+Demographics:
+Control Symptomatic
+Total N 88 44
+% female 57 64
+Age 23±5 28±9
+Anxiety 41±11 57±8
+Depression 7±7 20±9
+Sampling strategy We set an a priori minimum group size of N=40 in the original grant application (MR/K024280/1) based on a previously observed
+difference between groups of effect size d=1.0924, which was decreased to 0.7 for the purpose of a conservative power analysis. The
+final N=44 in the clinical group and N=88 in the healthy group, provides >95% power for a between-groups t-test with α = 0.05 (two-
+tailed). Ultimately we wanted to collect as much data as possible within our time and financial constraints, as parameter recovery in
+modelling is dependent upon sample size. Critically, model comparison and inference was only completed after we stopped recruitment.
+Data collection Data was collected using a laptop computer. The participant and researcher were present. The researcher collecting data was not blind
+to group allocation or condition but was blind to hypothesis.
+Timing Healthy control sample data collected 04/02/2014 - 29/05/2015 Clinical sample 23/03/2015 -03/02/2016
+Data exclusions No data were excluded
+Non-participation No participants dropped out.
+Randomization Patients and controls were assigned to groups on the basis of clinical screening.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics see above
+Recruitment Community healthy and clinical samples recruited from central London. All clinical samples screened for mood and anxiety
+disorders. It is representative of the local community who are willing to participate in experimental research (thus may not be
+representative of a sample who is not willing to participate in research).
+Ethics oversight The study obtained ethical approval from the UCL Research Ethics Committee (Project ID Numbers: 1764/001 and 6198/001).
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

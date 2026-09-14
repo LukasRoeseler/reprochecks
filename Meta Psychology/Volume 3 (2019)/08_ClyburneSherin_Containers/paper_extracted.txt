@@ -1,0 +1,446 @@
+
+===== PAGE 1/9 =====
+Opendataandmaterials:N/A Editedby:RickardCarlsson
+Meta-Psychology,2019,vol3,MP.2018.892
+Openandreproducibleanalysis:N/A Reviewedby:NickBrown,JackDavis,NicholasAColes
+https://doi.org/10.15626/MP.2018.892
+Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Articletype:OriginalArticle
+Preregistration:N/A https://doi.org/10.17605/OSF.IO/PS5RU
+PublishedundertheCC-BY4.0license
+Computational Reproducibility via Containers
+in Psychology
+April Clyburne-Sherin Xu Fei
+Independent Consultant Code Ocean
+Seth Ariel Green
+Code Ocean
+Abstract
+Scientificprogressreliesonthereplicationandreuseofresearch. Recentstudiessuggest,however,thatsharingcode
+anddatadoesnotsufficeforcomputationalreproducibility—definedastheabilityofresearcherstoreproduce“par-
+ticularanalysisoutcomesfromthesamedatasetusingthesamecodeandsoftware”(FidlerandWilcox,2018). To
+date, creatinglong-term computationally reproduciblecode has beentechnically challenging andtime-consuming.
+This tutorial introduces Code Ocean, a cloud-based computational reproducibility platform that attempts to solve
+theseproblems. Itdoesthisbyadaptingsoftwareengineeringtools,suchasDocker,foreasierusebyscientistsand
+scientific audiences. In this article, we first outline arguments for the importance of computational reproducibility,
+as well as some reasons why this is a nontrivial problem for researchers. We then provide a step-by-step guide to
+gettingstartedwithcontainersinresearchusingCodeOcean. (Disclaimer: theauthorsallworkedforCodeOcean
+atthetimeofthisarticle’swriting.)
+Keywords: computationalreproduciblity,socialpsychology,containers,Docker,CodeOcean
+Introduction: Theneedforcomputational ducibility,bycontrast,hasbeenlessofafocus.
+reproducibility Kitzes (2017) describes a research project as being
+“computationallyreproducible”1 when“asecondinves-
+Stodden (2014) distinguishes between three forms
+tigator (including you in the future) can recreate the
+of reproducibility: statistical, empirical, and computa-
+finalreportedresultsoftheproject,includingkeyquan-
+tional. In psychology, statistical reproducibility, encom-
+titative findings, tables, and figures, given only a set of
+passing transparency about analytic choices and strate-
+files and written instructions.”2 Computational repro-
+gies, has received sustained attention (Simmons, Nel-
+son,andSimonsohn,2011;Grangeetal.,2018;Gelman 1Notethatweusetheterm‘reproduction’torefertorecre-
+and Loken, 2014; Morey and Lakens, 2016). Likewise, atinggivenresultsusinggivendata,andreplicationtoreferto
+empirical reproducibility —providing enough informa- analyzingnewdata.Thisisbroadlyinlinewiththedefinitions
+tion about procedures to enable high-fidelity indepen- used by, among others, Peng (2011), Claerbout (2011), and
+dent replication —has been a high-profile issue in light Donoho,Maleki,Rahman,Shahram,andStodden(2008),but
+ofworkbytheCenterforOpenScience(Collaboration, somedisciplinesusethetermsdifferently;foranoverview,see
+Marwick,Rokem,andStaneva(2017)andBarba(2018).
+2015; Nosek and Lakens, 2014). Computational repro-
+2FidlerandWilcox(2018)distinguishbetweentwosenses
+
+===== PAGE 2/9 =====
+2
+ducibility facilitates the accumulation of knowledge by adopting them is an investment of scarce time and at-
+enabling researchers to assess the analytic choices, as- tention. More prosaically, differences between scien-
+sumptions, and implementations that led to a set of re- tists’ machines can be nontrivial, and memory or stor-
+sults; it also enables testing the robustness of methods agelimitationscanhaltareproductioneffort(Deelman
+toalternatespecifications. Hardwickeetal. (2018)call andChervenak,2008).
+this form of reproducibility a “minimum level of cred- Asaresult,publiclyavailablecodeanddataareoften
+ibility” (p. 2). Moreover, as Donoho (2017) argues, not computationally reproducible. An example comes
+preparing one’s work for reproducible publication pro- from the journal Cognition. Following the journal’s
+vides“benefitstoauthors. Workingfromthebeginning adoptionofamandatorydatasharingpolicy,Hardwicke
+with a plan for sharing code and data leads to higher et al. (2018) attempted to reproduce the results of 35
+quality work, and ensures that authors can access their articlesforwhichtheyhadcodeanddata,andwereable
+own former work, and those of their co-authors, stu- to do so, without author assistance, for just 11 papers;
+dents and postdocs” (p. 760). Because computations a further 11 were reproducible with author assistance,
+are central to modern research in the social sciences, and the remaining 13 were not reproducible “despite
+their reproducibility, or lack thereof, warrants minis- author assistance” (p. 3). While the authors are care-
+tration and attention within the broader open science fultonotethattheseissuesdonotappearto“seriously
+movementandthescientificcommunity. impact” original conclusions, nevertheless, “suboptimal
+Manypsychologyjournals(Lindsay,2017;Jonasand datacuration,unclearanalysisspecification,andreport-
+Cesario, 2015) address reproducibility through strong ing errors can impede computational reproducibility”
+policies on sharing data, code, and materials. The So- (p. 3).3
+cietyforPersonalityandSocialPsychology’s‘TaskForce Rates of reproducibility appear similar in other dis-
+on Publication and Research Practices” (Funder et al., ciplines. At the Quarterly Journal of Political Science,
+2014) advises authors to make “available research ma- editors found that from “September 2012 to Novem-
+terials necessary” to reproduce statistical results, and ber2015...14ofthe24empiricalpaperssubjecttoin-
+to adhere “to SPSP’s data sharing policy” (p. 3). The housereviewwerefoundtohavediscrepanciesbetween
+AmericanPsychologicalAssociation’sethicspolicy(sec- theresultsgeneratedbyauthors’owncodeandthosein
+tion 8.14) asks that “psychologists do not withhold the their written manuscripts” (Eubank, 2016, p. 273). In
+data on which their conclusions are based from other sociology, after working closely with authors, Liu and
+competent professionals who seek to verify the sub- Salganik (2019) were able to reproduce the results of
+stantiveclaimsthroughreanalysis”(Association,2012). sevenof12papersforaspecialissueofthejournal So-
+Many journals in the field require that authors sign off cius. In development economics, Wood et al. (2018)
+onthispolicy(e.g.,Cooper,2013). looked at 109 papers and found only 29 to be “push
+button replicable” (the authors’ synonym for computa-
+Thechallengeofcomputationalreproducibility tionally reproducible). In general, how much informa-
+tion suffices for reproduction becomes clear only when
+Fortworeasons,however,suchpoliciesdonotsuffice
+itisattempted.
+for computational reproducibility. First, data and code
+Literate programming, a valuable paradigm for doc-
+that are available “upon request” may turn out to be
+umentation and explanation, does not necessarily ad-
+unavailable when actually requested (Stodden, Seiler,
+dress these issues. Woodbridge (2017) recounts at-
+and Ma, 2018; Wicherts, Borsboom, Kats, and Mole-
+tempting to identify a sample of Jupyter notebooks
+naar, 2006; Vanpaemel, Vermorgen, Deriemaecker, and
+(Kluyver et al., 2016) mentioned in PubMed Cen-
+Storms, 2015; Wood, Müller, and Brown, 2018). Sec-
+tral, thinking that reproduction “would simply involve
+ond, code and data that are publicly available do not
+necessarilyyieldtheresultsoneseesintheaccompany-
+of the term: “direct (reproducing particular analysis out-
+ing paper. This is due to a number of technical chal- comes from the same data set using the same code and soft-
+lenges. Dependencies—thepackagesandlibrariesthat ware)...[and] conceptual (analyzing the same raw data set
+a researcher’s code relies on —change over time, of- with alternative approaches, different models or statistical
+ten in ways that produce errors (Bogart, Kästner, and frameworks).” This article primarily concerns direct repro-
+Herbsleb, 2015) or change outputs. Software versions ducibility.
+arenotalwaysperfectlyrecorded(Barba,2016),which 3The authors also note that “assessments in the “repro-
+makes reconstruction of the original computational en- ducible”categorytookbetween2-4personhours,andassess-
+ments in the “reproducible with author assistance” and “not
+vironmentdifficult. Whiletherearemanyusefulguides
+fully reproducible, despite author assistance” categories took
+to best practices for scientific research (Wilson et al.,
+between5-25personhours”(p. 28).
+2017; Sandve, Nekrutenko, Taylor, and Hovig, 2013),
+
+===== PAGE 3/9 =====
+3
+searching the text of each article for a notebook ref- 3. anopen-sourcecodebase,allowingforadaptation
+erence, then downloading and executing it...It turned (Hung,Kristiyanto,Lee,andYeung,2016)andin-
+outthatthiswashopelesslynaive.” Dependencieswere tegration with existing academic software (Grün-
+frequently unmentioned and were not always included ingetal.,2016;Almugbeletal.,2017);
+withnotebooks;troubleshootinglanguageandtoolspe-
+4. relatively lightweight installation, because a
+cific issues required expertise and hindered portability;
+Dockercontainer“doesnotreplicatethefulloper-
+and notebooks would often “assume the availability of
+atingsystem,onlythelibrariesandbinariesofthe
+non-Python software being available on the local sys-
+application being virtualized” (Chamberlain and
+tem,”butsuchsoftware“maynotbefreelyavailable.”
+Schommer,2014);and
+Insum,asSilver(2017)notes,lab-builttools
+5. compatibility with any programming language
+rarely come ready to run...Much of the
+thatcanbeinstalledonLinux.5
+software requires additional tools and li-
+braries, which the user may not have in-
+AdoptionofcontainertechnologylikeDockerinpsy-
+stalled. Even if users can get the software chology, however, remains scant.6 A few explanations
+to work, differences in computational envi-
+come to mind. The first is simply lack of awareness.
+ronments, such as the installed versions of
+The second is lack of incentives, as journals increas-
+thetoolsitdependson,cansubtlyalterper-
+ingly require the sharing of code and data but not of
+formance,affectingreproducibility. (p. 173)
+a full-fledged computational environment. The third
+is that Docker, though easier to use than many other
+Awelcomedevelopment: containers
+softwareengineeringtools,requiresfamiliaritywiththe
+Meanwhile, tools designed by engineers engineers command line and dependency management. These
+to share code are available, but are often befuddling skills take time and effort to learn, are not part of the
+to non-specialists. Chamberlain and Schommer (2014) standardcurriculumfortrainingresearchers(Boettiger,
+note that virtual machines “have serious drawbacks,” 2015), and are not self-evidently a worthwhile invest-
+including the difficulty of use “without a high level of mentwhenweighingopportunitycosts.
+systemsadministrationknowledge”andrequiring“alot
+of storage space, which makes them onerous to share” CodeOcean: customizingcontainertechnologyfor
+(p.1). researchers
+One major advance for sharing code is container
+Code Ocean attempts to address these issues. It is a
+software. Containers reduce complexity, Silver (2017)
+platformforcreating,running,andcollaboratingonre-
+writes, “by packaging the key elements of the compu-
+search code. It allows scientists to package code, data,
+tational environment needed to run the desired soft-
+results, metadata, and a computational environment
+ware...into a lightweight, virtual box...[T]hey make intoasinglecompendium—calleda‘computecapsule,’7
+the software much easier to use, and the results easier
+or simply ‘capsule’ for short —whose results can be re-
+toreproduce”(p. 174).
+producedbyanyonewhopressesa’Run’button. Itdoes
+sobyprovidingasimple-to-useinterfaceforconfiguring
+Docker
+computational environments, getting code up and run-
+AcontainerplatformcalledDockerisrisinginpopu- ningonline,andpublishingfinalresults. Eachpublished
+larityinsomeacademicfields(Merkel,2014;Boettiger, capsuleisassignedaunique,persistentidentifierinthe
+2015). Docker’scorevirtuesinclude: formofadigitalobjectidentifier(DOI)andcanbeem-
+bedded either directly into the text of an article or its
+1. a rich and growing ecosystem of supporting tools landingpage. Theplatformhopestomakecodeaccom-
+and environments, such as Rocker (Boettiger and panyingresearcharticlesreproducibleinperpetuity8 by
+Eddelbuettel, 2017), a repository of Docker im-
+ages4 specifically for R users, and BiocImage- 4A Docker image is the executable package containing all
+Builder for Bioconductor-based builds (Almugbel necessaryprerequisitesforasoftwareapplicationtorun.
+etal.,2017); 5ForamorethoroughoverviewofDocker’scapabilitiesand
+scientificusecases,seeBoettiger(2015).
+2. easeofuse,relativetoothercontainerandvirtual 6Asearchon23April2019ofhttp://www.apa.org,forin-
+machinetechnology; stanceforthewords“Dockercontainer”yieldedzeromatches.
+7ThankyoutoChristopherHoneyfortheterm.
+8For Code Ocean’s preservation plan, see https://help.
+codeocean.com/faq/code-oceans-preservation-plan.
+
+===== PAGE 4/9 =====
+4
+containingallanalyseswithinstableandportablecom- Metadataandpreservation
+putationalenvironments.
+Code Ocean asks authors to provide sufficient meta-
+Theremainderofthisarticlewillillustratethesefea-
+dataonpublishedcapsulestofacilitateintelligibility. At-
+tures by walking through a capsule called “The con-
+taching rich metadata to a capsule encourages citation
+tact hypothesis re-evaluated: code and data”, available
+and signals that published code is a first-class research
+at https://doi.org/10.24433/CO.4024382.v6 or https:
+object.
+//codeocean.com/capsule/8235972/tree/v6. This cap-
+In addition to metadata provided by authors, pub-
+sule reproduces the results of a July 2018 article pub-
+lished capsules are automatically provided with a DOI
+lished in Behavioural Public Policy (Paluck, Green, and
+andcitationinformation(Figure5). Metadataaboutan
+Green,2018).9 (Itmayhelptoopenupthecapsuleina
+associatedpublicationestablishesacomputecapsuleas
+newtaborwindowwhilereading.)
+a ‘version of record’ of code and data to support pub-
+lishedfindings.
+Reusewithoutdownloadingortechnicalsetup
+CodeOceanallowsreusewithoutinstallinganything CloudWorkstations
+locally. Figure1showsthedefaultviewforthiscapsule.
+By default, pressing ‘Reproducible Run’ on Code
+Codeisinthetopleft,dataareinthebottomleft,anda
+Ocean runs the main script from top to bot-
+set of published results are on the right (in the ‘Repro-
+tom. Readers may also wish to run code line
+ducibility pane’). Readers can view and edit selected
+by line (or snippet by snippet) iteratively. Cloud
+files in the center pane. A published capsule’s code,
+Workstations support this. Following instructions
+data, and results are open-access; they can be viewed
+provided on https://help.codeocean.com/en/articles/
+and downloaded by all, with or without a Code Ocean
+2366255-cloud-workstations-an-overview,Authorsand
+account.10 The ‘Reproducible Run’ button reproduces
+readers can currently run Terminal, Jupyter, Jupyter-
+all results in their entirety. This is possible by dint of
+Lab, R Shiny, and Rstudio workstations, with more op-
+two things: a run script, and a fully configured compu-
+tions planned. This particular capsule has Rstudio pre-
+tationalenvironment.
+installedandreadytolaunch(Figure6).
+The ‘run’ script (also called the ‘master script‘), visi-
+ble in Figure 1 as the code file with the flag icon, is a
+Exportingcapsulesforlocalreproduction
+scriptthatexecuteseachanalysisscriptinitsproperor-
+der. Authorscandesignatedifferentfilesastheirentry- For any capsule readers have access to, including all
+pointsbyselecting‘SetasFiletoRun’. Allcapsulesmust public capsules, they can download code, data, meta-
+havearunscripttobepublished. data,andaformulaforthecomputationalenvironment,
+Clicking on ‘environment’ will give the user a snap- as well as instructions on reproducing results locally.
+shotofthecomputationalenvironment(Figure2). This Local reproduction will require some familiarity with
+taboffersanumberofcommonpackagemanagers,cus- Docker, as well as all applicable software licenses (Fig-
+tomized for each base environment, and a postInstall ure7).
+script wherein you can download and install software
+that isn’t currently available through a package man- Shareorembedacapsule
+ager,orpreciselyspecifyanorderofoperations(Figure
+Finally, Code Ocean lets readers easily share pub-
+3). Whenever possible, package versions are labeled
+lishedcapsules. Capsulescanbepostedtosocialmedia,
+and held static to ensure transparency and long-term
+orasinteractivewidgetsembeddeddirectlyintothetext
+stability of computations. For published capsules, en-
+ofarticles,websites,orblogs(Figure8).
+vironments are pre-configured by authors and do not
+needtobealteredbyreaderstoreproduceresults. 9Note that one author (Seth Green) is the author of this
+capsuleandaco-authoroftheaccompanyingBPParticle.
+Configuredtosupportresearchworkflows 10Running code requires an account to prevent abuse of
+available computational resources, which include GPUs. Au-
+Code Ocean offers support for any open-source lan-
+thors who sign up with academic email addresses receive 10
+guage that can be installed on Linux, and also the pro-
+hoursofruntimepermonthand20GBofstoragebydefault.
+prietary languages Stata and MATLAB (Figure 4). This
+CodeOcean’scurrentpolicyistoprovideauthorswithanyand
+particular capsule runs Stata and R code in sequence
+all resources they need to publish capsules on the platform.
+(Figure 2). Each language comes with pre-configured Formoredetails,seehttps://codeocean.com/pricing.
+base environments for common use cases; readers can
+alsostartfromablankslate,withnoscientificprogram-
+minglanguagesinstalled.
+
+===== PAGE 5/9 =====
+5
+Figure 1. A capsule contains directories for code, data, and results. Additional sub-directories can be added by
+authors. Note: allfiguresareavailableasstandalonefilesathttps://doi.org/10.17605/OSF.IO/S8MZ4.
+Figure 2. This capsule requires packages from apt-get,
+Figure 4. When creating a new compute capsule, an
+CRAN,andSSC.
+author can select environments with pre-installed lan-
+guages and language-specific installers, or start from a
+blank slate (‘Ubuntu Linux’). This figure displays avail-
+ableMATLABenvironments.
+Conclusion: Answeringthecalltomake
+reproducibilitytoolssimpler
+Figure3. Softwarecanalsobeaddedviaacustompost-
+installscript. InthecontextofdiscussingDocker,Boettiger(2015)
+writesthat:
+
+===== PAGE 6/9 =====
+6
+Figure6. AvarietyofCloudWorkstationtypesareavail-
+able.
+Figure 5. An excerpt from a capsule’s metadata. A DOI
+and citation data are automatically added to any pub-
+lishedcapsule.
+A technical solution, no matter how ele-
+gant,willbeoflittlepracticaluseforrepro-
+ducibleresearchunlessitisbotheasytouse
+Figure 7. Export will download all necessary compo-
+andadapttotheexistingworkflowpatterns
+nentsforreproducingresultslocally.
+ofpracticingdomainresearchers...Another
+researchermaybelesslikelytobuildonex-
+isting work if it can only be done by us-
+ing a particular workflow system or mono- Webelievethatcontainersareanimportantadvance
+lithicsoftwareplatformwithwhichtheyare in this direction, and hope that Code Ocean, by build-
+unfamiliar. Likewise, a user is more likely ingonthistechnologyandadaptingitspecificallytothe
+to make their own computational environ- needs of researchers, helps enable a fully reproducible
+ment available for reuse if it does not in- workflow that is “easy to use and adapt” to existing re-
+volveasignificantaddedeffortinpackaging searchhabits.
+and documenting. Perhaps the most impor-
+tant feature of a reproducible research tool OpenSciencePractices
+is that it be easy to learn and fit relatively
+Because this article is a tutorial, there are no rele-
+seamlessly into existing workflow patterns
+vant data, materials, analyses or preregistration(s) to
+ofdomainresearcher. (pp. 4-5)
+beshared.
+
+===== PAGE 7/9 =====
+7
+review and editing. Authorship order accords to alpha-
+beticalorderoflastnames.
+ConflictofInterest
+All three authors worked at Code Ocean during the
+writingofthispaper.
+Funding
+Theauthorsdidnotreceiveanygrantsforwritingthis
+paper.
+References
+Almugbel, R., Hung, L.-H., Hu, J., Almutairy, A.,
+Ortogero, N., Tamta, Y., & Yeung, K. Y.
+(2017).Reproduciblebioconductorworkflowsus-
+ingbrowser-basedinteractivenotebooksandcon-
+tainers.JournaloftheAmericanMedicalInformat-
+icsAssociation,25(1),4–12.
+Association, A. P. (2012). Ethics code updates to the
+publicationmanual.RetrievedSeptember,1,2012.
+Barba, L. A. (2016). The hard road to reproducibility.
+Science,354(6308),142–142.
+Barba, L. A. (2018). Terminologies for reproducible re-
+search.CoRR,abs/1802.03311.
+Figure 8. Compute capsules can be embedded into the Boettiger, C. (2015). An introduction to docker for re-
+textofarticlessothatanalysescanbereviewedandas- producible research. ACM SIGOPS Operating Sys-
+sessed in context. This capsule appears within the text temsReview,49(1),71–79.
+ofGiladandMizrahi-Man(2015). Boettiger,C.&Eddelbuettel,D.(2017).Anintroduction
+to rocker: docker containers for r. arXiv preprint
+arXiv:1710.03675.
+AuthorNote Bogart, C., Kästner, C., & Herbsleb, J. (2015). When it
+breaks, it breaks. In Proc. of the workshop on soft-
+April Clyburne-Sherin is an independent consultant ware support for collaborative and global software
+on open science tools, methods, training, and commu- engineering(scgse).
+nitystewardship;asofAugust2019,shewasDirectorof Chamberlain, R. & Schommer, J. (2014). Using
+Scientific Outreach at Code Ocean. Xu Fei is Outreach docker to support reproducible research. DOI:
+Scientist at Code Ocean. Seth Green is Developer Ad- https://doi.org/10.6084/m9.figshare,1101910.
+vocateatCodeOcean. Correspondenceconcerningthis Claerbout, J. (2011). Reproducible computational re-
+article can be addressed to xufei at codeocean dot com search: a history of hurdles, mostly overcome.
+andsethatcodeoceandotcom. technicalreport.
+We would like to thank Shahar Zaks, Christopher Collaboration, O. S. (2015). Estimating the re-
+Honey,RickardCarlsson,ourreviewersNickBrownand producibility of psychological science. Science,
+JackDavisfortheirfeedback,andNicholasA.Colesfor 349(6251),aac4716.
+hishelpfulcommentsonourPsyArXivpreprint. Cooper, J. (2013). On fraud, deceit and ethics. Journal
+ofExperimentalSocialPsychology,2(49),314.
+AuthorContributions
+Deelman,E.&Chervenak,A.(2008).Datamanagement
+AprilClyburne-Sherincontributedconceptualization, challenges of data-intensive scientific workflows.
+investigation, visualization, and writing (original draft, InClustercomputingandthegrid,2008.ccgrid’08.
+reviewing and editing). Xu Fei contributed conceptual- 8th ieee international symposium on (pp. 687–
+ization, visualization and writing (reviewing and edit- 692).IEEE.
+ing). Seth Ariel Green contributed conceptualization,
+investigation, visualization, and writing (original draft,
+
+===== PAGE 8/9 =====
+8
+Donoho, D. (2017). 50 years of data science. Journal Kluyver, T., Ragan-Kelley, B., Pérez, F., Granger, B. E.,
+of Computational and Graphical Statistics, 26(4), Bussonnier, M., Frederic, J., ... Corlay, S., et al.
+745–766. (2016).Jupyternotebooks-apublishingformatfor
+Donoho, D., Maleki, A., Rahman, I., Shahram, M., & reproducible computational workflows. In Elpub
+Stodden, V. (2008). 15 years of reproducible re- (pp.87–90).
+search in computational harmonic analysis. Tech- Lindsay,D.S.(2017).Sharingdataandmaterialsinpsy-
+nicalreport. chological science. SAGE Publications Sage CA:
+Eubank, N. (2016). Lessons from a decade of replica- LosAngeles,CA.
+tions at the quarterly journal of political science. Liu, D. & Salganik, M. (2019). Successes and struggles
+PS:PoliticalScience&Politics,49(2),273–276. with computational reproducibility: lessons from
+Fidler, F. & Wilcox, J. (2018). Reproducibility of scien- thefragilefamilieschallenge.SocArXiv.
+tificresults.InE.N.Zalta(Ed.),Thestanfordency- Marwick,B.,Rokem,A.,&Staneva,V.(2017).Assessing
+clopediaofphilosophy(Winter2018).Metaphysics reproducibility. In J. Kitzes, D. Turek, & F. Deniz
+ResearchLab,StanfordUniversity. (Eds.), The practice of reproducible research: case
+Funder,D.C.,Levine,J.M.,Mackie,D.M.,Morf,C.C., studiesandlessonsfromthedata-intensivesciences.
+Sansone, C., Vazire, S., & West, S. G. (2014). Im- UnivofCaliforniaPress.
+proving the dependability of research in person- Merkel, D. (2014). Docker: lightweight linux contain-
+alityandsocialpsychology:recommendationsfor ers for consistent development and deployment.
+researchandeducationalpractice.Personalityand LinuxJournal,2014(239),2.
+SocialPsychologyReview,18(1),3–12. Morey,R.D.&Lakens,D.(2016).Whymostofpsychol-
+Gelman, A. & Loken, E. (2014). The statistical crisis in ogyisstatisticallyunfalsifiable.Submitted.
+science.AmericanScientist,102(6),460. Nosek, B. A. & Lakens, D. (2014). Registered reports.
+Gilad, Y. & Mizrahi-Man, O. (2015). A reanalysis of HogrefePublishing.
+mouseencodecomparativegeneexpressiondata. Paluck, E. L., Green, S. A., & Green, D. P. (2018). The
+F1000Research,4. contacthypothesisre-evaluated.BehaviouralPub-
+Grange, J., Lakens, D., Adolfi, F., Albers, C., Anvari, F., licPolicy,1–30.
+Apps, M., ... Benning, S., et al. (2018). Justify Peng, R. D. (2011). Reproducible research in computa-
+youralpha.NatureHumanBehavior. tionalscience.Science,334(6060),1226–1227.
+Grüning, B., Rasche, E., Rebolledo-Jaramillo, B., Sandve, G. K., Nekrutenko, A., Taylor, J., & Hovig, E.
+Eberhart, C., Houwaart, T., Chilton, J., ... (2013). Ten simple rules for reproducible com-
+Nekrutenko, A. (2016). Enhancing pre-defined putational research. PLoS computational biology,
+workflows with ad hoc analytics using galaxy, 9(10),e1003285.
+dockerandjupyter.bioRxiv,075457. Silver, A. (2017). Software simplified. Nature,
+Hardwicke, T. E., Mathur, M. B., MacDonald, K., Nil- 546(7656),173–174.
+sonne, G., Banks, G. C., Kidwell, M. C., ... Simmons,J.P.,Nelson,L.D.,&Simonsohn,U.(2011).
+Henry Tessler, M., et al. (2018). Data availability, False-positive psychology: undisclosed flexibility
+reusability, and analytic reproducibility: evaluat- in data collection and analysis allows present-
+ingtheimpactofamandatoryopendatapolicyat ing anything as significant. Psychological science,
+the journal cognition. Royal Society open science, 22(11),1359–1366.
+5(8),180448. Stodden,V.(2014).Whatscientificideaisreadyforre-
+Hung, L.-H., Kristiyanto, D., Lee, S. B., & Yeung, K. Y. tirement.Edge.
+(2016). Guidock: using docker containers with Stodden, V., Seiler, J., & Ma, Z. (2018). An empirical
+a common graphics user interface to address analysisofjournalpolicyeffectivenessforcompu-
+the reproducibility of research. PloS one, 11(4), tationalreproducibility.ProceedingsoftheNational
+e0152686. AcademyofSciences,115(11),2584–2589.
+Jonas,K.J.&Cesario,J.(2015).Guidelinesforauthors. Vanpaemel, W., Vermorgen, M., Deriemaecker, L., &
+Retrievedfromhttp://www.tandf.co.uk/journals/ Storms, G. (2015). Are we wasting a good crisis?
+authors/rrsp-submission-guidelines.pdf the availability of psychological research data af-
+Kitzes, J. (2017). Introduction. In J. Kitzes, D. Turek, terthestorm.Collabra:Psychology,1(1).
+& F. Deniz (Eds.), The practice of reproducible Wicherts, J. M., Borsboom, D., Kats, J., & Molenaar, D.
+research: case studies and lessons from the data- (2006). The poor availability of psychological re-
+intensivesciences.UniversityofCaliforniaPress. search data for reanalysis. American Psychologist,
+61(7),726.
+
+===== PAGE 9/9 =====
+9
+Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Neder- idence for international development verifiable?
+bragt,L.,&Teal,T.K.(2017).Goodenoughprac- PloSone,13(12),e0209416.
+tices in scientific computing. PLoS computational Woodbridge, M. (2017). Jupyter notebooks and repro-
+biology,13(6),e1005510. ducible data science. Retrieved from https://
+Wood, B. D., Müller, R., & Brown, A. N. (2018). markwoodbridge.com/2017/03/05/jupyter-
+Push button replication: is impact evaluation ev- reproducible-science.html

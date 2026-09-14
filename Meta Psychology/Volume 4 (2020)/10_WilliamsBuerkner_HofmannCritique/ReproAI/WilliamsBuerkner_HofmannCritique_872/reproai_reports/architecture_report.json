@@ -1,0 +1,37 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "audit_date": "2026-09-14",
+  "paper": {
+    "id": "MP.2018.872",
+    "name": "Coding Errors Lead to Unsupported Conclusions: A critique of Hofmann et al. (2015)",
+    "authors": "Donald R. Williams; Paul-Christian Bürkner",
+    "doi": "10.15626/2018.872",
+    "journal": "Meta-Psychology, Vol 4, 2020",
+    "article_type": "Commentary",
+    "empiricism": "The commentary forwards an original re-analysis meta-analysis of Hofmann et al. (2015) on intranasal oxytocin and psychiatric symptoms (16 outcomes, SMD + SMCR). All of its own numerical output is checkable from the author data/code.",
+    "osf_paper_project": "J2QGS",
+    "osf_analysis_project": "kd3en"
+  },
+  "mode": "live execution of author R code (R 4.6.1 / metafor 5.0.1) + independent Python 3.8 reimplementation (from-scratch REML)",
+  "environment": {
+    "r": "4.6.1 (2026-06-24 ucrt)",
+    "r_metafor": "5.0.1",
+    "python": "3.8.10",
+    "python_numpy": "1.24.4",
+    "python_scipy": "1.10.1",
+    "seed_handling": "No RNG anywhere in the pipeline (REML is deterministic/profile-likelihood); no seed required; results reproducible byte-for-byte."
+  },
+  "pipeline": {
+    "raw_data": "extracted/dat.csv (OSF kd3en rqybt; byte-identical MD5 to J2QGS Submission 'author dat.csv' yrb76)",
+    "effect_sizes": "escalc SMD (Hedges g, post scores) + SMCR (raw-score standardized change, r=0.7); Averbeck (2012) hand-entered (-0.51, v=0.19) per script comments",
+    "analysis": "metafor rma() REML: overall SMCR/SMD, trim&fill, moderator ~disorder-1 (Table 1), psycho_tot subset",
+    "independent_check": "Python 3.8 from-scratch REML random-effects + mixed-effects meta-regression; independent Hedges' g recompute"
+  },
+  "reimplementation_scripts": [
+    {"script": "exec_check/R/01_run_authors_analysis.R", "reimplements": "author hofmann_analysis.R end-to-end + structured CSV capture", "status": "OK"},
+    {"script": "exec_check/R/psycho_tot.R", "reimplements": "psycho_tot subset", "status": "OK"},
+    {"script": "exec_check/R/j2qgs_variant_check.R", "reimplements": "J2QGS Submission 872-DataAnalysis.R verbatim (divergent copy)", "status": "OK - demonstrates k=15 divergence"},
+    {"script": "exec_check/python/02_reimlement_meta_checking.py", "reimplements": "from-scratch REML (overall + moderator + psycho_tot) + independent Hedges' g", "status": "OK"}
+  ]
+}

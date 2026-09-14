@@ -1,0 +1,989 @@
+Meta-Psychology,2020,vol4,MP.2019.2117 Opendata:N/A Editedby:DaniëlLakens
+https://doi.org/10.15626/MP.2019.2117 Openmaterials:Yes Reviewedby:W.Qu,A.Lohman,S.Grønneberg
+Articletype:OriginalArticle Openandreproducibleanalysis:Yes Analysisreproducedby:AndréKalmendal
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:N/A http://doi.org//10.17605/OSF.IO/B5CXQ
+Issues, Problems and Potential Solutions
+when Simulating Continuous, Non-normal
+Data in the Social Sciences
+Oscar L. Olvera Astivia
+University of Washington
+Abstract
+Computer simulations have become one of the most prominent tools for methodologists in the social sciences to
+evaluate the properties of their statistical techniques and to offer best practice recommendations. Amongst the
+many uses of computer simulations, evaluating the robustness of methods to their assumptions, particularly uni-
+variate or multivariate normality, is crucial to ensure the appropriateness of data analysis. In order to accomplish
+this, quantitative researchers need to be able to generate data where they have a degree of control over its non-
+normal properties. Even thoughgreat advances havebeen achieved in statisticaltheory and computational power,
+the task of simulating multivariate, non-normal data is not straightforward. There are inherent conceptual and
+mathematicalcomplexitiesimpliedbythephrase“non-normality”whicharenotalwaysreflectedinthesimulations
+studies conduced by social scientists. The present article attempts to offer a summary of some of the issues con-
+cerningthesimulationofmultivariate,non-normaldatainthesocialsciences. Anoverviewofcommonalgorithms
+is presented as well as some of the characteristics and idiosyncrasies that implied in them which may exert undue
+influence in the results of simulation studies. A call is made to encourage the meta-scientific study of computer
+simulations in the social sciences in order to understand how simulation designs frame the teaching, usage and
+practiceofstatisticaltechniqueswithinthesocialsciences.
+Keywords: MonteCarlosimulation,non-normality,skewness,kurtosis,copuladistribution
+Introduction I posit that computer simulations can address three
+broad classes of issues depending on the ultimate goal
+The method of Monte Carlo simulation has become of the simulation itself: issues of estimation and math-
+the workhorse of the modern quantitative methodolo- ematical tractability, issues of data modelling and is-
+gist, enabling researchers to overcome a wide range of suesofrobustnessevaluation. Thefirstissueisperhaps
+issues, from handling intractable estimation problems best exemplified in the development of Markov Chain
+to helping guide and evaluate the development of new Monte Carlo (MCMC) techniques to estimate parame-
+mathematicalandstatisticaltheory(Beisbart&Norton, ters for Bayesian analysis or to approximate the solu-
+2012). FromitsinceptioninLosAlamosNationallabo- tion of complex integrals. The second is more often
+ratory, Monte Carlo simulations have provided insights seen within areas such as mathematical biology or fi-
+to mathematicians, physicists, statisticians and almost nancial mathematics, where the behaviour of chaotic
+any researcher who relies on quantitative analyses to systems can be approximated as if they were random
+furthertheirfield. procsses (e.g. Hoover & Hoover, 2015). In this case,
+2
+computersimulationsaredesignedtoanswer“whatif” just assumed that the subroutines and algorithms em-
+typequestionswhereslightalterationstotheinitialcon- ployed satisfy the requests of the researcher. A crucial
+ditions of the system may yield widely divergent re- aspect of the implementation of these algorithms and
+sults. The final issue (and the one that will concern of the performance of the simulation in general is the
+the rest of this article) is a hybrid of the previous two ability of the researcher to ensure that the simulation
+and particularly popular within psychology and the so- design and the actual computer implementation of it
+cial sciences: the evaluation of robustness in statistical are consistent with one another. If this consistency is
+methods (Carsey & Harden, 2013). Whether it is test- not there then Step (2) is brought into question and
+ing for violations of distributional assumptions, pres- one,eitherasaproducerorconsumerofsimulationre-
+ence of outliers, model misspecifications or finite sam- search,needstowonderwhetherornottheconclusions
+ple studies where the asymptotic properties of estima- obtainedfromtheMonteCarlostudiesarereliable. This
+torsareevaluatedunderrealisticsamplesizes, thevast issueconstitutesthecentralmessageofthisarticleasit
+majority of quantitative research published within the pertains to how one would simulate multivariate, non-
+social sciences is either exclusively based on computer normal data, the types of approaches that exist to do
+simulations or presents a new theoretical development thisandwhatresearchersshouldbeonthelookoutfor..
+whichisalsoevaluatedorjustifiedthroughsimulations.
+Justbylookingatthetableofcontentsofthreeleading
+Non-normaldatasimulationinthesocialsciences
+journalsinquantitativepsychologyforthepresentyear,
+MultivariateBehaviouralResearch,theBritishJournalof
+Mathematical and Statistical Psychology and Psychome- Investigating possible violations of distributional as-
+trika, one can see that every article present makes use sumptions is one of the most prevalent types of ro-
+ofcomputersimulationsinonewayoranother.Thistype bustnessstudieswithinthequantitativesocialsciences.
+of simulation studies can be described in four general MonteCarlosimulationshavebeenusedforsuchinves-
+steps: tigations on the general linear model (e.g., Beasley &
+Zumbo,2003;Finch,2005),multilevelmodelling(e.g.,
+Shieh, 2000), logistic regression (e.g., Hess, Olejnik,
+(1) Decidethemodelsandconditionsfromwhichthe
+& Huberty, 2001), structural equation modelling (e.g.,
+data will be generated (i.e. what “holds” in the
+Curran, West & Finch, 1996) and many more. When
+population).
+univariate properties are of interest (such as, for ex-
+(2) Generatethedata. ample, the impact that non-normality has on the t-test
+or ANOVA) researchers have a plethora of distribution
+(3) Estimate the quantities of interest for the models types to choose from. Distributions such as the expo-
+beingstudiedinStep(1). nential, log-normal and uniform are usually employed
+to test for non-zero skewness or excess kurtosis (e.g.,
+(4) Save the parameter estimates, standard errors, Oshima & Algina (1992); Wiedermann & Alexandrow-
+goodness-of-fitindices,etc. forlateranalysesand icz (2007); Zimmerman & Zumbo (1990). However,
+gobacktoStep(2). when the violation of assumptions implies a multivari-
+ate, non-normal structure, the data-generating process
+Steps (2)-(4) would be considered a replication becomes considerably more complex because, for the
+within the framework of a Monte Carlo simulation and continuouscase,manycandidatedensitiescanbecalled
+repeating them a large number of times shows the pat- the “multivariate” generalization of a well-known uni-
+terns of behaviour of the statistical methods under in- variate distribution. (Kotz, Balakrishnan & Johnson,
+vestigation that will result in further recommendations 2004). Consider, for instance, the case of a closely-
+forusersofthesemethods. relatedmultivariatedistributiontothenormal: themul-
+Robustness simulation studies emphasize the deci- tivariate t distribution. Kotz and Nadarajah (2004) list
+sionsmadeinStep(1)becausetheselectionofstatisti- fourteen different representations of distributions that
+cal methods to test and data conditions will guide the could be considered as “multivariate t”, with the most
+recommendations that will subsequently inform data popularrepresentationbeingusedprimarilyoutofcon-
+practice. For the case of non-normality, the level of venience, due to its connection with elliptical distribu-
+skewnessorkurtosis, presence/absenceofoutliers, etc. tions. In general, there can be many mathematical ob-
+would be encoded here. Most of the time, Steps (2) jects which could be consider the multivariate gener-
+through (4) are assumed to operate seamlessly either alization or “version” of well-known univariate proba-
+because the researcher has the sufficient technical ex- bility distributions, and choosing among the potential
+pertise to program them in a computer or because it is candidatesisnotalwaysastraightforwardtask.
+3
+From multivariate normal to multivariate non- distributed random variables (X ,X ,X ,X ) which fol-
+1 2 3 4
+normal distributions: What works and what does lowastandard,uniformdistribution,U(0,1)andapop-
+notwork ulation correlation matrix R with equal correlations
+4×4
+of 0.5 in the off-diagonals. The process of multiply-
+The normal distribution possesses a property that
+ingthematrixwithstandard-uniformrandomvariables
+easesthegeneralizationprocessfromunivariatetomul-
+timestheCholesky-decomposedR toinducethecor-
+4×4
+tivariate spaces in a relatively straightforward fash-
+relational structure (matrix B in the paragraph above)
+ion: it is closed under convolutions (i.e., closed un-
+ends up altering the univariate distributions such that
+der linear combinations) such that adding normal ran-
+they no longer follow the non-normal distributions in-
+dom variables and multiplying them times constants
+tendedbytheresearchers(Vale&Maurelli,1983). The
+results in a random variable which is itself normally-
+R code below exemplifies this process. In order to
+distributed. Let A ,A ,A ,...,A be independent, nor-
+1 2 3 n truly generate multivariate non-normal structures with
+mally distributed random variables such that A ∼
+i a degree of control over the marginal distributions and
+N(µ,σ2) for i = 1,2,...,n. If k ,k ,k ,...,k are real-
+i i 1 2 3 n the correlation structure simultaneously, morecomplex
+valuedconstantsthenitfollowsthat:
+simulationtechniquesareneeded.
+ 
+(cid:88)n
+k iA
+i
+∼
+N(cid:88)n
+k iµ
+i,(cid:88)n
+k i2σ2
+i
+(1)
+# Block 1
+i=1 i=1 i=1
+set.seed(124)
+ConsiderZ=(Z ,Z ,Z ,...,Z )(cid:48)whereeachZ ∼ N(0,1).
+1 2 3 n i ## Creates the correlation matrix and
+Foranyreal-valuedmatrixBofproperdimensions(be-
+factors it
+sides the null matrix), define Y = BZ. Then, by us-
+R <- matrix(rep(.5,16),4,4)
+ing the property presented in Equation (1), the matrix-
+diag(R) <- 1
+valued random variable Y + µµµ follows a multivariate C <- chol(R)
+normaldistributionwithmeanvectorµµµandcovariance
+matrix Σ = BB(cid:48), which is known as the Cholesky de- ## Simulates independent Uniform random
+composition or Cholesky factorization. For this partic- variables
+ular calculation, a matrix (in this case the covariance x_1 <- runif(n = 10000, min = 0, max = 1)
+matrix Σ) can be “decomposed” or “factorized” into x_2 <- runif(n = 10000, min = 0, max = 1)
+x_3 <- runif(n = 10000, min = 0, max = 1)
+a lower-triangular matrix (B in the example) and its
+x_4 <- runif(n = 10000, min = 0, max = 1)
+transpose. Itisimportanttopointoutthatothermatrix-
+decomposition approaches (such as Principal Compo-
+X <- cbind(x_1, x_2, x_3, x_4)
+nent Analysis or Factor Analysis) could serve a similar
+role.
+## Post-multiplies the correlation-matrix
+Although it would be tempting to follow the same factor to
+general approach to construct a multivariate, non- ## induce the correlation.
+normaldistribution(i.e.,selectacovariance/correlation D <- X %*% C ##this is the 4-dimensional
+matrix, decompose it in its factors, BB(cid:48) and multiply distribution
+them times the matrix with uncorrelated, non-normal
+distributionsofchoice)andithasbeendoneinthepast
+TheNORTAfamilyofmethods
+(see, for instance, Hittner, May & Silver, 2003; Silver,
+Hittner & May, 2004; Wilcox & Tian Tian, 2008), it The NORmal To Anything (NORTA) family of meth-
+is of utmost importance to highlight that this proce- odsisapopularapproachtogeneratemultivariate,non-
+dure would only guarantee that the population corre- normal data within the social sciences. Although the
+lation or covariance matrix is the one intended by the ideasunderlyingthismethodcanbetracedbacktoMar-
+researcher. This property holds irrespective of whether dia (1970), Cario and Nelson (2007) were among the
+thedistributionstocorrelatearenormalornon-normal. first ones to present this method in full generality and
+The univariate marginal distributions would lose their derive some of its fundamental theoretical properties.
+unique structures and, by the Central Limit Theorem, Inessence,theNORTAmethodconsistsofthreesteps:
+wouldbecomemoreandmorenormallydistributedthe
+more one-dimensional marginals are added. Figure 1 (1) GenerateZ ∼N(0 ,R ).
+d×1 d×d
+highlightsthisfactbyreproducingthesimulationcondi-
+tionsdescribedinSilver,HittnerandMay(2004)forthe (2) Apply the probability integral transformation by
+uniform case. Consider four independent, identically- using the multivariate normal cumulative den-
+4
+matrix of the non-normal density which is not positive
+definite 1. Care needs to be taken when implement-
+ingtheNORTAapproachtoensureboththenon-normal
+andcorrelationalstructuresarefeasible.
+The3rd orderpolynomialtransformation
+The 3rd order polynomial transformation, or the
+Fleishman method, deserves a special mention because
+oftheinfluenceithasexertedonevaluatingtherobust-
+ness of statistical methods within psychology and the
+social sciences. Its original univariate characterization
+proposedbyFleishman(1978)andthemultivariateex-
+tension developed by Vale and Maurelli (1983) are, by
+far, the most widely used algorithms to evaluate viola-
+tionstothenormalityassumptioninthesocialsciences.
+Withupwardsof1100citationscombinedbetweenboth
+articles, no other method to simulate non-normal data
+within these fields has been as extensively used as this
+Figure 1. Four-dimensional distribution implied by the
+approach.
+simulation design of Silver, Hittner & May (2004) with
+The Fleishman method begins by defining a non-
+assumedU(0,1)marginaldistributions
+normalrandomvariableasfollows:
+E =a+bZ+cZ2+dZ3 (3)
+sity function (CDF) such that (U) = Φ(Z) for
+i i
+i=1,2,...,n. where Z ∼ N(0,1) and {a,b,c,d} are real-valued con-
+stants that act as polynomial coefficients to define the
+(3) Choose a suitable inverse CDF, F−1(·), to ap- non-normally distributed variable E. The coefficients
+ply to each marginal density of U so the the are obtained by finding the solution to the following
+new multivariate random variable is defined as systemofequations:
+X = (F−1(u ),F−1(u ),..., F−1(u ))(cid:48). Notice that the
+F−1(·)n1 eed1 not2 bet2 hesamd efod
+reachi.
+a+c=0
+i
+b2+6bd+2c2+15d2 =1 (4)
+2c(b2+24bd+105d2+2)=γ
+1
+The NORTA algorithm encompasses a variety of
+methodswheretransformationsoftheonedimensional
+24(bd+c2[1+b2+28bd]+
+marginaldistributionsareappliedtoamultivariatenor- d2[12+48bd+141c2+225d2])=γ
+2
+mal structure in an attempt to induce non-normality
+fromtheunivariatetomultivariatemarginals. whereγ 1 isthepopulationskewnessandγ 2 isthepopu-
+SpecificapplicationsoftheNORTAframeworktosim- lation excess kurtosis defined by the user. Fleishman-
+ulate non-normal data have different types of compu- generated random variables are assumed to be stan-
+tational limitations, depending on how the method is dardized (at least initially), so the mean is fixed at 0
+implemented. The first one can be found in Cario and andthevarianceisfixedat1. Bysolvingthissystemof
+Nelson (2007) Equation (1) which pertains to the way equations, given the input of the user for (γ 1,γ 2), the
+inwhichthecorrelationmatrixofthedistributionisas- resulting polynomial coefficients can be plugged into
+sembled. ApplyingthetransformationsinStep2above Equation (3) so that the non-normal random variable
+will almost always end up changing the final value of E hasitsfirstfourmomentsdeterminedbytheuser.
+the Pearson correlation between the marginal distribu- Asanexample,pretendauserisinterestedinobtain-
+tions. Nevertheless,ifEquation(1)inCarioandNelson ingadistributionwithapopulationskewnessof1anda
+(2007) is solved for the correlation values intended for
+1An n×n symmetric matrix A is said to be positive defi-
+theresearcher,thenthiscorrelationcanbeusedinStep
+niteifforanyreal-valuedvectorv ,v(cid:62)Av> 0. Equivalently,
+n×1
+1abovesothatthefinaljointdistributionhasthepopu-
+all the eigenvalues of said matrix should be greater than 0.
+lationvalueoriginallydesired. Thisapproach,however, All covariance (and correlation) matrices are defined to be
+requires the correlation matrix to be created entry-by- positive-definite. If they are not, they are not a true correla-
+entry. The estimation may result in a final correlation tion/covariancematrix.
+5
+population excess kurtosis of 15. The following R code position approach (as described in Section 2.1), the
+wouldgeneratethenon-normaldistribution E withthe resulting marginal distributions would no longer have
+user-specifiednon-normality: the (γ ,γ ) values intended by the researcher. If, on
+1 2
+the other hand, one begins with multivariate normal
+data and then applies the Fleishman transformation to
+# Block 2
+each marginal distribution, then the resulting correla-
+set.seed(124)
+tion structure would not be the same as the one origi-
+nally intended by the researcher. Their solution, which
+## Eqn4 (the Fleishman system) to be solved
+is very much in line to the procedure described in Sec-
+fleishman <- function(sk, krt) {
+tion2.1,consistedofproposingastepbetweenthefinal
+fl_syst <- function(skew, kurt, dd)
+correlationstructureandthe3rdorderpolynomialtrans-
+{ formation called the “intermediate correlation matrix”.
+b=dd[1L]; c=dd[2L]; d=dd[3L]; With this added step, one would simulate multivariate
+normal data where the intermediate correlation matrix
+eqn1 = b^2 + 6*b*d + 2*c^2 + holdsinthepopulation. Thenoneproceedstoapplythe
+15*d^2 - 1 3rd order polynomial transformation to each marginal
+eqn2 = 2*c*(b^2 + 24*b*d +
+and, as they are transformed, the population correla-
+105*d^2 + 2) - sk
+tionsarealteredtoresultinthefinalcorrelationmatrix
+eqn3 = 24*(b*d + c^2*(1 + b^2 +
+originallyintendedbytheresearcher. Theintermediate
+28*b*d) +
+correlationmatrixiscalculatedasfollows:
+d^2*(12 + 48*b*d +
+141*c^2 + 225*d^2)) -
+krt
+ρ =ρ (b b +3b d +3b d +9d d )+
+E1E2 Z1Z2 1 2 1 2 2 1 1 2
+eqn <- c(eqn1, eqn2, eqn3) ρ2 (2c c )+ρ3 (6d d ) (5)
+Z1Z2 1 2 Z1Z2 1 2
+sum(eqn * eqn) where ρ is the intended correlation between the
+E1E2
+} non-normal variables, {a,b,c,d} are the polynomial
+i i i i
+coefficients needed to implement the Fleishman trans-
+sol <- nlminb(start = c(0,0,1), formation as described above and ρ is the interme-
+objective = fl_syst, skew =
+Z1Z2
+diate correlation coefficient. Solving for this correla-
+sk, kurt = krt)
+tion coefficient would give the user control over uni-
+}
+variate skewness, excess kurtosis and the correlation/-
+covariancematrix.
+## Solves the Fleishman system for
+The3rdorderpolynomialtransformationproposedby
+skewness=1, kurtosis=15
+fleishman(1,15)$par Fleishman (1978) (and extended by Vale and Maurelli
+[1] 1.534711 0.170095 -0.306848 (1983)) has several limitations. Tadikamalla (1980)
+and Headrick (2010) have commented on the fact that
+Althoughtheoriginalsystemcontainsfourequations, the combinations of skewness and excess kurtosis that
+notice that knowing c fully determines a (it simply can be simulated by this approach are limited when
+switches sign). Once the polynomial coefficients are compared to other methods, such as the 5th order poly-
+obtained, one simply needs to substitute them back in nomial transformation. The correlation matrix implied
+Equation(3): E =−0.170095+1.534711Z+0.170095Z2− by Equation (5) is defined bivariately so that the inter-
+0.306848Z3 Notice that, by construction, E is standard- mediatecorrelationmatrixhastobeassembledoneco-
+ized,whichcanbeseeninthesystemdescribedinEqua- efficientatatime,increasingtheprobabilitythatitmay
+tion(4). NoticehowthemomentsofEarethesolutions not be positive definite. The range of correlations that
+of the system, and the system has the first equation set can be simulated is also restricted and contingent on
+to 0 (the mean of E) and the second equation set to 1 the values of the intermediate correlation coefficients
+(the variance of E). The same values become negative (Headrick,2002). Forinstance,ifoneweretocorrelate
+intheRcodetosolveforthesystem. a standard normal variable and a Fleishman-defined
+Vale and Maurelli (1983) extended the Fleishman variable with (γ = 1,γ = 15), the researcher can only
+1 2
+methodbyacknowledgingthesamelimitationthatwas choose correlations in the approximate [-0.614, 0.614]
+described in Section 2.2: If one Fleishman-transforms range. Correlations outside that range would make
+standard normal random variables and induces a cor- Equation(4)yieldeithernon-realsolutionsorsolutions
+relation structure through a covariance matrix decom- outside [-1, 1] so that the correlation matrix becomes
+6
+unviable. If one were to continue with the example Weisz,2019). Althoughthemethodsandtechniquesas-
+above, for the normal case it would imply that b = 1 sociatedwithitareknownwithinthefieldsoffinancial
+1
+anda =c =d =0suchthatE =0+(1)Z+(0)Z2+(0)Z3 mathematics and actuarial science, the flexibility and
+1 1 1 1
+and for E = −0.170095 + 1.534711Z + 0.170095Z2 − power of this framework is becoming popularized in
+2
+0.306848Z3. Substituting these coefficients in Equation other areas to enhance the modelling of multivariate,
+(5)wouldyield: non-normaldata.
+In its simplest conceptualization, a copula is a type
+ρ E1E2 =ρ Z1Z2[(1)(1.534711)+3(1)(−0.306848)+0+0]+ ofmultivariatedensitywherethemarginaldistributions
+ρ2 (0)+ρ3 (0) are uniform and the dependence structure is specified
+Z1Z2 Z1Z2
+through a copula function (Joe, 2014). Two important
+ρ =ρ (0.614167)
+E1E2 Z1Z2 mathematical results power the flexibility of this the-
+by setting ρ = ±1 one can see that the maximum oretical framework: the probability integral transform
+Z1Z2
+andSklar’stheorem. Theprobabilityintegraltransform
+possible correlation between the normal E and non-
+1
+allowsonetoconvertanyrandomvariablewithawell-
+normal E is 0.614167. For ρ to be greater than
+2 E1E2
+defined CDF into a uniformly distributed random vari-
+that,ρ wouldhavetobegreaterthan1,whichwould
+Z1Z2
+able (or vice-versa if there is an inverse CDF). Sklar’s
+make the intermediate correlation matrix non-positive
+theoremprovesthatanymultivariatecumulativedistri-
+definite.
+bution function can be broken down into two indepen-
+Although the previous limitations can be somewhat
+dentparts: itsunidimensionalmarginalsandthecopula
+attenuated depending on the choice of γ ,γ and ρ ,
+1 2 E1E2
+function that relates them. Because of the generality
+there is one aspect of the Fleishman-Vale-Maurelli
+of Sklar’s theorem, one can be guaranteed that, given
+method that cannot be avoided because it is implicit
+somemildregularityconditions, (interestedreadercan
+within the theoretical framework in which it was de-
+consult Durante, Fernández-Sánchez & Sempi, 2013)
+veloped. The system described in Equation (4) and the
+for any multivariate distribution a copula function that
+intermediate correlation in Equation (5) are all poly-
+parameterizesitsjointCDFexists.
+nomials of high degree. As such, they have multiple
+solutions and there is little indication as far as which
+IntroductiontoGaussiancopulas
+solution should be preferred over others. Astivia and
+Zumbo(2018,2019)havestudiedthisissuebeforeand Gaussian copulas comprise perhaps the most com-
+documented the fact that the idiosyncrasies of the data monly used copula family for the analysis and simu-
+generatedbyeachsolutioncanbeasdisparateastoal- lation of data. They inherit many of the properties of
+ter the conclusions from previously published simula- the multivariate normal distribution that make them
+tionstudies. Althoughthe3rd orderpolynomialmethod both analytically tractable and easy to interpret for re-
+has been used extensively to investigate the properties searchers. In particular, Gaussian copulas rely on the
+of statistical methods, more research is needed to un- covariance/correlation matrix to model the dependen-
+derstandthepropertiesandusesofthemethoditselfto cies among its one-dimensional marginal distributions,
+clarify to what extent the results from published sim- sothatthesamecovariancemodellingthatsocialscien-
+ulation studies are contingent on the type of data that tistsarefamiliarwithgenerallytranslatesintothistype
+can be generated through this particular method. For ofcopulamodelling.
+instance, would the results from previously-published TheGaussiancopulacanbedefinedasfollows:
+simulation studies generalize if other data-generating
+C(u ,u ,...,u ;R )=Φ (Φ−1(u ),Φ−1(u ),...,Φ−1(u ))
+algorithms were implemented? Can the data that ap- 1 2 d d×d Rd×d 1 2 d
+(6)
+plied researchers collect be modelled through the 3rd
+where u,i = 1,2,...,d are realizations of standard,
+order polynomial method? Or does it follow other dis- i
+uniformly distributed random variables, Φ−1 is the in-
+tribution types? The 3rd order polynomial method of-
+verse CDF of the univariate normal distribution, and
+ferscontroloverthefirstfourmomentsofadistribution
+Φ is the CDF for the d-variate Gaussian distribution
+(mean, variance, skewness and kurtosis). Is this suffi- Rd×d
+withcorrelationmatrixR . SimilartotheNORTAap-
+cient to characterize the data? Or would methods that
+d×d
+proach, the process of building a Gaussian copula can
+allowcontroloverevenhighermomentsneeded?
+beschematizedinthefollowingseriesofsteps:
+Copuladistributions (1) Simulate from a multivariate normal distribution
+withdesiredcorrelationmatrix.
+Recently, copula distribution theory has begun to
+make an incursion into psychometric modelling and (2) Apply the normal CDF to the newly-generated
+the behavioural sciences (e.g., Jones, Mair, Kuppens & multivariate normal vector so that the columns
+7
+are now standard uniform bounded between 0
+and1.
+(3) If the inverse CDF (the quantile function) of the
+desired non-normal distribution exist, apply said
+inverseCDFtoeachcolumnofdata. Theresulting
+distribution would be a Gaussian copula with its
+one-dimensional marginal distributions selected
+bytheresearcher.
+Let us assume a researcher wishes to simulate a bi-
+variate distribution (d = 2) where one marginal is
+y ∼ G(1,1) and the other is y ∼ U(0,1) with a pop-
+1 2
+ulation correlation ρ = 0.5. In the R programming lan-
+guage one could implement the following code so that
+theresultingYisasimulatedsample(n=100,000)from
+theGaussiancopuladepictedinFigure2below.
+# Block 3 Figure 2. Four-dimensional distribution implied by the
+simulation design of Silver, Hittner & May (2004) with
+set.seed(124)
+assumedU(0,1)marginaldistributions
+library(mvtnorm)
+## Simulates multivariate normal data
+rho <- .5 ρ = 0.5 has now changed. When calculating the Pear-
+Z <- rmvnorm(n = 100000, mean = c(0,0), son correlation of the original sample from the bivari-
+sigma =matrix(c(1, rho, rho, 1), 2, 2)) ate normal distribution against the one from the Gaus-
+sian copula, the difference becomes apparent. There is
+## Applies th normal CDF
+a shrinkage of about 0.05-0.06 units in the correlation
+U <- pnorm(Z)
+metric, with the shrinkage contingent on the the size
+of the initial correlation. Figure 32 further clarifies this
+## Quantile functions/inverse CDF for gamma
+issue by relating the initial correlation of the bivariate
+(y1) and uniform (y2) marginals
+normaldistributiontothefinalcorrelationoftheGaus-
+y1 <- qgamma(U[, 1], shape = 1, rate = 1)
+y2 <- qunif(U[, 2], min = 0, max = 1) sian copula. In other words, there is a downward bias
+ofapproximately0.15unitsinthecorrelationmetricfor
+Y <- cbind(y1, y2) the theoretically maximum correlation of this copula.
+There are two important reasons for why this happens,
+##Correlation matrix of bivariate normal even though it is not always acknowledged within the
+> cor(X) simulationliteratureinthesocialsciences.
+[,1] [,2]
+First, both the probability integral transform
+[1,] 1.0000 0.5002
+(U<-pnorm(Z)) and the quantile function (or inverse
+[2,] 0.5002 1.0000
+CDF) needed to obtain the non-normal marginal distri-
+butions (qgamma and qunif) are not linear transforma-
+##Correlation matrix of Gaussian copula
+tions. The Pearson correlation is only invariant under
+> cor(Y)
+y1 y2 lineartransformationssoitstandstoreasonthatifnon-
+y1 1.0000 0.4405 linear transformations are applied, there is no expec-
+y2 0.4405 1.0000 tation that the correlation will remain the same. Sec-
+ond, there exists a result from copula distribution the-
+ory that places further restrictions on the range of the
+Correlationshrinkage PearsoncorrelationreferredtoastheFréchet–Hoeffding
+bounds. Hoeffding (1940) showed that the covariance
+Although the Gaussian copula induces a relation-
+ship between the Gamma and Uniform marginals, it is 2NoticethatFigure3isnotdirectlyrelatedtothecodein
+important to highlight that the original correlation of Block2
+8
+0.85onthepositivesideofthecorrelationrange. When
+theinverseCDFsareimplementedtogeneratethenon-
+normal marginals, the Fréchet–Hoeffding bounds are
+induced,restrictingthetypesofcorrelationalstructures
+that multivariate, non-normal distributions can gener-
+atewhencomparedtomultivariatenormalones. More-
+over, the Fréchet–Hoeffding bounds are the greatest
+lower and least upper bounds. That is, the Fréchet–
+Hoeffding bounds cannot be improved upon in general
+(Joe, 2014; Nelsen, 2010). Although there is nothing
+that can expand the Fréchet–Hoeffding bounds to the
+full[-1,1]rangeifthemarginalsarefixed,theinterme-
+diate correlation matrix approach described in Section
+2.2 can be used to find the proper value for the corre-
+lation coefficient needed to initialize the Gaussian cop-
+ula, if a specific population value is desired. As long as
+the value on this intermediate correlation is within the
+boundsspecifiedbythenon-normalmarginals,thefinal
+correlation after the marginal transformation is com-
+Figure 3. Relationship between the original correlation pletedwillmatchthepopulationparameterintendedby
+forthebivariatenormaldistributionandthefinalcorre- theresearcher.
+lation for the Gaussian copula with G(1,1) and U(0,1)
+Relationship of the NORTA method, the Vale–
+univariate marginals. The horizontal axis includes val-
+MaurellialgorithmandGaussiancopulas. Gaussian
+ues for the correlation for the bivariate normal distri-
+copulas have other important connections to the sim-
+bution and the vertical axis presents the transformed
+ulation work done within the social sciences, notably,
+correlation after the copula is constructed.The identity
+the fact that the NORTA method can be parameterized
+function(straightline)isincludedasreference.
+as a Gaussian copula (Qing, 2017). By extension, the
+Vale–Maurelli algorithm has also been proved to be a
+special case of Gaussian copulas so that the majority of
+between two random variables (S,T) can be expressed simulationworkconductedinthesocialscienceshasre-
+as: allyonlyconsideredtheGaussiancopulaasitstestcase
+(cid:90) ∞(cid:90) ∞ (Foldnes & Grønneberg, 2015; Grønneberg & Foldnes,
+Cov(S,T)= H(s,t)−F(s)G(t)dsdt (7) 2019). The same issues and limitations presented in
+−∞ −∞
+Sections 2.2 and 2.3 are, in fact, exchangeable given
+where H(s,t)istheirjointcumulativedistributionfunc-
+that the data-generating methods considered in both
+tion and F(s),G(t) are the marginal distribution func-
+casessharethesameessentialproperties.
+tionsoftherandomvariablesS andT respectively. De-
+fine H(s,t) = max[F(s)+G(t)−1,0] and H(s,t) =
+min max Distributions closed under linear transformation
+min[F(s),G(t)]. Fréchet (1951) and Hoeffding (1940)
+and their connection to simulating multivariate,
+independentlyprovedthat:
+non-normality
+H(s,t) ≤ H(s,t)≤ H(s,t) (8)
+min max As presented in Section 2.1, one of the many attrac-
+and, by using these bounds in Equation (7) above, it tive properties of the normal distribution is that the
+can be shown that ρ ≤ ρ ≤ ρ , where ρ is the sum of independent, normal random variables is itself
+min max
+linear correlation between the marginal distributions. normally distributed. This property is known as being
+The implication of this inequality is that, given the dis- “closed under convolutions” (i.e., when one combines
+tributional shape defined by F(s) and G(t), the corre- in a certain way or “convolves” random variables, the
+lation coefficient may not fully span the [-1, 1] theo- resultingrandomvariablebelongstothesamefamilyas
+retical range. For instance, Astivia and Zumbo (2017) its original components. Through the use of this prop-
+have shown that for the case of standard, lognormal erty, one can define the multivariate normal distribu-
+variables the theoretical correlation range is restricted tion by finding linear combinations (i.e., convolutions)
+to [−1/e,1] (approximately [−0.368,1]), where e is the of the one-dimensional normal marginals that will re-
+base of the natural logarithm. For the Gaussian cop- sult in X ∼ N(µµµ ,ΣΣΣ ). Although not very com-
+n×d d×1 d×d
+ulaabove,thetheoreticalupperboundisapproximately mon, this property is shared by some other probabil-
+9
+ity distributions, making it the preferred starting point
+to defining multivariate generalizations of them. Con-
+tinuous distributions such as the Cauchy and Gamma
+sharethispropertyandtheirmultivariateextensionsde-
+pend on it. The Gamma distribution is a particularly
+relevant case given its connection to other well-known
+probabilitydistributionssuchastheexponentialandthe
+chi-square. If X ∼ G(α ,β) and X ∼ G(α ,β) then
+1 1 2 2
+X + X ∼ G(α + α ,β). Notice how the property of
+1 2 1 2
+closeness is only true the rate parameter β is the same.
+Thesumoftwogenericgammadistributionsisnotnec-
+essarily gamma-distributed (see Moschopoulos, 1985).
+For the interested reader, an introduction to the theory
+of gamma distributions can be found in Chapter 15 of
+Krishnamoorthy(2016).
+As a motivating example to showcase a multivari-
+ate distribution that is not Gaussian, yet closed un-
+der convolutions, consider P and Q to be indepen-
+dently distributed Poisson random variables with pa-
+rameters (λ ,λ ) respectively. If W = P + Q then
+P Q
+W ∼ Poisson(λ W = λ P + λ Q). By using this property, Figure 4. Bivariate Poisson distribution with
+one can generalize the univariate Poisson distribution Cov(P∗,Q∗)=λ =3.
+V
+to multivariate spaces. Consider P,Q and V to be in-
+dependent, Poisson distributed random variables with
+respective parameters λ ,λ and λ . Define two new
+P Q V With the exception of the multivariate normal distri-
+randomvariables P∗ and Q∗ asfollows:
+bution, relying on the property of being closed under
+P∗ = P+V convolutions is not a widely used method to simulate
+non-normaldataforthesocialsciences. Veryfewdistri-
+Q∗ = Q+V (9)
+butions have this property and, even among those that
+Because P∗ and Q∗ share V in common, (P∗,Q∗)(cid:48) ex- do, there may be further restrictions in place that limit
+hibits Poisson-distributed, univariate marginal distribu- eitherthetypeofdistributionsthatcanbegeneratedor
+tions with a covariance equal to λ . Notice that this the dependency structures that can be modelled (Flo-
+V
+construction only allows for the case where the covari- rescu,2014). Asshownintheexampleabove,although
+ance between P∗ and Q∗ is positive because, by defini- onecouldusethismethodrecursivelytogenerateamul-
+tion, the parameter λ of a Poisson distribution must be tivariatePoissondistributionwithapre-specifiedcovari-
+positive. Figure 4 shows the bivariate histogram of a ance matrix, one is restricted to only positive covari-
+simulatedexamplewith P ∼ Poisson(1), Q ∼ Poisson(2) ances, given the limitation that all λ parameters must
+andV ∼ Poisson(3). InRcode: bepositive. Inspiteofthelackofattentiongiventothis
+simulation approach, the present section is intended to
+remind the reader that the properties of univariate dis-
+#Block 4
+tributions rarely generalize to multivariate spaces un-
+altered. If approaches similar to this are used without
+set.seed(124)
+## Simulates independent Poisson random showing closedness under convolutions first, there will
+variables beadiscrepancybetweenthesimulationdesignandthe
+P <- rpois(100000, lambda = 1) actualimplementationofthesimulationmethodsothat
+Q <- rpois(100000, lambda = 1) onecannolongerbesurewhichexactdistributionsare
+V <- rpois(100000, lambda = 3) beinggenerated.
+## Creates joint distribution with marginal
+Poisson random variables AlternativeApproaches
+Pstar <- P + V
+Qstar <- Q + V There exist a variety of alternative approaches that
+cov(Pstar, Qstar) were not considered in this overview but which are
+[1] 2.969006 quickly gaining use and prominence within the simula-
+10
+tion literature in the social sciences. Although not all andkurtosis)familiartomostresearchers. Thecreators
+of these methods share a common theoretical frame- ofthesemethodsofferreadily-availablesoftwareimple-
+work and the details of many of them are beyond the mentationsofthem,althoughnotallareavailableinthe
+scope of the present manuscript, there is relevance in sameprogramminglanguages.
+mentioning them for the interested reader. Particularly In spite of these modern advances, the NORTA ap-
+because they can be used to explore simulation condi- proachesingeneral(andthe3rdorderpolynomialtrans-
+tionsbeyondtheskewnessandkurtosisoftheunivariate formationinparticular)havedominatedtherobustness
+distributions, which is the general approach that per- literature in simulation studies within psychology and
+meate the simulation literature in the social sciences. thesocialsciences. Assuch, Ipresentthreerecommen-
+Grønneberg and Foldnes (2017) and Mair, Satorra and dationsthatIbelievewouldaidinthedesign,planning
+Bentler (2012) have extended the copula distribution andreportingofsimulationstudies:
+approaches beyond the Gaussian copula to help cre-
+ate more flexible, non-normal structures that induce Recommendationsfortheuseofthe3rd order
+different types of non-normalities, such as tail depen- polynomialmethod
+dence or multivariate skew. Qu, Liu and Zhang (2019)
+If the Fleishman (1978) method (for the univariate
+haverecentlyextendedtheFleishmanapproachtomul-
+case) or the Vale and Maurelli (1983) multivariate ex-
+tivariate higher moments and, to this day, it is one of
+tension are used in simulations, it would be beneficial
+the few methods available that allow researchers to
+toreportboththetransformationcoefficients,{a,b,c,d}
+set population values of Mardia’s multivariate skew-
+in Equation (4), and the intermediate correlation ma-
+ness and kurtosis, which allows researchers a certain
+trix assembled from Equation (5). For instance, Astivia
+degree of control over both univariate and multivari-
+and Zumbo (2015) conjectured and Foldnes and Grøn-
+ate non-normality. Ruscio and Kaczetow (2008) de-
+neberg (2017) proved that the asymptotic covariance
+veloped a sampling-and-iterate algorithm that allows
+matrix used in the robust corrections to non-normality
+one to simulate from any arbitrary number of distribu-
+within SEM depends on these polynomial coefficients
+tions while keeping control of the correlational struc-
+and the intermediate correlation matrix. Different sets
+ture. Although not much is known about the theo-
+of solutions create different asymptotic covariance ma-
+retical properties of this method, it offers the advan-
+trices so that small-sample recommendations that use
+tage of allowing users to induce any level of correla-
+this simulation technique may be highly contingent on
+tion to an empirical datasets that they may have col-
+thetypeofdatathatcouldbegeneratedthroughthisap-
+lected. Therefore, the user is given a choice to either
+proach. Byreportingwhichcoefficientswereused, one
+simulate from theoretical distributions or from a par-
+can at least provide a clearer, more reproducible simu-
+ticular dataset of interest. Auerswald and Moshagen
+lation for other researchers to interpret. For a concrete
+(2015) as well as Mattson (1997) have considered the
+example, please see Sheng and Sheng (2012)’s “Study
+problem by restating it under a latent variable frame-
+Design” section where the polynomial coefficients for
+work and inducing the non-normality through the la-
+eachtypeofnon-normalityarelisted.
+tent variables. Methods like this would allow the users
+to more accurately control the distributional assump-
+GeneralRecommendations
+tions of latent variables, which could be of interest to
+researchers in Structural Equation Modelling or Item Accounting for different types of multivariate non-
+ResponseTheory. TheworkofKowalchukandHeadrick normality
+(2010),PantandHeadrick(2013)andKoran,Headrick
+andKuo(2015)hasextendedthepropertiesofunivari- Since there is an infinite way for multivariate distri-
+ate, non-normal distributions such as the g-and-h fam- butions to deviate from the normality assumption (yet
+ilyofdistributionsortheBurrfamilyofdistributionsto there is only one way for data to be multivariate nor-
+multivariate spaces, in an attempt to allow researchers mal), attempting different simulation methods may of-
+the flexibility to select from a wider collection of non- fer a more comprehensive view of what type of ro-
+normal structures. These methods share some similari- bustnesspropertiesthemethodsunderinvestigationare
+tieswiththeNORTAapproachesintermsofgenerating sensitive to. Consider, for instance, Falk’s (2018) sim-
+multivariate non-normal data by manipulating the uni- ulation study investigating the performance of robust
+dimensional marginals of the joint distribution. Never- corrections to constructing confidence intervals within
+theless,mostofthisworkusesL−momentsasthecoeffi- SEM.Threedata-generatingmechanismswereusedfor
+cientsthatcontrolthenon-normalityofthedata,notthe non-normaldata: theVale–Maurelliapproach,contam-
+conventional 3rd and 4th order moments (i.e., skewness inated normal and a Gumbel copula distribution. The
+contaminated normal and the Gumbel copula case had
+11
+univariate distributions which were very close to the everydayandofferrecommendationsthataddressthem
+normal, yet the coverage for the confidence intervals directly. Becoming familiar with alternative modes of
+wasverypoor,bringingintoquestionrecommendations data-simulation would also help improve the general-
+(suchasthoseinFinney&DeStefano,2006)whoargue izability of simulation results. As commented on Sec-
+that robust corrections for SEM models should be used tion 2.2.1, the 3rd order polynomial approach to non-
+based on the distributions of the indicators. Although normal simulation enjoys a considerable predilection
+the previous recommendations make sense in light of amongst quantitative researchers, to the detriment of
+previous simulation work (which relied almost entirely other approaches. Considering even just one other al-
+onthe3rd orderpolynomialapproach)theresultsfound gorithm when conducting simulations would help al-
+in Falk (2018) help highlight that non-normalities in leviate this limitation and encompass a wider class of
+higher dimensions can still impact data analysis, even non-normalities than what one can find the the 3rd or-
+ifresearchersareunawareoftheseproperties. der polynomial method. Finally, quantitative method-
+ologists may benefit from using population parameters
+Justifyandtailoryourtypeofnon-normality foundintheliterature. Relyingonpreviously-published
+simulations to choose effect sizes is the current, “stan-
+Itiscrucialformethodologistsandquantitativesocial dard” which may limit recommendations that do not
+scientists to be able to tailor their simulation results to necessarilymatchdifferentareasofresearch. Ifonesim-
+the kind of scientific audience and research field they ulates something it should at least attempt to emulate
+wishtoinform. Oneofthemainobjectionstoanysimu- reallife,notothersimulations.
+lation study is its generalizability and how the findings
+presented and recommendations offered would fare if
+The meta-scientific investigation of simulationstud-
+the simulation conditions were altered. As it stands
+ies
+today, whenever a simulation study exploring the is-
+sue of non-normality is conducted, the simulation de- The goal of a considerable amount of simulation re-
+sign is usually informed by previous simulations and, searchinthesocialsciencesistoprovideguidelinesand
+forlackofabetterterm,“tradition”. Take,forinstance, best practice recommendations for data analysis under
+the population values of skewness and excess kurtosis violationofdistributionalassumptions. Becauseofthis,
+γ = 2,γ = 7 to denote “moderate” non-normality and it is of utmost importance that applied researchers also
+1 2
+γ = 3,γ = 21 for “extreme” non-normality. These val- becomefamiliar(toacertaindegree)withhowquanti-
+1 2
+ues were originally used in Curran, West and Finch’s tative methodologists conduct their research to be able
+(1996) simulation study on the influence that non- to understand whether or not their recommendations
+normality exerts on the chi-squared test of fit for SEM. are relevant to the analyses they may conduct. Ideally,
+Since then, these (γ ,γ ) (absolute) values, have ap- if an applied researcher is unfamiliar with the method-
+1 2
+pearedinBerkovits,HancockandNevitt(2000);Lodder ological literature yet looks for a better understanding
+et al., (2019); Nevitt and Hancock, (2000); Shin, No ofhowsimulationresultsmayaidintheiranalyses,they
+and Hong, (2019); Tofighi and Kelley, (2019) Vallejo, should consider consulting with a quantitative expert.
+GrasandGarcia,(2007)andmore. Thefactofthemat- Muchlikeinthecaseofappliedresearch,everysimula-
+teris,however,thatwedonotknowifthesevalues(or tionstudycanhavetheirownidiosyncrasiesanddesign
+the Gaussian copula implied by the Vale–Maurelli ap- peculiarities that require a more nuanced understand-
+proach) are representative of the type of data encoun- ing of what the original authors presented, and spot-
+teredinpsychologyandothersocialsciences. Andwith ting potential gaps on a simulation design usually re-
+the exception of Cain, Zhang & Yuan (2017), there has quires a certain degree of mathematical sophistication
+not been much interest within the published literature that, although desirable, is not usually a required skill
+in documenting both the type of univariate and mul- amongst applied researchers. Perhaps the easiest way
+tivariate distributions that are commonly found in our inwhichtheseissuescanbeconceptualizedforapplied
+areas of research. At this point in time, I would argue researchers is by considering simulation studies as the
+that we, as methodologists, do not have a good sense analog of empirical, experimental work as opposed to
+of whether the type of data we simulate in our studies formalmathematicalargumentation.
+is reflective of the type of data that exists in the real Although simulation studies would ideally go hand-
+world. Animportantsolutiontoaddressthisproblemis in-hand with the statistical and mathematical theory
+themovementtowardsopenscience,reproduciblityand that lends legitimacy to their results, enough examples
+opendata. Havingaccesstorawdatagrantsmethodolo- and case studies have been provided in the previous
+gistsandquantitativeresearcherstheabilitytoactually sections of this article to highlight the fact that this is
+mimic the idiosyncrasies that applied researchers face not often the case. Just as “methods effects” can intro-
+12
+duceunnecessarynoiseanduncertaintywhenconduct- AuthorContact
+ingexperiments, operatingfroma “blackbox”perspec-
+Dr. OscarL.OlveraAstivia.
+tivewhenconductingsimulationstudiescanalsocreate
+oastivia@uw.edu
+a disconnection between the theory and the design of
+ORCID0000-0002-5744-2403
+a simulation study. The fact of the matter is that al-
+most no research exists that attempts to analyze and
+validate the current practices of computer simulation ConflictofInterestandFunding
+studies. Whereas the movement towards open, repro-
+Noconflictofinterestandnoexternalfunding.
+duciblesciencehasyieldedimportantinsightsintoques-
+tionable research practices like p-hacking or researcher
+degrees of freedom, quantitative fields have remained AuthorContributions
+virtuallyunexplored,dueperhapstotheirtechnicalna-
+Dr. Astivia is the solo author of this article. He was in
+ture and the fact that a more solid theoretical founda-
+charge of conceptualization, analysis, software coding
+tion in statistics is needed in order to recognize the is-
+aswellasthewrite-upandrevisions.
+sues presented. A meta-scientific study of the theory
+andpracticeofsimulationstudiesisdesperatelyneeded
+Acknowledgements
+in order to begin to understand the types of questions
+and answers that are presented within the quantitative
+I would like to thank the editor-in-chief, Dr. Rickard
+fields of the social sciences. It is my sincere hope that
+Carlsson and my action editor Dr. Daniël Lakens for
+byofferingthisoverview,researcherscanbegintofamil-
+theirincrediblehelpandsupportduringthereviewpro-
+iarize themselves with some of the methodological and
+cess of this manuscript. I would also like to extend
+epistemological issues that computer simulations pose
+my sincere thanks to my wonderful reviewers Wen Qu,
+and open a dialogue between methodological and ap-
+Anna Lohman and Dr. Steffen Grønneberg for the time
+plied researchers in an area that is usually restricted to
+and effort they spent to help improve this manuscript.
+themosttechnically-mindedamongstus.
+Last but not least, I would like to also thank my col-
+league and dear friend Dr. Edward Kroc whose stimu-
+lating conversations always provide me with insights I
+couldnothaveachievedbymyself.
+OpenSciencePractices
+ThisarticleearnedOpenMaterialsbadgeformaking
+thematerialsopenlyavailable. Inthiscase,thematerial
+is thecode thatis presented inline. Ithas beenverified
+thattheanalysisreproducedtheresultspresentedinthe
+article. Theentireeditorialprocess, includingtheopen
+reviews,arepublishedintheonlinesupplement.
+References
+Astivia,O.L.O.&Zumbo,B.D.(2017). Populationmod-
+elsandsimulationmethods: thecaseoftheSpear-
+manrankcorrelation. BritishJournalofMathemat-
+ical and Statistical Psychology, 70, 347-367. doi:
+10.1111/bmsp.12085
+Astivia, O.L.O. &Zumbo, B.D. (2018). On thesolution
+multiplicityoftheFleishmanmethodanditsimpact
+insimulationstudies. BritishJournalofMathemat-
+ical and Statistical Psychology, 71, 437-458. doi:
+10.1111/bmsp.12126
+13
+Astivia, O.L.O., & Zumbo, B. D. (2019). A Note on normal distributions. Psychometrika, 43, 521-532.
+the solution multiplicity of the Vale–Maurelli in- doi: 10.1007/BF02293811
+termediate correlation equation. Journal of Educa- Florescu,I.(2014). ProbabilityandStochasticProcesses.
+tional and Behavioral Statistics, 44, 127-143. doi: JohnWiley&Sons
+10.3102/1076998618803381 Foldnes, N. & Grønneberg, S. (2015). How general is
+Auerswald, M. & Moshagen, M. (2015). Generat- theVale–Maurellisimulationapproach?. Psychome-
+ingcorrelated,non-normallydistributeddatausing trika, 80, 1066-1083. doi: 10.1007/s11336-014-
+a non-linear structural model.Psychometrika, 80, 9414-0
+920-937. doi: 10.1007/s11336-015-9468-7 Fréchet, M. (1951). Sur les tableaux de corrélation
+Beasley, T. M. & Zumbo, B. D. (2003). Comparison of dontlesmargessontdonnés. Annalesdel’Université
+alignedFriedmanrankandparametricmethodsfor de Lyon Section A:Sciences mathématiques et as-
+testing interactions in split-plot designs. Compu- tronomie,14,53-77.
+tational Statistics and Data Analysis, 42, 569–593. Grønneberg,S.&Foldnes,N.(2017). Covariancemodel
+doi: 10.1016/S0167-9473(02)00147-0 simulation using regular vines. Psychometrika, 82,
+Beisbart, C. & Norton, J. D. (2012). Why Monte Carlo 1035-1051. doi: 10.1007/s11336-017-9569-6
+simulationsareinferencesandnotexperiments. In- Grønneberg, S. & Foldnes, N. (2019). A Problem with
+ternational Studies in the Philosophy of Science, 26, discretizing Vale–Maurelli in simulation studies.
+403-422. doi: 10.1080/02698595.2012.748497 Psychometrika,84,554-561. doi: 10.1007/s11336-
+Cain,M.K.,Zhang,Z.&Yuan,K.H.(2017). Univariate 019-09663-8
+and multivariate skewness and kurtosis for mea- Headrick, T. C. (2002). Fast fifth-order polynomial
+suring non-normality: Prevalence, influence and transforms for generating univariate and multi-
+estimation. Behavior Research Methods, 49, 1716- variate non-normal distributions. Computational
+1735. doi: 10.3758/s13428-016-0814-1 Statistics and Data Analysis, 40, 685-711. doi:
+Cario,M.C.&Nelson,B.L.(1997). Modelingandgen- 10.1016/S0167-9473(02)00072-5
+eratingrandomvectorswitharbitrarymarginaldis- Headrick, T. C. (2010). Statistical Simulation: Power
+tributions and correlation matrix (pp. 1-19). Tech- Method Polynomials and Other Transformations.
+nical Report, Department of Industrial Engineering Chapman&Hall/CRC.
+and Management Sciences, Northwestern University. Hess, B., Olejnik, S. & Huberty, C. J. (2001). The ef-
+Evanston,Illinois. ficacyoftwoimprovement-over-chanceeffectsizes
+Carsey, T. M. & Harden, J. J. (2013). Monte Carlo Sim- for two group univariate comparisons under vari-
+ulation and Resampling Methods for Social Science. ance heterogeneity and nonnormality. Educational
+SagePublications. and Psychological Measurement, 61, 909–936. doi:
+Curran, P. J., West, S. G. & Finch, J. F. (1996). 10.1177/00131640121971572
+The robustness of test statistics to non-normality Hittner, J. B., May, K. & Silver, N. C. (2003). A Monte
+andspecificationerrorinconfirmatoryfactoranal- Carlo evaluation of tests for comparing dependent
+ysis. Psychological Methods, 1, 16–29. doi: correlations. The Journal of General Psychology,
+10.1037/1082-989X.1.1.16 130,149-168. doi: 10.1080/00221300309601282
+Durante F., Fernández-Sánchez, J. & Sempi, C. (2013) Hoeffding, W. (1940). Scale-invariant correlation the-
+HowtoProveSklar’sTheorem. InBustinceH.,Fer- ory. In Fisher, N.I. & Sen, P.K. (Eds.) The Collected
+nandez J., Mesiar R., Calvo T. (eds) Aggregation Works of Wassily Hoeffding (pp. 57-107). Springer,
+FunctionsinTheoryandinPractise. AdvancesinIn- NewYork,NY.
+telligentSystemsandComputing,vol228. Springer, Hoover, W.G. & Hoover, C.G. (2015). Simulation and
+Berlin,Heidelberg Control of Chaotic Non-equilibrium Systems. World
+Falk, C. F. (2018). Are robust standard errors the best Scientific.
+approach for interval estimation with non-normal Joe,H.(2014). Dependencemodelingwithcopulas. New
+data in structural equation modeling? Structural York,NY:ChapmanandHall/CRC.
+EquationModeling: AMultidisciplinaryJournal,25, Jones, P. J., Mair, P., Kuppens, S. & Weisz, J.
+244-266. doi: 10.1080/10705511.2017.1367254 R. (2019, March 28). An Upper Limit to
+Finch, H. (2005). Comparison of the performance Youth Psychotherapy Benefit? A Meta-Analytic
+of non-parametric and parametric MANOVA test Copula Approach to Psychotherapy Outcomes.
+statistics when assumptions are violated. Method- https://doi.org/10.31219/osf.io/jsmf5
+ology,1,27–38. doi: 10.1027/1614-1881.1.1.27 Koran, J. Headrick, T. C. & Kuo, T. C. (2015). Simulat-
+Fleishman, A. I. (1978). A method for simulating non- ing univariate and multivariate non-normal distri-
+14
+butions through the method of percentiles. Mul- MultivariateBehavioralResearch,43,355-381. doi:
+tivariate Behavioral Research, 50, 216-232. doi: 10.1080/00273170802285693
+10.1080/00273171.2014.963194 Sheng,Y.&Sheng,Z.(2012). Iscoefficientalpharobust
+Kotz,S.,Balakrishnan,N.&Johnson,N.L.(2004). Con- to non-normal data? Frontiers in Psychology, 3, 1-
+tinuous Multivariate Distributions, Volume 1: Mod- 13. doi: 10.3389/fpsyg.2012.00034
+elsandapplications. (Vol. 1). JohnWiley&Sons. Shieh, Y. (April, 2000). The Effects of Distributional
+Kowalchuk, R. K. & Headrick, T. C. (2010). Simulat- Characteristics on Multi-Level Modeling Parameter
+ingmultivariateg-and-hdistributions. BritishJour- Estimates and Type I Error Control of Parameter
+nal of Mathematical and Statistical Psychology, 63, Tests under Conditions Of Non-Normality. Paper
+63–74. doi: 10.1348/000711009X423067 presentedattheannualmeetingoftheAmericanEd-
+Krishnamoorthy, K. (2016). Handbook of Statisti- ucationalResearchAssociation,NewOrleans.
+cal Distributions with Applications. New York, Silver, N. C., Hittner, J. B. & May, K. (2004). Test-
+NY:ChapmanandHall/CRC. ing dependent correlations with non-overlapping
+Mair, P., Satorra, A. & Bentler, P. M. (2012). variables: a Monte Carlo simulation. The Jour-
+Generating non-normal multivariate data us- nal of Experimental Education, 73, 53-69. doi:
+ing copulas: Applications to SEM. Multivari- 10.3200/JEXE.71.1.53-70
+ate Behavioral Research, 47, 547-565. doi: Vale, C. D. & Maurelli, V. A. (1983). Simulating mul-
+10.1080/00273171.2012.692629 tivariate non-normal distributions. Psychometrika,
+48,465-471. doi: 10.1007/BF02293687
+Mardia, K. V. (1970). A translation family of bivariate
+Tadikamalla, P. R. (1980). On simulating non-normal
+distributions and Fré chet’s bounds. Sankhya: The
+distributions. Psychometrika, 45, 273-279. doi:
+IndianJournalofStatistics,SeriesA.119-122. doi:
+10.1007/BF02294081
+jstor.org/stable/25049643
+Wiedermann, W. T. & Alexandrowicz, R. W. (2007). A
+Mattson, S. (1997). How to generate non-normal data
+plea for more general tests than those for location
+for simulation of structural equation models. Mul-
+only: Further considerations on Rasch & Guiard’s’
+tivariate Behavioral Research, 32, 355-373. doi:
+The robustness of parametric statistical methods’.
+10.1207/s15327906mbr3204_3
+PsychologyScience,49,2-12. doi: 10.1007/978-94-
+Moschopoulos,P.G.(1985). Thedistributionofthesum
+009-6528-7_24
+ofindependentgammarandomvariables. Annalsof
+Wilcox, R. R. & Tian, T. (2008). Comparing depen-
+theInstituteofStatisticalMathematics,37,541-544.
+dent correlations. The Journal of General Psychol-
+doi: 10.1007/bf02481123
+ogy,135,105-112. doi: 10.3200/GENP.135.1.105-
+Nelsen, R. B. (2010). An Introduction to Copulas.
+112
+SpringerScience&BusinessMedia.
+Zimmerman,D.W.&Zumbo,B.D.(1990). Therelative
+Oshima, T. C. & Algina, J. (1992). Type I error rates
+poweroftheWilcoxon-Mann-WhitneytestandStu-
+for James’s second-order test and Wilcox’s Hm
+dent t test under simple bounded transformations.
+test under heteroscedasticity and non-normality.
+The Journal of General Psychology, 117, 425-436.
+British Journal of Mathematical and Statistical Psy-
+doi: 10.1080/00221309.1990.9921148
+chology, 45, 255-263. doi: 10.1111/j.2044-
+8317.1992.tb00991.x
+Pant, M. D. & Headrick, T. C. (2013). A method for
+simulating Burr Type III and Type XII distributions
+through moments and correlations. ISRN Applied
+Mathematics. doi: 10.1155/2013/191604
+Qing, X. (2017). Generating correlated random vec-
+torinvolvingdiscretevariables. Communicationsin
+Statistics-TheoryandMethods,46,1594-1605. doi:
+10.1080/03610926.2015.1024860
+Qu, W., Liu, H. & Zhang, Z. (2019). A method of
+generating multivariate non-normal random num-
+bers with desired multivariate skewness and kur-
+tosis. Behavior Research Methods, 1-8. doi:
+10.3758/s13428-019-01291-5
+Ruscio,J.&Kaczetow,W.(2008). Simulatingmultivari-
+ate non-normal data using an iterative algorithm.
+15
+Appendix
+###### FIGURE 1 ###################
+library(psych)
+pairs.panels(D, hist.col = "grey", rug = F, col.smooth = "white")
+#####################################################
+###### FIGURE 2 ###################
+library(rgl)
+library(MASS)
+bivn <- cbind(y2, y1)
+X <- kde2d(bivn[, 1], bivn[, 2], n = 50)
+persp(X, phi = 10, theta = 120, shade = 1, border = NA, xlab = c("y2, Uniform"), ylab =
+c("y1, Gamma"), zlab = c(""))
+#####################################################
+###### FIGURE 3 ###################
+library(mvtnorm)
+library(ggplot2)
+r <- seq(from = 0, to = .99, by = .01)
+rr <- double(100)
+for (i in 1:100) {
+X <- rmvnorm(n = 100000, mean = c(0,0), sigma = matrix(c(1, r[i], r[i], 1), 2, 2))
+U <- pnorm(X)
+y1 <- qgamma(U[, 1], shape = 1, rate = 1)
+y2 <- qunif(U[, 2], min = 0, max = 1)
+rr[i] <- cor(y1, y2)
+}
+dat<- data.frame(cbind(r, rr))
+fun.1 <- function(x)x
+p1 <- ggplot(dat, aes(r, rr)) + geom_point(colour = "black") + stat_function(fun = fun.1)
+p1 + theme_bw() + scale_x_continuous(breaks = seq(0, 1, by = .1)) +
+scale_y_continuous(breaks = seq(0, 1, by = .1)) + xlab("Bivariate normal correlation") +
+ylab("Gaussian copula correlation") + ggtitle("Gaussian copula correlation against
+bivariate normal correlation") + theme(plot.title = element_text(hjust = 0.5))
+#####################################################
+###### FIGURE 4 ###################
+set.seed(124)
+library(plot3D)
+X <- rpois(100000, lambda=1)
+16
+Y <- rpois(100000, lambda=1)
+Z <- rpois(100000, lambda=3)
+Xstar <- X + Z
+Ystar <- Y + Z
+z <- table(Xstar, Ystar)
+## Plot as a 3D histogram:
+hist3D(z=z, phi=10, xlab=c("P"), ylab=("Q"), zlab=c(""), theta=-120,col =
+ramp.col(c("white", "black")), border = "black", colkey=FALSE)
+tiff("test.tiff", units="in", width=5, height=5, res=300)

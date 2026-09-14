@@ -1,0 +1,1766 @@
+## ----init---------------------------------------------------------------------
+require(lme4)
+require(lmerTest)
+require(BayesFactor)
+require(reshape2)
+require(lsr)
+require(wesanderson)
+condCol <- wes_palette("GrandBudapest1")[c(3,2,4)]
+condPCH <- c(19, 15, 17)
+
+options(scipen=999)
+
+setwd("C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/Meta Psychology/Volume 3 (2019)/07_Witt_GraphConstruction/ReproAI/Witt_GraphConstruction_895/data")
+
+
+
+## ----Exp1data-----------------------------------------------------------------
+
+dt <- read.csv("axisSize 1-24.csv",header=T)
+
+  dt$respCentered <- dt$resp - 2.5
+  dt$corr <- ifelse(dt$effectSize == 0, 1, NA)
+  dt$corr[which(dt$effectSize == 1)] <- 1.5  #split difference because d = .1 is bigger than a null effect but smaller than a "small" effect
+  dt$corr[which(dt$effectSize == 3)] <- 2
+  dt$corr[which(dt$effectSize == 5)] <- 3
+  dt$corr[which(dt$effectSize == 8)] <- 4
+  dt$corrCentered <- dt$corr - 2.5
+
+  ab <-  which(colnames(dt) == "axisRange")
+  colnames(dt)[ab] <- "graphType"
+  if (length(ab)>0) {
+    dt <- dt[which(dt$Subject < 10),]  #get Ss from Exp 1 only
+  #  dt <- dt[which(dt$Subject > 9),]
+  }
+    
+
+
+
+
+
+## ----Exp 1 prelimLook---------------------------------------------------------
+
+  interaction.plot(dt$effectSize,dt$graphType,dt$resp)
+  interaction.plot(dt$corr,dt$graphType,dt$resp, col=condCol, lwd=3, lty=1,type="b",pch=condPCH)
+
+
+
+## ----Exp1 indivLM-------------------------------------------------------------
+subjs <- sort(unique(dt$Subject))
+N <- length(subjs)
+
+saveAll <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j),]
+      sMod <- lm(resp ~ corrCentered, data=df)
+      
+      sa <- sa+1
+      saveAll$subj[sa] <- subjs[i]
+      saveAll$graphType[sa] <- df$graphType[1]
+      saveAll$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+
+saveAll$bias <- (saveAll$intercept - 2.5) / 2.5 * 100  #put as a percentage
+
+
+boxplot(saveAll$coef)
+boxplot(saveAll$intercept)
+boxplot(saveAll$coef ~ saveAll$graphType)
+boxplot(saveAll$bias ~ saveAll$graphType)
+plot(saveAll$subj,saveAll$coef,pch=19,col=saveAll$graphType)
+
+saveAll <- saveAll[which(saveAll$subj != 1),]
+saveAll <- saveAll[which(saveAll$subj != 8),]
+
+allSubjOuts <- c(101, 108)
+
+
+
+## ----Exp1 Means and Tests-----------------------------------------------------
+
+print("Means for coefficients")
+a <- aggregate(coef ~ graphType, data=saveAll, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+print(a)
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "coef")
+colnames(ss) <- c("subj","full","sd","min")
+ss$sdFullDiff <- ss$sd - ss$full
+ss$sdMinDiff <- ss$sd - ss$min
+
+
+print("SD vs Full graphs")
+t.test(ss$sd,ss$full,paired=T)
+a <- t.test(ss$sd,ss$full,paired=T)
+ttestBF(ss$sd,ss$full,paired=T,rscale="medium")
+sdVsFulldz <- a$statistic / sqrt(length(ss$subj))
+cohensD(ss$sd,ss$full,method = "paired")
+psych::cohen.d.ci(sdVsFulldz,n1=length(ss$subj))
+
+
+print("SD vs Minimal graphs")
+t.test(ss$min,ss$sd,paired=T)
+a <- t.test(ss$min,ss$sd,paired=T)
+sdVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$sd,paired=T,rscale="medium")
+cohensD(ss$min,ss$sd,method = "paired")
+psych::cohen.d.ci(sdVsSmalldz,n1=length(ss$subj))
+
+
+print("Full vs Small graphs")
+t.test(ss$min,ss$full,paired=T)
+a <- t.test(ss$min,ss$full,paired=T)
+fullVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$full,paired=T,rscale="medium")
+cohensD(ss$min,ss$full,method = "paired")
+psych::cohen.d.ci(fullVsSmalldz,n1=length(ss$subj))
+
+
+
+# Explore biases
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "bias")
+colnames(ss) <- c("subj","full","sd","min")
+
+print("---------------")
+print("Explore Biases")
+a <- aggregate(bias ~ graphType, data=saveAll, mean)
+a1 <- aggregate(bias ~ graphType, data=saveAll, sd)
+a$sd <- a1$bias
+a$graphType <- c("full","sd","min")
+print(a)
+
+  print(t.test(ss$min))
+  a <- t.test(ss$min)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$min))
+
+    print(t.test(ss$sd))
+  a <- t.test(ss$sd)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$sd))
+  
+    print(t.test(ss$full))
+  a <- t.test(ss$full)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$full))
+
+print(t.test(ss$full,ss$sd,paired=T))
+print(t.test(ss$min,ss$sd,paired=T))
+
+
+
+## ----Exp1 Plots---------------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+
+mm2 <- aggregate(coef ~ graphType, data=mm, mean)
+mm2b <- aggregate(coef ~ graphType, data=mm, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm$coef) - (mean(mm2b$coef)*2), mean(mm$coef) + (mean(mm2b$coef)*2))
+plot(c(1,2,3),mm2$coef,pch=19,cex=2,xlim=c(.5,3.5),ylim=yLim,bty="l",xaxt="n",ylab="Slope",xlab="Graph Axis Condition")
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"))
+
+
+
+
+## ----exp1RespPlots------------------------------------------------------------
+
+for (i in allSubjOuts) {
+  dt <- dt[which(dt$Subject != (i-100)),]
+}
+
+myCol <- condCol
+myTitle <- c("Full","Standardized","Minimal")
+
+bmp("exp1resps.bmp",height = 1000, width=1000)
+par(mar=c(6,6,6,1))
+par(mfrow=c(2,2))
+
+for (i in 1:3) { 
+  dd <- dt[which(as.integer(dt$graphType) == i),]
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=as.integer(dd$graphType),col=condCol[i], xlab="Depicted Effect Size",ylab = "Response",yaxt="n",xaxt="n",bty="l", main=myTitle[i], cex.lab=2.5,cex.axis=2, cex.main = 3)
+  axis(side=1,at=c(.1,.3,.5,.8),labels = c(.1,.3,.5,.8),cex.axis=2)
+  axis(side=2,at=c(1,2,3,4),labels = c(1,2,3,4),cex.axis=2)
+}
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=4,col="white", xlab="Depicted Effect Size",ylab = "Correct Response",xaxt="n",yaxt="n",bty="l", main="Correct", cex.lab=2.5,cex.axis=2, cex.main = 3)
+  points(jitter(dd$effectSize/10),jitter(dd$corr))
+  axis(side=1,at=c(.1,.3,.5,.8),labels = c(.1,.3,.5,.8),cex.axis=2)
+  axis(side=2,at=c(1,2,3,4),labels = c(1,2,3,4),cex.axis=2)
+
+  dev.off()
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==1 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==1)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp == 4)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp > 2)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+  
+
+
+
+## ----Exp2 data----------------------------------------------------------------
+
+dt <- read.csv("axisSize 1-24.csv")
+
+
+  dt$corr <- ifelse(dt$effectSize == 0, 1, NA)
+  dt$corr[which(dt$effectSize == 1)] <- 1.5
+  dt$corr[which(dt$effectSize == 3)] <- 2
+  dt$corr[which(dt$effectSize == 5)] <- 3
+  dt$corr[which(dt$effectSize == 8)] <- 4
+  dt$corrCentered <- dt$corr - 2.5
+
+
+  ab <-  which(colnames(dt) == "axisRange")
+  colnames(dt)[ab] <- "graphType"
+  if (length(ab)>0) {
+    dt <- dt[which(dt$Subject > 9),]#get Ss from Exp 2 only
+  }
+    
+
+
+
+
+
+## ----Exp 2 prelimLook---------------------------------------------------------
+
+  interaction.plot(dt$effectSize,dt$graphType,dt$resp)
+  interaction.plot(dt$corr,dt$graphType,dt$resp)
+
+
+
+## ----Exp2 indivLM-------------------------------------------------------------
+subjs <- sort(unique(dt$Subject))
+N <- length(subjs)
+
+saveAll <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j),]
+      sMod <- lm(resp ~ corrCentered, data=df)
+      
+      sa <- sa+1
+      saveAll$subj[sa] <- subjs[i]
+      saveAll$graphType[sa] <- df$graphType[1]
+      saveAll$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+
+saveAll$bias <- (saveAll$intercept - 2.5) / 2.5 * 100  #put as a percentage
+
+
+boxplot(saveAll$coef)
+boxplot(saveAll$intercept)
+boxplot(saveAll$coef ~ saveAll$graphType)
+plot(saveAll$subj,saveAll$coef,pch=19,col=saveAll$graphType)
+
+saveAll <- saveAll[which(saveAll$subj != 13),]
+saveAll <- saveAll[which(saveAll$subj != 17),]
+saveAll <- saveAll[which(saveAll$subj != 24),]
+
+allSubjOuts <- c(allSubjOuts,213,217,224)
+
+
+
+## ----Exp2 Means and Tests-----------------------------------------------------
+
+a <- aggregate(coef ~ graphType, data=saveAll, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+print(a)
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "coef")
+colnames(ss) <- c("subj","full","sd","min")
+ss$sdFullDiff <- ss$sd - ss$full
+ss$sdMinDiff <- ss$sd - ss$min
+
+
+print("SD vs Full graphs")
+t.test(ss$sd,ss$full,paired=T)
+a <- t.test(ss$sd,ss$full,paired=T)
+ttestBF(ss$sd,ss$full,paired=T,rscale="medium")
+sdVsFulldz <- a$statistic / sqrt(length(ss$subj))
+cohensD(ss$sd,ss$full,method = "paired")
+psych::cohen.d.ci(sdVsFulldz,n1=length(ss$subj))
+
+
+print("SD vs Minimal graphs")
+t.test(ss$min,ss$sd,paired=T)
+a <- t.test(ss$min,ss$sd,paired=T)
+sdVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$sd,paired=T,rscale="medium")
+cohensD(ss$min,ss$sd,method = "paired")
+psych::cohen.d.ci(sdVsSmalldz,n1=length(ss$subj))
+
+
+print("Full vs Small graphs")
+t.test(ss$min,ss$full,paired=T)
+a <- t.test(ss$min,ss$full,paired=T)
+fullVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$full,paired=T,rscale="medium")
+cohensD(ss$min,ss$full,method = "paired")
+psych::cohen.d.ci(fullVsSmalldz,n1=length(ss$subj))
+
+
+
+# Explore biases
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "bias")
+colnames(ss) <- c("subj","full","sd","min")
+
+print("---------------")
+print("Explore Biases")
+a <- aggregate(bias ~ graphType, data=saveAll, mean)
+a1 <- aggregate(bias ~ graphType, data=saveAll, sd)
+a$sd <- a1$bias
+a$graphType <- c("full","sd","min")
+print(a)
+
+  print(t.test(ss$min))
+  a <- t.test(ss$min)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$min))
+
+    print(t.test(ss$sd))
+  a <- t.test(ss$sd)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$sd))
+  
+    print(t.test(ss$full))
+  a <- t.test(ss$full)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$full))
+
+print(t.test(ss$full,ss$sd,paired=T))
+print(t.test(ss$min,ss$sd,paired=T))
+
+
+
+
+## ----Exp2 Plots---------------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+
+mm2 <- aggregate(coef ~ graphType, data=mm, mean)
+mm2b <- aggregate(coef ~ graphType, data=mm, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm$coef) - (mean(mm2b$coef)*2), mean(mm$coef) + (mean(mm2b$coef)*2))
+plot(c(1,2,3),mm2$coef,pch=19,cex=2,xlim=c(.5,3.5),ylim=yLim,bty="l",xaxt="n",ylab="Slope",xlab="Graph Axis Condition")
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"))
+
+
+
+
+
+## ----exp2RespPlots------------------------------------------------------------
+
+myCol <- c("green","blue","red")
+myTitle <- c("Full","Standardize","Minimal")
+for (i in 1:3) { 
+  dd <- dt[which(as.integer(dt$graphType) == i),]
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=as.integer(dd$graphType),col=myCol[i], xlab="Effect Size",ylab = "Response",yaxt="n",bty="l", main=myTitle[i])
+  axis(side=2,at=seq(1,4),labels = seq(1,4))
+}
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==1 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==1)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp == 4)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp > 2)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+  
+
+
+
+## ----Exp3 data----------------------------------------------------------------
+
+
+dt <- read.csv("axisRangeEBv2 1-14.csv")
+
+
+  dt$corr <- ifelse(dt$effectSize == 0, 1, NA)
+  dt$corr[which(dt$effectSize == 1)] <- 1.5  #not sure what to do with this.  maybe exclude these experiments.
+  dt$corr[which(dt$effectSize == 3)] <- 2
+  dt$corr[which(dt$effectSize == 5)] <- 3
+  dt$corr[which(dt$effectSize == 8)] <- 4
+  dt$corrCentered <- dt$corr - 2.5
+
+
+
+
+## ----Exp 3 prelimLook---------------------------------------------------------
+
+  interaction.plot(dt$effectSize,dt$graphType,dt$resp)
+  interaction.plot(dt$corr,dt$graphType,dt$resp)
+
+
+
+## ----Exp3 indivLM-------------------------------------------------------------
+subjs <- sort(unique(dt$Subject))
+N <- length(subjs)
+
+saveAll <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j),]
+      sMod <- lm(resp ~ corrCentered, data=df)
+      
+      sa <- sa+1
+      saveAll$subj[sa] <- subjs[i]
+      saveAll$graphType[sa] <- df$graphType[1]
+      saveAll$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+
+saveAll$bias <- (saveAll$intercept - 2.5) / 2.5 * 100  #put as a percentage
+
+saveAll2 <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll2) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize > 1),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      sa <- sa+1
+      saveAll2$subj[sa] <- subjs[i]
+      saveAll2$graphType[sa] <- df$graphType[1]
+      saveAll2$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll2$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+
+saveAll3 <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll3) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize < 5),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      sa <- sa+1
+      saveAll3$subj[sa] <- subjs[i]
+      saveAll3$graphType[sa] <- df$graphType[1]
+      saveAll3$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll3$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+boxplot(saveAll$coef)
+boxplot(saveAll$intercept)
+boxplot(saveAll$coef ~ saveAll$graphType)
+boxplot(saveAll2$coef ~ saveAll2$graphType)
+boxplot(saveAll3$coef ~ saveAll3$graphType)
+plot(saveAll$subj,saveAll$coef,pch=19,col=saveAll$graphType)
+
+saveAll <- saveAll[which(saveAll$subj != 3),]
+saveAll <- saveAll[which(saveAll$subj != 4),]
+
+saveAll2 <- saveAll2[which(saveAll2$subj != 3),]
+saveAll2 <- saveAll2[which(saveAll2$subj != 4),]
+saveAll2 <- saveAll2[which(saveAll2$subj != 2),]
+saveAll2 <- saveAll2[which(saveAll2$subj != 5),]
+
+saveAll3 <- saveAll3[which(saveAll3$subj != 3),]
+saveAll3 <- saveAll3[which(saveAll3$subj != 4),]
+saveAll3 <- saveAll3[which(saveAll3$subj != 2),]
+saveAll3 <- saveAll3[which(saveAll3$subj != 5),]
+
+allSubjOuts <- c(allSubjOuts,303, 304, 305, 302)
+
+
+
+## ----Exp3 Means and Tests-----------------------------------------------------
+
+#Print Means and SDs
+a <- aggregate(coef ~ graphType, data=saveAll, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "allDs"
+print(a)
+
+a <- aggregate(coef ~ graphType, data=saveAll2, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll2, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "effMagnitude"
+print(a)
+
+a <- aggregate(coef ~ graphType, data=saveAll3, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll3, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "effVSnoEff"
+print(a)
+
+
+
+#Do analyses on slope coefficients
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "coef")
+colnames(ss) <- c("subj","full","sd","min")
+ss$sdFullDiff <- ss$sd - ss$full
+ss$sdMinDiff <- ss$sd - ss$min
+
+ss2 <- dcast(saveAll2,subj ~ graphType, value.var = "coef")
+colnames(ss2) <- c("subj","full","sd","min")
+ss2$sdFullDiff <- ss2$sd - ss2$full
+ss2$sdMinDiff <- ss2$sd - ss2$min
+
+ss3 <- dcast(saveAll3,subj ~ graphType, value.var = "coef")
+colnames(ss3) <- c("subj","full","sd","min")
+ss3$sdFullDiff <- ss3$sd - ss3$full
+ss3$sdMinDiff <- ss3$sd - ss3$min
+
+
+print("Full vs Small graphs")
+t.test(ss$min,ss$full,paired=T)
+a <- t.test(ss$min,ss$full,paired=T)
+fullVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$full,paired=T,rscale="medium")
+cohensD(ss$min,ss$full,method = "paired")
+psych::cohen.d.ci(fullVsSmalldz,n1=length(ss$subj))
+
+dataOpts <- c("all","effOnly","no3")
+comps <- c(1,3)
+saveOuts <- as.data.frame(matrix(NA,ncol=13,nrow=3*2))
+colnames(saveOuts) <- c("comp1","comp2","data","t","p","ll","dz","ul","BF","meanDiff","confLower","confUpper","df")
+sa <- 0
+currN <- length(ss$subj)
+for (j in 1:length(comps)) {
+    a <- t.test(ss$sd,ss[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[1]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+
+        a <- t.test(ss2$sd,ss2[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[2]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+
+        a <- t.test(ss3$sd,ss3[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[3]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+    
+}
+
+
+print(saveOuts)
+
+
+# Explore biases
+ss <- dcast(saveAll,subj ~ graphType, value.var = "bias")
+colnames(ss) <- c("subj","full","sd","min")
+
+print("---------------")
+print("Explore Biases")
+print("---------------")
+a <- aggregate(bias ~ graphType, data=saveAll, mean)
+a1 <- aggregate(bias ~ graphType, data=saveAll, sd)
+a$sd <- a1$bias
+a$graphType <- c("full","sd","min")
+print(a)
+
+  print(t.test(ss$min))
+  a <- t.test(ss$min)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$min))
+
+    print(t.test(ss$sd))
+  a <- t.test(ss$sd)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$sd))
+  
+    print(t.test(ss$full))
+  a <- t.test(ss$full)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$full))
+
+print(t.test(ss$full,ss$sd,paired=T))
+print(t.test(ss$min,ss$sd,paired=T))
+
+
+
+
+## ----Exp3 Plots---------------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+
+mm2 <- aggregate(coef ~ graphType, data=mm, mean)
+mm2b <- aggregate(coef ~ graphType, data=mm, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm$coef) - (mean(mm2b$coef)*2), mean(mm$coef) + (mean(mm2b$coef)*2))
+plot(c(1,2,3),mm2$coef,pch=19,cex=2,xlim=c(.5,3.5),ylim=yLim,bty="l",xaxt="n",ylab="Slope",xlab="Graph Axis Condition")
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"))
+
+
+
+
+
+
+## ----exp3RespPlots------------------------------------------------------------
+
+myCol <- c("green","blue","red")
+myTitle <- c("Full","Standardize","Minimal")
+for (i in 1:3) { 
+  dd <- dt[which(as.integer(dt$graphType) == i),]
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=as.integer(dd$graphType),col=myCol[i], xlab="Effect Size",ylab = "Response",yaxt="n",bty="l", main=myTitle[i])
+  axis(side=2,at=seq(1,4),labels = seq(1,4))
+}
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==1 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==1)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp == 4)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp > 2)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+  
+
+
+
+## ----Exp4 data----------------------------------------------------------------
+
+
+dt <- read.csv("axisRangeLineV2 1-20.csv")
+
+
+  dt$corr <- ifelse(dt$effectSize == 0, 1, NA)
+  dt$corr[which(dt$effectSize == 1)] <- 1.5  #not sure what to do with this.  maybe exclude these experiments.
+  dt$corr[which(dt$effectSize == 3)] <- 2
+  dt$corr[which(dt$effectSize == 5)] <- 3
+  dt$corr[which(dt$effectSize == 8)] <- 4
+  dt$corrCentered <- dt$corr - 2.5
+
+
+
+
+## ----Exp 4 prelimLook---------------------------------------------------------
+
+  interaction.plot(dt$effectSize,dt$graphType,dt$resp)
+  interaction.plot(dt$corr,dt$graphType,dt$resp)
+
+
+
+## ----Exp4 indivLM-------------------------------------------------------------
+subjs <- sort(unique(dt$Subject))
+N <- length(subjs)
+
+saveAll <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j),]
+      sMod <- lm(resp ~ corrCentered, data=df)
+      
+      sa <- sa+1
+      saveAll$subj[sa] <- subjs[i]
+      saveAll$graphType[sa] <- df$graphType[1]
+      saveAll$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+saveAll$bias <- (saveAll$intercept - 2.5) / 2.5 * 100  #put as a percentage
+
+
+saveAll2 <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll2) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize > 1),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      sa <- sa+1
+      saveAll2$subj[sa] <- subjs[i]
+      saveAll2$graphType[sa] <- df$graphType[1]
+      saveAll2$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll2$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+
+saveAll3 <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll3) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize < 5),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      sa <- sa+1
+      saveAll3$subj[sa] <- subjs[i]
+      saveAll3$graphType[sa] <- df$graphType[1]
+      saveAll3$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll3$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+boxplot(saveAll$coef)
+boxplot(saveAll$intercept)
+boxplot(saveAll$coef ~ saveAll$graphType)
+boxplot(saveAll2$coef ~ saveAll2$graphType)
+boxplot(saveAll3$coef ~ saveAll3$graphType)
+plot(saveAll$subj,saveAll$coef,pch=19,col=saveAll$graphType)
+
+subjOuts <- c(9,4,15,16)
+for (i in 1:length(subjOuts)) {
+  saveAll <- saveAll[which(saveAll$subj != subjOuts[i]),]
+  saveAll2 <- saveAll2[which(saveAll2$subj != subjOuts[i]),]
+  saveAll3 <- saveAll3[which(saveAll3$subj != subjOuts[i]),]
+}
+
+allSubjOuts <- c(allSubjOuts,409,404, 415,416)
+
+
+
+## ----Exp4 Means and Tests-----------------------------------------------------
+
+#Print Means and SDs
+a <- aggregate(coef ~ graphType, data=saveAll, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "allDs"
+print(a)
+
+a <- aggregate(coef ~ graphType, data=saveAll2, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll2, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "effMagnitude"
+print(a)
+
+a <- aggregate(coef ~ graphType, data=saveAll3, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll3, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "effVSnoEff"
+print(a)
+
+
+
+#Do analyses on slope coefficients
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "coef")
+colnames(ss) <- c("subj","full","sd","min")
+ss$sdFullDiff <- ss$sd - ss$full
+ss$sdMinDiff <- ss$sd - ss$min
+
+ss2 <- dcast(saveAll2,subj ~ graphType, value.var = "coef")
+colnames(ss2) <- c("subj","full","sd","min")
+ss2$sdFullDiff <- ss2$sd - ss2$full
+ss2$sdMinDiff <- ss2$sd - ss2$min
+
+ss3 <- dcast(saveAll3,subj ~ graphType, value.var = "coef")
+colnames(ss3) <- c("subj","full","sd","min")
+ss3$sdFullDiff <- ss3$sd - ss3$full
+ss3$sdMinDiff <- ss3$sd - ss3$min
+
+
+print("Full vs Small graphs")
+t.test(ss$min,ss$full,paired=T)
+a <- t.test(ss$min,ss$full,paired=T)
+fullVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$full,paired=T,rscale="medium")
+cohensD(ss$min,ss$full,method = "paired")
+psych::cohen.d.ci(fullVsSmalldz,n1=length(ss$subj))
+
+dataOpts <- c("all","effOnly","no3")
+comps <- c(1,3)
+saveOuts <- as.data.frame(matrix(NA,ncol=13,nrow=3*2))
+colnames(saveOuts) <- c("comp1","comp2","data","t","p","ll","dz","ul","BF","meanDiff","confLower","confUpper","df")
+sa <- 0
+currN <- length(ss$subj)
+for (j in 1:length(comps)) {
+    a <- t.test(ss$sd,ss[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[1]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+
+        a <- t.test(ss2$sd,ss2[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[2]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+
+        a <- t.test(ss3$sd,ss3[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[3]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+    
+}
+
+
+print(saveOuts)
+
+
+# Explore biases
+ss <- dcast(saveAll,subj ~ graphType, value.var = "bias")
+colnames(ss) <- c("subj","full","sd","min")
+
+print("---------------")
+print("Explore Biases")
+print("---------------")
+a <- aggregate(bias ~ graphType, data=saveAll, mean)
+a1 <- aggregate(bias ~ graphType, data=saveAll, sd)
+a$sd <- a1$bias
+a$graphType <- c("full","sd","min")
+print(a)
+
+  print(t.test(ss$min))
+  a <- t.test(ss$min)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$min))
+
+    print(t.test(ss$sd))
+  a <- t.test(ss$sd)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$sd))
+  
+    print(t.test(ss$full))
+  a <- t.test(ss$full)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$full))
+
+print(t.test(ss$full,ss$sd,paired=T))
+print(t.test(ss$min,ss$sd,paired=T))
+
+
+
+
+## ----Exp4 Plots---------------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+mm$group <- 1
+
+m4 <- mm
+
+mm <- dcast(saveAll2, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+mm$group <- 2
+
+m4 <- rbind(m4,mm)
+
+mm <- dcast(saveAll3, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+mm$group <- 3
+
+m4 <- rbind(m4,mm)
+
+
+mm2 <- aggregate(coef ~ graphType + group, data=m4, mean)
+mm2b <- aggregate(coef ~ graphType + group, data=m4, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm2$coef) - (mean(mm2b$coef)*2), mean(mm2$coef) + (mean(mm2b$coef)*2))
+yLim <- c(min(mm2$coef) - .05,max(mm2$coef)+.05)
+plot(as.integer(mm2$graphType),mm2$coef,pch=mm2$group,col=mm2$group,cex=2,xlim=c(.5,3.5),ylim=yLim,bty="l",xaxt="n",ylab="Slope",xlab="Graph Axis Condition")
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"))
+
+plot(mm2$group,mm2$coef,pch=mm2$group,col=as.integer(mm2$graphType),cex=2,xlim=c(.5,3.5),ylim=yLim,bty="l",xaxt="n",ylab="Sensitivity",xlab="Graphs Included in Analysis")
+axis(side=1,at=c(1,2,3),labels = c("All",".3 - .8","0 - .3"))
+
+
+
+
+
+
+
+## ----exp4RespPlots------------------------------------------------------------
+
+myCol <- c("green","blue","red")
+myTitle <- c("Full","Standardize","Minimal")
+for (i in 1:3) { 
+  dd <- dt[which(as.integer(dt$graphType) == i),]
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=as.integer(dd$graphType),col=myCol[i], xlab="Effect Size",ylab = "Response",yaxt="n",bty="l", main=myTitle[i])
+  axis(side=2,at=seq(1,4),labels = seq(1,4))
+}
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==1 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==1)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp == 4)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp > 2)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+  
+
+
+
+## ----Exp5 data----------------------------------------------------------------
+
+
+dt <- read.csv("axisRangeLine 1-14.csv")
+
+
+  dt$corr <- ifelse(dt$effectSize == 0, 1, NA)
+  dt$corr[which(dt$effectSize == 1)] <- 1.5  #not sure what to do with this.  maybe exclude these experiments.
+  dt$corr[which(dt$effectSize == 3)] <- 2
+  dt$corr[which(dt$effectSize == 5)] <- 3
+  dt$corr[which(dt$effectSize == 8)] <- 4
+  dt$corrCentered <- dt$corr - 2.5
+
+
+
+
+## ----Exp 5 prelimLook---------------------------------------------------------
+
+  interaction.plot(dt$effectSize,dt$graphType,dt$resp)
+  interaction.plot(dt$corr,dt$graphType,dt$resp)
+
+
+
+## ----Exp5 indivLM-------------------------------------------------------------
+subjs <- sort(unique(dt$Subject))
+N <- length(subjs)
+
+saveAll <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j),]
+      sMod <- lm(resp ~ corrCentered, data=df)
+      
+      sa <- sa+1
+      saveAll$subj[sa] <- subjs[i]
+      saveAll$graphType[sa] <- df$graphType[1]
+      saveAll$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+saveAll$bias <- (saveAll$intercept - 2.5) / 2.5 * 100  #put as a percentage
+
+
+saveAll2 <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll2) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize > 1),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      sa <- sa+1
+      saveAll2$subj[sa] <- subjs[i]
+      saveAll2$graphType[sa] <- df$graphType[1]
+      saveAll2$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll2$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+
+saveAll3 <- as.data.frame(matrix(NA,ncol=4, nrow=N*3))
+colnames(saveAll3) <- c("subj","graphType","intercept","coef")
+sa <- 0
+
+for (i in 1:N) {
+  for (j in 1:3) {
+      df <- dt[which(dt$Subject == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize < 5),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      sa <- sa+1
+      saveAll3$subj[sa] <- subjs[i]
+      saveAll3$graphType[sa] <- df$graphType[1]
+      saveAll3$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll3$coef[sa] <- summary(sMod)$coefficients[2]
+    }
+}
+boxplot(saveAll$coef)
+boxplot(saveAll$intercept)
+boxplot(saveAll$coef ~ saveAll$graphType)
+boxplot(saveAll2$coef ~ saveAll2$graphType)
+boxplot(saveAll3$coef ~ saveAll3$graphType)
+plot(saveAll$subj,saveAll$coef,pch=19,col=saveAll$graphType)
+
+subjOuts <- c(7, 13)  #11 is a maybe outlier but doesn't really count
+for (i in 1:length(subjOuts)) {
+  saveAll <- saveAll[which(saveAll$subj != subjOuts[i]),]
+  saveAll2 <- saveAll2[which(saveAll2$subj != subjOuts[i]),]
+  saveAll3 <- saveAll3[which(saveAll3$subj != subjOuts[i]),]
+}
+
+allSubjOuts <- c(allSubjOuts,507, 513)
+
+
+
+
+## ----Exp5 Means and Tests-----------------------------------------------------
+
+#Print Means and SDs
+a <- aggregate(coef ~ graphType, data=saveAll, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "allDs"
+print(a)
+
+a <- aggregate(coef ~ graphType, data=saveAll2, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll2, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "effMagnitude"
+print(a)
+
+a <- aggregate(coef ~ graphType, data=saveAll3, mean)
+a1 <- aggregate(coef ~ graphType, data=saveAll3, sd)
+a$sd <- a1$coef
+a$graphType <- c("full","sd","min")
+a$cond <- "effVSnoEff"
+print(a)
+
+
+
+#Do analyses on slope coefficients
+
+ss <- dcast(saveAll,subj ~ graphType, value.var = "coef")
+colnames(ss) <- c("subj","full","sd","min")
+ss$sdFullDiff <- ss$sd - ss$full
+ss$sdMinDiff <- ss$sd - ss$min
+
+ss2 <- dcast(saveAll2,subj ~ graphType, value.var = "coef")
+colnames(ss2) <- c("subj","full","sd","min")
+ss2$sdFullDiff <- ss2$sd - ss2$full
+ss2$sdMinDiff <- ss2$sd - ss2$min
+
+ss3 <- dcast(saveAll3,subj ~ graphType, value.var = "coef")
+colnames(ss3) <- c("subj","full","sd","min")
+ss3$sdFullDiff <- ss3$sd - ss3$full
+ss3$sdMinDiff <- ss3$sd - ss3$min
+
+
+print("Full vs Small graphs")
+t.test(ss$min,ss$full,paired=T)
+a <- t.test(ss$min,ss$full,paired=T)
+fullVsSmalldz <- a$statistic / sqrt(length(ss$subj))
+ttestBF(ss$min,ss$full,paired=T,rscale="medium")
+cohensD(ss$min,ss$full,method = "paired")
+psych::cohen.d.ci(fullVsSmalldz,n1=length(ss$subj))
+
+dataOpts <- c("all","effOnly","no3")
+comps <- c(1,3)
+saveOuts <- as.data.frame(matrix(NA,ncol=13,nrow=3*2))
+colnames(saveOuts) <- c("comp1","comp2","data","t","p","ll","dz","ul","BF","meanDiff","confLower","confUpper","df")
+sa <- 0
+currN <- length(ss$subj)
+for (j in 1:length(comps)) {
+    a <- t.test(ss$sd,ss[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[1]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+
+        a <- t.test(ss2$sd,ss2[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[2]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+
+        a <- t.test(ss3$sd,ss3[,1+comps[j]],paired=T)
+    
+    sa <- sa+1
+    saveOuts$comp1[sa] <- 2
+    saveOuts$comp2[sa] <- comps[j]
+    saveOuts$data[sa] <- dataOpts[3]
+    saveOuts$t[sa] <- a$statistic
+    saveOuts$p[sa] <- a$p.value
+    saveOuts$df[sa] <- a$parameter
+    dz <- a$statistic / sqrt(currN)
+    saveOuts[sa,6:8] <- round(psych::cohen.d.ci(dz,n1=currN),2)
+    saveOuts$BF[sa] <- exp(ttest.tstat(t=a$statistic, n1=currN, rscale = 0.707)[['bf']])
+    saveOuts$meanDiff[sa] <- a$estimate
+    saveOuts$confLower[sa] <- a$conf.int[1]
+    saveOuts$confUpper[sa] <- a$conf.int[2]
+    
+}
+
+
+print(saveOuts)
+
+
+# Explore biases
+ss <- dcast(saveAll,subj ~ graphType, value.var = "bias")
+colnames(ss) <- c("subj","full","sd","min")
+
+print("---------------")
+print("Explore Biases")
+print("---------------")
+a <- aggregate(bias ~ graphType, data=saveAll, mean)
+a1 <- aggregate(bias ~ graphType, data=saveAll, sd)
+a$sd <- a1$bias
+a$graphType <- c("full","sd","min")
+print(a)
+
+  print(t.test(ss$min))
+  a <- t.test(ss$min)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$min))
+
+    print(t.test(ss$sd))
+  a <- t.test(ss$sd)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$sd))
+  
+    print(t.test(ss$full))
+  a <- t.test(ss$full)
+  psych::cohen.d.ci(a$statistic / sqrt(length(ss$subj)),n1=length(ss$subj))
+  print(ttestBF(ss$full))
+
+print(t.test(ss$full,ss$sd,paired=T))
+print(t.test(ss$min,ss$sd,paired=T))
+
+
+
+
+
+## ----Exp5 Plots---------------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+
+mm2 <- aggregate(coef ~ graphType, data=mm, mean)
+mm2b <- aggregate(coef ~ graphType, data=mm, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm$coef) - (mean(mm2b$coef)*2), mean(mm$coef) + (mean(mm2b$coef)*2))
+plot(c(1,2,3),mm2$coef,pch=19,cex=2,xlim=c(.5,3.5),ylim=yLim,bty="l",xaxt="n",ylab="Slope",xlab="Graph Axis Condition")
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"))
+
+
+
+
+
+
+
+## ----exp5RespPlots------------------------------------------------------------
+
+myCol <- c("green","blue","red")
+myTitle <- c("Full","Standardize","Minimal")
+for (i in 1:3) { 
+  dd <- dt[which(as.integer(dt$graphType) == i),]
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=as.integer(dd$graphType),col=myCol[i], xlab="Effect Size",ylab = "Response",yaxt="n",bty="l", main=myTitle[i])
+  axis(side=2,at=seq(1,4),labels = seq(1,4))
+}
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==1 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==1)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp == 4)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp > 2)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+  
+
+
+
+## ----doAllExps----------------------------------------------------------------
+
+
+dataSets <- c("axisSize 1-24.csv","axisRangeEBv2 1-14.csv","axisRangeLine 1-14.csv", "axisRangeLineV2 1-20.csv")
+dataTitle <- c("Bar - 1SD","Bar - .6 SD w Error Bars","Line - .5 SD","Line - .7 SD")
+
+  dd <- read.csv(dataSets[1],header=T)
+  ab <-  which(colnames(dd) == "axisRange")
+  colnames(dd)[ab] <- "graphType"
+  dd$exp <- 1
+  dd$exp[which(dd$Subject > 9)] <- 2
+  dd$errBarType <- NA
+  dd$cycle <- NA
+  dd$sample <- NA
+  dd$isBar <- 1
+  dt <- dd
+  
+  dd <- read.csv(dataSets[2],header=T)
+  dd$exp <- 3
+  dd$Session <- 1
+  dd$isBar <- 1
+  dt <- rbind(dt,dd)
+  
+  dd <- read.csv(dataSets[3],header=T)
+  dd <- dd[,c(1,3,4,6,7,8,9)]
+  dd$exp <- 5
+  dd$Session <- 1
+  dd$graphImg <- NA
+  dd$errBarType <- NA
+  dd$isBar <- 0
+  dt <- rbind(dt,dd)
+  
+  dd <- read.csv(dataSets[4],header=T)
+  dd$exp <- 4
+  dd$Session <- 1
+  dd$errBarType <- NA
+  dd$isBar <- 0
+  dt <- rbind(dt,dd)
+  
+  dt$corr <- ifelse(dt$effectSize == 0, 1, NA)
+  dt$corr[which(dt$effectSize == 1)] <- 1.5
+  dt$corr[which(dt$effectSize == 3)] <- 2
+  dt$corr[which(dt$effectSize == 5)] <- 3
+  dt$corr[which(dt$effectSize == 8)] <- 4
+  dt$corrCentered <- dt$corr - 2.5
+
+  dt$graphType[which(as.character(dt$graphType) == "sd")] <- "SD"
+  dt$graphType[which(as.character(dt$graphType) == "full")] <- "Full"
+  dt$graphType[which(as.character(dt$graphType) == "small")] <- "Small"
+
+  
+  
+  allSubjOuts <- c(101,108,213,217,224,303,304,305,302,409,404,415,416,507,513)
+
+dt$subj2 <- dt$exp * 100 + dt$Subject
+for (i in allSubjOuts) {
+  dt <- dt[which(dt$subj2 != i),]
+}
+  
+
+
+## ----analyzeAll---------------------------------------------------------------
+
+subjs <- sort(unique(dt$subj2))
+N <- length(subjs)
+
+#For all trials
+saveAll <- as.data.frame(matrix(NA,ncol=5, nrow=N*3))
+colnames(saveAll) <- c("subj","graphType","intercept","coef","exp")
+sa <- 0
+
+#For trials with d > .10
+saveAll2 <- as.data.frame(matrix(NA,ncol=5, nrow=N*3))
+colnames(saveAll2) <- c("subj","graphType","intercept","coef","exp")
+
+
+# Set value of minimum effect size to determine which data are included.
+for (i in 1:N) {
+  for (j in 4:6) {
+      df <- dt[which(dt$subj2 == subjs[i] & as.integer(dt$graphType) == j),]
+      sMod <- lm(resp ~ corrCentered, data=df)
+      
+      sa <- sa+1
+      saveAll$subj[sa] <- subjs[i]
+      saveAll$graphType[sa] <- df$graphType[1]
+      saveAll$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll$coef[sa] <- summary(sMod)$coefficients[2]
+      saveAll$exp[sa] <- df$exp[1]
+      saveAll$bias[sa] <- (saveAll$intercept[sa] - 2.5) / 2.5 * 100  #put as a percentage
+
+      df <- dt[which(dt$subj2 == subjs[i] & as.integer(dt$graphType) == j & dt$effectSize > 1),]
+      sMod <- lm(resp ~ scale(corr,scale=F,center=T), data=df)
+      
+      saveAll2$subj[sa] <- subjs[i]
+      saveAll2$graphType[sa] <- df$graphType[1]
+      saveAll2$intercept[sa] <- summary(sMod)$coefficients[1]
+      saveAll2$coef[sa] <- summary(sMod)$coefficients[2]
+      saveAll2$exp[sa] <- df$exp[1]
+      saveAll2$bias[sa] <- (saveAll2$intercept[sa] - 2.5) / 2.5 * 100  #put as a percentage
+
+      
+    }
+}
+
+saveAll$graphType[which(saveAll$graphType == 4)] <- 2 #SD
+saveAll$graphType[which(saveAll$graphType == 5)] <- 1 #Full
+saveAll$graphType[which(saveAll$graphType == 6)] <- 3 #Small
+
+saveAll2$graphType[which(saveAll2$graphType == 4)] <- 2 #SD
+saveAll2$graphType[which(saveAll2$graphType == 5)] <- 1 #Full
+saveAll2$graphType[which(saveAll2$graphType == 6)] <- 3 #Small
+
+
+
+
+## ----plotAllSlopes------------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll2, subj ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+
+mm2 <- aggregate(coef ~ graphType, data=mm, mean)
+mm2b <- aggregate(coef ~ graphType, data=mm, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm$coef) - (mean(mm2b$coef)*2), mean(mm$coef) + (mean(mm2b$coef)*2))  #within SDs
+avgSD <- (sd(saveAll2$coef[which(saveAll2$graphType == 1)]) + sd(saveAll2$coef[which(saveAll2$graphType == 2)]) + sd(saveAll2$coef[which(saveAll2$graphType == 3)])) / 3
+yLim2 <- c(mean(mm$coef) - (avgSD*1.5), mean(mm$coef) + (avgSD*1.5))
+bmp("allSlopesByCond3.bmp",width=500,height=500)
+  par(mar=c(5.1,5.1,2.1,.1))
+
+plot(c(1,2,3),mm2$coef,pch=19,cex=3,xlim=c(.5,3.5),ylim=yLim2,bty="l",xaxt="n",ylab="Sensitivity",xlab="Graph Axis Condition",cex.lab=1.5,cex.axis=1.5)
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"),cex.axis=1.5)
+for(i in 1:3) {
+  segments(i,mm2$coef[i] - mm2$se[i],i,mm2$coef[i] + mm2$se[i],col="red",lwd=3)
+}
+dev.off()
+
+
+
+
+
+
+
+## ----plotAllBiases------------------------------------------------------------
+
+# Intercepts
+mm <- dcast(saveAll, subj ~ graphType, value.var = "bias")
+colnames(mm) <- c("subj","full","sd","minimal")
+mm$subjAvg <- apply(mm[,2:4],1,mean)
+mm$adjustVal <- mean(mm$subjAvg) - mm$subjAvg
+mm$fullW <- mm[,2] + mm$adjustVal
+mm$sdW <- mm[,3] + mm$adjustVal
+mm$minimalW <- mm[,4] + mm$adjustVal
+print("check them")
+for (i in 1:3) {
+  print(paste(round(mean(mm[,i+1]),3),"vs",round(mean(mm[,i+6]),3)))
+}
+mm <- mm[,c(1,7,8,9)]
+mm <- melt(mm,id="subj")
+colnames(mm) <- c("subj","graphType","coef")
+
+mm2 <- aggregate(coef ~ graphType, data=mm, mean)
+mm2b <- aggregate(coef ~ graphType, data=mm, sd)
+mm2$se <- mm2b$coef / sqrt(length(mm$subj))
+yLim <- c(mean(mm$coef) - (mean(mm2b$coef)*3), mean(mm$coef) + (mean(mm2b$coef)*3))
+avgSD <- (sd(saveAll$bias[which(saveAll2$graphType == 1)]) + sd(saveAll$bias[which(saveAll$graphType == 2)]) + sd(saveAll$bias[which(saveAll$graphType == 3)])) / 3
+yLim2 <- c(mean(mm$coef) - (avgSD*2), mean(mm$coef) + (avgSD*2))
+bmp("allBiasesByCond3.bmp",width=500,height=500)
+  par(mar=c(5.1,5.1,2.1,.1))
+
+plot(c(1,2,3),mm2$coef,pch=19,cex=3,xlim=c(.5,3.5),ylim=yLim2,bty="l",xaxt="n",ylab="Bias (%)",xlab="Graph Axis Condition",cex.lab=1.5,cex.axis=1.5)
+axis(side=1,at=c(1,2,3),labels = c("Full","Standardized","Minimal"),cex.axis=1.5)
+for(i in 1:3) {
+  segments(i,mm2$coef[i] - mm2$se[i],i,mm2$coef[i] + mm2$se[i],col="red",lwd=3)
+}
+abline(h=0,lty=2,lwd=1)
+dev.off()
+
+
+
+## ----allPropResp--------------------------------------------------------------
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==5 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==5)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==6 & dt$resp == 4 & dt$effectSize > 0)]) / length(dt$Subject[which(as.integer(dt$graphType)==6 & dt$effectSize > 0)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==6 & dt$resp > 2 & dt$effectSize > 0)]) / length(dt$Subject[which(as.integer(dt$graphType)==6 & dt$effectSize > 0)]))
+  
+
+
+
+
+## ----plotEachSubjByExp--------------------------------------------------------
+
+# Slopes
+mm <- dcast(saveAll2, subj + exp ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","exp","full","sd","minimal")
+
+bmp("SlopesByCondExp3.bmp",width=500,height=500)
+  par(mar=c(5.1,5.1,2.1,.1))
+
+plot(rep(.7,length(mm$subj))+(mm$exp/10),mm$full,xlim=c(.5,3.5),ylim=c(-.1,1.1),bty="l",ylab="Sensitivity",xlab="Graph Type",xaxt="n",col=rainbow(6)[mm$exp], pch=15, cex.lab=1.5, cex.axis=1.5, cex=2)
+points(rep(1.7,length(mm$subj))+(mm$exp/10),mm$sd,col=rainbow(6)[mm$exp],pch=16, cex=2)
+points(rep(2.7,length(mm$subj))+(mm$exp/10),mm$minimal,col=rainbow(6)[mm$exp],pch=17,cex=2)
+axis(side=1,at=c(1,2,3),labels=c("Full","Standardized","Minimal"), cex.axis=1.5)
+abline(h=0)
+abline(h=1,lty=2)
+dev.off()
+
+
+mm <- dcast(saveAll, subj + exp ~ graphType, value.var = "coef")
+colnames(mm) <- c("subj","exp","full","sd","minimal")
+
+bmp("SlopesByCondExpAllTrials3.bmp",width=500,height=500)
+  par(mar=c(5.1,5.1,2.1,.1))
+
+plot(rep(.7,length(mm$subj))+(mm$exp/10),mm$full,xlim=c(.5,3.5),ylim=c(-.1,1.1),bty="l",ylab="Sensitivity",xlab="Graph Type",xaxt="n",col=rainbow(6)[mm$exp], pch=15, cex.lab=1.5, cex.axis=1.5, cex=2)
+points(rep(1.7,length(mm$subj))+(mm$exp/10),mm$sd,col=rainbow(6)[mm$exp],pch=16, cex=2)
+points(rep(2.7,length(mm$subj))+(mm$exp/10),mm$minimal,col=rainbow(6)[mm$exp],pch=17, cex=2)
+axis(side=1,at=c(1,2,3),labels=c("Full","Standardized","Minimal"), cex.axis=1.5)
+abline(h=0)
+abline(h=1,lty=2)
+dev.off()
+
+
+mm <- dcast(saveAll, subj + exp ~ graphType, value.var = "bias")
+colnames(mm) <- c("subj","exp","full","sd","minimal")
+
+bmp("BiasByCondExpAllTrials3.bmp",width=500,height=500)
+  par(mar=c(5.1,5.1,2.1,.1))
+
+plot(rep(.7,length(mm$subj))+(mm$exp/10),mm$full,xlim=c(.5,3.5),ylim=c(-55,55),bty="l",ylab="Bias (%)",xlab="Graph Type",xaxt="n",col=rainbow(6)[mm$exp], pch=15, cex.lab=1.5, cex.axis=1.5, cex=2)
+points(rep(1.7,length(mm$subj))+(mm$exp/10),mm$sd,col=rainbow(6)[mm$exp],pch=16,cex=2)
+points(rep(2.7,length(mm$subj))+(mm$exp/10),mm$minimal,col=rainbow(6)[mm$exp],pch=17,cex=2)
+axis(side=1,at=c(1,2,3),labels=c("Full","Standardized","Minimal"), cex.axis=1.5)
+abline(h=0,lty=2,lwd=1)
+dev.off()
+
+
+
+
+## ----allExpsRespPlots---------------------------------------------------------
+
+myCol <- c("green","blue","red")
+myTitle <- c("Standardize","Full","Minimal")
+dt2 <- dt[which(dt$exp == 1),]
+for (i in 4:6) { 
+  dd <- dt[which(as.integer(dt2$graphType) == i),]
+  plot(jitter(dd$effectSize/10),jitter(dd$resp), pch=as.integer(dd$graphType),col=myCol[i-3], xlab="Effect Size",ylab = "Response",yaxt="n",bty="l", main=myTitle[i])
+  axis(side=2,at=seq(1,4),labels = seq(1,4))
+}
+
+
+
+print("% called no or small with full graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==1 & dt$resp < 3)]) / length(dt$Subject[which(as.integer(dt$graphType)==1)]))
+  
+  
+print("% called big with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp == 4)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+
+print("% called big  or med with minimal graph:")
+print(length(dt$Subject[which(as.integer(dt$graphType)==3 & dt$resp > 2)]) / length(dt$Subject[which(as.integer(dt$graphType)==3)]))
+  
+
+
+
+## ----plotRespByESbyExp--------------------------------------------------------
+
+#Plot Means by Effect Size and Graph Type
+myCol <- c("green","blue","red")
+myCol <- condCol
+myTitle <- c("Full","Standardize","Minimal")
+myPCH <- c(16,15,17)
+myLWD <- c(2,3,2)
+#myLTY <- c(1:3)
+
+#Label positions for each experiment
+textLabs <- as.data.frame(matrix(NA,nrow=5,ncol=3))
+textLabs[1,] <- c(3.73, 2.73, 1.95)
+textLabs[2,] <- c(3.65, 2.8, 1.9)
+textLabs[3,] <- c(3.65, 3, 2.15)
+textLabs[4,] <- c(3.65, 2.8, 2.25)
+textLabs[5,] <- c(3.45, 2.8, 2.2)
+
+xLabs <- as.data.frame(matrix(NA,nrow=5,ncol=4))
+xLabs[1,] <- c(.1,.3,.5,.8)
+xLabs[2,] <- c(.1,.3,.5,.8)
+xLabs[3,] <- c(0,.3,.5,.8)
+xLabs[4,] <- c(0,.3,.5,.8)
+xLabs[5,] <- c(0,.3,.5,.8)
+
+for (ee in 1:5) { #For each experiment
+
+dt2 <- dt[which(dt$exp == ee),]
+
+#within-subject SEMs
+mm <- aggregate(resp ~ effectSize + graphType + Subject, dt2,mean)
+m2 <- dcast(mm, Subject ~ graphType + effectSize, value.var = "resp")
+m2$subjAvg <- apply(m2[,2:13],1,mean)
+m2$adjVal <- mean(m2$subjAvg) - m2$subjAvg
+for (i in 2:13) {
+  m2[,i+14] <- m2$adjVal + m2[,i]
+}
+
+print("check them")
+print(round(apply(m2[,2:13],2,mean),2))
+print(round(apply(m2[,16:27],2,mean),2))
+
+m3 <- m2[,c(1,16:27)]
+colnames(m3)[2:13] <- colnames(m2)[2:13]
+m4 <- as.data.frame(apply(m3[,2:13],2,mean),ncol=1,nrow=12)
+colnames(m4) <- "resp"
+m4$sem <- apply(m3[,2:13],2,sd) / sqrt(length(m3$Subject))
+a <- rep(c(1.5,2,3,4),3)
+if (ee > 2) { a <- rep(seq(1,4),3)}
+m4$x <- a
+m4$gt <- c(2,2,2,2,1,1,1,1,3,3,3,3) #1 = full,2 = SD,  3 = small
+
+fn <- paste("Exp",ee,"Slopes.bmp",sep="")
+bmp(fn,height=500,width=500)
+par(mar=c(5.1,5.1,2.1,.1))
+plot(m4$x,m4$resp,col="white",bty="l",xlab="Depicted Effect Size",ylab="Response",xaxt="n",yaxt="n",ylim=c(.99,4.01),cex.lab=1.5)
+ggs <- c("Full","SD","Small")
+for(i in 1:3) {
+  m2 <- m4[which(m4$gt==i),]
+  points(m2$x,m2$resp,col=myCol[i],pch=myPCH[i],cex=3)
+#  lines(m2$x,m2$resp,lwd=3,col=myCol[i], lty=myLTY[i])
+  for (j in 1:4) {
+    segments(m2$x[j],m2$resp[j] - m2$sem[j], m2$x[j],m2$resp[j] + m2$sem[j],col=myCol[i])
+  }
+  
+  dd <- dt2[which(dt2$corr < 3 & dt2$graphType == ggs[i]),]
+  a <- lm(resp ~ corr, dd)
+  a1 <- coefficients(a)[1]
+  a2 <- coefficients(a)[2]
+  segments(min(m4$x), a1 + a2*min(m4$x), 2, a1 + a2*2, lty=2, col=myCol[i],lwd=myLWD[i])
+  
+  dd <- dt2[which(dt2$corr > 1.5 & dt2$graphType == ggs[i]),]
+  a <- lm(resp ~ corr, dd)
+  a1 <- coefficients(a)[1]
+  a2 <- coefficients(a)[2]
+  segments(2, a1 + a2*2, 4, a1 + a2*4, lty=1, col=myCol[i],lwd=myLWD[i])
+
+  #plot full slope:
+#  dd <- dt2[which(dt2$graphType == ggs[i]),]
+#  a <- lm(resp ~ corr, dd)
+#  a1 <- coefficients(a)[1]
+#  a2 <- coefficients(a)[2]
+#  segments(min(m4$x), a1 + a2*min(m4$x), 4, a1 + a2*4, lty=3)
+  
+}
+axis(side=1,at=seq(1,4),labels = xLabs[ee,],cex.axis=1.5)
+axis(side=2,at=seq(1,4),labels = seq(1,4),cex.axis=1.5)
+text(3.3,textLabs[ee,1],"Minimal",adj=c(0,0),cex=1.5, col=myCol[3])
+text(3.3,textLabs[ee,2],"Standardized",adj=c(0,0),cex=1.5, col=myCol[2])
+text(3.3,textLabs[ee,3],"Full",adj=c(0,0),cex=1.5, col=myCol[1])
+dev.off()
+
+} # end for ee exp
+
+
+
+
+## ----exploreSDs---------------------------------------------------------------
+
+require(reshape2)
+
+ss <- dcast(saveAll, subj + exp ~ graphType, value.var = "coef")
+ss$diff12 <- ss$`2` - ss$`1`
+
+sd1 <- sd(saveAll2$coef[which(saveAll2$graphType == 1)])
+sd2 <- sd(saveAll2$coef[which(saveAll2$graphType == 2)])
+sd3 <- sd(saveAll2$coef[which(saveAll2$graphType == 3)])
+rr <- cor(saveAll2$coef[which(saveAll2$graphType == 1)],saveAll2$coef[which(saveAll2$graphType == 2)])
+SDwithin <- sqrt(sd1^2 + sd2^2 )
+
+#dZ <- t / sqrt(n)
+#dZ <- mDiff / sqrt(SD1^2 + SD2^2 - 2 * SD1 * SD2 * r)
+
+
+

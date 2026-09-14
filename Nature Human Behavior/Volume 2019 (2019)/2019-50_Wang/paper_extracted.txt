@@ -1,0 +1,1046 @@
+Articles
+https://doi.org/10.1038/s41562-019-0605-7
+Anomalous structure and dynamics in news
+diffusion among heterogeneous individuals
+Xiaochen Wang 1*, Yueheng Lan1,2 and Jinghua Xiao 1,2*
+Previous research has suggested that well-connected nodes in a network (commonly referred to as hubs) are better at spreading
+information than those with fewer connections (ordinary users). Here we investigate the roles of nodes with different numbers
+of connections by studying how people share news online. Quantitative analysis shows that users without many connections
+can sometimes spread news more effectively than well-connected users when the diffusion pattern has dendrite-like paths that
+reach far into the network, leading to a non-Gaussian distance distribution. When the hubs dominate, however, the distribution
+is Gaussian. Enhanced interactions among ordinary users are the key to the emergence of non-Gaussian characteristics. Finally,
+we introduce a message-passing model that reproduces the observed diffusion features. This model shows that patterns domi-
+nated by either hubs or ordinary users can be clearly demarcated by measuring the average number of forwards.
+Social influence is ubiquitous in our everyday lives: people have entropy was computed to capture the information flow between
+impact over one anothers’ beliefs, feelings and behaviours1–6. users with different follower counts26. These are a crucial indica-
+Correlations among individuals have been extensively analysed tor of an individual’s ability to influence others and can be used as
+for traits as diverse as obesity, smoking habits, sense of happiness an index to distinguish influential users (high follower count (H-)
+and cooperation; as a result, a three-degree influence rule has been users) from ordinary users (low follower count (L-) users). Second,
+identified in these social networks2–4,6—that is, individuals influence for each piece of news, we counted the total number of times it was
+not only their direct contacts but also their friends’ friends, together forwarded for the two types of individual and found different dif-
+with their friends. It is worth noting that influence from peers is dis- fusion patterns dominated by different types of user. The forward-
+tributed heterogeneously7–9 and a small group of people influence ing numbers and diffusion path lengths were then used to explore
+their peers more strongly than others7,8. In fact, the influence on and the differences in diffusion paths under heterogeneous influence.
+susceptibility to social contagion are different among individuals Finally, using a message-passing model, we explored the key factors
+of different ages, genders and marital status9, in general. This het- that shaped the structures of the diffusion networks and the roles of
+erogeneity is substantially correlated with the final adoption scope different users.
+of information or behaviours10,11 and the level of opinion consen-
+sus12–15. Thus, the study of social influence is critical to understand- Results
+ing how behaviours or messages spread9. However, there is still no Data presentation. First, according to their influence strength, we
+universal strategy for measuring heterogeneous social influence in divided the users into H-users and L-users. The distribution of fol-
+online news diffusion, nor has the way in which this heterogeneity lower counts for the 1,016 news stories is plotted in Fig. 1a. The
+affects the spreading structure been described. result shows that the follower counts of ~97% of users were less than
+Modern social media has radically changed the way that peo- 100,000, but ~86% of users forwarded news from forwarding sources
+ple collect information and form opinions16. When reading news whose follower counts were not less than 100,000 (a user can for-
+online, users mostly tend to focus on and share specific content that ward a message from a neighbour in Sina Weibo and that neighbour
+interests them16–18. Moreover, the diffusion among individuals over is a forwarding source for the user in the diffusion of the message).
+social media is different for messages of different types. Simple con- Next, based on the information flow from Y to X (F ) and from X to
+Y,X
+tagions spread news on topics such as job information through short Y (F ), we computed the net information outflow Fnet =F −F ,
+X,Y Y,X Y,X X,Y
+posts or conversations from a central source. However, when the which quantified the dominant direction of information flow and
+messages are costly, risky or controversial, the decision to adopt or was expected to be positive if Community Y drives X and nega-
+share may require independent affirmation or reinforcement from tive if vice versa26. For symmetric bidirectional couplings, the value
+multiple sources through complex contagion1,19–25. In this context, was null. We divided the users into eight communities according to
+broadcasting from central sources has a limited influence potential their follower counts as detailed in the Methods. As can be seen in
+and the repeated exposure of users to a message by peer interactions Fig. 1b, we found that, on average, the users in Communities 5, 6
+is crucial to its diffusion19,25. and 7 drove those diffusion network neighbours who had lower fol-
+Thus, whether an individual shares a piece of news depends both lower counts and the users in Communities 3 and 4 usually passed
+on the number of times that the individual received the message1 information to those with lower follower counts, except those in
+and the influence of the person who passed on the news7,8. In this Community 0. The users in Community 2 were always dominated
+work, we probe the roles of heterogeneous individuals in the dif- by users in other communities and the users in Community 1
+fusion of news over the online social network Sina Weibo. First, to could drive only the users in Community 2. A sensitivity test of the
+identify the distribution of influence among users, symbolic transfer sampling and symbolization (see Supplementary Methods 3 and
+1School of Science, Beijing University of Posts and Telecommunications, Beijing, China. 2State Key Lab of Information Photonics and Optical
+Communications, Beijing University of Posts and Telecommunications, Beijing, China. *e-mail: xiaochen912312@163.com; jhxiao@bupt.edu.cn
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+a 0.6 b
+7
+0.5 6
+5
+0.4
+4
+0.3
+0.2
+0.1
+0
+100 101 102 103 104 105 106 107 108 109
+c d
+Supplementary Fig. 3) found that users whose follower counts were diameter and average path length (AvP) at the median and 25th (Q)
+1
+greater than or equal to 100,000 were always in a dominant posi- and 75th percentiles (Q) as shown in Fig. 2a, indicating two dis-
+3
+tion over users with smaller follower counts, which is consistent tinct spreading patterns dominated by H- or L-users. More explic-
+with the result in Fig. 1b. Thus, we regarded the users with follower itly, for news stories with a total number N of forwards not less
+0
+counts greater than or equal to 100,000 (the division threshold) as than 100 or not less than 150 (the corresponding number of news
+H-users. In addition, we computed the total information inflow stories being 885 and 644, respectively), the average diffusion diam-
+and outflow for each community (see Fig. 1c), Fin =∑ F and eter was 4.15 (median = 4, Q = 3, Q = 5; 869 news stories) or 4.55
+Y X X,Y 1 3
+Fout =∑ F , where the profiles can be explained as follows. The (median = 4, Q = 3, Q = 5; 632 news stories) when H-users domi-
+Y X Y,X 1 3
+numbers of forwards in Communities 1, 2 and 3 represented 20, nated and 10 (median = 8.5, Q = 5, Q = 13; 16 news stories) or 11.83
+1 3
+58 and 15% of the total forwards, respectively; thus, the users in (median = 11.5, Q = 6.5, Q = 13; 12 news stories) when L-users
+1 3
+these communities were more ready to share a message than those dominated. Correspondingly, the AvP was 1.32 (median = 1.21,
+in other communities. The other five communities made up only Q = 1.09, Q = 1.41) or 1.36 (median = 1.24, Q = 1.12, Q = 1.44)
+1 3 1 3
+7% of the forwards so they did not incur much inflow of informa- when H-users dominated and 2.67 (median = 2.60, Q = 1.46,
+1
+tion. We also computed the total net information outflow from one Q = 3.42) or 3.02 (median = 2.77, Q = 1.97, Q = 3.62) when
+3 1 3
+community to the others Fnet =∑ Fnet under different sampling L-users dominated. To explore the robustness of the division thresh-
+Y X Y,X
+and symbolization conditions and obtained a consistent picture for old between the H- and L-users, we varied it over a reasonable range
+each community in Fig. 1d: the total net information outflow of consistent with the information flow in Fig. 1b and found that the
+Communities 5, 6 and 7 was always greater than 0, which verified diffusion structures remained similar to each other for the two
+the fact that H-users are influential. dominant patterns (see Supplementary Methods 4, Supplementary
+After dividing the users into two categories, we further com- Table 1 and Supplementary Fig. 4).
+pared the diffusion path lengths in different situations dominated To investigate how the interaction among users led to different
+by H- or L-users. Large differences were observed in the diffusion diffusion network structures, we further computed the total numbers
+Y
+3
+2
+1
+0
+0 1 2 3 4 5 6 7
+X
+noitroporP
+All users
+Forwarding sources
+Follower count
+2.0
+1.6
+1.2
+0.8
+0.4
+0
+0 1 2 3 4 5 6 7
+wolf
+noitamrofnI
+m = 5
+Fout
+0.2 Fin
+0
+0.04
+0
+–0.2 –0.04
+–0.08
+0 1 2 3 4 5 6 7
+Community
+–0.4
+0 1 2 3 4 5 6 7
+Community Community
+tenF
+∆t = 10 min
+∆t = 20 min
+∆t = 30 min
+∆t = 10 min
+∆t = 20 min
+∆t = 30 min
+tenF
+m = 3
+Fig. 1 | measuring the direction of information flow. a, The follower count distribution of all users who posted or forwarded a message (total number of
+times = 513,306) and of the forwarding sources (total number of times = 466,740) for the 1,016 news stories. b, A visual representation of the dominant
+direction between different communities. Yellow nodes indicate the dominance of Community Y and blue nodes the dominance of Community X. The size
+of a node shows the extent to which Y dominates X or is dominated by X at a sampling interval of Δt = 30 min and embedding dimension in symbolization
+of m = 5. c, The total information inflow and outflow for each community at Δt = 30 min, m = 5. d, The total net information outflow of each community at
+different sampling intervals at m = 5. Inset, the total net information outflow at different sampling intervals at m = 3.
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+0.8
+0.6
+0.4
+0.2
+0
+H L
+of times N (∞) and N(∞) that the news was forwarded from the significant among all the correlations, which further revealed that
+H L
+two types of user in the two dominant patterns (see Fig. 2b). When the interaction between L-users is crucial for the generation of long
+H-users played major roles, N (∞) was large with an average value diffusion paths.
+H
+of 404 (median = 179, Q = 109, Q = 368; 981 news stories), but may We also compared the diversity of people in the two domi-
+1 3
+not have been able to increase the AvP as individuals were more nant patterns by analysing the number of community types
+likely to forward the message from the hub nodes instead of other N involved in the forwarding of a message; the number
+community
+L-users; the average value of N(∞) was 59 (median = 22, Q = 10, of communities involved was less than the maximum value of 8
+L 1
+Q = 49). On the other hand, when L-users dominated, the average in 88% of the cases where H-users dominated (981 news stories)
+3
+value of N(∞) was 244 (median = 37, Q = 7, Q = 186; 35 news sto- and in all cases where L-users dominated (35 news stories) as
+L 1 3
+ries), which is obviously larger than that when H-users dominated. shown in the inset of Fig. 2c. Next, the average contribution of
+In that case, the average value of N (∞) was 123 (median = 10, each user to community diversity in news diffusion was defined
+H
+Q = 0, Q = 101) and the H-users made a smaller contribution than as N /N and depicted in Fig. 2c. The average contribu-
+1 3 community 0
+when they dominated. Thus, ordinary users forwarded more mes- tion of each user to the diversity in news diffusion dominated
+sages when the L-users dominated and the interplay between them by H-users was 0.034 (median = 0.03, Q = 0.016, Q = 0.047) but
+1 3
+led to long diffusion paths. In addition, we computed the correla- 0.29 (median = 0.11, Q = 0.02, Q = 0.38) when L-users domi-
+1 3
+tion between diameter and N, lifetime, N (∞) and N(∞) (see nated. Individuals made a larger contribution to diversity, on
+0 H L
+Supplementary Methods 8 and Supplementary Fig. 10), where the average, in diffusion processes dominated by L-users. Thus the
+lifetime is defined as the time between the first and last user post or interaction between L-users was more likely to reach a greater
+forwarded message relating to the news item. We found that the cor- diversity of people, consistent with the complex contagion
+relation coefficient between the diameter and N(∞) was the most mechanism19,24. Next, we present the spreading features of two
+L
+ytisrevid
+ytinummoc
+ot
+noitubirtnoC
+10
+8
+6
+4
+2
+0
+H L
+Dominant pattern
+ytinummocN
+3,000 1,400
+1,600
+1,200
+2,500
+1,000 1,200
+2,000
+800
+1,500 800
+600
+1,000
+400
+400
+500 200
+0 0 0
+0 10 20 30 40 50 0 50 100 150
+)t(N )t(N )t(N
+800
+600
+400
+200
+0
+N (t)
+total
+N (t)
+H
+N(t)
+L
+0 10 20 30 40 50
+Time (h) Time (h) Time (h)
+)∞(N
+30
+NN 0
+0
+≥
+≥
+1 10 50
+0
+N NH L(( ∞∞ ))
+25
+20
+15
+10
+5
+0
+H L H L H L H L
+Dominant pattern Dominant pattern Dominant pattern
+retemaiD
+6
+4
+2
+H L H L
+Dominant pattern
+PvA
+a b c
+d e f
+N (t) N (t)
+total total
+N (t) N (t)
+H H
+N(t) N(t)
+L L
+Fig. 2 | Roles of the two types of users in real-world message spreading. a−c, H indicates that H-users dominated the diffusion and L that L-users did.
+a, A comparison of the diameter and AvP (inset) of diffusion networks for the two dominant patterns. The number of news stories forwarded not less
+than 100 or 150 times when H-users dominated was 869 or 632, respectively, and 16 or 12, respectively, when L-users dominated. b, The total number
+of news forwards from the two types of users, N H(∞) and N L(∞), respectively, for the two dominant patterns. c, The average contribution of each user to
+community diversity for the two dominant patterns. Inset: the community number involved in the two dominant patterns. The number of news stories is
+981 and 35, respectively, for the two dominant patterns H and L in b and c. The central line in the boxes marks the median, the edges delimit the 25th and
+75th percentiles (Q and Q, respectively) and the whiskers extend to the most extreme data value that is not an outlier. Outliers are defined as larger than
+1 3
+Q 3 + 1.5 × (Q 3 − Q 1) or smaller than Q 1 − 1.5 × (Q 3 − Q 1). The hollow triangles indicate the mean value. In the inset of c,Q 1 and median are equal (the value is
+6) when H-users dominate. d−f, The cumulative number of times that several typical news stories were forwarded by both types of individual versus time.
+d, News1: the volume of trade on Tianmao, a comprehensive shopping website in China, on 11 November 2016. e, News2: the world’s deepest blue hole in
+the ocean, named Sansha Yongle Longdong. f, News3: an interview with an online celebrity about her becoming popular and receiving a very large amount
+of funding.
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+0.14
+0.12
+0.10
+0.08
+0.06
+0.04
+0.02
+0
+1 6 11 16 21 26
+typical news stories, news1 and news2, to reveal possible general similar, the diameter and AvP of news3 (diameter = 26, AvP = 6.35)
+patterns in Fig. 2d,e. Compared with H-users, L-users played were much larger than those of news2 (diameter = 6, AvP = 1.43).
+almost no role in the diffusion of news1 (the total numbers of Structurally, news1 and news2 tended to be forwarded from central
+forwards from H- and L-users were 2,796 and 96, respectively, in nodes (H-users) whereas news3 seems to have been relayed by con-
+the first 50 h) and affected only a few in the diffusion of news2 secutive nodes (L-users). Compared with news1 and news2, news3
+(the total numbers of forwards from H- and L-users were 1,068 is a popular conversational topic about which users were more likely
+and 221, respectively, in the first 50 h). Although L-user domina- to talk to each other and the other two news items are just some new
+tion was rare (35 cases among the 1,016 news stories), it is shown information. As a result, the diffusion path length of news3 is obvi-
+in Fig. 2f, where the L-users played a greater role in diffusing a ously longer than that of the other two in accordance with the domi-
+third typical news story, news3, than H-users (the total number nant way of spreading. Furthermore, there were also differences in
+of forwards from H- and L-users was 590 and 1,057, respectively, the distribution of distances among all connected nodes of the three
+in the first 150 h). pieces of news. The distribution was Gaussian for news1 and news2,
+We further analysed the diffusion networks underlying the three which mainly diffused inside several central aggregates (see Fig. 3d,e),
+news stories to explore which network features led to different spread- whereas the profile appeared non-Gaussian for news3, which con-
+ing patterns. For this purpose, the diffusion networks of news1, tained both a central aggregate and an irregular long-range diffusion
+news2 and news3 are depicted in Fig. 3a–c; they display a remarkable dendrite (see Fig. 3f). Besides the central aggregate in news3, the
+difference in network structure. Although the forwarding range of network contained several smaller clusters and associated dendrites
+news1 (N = 2,934) was larger than that of news2 (N = 1,330), their (that is, the diffusion structure in the dashed frame of Fig. 3c), which
+0 0
+diffusion diameters were the same, 6, and the AvP was also similar also had a non-Gaussian distribution, with a reduced peak near the
+for each, 1.33 and 1.43, respectively. On the other hand, although the origin in the inset of Fig. 3f. Therefore, the non-Gaussian character
+forwarding ranges of news2 (N = 1,330) and news3 (N = 1,673) were arose mainly from the irregular dendrites.
+0 0
+FDP
+a AvP = 1.33 b AvP = 1.43 c AvP = 6.35
+Diameter = 6 Diameter = 6 Diameter = 26
+d e f
+0.4
+Data
+0.3
+0.2
+0.1
+0
+1 2 3 4 5 6
+Distance
+FDP
+Data 0.12
+Gaussian fitting
+Fitting equation: Fitting equation:
+0.08 y = a × e–((x – b)/c)2 y = a × e–((x – b)/c)2
+a = 0.351 a = 0.292
+b = 1.252 b = 1.318 c = 1.595 c = 1.914 0.04
+SSE: 0.0020 SSE: 0.0035
+R2: 0.9986 R2: 0.9965
+0
+1 6 11 16 21 26
+Distance
+FDP
+0.30
+0.25
+Data
+0.20
+0.15
+0.10
+Distance
+0.05
+0
+1 2 3 4 5 6 7
+FDP
+Data
+Gaussian fitting
+Distance
+Fig. 3 | Structure of news diffusion networks. a−c, The diffusion networks of news1 (2,925 nodes; a), news2 (1,343 nodes; b) and news3 (1,684 nodes;
+c). Darker, larger nodes indicate that the number of followers was larger. The diameter and AvP are the graph theoretic characters of the whole diffusion
+network. d−f, The probability density function (PDF) of distances among all connected nodes for news1 (d), news2 (e) and news3 (f). Inset: the distance
+distribution for the part of the network in the dashed frame of c. The coefficient of determination (R2; the closer the value is to 1, the better the result fits)
+and the sum of squared errors between real and fitted values (SSE) are given in the figure.
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+The next question is how the L-users exerted their influence
+a
+and led to distinct spreading patterns and diffusion structures. We
+addressed this by introducing a theoretically motivated message-
+passing model. 1 λ 2 Inf(2) = l(1) ≥ T 2
+Message-passing model with heterogeneous influence strength.
+Our findings show that L-users played different roles in spreading
+l(1) = I
+news on different topics and thus led to different diffusion network H
+structures. To reveal the underlying mechanism, we developed a
+b
+message-passing model with heterogeneous influence strength that
+takes into account the social reinforcement effect and non-redun-
+dant information memory characteristic27,28. 3 λ 4 Adopted
+In the model, the spread across a directed network is considered
+Susceptible
+with N nodes, where nodes in the network represent individuals.
+The directed edges point from a node to its followers and the mean
+l(3) = I
+out-dgree (follower counts) of the N nodes is denoted by <k>. We L
+adopted the SAR model27 and individuals were divided into three Inf(4) = I(3) < T
+groups according to their states: susceptible individuals (S) who
+have not adopted the message, adopted individuals (A) who have
+already adopted the message and try to transmit it to their neigh-
+bours and recovered individuals (R) who lose interest in the mes- 5 4 Inf(4) = I(3) + I(5) ≥ T 4
+sage and will not transmit it any more. λ
+On the basis of the difference in their influence strength, the
+individuals were divided into two types: H- and L-users. In general,
+the H-users had a larger influence strength I H and were better at l(5) = I L
+convincing their neighbours. The L-users had a relatively low
+influence strength I and did not have sufficient influence on Fig. 4 | illustration of the message-passing model with heterogeneous
+L
+their neighbours, that is, their ability to motivate others was low. influence strength. a, Influential individual 1 has a large influence strength
+To translate the spreading patterns into the real data, we sorted or credibility and can persuade susceptible individual 2 to adopt the
+the nodes by descending order of their out-degrees and selected message. It is a simple contagion19. b, Ordinary user 3 does not arouse the
+the first p × N nodes (where p is the proportion of H-users in interest or trust of susceptible individual 4. As more adopted individuals
+N nodes) as H-users who have a larger influence I(i), which was inform him (for example, ordinary user 5), susceptible individual 4 begins
+defined as follows: to be interested in or trust the information and is ready to spread it. λ is the
+transmission probability and T is the assumed uniform adoption threshold
+of individuals. I(1), I(3) and I(5) are the influence strengths of individuals 1,
+I(i)=  I H, ifiisanH − user
+(1)
+3 and 5, respectively. Inf(2) and Inf(4) are the cumulative influences that
+ I L, ifiisanL − user individuals 2 and 4 received, respectively.
+At each time step, adopted individuals tried to spread the mes-
+sage to susceptible neighbours with probability λ. Once a susceptible ers of a node were picked randomly and <k> = 421. The out-degree
+neighbour s was informed by an adopted individual a, the cumulative distribution of the directed network agreed well with the original
+influence Inf(s) that individual s had received was increased by I(a) data (see Supplementary Note 1 and Supplementary Fig. 11). We
+(that is, Inf(s) = Inf(s) + I(a)). I(a) is the influence strength of indi- first investigated the message-passing model with heterogeneous
+vidual a and its value is given in equation (1). Susceptible neighbour influence strength using the directed network. The ways that a sus-
+s had a memory and was not affected by adopted individual a again. ceptible individual could become adopted were divided into three
+For simplicity, all the susceptible individuals had the same adop- categories: only through H-users, only through L-users and through
+tion threshold T. Susceptible neighbour s became adopted when both, which was regarded as a mixed type. The mixed type indi-
+the cumulative influence strength he/she had received was equal to cated that a node was initially affected by the L-users and then by
+or greater than his/her adoption threshold (that is, Inf(s) ≥ T). We the H-users before adopting a message under the assumption that
+assumed that the H-users activated their neighbours in one step, in I = T, I < T. Thus, the cumulative number of forwards from the
+H L
+general, which conformed with the action of a simple contagion, H-users N (t) in the data corresponded to the sum of two terms,
+H
+while contagions among L-users required social affirmation or rein- that is, through the H-users or the mixed type. The number of for-
+forcement from multiple sources and thus were complex19. An illus- wards from the L-users N(t) was then the number of messages sent
+L
+tration of message adoption triggered by both types of users, which only through the L-users in the model.
+contains both simple and complex contagion, is presented in Fig. 4. In a social network, p is the proportion of H-users. ρ and ρ rep-
+1 2
+After message transmission, each adopted individual could lose resent the proportion of seeds for the H- and L-users, respectively.
+interest in the message with probability γ and become recovered. In the real data, p′, ρ′ and ρ′ are the corresponding proportions in
+1 2
+The spreading stopped when there were no adopted individuals in the adopted individuals, which is only one part of the social network
+the system. identified by the news spreading. Most values of p′ were near 0.022,
+ρ′ was near 0.6 and ρ′ was near 0.02. Their distributions in the real
+1 2
+Simulation results. To better understand the observed spreading data were extracted and are presented in Supplementary Note 2 and
+patterns, we built a social network from the real-data distribution. Supplementary Figs. 12 and 13.
+Among the users whose follower count was less than 3,000 in the First, we analysed the spreading patterns of the three pieces of
+real data, we randomly chose 5,000 users and constructed a directed news mentioned above and reproduced the spreading patterns and
+network for which the out-degree distribution depended on the fol- diffusion network diameters of the three pieces of news by assign-
+lower counts of the 5,000 users. In the directed network, the follow- ing an appropriate influence strength in our model as shown in
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+3,500
+3,000
+2,500
+2,000
+1,500
+1,000
+500
+0
+0 2 4 6 8 10
+Fig. 5a–c. More detailed comparisons of the spreading parameters the influence of the L-users increased (I = 5, I = 3 in Fig. 6c,d),
+H L
+p′, ρ′ and ρ′ between simulation results and the three pieces of news expanding the widths of the bridges connecting individuals19, they
+1 2
+are in Supplementary Note 3 and Supplementary Table 6. The cor- started to chip in to arouse the interest of others. The H-users sent
+responding distance distributions in the simulations of news1 and news to directly connected susceptible individuals and afterwards
+news2 (see Fig. 5d,e) were Gaussian, which was consistent with the the message was conveyed to a wider audience through interaction
+real data. In addition, we found different forms of distance distribu- among the L-users. As a result, under certain circumstances, the
+tions in the simulations of news3 and sorted them roughly into two L-users could start to dominate. In Fig. 6g the distance distribu-
+categories, both of which deviated from Gaussian. One of them had tion is similar to the real data for news3, where both central aggre-
+a peak that was similar to the distribution of news3 (see Fig. 5f). gates and irregular dendrites are observed in Fig. 6c (N (∞) = 176,
+H
+Another initially changed steadily and then dropped sharply down N(∞) = 372). Once the news was spreading widely under the inter-
+L
+to zero (see the inset of Fig. 5f). The difference between the two action of the L-users (see Fig. 6d; N (∞) = 212, N(∞) = 4,238), the
+H L
+distributions is explained empirically below. diffusion seemed to break into many independent chains cover-
+In Fig. 6 we show the diffusion network structures and associ- ing a large part of the available network and led to many long and
+ated distance distributions obtained from the simulations using the meandering paths that produced a different distance distribution,
+parameter sets from Fig. 5a–c. When the influence of the L-users was as shown in Fig. 6h.
+low, the diffusion was dominated by simple contagions19 and mainly In conclusion, when H-users dominated, the majority of people
+emanated from the central nodes as depicted in Fig. 6a,b (I = 5, adopted the news directly from a few influential individuals, which
+H
+I = 0.35, N (∞) = 2,479, N(∞) = 72 in the simulation in Fig. 6a created large central aggregates. Propagation through L-users was
+L H L
+and I = 5, I = 0.9, N (∞) = 3,536, N(∞) = 682 in Fig. 6b). The dis- not so common and was more like the process of particle diffusion29.
+H L H L
+tance distributions were Gaussian, as shown in Fig. 6e,f, consistent As a result, the distance distribution was Gaussian and the diameter
+with news1 and news2. As the number of seeds in Fig. 6b exceeded of the network was relatively small. Nevertheless, if L-users domi-
+that in Fig. 6a, more central aggregates emerged in Fig. 6b. When nated the spreading of a piece of news, the centralized broadcasting
+)t(N
+3,500
+3,000
+2,500
+2,000
+1,500
+1,000
+500
+0
+)t(N
+a
+N (t)
+total
+N (t)
+H
+N(t)
+L
+AvP = 1.63
+Diameter = 7.81
+0 2 4 6 8 10
+t t
+0.12
+0.08
+0.04
+0
+1 11 21 31
+FDP
+0.25
+0.20
+0.15
+0.10
+Distance
+0.05
+0
+1 6 11 16 21 26
+FDP
+e f
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+1 3 5 7 9 11 13 15 1 3 5 7 9
+Distance Distance
+FDP
+0.4
+0.3
+0.2
+0.1
+0
+FDP
+c
+5,000
+4,000
+3,000
+2,000
+1,000
+AvP = 7.04
+Diameter = 21.13
+0
+0 10 20 30 40
+t
+d
+Distance
+)t(N
+b
+N (t) N (t)
+total total
+N (t) N (t)
+H H
+N(t) N(t)
+L L
+AvP = 1.54
+Diameter = 7.20
+Fig. 5 | Reproducing the spreading patterns of news1, news2 and news3. a, The cumulative N H(t) and N L(t) versus t at I H = 5, I L = 0.35, T = 5, p = 0.01,
+ρ1 = 0.45, ρ2 = 0.016, λ = 0.04 and γ = 1 yeilds N total(∞) = 3,008, N H(∞) = 2,849 and N L(∞) = 159. b, The time-dependent profile at I H = 5, I L = 0.9, T = 5,
+p = 0.036, ρ1 = 0.5, ρ2 = 0.07, λ = 0.02 and γ = 1 yeilds N total(∞) = 4,203, N H(∞) = 3,503 and N L(∞) = 700. c, The time-dependent profile at I H = 5, I L = 3,
+T = 5, p = 0.0024, ρ1 = 0.5, ρ2 = 0.012, λ = 0.01and γ = 1 yeilds N total(∞) = 3,465, N H(∞) = 226 and N L(∞) = 3,239. Each value was averaged over 100
+realizations and for the diameter and AvP. d,e, The distance distributions of 50 simulations using the parameters in a and b, respectively. f, Using the
+parameters in c, the stochastic news spreading process generated two types of distribution, displayed separately in the main panel and inset. The distance
+distributions generated in 50 simulations are plotted, with colours used only to allow the reader to follow the lines. The number of nodes and <k> of the
+directed social network are 5,000 and 421, respectively.
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+a b c d
+AvP = 1.30 AvP = 1.52 AvP = 5.86 AvP = 9.37
+Diameter = 6 Diameter = 7 Diameter = 22 Diameter = 26
+e f g 0.14 h
+0.12
+0.10
+0.08
+0.06
+0.04
+0.02
+0
+1 4 7 10 13 16 19 22 25
+from H-users became less important, which led to a reduced central dominance is separated by simple curves in the parameter plane
+set of nodes and enhanced anomalous diffusion30. As the L-users (p′,l). The ratio l=NL(∞) is the average number of forwards from
+had fewer connections in the social network and a correspondingly ordinary users, which l m0 easures the spreading ability of L-users; l is
+0
+smaller influence, the diffusion exhibited a dendrite-like pattern the number of L-users involved in the diffusion of a piece of news.
+with a large diameter and possessed non-Gaussian characteristics Increasing I, or decreasing p, λ or <k> could enhance the spread-
+L
+similar to the anomalous diffusion process in disordered systems. ing ability of L-users (see Supplementary Note 5 and Supplementary
+To better explain how the diameter of a diffusion network Fig. 17). In the real data, H-users played a dominant role in most
+depends on the influence of L-users, we give three examples of dif- news diffusion, which could be simulated in our model by setting,
+fusion networks with different influence strengths in Fig. 7b–d. for example, I = 5, I = 0.9, I = 1 and I = 2, as shown in Fig. 7e; we
+H L L L
+Figure 7a emphasizes the dependence of diameter and N(∞) on also reproduced the dependence of the total number of news for-
+L
+I. As the width of the bridges limits diffusion in complex conta- wards on the number of H-users involved in a piece of news in the
+L
+gion19, it was hard for the L-users to convince others (N(∞) = 36 on real data by using some of these settings (see Supplementary Note 5
+L
+average) when I is small (for example, I = 1). Most diffusion paths and Supplementary Figs. 15 and 16). The cases where L-users domi-
+L L
+were short; an example is shown in Fig. 7b. With an increase in I nated are found mainly in three regions: region A, region B and the
+L
+(for example, I = 2), for a given time the L-users were able to influ- top and bottom of the y axis. A straight separating line at l = 0.5 is
+L
+ence more and more people (N(∞) = 1,335 on average) and the marked in Fig. 7e that delimits the boundary of region A, which
+L
+actual trajectory was dominated by randomness, so the diffusion includes most cases where L-users dominated. As there were many
+paths became longer and more complex (as depicted in Fig. 7c). At more L-users than H-users involved in the diffusion of a piece of
+a certain point, the complexity and diameter reached a maximum, news when the diffusion size was large, we have N(∞) + N (∞) ≈ l.
+L H 0
+as exhibited in Fig. 7a. If I was overly large (for example, I = 5), the Thus, we may estimate l when L-users dominate (N(∞) > N (∞))
+L L L H
+L-users became really efficient at persuading others (N(∞) = 3,247 in equation (2), which roughly explains the observed separatrix.
+L
+on average) and each of them acted like a miniaturized H-user
+and sent the news through more or less the shortest path to a des-
+N (∞) N (∞)
+tination, thus avoiding long, wandering trajectories (see Fig. 7d), l= L ≈ L >0.5 (2)
+which resulted in a reduction of the complexity and shrinkage of l 0 N L(∞)+N H(∞)
+the diffusion paths. In addition, decreases in p or λ could boost
+the relative importance of the L-users and expand the diameter Region A could be reproduced in the simulation by set-
+of a diffusion network (see Supplementary Note 4 and Supple- ting appropriate influence strength and spreading probabilities.
+mentary Fig. 14). Although the influence of L-users was usually weak, they dominated
+Finally, we explored the nature of situations in which L-users the news spreading in cases where H-users were few (that is, near
+dominated the spreading. The real data show that L- and H-user ((5,0.42),0.08) and ((5,0.8),0.08); this notation is used throughout
+FDP
+0.4
+0.3
+0.2
+0.1
+0
+1 2 3 4 5 6
+Distance
+FDP
+0.35
+Simulation
+Gaussian fitting 0.30
+Fitting equation: 0.25 Fitting equation:
+y = a × e–((x – b)/c)2 y = a × e–((x – b)/c)2
+a = 0.339 0.20 a = 0.304
+b = 1.224 b = 1.394
+c = 1.649 0.15 c = 1.834
+SSE: 0.0025 SSE: 0.0040
+R2: 0.9981 0.10 R2: 0.9962
+0.05
+0
+1 2 3 4 5 6 7
+Distance
+FDP
+0.06
+Simulation
+Gaussian fitting 0.05
+0.04
+0.03
+0.02
+0.01
+0
+1 6 11 16 21 26
+Distance
+FDP
+Simulation Simulation
+Distance
+Fig. 6 | Diffusion networks produced by the model. a, The diffusion network of one simulation at I H = 5, I L = 0.35, T = 5, p = 0.01, ρ1 = 0.45, ρ2 = 0.016,
+λ = 0.04 and γ = 1 (2,574 nodes). b, Another example at I H = 5, I L = 0.9, T = 5, p = 0.036, ρ1 = 0.5, ρ2 = 0.07, λ = 0.02 and γ = 1 (4,308 nodes). c,d, When
+I H = 5, I L = 3, T = 5, p = 0.0024, ρ1 = 0.5, ρ2 = 0.012, λ = 0.01 and γ = 1, two networks with 556 (c) and 4,462 (d) nodes display different distance distributions
+despite the shared parameter set. e−h, Plots of the distance distributions of the diffusion networks in a−d, respectively. The number of nodes and <k> of
+the directed social network are 5,000 and 421, respectively.
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+0 0.01 0.02 0.03 0.04 0.05
+p′
+this paper. When the proportion of H-users was not extremely In the decades after the introduction of this term, the concept of
+small, L-users could still dominate the spreading if their influ- opinion leaders came to occupy a central territory in research on
+ence was strengthened (that is, near ((5,2),0.03) and ((5,5),0.02)). social contagions31 and Roch32 concluded that ‘in business and mar-
+Meanwhile, decreasing the spreading probability may effectively keting, the idea that a small group of influential opinion leaders may
+reduce the transmission of the H-users as they were the minority accelerate or block the adoption of a product is central to a large
+and their connections were limited (see Supplementary Note 5 and number of studies.’ So far, various indicators to identify the influen-
+Supplementary Fig. 17) and, as a result, the L-users could affect a tial nodes on a given network have been proposed, such as between-
+significant proportion of individuals (that is, near ((5,5),0.008) and ness centrality33,34, eigenvalue centrality35, degree36 and k-shell37. The
+((3,5),0.008)). It is worth noting that ((3,5),0.008) delivered a case degree of a node in a social network is used here as an index to
+where L-users had a stronger influence than H-users and the news identify the influential users. Using a quantitative analysis, we found
+was more like a hot topic of conversation for individuals in that case. that H-users played dominant roles in 97% of the cases in spread-
+A few cases where L-users dominated lie in region B and the bottom ing the 1,016 news stories and the diffusion network consisted of
+of the y axis but their diffusion sizes were very small. In these cases, several central sets originating from the hubs. The maximum of the
+the influences of the H- and L-users were both weak or the propor- probability distribution function of the diffusion diameter was near
+tion of the H-users was extremely small, which reduced the widths diameter = 3 (diameter ≤ 5 in 85% of cases) in the 1,016 news sto-
+of the bridges connecting individuals and the news barely spread19. ries (see Supplementary Methods 5 and Supplementary Fig. 5). The
+average diffusion diameter was near 4 (median = 4, Q = 3, Q = 5)
+1 3
+Discussion in the news stories dominated by H-users in Fig. 2a. The results
+In this article, the real-world data were analysed and a message- are similar to those given by the three-degree influence rule that is
+passing model built to reveal how influence heterogeneity affects proposed from the empirical analyses of correlations2–4,6.
+news diffusion structure and the rare occurrence of L-user domi- However, our results also provide the important insight that
+nance. Lazarsfeld and Katz7,8 found that individuals are influenced ordinary users are more efficient at spreading the message in some
+more by exposure to one another than to the media. Moreover, cases. When the news stories were controversial or costly, they often
+some individuals are more effective at influencing the decisions of roused general discussion among individuals and diffusion was
+their peers than others, scholars refer to them as ‘opinion leaders’. complex19. In such cases, the influence of L-users was strengthened
+l
+20 4,000
+3,000
+2,000
+16
+1,000
+0
+12
+1 2 3 4 5
+8
+4
+1 2 3 4 5 6
+)∞(LN
+IL
+retemaiD
+a b AvP = 1.27 e
+Diameter = 5
+((5,2),0.03) ((3,5),0.008)
+((5,5),0.008)
+A
+((5,0.8),0.08)
+((5,5),0.02)
+((5,0.42),0.08)
+I L
+c AvP = 3.39 d AvP = 1.56
+Diameter = 16 Diameter = 5
+l = 0.5
+B
+Fig. 7 | Parameter dependence of the diffusion network structure and diffusion patterns. a, A graph showing the change in diameter with respect to the
+influence strength of L-users. Inset: the number of individuals affected by L-users versus the influence strength. b−d, Examples of diffusion networks at
+I H = 5, p = 0.022 and λ = 0.01: I L = 1 (1,813 nodes; b), I L = 2 (3,306 nodes; c), I L = 5 (4,898 nodes; d). e, The distribution of news domination in a parameter
+plane (p′,l). Blue asterisks indicate L-user dominance and red asterisks indicate H-user dominance in the real data. Circles indicate L-user dominance
+and diamonds indicate H-user dominance in the simulations. L-users dominated in regions A and B and on the line p′ = 0. In region A, circles of the same
+colour indicate the same influence strength (for example, the parameter values for the yellow circle are ((5,3),0.008) which represents I H = 5, I L = 3 and λ
+= 0.008). In region B, the two cyan circles are plotted for the parameter values ((2,2),0.025), which almost overlap with each other. On the vertical axis,
+the three red circles near the top were computed at the parameter values ((5,3),0.0122), ((5,3),0.0124) and ((5,3),0.0126), and the two red circles near
+the bottom were computed at ((5,2),0.02) and ((5,1),0.08). Purple diamonds indicate computation at ((5,0.9),0.1) and ((5,0.9),0.2), black diamonds at
+((5,1),0.02), ((5,1),0.03), ((5,1),0.05) and ((5,1),0.07), and cyan diamonds at ((5,2),0.01) and ((5,2),0.02). Other parameters are T = 5, ρ1 = 0.6, ρ2 = 0.02,
+γ = 1 and <k> = 421. Each simulation value was averaged over 100 realizations in a and e.
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+and as a whole they affected more users than H-users. Moreover, of users’ posting or forwarding in each community were then used to examine
+the news travelled a long way, on average, through complex conta- the directional information flow between different communities. As different
+communities differed greatly in user size (Fig. 1a), symbolic transfer entropy
+gions19 (the average diffusion diameter is near 10 in Fig. 2a) when
+could discount the relative magnitude of each time series. For two time series in
+t Gh ae
+u
+sL s- iu anse drs
+i
+stp rl ia by ue td
+io
+nd o om
+f
+ti hn ea n pt
+a
+ir ro wle iss e, dw ish ti ac nh
+c
+ec so iu nl d
+th
+l ee a dd
+if
+ft uo
+s
+ioa
+n
+n no en t-
+-
+sC eo qm uem nu cen si t iy
+n
+X
+a
+sa mnd
+a
+lC
+l
+so em
+t
+om
+f
+u syn mity
+b
+oY l,
+s
+.{ x Bî y} ca on md p{y
+ui
+t̂}
+i
+nar ge
+t
+t hh ee
+j
+oco inr tr e as np do n cod nin dg
+it
+s ioy nm ab
+l
+olic
+work; the distribution was observed to be Gaussian when H-users probabilities of the sequence indices from the relative frequency of symbols in each
+played major roles, most probably through simple contagions19. In sequence, we obtained the information flow from Y to X:
+a t ghd reed
+a
+i c tt eoio rm n dp,
+i
+vlt eh ex re
+s
+c ii tn o yt n e otr a fa g pc it eoi ono pn m
+l
+eb ,e e oct h nw a e ane vin es
+r
+mL ag- 19u e,2 .s 4e , r ws, a w s h mic oh re i s l ic ko en lys i ts ote rn et a w chit h a F Y,X=∑p(x î +1,x î,y î)log 2   p p(x (xî +
+î
++1∣ 1x ∣xî, îy )i)̂   (3)
+To explain the observed dynamics in news diffusion, we intro-
+A detailed description of the selection of the sampling and symbolization is
+duced a message-passing model by dividing the individuals into two discussed in the literature26.
+categories according to their degrees in the social network: influ- For a given piece of news, we analysed the cumulative number of times that the
+ential users and ordinary users, which reproduced the observed news was forwarded from the H-users N H(t) and L-users N L(t) until the hour t and
+compared how these two types of users affected the news spreading of others. The
+spreading patterns and diffusion structures. In particular, diffusion
+with central aggregates (H-users dominate) gave a Gaussian distri-
+total number of news forwards until hour t is N total(t) = N H(t) + N L(t).
+bution of node distances, while diffusion exhibiting dendrite-like Comparing diffusion network structure. On Sina Weibo, the social network
+patterns (L-users dominate) led to a non-Gaussian distribution. reflects the connections between individuals. When there is a piece of news, an
+Furthermore, we explained how the performance of the L-users led individual can spread it by posting a short message or forwarding related messages
+to greater diffusion path length. from neighbours. Meanwhile, his/her followers can receive this message and
+forward it to a wider group of users. In the spreading of a specific news item, the
+The findings in this Article may suggest an alternative way to
+participants created many diffusion paths that formed the diffusion network of the
+modulate news diffusion or contain rumours in online social media. event. We compared the structures of diffusion networks for different new items
+It would be interesting to explore further how the content of a piece by analysing their diffusion diameters and AvPs. The distance between two nodes
+of news correlates with the influence of L-users, and thus with the in a diffusion network was defined as the minimum number of edges that connect
+the two nodes. The diameter of a diffusion network was the maximum value of
+structure of the diffusion network, in a quantitative way.
+the distances among all the pairs in the network. The AvP of a diffusion network
+was computed as the mean value of all the distances. The diffusion network was an
+methods
+unweighted network in our analysis and multiple forwards from the same source
+Data collection. We collected the headlines of news stories from the hot news by one user were denoted by just one edge.
+website of the Sina News Center, which is a large news source in China (http://
+news.sina.com.cn/hotnews/). The hot news from the Sina News Center is divided Sample selection. To understand the different roles of H- and L-users, it was
+into many categories including video, picture, domestic news, international news, necessary to examine which of them dominated the diffusion of a piece of news.
+social news, sports news, financial news, entertainment news, science news and By analysing the propagation processes of the 1,016 news stories, two dominant
+military news. Each category lists the top ten news stories based on the number patterns were found: dominance by H-users (981 news stories) or L-users (35 news
+of clicks, comments and shares in a week, respectively. The diffusion of some stories). One pattern possessed relatively short paths extending from large central
+categories of news (for example, military news, entertainment news) is often aggregates and the other had long dendritic diffusion paths. What was the cause
+affected by non-universal factors. The user’s social status and background affect of this large difference in the two spreading patterns? To answer this question,
+the diffusion of military news. The diffusion of entertainment news is affected by we set out to explore the underlying spreading mechanism. Three typical news
+the user’s preference for or aversion to the celebrities. To study social influence and stories were selected as examples, all of which had a relatively large diffusion size
+avoid non-universal personal factors in the diffusion of news, we chose to analyse and a large difference in forwarding numbers from the two types of user, to clearly
+science-oriented news. The news story headlines were collected from the list that show the different roles of the H- and L-users in generating the diffusion network
+ranks the number of shares in the science-oriented news bulletin board, which structure. News1 is about the volume of trade on Tianmao, a comprehensive
+allowed us to analyse news with a large diffusion network. These were posted from shopping website in China, on 11 November 2016. News2 is a report about
+January 2015 to June 2017, with a total of 9,120 items. We repeated the selection the world’s deepest blue hole in the ocean, named Sansha Yongle Longdong.
+procedure every 3 d to avoid repeated headlines and downloaded the related News3 is an interview with an online celebrity about her becoming popular and
+diffusion data from the major microblogging system in China: Sina Weibo (http:// receiving a very large amount of funding. The total number of news forwards
+weibo.com/). The downloaded diffusion data consist of 2,205 news headlines and the lifetime of the three news stories are given in Supplementary Methods 6
+forwarded 634,800 times by 474,742 people. and Supplementary Tables 2 and 3. More examples are given in Supplementary
+We investigated the proportion of people spreading the 2,205 news stories Methods 7, Supplementary Tables 4 and 5 and Supplementary Figs. 6–9, and
+in <10 h, <1 d, < 2 d, <7 d and <14 d of the story breaking (see Supplementary similar characters are observed. These additional analyses suggest that the
+Methods 1 and Supplementary Fig. 1) and found that the proportion of adopted diffusion features that we describe in these three news stories are typical.
+individuals exceeded 90% in 89% of news stories and the average proportion was
+up to 95% in the first 14 d. As our objective was to capture the major forwarding
+Reporting Summary. Further information on research design is available in the
+behaviours, we focused on diffusion that took place in <14 d. Some news was
+Nature Research Reporting Summary linked to this article.
+passed by a vanishingly small number of individuals, mainly because they had
+very few neighbours or the adoption thresholds of their neighbours were high19.
+Data availability
+We therefore selected only those stories that had a diffusion size (total number of
+times that users posted or forwarded a piece of news) greater than 100. To validate The headlines of all the news stories were collected from the hot news website of
+the selection, we also studied news sets with a diffusion size greater than 50 or 150 Sina News Center (http://news.sina.com.cn/hotnews/). We asked a commercial
+to check the distribution of follower counts and found that the threshold 100 gave institution (https://www.shenjianshou.cn/) to help us collect data on Sina Weibo
+a similar distribution of follower counts and forwards to a threshold of 50 or 150 (http://weibo.com/). The downloaded data include all the posts for each piece
+(see Supplementary Methods 2 and Supplementary Fig. 2). Finally, the data that of news (that is, their respective user interactions and the follower counts of the
+we study in this Article comprise 1,016 news stories forwarded 466,740 times by users) that are publicly available on Sina Weibo (users with privacy restrictions are
+355,453 people. not included in the dataset). The data that support the findings of this study are
+available at https://www.researchgate.net/publication/328783349_data_of_news.
+Measuring social influence. Users who have a high number of followers are
+usually more influential and we used follower counts to measure the social Code availability
+influence of users. By analysing the distribution of the follower counts of all users Code for the data analysis and model simulation is available at https://www.
+and forwarding sources in the 1,016 news stories, as shown in Fig. 1a, we regarded researchgate.net/publication/328783349_data_of_news. The code was run using
+the users with follower counts greater than or equal to 100,000 as H-users. In Python 238 and Matlab R2015b39 for data analysis and Matlab R2015b for model
+addition, we used symbolic transfer entropy to further verify the reliability of simulation.
+this division by dividing all users into 8 communities according to their follower
+counts: Community 0 (users whose follower counts fell in the distribution interval
+Received: 3 April 2018; Accepted: 8 April 2019;
+[0,10)), Community 1 (for the distribution interval [10,102)), and so on until
+Published: xx xx xxxx
+Community 6 (for [106,107)) and Community 7 (for [107,∞)). The time series
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+References 25. Romero, D. M., Meeder, B. & Kleinberg, J. Differences in the mechanics of
+1. Granovetter, M. Threshold models of collective behavior. Am. J. Sociol. 83, information diffusion across topics: idioms, political hashtags, and complex
+1420–1443 (1978). contagion on twitter. In Proc. 20th International Conference on World Wide
+2. Christakis, N. A. & Fowler, J. H. The spread of obesity in a large social Web 695−704 (ACM, 2011).
+network over 32 years. N. Engl. J. Med. 357, 370–379 (2007). 26. Borge-Holthoefer, J. et al. The dynamics of information-driven coordination
+3. Christakis, N. A. & Fowler, J. H. The collective dynamics of smoking in a phenomena: a transfer entropy analysis. Sci. Adv. 2, e1501158 (2016).
+large social network. N. Engl. J. Med. 358, 2249–2258 (2008). 27. Wang, W., Tang, M., Zhang, H. F. & Lai, Y. C. Dynamics of social contagions
+4. Fowler, J. H. & Christakis, N. A. Dynamic spread of happiness in a large with memory of nonredundant information. Phys. Rev. E 92, 012820 (2015).
+social network: longitudinal analysis over 20 years in the Framingham Heart 28. Wang, W., Shu, P. P., Zhu, Y. X., Tang, M. & Zhang, Y. C. Dynamics of social
+Study. BMJ 337, a2338 (2008). contagions with limited contact capacity. Chaos 25, 103102 (2015).
+5. Barrat, A., Barthélemy, M. & Vespignani, A. Dynamical Processes on Complex 29. Pathria, R. K. Statistical Mechanics (Elsevier, 2005).
+Networks (Cambridge Univ. Press, 2008). 30. Bouchaud, J.-P. & Georges, A. Anomalous diffusion in disordered media:
+6. Fowler, J. H. & Christakis, N. A. Cooperative behavior cascades in human statistical mechanisms, models and physical applications. Phys. Rep. 195,
+social networks. Proc. Natl Acad. Sci. USA 107, 5334–5338 (2010). 127–293 (1990).
+7. Lazarsfeld, P. F., Berelson, B. & Gaudet, H. The People’s Choice: 31. Watts, D. J. & Dodds, P. S. Influentials, networks, and public opinion
+How the Voter Makes Up His Mind in a Presidential Campaign formation. J. Consum. Res. 34, 441–458 (2007).
+(Columbia Univ. Press, 1948). 32. Roch, C. H. The dual roots of opinion leadership. J. Polit. 67, 110–131 (2005).
+8. Katz, E. & Lazarsfeld, P. F. Personal Influence (Free Press, 1955). 33. Freeman, L. C. Centrality in social networks conceptual clarification. Soc.
+9. Aral, S. & Walker, D. Identifying influential and susceptible members of Networks 1, 215–239 (1979).
+social networks. Science 337, 337–341 (2012). 34. Friedkin, N. E. Theoretical foundations for centrality measures. Am. J. Sociol.
+10. Wang, W., Tang, M., Shu, P. P. & Wang, Z. Dynamics of social contagions 96, 1478–1504 (1991).
+with heterogeneous adoption thresholds: crossover phenomena in phase 35. Bonacich, P. Power and centrality: a family of measures. Am. J. Sociol. 92,
+transition. New J. Phys. 18, 013029 (2016). 1170–1182 (1987).
+11. Lee, E. & Holme, P. Social contagion with degree-dependent thresholds. 36. Albert, R. & Barabási, A.-L. Statistical mechanics of complex networks.
+Phys. Rev. E 96, 012315 (2017). Rev. Mod. Phys. 74, 47–97 (2002).
+12. Yang, W., Cao, L., Wang, X. F. & Li, X. Consensus in a heterogeneous 37. Kitsak, M. et al. Identification of influential spreaders in complex networks.
+influence network. Phys. Rev. E 74, 037101 (2006). Nat. Phys. 6, 888–893 (2010).
+13. Lin, Y. T., Yang, H. X., Rong, Z. H. & Wang, B. H. Effects of heterogeneous 38. Hetland, M. L. Beginning Python: from Novice to Professional 2nd ed.
+influence of individuals on the global consensus. Int. J. Mod. Phys. C 21, (Apress, 2008).
+1011–1019 (2010). 39. Chapman S. J. Essentials of Matlab Programming 2nd ed.,
+14. Xiong, F., Liu, Y. & Zhu, J. Competition of dynamic self-confidence (Cengage Learning, 2008).
+and inhomogeneous individual influence in voter models. Entropy 15,
+5292–5304 (2013). Acknowledgements
+15. Liang, H. L., Yang, Y. P. & Wang, X. F. Opinion dynamics in This work was supported by the National Natural Science Foundation of China (grant
+networks with heterogeneous confidence and influence. Physica A 392, nos. 11775034 and 11375093). The funders had no role in study design, data collection
+2248–2256 (2013). and analysis, decision to publish or preparation of the manuscript.
+16. Schmidt, A. L. et al. Anatomy of news consumption on Facebook. Proc. Natl
+Acad. Sci. USA 114, 3035–3039 (2017). Author contributions
+17. Deffuant, G., Neau, D., Amblard, F. & Weisbuch, G. Mixing beliefs among
+interacting agents. Adv. Complex Syst. 3, 87–98 (2000). X.W., Y.L. and J.X. contributed equally to all parts of the research and writing.
+18. Del Vicario, M. et al. The spreading of misinformation online. Proc. Natl
+Acad. Sci. USA 113, 554–559 (2016). Competing interests
+19. Centola, D. & Macy, M. Complex contagions and the weakness of long ties. The authors declare no competing interests.
+Am. J. Sociol. 113, 702–734 (2007).
+20. Centola, D. The spread of behavior in an online social network experiment.
+Additional information
+Science 329, 1194–1197 (2010).
+21. Watts, D. J. A simple model of global cascades on random networks. Proc. Supplementary information is available for this paper at https://doi.org/10.1038/
+Natl Acad. Sci. USA 99, 5766–5771 (2002). s41562-019-0605-7.
+22. Onnela, J. P. & Reed-Tsochas, F. Spontaneous emergence of social influence Reprints and permissions information is available at www.nature.com/reprints.
+in online systems. Proc. Natl Acad. Sci. USA 107, 18375–18380 (2010).
+Correspondence and requests for materials should be addressed to X.W. or J.X.
+23. Zheng, M. H., Lü, L. Y. & Zhao, M. Spreading in online social networks: the
+role of social reinforcement. Phys. Rev. E 88, 012818 (2013). Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+24. Centola, D. How Behavior Spreads: the Science of Complex Contagions published maps and institutional affiliations.
+(Princeton Univ. Press, 2018). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NAtuRe HumAN BeHAviouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Xiaochen Wang, Jinghua Xiao
+Last updated by author(s): Mar 10, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection We collected the headlines of all the news from the hot news website of Sina News Center in China (http://news.sina.com.cn/hotnews/).
+The custom codes were run using Python2. We asked a commercial institution (https://www.shenjianshou.cn/) to help us collect all the
+posts of each piece of news (i.e. their respective user interactions and the followers counts of users) on Sina Weibo (http://weibo.com/)
+which are publicly available (users with privacy restrictions are not included in the dataset).
+Data analysis We used custom codes to analyze the data. The codes were run using Python 2 and Matlab R2015b for data analysis and using Matlab
+R2015b for model simulation.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data that support the findings of this study are available at https://www.researchgate.net/publication/328783349_data_of_news.
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description We make a quantitative analysis about news diffusion on Sina Weibo and introduce a message-passing model simulating news spreading.
+Research sample The research sample is the science-oriented news stories from the hot news website of Sina News Center. We collect the diffusion
+processes of these news stories on Sina Weibo and the information of users include: nickname, sex, follower counts. The headlines of
+news stories are collected from the ranking list of the number of shares in the science-oriented news bulletin board to get the news of
+large diffusion size, which were posted in a period from January 2015 to June 2017. To avoid repeated headlines, the collection is done
+every three days. Thus these news occur uniformly in the period and are representative. To study the social influence and avoid non-
+universal personal factors (e.g., the user's social status and background affect the diffusion of military news, the user's preference or
+aversion to the celebrities affect the diffusion of entertainment news), we choose the science-oriented news stories as major research
+samples.
+Sampling strategy The samples of news stories are collected from the ranking list of the number of shares in the science-oriented news bulletin board to get
+news of large diffusion size, which were posted in a period from January 2015 to June 2017 and have a total of 9,120 pieces. To avoid
+repeated headlines, the selection is done every three days.
+Data collection We asked a commercial institution (https://www.shenjianshou.cn/) to help us collect data on Sina Weibo (http://weibo.com/). The
+downloaded data includes all the posts of each piece of news (i.e. their respective user interactions and the follower counts of users) on
+Sina Weibo which are publicly available (users with privacy restrictions are not included in the dataset).
+Timing January 2015 to June 2017
+Data exclusions The downloaded diffusion data from Sina Weibo consists of 2,205 news stories forwarded 634,800 times by 474,742 people. Some news
+is passed by a vanishingly small number of individuals. As a result, only those of diffusion size (total number of times of users’ posting and
+forwarding a news) greater than 100 are selected and we exclude 1,189 news stories whose diffusion sizes are too small. The data which
+we study comprises 1,016 news stories forwarded 466,740 times by 355,453 people. To validate the selection in the main text, we also
+studied the sets of the news of diffusion size greater than 50 or 150 to check the distribution of follower counts and find that the
+threshold 100 gives similar distribution of follower counts and forwarding results as in the case with threshold 50 or 150.
+Non-participation No experiments were conducted as part of this study.
+Randomization No experiments were conducted as part of this study.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data

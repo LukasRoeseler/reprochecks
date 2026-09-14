@@ -1,0 +1,57 @@
+{
+  "report": "ReproAI risk register — Kuper & Bott (2019) MP.2018.878 (re-audit)",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "audit_date": "2026-09-14",
+  "severity_counts": { "P0": 0, "P1": 2, "P2": 2, "P3": 2 },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "Primary k=76 analytic dataset and the Table 1/2 exclusion+aggregation code are not archived; shipped code runs on the raw k=102 set and does not reproduce the manuscript's Table 3.",
+      "evidence": "Shipped reviewer,analysis_JH.R loads dat_new_s.txt (k=102) and yields naive d=.253 I2=62% Q(101)=257.6, PET intercept d=-.10 slope 1.47, 3-PSM corrected d=.105 X2(1)=11.67 p=.0006. Manuscript Table 3 (k=76) reports d=.27 I2=.26, PET d=-.05 slope 1.36, 3-PSM d=.18 X2=3.42 p=.065. No k=76 dataset and no Table1/2 code in the archive (architecture_report.json).",
+      "impact": "The primary published statistics cannot be regenerated from the archived package as shipped. The 'Open and reproducible analysis / verified by R. Carlsson' badge (p.14) was verified against the k=102 analysis, not the k=76 analyses actually reported.",
+      "remediation": "Ship the k=76 analytic dataset, the exclusion/aggregation script used to build it (recovering the exact Simbrunner multi-outcome pooling), and the power + appendix simulation code with seeds; state which dataset the badge covers."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P1",
+      "title": "Reported I2=0.26 is internally inconsistent with the paper's own Q(75)=175.77, which implies I2=57%.",
+      "evidence": "Standard formula I2=(Q-df)/Q = (175.77-75)/175.77 = 57.3%, independently verified in Python. The manuscript prints both I2=.26 and Q(75)=175.77 for the same model (p.8/Table 3 vicinity).",
+      "impact": "The heterogeneity statistic as printed is self-contradictory; affects readers' interpretation of between-study variance and cannot be true for a model with Q(75)=175.77.",
+      "remediation": "Recompute I2 from the fitted k=76 model and correct the printed value (expected ~0.57 based on their own Q)."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Precise secondary statistics (Z values, 3-PSM, PET-PEESE, subgroup CI bounds) are not exactly reproducible from the archive.",
+      "evidence": "My faithful k=76 re-derivation gives d=.266 CI[.181;.350] Z=6.17 vs manuscript d=.27 CI[.19;.35] Z=6.57; EUR 3-PSM .212 vs .11; NOA PET slope 1.97 vs 2.12. Two aggregation variants (simple-mean vs inverse-variance pooling of the 5 Simbrunner ES) gave Z 6.17 and 5.92, neither hitting 6.57.",
+      "impact": "Directionally correct but numerically non-exact; lowering confidence in exact published values because the definitive dataset is missing.",
+      "remediation": "Ship the exact k=76 dataset/aggregation code (as ADV-001)."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P2",
+      "title": "Appendix A1 simulation, Figure 3 selection-threshold exploration, and funnel-plot source data are not archived.",
+      "evidence": "No simulation code, no Fig 3 code, and no k=76 funnel data are in the OSF archive (exec_check inventory scan).",
+      "impact": "Exploratory/simulation claims (3-PSM averaging bias > d=.10; selection threshold d≈0; Bonferroni n=981) are not independently verifiable.",
+      "remediation": "Ship appendix simulation code + seeds and the Fig 1/2/3 source data."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Dataset-comparison claims (93%/95%/6 ES/6 N; '100%/100% identical') have no shipped derivation script.",
+      "evidence": "The two original datasets (dat_old_s/b) are present but no study-to-study mapping or diff script is shipped, so the 93%/k=85/6-discrepancy figures are not regenerable (claims C1-C6, C9).",
+      "impact": "Documentation/hygiene; these descriptive claims cannot be reproduced from the package.",
+      "remediation": "Add the comparison/diff script used to derive Table 1."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Background meta-analytic figures quoted (d=.31, d=.32, fail-safe N=4531, n=801/1274/3134) are citations, not independently recomputable from the archive.",
+      "evidence": "These stem from Blanken et al. (2015), Simbrunner & Schlegelmilch (2017), Ebersole et al. (2016), etc.; no raw source data for them in this package.",
+      "impact": "Hygiene; not a defect of this manuscript's analysis.",
+      "remediation": "None required for this manuscript."
+    }
+  ]
+}

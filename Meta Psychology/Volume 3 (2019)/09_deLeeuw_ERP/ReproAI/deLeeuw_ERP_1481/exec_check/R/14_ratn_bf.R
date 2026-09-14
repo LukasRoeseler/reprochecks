@@ -1,0 +1,18 @@
+suppressMessages({ library(dplyr); library(BayesFactor); library(readr) })
+cat("==== START RATN BF (status: running) ====\n")
+base <- "C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/Meta Psychology/Volume 3 (2019)/09_deLeeuw_ERP/ReproAI/deLeeuw_ERP_1481/exec_check"
+setwd(base)
+d <- readRDS("output/_diff_data.rds"); RATN <- d$RATN
+RATN$subject <- as.factor(RATN$subject)
+set.seed(12604)
+bf.RATN <- anovaBF(mean.amplitude ~ electrode.site * grammar.condition * hemisphere + subject, data=data.frame(RATN), whichRandom="subject")
+ebf <- extractBF(bf.RATN)
+cat("Number of models:", length(ebf$bf), "\n")
+cat("Full model (last) BF =", ebf$bf[length(ebf$bf)], "\n")
+cat("Full vs null: 1/bf_full =", 1/ebf$bf[length(ebf$bf)], "  paper 431,034\n")
+# no-three-way model: sum of the 3 two-ways (= last-1 if ordering ends with full then prev is no-3way)
+cat("Model orders (bf):\n"); print(ebf$bf, digits=8)
+# identify no-3-way model (3 mains + 3 two-ways, no three-way)
+terms <- names(ebf$bf)
+cat("Full/no-3way ratio:", ebf$bf[length(ebf$bf)]/ebf$bf[length(ebf$bf)-1], "  paper 39\n")
+cat("==== END RATN BF (status: OK) ====\n")

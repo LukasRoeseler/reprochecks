@@ -1,0 +1,58 @@
+{
+  "paper": "Witt, J. K. (2019). Meta-Psychology, 3, MP.2018.871.",
+  "doi": "10.5626/MP.2018.871",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "summary": "All load-bearing statistics reproduce; 6 advisory findings (1 P2 + 5 P3), none affecting conclusions.",
+  "plan": [
+    {
+      "id": "ADV-001",
+      "priority": "P2",
+      "action": "Document the per-effect-size meaning of numStudies in Witt_SDT_Simulations_OptionalStopping_v2.R (or rename to numPerCondition) and state the 10-null + 10-effect = 20-study convention explicitly. Ship the seed and a one-command re-run.",
+      "owner": "Author (Witt)",
+      "expected_impact": "Removes the silent 2x-sample hazard that doubles the p-hack count for a reader who follows the parameter's literal name."
+    },
+    {
+      "id": "ADV-002",
+      "priority": "P3",
+      "action": "Report the random seed(s), quote pooled/median AUC as the primary statistic, and align the Exp1/.97 vs Exp7/.98 printed medians for identical simulation conditions.",
+      "owner": "Author (Witt)",
+      "expected_impact": "Enables a reader to recover the exact published AUCs and removes the internal descriptive inconsistency."
+    },
+    {
+      "id": "ADV-003",
+      "priority": "P3",
+      "action": "Align the optional-stopping loop-count wording: state 'up to 9 more times (10 total additions)' in the Methods or set numTimesRunExtra in code to the same value.",
+      "owner": "Author (Witt)",
+      "expected_impact": "Resolves a code-vs-text count ambiguity (totals currently coincide)."
+    },
+    {
+      "id": "ADV-004",
+      "priority": "P3",
+      "action": "Add a Methods note that the Bayes factor is evaluated with the two-sample ttest.tstat (rscale=0.707) for ALL test types (one-sample t, correlation, uneven two-sample t), making the equal-AUC result a design consequence.",
+      "owner": "Author (Witt)",
+      "expected_impact": "Correctly attributes the Figure 8 invariance to the shared BF rather than to each test's own statistic."
+    },
+    {
+      "id": "ADV-005",
+      "priority": "P3",
+      "action": "Optionally ship the final per-study simulated data frames (or seed + re-run script) so the published AUCs can be verified from data rather than by re-simulation.",
+      "owner": "Author (Witt)",
+      "expected_impact": "Enables exact verification despite the stochastic, open-data-N/A design."
+    },
+    {
+      "id": "ADV-006",
+      "priority": "P3",
+      "action": "Qualify the Discussion claim that at larger n 'p<.005 and all tested BF thresholds outperform p<.10'; specify the sample size at which p<.005 overtakes p<.10 (here only by n=148) and which BF thresholds.",
+      "owner": "Author (Witt)",
+      "expected_impact": "Improves precision of a directional qualitative statement."
+    },
+    {
+      "id": "META-NEXT",
+      "priority": "P3",
+      "action": "Audit follow-up: none required for verification confidence. Optional: run an independent second-language (Python/scipy) recompute of the redundancy claim and the power-series AUCs to fully satisfy REPRO_STANDARDS section 5.",
+      "owner": "ReproAI (next session)",
+      "expected_impact": "Extra cross-language confirmation of the headline numbers already verified in R."
+    }
+  ]
+}

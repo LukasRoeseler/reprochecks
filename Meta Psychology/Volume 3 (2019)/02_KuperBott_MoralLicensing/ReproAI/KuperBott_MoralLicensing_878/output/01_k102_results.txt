@@ -1,0 +1,63 @@
+==== ReproAI Script 01: Shipped methodology on dat_new_s (k=102) ====
+
+k (whole dat_new_s) = 102 
+
+-- Naive random-effects rma (k=102) --
+  est.est     se.se       z.z       p.p  LB.CI.lb  UB.CI.ub     I2.I2     QE.QE   QEp.QEp tau2.tau2 
+   0.2526    0.0376    6.7152    0.0000    0.1789    0.3263   62.2569  257.6253    0.0000    0.0826 
+
+-- PET-PEESE (k=102) --
+intercept d =-0.0995 t(100)=-0.933 p=0.3532 95%CI [-0.311;0.112]
+slope b = 1.467  t= 3.065  p= 0.0028 
+
+-- 3-PSM weightfunct (k=102) --
+raw weightfunct output:
+
+Unadjusted Model (k = 102):
+
+tau^2 (estimated amount of total heterogeneity): 0.0812 (SE = 0.0196)
+tau (square root of estimated tau^2 value):  0.2849
+
+Test for Heterogeneity:
+Q(df = 101) = 257.6253, p-val = 1.915295e-15
+
+Model Results:
+
+          estimate std.error z-stat      p-val  ci.lb ci.ub
+Intercept   0.2524   0.03753  6.725 1.7508e-11 0.1789 0.326
+
+Adjusted Model (k = 102):
+
+tau^2 (estimated amount of total heterogeneity): 0.0470 (SE = 0.0159)
+tau (square root of estimated tau^2 value):  0.2169
+
+Test for Heterogeneity:
+Q(df = 101) = 257.6253, p-val = 1.915295e-15
+
+Model Results:
+
+              estimate std.error z-stat    p-val   ci.lb  ci.ub
+Intercept       0.1047   0.04785  2.188 0.028650 0.01092 0.1985
+0.025 < p < 1   0.2585   0.10449  2.474 0.013351 0.05374 0.4633
+
+Likelihood Ratio Test:
+X^2(df = 1) = 11.67116, p-val = 0.00063476
+
+Number of Effect Sizes per Interval:
+
+                     Frequency
+p-values <0.025             37
+0.025 < p-values < 1        65
+
+-- Culture subgroups --
+
+NOA: rma est=0.392 k=48 se=0.047 z=8.28 p=0 CI[0.299;0.485]
+   PET-PEESE intercept= -0.098  slope= 2.041 
+   3-PSM est = 0.391 
+
+EUR: rma est=0.219 k=44 se=0.053 z=4.13 p=0 CI[0.115;0.323]
+   PET-PEESE intercept= 0.056  slope= 0.686 
+   3-PSM est = 0.218 
+
+SEA: rma est=-0.372 k=5 se=0.085 z=-4.38 p=0 CI[-0.539;-0.205]
+   PET-PEESE intercept= -0.372  slope= NA 

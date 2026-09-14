@@ -1,0 +1,1038 @@
+Articles
+https://doi.org/10.1038/s41562-019-0584-8
+Gaze bias differences capture individual choice
+behaviour
+Armin W. Thomas 1,2,3,7, Felix Molter 2,3,4,5,7, Ian Krajbich6, Hauke R. Heekeren 2,3
+and Peter N. C. Mohr 2,3,4,5*
+How do we make simple choices such as deciding between an apple and an orange? Recent empirical evidence suggests that
+choice behaviour and gaze allocation are closely linked at the group level, whereby items looked at longer during the decision-
+making process are more likely to be chosen. However, it is unclear how variable this gaze bias effect is between individuals.
+Here we investigate this question across four different simple choice experiments and using a computational model that can
+be easily applied to individuals. We show that an association between gaze and choice is present for most individuals, but dif-
+fers considerably in strength. Generally, individuals with a strong association between gaze and choice behaviour are worse at
+choosing the best item from a choice set compared with individuals with a weak association. Accounting for individuals’ vari-
+ability in gaze bias in the model can explain and accurately predict individual differences in choice behaviour.
+In everyday life, we are constantly confronted with simple con- economic research), they can be unsuitable for understanding the
+sumer choices such as whether to have an apple or a banana choice behaviour of an individual. Aggregate models can lead to
+for breakfast or which bottle of juice to buy at the supermarket. false conclusions about true underlying individual processes27,28. In
+Traditional models describing this type of consumer choice assume a learning task, for example, the group-level average learning curve
+that people assign a utility (or value) to each available option and would appear as a gradual, smooth function over time, even if all
+make utility-maximizing choices1. Notably, choices are assumed to individuals showed abrupt, step-like learning curves (much like an
+be based solely on the attributes of the option, and are therefore epiphany), but with variable learning onsets across individuals29. In
+independent of information search processes during the decision- this case, the group-level model would not accurately describe any
+making process2. This assumption has recently been challenged by individual of the group, and the deduction that individual learn-
+a variety of empirical findings showing that the allocation of gaze ing occurs smoothly would be false. Similarly, using a single model
+during the decision-making process also plays a substantial role, as a parameter set to describe the choice behaviour of a group could lead
+longer gaze towards one option is regularly associated with a higher to false conclusions about the behaviour of the underlying individu-
+choice probability for that option (independent of its value)3–17. als. Therefore, it is crucial to study choice behaviour at the level of
+Similarly, stimulus salience has been shown to influence decision the individual.
+behaviour18–20. Furthermore, external manipulation of gaze allo- Previously reported group-level models that quantify the asso-
+cation leads to changes in choice probabilities3,12,14. Similar effects ciation between gaze and choice specified a constant gaze bias for
+have recently been demonstrated in perceptual decision-making, all individuals without rigorously testing the performance of the
+whereby participants judge perceptual attributes of stimuli based on model at the level of the individual9,10. A rigorous test of gaze bias
+the available sensory information (for example, the orientation of effects at the level of the individual should ideally be based on non-
+line segments21). restricted individual model fits, include comparisons to models
+These findings led to the development of computational mod- without gaze bias, establish that the model provides an accurate
+els that integrate eye movement data into the choice process and account of individually observed data and test how individu-
+formalize the empirically observed association between gaze and als’ gaze biases relate to their response behaviour. If, for example,
+choice4,9–11,20,22–24. These models are based on classical evidence- people’s decisions were affected differently by gaze behaviour, we
+accumulation models25,26, but make the additional assumption would find that the choices of some individuals were more biased
+that the momentary rate of evidence accumulation depends on the by gaze than others and possibly be more inconsistent with the
+eye movements of the decision-maker. Evidence accumulation for values of the items. Imagine, for example, a choice between two
+an option is assumed to be discounted by a constant factor while bottles of juice at the supermarket: one has a slightly higher value
+another item is fixated on. Accounting for this gaze bias, these for the decision-maker than the other, but it is also less visually
+models provide a precise account of many aspects of simple choice salient20,30. If a person’s association of gaze and choice behaviour
+behaviour at the group level4,9–11,20,22–24. was strong, their choice would be biased towards the more visually
+While group-level statistics are informative for some research salient bottle that attracts more of their gaze, even though it has a
+questions (for example, to specifically address differences between lower value. Conversely, if the person’s association was weak, they
+groups or experimental conditions or to forecast product sales in would be able to select the higher valued option, despite their gaze
+1Department of Electrical Engineering and Computer Science, Technische Universität Berlin, Berlin, Germany. 2Department of Education and Psychology,
+Freie Universität Berlin, Berlin, Germany. 3Center for Cognitive Neuroscience Berlin, Freie Universität Berlin, Berlin, Germany. 4School of Business and
+Economics, Freie Universität Berlin, Berlin, Germany. 5WZB Berlin Social Science Center, Berlin, Germany. 6Department of Psychology and Department of
+Economics, The Ohio State University, Columbus, OH, USA. 7These authors contributed equally: Armin W. Thomas, Felix Molter.
+*e-mail: peter.mohr@neuroeconomics-lab.de
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATuRe HumAN BeHAviouR
+being attracted more towards the visually salient but lower valued Individual differences in the data. We analysed the following three
+option. Accordingly, if the strength of this association is variable metrics for individual differences: participants’ mean response time
+across individuals, it is necessary to account for these differences to (RT); mean probability of choosing the best item (we define the best
+accurately predict individual choice behaviour. item either as the item with the highest liking rating or willingness-
+Here, we investigated whether the previously reported link to-pay in the value-based choice tasks, or the item with the smaller
+between gaze and choice behaviour is variable across individuals. angular distance to the target in the perceptual choice task); and
+We analysed four previously published choice datasets6,9,10,21, in total influence of gaze allocation on choice probability (defined as the
+including 118 individuals, two choice set sizes (two- and three-alter- mean increase in choice probability for an item that was fixated on
+native) and two choice domains (value-based and perceptual). For longer than the others, after correcting for the influence of the item
+the analysis, we developed a computational model that can be easily value; see below). We found that participants differed considerably
+applied to individual participant and multialternative choice data. in all metrics (Fig. 2). The participants’ (n = 118) overall mean RTs
+With this model, we reaffirmed that an association between gaze ranged from 958 to 7,577 ms, with a mean ± s.d. of 2,844 ± 1,676 ms
+and choice is present for most individuals. The strength of this asso- (Fig. 2a), while their probabilities of choosing the best item in a trial
+ciation, however, varied substantially. This variability was directly ranged from 45% to 97%, with a mean ± s.d. of 77% ± 12% (Fig. 2c).
+linked to an individual’s ability of choosing the best item from a We also probed the relationship between individual allocation
+choice set, such that stronger associations of gaze and choice were of gaze and choice. Previous studies of simple choice tasks have
+linked to lower probabilities of choosing the best item. Accounting shown that individuals are more likely to choose an option when
+for the variability in individuals’ gaze biases, we were able to explain they spent more time fixating on it compared with the other opti
+and accurately predict observed differences in choice behaviour. ons3,4,6,9,10. Here, we devised a measure to quantify this relationship
+for each individual. Following previous work9,10, we first estimated
+Results a participant’s probability of choosing an item in a choice set using
+Datasets and task overview. We investigated individual differ- logistic regression, based on its relative item value (the difference
+ences in the influence of gaze allocation on simple choice behav- between the item’s value and the mean value of all other items in
+iour across four previously published datasets6,9,10,21. In each dataset, that trial) and the range between the other items’ value (this regres-
+healthy participants made repeated decisions between multiple sor was omitted in all two-item datasets). We then subtracted this
+options while their eye movements were recorded (for additional estimated probability from the empirically observed choice (either
+details, see Fig. 1 and Supplementary Methods 1). 1 if the item was chosen or 0 otherwise). Finally, we averaged the
+The first dataset is from Krajbich and colleagues10 (henceforth resulting ‘residual’ choice probability for trials in which the item
+referred to as Krajbich 2010). In the corresponding experiment, had a positive and negative final gaze advantage (computed as the
+hungry participants made choices between two snack food items difference in the fraction of the total fixation time that the partici-
+without any time restrictions (Fig. 1a). Participants also gave a lik- pants spent fixating on the item and the average fraction that they
+ing rating for each of the 70 snack food items that were used in the spent fixating on the others). The difference between these two
+experiment. This dataset includes 39 participants, each of whom described the average difference in choice probability for the items
+performed 100 trials. with a positive versus negative final gaze advantage, when corrected
+The second dataset from Krajbich and Rangel9 (henceforth for the influence of the values of the items. We found that individual
+referred to as Krajbich 2011) is similar to that from Krajbich 2010. scores on this measure varied substantially and ranged from −11%
+In Krajbich 2011, participants chose between three snack food items to 72%, with a mean ± s.d. of 24% ± 15% (Fig. 2b). Notably, 98% of
+(Fig. 1b). As in Krajbich 2010, participants provided liking ratings the participants showed positive scores, indicating an overall posi-
+for all available items in a separate task. This dataset includes 30 tive relationship between gaze allocation and choice.
+participants, each of whom performed 100 trials. The four datasets differed strongly in the three behavioural
+The third dataset consists of experiment 2 from the study by metrics (Table 1). Differences between datasets, however, can-
+Folke and colleagues6 (henceforth referred to as Folke 2016). In not be attributed to the effect of choice domain (perceptual versus
+this experiment, 24 hungry participants performed 144 trials of value-based) or set size (two versus three items) alone, as original
+a task that closely resembled the Krajbich 2011 three-alternative tasks also differed in other aspects (for example, different stimuli
+forced-choice snack food task (Fig. 1c). Unlike in Krajbich 2011, in value-based versus perceptual tasks, different number of trials
+however, the choice task used a gaze-contingent presentation, and different presentation format). However, when comparing the
+whereby items were only revealed when the participant’s gaze was two- and three-alternative choice data, individuals exhibited shorter
+directed to an item’s location on the screen. In addition, after each response times (Mann–Whitney U = 821, P < 0.001, Pearson’s
+choice, the participants provided confidence ratings (which we did r = 0.52) and a higher probability of choosing the best item (U = 444,
+not use in this study). Similar to Krajbich 2010 and Krajbich 2011, P < 0.001, r = 0.74) when making choices between two alternatives.
+item values were estimated in a separate task, in which a Becker– Furthermore, individuals exhibited a weaker association of gaze
+DeGroot–Marschak auction procedure was used to elicit willing- and choice behaviour, indicated by the gaze influence measure
+ness-to-pay estimates31. (U = 1,001, P < 0.001, r = 0.42), when making choices between two
+The fourth dataset is the first experiment from the study by alternatives. Comparing behavioural data from value-based and
+Tavares and colleagues21 (henceforth referred to as Tavares 2017). perceptual choice tasks, we found that response times were shorter
+This dataset is qualitatively different from the other three value- (U = 632, P < 0.001, r = 0.46) and individuals had a higher probabil-
+based choice datasets. Participants made perceptual judgments ity of choosing the best item (U = 342, P < 0.001, r = 0.71) in the per-
+about the orientations of two line segments and were asked to ceptual choice task. The average strength of the association of gaze
+decide which is closer to a target (Fig. 1d). In this case, we define and choice behaviour in the perceptual choice task, however, was
+the value of an item by its angular distance to the target (with higher similar to that measured in the two-alternative value-based choice
+values for smaller distances). This dataset includes 25 participants, experiment (U = 419, P = 0.17, r = 0.14).
+each of whom performed 1,344 trials across four sessions. All regression coefficients reported throughout represent
+In sum, our analyses span a total of four datasets (n = 118) that fixed effects from Bayesian mixed-effects linear (for continuous-
+contain data from two- and three-alternative forced-choice tasks dependent variables) or logistic (for binary-dependent variables)
+in two different choice domains (value-based and perceptual) and regression models, including a random intercept and slope for
+from two different laboratories. each dataset on each predictor. For each fixed effect, we report the
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATuRe HumAN BeHAviouR Articles
+a
+b
+c
+d
+coefficient’s posterior mean (β) and the associated 95% highest model comparison). We therefore adopted a computational model-
+posterior density interval (HDI) values (for further details, see the ling approach to investigate whether a formalized gaze bias mecha-
+“Mixed effects modelling” section). nism, in conjunction with individual gaze patterns, can improve
+To further probe the relationship between the three behavioural model predictions of individual choice and RT data when compared
+metrics, we computed pairwise mixed-effects regression models with a model without gaze bias.
+between them (Fig. 2d–f). We did not find any association between We propose a model called the Gaze-weighted Linear
+participants’ probability of choosing the best item and their RTs Accumulator Model (GLAM; Fig. 3) that we view as an analytical
+(Fig. 2d; β = −0.19%, 95% HDI = [−3.08%, 2.87%] per second tool to study gaze bias effects at the level of the individual and that
+increase in RT). Similarly, participants’ gaze influence was not is inspired by the multialternative attentional Drift Diffusion Model
+related to their RTs (Fig. 2e; β = −1 ms, 95% HDI = [−33 ms, 33 ms] (aDDM)9. Similar to the aDDM, the GLAM assumes accumulation
+per percentage increase in the gaze influence measure). However, of evidence in favour of each item that is modulated by gaze behav-
+participants’ probability of choosing the best item from a choice iour. While an item is not fixated on, accumulation occurs at a rate
+set decreased with increasing individual gaze influence measures discounted by the gaze bias parameter γ (Fig. 3a). A choice is made
+(Fig. 2f; β = −0.34%, 95% HDI = [−0.71%, 0.08%] per percentage as soon as evidence in favour of one item reaches a decision thresh-
+increase in gaze influence, 95.2% of posterior density below 0). old. In contrast to the aDDM, which focuses on the effect of indi-
+vidual trial fixation sequences on the decision-making process, the
+Modelling individual differences in gaze influence on simple GLAM focuses on gaze bias effects at the level of the trial. Therefore,
+choice. The behavioural and eye-tracking data suggested that there it can average over the observed sequence of fixations within a trial
+is substantial variability in the extent to which gaze affects partici- (Fig. 3b). The resulting gaze-weighted decision signals are then fed
+pants’ choice behaviour (Fig. 2b). However, conclusive quantitative through a logistic transform into a linear stochastic race32,33 (Fig. 3c,d).
+evidence for or against the presence of a mechanism that biases Race models are generalizable to choice scenarios with more than
+choices depending on the distribution of gaze has yet to be provided two items and remain analytically tractable, allowing for more
+at the level of the individual (for example, by means of a formal complex applications (for example, Bayesian parameter estimation,
+hcibjarK
+hcibjarK
+ekloF
+seravaT
+0102
+1102
+6102
+7102
+Valuation task Choice task
+Fixation Choice Feedback
++
+–10 +10
+Rating (free RT) 2 s (enforced) Free RT, 1 s (enforced)
+all visible
++
+–10 +10
+Rating (free RT) 2 s (enforced) Free RT, 1 s (enforced)
+all visible
+£0 £3
+Bidding (free RT) Not reported Free RT, Not reported
+gaze-contingent
+Block target
+every 5 trials
++
+No valuation task 2 s 0.5 s (enforced) Free RT, 1 s (enforced)
+all visible
+Fig. 1 | experimental paradigms. a–d, We included four datasets in our analyses. These include three value-based experiments (a Krajbich 201010,
+b Krajbich 20119, c Folke 20166) and one perceptual choice experiment (d Tavares 201721). In all experiments, participants were instructed to choose the best
+out of two (a, d) or three (b, c) items (that is, the item they would like to eat most in value-based tasks or the item most similar to a target stimulus that
+was presented every five trials in the perceptual task). Value-based experiments included a valuation task before the main choice task, whereby participants
+either rated each item (a, b) or indicated their willingness-to-pay in a Becker–DeGroot–Marschak procedure (c). All choices were made without time
+restrictions. The choice task in c used a gaze-contingent presentation, whereby items were only revealed when the participant’s gaze was directed to an
+item’s location on the screen. Experiments used real snack food items instead of illustrations. For additional details, see Supplementary Methods 1.
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATuRe HumAN BeHAviouR
+10
+0
+10
+0
+10
+0
+10
+0
+0
+embedding in a hierarchical Bayesian framework). In addition to allows the application of the GLAM in situations in which only lim-
+the gaze bias parameter γ, the GLAM includes a velocity parameter ited trial-level data are available (for example, the Folke 2016 dataset
+v, a noise parameter σ and a scaling parameter τ (for further details, included here, which only contains trial-averaged gaze data). In the-
+see the “GLAM details” section). ory, a similar simplification of the multialternative aDDM9 would be
+Even though both models are closely related, the GLAM has a possible, but would result in a model highly similar to the GLAM.
+practical advantage over the aDDM in that it sidesteps the complex Furthermore, fitting such a simplified aDDM variant would still rely
+problem of modelling and simulating the fixation process in a given on simulations of the decision-making process. These simulations
+task. The development of such fixation models for individual par- are particularly costly in the case of the aDDM, whereby every trial
+ticipants, particularly in more complex choice scenarios with more represents a unique condition owing to the incorporation of trial-
+than two items or multiple item attributes, is often not trivial (for specific eye movement data.
+example, see ref. 20) or not of main interest to the researcher. The
+GLAM solely uses the observed distribution of gaze to the items Testing the presence of gaze biases in individuals. We fitted and
+over the course of the trial. In contrast, the aDDM is fitted to empir- compared two GLAM variants to the RT and choice data of each par-
+ical data using model simulations, which themselves rely on an ticipant to gauge the evidence in favour of the previously described
+accurate simulation of the fixation trajectories. As a side effect, this gaze bias mechanism and to quantify its strength on an individual
+ycneuqerF
+)tseb
+esoohc(P
+)sm(
+TR
+naeM
+ycneuqerF
+ecneulfni
+ezaG
+)eulav
+∣
+eciohc(P
+no
+ycneuqerF
+a b c
+10 10
+0 0
+10 10
+0 0
+10 10
+0 0
+10 10
+0 0
+2,000 4,000 6,000 8,000 –0.2 0.0 0.2 0.4 0.6 0.8 0 0.4 0.6 0.8 1.0
+Mean RT (ms) Gaze influence P(choose best)
+on P(choice ∣ value)
+d 1.0 e f
+8,000 0.8
+0.8 0.6
+6,000
+0.4
+0.6
+4,000
+0.2
+0.4 2,000 0.0
+Krajbich 2010 Folke 2016
+Krajbich 2011 Tavares 2017
+–0.2
+0 0
+0 2,000 4,000 6,000 8,000 –0.2 0.0 0.2 0.4 0.6 0.8 0 0.4 0.6 0.8 1.0
+Mean RT (ms) Gaze influence P(choose best)
+on P(choice ∣ value)
+Fig. 2 | Individual differences in the three studied behavioural metrics and their associations. a–c, Distributions of individuals’ mean RT (a), gaze
+influence (mean increase in choice probability for an item that is fixated longer than the others, after correcting for the influence of item value) (b) and
+probability of choosing the best item (c) per dataset. d, There is no association between mean RTs and the individual probability of choosing the best item
+(β = −0.19%, 95% HDI = [−3.08%, 2.87%] per second increase in RT). e, There is no association between gaze influence and the mean RT (β = −1 ms,
+95% HDI = [−33 ms, 33 ms]) per percentage increase in the gaze influence measure. f, An individual’s probability of choosing the best item decreases with
+increasing gaze influence (β = −0.34%, 95% HDI = [−0.71%, 0.08%] per percentage increase in the gaze influence measure). Each circle represents one
+individual participant. Grey lines represent the fixed effect from mixed-effects regression models with random slopes and intercepts for each dataset. The
+key in d is applicable to all panels.
+Table 1 | Description of the behavioural metrics of the included datasets
+Dataset Krajbich 2010 Krajbich 2011 Folke 2016 Tavares 2017 overall
+N 39 30 24 25 118
+Set size 2 3 3 2 –
+Choice domain Value-based Value-based Value-based Perceptual –
+Mean RT (ms) 2,192 ms (851 ms) 2,462 ms (1,298 ms) 5,414 ms (1,284 ms) 1,849 ms (601 ms) 2,844 ms (1,676 ms)
+P(choose best) 81% (6%) 72% (10%) 66% (12%) 86% (5%) 77% (12%)
+Gaze influence 19% (17%) 25% (14%) 35% (11%) 19% (9%) 24% (15%)
+Means are given, with respective standard deviations in parentheses.
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATuRe HumAN BeHAviouR Articles
+a This analysis also suggested a categorical distinction between
+the perceptual and value-based choice datasets (such that the com-
+parison more clearly favours the model with gaze bias in percep-
+tual decisions). However, these more extreme differences in relative
+model fit (difference in WAIC scores; Fig. 4b) could be driven by the
+fact that the perceptual dataset contains approximately nine times
+more trials per participant than the other datasets, allowing the
+comparison to be more decisive. Consequently, they cannot neces-
+sarily be attributed to the difference between perceptual and value-
+b based decision processing alone.
+Individual estimates of the gaze bias parameter γ in the full
+model ranged from −1.03 (strong gaze bias) to 0.97 (almost no gaze
+A bias), with a mean ± s.d. of 0.15 ± 0.39 (n = 118) (Supplementary
+i
+Fig. 1). Importantly, sizeable gaze biases were present for all data-
+sets (across choice domains and set sizes), with mean ± s.d. values
+c of 0.26 ± 0.48 (Krajbich 2010, n = 39), 0.18 ± 0.41 (Krajbich 2011,
+Time n = 30), −0.017 ± 0.28 (Folke 2016, n = 24) and 0.08 ± 0.23 (Tavares
+d R 2017, n = 25). Note, however, that the order of datasets according to
+i
+γ estimates differs from their order based on the behavioural gaze
+p i influence measure (Fig. 2b and Table 1). This result demonstrates
+the conceptual difference between the behavioural measure and the
+model’s estimates of the latent gaze bias variable. While the behav-
+ioural measure aggregates instances of observed behaviour, the latent
+E
+i
+gaze bias γ describes the assumed underlying generative mechanism.
+We further probed the relationship between the difference in the
+Time
+models’ WAIC scores (which describe how much better the data of
+an individual is described by the full GLAM relative to the no-gaze-
+Fig. 3 | The GLAM. a–d, The GLAM describes the influence of gaze
+bias variant) and the three behavioural metrics. We did not find any
+allocation on the decision-making process in the form of a linear stochastic
+association between the differences in WAIC scores and mean RTs
+race. While participants look at the available choice options (a), an
+(β = 1 ms, 95% HDI = [−17 ms, 10 ms] per unit increase in WAIC
+absolute evidence signal A for each option in the choice set is computed
+i difference). However, both the probability of choosing the best item
+(b). The magnitude of this signal is dependent on the allocation of gaze,
+in a trial (Fig. 2c; β = 0.10%, 95% HDI = [−0.01%, 0.22%] per unit
+with lower magnitudes for options that are momentarily not fixated on.
+increase in WAIC difference; 95.9% of posterior density above 0)
+Absolute evidence signals are transformed into relative decision signals
+and the strength of participants’ influence of gaze on choice (Fig. 2b;
+(indicating relative item preferences) by computing the average absolute
+β = −0.21%, 95% HDI = [−0.42%, 0.01%] per unit increase in WAIC
+evidence signal for each item in the trial (broken lines in b) and computing
+difference, 96.4% of the posterior density below 0) varied system-
+the difference between each of these averages and the maximum of the
+atically with the WAIC differences. The full GLAM therefore out-
+other two. The GLAM assumes an adaptive representation of these relative
+performed the no-bias variant, particularly for individuals with low
+evidence signals that is maximally sensitive to small differences in the
+choice accuracies and a strong influence of gaze on their choices.
+relative decision signals. To this end, a logistic transform is applied (c). The
+Taken together, these findings provide strong empirical evidence
+resulting scaled relative evidence signals determine the drift terms R of
+i to indicate that a gaze bias mechanism is present for most partici-
+the relative evidence accumulators E in the stochastic race (d). A choice
+i pants. Importantly, the extent to which the accumulation process
+for an option is made as soon as the accumulated relative evidence E
+i was influenced by gaze, as captured by individual gaze bias (γ) esti-
+reaches a choice threshold. The stochastic race provides first-passage time
+mates, showed nontrivial individual differences.
+distributions p, describing the likelihood of each item being chosen at each
+i
+time point. For a more detailed model description, see the “GLAM details”
+Probing the functional form of individuals’ gaze bias. We also
+section. Colours indicate choice alternatives.
+compared the gaze bias mechanism implemented in the GLAM
+against another variant that included an additive effect of gaze on
+choice behaviour (see also ref. 4; for a detailed description of this
+level. The first is a full GLAM variant (with gaze bias) with free variant, see Supplementary Methods 2). This comparison revealed
+parameters v, γ, σ and τ. This model allowed the gaze bias parameter that similar proportions of participants were better described
+γ to vary freely between individuals. The second is a no-gaze-bias by either model variant, with an additional group of participants
+GLAM variant, whereby the gaze bias parameter γ was fixed to 1 whose choice behaviour was described similarly well by both vari-
+(resulting in no influence of gaze on the accumulation process). ants (Supplementary Fig. 2a). We therefore concluded that there
+The two models differ in their complexity. The full model has is not a ‘winning’ gaze bias mechanism that we can identify across
+one more free parameter and can therefore be expected to provide a individuals. Model simulations also revealed that both variants
+better absolute fit to the data. We used the widely applicable infor- described participants’ response behaviour similarly well and mim-
+mation criterion (WAIC)34 to perform model comparisons at the icked each other considerably in their predictions, both on the
+level of the individual, as it includes a penalty for model complexity. individual (Supplementary Fig. 2b–d) and group-averaged level
+Lower WAIC scores indicate a better model fit, accounting for dif- (Supplementary Fig. 3). The variants’ gaze bias estimates were also
+ferences in model complexity. highly correlated (Spearman’s ρ(117) = −0.86, P < 0.001). Therefore,
+Overall, the full GLAM fitted 109 out of 118 (92%) participants we decided to continue using the original multiplicative variant, as
+better than the no-gaze-bias variant. Within each dataset, the data multiplicative effects have received more empirical support in the
+of 79% (Krajbich 2010), 97% (Krajbich 2011), 100% (Folke 2016) literature9–11,20,21,35–37. Importantly, however, the results and conclu-
+and 100% (Tavares 2017) of the participants were better described sions of our study would not change if we had used the additive
+by the full GLAM (Fig. 4a). variant instead (Supplementary Fig. 2). Further distinguishing these
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATuRe HumAN BeHAviouR
+100
+80
+60
+40
+20
+0
+variants would ideally require choice datasets that include both −13.20%] difference between the observed and predicted data),
+appetitive and aversive choice options (positive and negative val- resulting in no association between the predicted and empirical
+ues, respectively), as the two mechanisms’ predictions diverge more data in our gaze influence measure. This illustrates the inferiority of
+clearly in these choice settings (for example, a multiplicative effect the restricted model. The full model further accurately captured the
+would predict that a longer gaze towards an aversive item should distribution of RTs within and across individuals (Supplementary
+reduce its probability of being chosen, whereas an additive effect Figs. 5 and 6).
+would predict the opposite). Overall, these results show that the full model with gaze bias
+outperformed the restricted model in accurately predicting the par-
+Predicting individual choice behaviour. We found that in a rela- ticipants’ empirical choices, as it also captured empirical choice pat-
+tive model comparison, the data of most participants were better terns that are driven by gaze and not solely by the values of the items.
+described by the full model with a gaze bias mechanism compared
+with a restricted variant with no gaze bias (γ = 1; Fig. 4). However, Model parameters explain individual choice behaviour. We found
+this analysis did not take into account whether the model with bias that the full model with gaze bias accurately predicted individuals’
+also accurately predicts individuals’ behaviour on an absolute level. response behaviour. Next, we tested whether the model’s param-
+To test this, we used both model variants to simulate response data eters are able to explain variability in participants’ choice behaviour.
+for each individual. This time, however, we split the data into even- Again, we used mixed-effects models to predict the three behav-
+and odd-numbered trials. We then used all even trials to estimate ioural metrics in the odd-numbered trials from the parameters
+individual model parameters. Subsequently, we predicted choices estimated from the even-numbered trials (Fig. 6). We found that
+and RTs for all odd-numbered trials, thereby comparing model pre- v (velocity parameter) scaled logarithmically with the participants’
+dictions to data that did not inform the parameter estimates. We mean RT (Fig. 6a; β = −0.79 log(ms), 95% HDI = [−0.85 log(ms),
+note, however, that even- and odd-numbered trials from the same −0.71 log(ms)] per unit increase in log(v)). We did not find a
+participant are not fully independent from one another. meaningful relationship between σ estimates and the probability of
+To assess the quality of the fit of both models’ predictions to the choosing the best item (β = −0.23%, 95% HDI = [−2.32%, 1.25%]
+empirically observed data across datasets, we performed the follow- per 0.001 increase in σ), even though the σ parameter determines
+ing test. For each model and each behavioural measure, we computed the magnitude of noise in the accumulation process. We also found
+a mixed-effects regression, regressing the respective measure onto a that γ estimates predicted the strength of participants’ gaze influence
+binary variable, which indicates whether each value on this measure on choice probability (Fig. 6b; β = −26.59%, 95% HDI = −37.10%,
+comes from the empirically observed data or from the model simu- −17.24% per unit increase in γ).
+lations. If the fixed-effects estimate of the indicator variable differed Additionally, we found that γ (gaze bias) estimates relate to par-
+from 0, model predictions deviate meaningfully from observed data ticipants’ probabilities of choosing the best item (Fig. 6c; β = 12.65%,
+across datasets. Overall, the full model accurately predicted partici- 95% HDI = [−3.19%, 28.84%] per unit increase in γ; 94.5% of the
+pants’ RTs (Fig. 5a; β = −9 ms, 95% HDI = [−410 ms, 344 ms] differ- posterior density estimates were greater than 0). Thereby, stronger
+ence between the observed and predicted data), the probability of gaze biases (smaller γ) were associated with more choices inconsis-
+choosing the best item (Fig. 5b; β = −2.22%, 95% HDI = [−7.03%, tent with the value of the items. This relationship can be explained
+2.30%] difference between the observed and predicted data) as well as follows: the gaze bias parameter lets the model bias the choice
+as the strength of their gaze influence (Fig. 5c; β = −2.20%, 95% process according to the distribution of gaze between items. That
+HDI = [−8.25%, 4.21%] difference between the observed and pre- is, with a strong gaze bias, the model’s predictions are strongly
+dicted data). The full model also accurately recovered the observed dependent on the distribution of gaze, and a gaze distribution that
+associations between the three behavioural metrics (for a compari- is random with respect to the value of the items then leads to more
+son, see Fig. 2 and Supplementary Fig. 4). The no-gaze-bias variant random choices. Conversely, the model’s predictions are indepen-
+predicted the participants’ individual mean RTs (Fig. 5d; β = 15 ms, dent of gaze when no gaze bias is present. The model then neglects
+95% HDI = [−355 ms, 413 ms] difference between the observed and gaze and predicts choices solely driven by the values of the item.
+predicted data) and the probability of choosing the best item (Fig. 5e; To further probe the robustness of this association between gaze
+β = 0.13%, 95% HDI = [−4.43%, 4.83%] difference between the bias strength and probability of choosing the best item, we per-
+observed and predicted data) similarly well. However, the restricted formed three additional tests. First, we tested whether the correla-
+model by design cannot predict the influence of gaze on the par- tion of individual gaze bias estimates and individuals’ probability of
+ticipants’ choices (Fig. 5f; β = −22.72%, 95% HDI = [−30.81%, choosing the best item was also present and statistically meaningful
+stnapicitrap
+fo
+egatnecreP
+saib
+ezag
+htiw
+0
+–20
+–40
+–60
+–80 Krajbich 2010 Folke 2016
+Krajbich 2011 Tavares 2017
+–100
+Krajbich
+20 Kr1 a0
+jbich
+201 F1
+olke
+2 T0 a1 v6
+ares
+2017 Participant
+– )saib
+htiw(
+CIAW
+)saib
+tuohtiw(
+CIAW
+a b
+Fig. 4 | Individual relative model comparison between the full GLAM and a restricted no-gaze-bias GLAM variant. a, Across datasets, the response
+behaviour of most individuals is better described by the full model with a gaze bias (given by the lowest score on the WAIC). b, Individual WAIC
+differences between the full and restricted GLAM variant. Negative differences indicate better fits of the full model. Note that the y axis in b is truncated to
+better show small differences. The lowest WAIC difference was −400.64.
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATuRe HumAN BeHAviouR Articles
+1.0
+0.8
+8,000
+0.6
+0.8 6,000
+0.4
+4,000 0.6 0.2
+2,000 0.0
+0.4
+–0.2
+0 0
+0 2,0004,0006,0008,000 0 0.4 0.6 0.8 1.0 –0.2 0.0 0.2 0.4 0.6 0.8
+Observed mean RT (ms) Observed P(choose best) Observed gaze influence
+on P(choice ∣ value)
+Observed mean RT (ms) Observed P(choose best) Observed gaze influence
+on P(choice ∣ value)
+within each of the four datasets. The relationship is present in individuals with a weak association. This effect would then dimin-
+three out of the four included datasets (Krajbich 2010: Spearman’s ish, however, in the later stages of the trial (in which fixations are
+ρ(38) = 0.15, P = 0.36; Krajbich 2011: Pearson’s r(29) = 0.62, driven more by item value). To establish whether this relationship
+P < 0.001; Folke 2016: Pearson’s r(23) = 0.75, P < 0.001; Tavares 2017: also holds later in the trial, we repeated our analyses after discard-
+Pearson’s r(24) = 0.41, P = 0.04). Second, we ascertained that this ing first fixations in each trial (and trials in which only one fixation
+relationship is not determined by first trial fixations only. First trial was made). Note that this analysis did not include the Folke 2016
+fixations have been shown to be less influenced by item value9,10 and dataset, which only contains trial-aggregated gaze data, and thus did
+more driven by other factors, such as screen position (for example, not allow us to remove first fixation data. Importantly, the relation-
+first fixations are often directed towards items in the upper left por- ship between individuals’ gaze bias strength and their probability of
+tion of the screen, irrespective of the value of that item). One could choosing the best item was still present and statistically meaningful
+therefore hypothesize that individuals with a strong association of (β = 8.78%, 95% HDI = [0.14%; 17.08%] increase in probability of
+gaze and choice are more prone to choosing the first item seen in a choosing the best item per unit increase in γ; 97.3% of the poste-
+trial (and thereby less likely to choose the best item) compared with rior density estimate was greater than 0). Third, to ensure that the
+)tseb
+esoohc(P
+detciderP
+)tseb
+esoohc(P
+detciderP
+ecneulfni
+ezag
+detciderP
+ecneulfni
+ezag
+detciderP
+)eulav
+∣ eciohc(P
+no
+)eulav
+∣ eciohc(P
+no
+1.0
+0.8
+8,000
+0.6
+0.8 6,000
+0.4
+4,000 0.6 0.2
+2,000 0.0
+0.4
+–0.2
+0 0
+0 2,0004,0006,0008,000 0 0.4 0.6 0.8 1.0 –0.2 0.0 0.2 0.4 0.6 0.8
+MALG
+saib
+oN
+)sm(
+TR
+naem
+detciderp
+)sm(
+TR
+naem
+detciderp
+a b c
+Krajbich 2010
+Krajbich 2011
+Folke 2016
+Tavares 2017
+d e f
+Fig. 5 | Individual out-of-sample predictions of behavioural metrics for all odd-numbered trials. a–c, The full model with gaze-bias variant accurately
+predicts individuals’ mean RT (a), probability of choosing the best item (b) and influence of gaze on choice probability (c). d–f, While the no-gaze-bias
+variant also accurately predicts individuals’ mean RT (d) and probability of choosing the best item (e), it fails to accurately capture individuals’ influence
+of gaze on choice probability (f). See the “Predicting individual choice behaviour” section for the corresponding statistical analysis. Model predictions are
+simulated using parameter estimates obtained from individual fits on even-numbered trials (for more details on the simulation procedures, see the “Model
+simulations” section).
+9.0
+8.5
+8.0
+7.5
+7.0
+6.5
+0
+–11 –10 –9
+)sm(
+TR
+naem
+gol
+0.8
+0.6
+0.4
+0.2 Krajbich 2010
+Krajbich 2011
+Folke 2016 0.0
+Tavares 2017
+–1 0 1 –1 0 1
+̭ ̭ γ γ
+no
+ecneulfni
+ezaG
+)eulav
+∣
+eciohc(P
+)tseb
+esoohc(P
+a b c 1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0
+log v̭
+Fig. 6 | Associations between individuals’ response behaviour in the odd-numbered trials and the model parameters estimated from the even-
+numbered trials. a, log-transformed mean RTs decrease with increasing log-transformed v estimates (β = −0.79 log(ms), 95% HDI = [−0.85 log(ms),
+−0.71 log(ms)]). b, Behavioural gaze influence decreases with increasing γ estimates (β = −26.59%, 95% HDI = [−37.10%, −17.24%]). c, Individuals’
+probability of choosing the best item increases with increasing γ estimates (β = 12.65%, 95% HDI = [−3.19%, 28.84%] per unit increase in γ; 94.5% of the
+posterior density estimate were greater than 0).
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATuRe HumAN BeHAviouR
+relationship between the estimated gaze bias strength (γ) and indi- cific predictions, which will have higher predictive accuracy owing
+viduals’ probability of choosing the best item is not dependent on to the positive relationship between gaze and choice. Conversely, a
+the specific formulation of the gaze bias mechanism in the GLAM, stochastic choice model without a gaze bias mechanism will make
+we also established that this association remains statistically mean- probabilistic, but identical, predictions for two such trials. Previous
+ingful when using γ estimates from the additive variant instead work has also shown a higher influence of gaze on choice in trials in
+(β = −0.54%, 95% HDI = [−0.98%, −0.06%] per unit increase in which individuals did not have strong preferences among the alter-
+γ ; 97.8% of the posterior density estimate were greater than 0). natives19, suggesting that decision models with a gaze bias mecha-
+additive
+nism will be particularly useful in these situations.
+Discussion Our analyses also confirmed the need to account for individual
+We investigated individual differences in the influence of gaze variability in model parameters, as we found substantial variability
+allocation on choice behaviour by analysing four previously pub- across individuals in the influence of gaze on choice that was hid-
+lished datasets6,9,10,21, in total including 118 individuals, two choice den in the group-level analyses. Given that the influence of gaze on
+set sizes (two- and three-alternative) and two choice domains choice is variable among individuals, a single gaze bias parameter γ
+(value-based and perceptual). Across datasets, we found an over- for the whole group would not fit all individuals well, and therefore
+all positive behavioural relationship between gaze and choice (with result in inferior predictive performance of the model. On the one
+a longer gaze increasing choice probability). The strength of this hand, individuals whose link between gaze allocation and choice
+relationship, however, was highly variable across individuals. To behaviour is weaker than the group average would falsely be pre-
+better understand the underlying computational mechanism, we dicted to make choices less consistent with item values, and driven
+proposed a model called GLAM, which is inspired by the multial- more by looking behaviour. On the other hand, predictions for indi-
+ternative aDDM9 and can be used to study gaze biases at the level viduals’ choices with a stronger link than the group average would
+of the individual. The GLAM assumes that individuals accumulate not contain enough influence of gaze. Accounting for individual
+evidence in favour of each available item and make a choice as soon differences in the link between gaze allocation and choice behav-
+as the cumulative evidence for one item reaches a choice thresh- iour opens important avenues for future research that focus on the
+old. Importantly, the accumulation process is biased by gaze behav- specific determinants of these differences. For example, are these
+iour, with discounted accumulation rates for unattended items. differences best characterized as a trait (stable within a person, but
+The model is statistically and computationally tractable, making variable between persons, as suggested in ref. 40), a state (variable
+it readily extendable to novel choice tasks and research questions. within a person, between different situations or contexts) or both
+Generally, the GLAM can be seen as a way to sidestep the complex (variable between persons and contexts)?
+problem of simulating individual fixation trajectories. Although Despite a wealth of evidence exploring the computational
+researchers have started to explore generative fixation models mechanisms underlying simple choice behaviour and its link to
+in simple decision-making tasks (for example, see ref. 20), this is gaze allocation3,4,9–11,14,20,23, most of this work, and the associated
+often not feasible or not of main interest to researchers trying to computational frameworks (for example, see ref. 26), is difficult to
+understand the influence of gaze allocation on the decision-making extend to choice scenarios involving more than two choice alter-
+process. Here, the GLAM provides a tractable, but simplified, alter- natives. For example, a previous study4 explored the link between
+native to the aDDM that solely requires trial-level statistics, namely gaze behaviour and the choice mechanism underlying binary value-
+overall gaze proportions (next to the RTs, choices and item values). based choices. To model the decision process, the authors used a
+We then used the GLAM to perform three rigorous tests of gaze hierarchical variant of the DDM, combined with a trial-averaged
+bias effects at the level of the individual. First, we formally tested gaze-weighting mechanism similar to the GLAM. This model is
+whether individuals’ behaviour was better described by a model strictly limited to binary decisions, as it describes the decision-
+with or without gaze bias. In this comparison, a large majority of making process as a single accumulator that diffuses between two
+participants (109 out of 118) were better described by the full model decision bounds (each bound representing one of the two choice
+with gaze bias than by a restricted variant without. Second, we estab- alternatives). Therefore, this model cannot be used to study choices
+lished that the full model accurately predicts observed behavioural between more than two alternatives. Furthermore, their hierar-
+differences between individuals, namely, in the RT, the probability chical estimation of the model’s parameters is solely focused on
+of choosing the best item and the observed influence of gaze allo- obtaining better group-level estimates and not on better capturing
+cation on choice behaviour. Third, we tested how individuals’ gaze individuals’ choice behaviour. As a result, they neither analyse nor
+bias estimates relate to their response behaviour. The strength of report individual parameter estimates or any associations of such
+individuals’ gaze biases was predictive of both the strength of indi- estimates with individuals’ response behaviour. Our work thereby
+viduals’ association of gaze and choice and individuals’ probabil- expands on their findings in three meaningful ways. First, our mod-
+ity of choosing the best item (stronger gaze biases were associated elling approach can be extended to an unlimited amount of choice
+with more choices that were inconsistent with item values). This alternatives. Second, our analyses, decision modelling and findings
+identifies another source of variability among individuals’ ability to focus explicitly on the individual level, leading to insights into the
+choose the best item from a choice set. Previously, these differences association of individuals’ association of gaze allocation and choice
+were mostly attributed to differences in generic accumulation noise behaviour. In particular, we found that individuals’ choice behav-
+parameters38,39, obscuring further insight into the mechanisms driv- iour is better described by a model with a gaze bias compared with
+ing these individual differences. one without, and that individuals’ gaze bias estimates predict their
+Thereby, our approach goes beyond previous analyses of indi- behaviour on several measures (Fig. 6). Third, our analyses span
+viduals’ gaze biases. For example, the Krajbich 2010 study10 reported both multiple choice set sizes and choice domains.
+individual gaze bias estimates in supplementary figure 11 of their While we have shown that the GLAM accurately captures indi-
+paper. These estimates, however, do not result from non-restricted viduals’ choice behaviour in choice situations with two and three
+model fits and also leave open the possibility that individuals’ choice alternatives, it also extends to choices involving many more
+behaviour might be better described by a model without gaze bias. options, scenarios that we mostly encounter in our everyday lives.
+One reason for the superior performance of models with a gaze Vending machines, for example, can easily display up to 20 items.
+bias is their use of individual trial gaze data, which allows them to We assume that in these multialternative choice situations, both gaze
+make different predictions across otherwise identical choice sets. and individual differences will play a prominent role. That is, indi-
+Leveraging a gaze bias mechanism lets these models make trial-spe- viduals when confronted with large choice sets do not always look at
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATuRe HumAN BeHAviouR Articles
+all available items (for example, see ref. 41). A choice model that only trial: an unbiased state, when an item is currently looked at, and a biased state,
+considers item values will therefore fail to accurately predict individ- when gaze is directed towards a different item. Therefore, on average, A i is a linear
+combination of two terms weighted by relative gaze g according to equation (3):
+uals’ choice behaviour. Conversely, a model that includes informa- i
+tion about individuals’ gaze distribution during decision formation A i=g ir i+(1−g i)γr i (3)
+will outperform such naive models, because it will better account
+for the set of items that individuals actually consider for a choice. Here, γ (γ ≤ 1) is the gaze bias parameter that determines the strength of the
+In addition, we assume behavioural differences between individu- downweighting during the biased state. If γ = 1, there is no difference between the
+biased and unbiased state, producing no gaze bias. If γ < 1, the absolute evidence
+als to increase with increasing choice set size. Some individuals, for
+signal is discounted, resulting in a gaze bias. If γ < 0, the sign of the evidence signal
+example, may look at only a few of the available items before mak- changes, thereby leaking evidence, when the item is not fixated on. This leakage
+ing a choice, while others may spend a long time searching for the mechanism is supported by a recent empirical study22.
+most highly valued option (as indicated in a previous study41). To Importantly, by computing an average absolute evidence signal over the two
+states (equation (3)), each accumulator E has constant drift, allowing the use of
+understand whether there is a common choice mechanism underly- i
+an analytical solution for its first passage time density (equation (6)). Thereby, the
+ing these different types of choice behaviour, it is necessary to test
+GLAM is statistically and computationally tractable.
+the ability of a model to capture individual choice patterns. Note that the range of possible R* (equation (2)) depends on the participants’
+i
+Recently, it was also shown that single-trial electroencepha- use of the item value scale. That is, if the item values r only cover a narrow range
+i
+lography components reflecting attention in simple perceptual of possible values on the given scale, relative evidence values R i* will likewise be
+small, whereas they will be large if the participant utilizes the entire range of the
+decision-making tasks explain the variance in single-trial evidence
+value scale. The GLAM assumes an adaptive representation of the relative evidence
+accumulation rates of the decision-making process42 and that vari-
+signals that is compensating for the participants’ use of the value scale and thereby
+ability in these components can explain behavioural differences sensitive to marginal differences in the relative evidence, particularly to values
+between individuals43. Two recent studies also provided empiri- close to 0 (where the absolute evidence signal for one item is only marginally
+cal evidence that value-driven activity in the orbitofrontal cortex different to the maximum of all others). To this end, a logistic transform s(x), with
+scaling parameter τ is applied as follows:
+of monkeys is modulated by fixation location when they viewed
+reward-associated visual cues in a free-viewing paradigm44,45. 1
+s(x)= (4)
+Together, these studies provide neurobiological evidence of the 1+exp(−τx)
+influence of visual fixations on the process of decision formation.
+Ultimately, a better understanding of these computations will be
+central to building holistic models of the choice process and for
+R i=s(R i*) (5)
+advancing existing choice frameworks. In addition, it might also The first passage time density f(t) of a single linear stochastic accumulator E,
+i i
+help us to better understand the origin of the behavioural variability with decision boundary b, is given by the inverse Gaussian distribution46 as follows:
+that we observe within and between individuals as well as the spe-
+cific functional form of the underlying computational mechanisms f(t)=  λ  1 2 exp −λ(t−μ)2  , withμ= b andλ=b2 (6)
+linking gaze allocation and choice behaviour. i 2πt3   2μ2t   vR i σ2
+However, this density does not take into account that there are multiple
+Methods
+accumulators in each trial racing towards the same boundary. As soon as any of
+Datasets, tasks, procedure and preprocessing. We reanalysed four datasets these accumulators crosses the boundary, a choice is made and the trial ends. For
+previously published by Krajbich and colleagues10, Krajbich and Rangel9, Folke and this reason, f(t) must be corrected for the probability that any other accumulator
+i
+colleagues6 and Tavares and colleagues21. An overview of the corresponding tasks crosses the boundary first. The probability that a single accumulator crosses the
+and procedures is given in Fig. 1 and in the “Datasets and task overview” section. A boundary before t is given by its cumulative distribution function F(t) as follows:
+i
+more detailed description of the datasets can be found in Supplementary Methods 2
+or in the original publications. F i(t)=Φ    tλ   t μ−1  +exp   2 μλ Φ   − λ t    μt +1   (7)
+Additional processing. The original studies used different scales of item value
+(that is, liking rating between −10 and +10, willingness-to-pay, angular distance
+to target line segment). We linearly rescaled all values to a common scale from 1 to
+where Φ(x) is the standard normal cumulative distribution function. Hence, the
+joint probability p(t) that accumulator E crosses b at time t, and that no other
+10 so that model parameters are comparable across datasets. For the Tavares 2017 i i
+accumulator E has reached b first, is given by equation (8):
+data, values were rescaled so that higher values indicate lower angular distance to i
+the target. Furthermore, for each trial, we computed relative gaze g as the sum of
+gazes towards this item, divided by the total sum of gazes to all
+itemi
+s in that trial
+p i(t)=f i(t)∏(1−F i(t))
+(8)
+for each item. J
+Importantly, all of the GLAM’s parameters could be recovered to a satisfying
+GLAM details. The GLAM belongs to the class of linear stochastic race models32,33.
+degree without bias (see Supplementary Methods 3 for detailed a procedure and
+It assumes accumulation of noisy evidence in favour of each alternative i, and that
+results).
+choices are determined by the first accumulator that reaches a common boundary
+b (which we set to 1). In particular, we define the accumulated relative evidence E
+i GLAM parameter estimation. All models were implemented in a Bayesian
+in favour of alternative i, as a stochastic process that changes at each time point t
+framework using the Python library PyMC347. The full GLAM has four parameters
+according to equation (1):
+(v, γ, σ, τ). We placed uninformative, uniform priors between sensible limits on all
+E i(t)=E i(t−1)+vR i+N(0,σ2), withE i(0)=0 (1) parameters as follows:
+v~Uniform(1−10,0.01)
+E consists of two separate components: a drift term R and zero-centred normally
+dii
+stributed noise with standard deviation σ. The
+overai
+ll speed of the accumulation
+γ~Uniform(−10,1)
+is governed by the velocity parameter v. The drift term R
+i
+describes the average σ~Uniform(1−10,0.02)
+amount of relative evidence for item i that is accumulated at each time point t. τ~Uniform(0,5)
+We define the relative evidence R* as the difference in the stationary absolute
+i
+evidence signal A i of item i and the maximum absolute evidence of all other items J The γ parameter has a natural upper bound at 1 (no gaze bias). The τ parameter
+according to equation (2): has a natural lower bound at 0 (no sensitivity to differences in relative evidence R*).
+i
+The GLAM variant without gaze bias used the specification of the absolute
+R i*=A i−max J(A J) (2)
+evidence signal A i from the full variant (equation (3)) and fixed γ at a value of 1,
+resulting in no influence of gaze on the drift term.
+The gaze bias mechanism is implemented in the absolute evidence signal A. To reduce the influence of erroneous responses (for example, when the
+i
+Similar to the aDDM, absolute evidence signals are assumed to be proportional participant presses a button by accident or has a lapse of attention during the task)
+to the item value r, and, crucially, switch between two different states during the on parameter estimation, we explicitly included a model of contaminant processes
+i
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATuRe HumAN BeHAviouR
+in all estimation procedures. In line with existing DDM modelling toolboxes48, we 4. Cavanagh, J. F., Wiecki, T. V., Kochar, A. & Frank, M. J. Eye tracking and
+assumed a fixed 5% rate of erroneous responses, which we model as a participant- pupillometry are indicators of dissociable latent decision processes. J. Exp.
+specific uniform likelihood distribution u(t). This contaminant likelihood Psychol. Gen. 143, 1476–1488 (2014).
+s
+describes the probability of a random choice for any of the N available choice items 5. Fiedler, S. & Glöckner, A. The dynamics of decision making in risky choice:
+at a random time point in the interval of empirically observed RTs as follows (see an eye-tracking analysis. Front. Psychol. 3, 335 (2012).
+also refs. 48,49): 6. Folke, T., Jacobsen, C., Fleming, S. M. & De Martino, B. Explicit
+representation of confidence informs future value-based decisions. Nat. Hum.
+1
+u s(t)=
+N(max(rt s)−min(rt s))
+(9)
+7.
+GBe löha ckv.
+n
+1 e,
+r
+,0 A00
+.
+2
+&
+( H20 e1 r7 b) o.
+ld, A.-K. An eye-tracking study on information
+processing in risky decisions: evidence for compensatory strategies based on
+The resulting choice likelihood is then given by the following: automatic processes. J. Behav. Decis. Mak. 24, 71–98 (2011).
+8. Konovalov, A. & Krajbich, I. Gaze data reveal distinct choice processes
+l i(t)=0.95⋅p i(t)+0.05⋅u s(t) (10) underlying model-based and model-free reinforcement learning. Nat.
+Commun. 7, 12438 (2016).
+Models were fit using Markov–Chain–Monte–Carlo sampling. We used the 9. Krajbich, I. & Rangel, A. Multialternative drift-diffusion model predicts the
+default implementation of the No-U-Turn-Sampler (NUTS50) in PyMC 3.4.1. relationship between visual fixations and choice in value-based decisions.
+We sampled two chains with 500 tuning samples that were discarded, and 2,000 Proc. Natl Acad. Sci. USA 108, 13852–13857 (2011).
+posterior samples to estimate the model parameters. If the sampler did not 10. Krajbich, I., Armel, C. & Rangel, A. Visual fixations and the computation
+converge as indicated by the Gelman–Rubin statistic (|Rˆ – 1| < 0.05) or if the and comparison of value in simple choice. Nat. Neurosci. 13,
+number of effective samples was low (<100), all of this participant’s models were 1292–1298 (2010).
+re-estimated using more robust but less efficient Metropolis sampling (two chains, 11. Krajbich, I., Lu, D., Camerer, C. & Rangel, A. The attentional drift-diffusion
+with 10,000 samples each). Again, convergence was diagnosed using the Gelman– model extends to simple purchasing decisions. Front. Pyschol. 3, 193 (2012).
+Rubin statistic. Convergence was achieved for all models. Reported parameter 12. Pärnamets, P. et al. Biasing moral decisions by exploiting the dynamics of eye
+estimates are maximum a posteriori estimates. gaze. Proc. Natl Acad. Sci. USA 112, 4170–4175 (2015).
+13. Roe, R. M., Busemeyer, J. R. & Townsend, J. T. Multialternative decision field
+Model simulations. Choice and RT data were simulated from the GLAM theory: a dynamic connectionist model of decision making. Psychol. Rev. 108,
+according to the following procedures. Each trial in the left-out dataset (all 370 (2001).
+odd-numbered trials) was repeated 50 times. For every trial, the model used the 14. Shimojo, S., Simion, C., Shimojo, E. & Scheier, C. Gaze bias both reflects and
+observed item values and gaze distributions. With a fixed rate of 5% the simulation influences preference. Nat. Neurosci. 6, 1317–1322 (2003).
+produced a random choice and RT between the participant’s minimum and 15. Stewart, N., Hermens, F. & Matthews, W. J. Eye movements in risky choice.
+maximum observed RT (see equations (9) and (10)). With a rate of 95% the choice J. Behav. Decis. Mak. 29, 116–136 (2016).
+and RT were simulated from the GLAM. 16. Stewart, N., Gächter, S., Noguchi, T. & Mullett, T. L. Eye movements in
+strategic choice. J. Behav. Decis. Mak. 29, 137–156 (2016).
+Parametric statistical tests. Assumptions of normality and homoscedasticity were 17. Vaidya, A. R. & Fellows, L. K. Testing necessary regional frontal contributions
+tested for all reported parametric tests. If the normality assumption was violated, to value assessment and fixation-based updating. Nat. Commun. 6,
+we report results from non-parametric tests (Spearman’s ρ, Mann–Whitney U). 10120 (2015).
+We report rank-biserial correlations r as effect size measures for U-tests. If the 18. Tsetsos, K., Chater, N. & Usher, M. Salience driven value integration explains
+homoscedasticity assumption was violated, we report results from the more robust decision biases and preference reversal. Proc. Natl Acad. Sci. USA 109,
+Welch’s t-test. All tests were two-tailed. 9659–9664 (2012).
+19. Milosavljevic, M., Navalpakkam, V., Koch, C. & Rangel, A. Relative visual
+Mixed-effects modelling. All mixed-effects models reported in the manuscript saliency differences induce sizable bias in consumer choice. J. Consum.
+across datasets were implemented and estimated using the bambi Python library51. Psychol. 22, 67–74 (2012).
+Bambi automatically generates weakly informative priors for all model terms 20. Towal, R. B., Mormann, M. & Koch, C. Simultaneous modeling of visual
+by default52. We sampled two chains, with 20,000 samples each, using NUTS.
+saliency and value computation improves predictions of economic choice.
+Convergence was diagnosed using the Gelman–Rubin criterion (|Rˆ – 1| < 0.05) for Proc. Natl Acad. Sci. USA 110, E3858–E3867 (2013).
+all analyses. We declare fixed effects as statistically meaningful either when the 95%
+21. Tavares, G., Perona, P. & Rangel, A. The attentional drift diffusion model of
+HDI excludes zero or when 95% of the posterior density is above (below) zero (see
+simple perceptual decision-making. Front. Neurosci. 11, 468 (2017).
+also ref. 4). In the latter case, we also report the proportion of the posterior mass
+22. Ashby, N. J. S., Jekel, M., Dickert, S. & Glöckner, A. Finding the right fit: a
+above (below) zero, directly indicating the posterior probability of the effect being
+comparison of process assumptions underlying popular drift-diffusion
+larger (smaller) than zero (see also ref. 53).
+models. J. Exp. Psychol. Learn. Mem. Cogn. 42, 1982–1993 (2016).
+23. Fisher, G. An attentional drift diffusion model over binary-attribute choice.
+Software. All analyses were performed in Python, using the NumPy and SciPy54,
+Cognition 168, 34–45 (2017).
+Pandas55, Statsmodels56, PyMC347, bambi51 and Theano57 libraries. We used
+24. Gluth, S., Spektor, M. S. & Rieskamp, J. Value-based attentional capture
+Matplotlib58 for visualization.
+affects multi-alternative decision making. eLife 7, e39659 (2018).
+25. Ratcliff, R. A theory of memory retrieval. Psychol. Rev. 85, 59–108 (1978).
+Reporting Summary. Further information on research design is available in the
+26. Ratcliff, R., Smith, P. L., Brown, S. D. & McKoon, G. Diffusion decision
+Nature Research Reporting Summary linked to this article.
+model: current issues and history. Trends Cogn. Sci. 20, 260–281 (2016).
+27. Grandy, T. H., Lindenberger, U. & Werkle-Bergner, M. When group means
+Data availability fail: can one size fit all? Preprint at biorXiv https://doi.org/10.1101/126490
+All datasets are available at http://www.github.com/glamlab/gaze-bias-differences. (2017).
+The Folke 2016 dataset59 is originally available at figshare: https://doi.org/10.6084/ 28. Lewandowsky, S. & Farrell, S. Computational Modeling in Cognition: Principles
+m9.figshare.3756144.v2. and Practice (SAGE Publications, 2010).
+29. Hayes, K. J. The backward curve: a method for the study of learning. Psychol.
+Code availability Rev. 60, 269–275 (1953).
+All analyses and figures can be reproduced using the datasets, scripts and GLAM 30. Itti, L. & Koch, C. A saliency-based search mechanism for overt and covert
+resources that are available at http://www.github.com/glamlab/gaze-bias- shifts of visual attention. Vision Res. 40, 1489–1506 (2000).
+differences. 31. Becker, G. M., DeGroot, M. H. & Marschak, J. Measuring utility by a
+single-response sequential method. Behav. Sci. 9, 226–232 (1964).
+32. Tillman, G. The racing diffusion model of speeded decision making. Preprint
+Received: 4 December 2017; Accepted: 6 March 2019;
+at PsyArXiv https://doi.org/10.31234/osf.io/xuwbk (2017).
+Published: xx xx xxxx
+33. Usher, M., Olami, Z. & McClelland, J. L. Hick’s Law in a stochastic race
+model with speed–accuracy tradeoff. J. Math. Psychol. 46, 704–715 (2002).
+References 34. Vehtari, A., Gelman, A. & Gabry, J. Practical Bayesian model evaluation using
+1. Von Neumann, J. & Morgenstern, O. Theory of Games and Economic Behavior leave-one-out cross-validation and WAIC. Stat. Comput. 27, 1413–1432 (2017).
+(Princeton Univ. Press, 1944). 35. Lopez-Persem, A., Domenech, P. & Pessiglione, M. How prior preferences
+2. Luce, R. D. & Raiffa, H. Games and Decisions: Introduction and Critical determine decision-making frames and biases in the human brain. eLife 5,
+Survey (Wiley, 1957). e20317 (2016).
+3. Armel, K. C., Beaumel, A. & Rangel, A. Biasing simple choices by 36. Krajbich, I. Accounting for attention in sequential sampling models of
+manipulating relative visual attention. Judgm. Decis. Mak. 3, 396–403 (2008). decision making. Curr. Opin. Psychol. 29, 6–11 (2019).
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATuRe HumAN BeHAviouR Articles
+37. Smith, S. M. & Krajbich, I. Gaze amplifies value in decision making. Psychol. 56. Seabold, S. & Perktold, J. Statsmodels: econometric and statistical modeling
+Sci. 30, 116–128 (2019). with Python. In Proc. 9th Python in Science Conference (Eds van der Walt, S.
+38. Ratcliff, R., Thapar, A. & McKoon, G. Individual differences, aging, and IQ in & Millman, J.) 57–61 (SciPy, 2010).
+two-choice tasks. Cognit. Psychol. 60, 127–157 (2010). 57. The Theano Development Team. Theano: a Python framework for fast
+39. Ratcliff, R., Thapar, A. & McKoon, G. Aging and individual differences in computation of mathematical expressions. Preprint at arXiv https://arxiv.org/
+rapid two-choice decisions. Psychon. Bull. Rev. 13, 626–635 (2006). abs/1605.02688 (2016).
+40. Smith, S. M. & Krajbich, I. Attention and choice across domains. J. Exp. 58. Hunter, J. D. Matplotlib: a 2D graphics environment. Comput. Sci. Eng. 9,
+Psychol. Gen. 147, 1810–1826 (2018). 90–95 (2007).
+41. Reutskaja, E., Nagel, R., Camerer, C. F. & Rangel, A. Search dynamics in 59. Folke, T. Explicit representations of confidence informs future value-based
+consumer choice under time pressure: an eye-tracking study. Am. Econ. Rev. decisions. Figshare https://doi.org/10.6084/m9.figshare.3756144.v2(2016).
+101, 900–926 (2011).
+42. Nunez, M. D., Srinivasan, R. & Vandekerckhove, J. Individual differences in Acknowledgements
+attention influence perceptual decision making. Front. Psychol. 8, 18 (2015).
+The Junior Professorship of P.N.C.M. as well as the associated Dahlem International
+43. Nunez, M. D., Vandekerckhove, J. & Srinivasan, R. How attention influences
+Network Junior Research Group Neuroeconomics is supported by Freie Universität
+perceptual decision making: single-trial EEG correlates of drift-diffusion
+Berlin within the Excellence Initiative of the German Research Foundation (DFG).
+model parameters. J. Math. Psychol. 76, 117–130 (2017).
+Further support for P.N.C.M. is provided by the WZB Berlin Social Science Center.
+44. Hunt, L. T. et al. Triple dissociation of attention and decision computations
+F.M. is supported by the International Max Planck Research School on the Life Course
+across prefrontal cortex. Nat. Neurosci. 21, 1471 (2018).
+(LIFE). I.K. is funded by the National Science Foundation Career Award 1554837. The
+45. McGinty, V. B., Rangel, A. & Newsome, W. T. Orbitofrontal cortex value
+funders had no role in study design, data collection and analysis, decision to publish or
+signals depend on fixation location during free viewing. Neuron 90,
+preparation of the manuscript.
+1299–1311 (2016).
+46. Wald, A. Sequential Analysis (Courier Corp., 1973).
+Author contributions
+47. Salvatier, J., Wiecki, T. V. & Fonnesbeck, C. Probabilistic programming in
+Python using PyMC3. PeerJ Comput. Sci. 2, e55 (2016). A.W.T. and F.M. contributed equally to the manuscript and share first authorship. A.W.T.
+48. Wiecki, T. V., Sofer, I. & Frank, M. J. HDDM: hierarchical Bayesian and F.M. conceived of the GLAM, implemented all visualizations of the experimental
+estimation of the drift-diffusion model in Python. Front. Neuroinform. 7, procedures and performed all formal data analyses. A.W.T. and F.M. also co-wrote all
+14 (2013). software that was used in the data analyses that underlies the GLAM. A.W.T. and F.M.
+49. Ratcliff, R. & Tuerlinckx, F. Estimating parameters of the diffusion model: wrote the original draft of the manuscript, and I.K., H.R.H. and P.N.C.M. reviewed and
+Approaches to dealing with contaminant reaction times and parameter edited the manuscript. Funding for this work was acquired by P.N.C.M. The work was
+variability. Psychon. Bull. Rev. 9, 438–481 (2002). supervised by H.R.H. and P.N.C.M.
+50. Hoffman, M. D. & Gelman, A. The No-U-turn sampler: adaptively setting
+path lengths in Hamiltonian Monte Carlo. J. Mach. Learn. Res. 15, 1593–1623 Competing interests
+(2014). The authors declare no competing interests.
+51. Yarkoni, T. & Westfall, J. Bambi: a simple interface for fitting Bayesian mixed
+effects models. Preprint at OSF Preprints https://doi.org/10.31219/osf.io/rv7sn
+Additional information
+(2016).
+52. Westfall, J. Statistical details of the default priors in the Bambi library. Supplementary information is available for this paper at https://doi.org/10.1038/
+Preprint at arXiv https://arxiv.org/abs/1702.01201 (2017). s41562-019-0584-8.
+53. Kruschke, J. Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan Reprints and permissions information is available at www.nature.com/reprints.
+(Academic Press, 2014). Correspondence and requests for materials should be addressed to P.N.C.M.
+54. Oliphant, T. E. Python for scientific computing. Comput. Sci. Eng. 9,
+Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+10–20 (2007).
+published maps and institutional affiliations.
+55. McKinney, W. Python for Data Analysis: Data Wrangling with Pandas,
+NumPy, and IPython (O’Reilly Media, 2012). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NATuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2018
+Corresponding author(s): Peter N. C. Mohr
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistical parameters
+When statistical analyses are reported, confirm that the following items are present in the relevant location (e.g. figure legend, table legend, main
+text, or Methods section).
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+An indication of whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistics including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient) AND
+variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Clearly defined error bars
+State explicitly what error bars represent (e.g. SD, SE, CI)
+Our web collection on statistics for biologists may be useful.
+Software and code
+Policy information about availability of computer code
+Data collection No new data was collected in this study. Therefore, no software was used in the collection of the data.
+Data analysis All analyses were performed in Python 3.5.2, using the NumPy 1.13 and SciPy 1.0 (Van der Walt, Colbert & Varoquaux, 2011), Pandas
+0.21 (McKinney, 2010), Statsmodels 0.8 (Skipper & Perktold, 2010), PyMC 3.4.1 (Salvatier et al., 2016) and Theano 1.0.1 (Theano
+Development Team, 2016) libraries. We used Matplotlib 2.1.1 (Hunter, 2007) for visualization. For our modeling we used a custom code
+(http://www.github.com/glamlab/gaze-bias-differences).
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers
+upon request. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+2
+nature
+research
+|
+reporting
+summary
+April
+2018
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+All analyses and figures can be reproduced using the dataset, scripts and GLAM resources that are available at http://www.github.com/glamlab/gaze-bias-
+differences. The dataset from Folke et al. (Nat Hum Beh, 2016) is licensed under CC BY 4.0 and originally available under https://doi.org/10.6084/
+m9.figshare.3756144.v2.
+Field-specific reporting
+Please select the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/authors/policies/ReportingSummary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Our study includes choice, reaction time and eye tracking data collected from human participants in four previously published datasets.
+Research sample The dataset from Krajbich et al. (2010) contains data from 39 Caltech students. Only participants who self-reportedly regularly ate the
+snack foods used in the experiment and without food restrictions could participate. No information about participants' age or gender is
+provided in the original study.
+The dataset from Krajbich and Rangel (2011) includes data from 30 Caltech students. Only participants who self-reportedly regularly ate
+the snack foods used in the participants and without food restrictions could participate. No information about participants' age or gender
+is provided in the original study.
+The dataset from Folke et al. (2016) includes data from 24 participants (17 females, age 21-38). Participants were required to fast for 4
+hours before taking part in the experiment.
+The dataset from Tavares et al. (2017) includes data from 25 participants (10 female, mean age 23) which included Caltech students and
+staff as well as members of the surrounding community.
+Sampling strategy We have no information about the sampling strategies used in the original studies.
+Data collection The original studies recorded participants' choices and eye movements using a task presented on a computer. Eye movements were
+recorded using an eye tracker. We do not have any information about the experimenters presence in the room or their blindness to the
+research hypotheses.
+Timing We do not have any information about start and end of data collection in the original datasets.
+Data exclusions We did not exclude any data from the dataset that we obtained from the original authors.
+Non-participation We do not have any information about drop-outs or declined participation in the original datasets.
+Randomization We allocated data into separate groups once in our analysis, when performing an out of sample prediction exercise. Here, we split the
+data into a training and test data set, respectively including the even and odd numbered experiment trials.
+Reporting for specific materials, systems and methods
+3
+nature
+research
+|
+reporting
+summary
+April
+2018
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Unique biological materials ChIP-seq
+Antibodies Flow cytometry
+Eukaryotic cell lines MRI-based neuroimaging
+Palaeontology
+Animals and other organisms
+Human research participants
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics The dataset from Krajbich et al. (2010) contains data from 39 Caltech students. Only participants who self-reportedly regularly
+ate the snack foods used in the experiment and without food restrictions could participate. No information about participants'
+age or gender is provided in the original study.
+The dataset from Krajbich and Rangel (2011) includes data from 30 Caltech students. Only participants who self-reportedly
+regularly ate the snack foods used in the participants and without food restrictions could participate. No information about
+participants' age or gender is provided in the original study.
+The dataset from Folke et al. (2016) includes data from 24 participants (17 females, age 21-38). Participants were required to
+fast for 4 hours before taking part in the experiment.
+The dataset from Tavares et al. (2017) includes data from 25 participants (10 female, mean age 23) which included Caltech
+students and staff as well as members of the surrounding community.
+Recruitment We have no information about the recruitment process in the original studies.

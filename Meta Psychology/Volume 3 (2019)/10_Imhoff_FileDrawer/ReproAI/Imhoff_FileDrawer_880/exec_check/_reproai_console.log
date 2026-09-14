@@ -1,0 +1,36 @@
+ReproAI re-audit console log — Imhoff & Messer MP.2018.880 (file-drawer report)
+Engine: anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT
+Rules: REPRO_STANDARDS.md 2026.06.27 | Audit date: 2026-09-14
+Host: Windows/PowerShell 5.1; R 4.6.1; Python 3.8.10
+============================================================
+==== START (status: OK) ====
+[A] Confirmed identity (paper_extracted.txt): "In Search of Experimental
+    Evidence for Secondary Antisemitism: A File Drawer Report", Imhoff & Messer,
+    Meta-Psychology 2019 vol 3, DOI 10.15626/MP.2018.880, OSF 10.17605/OSF.IO/Z6SDM.
+    (Task prompt's guessed titles are NOT this article.)
+[B] OSF data recovery (live API 2026-09-14):
+    - z6sdm main + components enumerated; 8au5x "Data, Materials and Analysis" osfstorage EMPTY.
+    - FOLLOWED LINKED NODE -> ja3yx "Secondary Anti-Semitism": 6 data folders + author
+      dfg_as_study*_osf.sps analysis syntax + rawdata/, per study. Downloaded full 78MB zip.
+    => Prior audit's "data absent" P1 finding REFUTED (it missed the linked node).
+[C] Reimplementation (independent, R == Python on all primary values):
+    - exec_check/R/reimpl_raw.R  (log: exec_check/output/reimpl_raw_R.log)
+    - exec_check/R/anova_study12.R (SPSS-matching Type III sum-to-zero contrasts)
+    - exec_check/crosscheck_raw.py (log: exec_check/output/crosscheck_raw_py.log)
+    Seed: none needed (all closed-form; metafor REML deterministic).
+[D] Primary results reproduced EXACTLY (R=Python):
+    S1 interaction F=0.2746 p=.602 | implicit guilt t=0.932 df=81 p=.354 M3.25/3.06 |
+       cor bp r=.116 n44 p=.451 | stability r=.893
+    S2 bogus main F=0.046 p=.830 | interaction F=0.010 p=.919 | stability .57/.72
+    S3a/3b/3c warmth RM interaction F=0.026/.017/10.064 (p=.872/.897/.002) +
+       Table1 paired t=|2.89|/|1.11|/|4.49| (p=.006/.272/<.001), M(SD) exact
+    S4a t=-0.286 df98 p=.776 | S4b |t|=0.138 df194 p=.890 (analysed N=196)
+    S5 empathy |t|=1.531 df96 p=.129 | donation |t|=0.735 df46 p=.466
+    Meta (metafor REML): pooled g=-0.034 (se=.129, p=.79) ~0 ; Q=26.32 I2=71.9%
+[E] One statistic differs: Study 2 victim-group main F: reported 15.74 vs recomp 18.53
+    (both p<.001; eta2p .17/.168; conclusion unchanged) -> ADV-001 (P2).
+[F] Prose-vs-data N issues: Study 4b (recruited 196 vs 200 raw rows, analysed 196) and
+    Study 5 ("two deleted" yet N=98 evaluated) -> ADV-002 (P2); Study 3 "five (six+four)" -> ADV-003 (P2).
+[G] Meta Q/I2 rounding vs Table-1 rounded inputs -> ADV-004 (P3); S5 donation t magnitude
+    0.735->0.74 + sign orientation -> ADV-005 (P3).
+==== END (status: OK) ====

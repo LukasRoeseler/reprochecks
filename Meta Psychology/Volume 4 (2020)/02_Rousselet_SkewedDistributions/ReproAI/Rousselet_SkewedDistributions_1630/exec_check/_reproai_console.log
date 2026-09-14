@@ -1,0 +1,55 @@
+==== START ReproAI re-audit Rousselet & Wilcox MP.2019.1630 (status: OK) ====
+Engine: anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT
+Rules: REPRO_STANDARDS.md 2026.06.27 + SHARED_BRIEF.md (Vol 4)
+Audit date: 2026-09-14
+Host: Windows 11 x64 / PowerShell 5.1
+  R: C:\Program Files\R\R-4.6.1\bin\Rscript.exe (R 4.6.1, 2026-06-24, ucrt)
+  Python: C:\Users\lroesele.IVV5NET\AppData\Local\Programs\Python\Python38\python.exe (3.8, numpy/pandas)
+  retimes not installed -> rexgauss reimplemented as rnorm(n,mu,sigma)+rexp(n,rate=1/tau)
+    (verified: retimes::rexgauss defaults positive=TRUE with a while-loop that never re-draws
+     for mu=300..550 / sigma>=20, so the plain rnorm+rexp stream is faithful)
+Originals untouched (paper.pdf, paper_extracted.txt). All work on copies in exec_check/.
+
+Materials: figshare 10.6084/m9.figshare.6911924 (Rousselet & Wilcox 2018a) downloaded live
+  (code.zip, functions.zip, notebooks.zip, figures.zip, README.pdf, data.zip 1,667,984,637 B).
+
+---- 02_miller1988.R : Table 1 + Table 2 (set.seed(4) pop, set.seed(21) sim, 10,000 runs) ----
+Table 1: median 12/12 match, skewness 12/12 match (509..594, 92..6).
+Table 2 (fresh R, round to int): 64/120 exact vs paper; 117/120 within +-2; max dev 3.
+Figure 3D/E (median-biases) written to bias_*.csv.
+
+---- 05_author_data_check.R / 06_committed_vs_paper.R : author's committed RData ----
+miller_exg_param.RData: author medians == paper (12/12); our rexgauss(seed4) == author pop (max diff 0).
+sim_miller1988.RData -> notebook formula -> Table2: 73/120 exact vs paper, 118/120 within +-2, max 3.
+  (shipped data does NOT byte-regenerate printed Table 2 -> ADV-001, P2)
+Our fresh sim.md vs author committed sim.md: identical 8.3% (different RNG stream), mean|diff| 45ms.
+  => both agree with the paper only within Monte-Carlo error -> Table 2 verdict APPROX/WARN.
+
+---- python_table12.py : independent Python (numpy, own seed) ----
+Table 1: 10/12 medians, 11/12 skewness (rounding boundary). Table 2: 68/120 exact, 117/120 +-2, max 3.
+  => cross-language agreement identical to R -> confirms Monte-Carlo nature, not a bug.
+
+---- 03_illustrate_bias.R : Figure 1/4/5 bootstrap illustrations (seed 4/44/7/21) ----
+pop.mean 600.2, pop.median 508.7 (OK). mean-bias n10 2.5 (OK), med-bias n10 15.4 (paper 15.1), n100 0.9 (0.7).
+Single sample + bootstrap decimals NOT byte-reproducible under R 4.6.1 (sample.kind version drift) -> ADV-002, P3.
+
+---- 11_groupbias.R / 14_fp_check.R : Section 3 & 4 committed data ----
+median max bias n10 (bc) = 1.79 (OK); mean = 0.88 (OK). FP means-of-medians uneq max = 0.606 (=60.6%, OK, >50%).
+
+---- 07_flp_descriptive.R / 12_flp_deciles.R : FLP raw data recompute ----
+N=959 (OK); trials 996-1001 (OK); 96.4%/94.8% (OK); 80.1%/69.8% (OK, paper 80/70);
+MAD 57/54 (OK); deciles 83.2/1.4 (OK); Spearman 52.9/14.9 (OK);
+20%-trimmed means 59 66 72 77 81 86 89 91 89 (paper ...82...; 5th decile 81 vs 82 -> ADV-003, P3).
+
+---- 08_flp_bias_check.R / 10_misc_claims.R : FLP bias + precision committed data ----
+-10.9 (OK); 80% HDI [-17.1,-2.6] (OK); n20 -4.8 / n60 -1 (OK); median-bias -1.9/-0.3 (OK);
+mean-bias -0.1 / median-bias-of-mean 6.9 (OK); precision 59/56 and 37/38 (OK).
+
+---- explanatory notes ----
+ADV-004 P3: OSF project 3UZAM = cover letter + wiki images; full package is on figshare (verified live).
+  Rectifies prior audit ADV-001/ADV-002 (figshare had been called "not machine-verifiable").
+ADV-005 P3: flp_sim_precision.Rmd uses undefined 'bootsamples' (only 'all.bootsamples' assigned).
+Section 4 g&h power/FP figures and FLP ex-Gaussian fitted TP/FP: qualitative, not separately tabulated -> NOTE.
+Citations (Miller 187, Whelan 438, Ratcliff 1930): Google-Scholar live counts, not verifiable -> NOTCHECK.
+
+==== END ReproAI re-audit (status: OK) ====

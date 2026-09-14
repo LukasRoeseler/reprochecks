@@ -1,0 +1,1416 @@
+Articles
+https://doi.org/10.1038/s41562-020-00969-7
+State-level needs for social distancing and contact
+tracing to contain COVID-19 in the United States
+Weihsueh A. Chiu 1 ✉, Rebecca Fischer2 and Martial L. Ndeffo-Mbah 1,2 ✉
+Starting in mid-May 2020, many US states began relaxing social-distancing measures that were put in place to mitigate the
+spread of COVID-19. To evaluate the impact of relaxation of restrictions on COVID-19 dynamics and control, we developed a
+transmission dynamic model and calibrated it to US state-level COVID-19 cases and deaths. We used this model to evaluate the
+impact of social distancing, testing and contact tracing on the COVID-19 epidemic in each state. As of 22 July 2020, we found
+that only three states were on track to curtail their epidemic curve. Thirty-nine states and the District of Columbia may have to
+double their testing and/or tracing rates and/or rolling back reopening by 25%, while eight states require an even greater mea-
+sure of combined testing, tracing and distancing. Increased testing and contact-tracing capacity is paramount for mitigating the
+recent large-scale increases in US cases and deaths.
+T
+he novel coronavirus pandemic (COVID-19), first detected in Recent studies suggest that state-wide social-distancing mea-
+Wuhan, China in December 2019, has now reached pandemic sures have probably contributed to reducing the spread COVID-
+status with spread to >210 countries and territories, including 19 epidemic in the United States9,10. Understanding the extent to
+the United States1. The United States reported its first imported case which NPIs, such as social distancing, testing, contact tracing and
+of COVID-19 on 20 January 2020, arriving via an international flight self-quarantine, influence COVID-19 transmission in a local con-
+from China2. Since then the disease has spread rapidly within the text is pivotal for predicting and better managing the future course
+country, with every state reporting confirmed cases within 3 weeks of the epidemic on a state-by-state basis. This in turn will inform
+of the first reported community transmission. As of 1 August, the how these NPIs should be optimized to mitigate the spread and bur-
+United States has exceeded 4.5 million cases and 150,000 deaths, den of COVID-19 while awaiting development of pharmaceutical
+heterogeneously distributed across all states1. To date, states such as interventions (for example, therapeutics and vaccines).
+New York, New Jersey and California have borne the highest bur- After several weeks of state-wide stay-at-home orders, most US
+den, with <420,000, 183,000 and 510,000 cases and 32,000, 15,000 states began to ease their social-distancing requirements in May/
+and 9,000 deaths, respectively, while Alaska and Hawaii have each June 2020 (ref. 11) while attempting to increase their testing and
+reported <4,000 cases and 25 deaths1. contact-tracing capacities12. Mathematical modelling is a unique
+COVID-19 is caused by a newly described and highly transmis- tool to help answer these important and timely questions. Models
+sible SARS-like coronavirus (SARS-CoV-2). Severe clinical out- can contribute valuable insight for public health decision-makers
+comes have been observed in approximately 20% of symptomatic by providing an evaluation of the effectiveness of ongoing control
+cases3,4. There is no vaccine and no cure or approved pharmaceuti- strategies along with predictions of the potential impact of alterna-
+cal intervention for this disease, making the fight against the pan- tive policy scenarios13.
+demic reliant on non-pharmaceutical interventions (NPIs). These To address these needs, we developed and validated a
+NPIs include: (1) case-driven measures such as testing, contact trac- data-driven transmission dynamic model to evaluate the impact
+ing and isolation5; (2) personal preventive measures such as hand of social distancing, state reopening, testing and contact tracing
+hygiene, cough etiquette, face mask use, eye protection, physical on the state-level dynamics of COVID-19 infections and mortal-
+distancing and surface cleaning, which aim to reduce the risk of ity in the United States, shown schematically in Fig. 1. Like many
+transmission during contact with potentially infectious individuals6; other COVID-19 transmission models14–17, we used an extended
+and (3) social-distancing measures to reduce interpersonal contact susceptible, exposed, infectious, removed (SEIR) compartmen-
+in the population. In the United States, social-distancing measures tal model. The model divides the population into several disease
+have included policies and guidelines to close schools and work- compartments and tracks movements of individuals between the
+places, cancel and restrict mass gatherings and group events, restrict compartments through different transition rates. The main model
+travel, maintain physical separation from others (for example, keep- compartments include: S, susceptible; E, exposed; A, infectious and
+ing six feet apart) and stay-at-home orders7. asymptomatic; I, infectious and symptomatic; R, recovered; and F,
+Non-pharmaceutical interventions and other responses to dead. In addition to disease progression stages, our model incorpo-
+COVID-19, especially stay-at-home orders, have varied widely rates social distancing informed by several public sources of mobil-
+across states, leading to spatial and temporal variation in the tim- ity data, case identification via testing, isolation of detected cases
+ing and implementation of mitigation strategies. This variation in and contact tracing. This is a mean-field epidemiological model-
+policies and response efforts may have contributed to the observed ling approach that captures the average disease dynamics behav-
+heterogeneity in COVID-19 morbidity and mortality across states8. iour within a population18,19. We used Bayesian inference methods
+1Department of Veterinary Integrative Biosciences, College of Veterinary Medicine and Biomedical Sciences, Texas A&M University, College Station, TX,
+USA. 2Department of Epidemiology and Biostatistics, School of Public Health, Texas A&M University, College Station, TX, USA. ✉e-mail: wchiu@tamu.edu;
+m.ndeffo@tamu.edu
+1080 NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+1.00
+θmin + r max(1 – θmin) 0.75
+0.50
+0.25
+0 Mar Apr May Jun Jul
+Date
+Daily confirmed deaths Daily confirmed deaths
+TX WA
+Daily reported cases Daily reported cases Daily reported cases
+OH TX WA
+to calibrate and validate our model prediction to state-level daily greater relaxation of social-distancing restrictions while preventing
+reported COVID-19 cases and fatality data. Model parameters, a resurgence of infections and deaths. A detailed description of the
+prior distributions and their sources are shown in Table 1. We used model considerations, parameterization and analysis is provided
+the calibrated model to evaluate the transmissibility of COVID-19 in Methods.
+in each state from March 2020 to late July 2020, to estimate the
+state-level impact of shelter-in-place and reopening on COVID-19 Results
+transmission. Finally, we evaluated the degree to which increas- Model performance and validation. We used state-level mobility
+ing testing efforts (rate of identification of infected cases) and/or data from Unacast, Google and OpenTable to calibrate a paramet-
+contact tracing could curtail the spread of the disease and enable ric model of shelter-in-place and reopening (Supplementary Fig. 1),
+cirtem
+ytiliboM
+Contact rate time dependence SEIR model structure and parameters
+Mobility data S × c × f A A (t)
+S Uta nt ae c-s ap se t,c Gifi oc o m glo eb aili nty d m Oe pt eri nc Ts a f bro lem S(t) ((I U + A U)/N) × β 1 – f f C κ × E lU (t) ρ × A U
+Fit each metric to S × c × ((l + A )/N × C 1 – f A U λ × l U ρ × l U R U(t)
+contact rate model S C × γ (1 – βU ) × f CU
+κ × E C
+f A A C(t) ρρ
+C
+×
+×
+A lC
+C
+I (t) S C(t) 1 – f A C
+λC × I C ρ × l T R T(t)
+S, Susceptible Subscript U, Untested/
+I, Infected undiagnosed I T(t) δ × l T
+A, Asymptomatic Subscript C, Traced contacts
+R, Recovered (self-isolated) F(t) T
+F, Fatal illness Subscript T, Tested/diagnosed
+N, Population size (self-isolated)
+Shelter-in-place Reopening
+lag = τcases lag = τdeath
+c, Contact rate λ, General testing rate Cases Deaths
+β, Transmission rate ρ, Recovery rate
+M me ea
+o
+an
+b
+c
+ia
+l
+hitn
+y
+pd
+m
+a
+s
+re
+a.d
+t
+mr.
+i c
+ea
+s
+tc
+e
+r
+f
+ro os rs
+γ
+f
+C, ,R Fe rt au cr tn
+io
+r na t oe
+f
+f cr oo nm
+ta
+is co tsla tt ri ao cn
+ed
+λ ρC C,
+,
+C Co on nt ta ac ct
+t
+t ne es gti an tg
+iv
+r ea tt ee
+st rate
+Like plih =o o yd pr:
+e
+dN /(e αg +B i yn po rem d)(α,p)
+κ, Latency rate δ, Fatal illness rate Case and death data
+f A, Fraction asymptomatic α, Dispersion parameter Daily increases by state from
+The COVID tracking project
+Training data Model fit Validation data
+Model validation: MCMC Prediction
+19 March–30 April 2020 19 March–30 April 2020 1 May–20 June 2020
+Daily confirmed deaths Daily confirmed deaths
+NY OH
+5
+1.5 0.3
+4 1.0
+3 1.0 0.2
+2 0.5 0.5 0.1
+1
+0 0 0 0
+Daily reported cases
+NY
+60 15
+20 10
+40 10
+20 10 5 5
+0 0 0 0
+Apr May Jun Apr May Jun Apr May Jun Apr May Jun
+Date
+Model calibration and Calibration data Model fit Scenario evaluation
+scenario evaluation 19 March–22 July 2020 MCMC 19 March–22 July 2020 Prediction 23 July–30 September 2020
+000,001
+rep
+shtaed
+ro
+sesac
+detroper
+yliaD
+E(t)
+E (t) C
+θmin
+τ θ τs τr
+State-specific prior distributions
+Dataset Train Validate Prediction Median CrI IQR
+Fig. 1 | SeIR model structure, parameters, data sources and fitting/validation methods. We used mobility data to constrain the time dependence of the
+contact rate. We fitted the model to daily reported cases and confirmed deaths from 19 March to 30 April 2020 and validated its projections against data
+from 1 May to 20 June 2020. On the model projections, the black solid line is the median, the pink band is the 95% CrI and the orange band is the IQr. We
+show model fitting and validation for four states: New York (NY), Ohio (OH), Texas (TX) and Washington (WA).
+NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav 1081
+Articles Nature HumaN BeHaviour
+Table 1 | Model inputs, parameters and prior distributions for Bayesian analysis
+Symbol Definition (units) Calibrated parameter(s) Prior (truncation) Notes/refs.
+N Population size Input (not calibrated) Constant 40
+N Initial I on 29 February 2020 N log (1,000, 10) [1, 10,000] a
+init U init N
+1/γ Self-isolation time after contact tracing T isolation = 1/γ log N(14, 2) [7, 21] b
+1/κ Latent period (d) T latent = 1/κ N(4,1) [2,7] 41,42
+c Baseline contact rate (contacts d−1) c N(13, 5) [7, 20] 43
+0 0
+ρ recovery rate (d−1) T recover = 1/ρ log N(10, 1.5) [5, 30] 42,44
+β0 Transmission probability per contact (unitless) R 0 = c 0β0/ρ N(2.9, 0.78) [1.46, 4.5] 45–47
+f Fraction of contacts traced (unitless) f log (0.25, 2) [0.05, 1] 48
+C C N
+f Fraction of infected asymptomatic (unitless) f N(0.295, 0.275) [0.02, 0.57] 49
+A A
+T50 Date of 50% of final testing rate (d) T50 U(60, 106) (1 Mar–15 Apr) a
+T T
+λ General positive diagnosis rate (d−1) λ = F test Sens test k test Derived 45,50,51
+F
+test
+General test coverage (unitless) F
+test
+β(2,2) 45,50,51
+Sens Test sensitivity (unitless) Sens N(0.7, 0.1) [0.6, 0.95] 52
+test test
+k test General testing rate (d−1) τtest = 1/k test N(7, 3) [2, 12] 53,54
+λC Contact positive diagnosis rate (d−1) λC = Sens test k test,C Derived
+k C,test Contact testing rate (d−1) τC,test = 1/k C,test N(2, 1) [1, 3] a
+ρC rate of infected contacts testing negative (d−1) ρC = (1 – Sens test) k test,C Derived
+δ Fatal illness rate (d−1) IFrd log N(0.01, 2) [0.001, 0.1] 44,55
+θmin Minimum of θ(t) θmin Validation: β(2,2) a
+Calibration: state-specific c
+τ Weibull scale parameter τ Validation: N(21, 7) [7, 35] a
+θ θ
+Calibration: state-specific c
+n Weibull shape parameter n Validation: log (6, 2) [1,11] a
+θ θ N
+Calibration: state-specific c
+η Hygiene effectiveness relative to social distancing η β(2,4) a
+(unitless)
+τs Duration of shelter-in-place (d) τs Validation: N(45, 30) [21, 90] 56
+Calibration: state-specific
+τr Duration of linear increase after shelter-in-place τr Validation: N(45, 30) [14, 105] a
+(d) Calibration: state-specific c
+r Maximum relative increase in contacts from r Validation: N(1, 1) [0, 2] a
+max max
+shelter-in-place (unitless) Calibration: state-specific c
+τcase Lag time for observing confirmed case τcase log N(7, 2) [1, 14] a
+τdeath Lag time for observing confirmed death τdeath log N(7, 2) [1, 14] a
+αpos Negative binomial shape parameter for case αpos log U(0.1, 40) a
+likelihood function
+αdeath Negative binomial shape parameter for death αdeath log U(0.1, 40) a
+likelihood function
+log, log-normal distribution with geometric mean and geometric s.d. N, normal distribution with mean and s.d.; U, uniform distribution with minimum and maximum; log, log-uniform distribution with
+N U
+minimum and maximum; β(a,b), beta distribution with shape parameters a and b; time (t) is measured from t = 1, corresponding to 1 January 2020.aAssumed, non-informative prior sufficiently wide to have
+adequate validation coverage. bStandard contact-tracing guidance is to self-isolate for 2 weeks. cFor calibration to 20 June 2020, state-specific priors were derived by fitting to different social-distancing
+datasets, with each parameter’s mean, s.d. and range used to define a normal distribution prior. dSee Methods for relationship between infected fatality rate (IFr) and δ.
+and used the results to inform prior distributions for the transmis- the length of sheltering and the degree of reopening could not have
+sion model (Fig. 1). We fit our model to state-level daily cases and been known on 30 April 2020, and thus our model predictions were
+deaths data using a Bayesian inference approach (Methods). Model based on generic prior distributions. However, during model cali-
+performance assessment for several representative states is shown in bration to data to 22 July 2020, these parameters were informed by
+Fig. 1, with full results in Supplementary Figs. 2 and 3. With respect updated state-specific mobility data. Model performance for fitting
+to validation, the posterior 95% credible interval (CrI) of our model all data to 22 July 2020 is shown in Supplementary Figs. 4–6, with
+projections, estimated using data to 30 April 2020, covered 84% of posterior parameter distributions shown in Supplementary Fig. 7.
+the data points from 1 May to 20 June 2020. For seven states (Alaska, Good fits with high coverage (>88% for cases, >92% for deaths)
+Montana, South Dakota, Iowa, Illinois, Michigan and Minnesota), were obtained for all states.
+validation had low coverage (<50%) because of insufficient training
+data to 30 April 2020 to adequately inform sheltering and reopen- Estimations of effective reproduction number. The effective
+ing in those states. This inaccuracy was not unexpected, because reproduction number, R , is the average number of secondary
+eff
+1082 NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+infection cases generated by a single infectious individual dur- 95% CI of η2 > 8.1%); (3) the maximum relative increase in con-
+ing their infectious period18. When R > 1 the epidemic curve is tact after shelter-in-place orders, r (ANOVA F (one degree of
+eff max
+increasing, and when R < 1 the epidemic curve is decreasing18. freedom) = 8,051.61, P < 2.2 × 10–16, η2 > 13.5%, lower 95% CI of
+eff
+Using the posterior distribution of our model parameters, we esti- η2 > 12.8%); and (4) the fraction of contacts traced, f (ANOVA F
+c
+mated R from 19 March to late July 2020 and identified the mini- (one degree of freedom) = 13,834.053, P < 2.2 × 10–16, η2 > 23.2%,
+eff
+mum level of transmission achieved in each state (Fig. 2a). We found lower 95% CI of η2 > 22.4%), which together contribute >50% of
+that for all except five states (Alabama, Arkansas, North Carolina, variance (Extended Data Fig. 1 and Supplementary Table 1). This
+Utah and Wisconsin), the interquartile range (IQR) for the mini- observation is consistent with mobility data alone being insufficient
+mum R value was <1 (varying 0.07–0.98), and these values were to account for the combined effect of multiple control measures,
+eff
+mainly achieved during the state shelter-in-place (11 April–29 May and suggests that the degree of adoption of non-mobility-related
+2020) (Fig. 2a). Following states’ relaxations of social-distancing measures, such as enhanced hygiene practices and contact tracing,
+measures, disease transmission again started to increase. By 22 July plays a large role in the extent to which a state may reduce disease
+2020, 42 states and the District of Columbia had at least a 75% prob- transmission.
+ability that R > 1. The model predicts therefore that, as states are For each state, we defined Δ as the level of reopening/rebound
+eff
+reopening, a majority are at risk of continued increases in the scale (Δ = 0% at minimum, 100% at full reopening) in disease trans-
+of the outbreak and require additional mitigation to contain the mission relative to its lowest transmission rate observed during
+spread of the disease. shelter-in-place, and estimated the current level of reopening/
+We conducted an analysis of variance (ANOVA) to evalu- rebound (Fig. 2b). We found that 24 states had an average of 50–80%
+ate the contribution of each parameter to the variation in R rebound in COVID-19 transmission by 22 July 2020, while no state
+eff
+(Supplementary Table 1). Across states, we found that the largest had <25% rebound (Fig. 2b).
+drivers of variation in R are (1) the power parameter for relating
+eff
+social distancing to hygiene-associated reduction in transmission, Impact of testing and contact tracing on easing of social distanc-
+η (ANOVA F (one degree of freedom) = 2,989.166, P < 2.2 × 10–16, ing. Bringing and maintaining R < 1 is necessary to curtail the
+eff
+η2 > 5%, lower 95% confidence interval (CI) of η2 > 4.5%); (2) the spread of an outbreak. We evaluated the probability of maintaining
+degree of mitigation during shelter-in-place, θ (ANOVA F (one R < 1 for different levels of testing and contact tracing under the
+min eff
+degree of freedom) = 5,177.354, P < 2.2 × 10–16, η2 > 8.7%, lower level of state reopening as of 22 July 2020. We found that in 42 states
+lirpA
+11
+lirpA
+51
+lirpA
+41
+yluJ
+22
+lirpA
+91
+yaM
+2
+lirpA
+72
+yaM
+02
+yaM
+7
+lirpA
+22
+lirpA
+81
+lirpA
+41
+yaM
+31
+lirpA
+21
+enuJ
+2
+yaM
+6
+lirpA
+12
+lirpA
+82
+lirpA
+32
+yaM
+51
+enuJ
+6
+lirpA
+21
+yaM
+11
+yaM
+92
+lirpA
+22
+yaM
+4
+lirpA
+21
+lirpA
+51
+yaM
+02
+yaM
+81
+yaM
+11
+lirpA
+42
+yaM
+21
+lirpA
+91
+lirpA
+03
+yaM
+4
+lirpA
+91
+lirpA
+41
+yaM
+4
+yaM
+5
+lirpA
+91
+lirpA
+82
+lirpA
+02
+lirpA
+32
+lirpA
+31
+yaM
+12
+lirpA
+11
+lirpA
+21
+lirpA
+02
+lirpA
+81
+lirpA
+61
+a
+2.5
+2.0
+1.5
+1.0
+0.5
+0
+AK AL AR AZ CA CO CT DC DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RISC SD TN TX UT VA VT WA WIWV WY
+b
+AK AL AR AZ CA CO CT DC DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RISC SD TN TX UT VA VT WA WI WV WY
+)t(
+R
+ffe
+100
+75
+50
+25
+0
+dnuober/gninepoer
+fo
+leveL
+)%(
+US states
+US states
+Category based on IQR R eff(t) < 1 R eff(t) ≈ 1 R eff(t) > 1
+Fig. 2 | estimated R and the level of reopening/rebound in transmission as of 22 July 2020 for all states. a, Estimated R (median, IQr and 95% CrI)
+eff eff
+across states. The figure shows the value of R on 22 July 2020, as well as its minimum value between 19 March and 22 July 2020, in lighter shades of
+eff
+each colour. It also includes the date of minimum R . b, The level of reopening/rebound in disease transmission in each state relative to its minimum value
+eff
+during state shelter-in-place (median, IQr and 95% CrI).
+NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav 1083
+Articles Nature HumaN BeHaviour
+Contact tracing 1× Contact tracing 1× Contact tracing 2× Contact tracing 2×
+Testing rate 1× Testing rate 2× Testing rate 1× Testing rate 2×
+and the District of Columbia, bringing and maintaining R < 1 may without simultaneously increasing contact tracing may exacerbate
+eff
+not be possible without increased contact-tracing efforts because disease dynamics and result, on average, in increases of 25–65%
+increasing testing and isolation alone would require at least a 3.5-fold (45–150%) in cases and 22–48% (35–92%) in deaths within the
+increase in coverage to curtail the epidemic curve with 0.975 prob- following 2 months (Supplementary Fig. 8).
+ability (Extended Data Figs. 2 and 3 and Supplementary Table 2). We next evaluated the maximal degree of rebound in transmis-
+The challenges are even greater in ensuring continued control of the sion (that is, level of reopening) permitted while maintaining R < 1
+eff
+epidemic with full reopening, because testing and isolation alone under different testing and contact-tracing scenarios (Fig. 4). We
+would be insufficient to curtail the epidemic in 33 states and, in all found that, under the current levels of testing and contact-tracing
+states, contact-tracing coverage of 50–75% would be required to rate, 27 states cannot maintain R < 1 (at 75% confidence) even with
+eff
+curtail the epidemic curve with 0.975 probability (Extended Data only 25% reopening/rebound in transmission (Fig. 4a). By doubling
+Fig. 4 and Supplementary Table 3). the current testing rate, eight states could maintain R < 1 (at 75%
+eff
+To evaluate the impact of scaling up of testing and contact tracing confidence) even with a 50% level of reopening (Fig. 4b). By dou-
+on epidemic dynamics in each state, we assumed a linear ‘ramp-up’ bling contact tracing, nine states could remove all mobility restric-
+of testing and/or contact tracing from 1–14 August 2020, after which tions while maintaining R < 1 (at 100% confidence) (Fig. 4c). By
+eff
+both parameters remain constant. We then predicted the daily doubling both testing rate and contact tracing, ten states could
+number of reported cases and deaths (Fig. 3 and Supplementary remove all mobility restrictions while maintaining R < 1 (at 100%
+eff
+Fig. 8). We found that, under current levels of reopening and con- confidence) (Fig. 4d).
+trol, 40 states would be unable to curtail the spread of the epidemic We categorized states by the additional amount of mitigation
+within the following 2 months (Supplementary Fig. 8). Even with efforts needed to maintain R(t) < 1 with at least 75% confidence
+increased testing and contact tracing, these states will still experi- (Fig. 5 and Supplementary Fig. 8). We found that, under current
+ence an increase in reported cases and deaths of between 2 weeks control efforts, no states could reduce and maintain R(t) < 1 if their
+and 2 months (Fig. 3 and Supplementary Fig. 8). For example, Ohio, current level of reopening was relaxed by an additional 25% (‘Very
+Texas and Washington may experience a 2-week increase in cases Low’ category), and three states (Connecticut, Maine and New
+and a 1-month increase in deaths even if their current testing and Hampshire) could reduce and maintain R(t) < 1 without additional
+contact-tracing rates were doubled within the following 2 weeks reopening (‘Low’ category). Eight states could reduce and maintain
+(Fig. 3b–d). Moreover, reported cases increase during the 2-week R(t) < 1 by doubling their contact-tracing rate or by implementing
+ramp-up period (Fig. 3). We found that, in 27 states and the district additional social-distancing restrictions, a 25% reversal of the cur-
+of Columbia, an additional 25% (50%) relaxation of restrictions rent level of reopening (‘Moderate’ category), while 30 states and
+Daily
+confirmed
+deaths
+Daily
+reported
+cases
+10.0
+7.5
+5.0
+2.5
+0
+120
+90
+60
+30
+0
+MarApr MayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep Oct MarApr MayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep Oct
+Date
+MarApr MayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep Oct MarApr MayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep OctMarAprMayJun JulAugSep Oct
+000,001
+rep
+shtaed
+ro
+sesac
+detroper
+yliaD
+10.0
+7.5
+5.0
+2.5
+0
+120
+90
+60
+30
+0
+000,001
+rep
+shtaed
+ro
+sesac
+detroper
+yliaD
+a
+Contact tracing 1× Contact tracing 1× Contact tracing 2× Contact tracing 2×
+Testing rate 1× Testing rate 2× Testing rate 1× Testing rate 2×
+Daily
+confirmed
+deaths
+Daily
+reported
+cases
+b
+Date
+Contact tracing 1× Contact tracing 1× Contact tracing 2× Contact tracing 2×
+Testing rate 1× Testing rate 2× Testing rate 1× Testing rate 2×
+Daily
+confirmed
+deaths
+Daily
+reported
+cases
+10.0
+7.5
+5.0
+2.5
+0
+125
+100
+75
+50
+25
+0
+Date
+000,001
+rep
+shtaed
+ro
+sesac
+detroper
+yliaD
+c
+Contact tracing 1× Contact tracing 1× Contact tracing 2× Contact tracing 2×
+Testing rate 1× Testing rate 2× Testing rate 1× Testing rate 2×
+Daily
+confirmed
+deaths
+Daily
+reported
+cases
+10.0
+7.5
+5.0
+2.5
+0
+120
+90
+60
+30
+0
+Date
+000,001
+rep
+shtaed
+ro
+sesac
+detroper
+yliaD
+d
+Prediction Median CrI IQR Ramp-up period
+Fig. 3 | a–d, Predicted time course (median, IQr and 95% CrI) of daily reported cases and deaths under different testing and contact-tracing rates (1× and
+2×) in New York (a), Ohio (b), Texas (c) and Washington State (d).
+1084 NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+a
+Baseline
+100
+75
+50
+25
+0
+–25
+b
+2× Testing
+100
+75
+50
+25
+0
+−25
+c
+2× Contact tracing
+100
+75
+50
+25
+0
+−25
+d
+2× Testing and contact tracing
+100
+75
+50
+25
+0
+−25
+AK AL AR AZ CA CO CT DC DE FL GA HI IA ID IL IN KS KY LA MA MD ME MI MN MO MS MT NC ND NE NH NJ NM NV NY OH OK OR PA RI SC SD TN TX UT VA VT WA WI WV WY
+US states
+the District of Columbia need a combined intervention of doubling We showed that, in most states, control strategies implemented
+both testing and contact tracing and/or 25% reversal of current during their shelter-in-place period were sufficient to contain the
+reopening to reduce and maintain R(t) < 1 (‘High’ category). For the outbreak, defined as reducing and ultimately maintaining R < 1.
+eff
+remaining eight states (Arizona, Florida, Idaho, Maryland, North However, for the majority of states, our modelling suggests that
+Dakota, Nevada, South Carolina and Washington), a 50% rever- reopening has proceeded too rapidly and/or without adequate test-
+sal of current reopening, in addition to increased testing and/or ing and contact tracing to prevent a resurgence of the epidemic. Our
+contact tracing, are needed to reduce and maintain R(t) < 1 model suggests that, for some states, a substantial fraction of the
+(‘Very High’ category). population may have already been infected such that, even with-
+out additional intervention, R (t) is declining towards (or below) 1
+eff
+Discussion even as R(t) > 1. The most extreme example is Arizona, where R (t)
+eff
+There is a delicate and continuous balance to strike between the use is estimated to have declined below the previous minimum R value
+eff
+of social-distancing measures to mitigate the spread of an emerg- achieved during shelter-in-place. However, accurate estimation of
+ing and deadly disease such as COVID-19 and the need for reopen- the susceptible fraction of the population is difficult due to the
+ing of various sectors of activities for the social, economic, mental uncertain degree of undercounting in the reported case data. Thus,
+and physical well-being of a community. To address this issue, it we used R(t) to categorize the mitigation requirements in each state
+is imperative to design measurable, data-driven and flexible mile- and evaluate the level of control effort needed to curtail the spread
+stones to identify when to make specific transitions with regard of the epidemic in each state.
+to easing or re-tightening of specific social-distancing measures. Moreover, even in states with currently decreasing incidence
+We developed a data-driven SARS-CoV-2 transmission dynamic and mortality, such as Maine and New Jersey, additional relax-
+model, not only to make short-term predictions on COVID-19 ation of restrictions is likely to ‘bend the epidemic curve upwards’
+incidence and mortality in the United States but, more importantly, in the absence of increased testing or tracing. However, our model
+to evaluate the impact of relaxation of social-distancing measures predicts that a combination of increased testing, increased con-
+and increasing testing and contact tracing on the epidemic in tact tracing and/or scaling back of reopening will be sufficient
+each state. to curtail the spread of COVID-19 in most states. Specifically,
+1
+<
+)t(
+ffeR
+gnipeek
+elihw
+)%(
+gninepoer
+fo
+tnuomA
+=
+tircΔ
+R eff(t) < 1 R eff(t) ≈ 1 R eff(t) > 1 Δ(t = 22 July 2020)
+Fig. 4 | Reopening/rebound in transmission Δcrit permitted (0%, minimum shelter-in-place value; 100%, return to no restrictions) to maintain R eff < 1. a–d,
+Levels of reopening/rebound if testing and contact rates are unchanged (a), testing rate is doubled (b), contact tracing is doubled (c) or both testing and
+contact tracing are doubled (d). Δ(t), the level of reopening/rebound in transmission on 22 July 2020, is denoted by circles. All boxplots show median, IQr
+and 95% CrI.
+NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav 1085
+Articles Nature HumaN BeHaviour
+Mitigation requirement
+Low Can reopen further, but <25%
+2× contact tracing or reversal of
+Moderate
+reopening by 25%
+At least two of: 2× testing, 2× contact
+High
+tracing, reversal of reopening by 25%
+Reversal of reopening by 50%, in addition
+Very High
+to 2× testing and/or 2× contact tracing
+Fig. 5 | State-specific level of mitigation needed, as of 22 July 2020, to curtail the spread of COVID-19. Levels are based on maintaining R < 1 with
+at least 75% confidence, equivalent to the upper bound of IQr. Categories are based on evaluation of scenarios with different combinations of baseline/
+doubling testing, baseline/doubling contact tracing and baseline ±25% in the reopening parameter, Δ. Categories are defined as follows: Very Low
+(no states): can reopen further by >25% while maintaining R(t) < 1; Low (three states): can reopen further by <25% with up to 2× increase in testing while
+maintaining R(t) < 1; Moderate (nine states): requires 2× contact tracing or reversal of reopening by 25% to maintain R(t) < 1; High (30 states and DC):
+requires multiple interventions (2× testing, 2× contract tracing and reversal of reopening by 25%) to maintain R(t) < 1; Very High (eight states): reversal
+of reopening by 50% combined with 2× testing and/or 2× contact tracing to maintain R(t) < 1. Credit: the US map shapefile is derived from the usmap
+r package, which is open source under GPL-3.
+doubling of current testing and contact-tracing rates would enable before these rates begin to show a decline. Therefore, it is impera-
+the majority of states to either maintain or increase the easing of tive that policymakers and the public recognize that such a surge is
+social-distancing restrictions in a ‘safe’ manner in the short term. actually a sign that testing and tracing efforts are succeeding, and
+Scaling back the current level of reopening by 25%, in combination exercise the patience to wait several weeks before these successes are
+with doubling of testing and tracing, will be sufficient to control reflected as declining rates of reported cases.
+the epidemic in the long term in all but eight Very High risk states. Other modelling studies have used SEIR-type compartmental
+The impact of these interventions on the epidemic curve was evalu- models to assess the impact of social distancing, testing and con-
+ated by computing their probability of reducing and maintaining tact tracing to curb the epidemic curve in Italy and the United
+R < 1. However, in states with high over-dispersion in disease trans- Kingdom14–17. Consistent with our results, these studies have shown
+mission and faced with an epidemic with high super-spreadability that rapid reopening of the economy without adequate testing and
+characteristics, the reproduction number may be subject to large contact tracing could lead to a resurgence of the epidemic14–17.
+fluctuation as the number of infection cases decreases. This is more Specifically, they show that high testing and contact-tracing
+likely to be the case for states with lower dispersion parameters rates may enable the maintenance and increase the easing
+posterior values, such as Arkansas, Connecticut, Idaho, Kansas, of social-distancing restrictions without an increased rate of
+Kentucky, Louisiana, Mississippi, New Hampshire, South Carolina COVID-19 transmission14.
+and Wyoming (Supplementary Fig. 7). Our study has several limitations, due to modelling assump-
+Increasing testing and contact-tracing rates entails both increas- tions and the quality of available data. Like most COVID-19 trans-
+ing the number of tests performed per day and requires early iden- mission models14–17, we used a compartmental SEIR-type model
+tification and effective isolation of COVID-19-infected individuals. to model the spread of SARS-CoV-2 because of its simplicity and
+This can be accomplished through active case detection via effi- ability to capture population average dynamics. This modelling
+cient contact-tracing strategies. However, it should also be noted approach does not account for heterogeneity in individual-level
+that increased testing and contact tracing will lead to a short-term behaviour, over-dispersion due to super-spreaders, social contact
+increase in reported cases because a larger fraction of the infected networks and inherent stochasticity, which may play an important
+population is being observed, and that several weeks may pass role in SARS-CoV-2 transmission dynamics. Although these factors
+1086 NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+can be modelled through the use of individual-based models20–22, also assumes that all individuals who test positive to COVID-19 are
+individual-based modelling is a more complex modelling frame- effectively isolated for the remainder of their infectious period and
+work and may require a substantial amount of individual-level data no longer contribute to disease transmission. Though voluntary
+for model parameterization, calibration and validation. compliance to COVID-19 self-quarantine recommendations may
+To characterize the limitations of using cell-phone-based mobil- be high across the United States, it is probably not 100%. Therefore,
+ity data to infer (prior distributions for) contact rates, we examined the assumption of effective isolation of all identified cases may
+the state-to-state variation in mobility data to the correspond- cause our model to slightly overestimate the impact of increased
+ing posterior distributions for each mobility-related parameter testing rate on disease dynamics. However, we anticipate that this
+(Supplementary Fig. 9). Three parameters of particular interest assumption would have only a marginal impact on the qualitative
+are the minimum relative contact rate (θ ), the duration of the nature of our results.
+min
+shelter-in-place phase (τ) and the maximum amount of reopening Finally, our model does not explicitly account for age-stratified
+s
+(r ). For θ , none of the r2 values were consistently <0.2 although risk of disease transmission and mortality. This age stratification is
+max min
+the slope and intercept of the regression line for the Unacast important for the design and evaluation of social-distancing and
+Visitation metric were within 15% of 1 and 0, respectively. Similarly, testing strategies that are targeted towards the elderly population,
+for τ, the highest r2 value was 0.37 for OpenTable Bookings data, which is at higher risk of COVID-19-induced hospitalization and
+s
+which also had a relatively accurate regression line (again within death30. As reopening the economy becomes an imperative for
+15%). For r , the highest r2 values were for Google retail and rec- states across the United States, age- or risk-targeted interventions
+max
+reation (0.49) and Unacast Visitation (0.52) metrics, but the Google may be a valuable tool to mitigate the burden of the pandemic.
+data were much more accurate with a slope close to 1 and inter- Future modelling studies could investigate the effectiveness of age-
+cept close to 0. Overall, these results suggest that cell-phone-based or risk-targeted non-pharmaceutical and potential pharmaceutical
+mobility data vary substantially in their accuracy (slope and inter- (vaccine or therapeutic) interventions for controlling the spread
+cept near 1 and 0, respectively) and, overall, have low precision and burden of COVID-19.
+(no r2 more than about 0.5), and support our use of the range across In sum, we use a data-driven mathematical modelling approach
+multiple sources in developing prior distributions, rather than using to study the impacts of social distancing, testing and contact trac-
+such data directly for modelling contact rates. ing on the transmission dynamics of SARS-CoV-2. Our find-
+The initiation of social-distancing measures, such as ings emphasize the importance for public health authorities not
+stay-at-home orders in the United States, for mitigating the spread only to monitor the case and mortality dynamics of SARS-CoV-2
+of COVID-19 has occurred concurrently with increased promo- in their state, but also to understand the impact of their existing
+tion and application of other NPIs, such as hygiene practices (for social-distancing measures on SARS-CoV-2 transmission and to
+example, hand hygiene, surface cleaning, cough etiquette and evaluate the effectiveness of their testing and contact-tracing pro-
+wearing of a face mask). These hygiene practices, coupled with grammes for prompt identification and isolation of new cases of
+the avoidance of physical contact whenever possible (keeping six COVID-19. As reported, case rates are increasing widely across
+feet apart), could impact the spread of COVID-19 by reducing US states because social-distancing restrictions have been eased
+the risk of both exposure and transmission of SARS-CoV-2 from to allow the resumption of greater economic activity, and we find
+infected patients23,24. Though our model explicitly accounts for that most states need to either substantially scale back reopening
+the differential contribution of social distancing (mobility reduc- or enhance their capacity and scale of testing, case-isolation and
+tion) versus hygiene practices and physical distancing to reducing contact-tracing programmes to mitigate large-scale increases in
+COVID-19 transmission, we assume that the impact of hygiene COVID-19 cases and deaths.
+practices and physical distancing was a function of social distanc-
+ing (mobility reduction). While mobile phone mobility data may Methods
+continue to be informative in regard to to contact rates, at least in Our overall approach is as follows: (1) develop a mathematical model (an
+aggregate, the impact of enhanced hygiene practices is more dif- SEIR-type compartmental model)18,19 that incorporates social-distancing data, case
+identification via testing, isolation of detected cases and contact tracing; (2) assess
+ficult to measure independently. As several states have eased their
+the model’s predictive performance by training (calibrating) it to reported cases
+social-distancing requirements, especially their stay-at-home and mortality data from 19 March to 30 April 2020 and validating its predictions
+orders, compliance with hygiene practices would become even against data from 1 May to 20 June 2020; and (3) use the model, trained on data
+more important for reducing individuals’ risk of getting or trans- to 22 July 2020, to predict future incidence and mortality. The final stage of our
+mitting the pathogen. However, keeping a high population-level approach predicts future events under a set of scenarios that include increased
+case detection through expansion of testing rate, contact tracing and relaxation or
+adherence to these measures is required to mitigate the spread of
+increase of measures to promote social distancing. All model fitting is performed
+the COVID-19 epidemic25. As states are reopening various aspects in a Bayesian framework to incorporate available prior information and address
+of their economy, data on compliance with enhanced hygiene multivariate uncertainty in model parameters.
+practices and physical distancing are needed to improve the esti-
+mation of these measures’ population-level impact on reducing Model formulation. We modified the standard SEIR model to address testing and
+disease transmission. contact tracing, as well as asymptomatic individuals. A fraction f A of those exposed
+(E) to enter the asymptomatic A class (divided into A for untested and A for
+Additionally, consistent with previous COVID-19 modelling U C
+contact traced) instead of the infected I class, which in our model formulation also
+studies26–28, our model uses a simple functional form to model
+includes infectious presymptomatic individuals. With respect to testing, separate
+increases in testing rate from early March to June 2020. This test- compartments were added for untested, ‘freely roaming’ infected individuals (I ),
+U
+ing rate was estimated through model fitting to daily reported case tested/isolated cases (I) and fatalities (F). Following recovery, untested infected
+T T
+and mortality data. Particularly in states that have seen a substan- individuals (I U) and all asymptomatic individuals move to the untested recovered
+compartment, I, and tested infected individuals move to the tested recovered
+tial increase in testing capability and efforts during the month of U
+compartment, I. In balancing considerations of model fidelity and parameter
+May, our simple time-varying assumption may underestimate the T
+identifiability, we made the reasonably conservative assumptions that all tested
+current level of testing and contact tracing. However, it should be cases are effectively isolated (through self-quarantine or hospitalization) and
+noted that increased testing capacity does not necessarily lead to thus unavailable for transmission, and that all COVID-related deaths are
+an increased rate of testing if individuals are unaware, unwilling identified/tested.
+With respect to contact tracing, the additional compartment S represents
+or unable to be tested29. Having data on contact tracing and date of C
+unexposed contacts who undergo a period of isolation during which they are not
+symptoms onset would enable us to compute a better estimate of the susceptible before returning to S, while E, A and I represent contacts who were
+C C C
+current testing and contact-tracing rate in each state. Our model exposed. Again, the reasonably conservative assumption was made that all exposed
+NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav 1087
+Articles Nature HumaN BeHaviour
+contacts undergo testing, with an accelerated testing rate compared to the general small values of α there is substantial interindividual variability. Case and death data
+population. We assume a closed population of constant size, N, for each state. were sourced from The COVID Tracking Project32.
+The ordinary differential equations governing our model are as follows: Finally, we derived the time-dependent reproduction number, R(t) and the
+effective reproduction number, R (t) of this model, given by
+d d dd ddS S Et ttC¼ ¼¼� ��S ES´ ´Cc κ´´ þγ½β þ Sþ ´S c´ð1 ´c� β´ ´ðβ 1 ðÞ 1�´ �f βC Þ fC´´ Þfð ´CIU ð´ Iþ UðIU þA þU AÞ U= AN ÞU =Þ Nþ =NSC´γ R ðt Þ¼c´e βff ´ ð1 �fCÞ (cid:31)1 λ� þf ρA þf ρA
+(cid:30)
+d dE tC ¼�EC´κ þS´c´β´fC´ ðIUþAUÞ=N
+and
+d dI tU ¼�IU´ ðλ þρ ÞþE´κ´ ð1 �fAÞ
+d
+d
+ddA
+I
+tCtU ¼¼ �� IA CU ´´ ðλρ Cþ þE
+ρ
+C´ Þκ þ´f EA
+C´κ´ ð1 �fAÞ
+Reffðt Þ¼R ðt Þ´S Nðt Þ
+d d ddA R tt UC ¼¼ ð� IUAC þ´ Aρ UC þþ AE CC Þ´ ´κ ρ´ þfA IC´ρ C singR lee ff i( nt) fe i cs t t ioh ue sa v ine dra ivg ie d n uu alm db ue rr i no gf s thec eo irn id na fr ey c ti in of ue sc t pi eo rn i oc da s ie ns pg ae rn te iar la lt ye d su b sy c ea p tible
+d dI tT ¼�IT´ ðρ þδ ÞþIU´λ þIC´λ C population at time t. It is equal to the product of the transmission risk per contact
+d d ddR F tt TT ¼¼ II TT ´´ δρ o ath rf e ea i sn r u ai sn v cef ee r pc a tt g ii beo lu d es ,u Si r Nðn a t Þtd .i i o Tv n hid io su f a a il cn cw f oei c uth t ni o tt sh n e f, o i (cid:31)r rI 1 u λ t� þhn f ρA etr þ ra ec lfe aρAd t(cid:30)i v,c eao nn cd ota n tc tht rs e i, b pc u o× tr i otβ i n o× n o ( f1 o a f− sc y f oC mn), pt t a ti c om t mse t as h tia ct ,
+p coro nb tw aa ch b te i lr ti re t ay c
+c
+p ii ns e grt h ,i n 1e /fc γeo c in t se t tda hc ect o dr na utt rae ac b tt i,e
+o
+t f nCw i oe se
+f
+tn sh
+e
+ei ln ff -d r ia siv oci t ld aiou tina
+o
+l nos, f
+a
+β c
+f
+toi es n
+r
+t t ch a oce t
+n
+st tr aia d cn e ts n tm rt aii f cs is e ini do
+g
+n t ,h 1r /o κu ig
+s
+h
+th e
+Uc I´ siβ ng´ pð1 os� terfC ioÞ
+r(cid:31)
+sfI ρA a(cid:30)m´ plS eNð st Þ fa on
+r
+d
+a
+ls ly 5m
+0
+p stt ao tm esa ati nc
+d
+i n thfe ec Dtio isn t,
+r
+ic cI´
+t
+oβ f´ Cð o1 lu� mf bC iÞ
+a(cid:31),
+1 wλ� þef ρA (cid:30)´S Nðt Þ.
+conducted an analysis of variance using a linear model to characterize the
+latent period, f A is the fraction of exposed who are asymptomatic, λ is the testing contributions to the combined interstate and intrastate variation in R . Specifically,
+r rea cte o, v δ e ris y t rh ae te f sa ,t ra eli st py e r ca tt ie v, e ρ ly ,i s o t fh ce o nre tc ao ctv -e tr ry a cr ea dte i nan dd iv λ idC u a an lsd . ρ TC h a er te e t sh tie n t ge rs ati tn eg s λa n ad n d we used a linear model for R eff with the model parameters R 0, η, θmin, re mff ax, f C, f A, λ
+λC, the fatality rate δ and the recovery rate of traced contacts ρC are each composites a en acd
+h
+ρ
+p
+a as
+r
+ap mre ed ti ec rt .ors, and evaluated the percentage of variance in R eff contributed by
+of several underlying parameters. The testing rate defined as
+1 Incorporating social distancing, enhanced hygiene practices and reopening.
+λ ðt Þ¼Ftest;0´ (cid:31)1
+�1 þe ðt �T50TÞ=τT
+(cid:30)´Senstest´ktest; T thh re
+o
+uim ghp a ac tt
+i
+mof
+e
+s do ec pia el
+n
+d dis et na cn ec i in ng t,
+h
+h ey cg oie nn tae
+c
+p
+t
+r ra ac teti ,c ce s
+a
+na dn d
+th
+r ee o trp ae nn si mng
+is
+w sia os
+n
+m pro od be all be id
+li ty
+per infected contact, β:
+where F is the current testing coverage (fraction of infected individuals tested),
+test,0
+tS ee sn tes
+t des ,t
+wis
+i
+t th he
+a
+t te ys pt is ce an ls ti it miv eit -y
+t
+o( -tr teu se
+t
+p eqo usi at li v te
+o
+r 1a /t ke) a
+.
+n Td
+h
+k
+e
+te ts it
+m
+is
+e
+t -h de
+e
+pra et ne
+d
+o ef
+n
+t ce est ti en rg
+m
+fo mr t oh do es le
+s
+c βðt tÞ¼c β0´ ´½θ θðt tÞηþð1 �θ minÞ´r ðt
+Þ
+the ramping up of testing using a logistic functe ts it on with a growth rate of 1/τT d−1, ðÞ¼ 0 ðÞ
+where T50 T is the time where 50% of the current testing rate is achieved. Similarly, The θ(t) function parameterized social distancing during the progression to
+for testing of traced contacts, the same definition is used with the assumption that shelter-in-place, and is modelled as a Weibull function:
+all identified contacts are tested, F test,0 =
+1
+1 and at a faster assumed testing rate, k C,test: θ ðt Þ¼θ minþð1 �θ minÞe�ðt=τθÞnθ;
+λ Cðt
+Þ¼
+(cid:31)1
+�1 þe ðt �T50TÞ=τT
+(cid:30)´Senstest´kC;test;
+which starts as unity and decreases to θmin, with τ
+θ
+being the Weibull scale
+parameter and n the Weibull shape parameter (Fig. 1).
+θ
+Because all contacts are assumed to be tested, the rate ρC at which they enter The r(t) function parameterized relative increase in contacts due to reopening
+the ‘recovered’ compartment, R U is simply the rate of false negative test results: after shelter-in-place, with r = 1 corresponding to a return to baseline c = c 0.
+all
+CT Oh Ve Ifa Dta -1li 9ty
+d
+ρ
+r
+eaC
+at
+tð
+e
+ht iÞ
+ss
+¼
+aa rd
+e(cid:31)
+j u
+i1
+ds
+e�
+te nd
+t1
+i
+t
+fþ
+o
+ie
+dme ,ð at a�1
+i
+snT s5
+t
+u0
+a
+mT iÞ n=
+i
+τ ncT
+o
+g(cid:30)
+n
+c´
+s
+oið ns1
+t se
+t�
+n
+ancS
+y
+te Iwn Fs
+i
+Rtte
+h
+.s t SÞ
+th
+p´
+e
+ek
+ca
+it se fs
+s
+it
+cu am llyp ,t wio en
+f
+t ih rsa tt
+r
+t
+tu
+r
+rð ð mt t ¼Þ aÞ x¼ ¼
+τ
+¼θr H
+þ
+τm θea τx a þsvt � i τsτ τ siθ r d� þeτ ðs τt½u rÞð t � 1t �rÞ 1� þ1 e4u tðt �trmaxÞþu ðt �trmaxÞ
+calculated the fraction of infected that is tested and positive: The term r(t) is 0 before t, linear between t and t and constant at a value
+r r rmax
+fposðt Þ¼fCλ Cðtλ ÞC þðt ρÞ Cðt Þþð1 �fCÞλ ðtλ Þðt þÞ ρ: mbo yf
+a
+r a xm ila mox ga uf i mste tir c
+r
+t efh lu aa n tt i, c
+v
+a t ein o id nn c.m rT ea h ad see
+e
+r c e ino on p ct e oi nn niu tn ao g cu
+t
+t ss i m rb my e
+a x
+a i hp s p ad pr eo pfx i eni nm e sd a
+τ
+t a ri s dn τ ag s
+y
+t d sh a ae y
+f
+tH s
+e
+a re f a ttv hei r as tτi .d θ,e a f nu dn c thti eo n
+We selected the functional form above for c(t) because it was found to be
+Then the case fatality rate CFR(t) = IFR/f pos(t). Because CFR = δ/(δ + ρ), this
+able to represent a wide variety of social-distancing data, including mobile phone
+implies
+mobility data from Unacast33 and Google34 as well as restaurant booking data from
+CFR t IFR OpenTable35. We used these different mobility sources to derive state-specific prior
+δ ðt Þ¼ρ 1 �CFð RÞ ðt Þ¼ρ fposðt Þ�IFR: d θmis int ,r i τb θ,u nti θo
+,
+n τss
+,
+b
+r
+me ac xa au ns de d τri f (f Se ure pn pt
+l
+es moc ei na tl- ad ryis t Fa in gc
+.
+i 1n )g
+.
+datasets had different values for
+The model is ‘seeded’ N cases on 29 February 2020. Because in the early With respect to the reduction in transmission probability β, we assumed
+stages of the outbreak there in mitia al y be multiple ‘imported’ cases, we fit to data only that during the shelter-in-place phase, hygiene-based mitigation paralleled this
+from 19 March 2020 onwards, 1 week after the US travel ban was put in place31. decline with an effectiveness power η, and that this mitigation continued through
+Our model is fit to daily case y and death y data (cumulative data are not used reopening.
+for fitting because of autocorrelatioc n). To adequd ately fit the case and mortality Finally, we define an overall reopening parameter Δ that measures the rebound
+data, we accounted for two lag times. First, a lag is assumed between leaving the in disease transmission, c × β relative to its minimum, defined to be 0 during
+I compartment and public reporting of a positive test result, accounting for the shelter-in-place (that is, R(t) is at a minimum) and 1 when all restrictions are
+tiU me it takes to seek a test, obtain testing and have the result reported. No lag is removed (when R(t) = R 0), which can be derived as:
+a enss tu erm ine gd tf ho er ft ae ts ats
+ll
+yfr io lm
+l c
+oc mon pt aa rc tt
+m
+tr ea nc ti n Fg. aS ne dc o pn ud b,
+l
+ia
+c
+ll yag
+r
+eti pm ore
+t
+eis
+d
+a dss eu atm he s.d
+A
+b de dtw ite ioe nn
+a lly, Δt
+c´β= ðc0´β 0Þ�θ1 mþinη
+:
+we use a negative binomial
+likelihoodT
+to account for the substantial day-to-day
+ðÞ¼ 1 �θ1 mþinη
+over-dispersion in reporting results. The corresponding equations are as follows:
+Our model is illustrated in Fig. 1, with parameters and prior distributions listed
+y ypo p½cb r; eds d; ½ ;ðc c; td ðÞ tð Þ¼t Þ ¼α ½Ic; UdyN p þ ðre tye d; pg ½ �c r; eB d d ;½ði c τt ;n dÞ c a½ ð sα t eÞ½ Þc; ´d ; λp ðt½c Þ;d þðt IÞ C ðt Þ´λ Cðt
+Þ
+i S cn uc e rT rna eab nrl te i o a1 n e. dv a fulu tuat ri eo cn o. u W rse e u os fe td h eth pe a m ndo ed mel i cto in m ea ak ce h s se tv ae ter .a Fl ii rn sf te , r wen ec ce os n a sb ido eu rt tt hh ee
+ypred;dðt Þ¼ITðt �τ deathÞ´δ ðt
+Þ
+effective reproduction number. Two time points of particular interest are the
+time of minimum R , reflecting the degree to which shelter-in-place and other
+eff
+In this parameterization, because the dispersion parameter α → ∞, the interventions were effective in reducing transmission, and the final time of the
+likelihood becomes a Poisson distribution with expected value y pred,[c,d], whereas for simulation, 22 July 2020, reflecting the extent to which reopening has increased R eff.
+1088 NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+Additional parameters of interest are the current levels of reopening Δ(t), testing λ Mobility data are shown in Supplementary Fig. 1. Case and death data are shown in
+and contact tracing f. Figs. 1 and 3 and Supplementary Figs. 3–6 and 8. All data used are also available in
+C
+We then conducted scenario-based prospective predictions using our model’s the software and code repository.
+parameters as estimated to 22 July 2020. We then asked the following questions:
+(1) Assuming current levels of reopening, what increases in general testing λ and/ Code availability
+or contact tracing f C would be necessary to bring R eff < 1? The codes used to generate our results will be available on GitHub prior to
+(2) What level of reopening Δ can maintain R eff < 1 under four different scenarios: publication, at https://github.com/wachiuphd/COVID-19-Bayesian-SEIR-US.
+current values of testing and contact tracing, doubling testing, double tracing
+and doubling both testing and tracing? Received: 22 July 2020; Accepted: 17 September 2020;
+(3) What will be the rates of new cases and deaths under different scenarios? Published online: 6 October 2020
+Specifically, we evaluate the impact of increases in testing and contact tracing
+under current levels of reopening, as well as increases or decreases of 25 or 50%.
+References
+For (1), we evaluated the posterior probability that R eff < 1 under scaling 1. Johns Hopkins Coronavirus Resource Center (Johns Hopkins University of
+transformations λ → λ × μ λ and f C → f C × μC with scaling factors μ λ and μC: Medicine, accessed 18 May 2020); https://coronavirus.jhu.edu/
+Reffðt Þ¼S ðt Þ´c´β´ ð1 �μ C´fCÞ μ1 � λfA ρþf ρA 2. H N.o Els nh gu le
+.
+,
+J
+.M M. eL d.
+.
+e 3t 8a 2l.
+,
+F 9i 2r 9s –t 9c 3as 6e
+(
+o 2f
+0
+22 00 )1 .9 novel coronavirus in the united states.
+(cid:31) λ þ (cid:30) 3. Weiss, P. & Murdoch, D. R. Clinical course and mortality risk of severe
+We additionally derived ‘critical’ values of μC and μ
+λ
+where R eff(t) < 1 under COVID-19. Lancet 395, 1014–1015 (2020).
+the conditions of increased testing alone (μC = 1), increased contact tracing alone 4. Wu, Z. & McGoogan, J. M. Characteristics of and important lessons from the
+(μ
+λ
+= 1) and equal increases in testing and tracing (μC = μ λ). We also performed the coronavirus disease 2019 (COVID-19) outbreak in China: summary of a
+same analysis under a full reopening scenario (that is, setting S(t) = 1, c = c 0 and report of 72314 cases from the Chinese Center for Disease Control and
+β = β0). Prevention. JAMA 323, 1239–1242 (2020).
+For (2), we rearranged the equation for R in terms of the reopening 5. Kucharski, A. J. et al. Effectiveness of isolation, testing, contact tracing, and
+eff
+parameter Δ: physical distancing on reducing transmission of SARS-CoV-2 in
+different settings: a mathematical modelling study. Lancet Infect. Dis. 20,
+Reffðt Þ¼S ðt Þ´c0´β 0´ ð1 �μ C´fCÞ
+(cid:31)μ
+λ1 ´� λf þA ρþf ρA
+(cid:30)
+Δ´ ð1 �θ1 mþinη Þþθ1 mþinη
+6.
+C11 h5 u1 ,– D11
+.
+6 K0
+.
+e(2
+t
+0 a2 l.0 P).
+hysical distancing, face masks, and eye protection to
+(cid:29) (cid:28) prevent person-to-person transmission of SARS-CoV-2 and COVID-19: a
+We then fixed the scaling factors at 1 or 2, and solved the above equation to systematic review and meta-analysis. Lancet 395, 1973–1987 (2020).
+determine the percentage of reopening (Δcrit) that can be achieved while keeping 7. Pearce, K. What is social distancing and how can it slow the spread of
+R eff < 1. Values of Δcrit ≥ Δ(t) indicate the additional degree of reopening possible COVID-19? John Hopkins University Hub https://hub.jhu.edu/2020/03/13/
+while maintaining R eff < 1, while values of Δcrit < Δ(t) indicate that reduction what-is-social-distancing/ (2020).
+of reopening is needed. To convert back to testing and contact-tracing rates, 8. Bialek, S. et al. Geographic differences in covid-19 cases, deaths, and
+we multiplied the scaling factors μC and μ λ by the original values of f C and λ, Incidence—United States, February 12–April 7, 2020. Mmwr. Morb. Mortal.
+respectively. Wkly Rep. 69, 465–471 (2020).
+Finally, for (3), we additionally evaluated changes in reopening Δ → Δ + Δ Δ 9. Siedner, M. J. et al. Social distancing to slow the U.S. COVID-19 epidemic: an
+for Δ Δ values of +25% (+50%) or −25% (−50%), for a total of 20 scenarios (four interrupted time-series analysis. PLoS Med. 17, e1003244 (2020).
+different levels of testing and tracing and five different levels of reopening). We 10. Wagner, A. B. et al. Social distancing has merely stabilized COVID-19 in the
+then ran the SEIR model forward in time to 30 September 2020. For all three US. Stat https://doi.org/10.1002/sta4.302 (2020).
+intervention parameters, μC, μ λ and Δ Δ, we assumed a ramp-up period of 2 weeks 11. Tolbert, J., Kates, J. & Levitt, L. Lifting social distancing measures in America:
+from 1 to 14 August 2020. state actions & metrics. KFF.org https://www.kff.org/
+To summarize the relative need for mitigation in each state, we categorized coronavirus-policy-watch/
+states based on which scenarios resulted in the IQR of R(t) < 1 on 15 August 2020. lifting-social-distancing-measures-in-america-state-actions-metrics/ (2020).
+The categories were defined as follows: 12. CDC COVID Data Tracker (Centers for Disease Control and Prevention,
+• Very Low: can reopen further by >25% while maintaining R(t) < 1 accessed 18 May 2020); https://www.cdc.gov/coronavirus/2019-ncov/
+• Low: can reopen further by <25% with up to 2× increase in testing while cases-updates/testing-in-us.html
+maintaining R(t) < 1 13. Garnett, G. P., Cousens, S., Hallett, T. B., Steketee, R. & Walker, N.
+• Moderate: requires 2× contact tracing or reversal of reopening by 25% to bring Mathematical models in the evaluation of health programmes. Lancet 378,
+and maintain R(t) < 1 515–525 (2011).
+• High: requires multiple interventions (2× testing, 2× contract tracing and 14. Giordano, G. et al. Modelling the COVID-19 epidemic and implementation
+reversal of reopening by 25%) to bring and maintain R(t) < 1 of population-wide interventions in Italy. Nat. Med. 26, 855–860 (2020).
+• Very High: combining 2× testing, 2× contact tracing and reversal of reopening 15. Russo, L. et al. Tracing DAY-ZERO and forecasting the fade out of the
+by 50% is needed to bring and maintain R(t) < 1 COVID-19 outbreak in Lombardy, Italy: a compartmental modelling and
+numerical optimization approach. Preprint at medRxiv https://doi.
+We use R(t) instead of R (t), to minimize the impact of heterogeneity and
+eff org/10.1101/2020.03.17.20037689 (2020).
+uncertainty in the value of S(t)/N on our results. Thus, requiring R(t) < 1 provides
+16. Gevertz, J., Greene, J., Tapia, C. H. S. & Sontag, E. D. A novel COVID-19
+greater assurance of state-wide control of the epidemic.
+epidemiological model with explicit susceptible and asymptomatic isolation
+compartments reveals unexpected consequences of timing social distancing.
+Software and code. Posterior distributions were sampled with Markov chain
+Preprint at medRxiv https://doi.org/10.1101/2020.05.11.20098335 (2020).
+Monte Carlo (MCMC) simulation performed using MCSim v.6.1.0 in Metropolis
+17. Colbourn, T. et al. Modelling the health and economic impacts of
+within Gibbs sampling36. For each US state, four chains of 200,000 iterations each
+population-wide testing, contact tracing and isolation (PTTI) strategies
+were run, with the first 20% of runs discarded and 500 posterior samples saved for
+for COVID-19 in the UK. Preprint at SSRN https://doi.org/10.2139/
+analysis. For each parameter, comparison of interchain and intrachain variability
+ssrn.3627273 (2020).
+was assessed to determine convergence, with the potential scale reduction
+18. Anderson, R. M., May, R. M. & Anderson, B. Infectious Diseases of Humans:
+factor R ≤ 1.2 considered converged37. Additional analysis of model outputs was
+Dynamics and Control (Oxford Univ. Press, 1992).
+performed in RStudio v.1.2.1335 (ref. 38) with R v.3.6.1 (ref. 39).
+19. Murray, J. D. Mathematical Biology I. An Introduction (Springer, 2002).
+20. Moghadas, S. M. et al. The implications of silent transmission for the control
+Reporting Summary. Further information on research design is available in the
+of COVID-19 outbreaks. Proc. Natl Acad. Sci. USA 117, 17513–17515 (2020).
+Nature Research Reporting Summary linked to this article.
+21. Chinazzi, M. et al. The effect of travel restrictions on the spread of the 2019
+novel coronavirus (COVID-19) outbreak. Science 368, 395–400 (2020).
+Data availability 22. Panovska-Griffiths, J. et al. Determining the optimal strategy for reopening
+The following publicly available datasets are used: mobility data from Unacast schools, the impact of test and trace interventions, and the risk of occurrence
+were sourced from https://covid19-scoreboard-api.unacastapis.com/api/search/ of a second COVID-19 epidemic wave in the UK: a modelling study. Lancet
+covidstateaggregates_v3; mobility data from Google were sourced from https:// Child Adolesc. Health https://doi.org/10.1016/S2352-4642(20)30250-9 (2020).
+www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv; restaurant 23. Leung, N. H. L. et al. Respiratory virus shedding in exhaled breath and
+booking data were sourced from OpenTable, https://www.opentable.com/ efficacy of face masks. Nat. Med. 26, 676–680 (2020).
+state-of-industry; case and death data were sourced from The COVID Tracking 24. Greenhalgh, T., Schmid, M. B., Czypionka, T., Bassler, D. & Gruer, L. Face
+Project, https://covidtracking.com/. masks for the public during the covid-19 crisis. BMJ 369, m1435 (2020).
+NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav 1089
+Articles Nature HumaN BeHaviour
+25. Eikenberry, S. E. et al. To mask or not to mask: modeling the potential for 48. America’s COVID Warning System (Covid Act Now, accessed 15 June 2020);
+face mask use by the general public to curtail the COVID-19 pandemic. https://covidactnow.org/?s=49762
+Infect. Dis. Model. 5, 293–308 (2020). 49. Gao, Z. et al. A systematic review of asymptomatic infections with
+26. Pitzer, V. E. et al. The impact of changes in diagnostic testing practices on COVID-19. J. Microbiol. Immunol. Infect. https://doi.org/10.1016/j.
+estimates of COVID-19 transmission in the United States. Preprint at jmii.2020.05.001 (2020).
+medRxiv https://doi.org/10.1101/2020.04.20.20073338 (2020). 50. Arons, M. M. et al. Presymptomatic SARS-CoV-2 infections and transmission
+27. Yamana, T., Pei, S., Kandula, S. & Shaman, J. Projection of COVID-19 cases in a skilled nursing facility. N. Engl. J. Med. 382, 2081–2090 (2020).
+and deaths in the US as individual states re-open May 4, 2020. Preprint at 51. Nishiura, H. et al. Estimation of the asymptomatic ratio of novel coronavirus
+medRxiv https://doi.org/10.1101/2020.05.04.20090670 (2020). infections (COVID-19). Int. J. Infect. Dis. 94, 154–155 (2020).
+28. Peirlinck, M., Linka, K., Sahli Costabal, F. & Kuhl, E. Outbreak dynamics of 52. Watson, J., Whiting, P. F. & Brush, J. E. Interpreting a covid-19 test result.
+COVID-19 in China and the United States. Biomech. Model. Mechanobiol. Brit. Med. J. 369, m1808 (2020).
+https://doi.org/10.1007/s10237-020-01332-5 (2020). 53. Cummings, M. J. et al. Epidemiology, clinical course, and outcomes of
+29. Thompson, S., Eilperin, J. & Dennis, B. U.S. states see COVID-19 testing critically ill adults with COVID-19 in New York City: a prospective cohort
+supply improvements, but challenges abound. The Washington Post (18 May study. Lancet 395, 1763–1770 (2020).
+2020); h t t p s : / / w w w . w a s hi n g t o n p o s t . c o m / he a l t h / a s- c o r o n a vi r u s - t e st i n g - 54. Sun, K., Chen, J. & Viboud, C. Early epidemiological analysis of the
+e x pa n d s - a - ne w - p r o b le m - a r i s es - n o t - e no u g h- p e op l e -t o- te st /2 02 0/05/17/3f3297de- coronavirus disease 2019 outbreak based on crowdsourced data: a
+8bcd-11ea-8ac1-bfb250876b7a_story.html population-level observational study. Lancet Digit. Health 2, e201–e208 (2020).
+30. Keeling, M. J. et al. Predictions of COVID-19 dynamics in the UK: 55. Onder, G., Rezza, G. & Brusaferro, S. Case-fatality rate and characteristics of
+short-term forecasting and analysis of potential exit strategies. Preprint at patients dying in relation to COVID-19 in Italy. JAMA 323, 1775–1776 (2020).
+medRxiv https://doi.org/10.1101/2020.05.10.20083683 (2020). 56. Map: How States are Reopening after Coronavirus Shutdown (Washington
+31. Presidential Proclamation—Travel From Europe (U.S. Department of State, 8 Post, accessed 15 June 2020); https://www.washingtonpost.com/
+May 2020); https://travel.state.gov/content/travel/en/traveladvisories/ graphics/2020/national/states-reopening-coronavirus-map/
+presidential-proclamation-travel-from-europe.html
+32. The COVID Tracking Project (The Atlantic, accessed 18 May 2020); https://
+Acknowledgements
+covidtracking.com/
+33. Data for Good (Unacast, accessed 18 May 2020); https://www.unacast.com/ We acknowledge funding from the National Science Foundation (no. RAPID DEB
+data-for-good 2028632) and National Institutes of Health, National Institute of Environmental Health
+34. COVID-19 Community Mobility Reports (Google LLC, accessed 15 June Sciences (no. P30 ES029067). The funders had no role in the conceptualization, design,
+2020); https://www.google.com/covid19/mobility/ data collection, analysis, decision to publish or preparation of the manuscript. We
+35. The State of the Restaurant Industry (Open Table, accessed 18 May 2020); thank F. Y. Bois, J. K. Cetina, M. Giannoni, I. Rusyn and W. Więcek for useful input and
+https://www.opentable.com/state-of-industry advice on scenario development, model formulation and MCMC simulation. We also
+36. Bois, F. Y. GNU MCSim: Bayesian statistical inference for SBML-coded thank Unacast for making their mobility data available to researchers, and The COVID
+systems biology models. Bioinformatics 25, 1453–1454 (2009). Tracking Project for compiling case and mortality data and providing these to the
+37. Gelman, A. & Rubin, D. B. Inference from iterative simulation using multiple public. Portions of this research were conducted with the advanced computing resources
+sequences. Stat. Sci. 7, 457–472 (1992). provided by Texas A&M High Performance Research Computing.
+38. RStudio (RStudio Team, 2020); https://rstudio.com/
+39. R: The R Project for Statistical Computing (R Core Team, 2020); https:// Author contributions
+www.r-project.org/
+W.A.C. and M.L.N.-M. conceived and designed the study and developed the model.
+40. Population and Housing Unit Estimates Dataset, 2010–2019 (United States
+W.A.C. performed the analysis. W.A.C. and M.L.N.-M. drafted the paper, with critical
+Census Bureau, accessed 19 May 2020); https://www2.census.gov/
+revision by R.F.
+programs-surveys/popest/datasets/2010-2019/state/detail/
+41. Lauer, S. A. et al. The incubation period of coronavirus disease 2019
+(COVID-19) from publicly reported confirmed cases: estimation and Competing interests
+application. Ann. Intern. Med. https://doi.org/10.7326/M20-0504 (2020). The authors declare no competing interests.
+42. He, X. et al. Temporal dynamics in viral shedding and transmissibility of
+COVID-19. Nat. Med. 26, 672–675 (2020).
+43. Mossong, J. et al. Social contacts and mixing patterns relevant to the spread Additional information
+of infectious diseases. PLoS Med. 5, e74 (2008). Extended data is available for this paper at https://doi.org/10.1038/s41562-020-00969-7.
+44. Verity, R. et al. Estimates of the severity of coronavirus disease 2019: a
+Supplementary information is available for this paper at https://doi.org/10.1038/
+model-based analysis. Lancet Infect. Dis. 20, 669–677 (2020).
+s41562-020-00969-7.
+45. Li, Q. et al. Early transmission dynamics in Wuhan, China, of novel
+coronavirus–infected pneumonia. N. Engl. J. Med. 382, 1199–1207 (2020). Correspondence and requests for materials should be addressed to W.A.C. or
+46. Riou, J. & Althaus, C. L. Pattern of early human-to-human transmission of M.L.N.-M.
+Wuhan 2019 novel coronavirus (2019-nCoV), December 2019 to January Peer review information Primary handling editor: Charlotte Payne.
+2020. Eurosurveillance 25, 2000058 (2020).
+Reprints and permissions information is available at www.nature.com/reprints.
+47. Park, S. W. et al. Reconciling early-outbreak estimates of the basic
+reproductive number and its uncertainty: a new framework and applications Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+to the novel coronavirus (2019-nCoV) outbreak. J. R. Soc. Interface 17, published maps and institutional affiliations.
+20200144 (2020). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+1090 NAtURe HUMAN BeHAVIOUR | VOL 4 | OCTOBEr 2020 | 1080–1090 | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 1 | Correlations across states between R eff(t) and (A) θmin, (B) η, (C) Δ, and (D) f C. For each state, 500 posterior samples are shown.
+Substantial state-to-state heterogeneity is evident in all parameters, with η,θmin, r max, and f
+C
+contribute over 50% of the variance in r eff(t) under a linear
+model (estimated from ANOVA table [Supplementary Table 1] using the sum-of-squares relative to the total sum-of-squares). For θmin, while lower values
+appear to be associated with greater current values of r eff(t) in a univariate model (linear model coefficient = -0.54, t statistic = -78.14, p < 2.2e-16, 95%
+CI = [-0.56,-0.53]), the correlation is positive in the multivariate model (coefficient = 0.11, t statistic = 13.65, p < 2.2e-16, 95% CI = [0.09, 0.13]). The
+other parameters correlate as expected: higher r eff(t) is correlated with lower contribution from hygiene practices (smaller η) (coefficient = -0.39,
+t statistic = -59.7, p < 2.2e-16, 95% CI = [-0.40,-0.38]), more reopening (larger r max) (coefficient = 0.44, t statistic = 119.0, p < 2.2e-16, 95% CI = [0.43,
+0.45]), and lower rates of contact tracing (smaller f C) (coefficient = -0.90, t statistic = -114.6, p < 2.2e-16, 95% CI = [-0.92, -0.89]).
+NAtURe HUMAN BeHAVIOUR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 2 | Contour maps for each state of the probability that R eff(t) at different levels contact tracing f
+C
+and testing λ. Contours are labelled
+as by median and 95% Credible interval, and current median estimates of f C and λ are shown by the circle.
+NAtURe HUMAN BeHAVIOUR | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 3 | estimated testing and contact tracing rates needed for R eff(t) < 1 as of July 22, 2020. Boxplots (line = median, box = IQr,
+whiskers = 95% CrI) are filled based on the estimated r eff(t) on July 22, 2020, as shown in the legend. Top panel is changing testing rate alone, the middle
+panel is changing contact tracing rate alone, and the bottom panel is changing both to the same value. Also shown are the current median estimates of the
+testing and contact tracing rates.
+NAtURe HUMAN BeHAVIOUR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 4 | estimated testing and contact tracing rates needed for R(t) < 1 with complete re-opening (that is, removal of all social
+distancing and hygiene mitigation). Boxplots (line = median, box = IQr, whiskers = 95% CrI) are filled based on the estimated r eff(t) on July 22, 2020,
+as shown in the legend. Top panel is changing testing rate alone, the middle panel is changing contact tracing rate alone, and the bottom panel is changing
+both to the same value. Also shown are the current median estimates of the testing and contact tracing rates.
+NAtURe HUMAN BeHAVIOUR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2020
+Corresponding author(s): Martial L Ndeffo-Mbah
+Last updated by author(s): Aug 7, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see our Editorial Policies and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection NA
+Data analysis Posterior distributions were sampled using Markov chain Monte Carlo simulation performed using MCSim version 6.1.0 using Metropolis
+within Gibbs sampling; Additional analysis of model outputs was performed in RStudio version 1.2.1335 with R version 3.6.1. The codes used
+to generate our results will be available on Github prior to publication at https://github.com/wachiuphd/COVID-19-Bayesian-SEIR-US.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The following publicly available datasets are used:
+Mobility data from Unacast were sourced from https://covid19-scoreboard-api.unacastapis.com/api/search/covidstateaggregates_v3.
+Mobility data from Google were sourced from https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv.
+Restaurant booking data were sourced from OpenTable https://www.opentable.com/state-of-industry.
+Case and death data were sourced from The COVID Tracking Project (https://covidtracking.com/).
+2
+nature
+research
+|
+reporting
+summary
+April
+2020
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Life sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Sample size NA
+Data exclusions NA
+Replication NA
+Randomization NA
+Blinding NA
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology and archaeology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Dual use research of concern

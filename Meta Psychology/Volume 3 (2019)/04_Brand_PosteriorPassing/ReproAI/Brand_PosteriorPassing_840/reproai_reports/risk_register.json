@@ -1,0 +1,45 @@
+{
+  "paper": "Brand et al. (2019) MP.2017.840 Posterior Passing",
+  "audit_date": "2026-09-14",
+  "audit_type": "RE-AUDIT",
+  "risks": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "MCMC simulation not regenerable byte-for-byte (no recorded seed; JAGS/Stan unavailable)",
+      "detail": "All reported counts derive from the author's shipped results table (Results/meta_results_18_09_16.txt). The full pipeline (BGLMM + PP + mega, each 3 chains x 2000 samples, plus lme4 GLMMs over 25 combos x 20 repeats) is heavy, and main.R ships NO set.seed(), so a fresh run cannot reproduce the exact table even with compute. JAGS is absent and Stan/brms cannot compile (no Rtools/make) on this host. This audit therefore (a) reproduced every reported number EXACTLY from the shipped output, and (b) INDEPENDENTLY reimplemented the method from-scratch (DGM + ANOVA + GLMM in R; DGM + ANOVA in Python; Bayesian BGLMM/PP via a custom Polya-Gamma Gibbs sampler) with a documented fixed seed, confirming the method-level behaviour (FP ~5%, ANOVA underestimation, PP convergence, PP ~ pooled). The numbers are trustworthy and the method is now independently validated; what remains is that a third party cannot regenerate the exact shipped table from scratch.",
+      "evidence": "main.R has no set.seed(); 01_shipped_falsepos.R reproduces 304/341/304/2/1 exactly; 03_scratch_sim_freq.R (seed 20260914) gives ANOVA 5.33% / GLMM 5.75%; py01 gives ANOVA 5.42%. JAGS absent; Rtools absent for Stan.",
+      "impact": "The specific counts are the author's own and match the paper; the underlying behaviour is now independently reproduced. The exact MCMC draws remain non-regenerable.",
+      "recommendation": "Record the RNG seed and JAGS/lme4/rjags versions; commit a 'smoke-test' that runs one (e,var) combo end-to-end so the pipeline is verifiable in minutes rather than days."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "'Converges within 10-15 analyses' not quantified in shipped summary",
+      "detail": "The Discussion claims posterior passing 'converges on the correct effect size within 10-15 analyses'. The shipped table logs only the final-experiment PP value per repeat (pp_final_expt_only=TRUE; util.R:229-234), so the exact 10-15 figure is not in the shipped artifacts. However, the from-scratch PP trajectory in this audit (seed 20260914, e=1, var=1: expt1 median 0.17 -> expt5 0.68 -> expt10 0.79 -> expt15 0.68, CI narrowing from [-0.73,1.13] to [0.60,1.01]) directionally supports convergence well within the 60 experiments and broadly consistent with the 10-15 claim.",
+      "evidence": "util.R:229-234 logs only final expt; 04b_scratch_sim_bayes.R/scratch_bayes_pp_trajectory.csv shows the trajectory.",
+      "impact": "Minor: the claim is now behaviourally supported by independent reimplementation but the exact '10-15' is still not checkable from the shipped summary.",
+      "recommendation": "Ship the per-experiment PP estimate trajectory (set pp_final_expt_only=FALSE) so the exact convergence rate is checkable; otherwise keep the softened wording."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "'Positive result' decision rule differs by method (not flagged)",
+      "detail": "In analyses.R the GLMM/BGLMM/PP/mega branches set p-value columns to NaN (lines 73-75, 119-121, 169-171, 218-220), so their 'positive result' is defined by the 95% CI/credible interval excluding 0 (util.R:309-315, 322-329); only the ANOVA uses p<.05 (util.R:305-307). The paper defines 'positive' as the CI excluding 0 but does not flag that the ANOVA's TPR is actually p-threshold-derived. The headline PP-vs-others comparison is unaffected (PP is CI-based like the other non-ANOVA methods), but the cross-method TPR comparison mixes decision rules. Also note: at var=0 the participant random effect is unidentified (DGM has no between-participant variance -> lme4 boundary/singular fits), which is a methodological transparency point for the GLMM/BGLMM branches.",
+      "evidence": "analyses.R:73-75,119-121,169-171,218-220; util.R:305-307 vs 309-329. Singular-fit warnings observed in 03_scratch_sim_freq.R at var=0.",
+      "impact": "Cross-method TPR mixes a p-based (ANOVA) with a CI-based rule (others); no effect on the headline PP-vs-ANOVA/GLMM conclusion.",
+      "recommendation": "State in the methods that 'positive result' = 95% CI/credible interval excludes 0 for the non-ANOVA methods and p<.05 for the ANOVA; add a note about the unidentified random effect at var=0."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Three declared variance parameters are inert no-ops (undocumented)",
+      "detail": "main.R (lines 21-22, 28-30) declares var_sexs=c(0), var_conds=c(0), var_sex_conds=c(0) with a comment that they 'do not currently do anything!'. simulation.R uses only var_base. The paper's 'between-individual variation' is correctly the baseline-performance variance; results are unaffected, but the dead parameters could mislead a re-implementer.",
+      "evidence": "main.R:28-30 comment; simulation.R uses only var_base.",
+      "impact": "None on results; documentation/clarity only.",
+      "recommendation": "Remove (or wire up) the inert parameters and add a one-line note that the only varied between-individual parameter is the baseline-performance variance (var_base)."
+    }
+  ],
+  "counts": {"P0": 0, "P1": 0, "P2": 1, "P3": 3},
+  "total": 4
+}

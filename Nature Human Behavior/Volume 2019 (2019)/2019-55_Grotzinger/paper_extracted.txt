@@ -1,0 +1,1432 @@
+Articles
+https://doi.org/10.1038/s41562-019-0566-x
+Genomic structural equation modelling provides
+insights into the multivariate genetic architecture
+of complex traits
+Andrew D. Grotzinger 1*, Mijke Rhemtulla2, Ronald de Vlaming 3,4, Stuart J. Ritchie5,6,
+Travis T. Mallard1, W. David Hill5,6, Hill F. Ip 7, Riccardo E. Marioni5,8, Andrew M. McIntosh 5,9,
+Ian J. Deary5,6, Philipp D. Koellinger3,4, K. Paige Harden1,10, Michel G. Nivard 7,11 and
+Elliot M. Tucker-Drob1,10,11
+Genetic correlations estimated from genome-wide association studies (GWASs) reveal pervasive pleiotropy across a wide vari-
+ety of phenotypes. We introduce genomic structural equation modelling (genomic SEM): a multivariate method for analysing
+the joint genetic architecture of complex traits. Genomic SEM synthesizes genetic correlations and single-nucleotide poly-
+morphism heritabilities inferred from GWAS summary statistics of individual traits from samples with varying and unknown
+degrees of overlap. Genomic SEM can be used to model multivariate genetic associations among phenotypes, identify variants
+with effects on general dimensions of cross-trait liability, calculate more predictive polygenic scores and identify loci that cause
+divergence between traits. We demonstrate several applications of genomic SEM, including a joint analysis of summary statis-
+tics from five psychiatric traits. We identify 27 independent single-nucleotide polymorphisms not previously identified in the
+contributing univariate GWASs. Polygenic scores from genomic SEM consistently outperform those from univariate GWASs.
+Genomic SEM is flexible and open ended, and allows for continuous innovation in multivariate genetic analysis.
+Genome-wide association studies (GWASs) are rapidly identi- allows for the specification and comparison of a range of proposed
+fying loci affecting multiple social, behavioural and psychi- multivariate genetic architectures, which improves on existing
+atric phenotypes1,2. Moreover, using cross-trait versions of approaches for combining information across genetically correlated
+methods such as genomic-relatedness-based restricted maximum traits to aid in discovery11.
+likelihood (GREML)3 and linkage disequilibrium score regression One powerful feature of genomic SEM is the capability to model
+(LDSC)4, researchers have identified genetic correlations between shared genetic architecture across phenotypes with factors repre-
+diverse traits; for example, age of first birth and risk of smoking5, senting broad genetic liabilities, and compare the fit of different fac-
+insomnia and psychiatric traits (for example, schizophrenia)6, major tor structures to the empirical data. When an appropriate model has
+depressive disorder (MDD) and number of children7, and educa- been identified at the level of the genome-wide covariance struc-
+tional attainment and cognitive performance8. Widespread statisti- ture, the researcher may incorporate individual single-nucleotide
+cal pleiotropy appears to be the rule rather than the exception across polymorphisms (SNPs) into the model to identify variants with
+complex traits. Although these findings are currently suggestive of effects on general dimensions of cross-trait liability, boost power for
+constellations of phenotypes affected by shared sources of genetic discovery, and calculate more valid and predictive polygenic scores
+liability, existing methods do not permit the causes of the observed (PGSs). Genomic SEM can also evaluate whether the multivariate
+genetic correlations to be investigated systematically. Here, we intro- genetic architecture implied by a specific model is applicable at the
+duce genomic structural equation modelling (genomic SEM)—a level of individual variants using developed estimates of heteroge-
+new method for modelling the multivariate genetic architecture of neity. When certain SNPs only influence a subset of genetically cor-
+constellations of traits and incorporating genetic covariance struc- related traits, a key assumption of other multivariate approaches is
+ture into multivariate GWAS discovery. Genomic SEM is a flexible violated11. SNPs with high heterogeneity estimates can be flagged as
+framework for formally modelling the genetic covariance structure likely to confer disproportionate liability towards individual traits,
+of complex traits using GWAS summary statistics from samples of be removed when constructing polygenic risk scores, or be studied
+varying and potentially unknown degrees of overlap, in contrast specifically to understand the nature of heterogeneity.
+with existing methods that model phenotypic covariance structure9, We validate key properties of genomic SEM with a series of simu-
+with specific applications10, using raw data. Moreover, genomic SEM lations, and illustrate the flexibility and utility of genomic SEM with
+1Department of Psychology, University of Texas at Austin, Austin, TX, USA. 2Department of Psychology, University of California, Davis, Davis, CA, USA.
+3Department of Economics, Vrije Universiteit Amsterdam, Amsterdam, The Netherlands. 4Erasmus University Rotterdam Institute for Behavior and
+Biology, Rotterdam, The Netherlands. 5Centre for Cognitive Ageing and Cognitive Epidemiology, University of Edinburgh, Edinburgh, UK. 6Department
+of Psychology, University of Edinburgh, Edinburgh, UK. 7Department of Biological Psychology, Vrije Universiteit University Amsterdam, Amsterdam, The
+Netherlands. 8Centre for Genomic and Experimental Medicine, Institute of Genetics and Molecular Medicine, University of Edinburgh, Edinburgh, UK.
+9Division of Psychiatry, University of Edinburgh, Edinburgh, UK. 10Population Research Center, University of Texas at Austin, Austin, TX, USA.
+11These authors jointly supervised this work: Michel G. Nivard, Elliot M. Tucker-Drob. *e-mail: agrotzin@utexas.edu
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+Articles NATurE HuMAN BEHAviour
+analyses of real data. These include a joint analysis of GWAS sum- supported based on previous results17–21. We tested for the pres-
+mary statistics from five genetically correlated psychiatric case-con- ence of a single common genetic p factor using genomic SEM with
+trol traits: schizophrenia, bipolar disorder, MDD, post-traumatic European-only summary statistics for schizophrenia, bipolar disor-
+stress disorder (PTSD) and anxiety. We model their joint genetic der, MDD, PTSD and anxiety (Supplementary Table 1 for pheno-
+architecture using a general factor of psychopathology (p), for which types and sample sizes). The model fit was adequate (χ2(5) = 89.55;
+we identify 27 independent SNPs not previously identified in the AIC = 109.50; CFI = 0.848; SRMR = 0.212). The results indicated
+univariate GWASs, 5 of which can be validated based on separate that schizophrenia and bipolar disorder loaded the strongest onto
+GWASs. PGSs derived using this p factor consistently outperform the genetic p factor (Supplementary Fig. 1)—a pattern of findings
+PGSs derived from GWASs of the individual traits in out-of-sample that closely replicates previous findings from twin/family studies19.
+prediction of psychiatric symptoms. Other demonstrations include In a second example, we tested for the presence of a single com-
+a multivariate GWAS of neuroticism items, an exploratory factor mon genetic factor of neuroticism using summary statistics from
+analysis (EFA) of anthropometric traits and a simultaneous analysis 12 item-level indicators from UK Biobank (UKB; Supplementary
+of the unique genetic associations between schizophrenia, bipolar Table 1), as estimated using the Hail software22. The model fit
+disorder and educational attainment. was good (χ2(54) = 4,884.10; AIC = 4,932.11; CFI = 0.893; SRMR =
+0.109). The results indicated strong positive loadings for all indi-
+Results cators (Supplementary Fig. 2). We used this single common factor
+Genomic SEM is a two-stage structural equation modelling model for both neuroticism and the p factor when estimating SNP
+approach12–14. In stage 1, the empirical genetic covariance matrix effects for discovery under the section ‘SNP effects’ below.
+and its associated sampling covariance matrix are estimated. The
+diagonal elements of the sampling covariance matrix are squared EFA of a genetic covariance matrix. We provide two examples of
+standard errors. The off-diagonal elements index the extent to how one might use exploratory methods to guide the specification
+which sampling errors of the estimates are associated, as may be of more nuanced factor models. In the first example, we submit-
+the case when there is sample overlap across GWASs. In stage 2, a ted the LDSC-derived genetic correlation matrix of the 12 neuroti-
+SEM is specified and parameters are estimated by minimizing the cism items in UKB to EFA (see Supplementary Results). Based on
+discrepancy between the model-implied genetic covariance matrix these initial EFA results, follow-up CFAs (Supplementary Fig. 3)
+and the empirical covariance matrix obtained in the previous stage. were specified using genomic SEM (standardized loadings > 0.4
+We evaluate fit with the standardized root mean square resid- were retained; Supplementary Table 2). The two-factor solution
+ual (SRMR), model χ2, Akaike Information Criterion (AIC) and (χ2(53) = 2,758.18; AIC = 2,808.18; CFI = 0.940; SRMR = 0.077)
+Comparative Fix Index (CFI; see Methods)13,15. In a set of simula- and three-factor solution (χ2(51) = 1,879.31; AIC = 1,933.31;
+tions, we verify key properties of genomic SEM (Methods). We find CFI = 0.959; SRMR = 0.057) both provided excellent fit to the data
+that genomic SEM produces unbiased parameter estimates when and exceeded the fit of the single, common factor model. Consistent
+the correct structural model is specified, and that model fit indices with the superior model fit indices for the two- and three-factor
+consistently favour the correct model over alternative models. In a solutions, only 28 and 20 of the 69 Q hits from the single com-
+SNP
+second set of simulations, we demonstrate that the inclusion of data mon factor model (described in further detail in the ‘SNP effects’
+from overlapping samples does not bias genomic SEM parameter section below) continued to surpass genome-wide significance for
+estimates or their standard errors. the two- and three-factor models, respectively (Supplementary
+Genomic SEM can be employed as a tool for multivariate GWASs Fig. 4 and Supplementary Table 3). In addition, a GWAS of all
+based on univariate summary statistics. First, the genetic covariance HapMap3 SNPs for the two- and three-factor models revealed that
+matrix and its associated sampling covariance matrix are expanded the average size of Q across all SNPs was largest for the common
+SNP
+to include SNP effects. A genomic SEM is then specified in which factor (χ2(1) = 1.68), followed by the two-factor (χ2(1) = 1.64) and
+SNP effects occur at the level of a latent genetic factor defined by three-factor models (χ2(1) = 1.51). Thus, heterogeneity indices of
+several phenotypes, at the level of the genetic components of each individual SNP effects in the GWAS data agree with model fit indi-
+of several (potentially genetically correlated) phenotypes, or some ces, with both favouring the three-factor model of neuroticism.
+combination of the two. The genomic SEM is then run once per SNP In the second example, EFA was applied to the LDSC-derived
+(or each set of SNPs, should the user incorporate multiple SNPs into genetic correlation matrix for nine anthropometric traits from the
+a model) to obtain its effects within the multivariate system. Early Growth Genetics and Genetic Investigation of Anthropometric
+We provide an index that quantifies the extent to which an Traits consortia (Supplementary Table 4). EFA results indicated that
+observed vector of univariate regression effects of a given SNP on 2 factors explained 61% of the total genetic variance. Moreover, a
+each of the phenotypes can be explained by a common pathway heat map of the genetic correlation matrix suggests two primary
+model that assumes that the effects are entirely mediated by the factors that index overweight and early life-growth phenotypes
+common genetic factor(s). In other words, the index enables the (Supplementary Fig. 5). A follow-up CFA (Supplementary Fig. 6)
+identification of loci that do and do not plausibly operate on the within genomic SEM was specified based on the EFA parameter
+individual phenotypes exclusively by way of their associations with estimates (standardized loadings > 0.25 were retained). The CFA
+the common factor(s). Because of its intuitive and mathematical showed good fit to the data (χ2(25) = 12,994.71; AIC = 13,034.71;
+similarity to the meta-analytic Q statistic used in standard meta- CFI = 0.962; SRMR = 0.092). The results indicated highly signifi-
+analyses to index heterogeneity of effect sizes16, we label this hetero- cant loadings and a small genetic correlation (r) between the two
+g
+geneity statistic Q . Q is a χ2-distributed test statistic, with larger factors (r = 0.10; s.e. = 0.03; P < 0.001). This indicates that early-life
+SNP SNP g
+values indexing a violation of the null hypothesis that the SNP acts physical growth is modestly associated with later life obesity traits
+entirely through the common factor(s). via genetic pathways.
+Confirmatory factor analysis of genetic covariance matrices. We Genetic multivariable regression (replicating genome-wide
+provide two examples of confirmatory factor analysis (CFA) using inferred statistics (GWIS)). Nieuwboer et al.23 used summary sta-
+genomic SEM. In our first example, we fit a genetic factor model tistics for educational achievement24 and both schizophrenia and
+to psychiatric case-control traits. Recent findings indicate that the bipolar disorder25 to determine whether genetic correlations with
+comorbidity across psychiatric disorders is captured by a general educational achievement are driven by variation specific to either
+psychopathology factor (that is, the p factor), and this is widely disorder. Educational achievement is genetically correlated with
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+NATurE HuMAN BEHAviour Articles
+schizophrenia (r = 0.148; s.e. = 0.050; P = 0.003) and bipolar dis- genome-wide significance threshold for any individual phenotype
+g
+order (r = 0.273; s.e. = 0.067; P < 0.001). Using the GWIS method, (Supplementary Figs. 12 and 13).
+g
+they found that the correlation of educational achievement with
+schizophrenia unique of bipolar is small (r = 0.040; s.e. = 0.082; Q results. The results revealed 1 and 69 independent Q
+g SNP SNP
+P = 0.627), whereas the genetic correlation between bipolar unique loci for the p factor and neuroticism, respectively (Fig. 2c,d and
+of schizophrenia and educational achievement is far less attenuated Supplementary Fig. 14). For neuroticism, significant Q esti-
+SNP
+(r = 0.218; s.e. = 0.102; P = 0.032). We used genomic SEM with the mates were obtained for SNPs that were highly significant for some
+g
+aim of replicating these results using a conceptually similar, but sta- traits but not others (Supplementary Table 7 and Supplementary
+tistically distinct, framework. We present this example to demon- Fig. 15). The association between P values for SNP effects and Q
+SNP
+strate that genomic SEM is not limited to factor analytical models, estimates were minimal (Supplementary Fig. 16). Comparing the
+but can be used to construct and test an array of hypotheses using a Q estimates for SNPs identified as significant for only the p factor
+SNP
+general SEM approach. or neuroticism relative to SNPs identified as significant for one of
+Using the same univariate GWAS summary statistics employed the indicators, but not the common factor, indicated that the latter
+in the original application of GWIS, we used genomic SEM to fit a group of SNPs were characterized, as would be expected, by larger
+structural multivariable regression model in which the genetic com- Q estimates (that is, greater heterogeneity in individual effects;
+SNP
+ponent of educational achievement was simultaneously regressed Supplementary Fig. 17). Intercepts from LDSC analyses of the
+onto the genetic components of schizophrenia and bipolar disorder. Q statistics also indicated that the results for the heterogeneity
+SNP
+The results confirmed the findings of Nieuwboer et al.23; the condi- index were not attributable to inflation (p factor: intercept = 0.978;
+tional standardized association between schizophrenia and educa- s.e. = 0.009; neuroticism: intercept = 0.963, s.e. = 0.009). Slopes from
+tional achievement was small (b = −0.016; s.e. = 0.096; P = 0.867), the same LDSC analyses further indicated genetic signal in hetero-
+g
+whereas there was a strong conditional standardized association geneity (p factor: Z = 13.65; P = 6.68 × 10−42; neuroticism: Z = 30.23;
+between bipolar disorder and educational achievement (b = 0.283; P = 9.98 × 10−201).
+g
+s.e. = 0.113; P = 0.012; Supplementary Fig. 7).
+Comparison with multi-trait analysis of GWAS (MTAG). Existing
+SNP effects. Common factor models. A powerful application of multivariate methods use summary statistics of genetically corre-
+genomic SEM is to include individual SNP effects in both the lated phenotypes to boost power for discovery and prediction for
+genetic covariance matrix and the sampling covariance matrix, to a particular trait11,26,27. Boosting power is only one application of
+estimate the effect of a given SNP on the latent genetic factor(s). genomic SEM. That said, a genomic SEM common factor GWAS
+If the summary statistics are composed of M different SNPs, approach has already been shown by an independent research
+M models are estimated to obtain genome-wide summary statis- group to perform comparably to existing multivariate approaches
+tics for the latent factor. As an example of genomic SEM used for for out-of-sample prediction28. Moreover, as a flexible modelling
+multivariate GWAS, we incorporated SNP effects into the p-factor framework, genomic SEM may encompass other multivariate
+and neuroticism models presented above. Linkage disequilibrium- approaches. For example, we show mathematically that genomic
+independent hits are defined below using a clumping threshold SEM can be specified to satisfy the same moment conditions as
+of r2 < 0.1 in a 500-kilobase (kb) window, with the exception of MTAG11 (see Supplementary Methods). Simulation results also
+a 1-megabase (Mb) window for chromosomes 6 and 8. A total of revealed near-perfect correspondence from a linear regression in
+128 independent loci were genome-wide significant for the p factor which Z statistics from MTAG were used to predict those from
+(P < 5 × 10−8; Supplementary Figs. 8–10 and Figs. 1a and 2a). Of the a genomic SEM specified to satisfy the MTAG moment condi-
+128 loci, 27 independent loci were not previously identified in any tions (Supplementary Fig. 18; unstandardized slope = 0.999; inter-
+of the contributing univariate GWASs (Table 1 and Supplementary cept = 2.65 × 10−4).
+Table 5). Of these 27 loci, 5 were identified as either genome-wide
+significant or suggestive of significance (P < 1 × 10−5) in a separate, Performance in empirical data under controlled missingness. We con-
+previously published GWAS of 1 of the 5 traits. A total of 118 loci trast estimates obtained from the common factor model of neuroti-
+were genome-wide significant for neuroticism, with 38 loci not cism described above with estimates for a GWAS with an imposed
+identified in the univariate item-level GWASs (Supplementary missing structure. We first transformed the binary scale neuroti-
+Table 6 and Figs. 1b and 2b). Plots of item-level effects for indi- cism items into a smaller number of quantitative scores. To do so,
+vidual SNPs revealed high consistency in magnitude and direction we created three parcels of neuroticism items consisting of four
+for SNPs identified as genome-wide significant for the common items each with scores ranging from 0–4, at which point it is appro-
+factors (Supplementary Fig. 11). Although there is early lift-off priate to treat the parcel as continuous29. Parcels were constructed
+in the Q–Q plots for both common factors, LDSC analyses of the based on the same EFA results described above and mirrored the
+summary statistics produced by genomic SEM indicated that the composition of the three-factor model, with the exception that the
+results were not due to uncontrolled inflation for either the p factor irritability item was included with parcel 2 so as to have an equal
+(intercept = 0.987; s.e. = 0.014) or neuroticism (intercept = 0.997; distribution of four items per parcel. Of the 300,000 participants,
+s.e. = 0.001). 100,000 non-overlapping participants were removed from 2 of the 3
+parcels for missing data models. The best-powered results (indexed
+General trends. Mean χ2 statistics were higher for the genomic by mean χ2 values) were for genomic SEM of the individual neuroti-
+SEM-derived summary statistics of common factors relative to cism items presented above, indicating that construction of compos-
+univariate indicators (Table 1). It is important to note here that, ite indices via averaging, although convenient, removes multivariate
+whereas genomic SEM may boost power in many cases, this is information that can otherwise be retained with genomic SEM
+not the primary purpose of the method. Rather, it is to identify (Supplementary Table 8). Genomic SEM analyses that incorporated
+the relationship between SNPs and observed phenotypes as medi- supplementary information from parcels containing imposed miss-
+tated through a user-specified model and to concurrently evaluate ing data consistently outperformed GWASs of individual parcels
+the construct validity of said model. Inspecting the distribution with complete data, and performed nearly as well as analyses of
+of univariate P values for the newly identified SNPs for the gen- complete data across all three parcels. Thus, the inclusion of sum-
+eral factors indicated that these SNPs were generally character- mary data from genetically correlated phenotypes in genomic SEM
+ized by relatively low P values, albeit not low enough to cross the may boost power relative to GWASs of the individual phenotypes,
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+Articles NATurE HuMAN BEHAviour
+a
+1 u p 0.998 (0.049)
+–0.045 (0.008)
+1 rs4552973 p
+g
+0.86 (0.06) 0.53 (0.08)
+0.81 (0.06) 0.29 (0.09)
+0.46 (0.04)
+SCZ g BIP g MDD g PTSD g ANX g
+1 1 1 1 1
+u u u u u
+SCZ BIP MDD PT ANX
+0.26 (0.11) 0.35 (0.11) 0.79 (0.07) 0.91 (0.44) 0.71 (0.36)
+b
+1 u N 0.999 (0.058)
+–0.028 (0.005)
+1 rs10497655 N
+g
+0.85 (0.03) 0.81 (0.03) 0.73 (0.03)0.78 (0.03) 0.69 (0.03) 0.71 (0.03)
+0.87 (0.02) 0.75 (0.04) 0.81 (0.02) 0.80 (0.03) 0.79 (0.03) 0.80 (0.03)
+Mood g Misery g Irr g Feel g Fed-up g Nervous g Worry g Tense g Emb g Nerves g Lonely g Guilt g
+1 1 1 1 1 1 1 1 1 1 1 1
+u Mood u Mis u Irr u Feel u Fed-up u Nervous u Worry u Tense u Emb u Nerves u Lonely u Guilt
+0.25 (0.01) 0.28 (0.02) 0.43 (0.02) 0.35 (0.03) 0.33 (0.02) 0.46 (0.03) 0.39 (0.02) 0.36 (0.03) 0.52 (0.03) 0.37 (0.03) 0.50 (0.04) 0.37 (0.03)
+Fig. 1 | Genomic SEM solutions for p- and neuroticism-factor models with SNP effect. a,b, Standardized results from using genomic SEM (with WLS
+estimation) to construct a genetically defined p factor of psychopathology (a) and a genetic neuroticism factor (b) with a lead independent SNP predicting the
+factors (rs4552973 for the p factor and rs10497655 for neuroticism). Standard errors are shown in parentheses. For a model that was standardized with respect
+to the outcomes only, the effect of the SNP was −0.093 (s.e. = 0.017; SNP variance = 0.252) for the p factor and −0.042 (s.e. = 0.007; SNP variance = 0.432) for
+neuroticism. This can be interpreted as the expected standard deviation unit difference in the latent factor per effect allele. The subscript g is used in these path
+diagrams to denote genetic variables. The u variables reflect the residual variance in the genetic indicators not explained by the common factor. ANX, anxiety;
+even when there is high sample overlap and sample sizes are uneven Polygenic prediction. We re-estimated the p factor model using the
+across phenotypes. summary statistics from the schizophrenia and MDD GWASs that
+did not overlap with the UKB dataset to predict psychiatric symp-
+Parcel comparison of Q . Using the three constructed parcels toms in UKB (see Supplementary Fig. 20 for the phenotypic model).
+SNP
+without any missing data, the distribution of P values was compared To produce a reliable set of targets for polygenic prediction, and to
+across SNPs with high (P < 5 × 10−8) and low (P > 5 × 10−3) Q esti- focus our analyses on construct validation, latent factors of psy-
+SNP
+mates from the item-level genomic SEM analysis of neuroticism for chiatric symptoms were specified as the out-of-sample targets. We
+SNPs that were genome-wide significant in at least one of the par- compared the magnitude of out-of-sample prediction for the p fac-
+cels. These results indicated that, for SNPs with a higher Q for the tor PGSs predicting the phenotypic p factor and factors of individual
+SNP
+common factor, there was more discordance of effect sizes among psychiatric domains relative to the prediction using PGSs derived
+three lower-order factors relative to SNPs that produced lower het- from univariate summary statistics (Fig. 3 and Supplementary
+erogeneity estimates (Supplementary Fig. 19). The average differ- Table 9). The PGS for the genetic p factor predicted more variance
+ences between the highest and lowest −log [P] values were 10.56 in symptoms of depression, psychotic experiences, mania, anxiety,
+10
+and 4.96 for high and low Q , respectively. This suggests that Q PTSD and a phenotypic p factor than any univariate PGS.
+SNP SNP
+is appropriately indexing discordance in SNP-level effects across For neuroticism, univariate PGSs were constructed in data
+genetically correlated indicators. from the Generation Scotland study using summary statistics for
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+NATurE HuMAN BEHAviour Articles
+a b
+35
+30
+25
+20
+15
+10
+5
+0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 1819202122 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 1819202122
+Chromosome Chromosome
+c d
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 1819202122 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 1819202122
+Chromosome Chromosome
+the 12 neuroticism items, genomic SEM factor of items, 3 neuroti- central role of synaptic activity (for example, STX1B, NR4A2 and
+cism parcels, genomic SEM factor of parcels and neuroticism sum PCLO), including glutamatergic neurotransmission (GRM3). The
+score. We used PGSs to predict a sum score composed of the same p factor gene sets were largely characterized by communication
+neuroticism items administered in UKB. We also calculated mean between neurons (for example, ‘dendrite development’, ‘dendritic
+χ2 values for each of these summary statistics, which we used to spine’ and ‘abnormal excitatory postsynaptic potential’). Biological
+infer their relative power. Of all of the summary statistics consid- annotation of Q statistics for neuroticism indicated that genes
+SNP
+ered, summary statistics derived from a genomic SEM analysis of within the 69 loci related to neuroticism, but not through a single
+a common factor of the neuroticism items produced the largest factor, include: GRIA1, a glutamate receptor subunit (involved in
+mean χ2 in the summary statistics and predicted the greatest vari- signalling in excitatory neurons) that has previously been related
+ance in the out-of-sample phenotype (Supplementary Fig. 21). In to schizophrenia31, chronotype32 and autism33; and PCDH17, a gene
+both cases, the superior performance of genomic SEM analysis of involved in cellular connections in the brain that has been related
+the common factor of items relative to the sum score of the items to intelligence34.
+is probably, in part, a reflection of the fact that the sum score in
+UKB was created using listwise deletion, resulting in a reduced General guidelines. When implementing genomic SEM, users
+sample size of 274,008. Conversely, genomic SEM uses all avail- should be aware of the limitations and assumptions of the method.
+able information from neuroticism items, with sample sizes of First, because genomic SEM is a method for modelling genetic cova-
+~325,000 each. In more severe cases of sample non-overlap, we riance matrices, it relies on the same assumptions as the method
+would expect even larger power benefits of genomic SEM-derived used to estimate genetic covariances, and best practices for imple-
+summary statistics relative to individual items or sum scores. menting such a method should be followed. For example, when
+Indeed, in instances of minimal sample overlap, it is not possible LDSC is used to construct the genetic covariance matrix, SNPs
+to compute sum scores, but genomic SEM can still be used to inte- should not first be pruned for linkage disequilibrium, and sum-
+grate data across phenotypes. mary statistics for different phenotypes should be obtained from
+ethnically homogeneous samples of similar ancestral backgrounds4.
+Biological annotation. The biological function of the SNPs related With respect to selecting between competing models, users should
+to the p factor and neuroticism was examined using DEPICT30. take into account a variety of both absolute fit indices (for example,
+Table 1 presents the number of enriched gene sets, prioritized genes, SRMR and model χ2) and relative fit indices (for example, AIC and
+and enriched tissues and cell types across the univariate statistics χ2 difference). We provide general standards for absolute model fit
+and common factors (see Supplementary Tables 10–18 for detailed in the Methods. Finally, a formal power analysis should take into
+output). Common factors produced more informative results than account specific characteristics of the summary data, genetic archi-
+the individual indicators. As expected, all of the tissue enrich- tecture of the phenotypes and model to be specified. This can typi-
+ment for the common factors was identified in the nervous system cally be achieved with simulation. Generally speaking, we would
+(Supplementary Fig. 22). Neuroticism-prioritized genes indicated a expect power to detect SNP effects on a common genetic factor
+)P(01gol–
+35
+30
+25
+20
+15
+10
+5
+0
+)P(01gol–
+35
+30
+25
+20
+15
+10
+5
+0
+)P(01gol–
+35
+30
+25
+20
+15
+10
+5
+0
+)P(01gol–
+Fig. 2 | Manhattan plots of unique, independent hits from genomic SEM. a–d, Genomic SEM (with WLS estimation) was used to conduct multivariate
+GWASs of the p factor (a and c) and neuroticism (b and d). Manhattan plots are shown for SNP effects (a and b) and Q (c and d). The grey dashed line
+SNP
+marks the threshold for genome-wide significance (P < 5 × 10−8). Black triangles denote independent hits for SNP effects from the GWAS of the general
+factor that were not in linkage disequilibrium with independent hits for the univariate GWAS or hits for Q . Purple diamonds denote independent hits
+SNP
+for the SNP effects from univariate GWASs that were not in linkage disequilibrium with independent hits from the GWAS of the general factor. Grey stars
+denote independent hits for Q .
+SNP
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+Articles NATurE HuMAN BEHAviour
+Table 1 | Summary of multivariate (genomic SEM) and univariate GWAS results
+Lead SNPs Q
+SNP
+hitsa unique hitsb Number of Number of Number of Mean χ2
+(P < 5 × 10−8) gene sets prioritized genes tissues and cells
+p factor
+Genomic SEM (WLS) 128 1 (1) 27 71 37 24 1.88
+Schizophrenia 127 – 34 (0) 2 25 21 1.82
+Bipolar 4 – 4 (0) 0 0 0 1.15
+MDD 5 – 5 (0) 0 0 0 1.31
+PTSD 0 – 0 (0) 0 0 0 1.01
+Anxiety 1 – 1 (0) 0 0 0 1.03
+Neuroticism
+Genomic SEM (WLS) 118 69 (5) 38 1 19 20 1.64
+Mood 43 – 19 (5) 0 0 15 1.37
+Misery 31 – 6 (4) 0 0 0 1.32
+Irritability 36 – 17 (4) 0 0 0 1.37
+Hurt feelings 24 – 11 (0) 0 0 0 1.33
+Fed-up 38 – 21 (6) 0 0 0 1.36
+Nervous 41 – 25 (12) 0 0 0 1.36
+Worry 56 – 26 (6) 0 13 0 1.46
+Tense 19 – 10 (3) 0 0 0 1.32
+Embarrass 17 – 6 (2) 0 0 0 1.33
+Nerves 12 – 7 (3) 0 0 0 1.26
+Lonely 6 – 4 (3) 0 0 0 1.19
+Guilt 21 – 8 (1) 0 0 0 1.28
+aNumbers in parentheses for Q report how many Q hits were in linkage disequilibrium with hits identified as significant for the common factor. bUnique hits for the common factor refers to lead
+SNP SNP
+SNPs that were not in linkage disequilibrium with hits for the individual indicators. Unique hits for the individual indicators refer to hits for the respective indicator that were not in linkage disequilibrium
+with hits for the common factor. Unique hits for the common factor excluded hits in linkage disequilibrium with Q hits. For unique hits for indicators, values in parentheses indicate whether any of
+SNP
+these hits were identified as significant for Q . For unique hits for the common factor, hits were excluded that were in linkage disequilibrium with previously reported indicator hits that were removed
+SNP
+due to missing values across the other phenotypes. The single Q hit for WLS estimation of the p factor was significant for both the common factor and schizophrenia. For the common factor and the
+SNP
+indicators, independent hits were defined using a pruning window of 500 kb and r2 > 0.1. For chromosomes 6 and 8, an additional pruning filter of 1 Mb and r2 > 0.1 was used to account for long-range
+linkage disequilibrium due to the MHC region and pericentric inversion, respectively. For univariate statistics, we used only the SNPs present across all indicators to facilitate a direct comparison with
+genomic SEM results.
+to increase when the constituent univariate GWASs have larger covariance architectures and to incorporate such architectures into
+sample sizes, higher heritabilities, higher genetic correlations with multivariate discovery. Importantly, shared genetic liabilities across
+one another and lower sample overlap with one another. That said, phenotypes can be explicitly modelled as factors that may be treated
+we still expect some power benefits relative to univariate GWASs as broad genetic risk factors with equally broad downstream conse-
+when the constituent phenotypes are only moderately heritable quences. Multivariate genetic methods have existed for decades in
+and/or moderately genetically correlated and/or sample overlap is the twin literature, with Martin and Eaves35 providing a framework
+high. The choice of included summary statistics, phenotypes and for fitting structural equation models of genetic and environmental
+model(s) will of course depend on the researcher’s objectives and variance components to multivariate twin data. Using GWAS sum-
+the model(s) to be specified. mary data from unrelated individuals, genomic SEM can be used to
+estimate multivariate genetic models similar to those from the exist-
+Discussion ing twin literature. Moreover, genomic SEM offers new promise as
+Applications of genome-wide methods to data from large-scale a method that allows for modelling genetic covariance even among
+population-based samples have uncovered clear evidence of perva- phenotypes for which phenotypic covariance cannot be estimated.
+sive statistical pleiotropy. Genomic SEM is a method for modelling Genomic SEM is not the first method for multivariate GWAS.
+the multivariate genetic architecture of constellations of genetically Other methods, such as MTAG11, SHom/SHet36, metaUSTAT37,
+correlated traits and incorporating genetic covariance structure min-P38 and TATES27 allow researchers to perform multivariate
+into multivariate GWAS discovery. In contrast with methods9 that meta-analyses based solely on summary data. The methods can
+model phenotypic rather than genetic covariance structure, and generally be divided into two distinct classes: methods that aggre-
+rely on raw data, genomic SEM employs summary GWAS data to gate test statistics or effect sizes based on a model (genomic SEM,
+model genetic covariance structure. Genomic SEM is computation- SHom and MTAG) and those that select from the univariate P val-
+ally efficient, accounts for potentially unknown degrees of sample ues while taking care not to inflate type-I error (min-P, TATES
+overlap and allows for flexible specification of covariance structure, and SHet). As we show with respect to MTAG, models on which
+such that several broad classes of structured covariance models can existing methods are based may can be fit within the genomic SEM
+be applied. The genomic SEM approach shares benefits of some framework. We also anticipate that the approaches for selecting the
+existing approaches11 for boosting power by combining informa- P values from a set of analyses while maintaining proper type-I error
+tion across genetically correlated phenotypes. However, genomic control could be integrated into the genomic SEM framework. For
+SEM uniquely allows one to compare different hypothesized genetic instance, whereas TATES is currently applied to select P values from
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+NATurE HuMAN BEHAviour Articles
+Methods
+Overview of genomic SEM. Genomic SEM is a two-stage structural equation
+modelling approach12–14. In the first stage, the empirical genetic covariance matrix
+and its sampling covariance matrix are estimated. In principle, these matrices may
+be obtained using a variety of methods for estimating SNP heritabilities, genetic
+covariances and their joint estimation errors. Here, we use a novel version of LDSC
+that accounts for potentially unknown degrees of sample overlap by populating
+0.4 the off-diagonal elements of the sampling covariance matrix. The same strengths,
+as well as assumptions and limitations, that are known to apply to LDSC39,40 apply
+to its extension used here and to genomic SEM. In stage 2, the user specifies a
+0.2 multivariate system of regression and covariance associations involving the genetic
+components of phenotypes with one another and/or more general latent factors.
+These associations are represented by parameters that may be fixed or freely
+0 estimated, as long as the model is statistically identified (for example, the number
+of freely estimated parameters does not exceed the number of non-redundant
+p
+factor
+eP xs
+pyc erh io eti nc ces Depression Mania Anxiety PTSD e
+(
+mθle o)m
+dis
+ee
+e
+ln -st
+it
+ms
+i
+mi pn
+a
+l
+it
+t
+eh
+e
+dde cg
+s
+oue vn
+c
+ahe rt iti ahc
+n
+ac cto etv
+h
+ma er ai fia
+tt
+rn ifc xue
+,
+n
+∑m cta
+(i
+θt or )ni ,x
+ai
+nb nde di
+e
+n
+tx
+hg
+in
+e
+m
+g
+e
+mo thd pee
+i
+l rdl ie
+i
+csd ac) lr. ceA
+op
+vas ane rt
+c
+i
+yo
+a
+nf
+b
+cp
+e
+ea
+t
+wr ma em
+ae
+tne
+r
+it
+t
+xe
+h
+,r es
+S ,
+estimated in stage 1 is minimized. Model fit is considered good when ∑(θ) closely
+Phenotypic target approximates S. In the main text, we highlight the results from weighted least
+squares (WLS) estimation that weights the discrepancy function using the inverse
+of the diagonal elements of the sampling covariance matrix, and produces model
+standard errors using the full sampling covariance matrix. In the Supplementary
+Results, we additionally report the results from an alternative normal theory
+maximum likelihood estimation method.
+Form of structured covariance models. Genomic SEM provides substantial
+user flexibility with respect to the particular SEM that is specified to produce
+the model-implied covariance matrix ∑(θ) that approximates the empirical
+covariance matrix, S. SEMs can be partitioned into two sets of equations—one
+describing the measurement model and the other describing the structural model.
+In the measurement model, the genetic components of k ‘indicator’ phenotypes
+are described as linear functions of a smaller set of m (continuous) latent
+variables, y=Λη+ε. In this equation, y is a k × 1 vector of indicators, ε is a k × 1
+vector of residuals, η is an m × 1 vector of latent variables and Λ is a k × m matrix
+of factor loadings (that is, regressions relating the latent variables to the set of
+indicators). In a typical application of genomic SEM, each indicator is a function
+of exactly one of the latent variables (although this so-called ‘simple structure’
+restriction may be relaxed). In a CFA model, only the measurement model is
+specified, and the set of latent variables are allowed to freely co-vary. Thus, the
+a series of univariate analyses of correlated traits, the same analy-
+model-implied covariance matrix of a CFA is Σ(θ) = ΛΨΛ′ + Θ, where Ψ is an
+sis could be used to select P values from a series of genomic SEM m × m latent variable covariance matrix and Θ is a k × k matrix of covariances
+models. The multivariate methods available need not be mutually among the residuals, ε. Typically, Θ is diagonal, which implies that indicators are
+exclusive. With respect to other multivariate analyses of genome- mutually independent conditional on the set of latent variables. That constraint
+wide data that go beyond multivariate GWAS discovery, the major may be relaxed such that select pairs of indicators are allowed to co-vary over
+and above their associations via the latent variable structure (that is, residual
+alternatives to genomic SEM that we are aware of are GWIS23 and
+covariances are allowed). CFA models are typically used to assess the strength
+GW-SEM9. When considering linear relationships between traits, of relations between sets of indicators and their respective underlying latent
+genomic SEM is more flexible and user friendly than GWIS, and variables, as well as to assess the fit of a measurement model to data. A well-fitting
+GW-SEM requires access to phenotypic data, which is a substantial CFA model implies that the latent variable structure is able to account for the
+observed covariances among a set of indicator variables.
+limitation for many applications.
+When a theory aims to explain associations among latent variables, a structural
+Unlike approaches that assume homogeneity of effects across
+model can be added to the measurement model to produce a full SEM. The
+SNPs11, genomic SEM includes diagnostic indices for its key assump- structural model of a SEM relates latent variables to each other via directed
+tions, including a test for heterogeneity, Q , that can be applied regression coefficients. It can be written in matrix notation as η = Bη + ζ, where
+SNP
+at the level of the individual SNPs. This offers the unique ability B is an m × m matrix of regression coefficients that relate latent variables to each
+to identify SNPs that confer specific risk to individual phenotypes. other, and ζ is an m × 1 vector of latent variable residuals. The model-implied
+covariance matrix of observed variables is Σ(θ) = Λ(I − B)−1Ψ[(I − B)−1]´Λ′ + Θ,
+This question may be of particular interest as the large degrees of where I is an k × k identity matrix41. Thus, in a full SEM, the empirical matrix is
+genetic overlap identified across phenotypes (for example, bipolar represented by a set of parameters that relate observed variables to latent variables,
+disorder and schizophrenia) beg the question: what are the genetic and latent variables to each other in a series of linear equations.
+causes of phenotypic divergence? Whereas previous GWASs have
+combined items tapping genetically related phenotypes into a single Path diagrams. SEMs can be represented graphically as path diagrams
+representing regression and covariance relations among variables42. In path
+score, or even combined cases with different diagnoses to obtain
+diagrams, observed variables are represented as squares and unobserved (that
+a shared genetic effect, genomic SEM allows researchers to inter-
+is, latent) variables are represented as circles. Regression relationships between
+rogate shared genetic effects between diagnoses or indicators, while variables are represented as one-headed arrows pointing from the independent
+concurrently testing for causes of divergence (that is, loci that are variable to the dependent variable. Covariance relationships between variables
+related only to a specific phenotype, or subset of phenotypes, but are represented as two-headed arrows linking the two variables. The variance of
+a variable (that is, the covariance between a variable and itself) is represented
+not the more general liability). In the context of neuroticism, for
+as a two-headed arrow connecting the variable to itself. In genomic SEM, we
+example, we identified 69 loci that were significantly involved in
+represent the genetic component of each phenotype with a circle, as the genetic
+one manifestation of neuroticism but whose effects were not shared component is a latent variable that is not directly measured, but is inferred from
+through a common factor, offering novel evidence of biological het- LDSC (it is the phenotype itself that is observed in the raw data that is used to
+erogeneity in the aetiology of a construct long thought to be unidi- produce the summary statistics). SNPs are directly measured, and are therefore
+represented as squares. When all elements in a SEM are represented in a path
+mensional. Because genomic SEM relies only on GWAS summary
+diagram, the diagram contains the full system of algebraic equations needed to
+data, it can be applied to a broad spectrum of traits, including social, estimate the full set of SEM parameters, θ, and to produce the model-implied
+economic, cognitive and psychiatric outcomes. covariance matrix, ∑(θ).
+)%(
+2R
+SGP
+Genomic SEM Bipolar Anxiety
+Schizophrenia MDD PTSD
+0.6
+Fig. 3 | out-of-sample prediction using genomic SEM- and univariate-
+based PGSs for psychiatric traits. PGSs were constructed using the same
+set of SNPs for all predictors. R2 on the y axis indicates the percentage
+of variance (possible range: 0–100) explained in the outcome unique of
+covariates. The summary statistics for genomic SEM were estimated using
+WLS. The genomic SEM-based PGS was derived from a model estimating
+SNP effects on a common p factor, constructed from schizophrenia, bipolar,
+MDD, PTSD and anxiety (as in Fig. 1a). To prevent bias, the genomic SEM
+summary statistics were produced using schizophrenia and MDD GWAS
+summary statistics that did not include UKB participants. Error bars indicate
+95% confidence intervals estimated using the delta method. Phenotypes
+were constructed for European participants in the UKB for five symptom
+domains and for a general p factor spanning all five symptom domains.
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+Articles NATurE HuMAN BEHAviour
+Stage 1 estimation. In stage 1, the empirical genetic covariance matrix (S ) covariances with the genetic variances and genetic covariances. These are fixed
+LDSC
+and its associated sampling covariance matrix (V ) are estimated using our to 0, as sampling variation of the SNP genotype covariance is expected to be
+SLDSC
+multivariable extension of LDSC. S LDSC is a k × k symmetric matrix with SNP independent of the test statistics of all linkage disequilibrium blocks except the
+heritabilities on the diagonal and genetic covariances (σgi,gj) between phenotypes one it occupies. Because the sampling variance of the heritabilities and genetic
+i and j off the diagonal. The genetic covariance between phenotypes i and j correlations derive from sampling variability in the test statistics within all of the
+can be computed as the genetic correlation scaled relative to the total genetic linkage disequilibrium blocks, their sampling covariances with a single SNP effect
+variance of each of the two contributing phenotypes (themselves scaled to unit is expected to approach 0. The V matrix can be written in compact form as:
+variances), σgi,gj=r gi,gj⋅ h i2⋅h j2. Thus, the genetic covariance matrix of order k has
+SFull
+V 
+k* = k(k + 1)/2 non-redundant elem
+
+en ht 12s. It can be written
+
+
+as: V SFull=  
+
+S 0SNP
+V
+SLDSC 
+
+ 
+S LDSC=  σg1 ⋮,g2 h 22
+⋱
+ 
+ Stage 2 estimation. In stage 2, the genetic covariance matrix obtained in the
+  σg1,gk σg2,gk ⋯ h k2    p alr le ov wio fu os r s bt oa tg he , W S, Lis S u as ne dd nto o re mst aim l ta ht ee o t rh ye m pa ar xa imm uet mer s li kin e la ih S oE oM d . e I sn ti mth ais to s rt sa .g We, Lw Se
+does not strictly require positive definite S and V matrices, but may still benefit
+S
+To produce unbiased standard error estimates and test statistics, we require the from positive definiteness during optimization. Maximum likelihood estimation
+sampling covariance matrix, V , of the LDSC estimates that is composed of all requires both S and V to be positive definite. The GenomicSEM software package
+SLDSC S
+non-redundant elements in the S matrix. Thus, it is a symmetric matrix of order therefore smooths S and V to the nearest positive definite matrices before stage 2
+LDSC S
+k*, with k*(k* + 1)/2 non-redundant elements. The diagonal elements of V are estimation using the R function nearPD45.
+sampling variances (that is, squared standard errors of the elements in SSLDS )C . The The fit function minimized in the diagonally weighted version of WLS
+LDSC
+off-diagonal elements of V are sampling covariances that indicate the extent estimation that is standard in the GenomicSEM software package is the following:
+SLDSC
+to which the sampling distributions of the variance and covariance estimates in
+S
+LDSC
+co-vary with one another, as would be expected when there is overlap F WLS(θ)=(s−σ(θ))′D S−1(s−σ(θ))
+among the samples from which the terms are estimated. This V matrix can
+be written as:
+SLDSC
+where S and Σ(θ) have been half-vectorized to produce s and σ(θ), respectively,
+and D is V with its off-diagonal elements set to 0. We choose the diagonally
+S S
+VSLDSC= weighted version of WLS because it is more tractable to implement for large
+ 
+  
+covs (. he 1. 2( ,h σ12 g) 12
+,g2) s.e.(σg1,g2)2
+ 
+  
+
+( sh amig Mph ll
+e
+ay
+s
+x
+m
+4 i6
+m,4u
+7
+ul .t miva lr ikia et le ih) om oa dt r ei sc te is
+m
+a an td
+io
+i ns pm ro or ce
+e
+es dta sb ble
+y
+t mha inn
+i
+f mu il zly
+in
+w ge ti hg eh t fe od
+ll
+oW wL inS
+g
+i n
+fi
+tf inite
+ ⋮ ⋮ ⋱ 
+  cov(h12,σg1,gk) cov(σg1,g2,σg1,gk) s.e.(σg1,gk)2    function:
+ 
+    cov(h⋮ 12,h2 j) cov(σg1⋮ ,g2,h2 j) cov(σg1⋮ ,gk,h2 j) ⋱ s.e.(h2 j)2     F ML(θ)=log∣Σ(θ)∣−log∣S∣+tr{SΣ−1(θ)}−k
+    cov(h12⋮ ,σgj,gk) cov(σg1,g⋮ 2,σgj,gk) cov(σg1,⋮ gk,σgj,gk) cov(h2 j,σgj,gk) ⋱ s.e.(σgj,gk)2    
+
+Nwh ote er e
+t
+hΣ at( ,θ w) his
+i
+lt eh te
+h
+c eo fv oa rr mia un lc ae
+ti
+om na otr fi x
+th
+i em mpl ai xed
+im
+b uy
+m
+th le
+i
+ks ee lt
+i
+ho of op dar fa im
+t
+fe ut ne cr te iost nim ates.
+  cov(h12,hk2) cov(σg1,g2,hk2) cov(σg1,gk,hk2) cov(h2 j,hk2) cov(σgj,gk,hk2) s.e.(hk2)2   does not explicitly include a weight matrix, it is asymptotically equivalent
+to a more general formulation that is identical to the WLS fit function, with
+The diagonal elements of V can be estimated using the jackknife
+.5D′k(Σ−1(θ)⊗Σ−1(θ))D k, where D
+k
+is the duplication matrix of order k, in place
+resampling procedure in the
+bivSL aD rS iC
+ate version of LDSC that is currently
+of D S. Thus, the difference between maximum likelihood and WLS estimation
+can be construed as a difference in weight matrices only. A comparison between
+available from its original developers4,43. The LDSC function introduced in
+maximum likelihood and WLS results can be found in the Supplementary Results
+the GenomicSEM software package expands the jackknife procedure to the
+(see also Supplementary Figs. 23–27 and Supplementary Table 19).
+multivariable context to additionally produce sampling covariances (which index
+WLS estimation more heavily prioritizes reducing misfit in those cells in the S
+dependencies among estimation errors) among the elements of S needed to
+LDSC matrix that are estimated with greater precision. This has the desirable property of
+populate the off-diagonal elements of V SLDSC . potentially decreasing sampling variance of the genomic SEM parameter estimates,
+which may boost power for SNP discovery and increase polygenic prediction.
+Incorporating individual SNP effects. Several steps are needed to incorporate
+However, because the precision of cells in the S matrix is contingent on the sample
+individual SNP effects into genomic SEM. The first step requires that the inputted
+sizes for the contributing univariate GWASs, WLS may produce a solution that
+genetic covariance matrix be expanded to include covariances between the SNP
+is dominated by the patterns of association involving the most well-powered
+and each of the phenotypes, g through g, by appending a vector of SNP phenotype
+1 k GWASs, and contain substantial local misfit in cells of S that are informed by
+covariances (S ) to S :
+SNP LDSC lower-powered GWASs. In other words, WLS relative to maximum likelihood may
+
+
+σS2
+NP
+
+
+m ino tr he
+e
+h se oa -v ci al ly
+l
+ep dr i vo ar ri it aiz ne
+c
+em bin iai sm ti rz ai dn eg
+o
+s fa f4m
+8.
+p Wli en g
+e
+xv pa er cia
+t
+n thce
+a
+to tf
+h
+t ih
+s
+e
+w
+p ia llr oam nlyet oer
+c
+ce ust ri m what ee ns
+ 
+S Full=    σ σSS NN PP ,, gg 21 σgh 11 ,2 g2 h 22      t a ph n re od nm t oho uad nt e cdl e ii v ds e wo rgv hee enr ni cd e te h in n et r i W efi e isLd S l o( t a wh n ea d rt m sis a, a m d x p. if m l. e> u o m0 v) e , l ris lku ae pc lh i ah nt oh doa d tt h e e ex s a t cic omt n f a ti rtt e i bc sa uwn tiin nllo g bt ueb ne m i vo o ab s rt t ia ai tn ee d,
+ σSNP,g3 σg1,g3 σg2,g3 h 32   GWASs differ substantially in power. Maximum likelihood estimation may be
+  preferred when the goal is to most evenly weight the contribution of the univariate
+ ⋮ ⋮ ⋱  sample statistics.
+ σSNP,gk σg1,gk σg2,gk σg3,gk ⋯ h k2   Both WLS and maximum likelihood fit functions will produce consistent
+estimates of the model parameters when the model is true47. However, the ‘naive’
+standard errors and fit statistic produced in stage 2 estimation will be incorrect,
+The sampling covariance matrix, V SFull, associated with this expanded S Full because neither estimator uses the full V S matrix in estimation. Thus, robust
+covariance matrix, includes a number of components. One block of this V SFull corrections must be applied to produce consistent estimates of standard errors and
+matrix, V , contains the sampling variances and sampling covariances of the test statistics. The correct sampling covariance matrix of the stage 2, genomic SEM
+latent genS eLD tiS cC variances (SNP heritabilities) and genetic covariances, which are parameter estimates (that is, V θ) can be obtained using a sandwich correction13,47:
+obtained from the multivariable LDSC approach introduced above. A second block
+of the V
+SFull
+matrix, V SSNP, is composed of the sampling covariance matrix of the V θ=(Δ̂′Γ−1Δ̂)−1 Δ̂′Γ−1V SΓ−1Δ̂(Δ̂′Γ−1Δ̂)−1
+SNP effects on the phenotypes. The SNP variance (derived from reference panel
+data) is treated as fixed, and its sampling variance and sampling covariance with where Δ̂=∂̂(θ) is the matrix of model derivatives evaluated at the parameter
+all other terms are fixed to 0 (or to a very small value to facilitate computational ∂θ′ θ̂
+tractability). The sampling covariances of the SNP genotype covariances with estimates, Γ is the naive stage 2 weight matrix that takes its form depending on the
+one another are obtained using cross-trait LDSC intercepts (which represent estimation method used (WLS or maximum likelihood), and V is the sampling
+S
+sampling correlations weighted by sample overlap) after being rescaled relative covariance matrix of S obtained using multivariable LDSC.
+to the sampling variances of the respective SNP genotype covariances11,44. A final It may not always be possible to obtain the full sampling covariance matrix, V.
+S
+block of the V matrix represents the sampling covariance of the SNP genotype For example, for highly sensitive data, only the matrix S and the standard errors
+SFull
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+NATurE HuMAN BEHAviour Articles
+of its elements may be available (that is, the diagonal of V). However, we note We have verified this nearly perfect correspondence in our own simulations
+S
+that when there is low sample overlap across the GWASs for each phenotype, off- (Supplementary Fig. 28).
+diagonal elements of the sampling covariance matrix are small and pragmatically Even within samples of the same ethnicity, there are likely to be discrepancies
+ignorable. Moreover, in other contexts with complete sample overlap, standard between the MAFs of a reference sample and the sample that GWAS summary
+error inflation of the SEM parameters estimated using diagonally weighted versions statistics were generated from. However, some summary statistics may not
+of WLS has been estimated to be less than 8%9 without robustness corrections, and include allele frequencies, and using the same reference panel for standardization
+0% with robustness corrections47. across phenotypes has the desirable property of maintaining consistency across
+summary statistics. To examine the effect of this decision, the betas for 30,000
+Standardization and scaling of summary statistics for multivariate GWASs. randomly selected SNPs for the mood phenotype from UKB were standardized
+Typically, GWAS summary statistics for quantitative phenotypes are not reported using either the sample or reference panel MAF. The correlation between the
+in terms of covariances, but are reported as ordinary least squared (OLS) betas was 0.982, and a linear regression of betas, standardized using reference
+unstandardized regression coefficients, with the phenotypes standardized before panel MAF, predicting standardization using sample MAFs, revealed near-perfect
+analyses (that is, the coefficients are standardized with respect to the outcome, but correspondence (slope = 1.044; intercept = −6.54 × 10−6; Supplementary Fig. 29).
+not the predictor). To transform the partially standardized regression coefficient
+(b SNP,P) of a SNP effect on phenotype P to a covariance, we multiply by the variance Model fit statistics. Model χ2 is an index of the exact fit of a SEM. It indexes
+of scores on the SNP. The variance (σS2 NP) of scores (0, 1, 2) of a biallelic autosomal whether the model-implied genetic covariance matrix, Σ(θ), differs from the
+SNP is estimated as 2pq, assuming Hardy–Weinberg equilibrium, where p is the empirical genetic covariance matrix, S. Model χ2 can also be used as a relative fit
+minor allele frequency (MAF) and q = 1 − MAF, with the MAF typically obtained index for comparing nested models. Conventional SEM approaches to indexing
+from a reference sample. As the latent genetic factors estimated in LDSC are scaled model χ2 are based on formulas that directly incorporate sample size (N). Because
+relative to unit-variance-scaled phenotypes (by virtue of the SNP heritability there is not an N that directly corresponds to the genetic covariance matrix that
+estimates being placed on the diagonal of S), no further scaling is needed to is modelled by genomic SEM in the same way that N typically corresponds to an
+transform this SNP phenotype covariance into a SNP genotype covariance. observed covariance matrix, we derived a formula for estimating model χ2 that
+When OLS regression coefficients and standard errors are provided from an does not require N, but instead incorporates the sampling covariance matrix of
+analysis in which the phenotype has not been standardized before analyses, or only the model residuals. This is done in two steps. In step 1, the proposed model (for
+Z statistics or P values (for which Z statistics can be readily obtained) are provided, example, a common factor model) is estimated. In step 2, all of the step 1 estimates
+the partially standardized regression coefficients and their standard errors can are fixed, and the residual covariances and residual variances of the indicators
+be obtained as Z= s.b e.* S bN S*P N, PP ,P, b SNP,P= NσZ
+S2
+NP
+and s.e.bSNP,P=bSN ZP,P, where b S*
+NP,P
+a thre
+e
+f vr ae re il ay
+n
+e cs et si m ofa kte rd e.
+s
+R ide usi ad
+l
+u faa cl tv oa rr si a dn ec fie ns
+e
+a dr e
+b
+yes tt him
+e
+ia nte dd
+ic
+i an
+t
+os rt se .p
+T
+2
+h
+b isy
+p
+e rs oti vm ida et si n ag
+n
+estimate of the discrepancy between the model-implied and observed covariance
+is equal to the regression coefficient for the OLS GWAS of the unstandardized
+phenotype. These derived partially standardized coefficients are then transformed matrices, R = S − Σ(θ), along with the sampling covariance matrix (V R) of R.
+While the discrepancy between model-implied and observed covariance matrices
+into covariances by multiplying by the variance of scores on the SNP, as above.
+can be computed simply by deriving covariance expectations from the step 1
+When the GWAS summary statistics are reported for logistic regressions
+model and subtracting the observed covariance matrix, such an approach
+of liabilities for categorical outcomes (for example, case/control status) on the
+would not provide the corresponding V matrix necessary for the calculations
+SNP, the logistic regression coefficients can be transformed into covariances as R
+below. The V matrix is expected to be positive semidefinite and, consequently,
+above, by multiplying by the SNP variances. However, it is appropriate to further R
+have no negative eigenvalues. Therefore, the V matrix has the following
+transform the coefficients and their standard errors such that they are scaled R
+eigendecomposition:
+relative to unit-variance-scaled liability. This can be achieved by dividing by
+ofσ πS2 2N .P I×
+f
+Gbl Wog Ait S2 S N suP, mP+ mπ a32 ry, a ss
+t
+aa
+t
+il so tg icis st aic
+r
+er e rg epre os rs ti eo dn fm oro od de dl i sm rap tl ii oe ss
+,
+a
+t
+hre es yi d cau na l
+b
+v ea riance V R=(P 1P 0) (E
+0
+0 0)   P P1 o′ ′ 
+tran3sformed to logistic regression coefficients by taking their natural logarithm.
+Standard errors for the logistic regression coefficient are obtained as s.e. /OR, where P is a matrix of principal components (eigenvectors) of V, and E is a
+OR 1 R
+where OR is the odds ratio. The derived logistic coefficients and their standard corresponding diagonal matrix consisting of non-zero eigenvalues. P reflects
+0
+errors should further be transformed such that they are scaled relative to unit- the null space of V. Projecting R—a vector of residual covariances estimated
+R i
+variance-scaled phenotypes, as above. Note that when the outcomes are categorical, from the step 2 model—onto P and adjusting for corresponding eigenvalues,
+1
+the liability scale heritabilities and genetic covariances from multivariable LDSC we have:
+(and not what are referred to as the ‘observed scale’ heritabilities and genetic
+covariances) should be used to populate the S matrix. This has the desirable E− 21 P 1′R i~N(0,I r)
+property of both modelling the continuous scale of risk in the population and
+providing estimates that are independent of the observed prevalence of the Therefore:
+categorical outcomes.
+On occasion, summary statistics will be provided from OLS GWASs of R i′P 1E−1P 1′R i~χ2(r)
+categorical outcomes (for example, case/control status). Such an analysis is
+sometimes referred to as a linear probability model, as it (incorrectly) assumes This equation produces a test statistic that is χ2 distributed with degrees
+that the association between the predictor and the probability of being in the of freedom (r) equal to the difference between the number of non-redundant
+comparison (for example, case) group relative to the reference (for example, elements (k*) in the empirical covariance matrix (S) and the number of freely
+control) group is linear. Parameters from the linear probability model are estimated parameters in the proposed model.
+dependent not only on the strength of the association between the SNP and The CFI is a test of approximate model fit. CFI indexes the extent to which the
+the continuous underlying liability, but also on the MAF and the proportion of proposed model fits better than a model that allows all phenotypes to be heritable,
+comparison group members (cases) in the sample. Thus, parameters from the but assumes that they are genetically uncorrelated. The χ2 statistic can be used
+linear probability model cannot be used directly in genomic SEM. However, to calculate CFI by calculating a second χ2 statistic for a so-called independence
+particularly in the case of complex traits, for which the effect sizes for individual model (that is, a model that estimates genetic variances of all phenotypes but
+SNPs are small, results from the linear probability model can be used to very assumes all genetic covariances to be zero, such that ∑(θ) is diagonal). CFI is
+closely approximate logistic regression coefficients and standard errors that are calculated using the formula below50, with f = χ2 – d.f.:
+amenable for use in genomic SEM49. This approximation can be obtained as
+Z= s.b e.* S bN* S*P N*, PP ,P, blogit* SNP,P= v(1−vZ
+)NσS2
+NP
+and s.e.bSNP,P=blogit Z∗ SNP,P, where b S* N*
+P,P
+is f(independ fe (n inc de em peo nd de el) n− cef( mpr oo dp eo l)sedmodel)
+equal to the regression coefficient from the linear probability model, blogit*
+SNP,P
+is the expected logistic regression coefficient that is derived from the linear For the χ2 value of the independence model, a model is estimated in step 1
+probability model results, v is equal to the proportion of cases in the sample, and that includes only the variance of the indicators and no common factor. In step 2,
+σS2
+NP
+is the variance of the SNP, computed from its MAF obtained from a reference these variances are fixed and the covariances among the indicators and variances
+sample, as above. To scale the derived logistic coefficient such that it is scaled of k residual factors defined by the indicators are estimated and used to populate
+relative to unit-variance-scaled liability, the coefficient should be divided by the same equation above used to calculate the proposed model χ2. CFI values
+σS2 NP×(blogit* SNP,P)2+π 32 . Lloyd-Jones et al.49 report that in a real data analysis t oh
+f
+e ≥o 0re .9ti 0c a al rl ey tr ya pn ig ce
+a
+lf lr yo cm
+on
+0
+s
+it do
+e
+1 re, dw i at ch
+c
+eh pig tah be lr
+e
+v fa itl ,u ae ns din vd ai lc ua et sin og
+f
+g ≥o 0o .9d
+5
+f i at r. eC tF yI
+p
+v ica alu llyes
+of UKB data, the exponentiated regression coefficient (that is, the odds ratio) considered good model fit51. When the empirical covariance matrix contains a
+obtained directly from a logistic regression-based GWAS and that derived from large number of cells that are very close to 0, CFI values may be low, even when
+the linear probability model-based GWAS was nearly perfect (R2 > 98%; slope: ~1). such cells are approximated well by the model.
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+Articles NATurE HuMAN BEHAviour
+AIC is a relative fit index that balances fit with parsimony, and can be used to direct effects of the SNP on the indicators were entirely mediated through the
+compare models regardless of whether they are nested. AIC is calculated as: common factor. Each simulation included 1,000 datasets, with N = 100,000
+completely overlapping participants per dataset. All simulated datasets were
+AIC=χ2+2×fp analysed using both WLS and maximum likelihood. We examined 3 models
+with F = 1 factor and k = 4, 5 or 6 phenotypes. Supplementary Table 21 presents
+where fp is the number of free parameters in the model52. Lower AIC values are descriptive statistics for Q . Using a genome-wide significance threshold, in all
+SNP
+considered superior. cases, the false discovery rate for Q was 0, and the power to detect a SNP effect
+SNP
+SRMR is an index of approximate model fit that is calculated as the on the common factor was 1. Both WLS and maximum likelihood estimation
+standardized root mean squared difference between the model-implied and produced mean estimates of Q that were approximately equal to the d.f. of
+SNP
+observed correlations in Σ(θ) and S, respectively53. Higher SRMR values indicate the corresponding model. Supplementary Fig. 34 depicts the null sampling
+a larger discrepancy between Σ(θ) and S. It is positively biased, with larger bias distributions of Q
+SNP
+estimated using WLS or maximum likelihood. Supplementary
+resulting when the contributing univariate GWAS samples are lower powered. Fig. 35 plots Q
+SNP
+from these two estimation methods against χ2 distributions and
+SRMR values below 0.10 indicate acceptable fit, values less than 0.05 indicate good against one another. These results indicate that both estimation methods produce
+fit, and a value of 0 indicates perfect fit54. results that are approximately χ2 distributed.
+We recommend that model-fit indices be considered concurrently, as
+individual indices each have their own strengths and limitations. Model χ2 Simulation of factor structure. To evaluate the ability of genomic SEM to capture
+is an index of exact fit, with lower values indicating better fit. Model χ2 may the genetic factor structure in the generating population, the GCTA package3 was
+oftentimes be statistically significant, indicating that the model-implied genetic used to generate 100 sets of 6 independent, 100% heritable phenotypes (‘orthogonal
+covariance matrix significantly differs from the empirical (unrestricted) genetic genotypes’) to pair with genotypic data for 39,909 randomly selected, unrelated
+covariance matrix, even when the model-implied covariance matrix very closely individuals of European descent from UKB data for the 1,209,498 SNPs present
+approximates the empirical genetic covariance matrix. Oftentimes, models that in HapMap3. The generating list of causal SNPs was set to 10,000 for all 600
+closely (albeit imperfectly) approximate the empirical genetic covariance matrix genotypes, with the specific list of causal variants sampled with replacement from
+may be scientifically and inferentially useful. We thus recommend considering the 1,209,498 SNPs. One of the six orthogonal genotypes per set was designated
+CFI and SRMR indices of absolute fit, even when model χ2 is significant. We also an index of the general genetic factor, and the remaining five were designated
+recommend using indices of relative fit to compare competing models of the same indices of domain-specific genetic factors. All of these orthogonal genotypes were
+data (that is, different models fit to genetic covariance matrices derived from scaled to M = 0 and s.d. = 1. Five new correlated genotypes were then constructed,
+the exact same summary data for the exact same phenotypes). When models are each as the weighted linear combination of the general genetic factor and one
+nested, their respective χ2 values can be subtracted from one another to calculate a domain-specific genetic factor. Weights for the contribution of the general genetic
+χ tT h2 h ed i si mf χf oe 2 r dde ein f
+l
+fc wee r
+i
+et te hns ct me, w ote ri s et th di d n .f. d .f ). e ae x pq e psu ra t ohl xet io me t xh at tee en sd t i ttf hofe
+e
+wr ee mhn ic pce h
+i
+ri itn ch ad e
+l
+. lf ge.
+e
+sb nse ect tw o icme e cpn ol
+v
+et x ah
+r
+e m
+i
+at now d co ee lm
+m
+(to ahd ta re itl
+x
+s i s. , f ra ec spto er c tw ive er le y .λ WFg, ek i= gh 0 t. s7 0 fo, r0 . t6 h0 e, d0 o.5 m0, a 0 in.4 -s0 p a en cd if i0 c. 3 fa0 c f to or r sc o wr er re el ate (d 1 −ge λn 2 Fo g,t k)yp . Pes h 1 en– o5, t ypes
+significantly worse than the more complex model (that is, the model with fewer were then each constructed as the weighted linear combination of one of the
+d.f.). If the χ2 difference test is significant, the more complex model should be correlated genotypes and domain-specific environmental factors (randomly
+chosen. If the χ2 difference test is not significant, the less complex model should sampled from a normal distribution with M = 0 and s.d. = 1). Heritabilities for
+be chosen, as it is more parsimonious and approximates the empirical genetic phenotypes 1–5 were set to h k2 = 35, 40, 50, 60 and 70%, respectively, such that
+covariance matrix no worse than the more complex model. Two models are the weights for the genotypes were h2 and the weights for the environmental
+k
+n me ost de ed l iw s h ae sn u bth see t s oe ft to hf ep so es ts i ob fl e p om sso id be lel- mim op dl eie l-d i mco pv lia er dia cn oc ve a m riaa ntr ci ec e ms afr to rim ce o s n oe f the f da ic stto rir bs u w tie or ne s a( c1 r− osh sk 2 s) i. m W ue la c tih oo ns se at th 1e 0se 0 f ri eg pu lr ie cs a tt io o nst sa wbi il ti hz e N t h =e ~ p 3r 9o ,p 0e 0r 0t i ee as c o hf . t Whe e
+second model55. Nesting can typically be confirmed if the less restrictive model expect that with lower SNP h2 values, the same patterns would hold, albeit at larger
+can be derived from the more restrictive model by dropping or fixing parameters. sample sizes. Each of the 500 phenotypes (100 sets of 5 phenotypes) was then
+Regardless of whether models are nested, they can be compared on CFI, SRMR and analysed as a univariate GWAS in PLINK56 to produce univariate GWAS summary
+AIC, so long as the same data are being modelled. statistics. Our multivariable LDSC function was then used to construct 100 sets of
+5 × 5 genetic covariance matrices (S) and associated sampling covariance matrices
+Q
+Q
+SS NN PP it se s ct
+a
+lo cf
+u
+h lae tt ee dr o ug se inn ge i at y t.
+w
+A os
+-
+sw teit ph
+p
+t rh oe
+c
+eco dm urp eu
+.
+It nat i so ten
+p
+o 1f
+,
+m
+a
+o cod mel mχ2
+o
+o nu ptl ain the wd aa yb o mv oe d,
+el
+(V S) U, a sn igd
+t
+hge isn po rm ocic
+e
+dS uE rM
+e,
+w wea s
+p
+u es re fod
+r
+mto
+e
+f dit 1a
+0
+1 0- rfa uc nt so r
+o
+fm go ende ol
+m
+to
+ic
+e Sa Ech
+M
+s oet n.
+raw individual-
+is fit in which both factor loadings, the SNP effect on the common factor(s) and level genotype data for which we simulated multivariate phenotypic data to conform
+the residual variances of the common and unique factors are freely estimated to a single genetic factor model (a latent trait that partially causes 5 observed
+(with one factor loading fixed to unity for factor identification and scaling). No outcomes). Across the 100 simulations, genomic SEM estimates closely matched the
+paths representing direct effects of the SNP on the genetic components of the parameters specified in the generating population (Supplementary Fig. 36). Model
+individual phenotypes are estimated. In step 2, a common plus independent standard errors also closely matched the standard deviations of parameter estimates.
+pathways model is specified, in which the factor loadings and the SNP effect on We also compared fit statistics (CFI, AIC and model χ2) for the correctly specified
+the common factor are fixed to the values estimated in step 1, and direct effects of common factor model and two deliberately misspecified models: (1) a model in
+the SNP on individual indicators and the residual variances of each indicator are which all indicators were constrained to have the same factor loading; and (2) a
+freely estimated. Supplementary Fig. 30 depicts this model, as applied to a single model for which the loading of the third indicator was set to 0. As expected, the
+common factor model, with parameters that are fixed in step 2 depicted in red and results indicated that the common factor model matching the generating population
+those that are freely estimated in step 2 depicted in black. was favoured ≥99% of the time across the model fit indices (Supplementary Fig. 37).
+Genomic SEM simulations. Validation of summary-based model fit statistics via Simulation of partial sample overlap. To examine the effect of sample overlap on
+simulation. A generating population with a common factor model defined by estimates obtained from genomic SEM, the GCTA package3 was used to generate a
+4, 5 or 6 indicators was used to examine the null distribution of the newly derived 50% heritable, quantitative phenotype with 30,000 causal SNPs. The phenotype was
+χ2 test statistic using a set of 1,000 simulations per model. These simulations did paired with genetic data from 100,000 randomly selected, unrelated individuals
+not include individual genotypes, and were simulated solely based on a generating of European descent from UKB data for 1,209,498 HapMap3 SNPs. Three sets
+factor structure. For the 6-indicator models, the standardized factor loadings in of 60,000 participants each were created using this same phenotype, with 40,000
+the generating population were 0.42, 0.64, 0.22, 0.59, 0.19 and 0.64. The four- and participants overlapping across all 3 identical phenotypes and 20,000 participants
+five-indicator models specified the same factor loadings, excluding the last, or unique to each phenotype (that is, 100,000 total participants). These three
+last two loadings, respectively. The results indicated that the two-step procedure subsamples were individually analysed in PLINK56 to produce univariate GWAS
+described above produced a test statistic equivalent to the χ2 statistic calculated by summary statistics. The multivariable LDSC function was then used to construct
+lavaan from the raw data (Supplementary Fig. 31 and Supplementary Table 20). For a the genetic covariance and sampling covariance matrix using the three sets of
+χ2-distributed test statistic, the mean of the null sampling distribution should match summary statistics, and genomic SEM was used to fit a one-factor model with the
+the d.f. of the test. As expected, the distribution of the test statistic conformed to a χ2 SNP predicting the common factor. Two key results were verified at this stage.
+distribution with an average approaching the d.f. (Supplementary Fig. 32). Calculated First, we confirmed that the standardized factor loadings on the common factor
+CFI values were also highly consistent with those observed using the CFI statistic were 1 for the identical phenotypes. Second, we verified that the bivariate linkage
+provided by lavaan when using raw data (Supplementary Fig. 33 and Supplementary disequilibrium score intercepts used to account for sample overlap in the sampling
+Table 20). Calculated AIC values were not contrasted with those obtained using the covariance matrix were as expected. The equation for the linkage disequilibrium
+lavaan package in R in the simulations below, as the software uses a formula that score bivariate intercept is4: N sρ/√(N 1N 2), where N s is the sample overlap, ρ is the
+includes a log-likelihood estimate contingent on the provided sample size. phenotypic correlation, N is the sample size of trait 1, and N is the sample size
+1 2
+of trait 2. In this simulation, we observed bivariate intercepts of 0.67, which is as
+Null distribution of Q SNP. To verify that the null distribution for Q
+SNP
+is χ2 expected given sample overlap of 40,000, a phenotypic correlation of 1 and sample
+distributed, a set of simulations specified a generating population in which the sizes of 60,000 (that is, 40,000 × 1/√(60,000 × 60,000) = 0.67). Finally, estimates
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+NATurE HuMAN BEHAviour Articles
+from this multivariate GWAS were compared with estimates from the univariate following domains: psychosis, mania, depression, post-traumatic stress and anxiety.
+GWAS in PLINK for the full set of 100,000 participants. If sample overlap is not We fit a confirmatory factor model (diagram shown in Supplementary Fig. 29)
+appropriately accounted for in this example, such that data are incorrectly treated to the phenotypic symptom endorsements, treating them as ordered categorical
+as deriving from 180,000 participants (as opposed to 100,000 total participants), variables. Analyses were run in Mplus60, with the target phenotypes—the p factor
+we would expect the Z statistics for the SNP effects from genomic SEM to be and each of the individual domains—specified as latent variables. PGS variables
+upwardly biased relative to those from a univariate GWAS applied directly to the were specified to directly predict the latent phenotypes within the model (that is,
+single phenotype in the 100,000 participants. We observed no such bias. A linear factor score estimates were not used). To construct PGSs, we removed from both
+regression of Z statistics from genomic SEM (from the 3 overlapping samples the p-factor and univariate summary statistics the 5 SNPs that were identified
+of 60,000 participants each) predicting univariate GWAS Z statistics in the as having genome-wide significant Q estimates for maximum likelihood,
+SNP
+complete sample (of 100,000 participants) revealed near-perfect correspondence along with SNPs that were in linkage disequilibrium with these SNPs using an r2
+(unstandardized slope = 1.003; intercept = −0.003). threshold of 0.1 and a 500-kb window. PGSs were constructed using PRSice61, with
+linkage disequilibrium clumping set to r2 > 0.25 over 250-kb sliding windows. PGSs
+MTAG simulation. To evaluate the relationship between estimates from MTAG for the p factor were based on the WLS summary statistics produced using genomic
+and those from a genomic SEM formulation of the MTAG model, we specified a SEM. We ran PGS analyses using a P-value threshold of 1.0 (that is, we used all
+bivariate system of heritable phenotypes, A and u. Phenotype A was constructed available SNPs apart from those removed due to Q analyses). To maintain
+SNP
+using the GCTA package3, and specified to be 60% heritable and affected by comparability, PGSs for the univariate summary statistics were constructed based
+a random selection of 30,000 HapMap3 SNPs. Phenotype u was constructed on the same SNPs with which the PGSs for the p factor were constructed. In the
+separately using the GCTA package, and also specified to be 60% heritable and confirmatory factor models, we included controls for age, sex, genotyping array
+affected by a different random selection of 30,000 HapMap3 SNPs. Both A and u and 40 principal components of ancestry in conjunction with the PGS predictor.
+were standardized (M = 0; s.d. = 1). Phenotype B was constructed from phenotypes
+A and u according to the equation B = 0.7 A + 0.7 u. This procedure resulted Neuroticism. The raw total on the 12-item neuroticism subtest of the Eysenck
+in 60% heritabilities for both traits A and B, with a genetic correlation of 0.7 Personality Questionnaire-Revised62 (maximum score = 12) was used as the target
+between them. Sample sizes for phenotypes A and B were 25,000 each, with 10,000 phenotype for out-of-sample prediction. Both genetic and neuroticism target data
+participants contributing data for both phenotypes A and B (that is, 40% sample were available on 19,876 European participants in the Generation Scotland cohort63.
+overlap), such that the analytic dataset was composed of 40,000 unique individuals Neuroticism scores were residualized for age, sex and 20 principal components of
+in total. Both MTAG11 and a genomic SEM model specified to satisfy the same ancestry before examining out-of-sample prediction. PGSs were constructed using
+moment conditions as MTAG (see Supplementary Methods) were then each run PRSice61, with linkage disequilibrium clumping set to r2 > 0.25 over 250-kb sliding
+with trait A as the supporting phenotype used to boost the power for target trait windows and using a P-value threshold of 1.0. PGSs for neuroticism were based on
+B, and estimates from MTAG and genomic SEM specified to satisfy the MTAG the WLS summary statistics produced using genomic SEM. Regression analyses
+moment conditions were compared. Results indicated near-perfect correspondence were run using the lmekin function within the coxme package in R with a random
+from a linear regression in which Z statistics from MTAG were used to predict intercept to account for nesting of individuals within families.
+those from a genomic SEM specified to satisfy the MTAG moment conditions
+(Supplementary Fig. 20; unstandardized slope = 0.999; intercept = 2.65 × 10−4). Clumping and biological annotation. Lead SNPs for univariate indicators and
+the common factors were identified using the clumping algorithm in PLINK56.
+Quality control procedures. LD-score regression. For the p-factor, neuroticism We defined linkage disequilibrium-independent SNPs using an r2 threshold of 0.1
+and anthropometric traits, quality control procedures for producing the S and and a 500-kb window using the same 1000 Genomes Phase 3 reference panel used
+V matrix followed the defaults in LDSC. We recommend using these defaults for obtaining MAF. For chromosomes 6 and 8, an additional pruning filter was
+S
+for multivariable LDSC, including removing SNPs with MAF < 1%, information used of 1 Mb and r2 > 0.1 to account for long-range linkage disequilibrium due to
+scores < 0.9, SNPs from the major histocompatibility complex (MHC) region, the MHC region and pericentric inversion, respectively. Increasing the pruning
+and filtering SNPs to HapMap3. Quality control procedures for the multivariable window further to 4 Mb did not influence our findings on chromosome 6 or 8. The
+regression example mirrored those used by Nieuwboer et al.23 for comparative lead SNPs identified using PLINK were entered into DEPICT. Prioritized genes,
+purposes. More specifically, SNPs were excluded with MAFs < 0.05, as determined enriched gene sets and enriched tissues were identified using the standard false
+by the HapMap Consortium57, and with information values less than 0.9 or greater discovery rate of 5%.
+than 1.1. SNPs were also filtered to HapMap3. The linkage disequilibrium scores
+used for the analyses presented were estimated from 1000 Genomes Phase 3, but Description of genomic SEM software. The genomic SEM software package,
+restricted to HapMap3 SNPs. GenomicSEM, is written as an R package and is available through GitHub at
+https://github.com/MichelNivard/GenomicSEM. GenomicSEM contains several
+Multivariate GWASs. Summary statistics are only restricted to HapMap3 SNPs for functions, including procedures for QCing and standardizing summary statistics,
+the estimation of the genetic covariance and sampling covariance matrix in linkage a function for producing genetic covariance matrices (S LDSC) and their associated
+disequilibrium score regression, whereas all SNPs passing quality control filters are sampling covariance matrices (V SLDSC) using a multivariable extension of linkage
+included for multivariate GWASs. To obtain summary statistics for multivariate disequilibrium score regression, functions for fitting genomic structural equation
+GWASs, we recommend using quality control procedures including the removal of models to S LDSC and V SLDSC, and functions for adding SNP-level data to the S LDSC
+SNPs with MAF < 0.01 in the reference panel, and those SNPs with an imputation and V SLDSC matrices (referred to as S Full and V SFull) that are used for implementing
+information (INFO) score < 0.6. MAFs were obtained for the current analyses genomic SEM for multivariate GWAS discovery. Functions include both pre-
+using the 1000 Genomes Phase 3 reference panel. Using these quality control specified models (for example, a single common factor model) and user-specified
+steps, 1,979,881 SNPs were present across schizophrenia, bipolar disorder, MDD, models. Output includes both unstandardized and standardized solutions,
+PTSD and anxiety. For neuroticism, there were 7,265,104 SNPs that were present along with the fit indices described above. WLS estimation is the default in
+across all phenotypes. These quality control procedures are the defaults for the the GenomicSEM package. GenomicSEM uses the lavaan Structural Equation
+processing function within the GenomicSEM package. The regression effects for Modeling package64 as the primary workhorse for model specification and
+the univariate indicators of the p factor were standardized using the procedure numerical optimization. We also provide limited support for OpenMx65. To run
+for logistic coefficients outlined above. Regression effects for neuroticism the multivariable LDSC function on 5 phenotypes takes ~15 min—a step in the
+indicators were converted from linear probability to logistic coefficients and then analyses that only needs to be performed once. For models of multivariate genetic
+standardized with respect to the variance in the outcome. architecture that do not incorporate individual SNP effects, the typical run time
+observed for 3–15 traits is <1 s on a standard personal computer. Using parallel
+processing implemented in the GenomicSEM package on a 4-core/8-thread laptop,
+Out-of-sample prediction. p factor. Genomic SEM analyses that were used
+a multivariate genomic SEM GWAS with 5 indicators and ~1 million SNPs took
+to produce the summary statistics for construction of PGSs for out-of-sample
+~8 h. The time needed to run the models will increase with increasing model
+prediction omit the Psychiatric Genetics Consortium (PGC) MDD 2018 GWAS
+complexity, and with increasing numbers of variables or SNPs. In these cases, the
+and schizophrenia 2018 GWAS and replace them with the PGC MDD 2013
+computing time can be greatly reduced by using a computing cluster to distribute
+(ref. 58) and PGC schizophrenia 2014 (ref. 59) GWASs to prevent overlap between
+SNP models across nodes/cores.
+discovery and target samples. This resulted in a genomic SEM-based multivariate
+GWAS using 930,581 SNPs. Analyses used to construct a phenotypic p factor
+Reporting Summary. Further information on research design is available in the
+for polygenic prediction in the UKB dataset were restricted to data on up to
+Nature Research Reporting Summary linked to this article.
+N = 332,050 European participants. The genomic SEM of the p factor employed
+case-control GWAS statistics to construct summary statistics for a general factor of
+liability for clinically severe levels of psychopathology as the discovery phenotype. Data availability
+For out-of-sample prediction, we selected a set of psychiatric symptoms (rather The data that support the findings of this study are all publicly available. Links
+than diagnoses) to construct liability for general and domain-specific factors to the location of summary statistics, linkage disequilibrium scores, reference
+of psychiatric symptomology across the subclinical-to-clinical ranges as the panel data and the code used to produce the current results can all be found at
+target phenotypes. From the UKB dataset, we chose symptoms falling within the https://github.com/MichelNivard/GenomicSEM/wiki.
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+Articles NATurE HuMAN BEHAviour
+Code availability 29. Rhemtulla, M., Brosseau-Liard, P. É. & Savalei, V. When can categorical
+GenomicSEM software is an R package that is available from GitHub at variables be treated as continuous? A comparison of robust continuous
+https://github.com/MichelNivard/GenomicSEM. The GenomicSEM R package and categorical SEM estimation methods under suboptimal conditions.
+can be installed directly at https://github.com/MichelNivard/GenomicSEM/wiki. Psychol. Methods 17, 354–373 (2012).
+Example GenomicSEM code, including code used to produce the results, is provided 30. Pers, T. H. et al. Biological interpretation of genome-wide association studies
+for each set of analyses at https://github.com/MichelNivard/GenomicSEM/wiki. using predicted gene functions. Nat. Commun. 6, 5890–5895 (2015).
+31. Li, Z. et al. Genome-wide association analysis identifies 30 new susceptibility
+Received: 4 June 2018; Accepted: 22 February 2019; loci for schizophrenia. Nat. Genet. 49, 1576–1583 (2017).
+32. Hu, Y. et al. GWAS of 89,283 individuals identifies genetic variants associated
+Published: xx xx xxxx
+with self-reporting of being a morning person. Nat. Commun. 7,
+10448–10453 (2016).
+References 33. The Autism Spectrum Disorders Working Group et al. Meta-analysis of
+1. Lee, S. H. et al. Genetic relationship between five psychiatric disorders GWAS of over 16,000 individuals with autism spectrum disorder highlights
+estimated from genome-wide SNPs. Nat. Genet. 45, 984–994 (2013). a novel locus at 10q24.32 and a significant overlap with schizophrenia.
+2. Bush, W. S., Oetjens, M. T. & Crawford, D. C. Unravelling the human Mol. Autism 8, 21 (2017).
+genome–phenome relationship using phenome-wide association studies. 34. Hill, W. D. et al. A combined analysis of genetically correlated traits
+Nat. Rev. Genet. 17, 129–145 (2016). identifies 187 loci and a role for neurogenesis and myelination in intelligence.
+3. Yang, J., Lee, S. H., Goddard, M. E. & Visscher, P. M. GCTA: a tool for Mol. Psychiatry 24, 169–181 (2019).
+genome-wide complex trait analysis. Am. J. Hum. Genet. 88, 76–82 (2011). 35. Martin, N. G. & Eaves, L. J. The genetical analysis of covariance structure.
+4. ReproGen Consortium et al. An atlas of genetic correlations across human Heredity 38, 79–95 (1977).
+diseases and traits. Nat. Genet. 47, 1236–1241 (2015). 36. Zhu, X. et al. Meta-analysis of correlated traits via summary statistics
+5. Barban, N. et al. Genome-wide analysis identifies 12 loci influencing human from GWASs with an application in hypertension. Am. J. Hum. Genet. 96,
+reproductive behavior. Nat. Genet. 48, 1462–1472 (2016). 21–36 (2015).
+6. Jansen, P. R. et al. Genome-wide analysis of insomnia (N=1,331,010) 37. Ray, D. & Boehnke, M. Methods for meta‐analysis of multiple traits using
+identifies novel loci and functional pathways. Nat. Genet. 51, 394–403 (2019). GWAS summary statistics. Genet. Epidemiol. 42, 134–145 (2018).
+7. Wray, N. R. et al. Genome-wide association analyses identify 44 risk variants 38. O'Reilly, P. F. et al. MultiPhen: joint model of multiple phenotypes can
+and refine the genetic architecture of major depression. Nat. Genet. 50, increase discovery in GWAS. PLoS One 7, e34861 (2012).
+668–681 (2018). 39. de Vlaming, R., Johannesson, M., Magnusson, P. K., Ikram, M. A. & Visscher, P. M.
+8. Okbay, A. et al. Genome-wide association study identifies 74 loci associated Equivalence of LD-score regression and individual-level-data methods. Preprint at
+with educational attainment. Nature 533, 539–542 (2016). biorXiv https://www.biorxiv.org/content/10.1101/211821v1 (2017).
+9. Verhulst, B., Maes, H. H. & Neale, M. C. GW-SEM: a statistical package to 40. Lee, J. J., McGue, M., Iacono, W. G. & Chow, C. C. The accuracy of LD Score
+conduct genome-wide structural equation modeling. Behav. Genet. 47, regression as an estimator of confounding and genetic correlations in
+345–359 (2017). genome-wide association studies. Genet. Epidemiol. 42, 783–795 (2018).
+10. Beaumont, R. N. et al. Genome-wide association study of offspring birth 41. Jöreskog, K. G. & Sörbom, D. LISREL 8: Structural Equation Modeling with
+weight in 86,577 women identifies five novel loci and highlights maternal the SIMPLIS Command Language (Scientific Software International, 1993).
+genetic effects that are independent of fetal genetics. Hum. Mol. Genet. 27, 42. Boker, S. M. & McArdle, J. J. Path analysis and path diagrams. Wiley StatsRef:
+742–756 (2018). Statistics Reference Online https://onlinelibrary.wiley.com/
+11. Turley, P. et al. Multi-trait analysis of genome-wide association summary doi/10.1002/9781118445112.stat06517 (2014).
+statistics using MTAG. Nat. Genet. 50, 229–237 (2018). 43. Bulik-Sullivan, B. K. et al. LD score regression distinguishes confounding
+12. Cheung, M. W.-L. metaSEM: an R package for meta-analysis using structural from polygenicity in genome-wide association studies. Nat. Genet. 47,
+equation modeling. Front. Psychol. 5, 1521–1532 (2015). 291–295 (2015).
+13. Savalei, V. & Bentler, P. M. A two-stage approach to missing data: theory and 44. Baselmans, B. M. et al. Multivariate genome-wide analyses of the well-being
+application to auxiliary variables. Struct. Equ. Modeling 16, 477–497 (2009). spectrum. Nat. Genet. 51, 445–451 (2019).
+14. Yuan, K. H. & Bentler, P. M. Robust mean and covariance structure analysis 45. Bates, D., Maechler, M., Davis, T. A., Oehlschlägel, J. & Riedy, R. matrix: Sparse
+through iteratively reweighted least squares. Psychometrika 65, 43–58 (2000). and dense matrix classes and methods. R package version 1.2-12 (2017).
+15. Browne, M. W. Asymptotically distribution‐free methods for the analysis of 46. Flora, D. B. & Curran, P. J. An empirical evaluation of alternative methods of
+covariance structures. Br. J. Math. Stat. Psychol. 37, 62–83 (1984). estimation for confirmatory factor analysis with ordinal data. Psychol.
+16. Huedo-Medina, T. B., Sánchez-Meca, J., Marín-Martínez, F. & Botella, J. Methods 9, 466–491 (2004).
+Assessing heterogeneity in meta-analysis: Q statistic or I2 index? Psychol. 47. Savalei, V. Understanding robust corrections in structural equation modeling.
+Methods 11, 193–220 (2006). Struct. Equ. Modeling 21, 149–160 (2014).
+17. Caspi, A. & Moffitt, T. E. All for one and one for all: mental disorders in one 48. Yarkoni, T. & Westfall, J. Choosing prediction over explanation in psychology:
+dimension. Am. J. Psychiatry 175, 831–844 (2018). lessons from machine learning. Persp. Psychol. Sci. 12, 1100–1122 (2017).
+18. Caspi, A. et al. The p factor. Clin. Psychol. Sci. 2, 119–137 (2013). 49. Lloyd-Jones, L. R., Robinson, M. R., Yang, J. & Visscher, P. M. Transformation
+19. Pettersson, E., Larsson, H. & Lichtenstein, P. Common psychiatric disorders of summary statistics from linear mixed model association on all-or-none
+share the same genetic origin: a multivariate sibling study of the Swedish traits to odds ratio. Genetics 208, 1397–1408 (2018).
+population. Mol. Psychiatry 21, 717–721 (2016). 50. Kenny, D. A. Measuring model fit. David A. Kenny http://davidakenny.net/
+20. Smoller, J. W. et al. Psychiatric genetics and the structure of psychopathology. cm/fit.htm (2014).
+Mol. Psychiatry 24, 409–420 (2019). 51. Kaplan, D. Structural Equation Modeling: Foundations and Extensions Vol. 10
+21. Stochl, J. et al. Mood, anxiety and psychotic phenomena measure a common (Sage, 2008).
+psychopathological factor. Psychol. Med. 45, 1483–1493 (2015). 52. Tanaka, J. S. Multifaceted conceptions of fit in structural equation models. In
+22. Seed, C. et al. Hail: An Open-Source Framework for Scalable Genetic Data. Testing Structutal Equation Models 10–37 (Sage, 1993).
+Neale Lab http://www.nealelab.is/blog/2017/7/19/rapid-gwas-of-thousands-of- 53. Hu, L. T. & Bentler, P. M. Cutoff criteria for fit indexes in covariance
+phenotypes-for-337000-samples-in-the-uk-biobank (2017). structure analysis: conventional criteria versus new alternatives. Struct. Equ.
+23. Nieuwboer, H. A., Pool, R., Dolan, C. V., Boomsma, D. I. & Nivard, M. G. Modeling 6, 1–55 (1999).
+GWIS: genome-wide inferred statistics for functions of multiple phenotypes. 54. Bentler, P. M. & Hu, L. T. in Structural Equation Modeling: Concepts, Issues,
+Am. J. Hum. Genet. 99, 917–927 (2016). and Applications 76–99 (SAGE Publications Inc., 1995).
+24. Rietveld, C. A. et al. GWAS of 126,559 individuals identifies genetic variants 55. Bentler, P. M. & Satorra, A. Testing model nesting and equivalence. Psychol.
+associated with educational attainment. Science 6139, 1467–1471 (2013). Methods 15, 111–123 (2010).
+25. Ruderfer, D. M. et al. Polygenic dissection of diagnosis and clinical 56. Purcell, S. et al. PLINK: a tool set for whole-genome association and
+dimensions of bipolar disorder and schizophrenia. Mol. Psychiatry 19, population-based linkage analyses. Am. J. Hum. Genet. 81, 559–575 (2007).
+1017–1024 (2014). 57. Consortium, I. H. The international HapMap project. Nature 426,
+26. Maier, R. M. et al. Improving genetic prediction by leveraging genetic 789–796 (2003).
+correlations among human diseases and traits. Nat. Commun. 9, 989–993 (2018). 58. Ripke, S. et al. A mega-analysis of genome-wide association studies for major
+27. Van der Sluis, S., Posthuma, D. & Dolan, C. V. TATES: efficient multivariate depressive disorder. Mol. Psychiatry 18, 497–511 (2013).
+genotype–phenotype analysis for genome-wide association studies. 59. Ripke, S. et al. Biological insights from 108 schizophrenia-associated genetic
+PLoS Genet. 9, e1003235 (2013). loci. Nature 511, 421–427 (2014).
+28. Allegrini, A. et al. Genomic prediction of cognitive traits in childhood and 60. Muthén, L. K. & Muthén, B. O. Mplus: The Comprehensive Modeling
+adolescence. Preprint at biorXiv https://www.biorxiv.org/ Program for Applied Researchers. Version 7.3. https://www.statmodel.com/
+content/10.1101/418210v1 (2018). download/usersguide/MplusUserGuideVer_7.pdf (Muthén & Muthén, 2014).
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+NATurE HuMAN BEHAviour Articles
+61. Euesden, J., Lewis, C. M. & O’Reilly, P. F. PRSice: polygenic risk score the Chief Scientist Office of the Scottish Government Health Directorates (CZD/16/6)
+software. Bioinformatics 31, 1466–1468 (2014). and the Scottish Funding Council (HR03006). Genotyping of the Generation
+62. Eysenck, S. B., Eysenck, H. J. & Barrett, P. A revised version of the Scotland:Scottish Family Health Study samples was carried out by the Genetics Core
+psychoticism scale. Pers. Individ. Diff. 6, 21–29 (1985). Laboratory at the Wellcome Trust Clinical Research Facility, Edinburgh, Scotland, and
+63. Smith, B. H. et al. Cohort profile: Generation Scotland: Scottish Family was funded by the Medical Research Council UK and Wellcome Trust (Wellcome Trust
+Health Study (GS:SFHS). The study, its participants and their potential for Strategic Award ‘STratifying Resilience and Depression Longitudinally’ (STRADL)
+genetic research on health and illness. Int. J. Epidemiol. 42, 689–700 (2012). reference 104036/Z/14/Z). Ethical approval for the Generation Scotland:Scottish Family
+64. Rossel, Y. lavaan: An R package for structural equation modeling and more. Health Study was obtained from the Tayside Committee on Medical Research Ethics (on
+Version 0.5–12 (BETA) http://users.ugent.be/~yrosseel/lavaan/ behalf of the National Health Service). The funders had no role in study design, data
+lavaanIntroduction.pdf (2012). collection and analysis, decision to publish or preparation of the manuscript.
+65. Neale, M. C. et al. OpenMx 2.0: extended structural equation and statistical
+modeling. Psychometrika 81, 535–549 (2016). Author contributions
+A.D.G., M.R., H.F.I., M.G.N. and E.M.T.-D. developed the software. A.D.G., M.G.N. and
+Acknowledgements E.M.T.-D. developed the theory underlying genomic SEM. A.D.G., M.R., R.d.V., M.G.N.
+E.M.T.-D., K.P.H. and A.D.G. were supported by NIH grant R01HD083613. E.M.T.-D., and E.M.T.-D. developed the techniques and mathematical derivations. A.D.G., T.T.M.,
+S.J.R. and I.J.D. were supported by NIH grant R01AG054628. E.M.T.-D. and K.P.H. were M.G.N. and E.M.T.-D. performed the simulation studies. S.J.R., R.E.M. and E.M.T.-D.
+each supported by Jacobs Foundation research fellowships. E.M.T.-D. and K.P.H. are performed the polygenic prediction analyses. A.D.G., M.G.N. and E.M.T.-D. wrote
+members of the Population Research Center at the University of Texas at Austin, which the manuscript. M.R., S.J.R., T.T.M., W.D.H., A.M.M., I.J.D., R.E.M., P.D.K. and K.P.H.
+is supported by NIH grant P2CHD042849. M.G.N. is supported by a Royal Netherlands provided feedback and edited the manuscript.
+Academy of Science Professor Award to D. I. Boomsma (PAH/6635), ZonMw grant:
+‘Genetics as a research tool: a natural experiment to elucidate the causal effects of social Competing interests
+mobility on health’ (pnr: 531003014) and ZonMw project: ‘Can sex- and gender-specific
+The authors declare no competing interests.
+gene expression and epigenetics explain sex-differences in disease prevalence and
+etiology?’ (pnr: 849200011). H.F.I. is supported by the ‘Aggression in children: unraveling
+gene–environment interplay to inform treatment and intervention strategies' (ACTION) Additional information
+project. ACTION receives funding from the European Union Seventh Framework
+Supplementary information is available for this paper at https://doi.org/10.1038/
+Program (FP7/2007-2013) under grant agreement number 602768. P.D.K. and R.d.V.
+s41562-019-0566-x.
+were supported by ERC Consolidator Grant 647648 EdGe. I.J.D., A.M.M., S.J.R., R.E.M.
+and W.D.H. are members of the University of Edinburgh Centre for Cognitive Ageing Reprints and permissions information is available at www.nature.com/reprints.
+and Cognitive Epidemiology, which is part of the cross-council Lifelong Health and Correspondence and requests for materials should be addressed to A.D.G.
+Wellbeing Initiative (MR/K026992/1). W.D.H. is supported by a grant from Age UK
+Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+(Disconnected Mind Project). PGS analyses for the p factor were conducted under UKB
+published maps and institutional affiliations.
+dataset resource–application number 4844. PGS analyses for neuroticism were conducted
+using data from Generation Scotland. Generation Scotland received core support from © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NATuRE HuMAN BEHAVIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2018
+Andrew Grotzinger
+Corresponding author(s): e-mail: agrotzin@utexas.edu
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistical parameters
+When statistical analyses are reported, confirm that the following items are present in the relevant location (e.g. figure legend, table legend, main
+text, or Methods section).
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+An indication of whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistics including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient) AND
+variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Clearly defined error bars
+State explicitly what error bars represent (e.g. SD, SE, CI)
+Our web collection on statistics for biologists may be useful.
+Software and code
+Policy information about availability of computer code
+Data collection No software was used for data collection.
+Data analysis Lead SNPs and GWAS for simulation studies were conducted using PLINK v1.9.
+Simulation of phenotypes with corresponding genotypes was conducting using GCTA v1.91.
+The construction of polygenic scores for out-of-sample prediction was conducted using PRSice v1.25.
+Genomic SEM was run using code we make available for download at https://github.com/MichelNivard/GenomicSEM
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers
+upon request. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+2
+nature
+research
+|
+reporting
+summary
+April
+2018
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+All summary statistics used are available for public download. No raw data was used except for the construction of polygenic scores (PGSs) for out-of-sample
+prediction in UK Biobank and Generation Scotland. Although we are unable to make this data available ourselves, the data may be requested by others.
+Supplementary Table 1 provides references for all of the summary statistics used in our analyses. All summary statistics used are available for public use, and links
+are provide directly below.
+For construction of the p-factor, summary statistics for PTSD, Anxiety, Bipolar Disorder, and Major Depressive Disorder were downloaded from: http://
+www.med.unc.edu/pgc/results-and-downloads. Summary statistics for Schizophrenia were downloaded from: http://walters.psycm.cf.ac.uk/.
+The GWIS summary statistics for Bipolar Disorder and Schizophrenia were also downloaded from the cross-disorder section of the PGC website. The summary
+statistics for educational achievement are available for download from: https://www.thessgac.org/data.
+Summary statistics for item-level indicators of neuroticism were downloaded from: https://docs.google.com/spreadsheets/d/1b3oGI2lUt57BcuHttWaZotQcI0-
+mBRPyZihz87Ms_No/edit#gid=1209628142. We use Round 1 of the Neale's Lab UKB GWAS results.
+Summary statistics for early-life traits used in the factor model of anthropometric traits (birth length, birth weight, infant head circumference, childhood obesity)
+were obtained from: https://egg-consortium.org/.
+Summary statistics used for the anthropometric traits example for BMI, waist-hip ratio, hip circumference, waist circumference, and height are available from:
+https://portals.broadinstitute.org/collaboration/giant/index.php/GIANT_consortium_data_files.
+Field-specific reporting
+Please select the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/authors/policies/ReportingSummary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Our study uses publically available summary statistics to examine a new developed method, Genomic SEM. Genomic SEM can be used to
+examine any form of structural equation model (e.g., factor analysis, mediation, etc.) using summary statistics. The software provides
+model fit statistics, and can also be used to produce summary statistics for a latent trait.
+Research sample We use only publically available summary statistics for our analyses. As Genomic SEM relies on ld-score regression (LDSC) to construct
+genetic covariance matrices, and LDSC requires summary statistics to be within a single ethnic population due to differences in linkage
+disequilibrium across populations, we use only summary statistics restricted to European populations.
+Sampling strategy This is not applicable as we use previously collected data.
+Data collection This is not applicable as we use previously collected data.
+Timing This is not applicable as we use previously collected data.
+Data exclusions We use only summary statistics from European populations due to the requirements of LDSC, as noted above.
+Non-participation This is not applicable as we use previously collected data.
+Randomization This is not applicable as we use previously collected data.
+Reporting for specific materials, systems and methods
+3
+nature
+research
+|
+reporting
+summary
+April
+2018
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Unique biological materials ChIP-seq
+Antibodies Flow cytometry
+Eukaryotic cell lines MRI-based neuroimaging
+Palaeontology
+Animals and other organisms
+Human research participants

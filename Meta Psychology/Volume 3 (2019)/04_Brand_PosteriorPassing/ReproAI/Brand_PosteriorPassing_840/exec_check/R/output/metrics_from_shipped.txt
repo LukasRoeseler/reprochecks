@@ -1,0 +1,102 @@
+﻿=== A) Mean effect estimate per method (log-odds), by (e x var) ===
+
+-- meta_sex_cond_estimate_anova --
+  var=0.00 | e=0:0.001 e=.5:0.123 e=1:0.230 e=1.5:0.318 e=2:0.381
+  var=0.25 | e=0:0.002 e=.5:0.119 e=1:0.229 e=1.5:0.314 e=2:0.380
+  var=0.50 | e=0:0.001 e=.5:0.114 e=1:0.224 e=1.5:0.305 e=2:0.371
+  var=0.75 | e=0:-0.003 e=.5:0.111 e=1:0.210 e=1.5:0.297 e=2:0.359
+  var=1.00 | e=0:0.002 e=.5:0.098 e=1:0.194 e=1.5:0.277 e=2:0.345
+
+-- meta_sex_cond_estimate_glmm --
+  var=0.00 | e=0:0.003 e=.5:0.506 e=1:0.998 e=1.5:1.505 e=2:2.013
+  var=0.25 | e=0:0.007 e=.5:0.495 e=1:1.005 e=1.5:1.499 e=2:2.009
+  var=0.50 | e=0:0.003 e=.5:0.491 e=1:1.018 e=1.5:1.493 e=2:1.994
+  var=0.75 | e=0:-0.014 e=.5:0.503 e=1:1.004 e=1.5:1.517 e=2:2.005
+  var=1.00 | e=0:0.010 e=.5:0.484 e=1:0.987 e=1.5:1.500 e=2:2.003
+
+-- meta_sex_cond_estimate_bglmm --
+  var=0.00 | e=0:0.003 e=.5:0.509 e=1:1.003 e=1.5:1.514 e=2:2.026
+  var=0.25 | e=0:0.007 e=.5:0.497 e=1:1.008 e=1.5:1.505 e=2:2.018
+  var=0.50 | e=0:0.003 e=.5:0.490 e=1:1.021 e=1.5:1.497 e=2:2.001
+  var=0.75 | e=0:-0.016 e=.5:0.505 e=1:1.008 e=1.5:1.523 e=2:2.012
+  var=1.00 | e=0:0.011 e=.5:0.485 e=1:0.990 e=1.5:1.509 e=2:2.010
+
+-- meta_sex_cond_estimate_pp --
+  var=0.00 | e=0:0.004 e=.5:0.509 e=1:1.003 e=1.5:1.512 e=2:2.020
+  var=0.25 | e=0:0.004 e=.5:0.495 e=1:1.006 e=1.5:1.502 e=2:2.013
+  var=0.50 | e=0:0.005 e=.5:0.494 e=1:1.018 e=1.5:1.496 e=2:1.998
+  var=0.75 | e=0:-0.012 e=.5:0.505 e=1:1.005 e=1.5:1.521 e=2:2.011
+  var=1.00 | e=0:0.007 e=.5:0.481 e=1:0.994 e=1.5:1.505 e=2:2.008
+
+-- meta_sex_cond_estimate_mega_bglmm --
+  var=0.00 | e=0:0.003 e=.5:0.505 e=1:0.995 e=1.5:1.501 e=2:2.005
+  var=0.25 | e=0:0.007 e=.5:0.494 e=1:1.004 e=1.5:1.497 e=2:2.004
+  var=0.50 | e=0:0.004 e=.5:0.491 e=1:1.018 e=1.5:1.492 e=2:1.991
+  var=0.75 | e=0:-0.013 e=.5:0.503 e=1:1.003 e=1.5:1.517 e=2:2.002
+  var=1.00 | e=0:0.008 e=.5:0.485 e=1:0.989 e=1.5:1.500 e=2:2.002
+
+=== B) PP vs meta-BGLMM: near-identical? ===
+cor(pp, mega): 0.9999 
+mean|pp - mega|: 0.0097 
+mean|glmm - bglmm|: 0.0055 
+mean|glmm - anova|: 0.8057 
+
+=== C) ANOVA underestimation: mean estimate - true e, e=2 (highest) ===
+
+ meta_sex_cond_estimate_anova  (e=2):
+   var=0.00  mean_est=0.381  delta_from_2=-1.619
+   var=0.25  mean_est=0.380  delta_from_2=-1.620
+   var=0.50  mean_est=0.371  delta_from_2=-1.629
+   var=0.75  mean_est=0.359  delta_from_2=-1.641
+   var=1.00  mean_est=0.345  delta_from_2=-1.655
+
+ meta_sex_cond_estimate_glmm  (e=2):
+   var=0.00  mean_est=2.013  delta_from_2=+0.013
+   var=0.25  mean_est=2.009  delta_from_2=+0.009
+   var=0.50  mean_est=1.994  delta_from_2=-0.006
+   var=0.75  mean_est=2.005  delta_from_2=+0.005
+   var=1.00  mean_est=2.003  delta_from_2=+0.003
+
+ meta_sex_cond_estimate_pp  (e=2):
+   var=0.00  mean_est=2.020  delta_from_2=+0.020
+   var=0.25  mean_est=2.013  delta_from_2=+0.013
+   var=0.50  mean_est=1.998  delta_from_2=-0.002
+   var=0.75  mean_est=2.011  delta_from_2=+0.011
+   var=1.00  mean_est=2.008  delta_from_2=+0.008
+
+=== D) True-positive rate (e>0) by (e x var) ===
+
+-- meta_sex_cond_positive_rate_anova --
+  var=0.00 | e=0:0.053 e=.5:0.782 e=1:1.000 e=1.5:1.000 e=2:1.000
+  var=0.25 | e=0:0.047 e=.5:0.623 e=1:0.992 e=1.5:1.000 e=2:1.000
+  var=0.50 | e=0:0.064 e=.5:0.380 e=1:0.916 e=1.5:0.997 e=2:1.000
+  var=0.75 | e=0:0.053 e=.5:0.253 e=1:0.691 e=1.5:0.949 e=2:0.993
+  var=1.00 | e=0:0.037 e=.5:0.152 e=1:0.494 e=1.5:0.813 e=2:0.962
+
+-- meta_sex_cond_positive_rate_glmm --
+  var=0.00 | e=0:0.047 e=.5:0.783 e=1:1.000 e=1.5:1.000 e=2:1.000
+  var=0.25 | e=0:0.054 e=.5:0.662 e=1:0.995 e=1.5:1.000 e=2:1.000
+  var=0.50 | e=0:0.073 e=.5:0.414 e=1:0.940 e=1.5:0.999 e=2:1.000
+  var=0.75 | e=0:0.062 e=.5:0.279 e=1:0.753 e=1.5:0.973 e=2:0.999
+  var=1.00 | e=0:0.048 e=.5:0.179 e=1:0.547 e=1.5:0.870 e=2:0.986
+
+-- meta_sex_cond_positive_rate_pp --
+  var=0.00 | e=0:0.000 e=.5:1.000 e=1:1.000 e=1.5:1.000 e=2:1.000
+  var=0.25 | e=0:0.000 e=.5:1.000 e=1:1.000 e=1.5:1.000 e=2:1.000
+  var=0.50 | e=0:0.050 e=.5:1.000 e=1:1.000 e=1.5:1.000 e=2:1.000
+  var=0.75 | e=0:0.050 e=.5:1.000 e=1:1.000 e=1.5:1.000 e=2:1.000
+  var=1.00 | e=0:0.000 e=.5:1.000 e=1:1.000 e=1.5:1.000 e=2:1.000
+
+=== E) Uncertainty (95% CI/credible width) mean by method (overall) ===
+meta_sex_cond_uncertainty_anova  overall mean: 0.2702 
+meta_sex_cond_uncertainty_glmm  overall mean: 1.1955 
+meta_sex_cond_uncertainty_bglmm  overall mean: 1.2688 
+meta_sex_cond_uncertainty_pp  overall mean: 0.1601 
+meta_sex_cond_uncertainty_mega_bglmm  overall mean: 0.1604 
+
+PP uncertainty by (e x var):
+  var=0.00 | e=0:0.097 e=.5:0.099 e=1:0.101 e=1.5:0.105 e=2:0.112
+  var=0.25 | e=0:0.106 e=.5:0.105 e=1:0.109 e=1.5:0.111 e=2:0.119
+  var=0.50 | e=0:0.143 e=.5:0.142 e=1:0.146 e=1.5:0.149 e=2:0.155
+  var=0.75 | e=0:0.192 e=.5:0.194 e=1:0.191 e=1.5:0.198 e=2:0.200
+  var=1.00 | e=0:0.242 e=.5:0.244 e=1:0.243 e=1.5:0.251 e=2:0.250

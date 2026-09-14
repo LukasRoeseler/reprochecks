@@ -1,0 +1,745 @@
+
+===== PAGE 1/15 =====
+Meta-Psychology, 2019, vol 3, MP.2018.898, Open data: Not relevant Edited by: Rickard Carlsson
+https://doi.org/10.15626/MP.2018.898 Open materials: Yes Reviewed by: Oscar Olvera, Paul Lodder
+Article type: Original Article Open and reproducible analysis: Yes Analysis reproduced by: Jack Davis
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes All supplementary files can be accessed at the OSF project
+Preregistration: No page: https://osf.io/em62j/
+Differences of Type I error rates for ANOVA and Multilevel-
+Linear-Models using SAS and SPSS for repeated measures
+designs
+Nicolas Haverkamp André Beauducel
+University of Bonn University of Bonn
+To derive recommendations on how to analyze longitudinal data, we examined Type I
+error rates of Multilevel Linear Models (MLM) and repeated measures Analysis of
+Variance (rANOVA) using SAS and SPSS. We performed a simulation with the following
+specifications: To explore the effects of high numbers of measurement occasions and
+small sample sizes on Type I error, measurement occasions of m = 9 and 12 were
+investigated as well as sample sizes of n = 15, 20, 25 and 30. Effects of non-sphericity in
+the population on Type I error were also inspected: 5,000 random samples were drawn
+from two populations containing neither a within-subject nor a between-group effect.
+They were analyzed including the most common options to correct rANOVA and MLM-
+results: The Huynh-Feldt-correction for rANOVA (rANOVA-HF) and the Kenward-Roger-
+correction for MLM (MLM-KR), which could help to correct progressive bias of MLM with
+an unstructured covariance matrix (MLM-UN). Moreover, uncorrected rANOVA and
+MLM assuming a compound symmetry covariance structure (MLM-CS) were also taken
+into account. The results showed a progressive bias for MLM-UN for small samples which
+was stronger in SPSS than in SAS. Moreover, an appropriate bias correction for Type I
+error via rANOVA-HF and an insufficient correction by MLM-UN-KR for n < 30 were
+found. These findings suggest MLM-CS or rANOVA if sphericity holds and a correction
+of a violation via rANOVA-HF. If an analysis requires MLM, SPSS yields more accurate
+Type I error rates for MLM-CS and SAS yields more accurate Type I error rates for MLM-
+UN.
+Keywords: Multilevel linear models, software differences, repeated measures ANOVA,
+simulation study, Kenward-Roger correction, Type I error rate
+In times of a replication crisis that is yet to over- and investigate their methodological tools in order
+come, we feel a need to improve methodological to know about their strengths and weaknesses as
+standards in order to regain credibility of scientific well as the circumstances under which they should
+knowledge. It is therefore important to generate or should not be used.
+clearly formulated “best practice” recommendations In this study, we will therefore focus on two pop-
+when there are multiple competing methodological ular methods to analyze dependent means as they
+approaches for the same issue in question. Progress occur, for example, in longitudinal data. It is im-
+in psychology means for researchers to understand portant to examine whether a mean change over
+time is of statistical relevance or not. In recent lon-
+gitudinal research, a trend to use Multilevel linear
+Correspondence Address: Dr. Nicolas Haverkamp, Institute of
+Psychology, University of Bonn, Kaiser-Karl-Ring 9, 53111
+Bonn, Germany. nicolas.haverkamp@uni-bonn.de
+
+===== PAGE 2/15 =====
+2
+HAVERKAMP & BEAUDUCEL
+models (MLM) instead of repeated measures analy- about the covariance structure inherent in the data
+sis of variance (rANOVA) can be identified (Arnau, (Baek & Ferron, 2013). For example, MLMs with com-
+Balluerka, Bono, & Gorostiaga, 2010; Arnau, Bono, & pound-symmetry (CS), with uncorrelated structure,
+Vallejo, 2009; Goedert, Boston, & Barrett, 2013; or with auto-regressive covariance structure are
+Gueorguieva & Krystal, 2004); even appeals to re- feasible. If no particular preconceptions or assump-
+searchers in favor of MLM over rANOVA are made tions on the covariances can be formulated a priori,
+(Boisgontier & Cheval, 2016). Despite the high popu- MLM with an unstructured covariance matrix (UN)
+larity of MLM, the terminology is not all clear with- can be defined as the most common choice for MLM
+out ambiguity. We follow a definition of Tabachnick (Tabachnick & Fidell, 2013). To the best of our
+and Fidell (2013) in using the term “MLM” to denote knowledge, a comparison of all advantages and dis-
+models with the following characteristics: Regres- advantages of MLM and rANOVA is not available.
+sion models basing upon at least two data levels, However, the reader may find a discussion of several
+where the levels are typically specified by the meas- advantages of MLM over rANOVA in Finch, Bolin and
+urement occasions interleaved with individuals, Kelley (2014).
+models containing covariance pattern models, and In longitudinal research, small sample sizes occur
+fixed as well as random effects. Although Tabach- frequently (McNeish, 2016). It is therefore of special
+nick and Fidell (2013, p. 788) indicate that “MLM” is interest how the issues related to sample size prob-
+used for “a highly complex set of techniques”, they lems (e.g. incorrect Type I error rates) can ade-
+mention the presence of at least two data levels first, quately be addressed. In recent literature, MLM are
+giving the impression that this is the most important recommended as more appropriate compared to
+aspect of these techniques. As we noticed massive rANOVA for small sample sizes if some precautions
+differences in Type I error rates for different ap- are taken: McNeish and Stapleton (2016b), among
+proaches before (Haverkamp & Beauducel, 2017), we others, report for restricted maximum likelihood
+will furthermore focus on the Type I error correc- (REML) estimation to improve small sample proper-
+tions that are offered by the respective method. ties of MLM for sample sizes below 25 and even into
+Moreover, the large Type I errors that we have no- the single digits. They give a clear recommendation
+ticed before could trigger publications of results against maximum likelihood (ML) if sample sizes are
+that cannot be replicated or reproduced. This is why small because variance components are underesti-
+we consider that the focus on Type I error rates is of mated and Type I error rates are inflated (McNeish,
+special importance for the current debate on the re- 2016, 2017). However, as REML is seen as not com-
+producibility of results. pletely solving these issues, the Kenward-Roger
+If the features of MLM over rANOVA are com- correction (Kenward & Roger, 1997, 2009) is sug-
+pared, three main advantages of MLM become ap- gested as best practice to maintain nominal Type I
+parent: First, MLMs permit to model data that are error rates (McNeish & Stapleton, 2016a). This cor-
+structured in at least one level. If there are reasons rection is not yet available in SPSS but was recently
+to suppose two or more nested data levels, MLM is included in SAS (McNeish, 2017). We therefore de-
+applicable. In the case of one level of measurement cided to follow these recommendations by using
+occasions plus one level of individuals, rANOVA is MLM with REML and considering the Kenward-
+also adequate. However, if the structure is any more Roger correction in our analyses of small sample
+complex, comprehending several levels, rANOVA properties for the different methods.
+will always be less appropriate than MLM (Baayen, Another issue is the robustness of MLM and
+Davidson, & Bates, 2008). Second, several randomly ANOVA results across different statistical software
+distributed missing values can emerge in repeated packages. So far, this has not been systematically ex-
+measures designs containing a large number of amined. For simple tests, like t-tests or simple
+measurement occasions. Even then, MLM is robust, ANOVA models, no substantial differences between
+because there is no requirement for complete data software packages are to be expected. However, for
+over occasions as individual parameters (e.g., slope more complex statistical techniques like MLM dif-
+parameters) are estimated. A third comparative ad- ferent explicit or implicit default settings (e.g., num-
+vantage over rANOVA is the potential to draw com- ber of iterations, correction methods) may occur.
+parisons between MLMs with differing assumptions This may also be related to the different purposes
+
+===== PAGE 3/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 3
+DESIGNS
+and abilities of the different software packages measures ANOVA can also be described with these
+(Tabachnick & Fidell, 2013). As the number of options terms. Moreover, we did not use “nested data mod-
+can be large, differences between the algorithms els” as this term could be used for several different
+may sometimes not be made entirely transparent in techniques like non-linear mixed models. Thus, our
+the software descriptions (see results section), we keywords were chosen in order to enhance the
+consider this a critical topic. However, for very sim- probability that the search results are specific to
+ple repeated measures designs without any complex non-ANOVA methods but specific to multilevel/hi-
+interaction or covariate, it should nevertheless be erarchical linear models. Keeping the limitations of
+expected that different software packages provide this reference search in mind, the results neverthe-
+the same results. However, to our knowledge, this less indicate that SPSS and SAS are often used for
+has not been investigated until now so that we MLM. Even when the relative number of hits might
+would like to shed some light in this topic by means be questioned, the absolute number of hits indicate
+of our study. that several hundred researchers used SPSS or SAS
+To compare the results of different MLM designs for MLM so that our comparison might be of interest
+in this study, it is necessary for the respective soft- at least for these researchers.
+ware package to allow certain specifications of the Moreover, we performed a literature search for
+model(s). Tabachnick and Fidell (2013) provide an simulation studies on MLM software packages. The
+overview of the abilities for the most popular pack- results of this literature research are shown in Table
+ages: SPSS, SAS, HLM, MLwiN (R) and SYSTAT. For 2, indicating for each MLM simulation study the
+this simulation study, a few features will be neces- smallest sample size included and the software
+sary: At first, it must be possible to specify the struc- package used to analyze the data.
+ture of the variance-covariance matrix as unstruc-
+tured or with compound symmetry. Second, proba-
+Table 1.
+bility values as well as degrees of freedom for effects
+Google Scholar hits for MLM using SPSS, SAS, Stata
+have to be included in the output to allow for cor-
+or R
+rections if the sphericity assumption is violated. Fol-
+lowing the specifications of Tabachnick and Fidell Google Scholar
+Software package
+(2013), we decided to compare SAS and SPSS as only hits
+these two software packages provide all of the re-
+SPSS 2070
+quired features mentioned above.
+In accordance with this, a literature research SAS 1790
+shows SAS and SPSS to be among the most popular
+Stata 984
+software packages. Table 1 shows the number of
+Google Scholar hits for a reference search for a R 512
+slightly broader set of keywords (“SPSS”, “SAS”,
+Note. The search was performed on the 9th of Septem-
+“Stata”, “R project”, “R core team”, “multilevel linear
+ber, 2018. The search strings were: ““SPSS” -“SAS” -
+model”, and “hierarchical linear model” as well as the
+“Stata” -“R Core team” -"R project" AND “multilevel linear
+relevant packages to perform MLM in R, see Note of model” OR “hierarchical linear model”” (for the SPSS
+Table 1 for more details). We acknowledge that the search); “-“SPSS” “SAS” -Stata -“R Core team” –“R pro-
+validity of reference-searches depends on the ject” AND “multilevel linear model” OR “hierarchical lin-
+search terms and that some additional terms might ear model”” (for the SAS search); “-“SPSS” –“SAS” Stata -
+also be considered relevant in the present context. “R Core team” –“R project” AND “multilevel linear model”
+OR “hierarchical linear model”” (for the Stata search); “-
+For example, “mixed models” and “random-effects
+“SPSS” –“SAS” -Stata “R Core team” OR “R project” OR
+models”, and “nested data models” might also be in-
+“nlme” OR “lme4” OR “lmertest” OR “lme” OR “pbkrtest”
+teresting terms for a reference search. However, we
+AND “multilevel linear model” OR “hierarchical linear
+did not use “mixed models” and “random-effects
+model”” (for the R search).
+models” here because conventional repeated
+
+===== PAGE 4/15 =====
+Meta-Psychology, 2019, vol 3, MP.2018.898, Open data: Not relevant Edited by: Rickard Carlsson
+https://doi.org/10.15626/MP.2018.898 Open materials: Yes Reviewed by: Oscar Olvera, Paul Lodder
+Article type: Original Article Open and reproducible analysis: Yes Analysis reproduced by: Jack Davis
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes All supplementary files can be accessed at the OSF project
+Preregistration: No page: https://osf.io/em62j/
+Table 2.
+Simulation studies on MLM with small sample sizes
+Author(s) Year Smallest sample size Software package(s)
+Arnau et al. 2009 30 (5) SAS
+Ferron, Bell, Hess, Rendina-Go- 2009 4 SAS
+bioff, and Hibbard
+Ferron, Farmer, and Owens 2010 4 SAS
+Goedert et al. 2013 6 STATA/IC
+Gomez, Schaalje, and Felling- 2005 3 SAS
+ham
+Gueorguieva and Krystal 2004 50 SAS
+Haverkamp and Beauducel 2017 20 SPSS
+Keselman, Algina, Kowalchuk, 1999 30 (6) SAS
+and Wolfinger
+Kowalchuk, Keselman, Algina, 2004 30 (6) SAS
+and Wolfinger
+Maas and Hox 2005 5 MLwiN (R)
+Usami 2014 10 R
+Note. The number in brackets refers to the smallest group size in the simulation study.
+Simulation efforts that focus on very particular On the other hand, the studies of Ferron and col-
+models, options, and data yield fairly idiosyncratic leagues (2009; 2010) investigated Type I error rates
+results. They might, for sure, be of relevance for a for MLM in SAS as well, but were restricted to mul-
+specific research field if the MLM defined in the sim- tiple-baseline data. Paccagnella (2011), meanwhile,
+ulation study is consistent with the MLM that is usu- examined binary response 2-level model data in his
+ally implemented in this field of research. For exam- study on sufficient sample sizes for accurate esti-
+ple, the study of Arnau et al. (2009) investigated dif- mates and standard errors of estimates in MLM.
+ferent methods for repeated measures MLM in SAS. Nagelkerke, Oberski, and Vermunt (2016) delivered a
+They found the Satterthwaite correction (Satterth- detailed analysis on Type I error and power but lim-
+waite, 1946) being too liberal in contrast to the Ken- ited themselves to Multilevel Latent Class analysis.
+ward-Roger correction (Kenward & Roger, 1997, However, we are convinced that these specific sim-
+2009), which delivered more robust results, but ulation studies should be rounded off by simulation
+their study concentrated on split-plot designs only. studies focusing on rather simple, ‘basic’ models and
+
+===== PAGE 5/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 5
+DESIGNS
+data (Berkhof & Snijders, 2001), which are less con- MLM, models based on compound symmetry (CS)
+tingent upon particular modeling options and data and unstructured covariance matrix (UN) were
+features. Although the coverage of simulation ap- checked. In consequence, there will be five versions
+proaches will naturally be restricted, using basic of MLM in the study (MLM-UN SAS, MLM-UN SPSS,
+models and population data specifications can build MLM-CS SAS, MLM-CS SPSS, MLM-KR SAS) and the
+a background for the investigation of more specific present simulation study will allow for a comparison
+models. Therefore, this simulation approach focus- of the Type I Error rate of MLM with Kenward-
+ses solely on the effects of a violation of the spheric- Roger-correction with other MLM based on SAS and
+ity assumption on mean Type I error rates in SPSS for models with and without CS.
+rANOVA-models (without correction and with REML will be used as an estimation method for
+Huynh-Feldt-correction) and MLM (based on com- MLM because it is more suitable for small sample
+pound-symmetry as well as on an unstructured co- sizes than ML (McNeish & Stapleton, 2016b) and be-
+variance matrix) for a within-subjects effect without cause it has been proven to be most accurate for
+any between-group effect. random effects models, i.e., for models that do not
+As rANOVA is not capable of the simultaneous contain any fixed between group effects (West,
+analysis of more than one data level, there is no Welch, & Galecki, 2007).
+point in a comparison of rANOVA and MLM for data To summarize, this simulation study has two ma-
+of such complex structure. This study is therefore jor aims: First, the results of uncorrected rANOVA,
+limited to a subset of simulated repeated measures rANOVA-HF, MLM-UN and MLM-CS are compared
+data that allows for an analysis with rANOVA as well for SAS and SPSS, as they are available in both pack-
+as MLM. Haverkamp and Beauducel (2017) also used ages. If the results show substantial differences be-
+rather basic population models and data, but their tween the software packages, this will have immedi-
+study was limited to the SPSS package, so that they ate consequences for software applications, as the
+could not include the options provided by SAS. The software with the more correct Type I error rate
+present study extends on the study provided by should be preferred. Second, SAS offers the Ken-
+Haverkamp and Beauducel (2017) in that SAS, the ward-Roger-correction, which was developed to
+Kenward-Roger correction, smaller sample sizes correct MLM-UN results for a progressive bias in
+and a larger number of measurement occasions Type I error (Kenward & Roger, 1997, 2009), espe-
+were investigated. The Kenward-Roger correction cially for small sample sizes. Therefore, the samples
+(Kenward & Roger, 1997, 2009) that is available in were also analyzed under this condition (MLM-KR)
+SAS but not in SPSS was considered here as it should to compare the results to those delivered by the
+result in a more appropriate Type I Error rate for other rANOVA and MLM specifications.
+MLM based on an unstructured covariance matrix Our expectations are as follows: Normally, one
+(Arnau et al., 2009; Gomez et al., 2005; McNeish & would expect that statistical methods have a Type-I
+Stapleton, 2016a). As Kenward and Roger (1997, error at the level of the a priori significance level,
+2009) have shown that their correction works with when they are used appropriately. This implies that
+sample sizes of about 12 cases, small sample sizes uncorrected ANOVA (rANOVA) and MLM-CS should
+will also be investigated in the present simulation have 5% of Type-I errors at an alpha-level of 5%
+study. As violations of the sphericity condition or when they are used in data without violation of the
+compound symmetry (CS) have been found to affect sphericity assumption. However, when these meth-
+the Type I error rates in rANOVA and MLM, this as- ods are used with data violating the sphericity as-
+pect was also investigated here. It should be noted sumption, the percentage of Type-I errors should be
+that CS is not identical but similar to the sphericity larger than 5%. We also expect that rANOVA-HF and
+assumption of rANOVA. As the CS assumption is MLM-KR result in 5% of Type-I errors, even in data
+more restrictive than the sphericity assumption violating the sphericity assumption, whereas MLM-
+(Field, 1998), MLM with CS assumption will also sat- UN results in a larger percentage of Type-I errors in
+isfy the sphericity assumption. Accordingly, uncor- small samples with and without violation of the
+rected rANOVA and Huynh-Feldt-corrected (HF) sphericity assumption (Kenward & Roger, 1997,
+rANOVA were compared in order to investigate ef- 2009; Haverkamp & Beauducel, 2017). Finally, if eve-
+fects of the violation of the sphericity condition. For rything works fine, even in light of different default
+
+===== PAGE 6/15 =====
+6
+HAVERKAMP & BEAUDUCEL
+settings, no substantial differences between SPSS and a pattern of unique factor loadings
+and SAS should occur for the simple repeated D=diag(I-P'P)1/2. As in Snook and Gorsuch
+measures data structure that we will investigate,
+(1989, p. 149-150), the population matrix of corre-
+when identical methods (i.e., MLM-UN, MLM-CS,
+lated random variables Y can be written as
+rANOVA, and HF) are performed.
+Y=cP'+ZD,
+Material and methods
+(3)
+We performed the analyses of the simulated data
+where vector c contains the common random varia-
+with SAS Version 9.4 (SAS Studio 3.7) and IBM SPSS
+ble and Z is a matrix of m independent random var-
+Statistics Version 23.0.0.3. We manipulated the vio-
+iables (an example population file for the sphericity
+lation of the sphericity assumption, the sample size,
+condition and m = 9 containing the resulting y-var-
+t
+and the number of measurement occasions. There
+iables, the common variable c, and the independent
+was no between-subject effect and no within-sub-
+random variables z has been uploaded in SPSS-for-
+t
+ject effect in the population data. Under the sphe-
+mat and in ASCII-format; an SPSS-Syntax example
+ricity condition, the sphericity assumption holds in
+of data-generation can be found at
+the population. There were t =1 to m; for m = 9 and
+https://osf.io/4g96f/).
+m = 12 measurement occasions for each individual i.
+We used the SPSS Mersenne Twister random num-
+The condition with violation of the sphericity condi-
+ber generator for generation of a population of nor-
+tion was based on a population of dependent varia-
+mally distributed, z-standardized, and uncorrelated
+bles with a population correlation of .50 for the even
+variables z (E[z ]=0; Var[z ]=1). Since dependent
+ti ti ti values of t and a population correlation of .80 for the
+variables in a repeated measures design are typically
+odd values of t. The correlation of .80 was generated
+correlated, we generated a correlation of .50 be-
+by introducing a second common random variable
+tween the dependent variables according to the
+c that is aggregated only for the variables with odd
+procedure described by Knuth (1981). Accordingly, 2i
+values of t. For m = 12 this yields
+the correlated dependent variables y were gener-
+ti
+ated by means of
+y
+ti
+= 0.50c i+ 0.50z ti, fort= 1tom, y
+ti=ì
+ïï í
+ï
+ïî
+0 0. .5 50 0c
+c1 1i
+i+
++
+0 0. .3 50 0c
+z2 tii
+,+ 0.20z
+ti
+i, fif t=t= 2k2 ,k f+ or1, kfo =r 1k to= 60to5
+.
+(4)
+(1)
+From each population of generated variables 5,000
+where c i and z ti are the scores of individual i on un- samples were drawn and submitted to repeated
+correlated z-standardized, normal distributed ran- measures ANOVA without correction based on SAS
+dom variables. In Equation 1, the common random (rANOVA SAS) and SPSS (rANOVA SPSS), rANOVA
+variable c represents the part of the scores that is with Huynh-Feldt-correction based on SAS
+i
+identical in all y , whereas the random variables z (rANOVA-HF SAS) and SPSS (rANOVA-HF SPSS),
+ti ti
+represent the specific scores that are different in MLM with compound-symmetry based on SAS
+each y . The inter-correlation of the y variables may (MLM-CS SAS) and SPSS (MLM-CS SPSS) and MLM
+ti ti
+be due to a constant variable across time or it may with Unstructured Covariance Matrix based on SAS
+be due to other aspects inducing statistical depend- (MLM-UN SAS) and SPSS (MLM-UN SPSS). Moreo-
+ency between the y variables. This form of data ver, the samples were submitted to SAS based MLM-
+ti
+generation for m = 9 can also be described in terms UN with Kenward-Roger correction (MLM-KR SAS).
+of the factor model with a pattern of population Note that the same sample data were used for the
+common factor loadings analyses with SPSS and SAS.
+P'=é.501/2 .501/2 .501/2 .501/2 .501/2 .501/2 .501/2 .501/2 .501/2ù (2)
+êë úû
+
+===== PAGE 7/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 7
+DESIGNS
+As sample sizes were n = 15, 20, 25 and 30, the sim- Type I error inflation was higher for MLM-UN per-
+ulation study was based on 144 conditions (= sphe- formed in SPSS compared to MLM-UN in SAS. Mul-
+ricity [2] ´ analysis methods [9] ´ n [4] ´ m [2]) with tilevel linear models with compound symmetry
+5,000 samples per condition. For all statistical anal- demonstrated a slightly better performance for SAS
+yses the respective Type I error rate was calculated than for SPSS as the Type I error rates of MLM-CS
+for the .05 alpha-level. To identify substantial bias in SAS were closer to the 5 % level. The Kenward-
+the results, we followed the criterion of Bradley Roger-correction for MLM-UN SAS reduced the
+(1978) by which a test is robust if the empirical error Type I error rate but did not fully solve the issues of
+rate is within the range 0.025–0.075 for α = .05. A small sample sizes, especially for n = 25 or below.
+test is considered to be liberal when the empirical The uncorrected rANOVA showed the expected
+Type I error rate exceeds the upper limit. If the error Type I error rates close to five per cent when the
+rate is below the lower limit, the test is regarded as sphericity condition holds, regardless whether they
+conservative. were performed in SPSS or SAS and with or without
+Huynh-Feldt-correction. The results for nine meas-
+Figure 1. Average Type I error rates for 5,000 tests: nine measurement occasions, sphericity assumption holds.
+urement occasions showed higher inflation in Type
+I error rates for MLM-UN when sphericity was vio-
+Results lated (Fig. 2). Again, this progressive bias turned out
+to be stronger for MLM-UN in SPSS than in SAS. The
+Kenward-Roger-correction results did not differ
+The results for nine measurement occasions under
+much from the Type I error rates of this method for
+the condition of sphericity showed a progressive
+nine measurement occasions under the sphericity
+bias for MLM-UN and small sample sizes (Fig. 1).
+
+===== PAGE 8/15 =====
+8
+HAVERKAMP & BEAUDUCEL
+condition (cf. Fig. 1). The Type I error rates for the of Type I error rates close to five per cent for both
+uncorrected rANOVA in SPSS and SAS as well as for software packages, while MLM-CS shows a striking
+MLM-CS in SPSS did not differ substantially and conservative bias when performed with SAS and a
+showed a moderately inflated Type I error. The large difference to results for the same method
+Huynh-Feldt correction provided satisfying results when performed in SPSS.
+Figure 2. Average Type I error rates for 5,000 tests: nine measurement occasions, sphericity violation.
+For twelve measurement occasions and no sphe- not solve the problem of Type I error inflation for n
+ricity violation, a large progressive bias for MLM-UN = 30 or below. The MLM-CS and rANOVA results
+and small sample sizes emerged (Fig. 3; please note showed Type I error rates close to five per cent, re-
+different scaling of the ordinate). Again, this Type I gardless whether they were performed in SPSS or
+error inflation was higher for MLM-UN performed SAS or – in case of rANOVA – with or without
+in SPSS compared to MLM-UN in SAS. The Ken- Huynh-Feldt-correction.
+ward-Roger-correction for MLM-UN in SAS does
+
+===== PAGE 9/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 9
+DESIGNS
+Figure 3. Average Type I error rates for 5,000 tests: twelve measurement occasions, sphericity assumption
+holds.
+When sphericity was violated, the results for this method under the sphericity condition for 12
+twelve measurement occasions showed a similar measurement occasions. The rates for the uncor-
+high inflation in Type I error rates for MLM-UN as rected rANOVA in SPSS and SAS as well as for MLM-
+without violation (Fig. 4). As under the previous con- CS in SPSS appear similar and show an expected
+ditions, this progressive bias was stronger for MLM- moderately inflated Type I error. Again, the Huynh-
+UN in SPSS than in SAS. The Kenward-Roger-cor- Feldt correction delivers Type I error rates close to
+rection results resemble the Type I error rates of five per cent for both software packages, while a
+conservative effect for MLM-CS was found for SAS.
+
+===== PAGE 10/15 =====
+10
+HAVERKAMP & BEAUDUCEL
+Figure 4. Average Type I error rates for 5,000 tests: twelve measurement occasions, sphericity violation.
+Concluding the results section, a few findings whether a large sample size would lead to an ac-
+concerning MLM-UN should be pointed out: The ceptable average Type I error rate, we performed an
+Type I error inflation for the uncorrected MLM-UN additional simulation using the same data from our
+is remarkably high when sample sizes are small. This main study only for all facets of MLM-UN (uncor-
+effect is so massive that it cannot be adequately cor- rected in SAS/SPSS, Kenward-Roger in SAS) for a
+rected via the use of MLM-KR. On the other hand, sample size of n = 100 with twelve measurement oc-
+the results show a trend where for both software casions under the condition of sphericity (see Table
+packages the MLM-UN method shows less Type I 3).
+error as the sample size increases. To investigate
+Table 3
+Average Type I error rates for different sample sizes and versions of MLM-UN
+MLM-UN version n = 15 n = 30 n = 100
+MLM-UN SAS 56,33 19,56 7,76
+MLM-SAT SAS 56,33 19,56 7,76
+MLM-KR SAS 36,87 9,86 5,66
+MLM-UN SPSS 69,42 24,66 8,80
+Note. Rates are for 5,000 tests: twelve measurement occasions, sphericity assumption holds.
+
+===== PAGE 11/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 11
+DESIGNS
+Table 3 shows the results of the additional simu-
+lation. Concerning our expectations, two conclu-
+Discussion
+sions can be drawn: First, the trend of uncorrected
+MLM-UN results to lower Type I error rates as sam-
+As expected, we found that uncorrected ANOVA
+ple size increases can be confirmed. However, even
+(rANOVA) and MLM-CS had 5% of Type-I errors at
+for a large sample size of n = 100, the average Type I
+an alpha-level of 5% when they were used in data
+error rates of MLM-UN still failed to meet Bradley’s
+without violation of the sphericity assumption. The
+liberal criterion (Bradley, 1978) in SAS and SPSS. Only
+expected increase of Type-I error rates was also
+if MLM-UN results were corrected by means of
+found for rANOVA and MLM-CS with data violating
+MLM-KR, they showed no liberal bias in Type I error.
+the sphericity assumption. Although we found the
+As the differences between SPSS and SAS for
+expected Type-I error rate of 5% for rANOVA-HF we
+MLM-UN are considerable, we tried to examine how
+found unexpected larger Type-I error rates for
+these disparities can be explained. First, we in-
+MLM-KR in data violating the sphericity assump-
+spected the underlying linear mixed model algo-
+tion. The larger Type-I error rates for MLM-UN in
+rithms for SPSS (IBM Corporation, 2013) and SAS
+small samples with and without violation of the
+(SAS Institute Inc., n. d.) and found no differences.
+sphericity assumption were again confirmed (Ken-
+Second, we noticed indications for differences in the
+ward & Roger, 1997, 2009; Haverkamp & Beauducel,
+calculation of denominator degrees of freedom be-
+2017). As Kenward and Roger (1997) noted, the rea-
+tween the MIXED procedures of SPSS and SAS in-
+son for bias of MLM-UN is probably that the preci-
+cluding the advice to employ the Satterthwaite
+sion is obtained from an estimate of the variance-
+method to compute denominator degrees of free-
+covariance matrix of its asymptotic distribution.
+dom in SAS if we “want to compare SAS results for
+However, in small samples, asymptotic-based
+mixed linear models to those from SPSS” (IBM Cor-
+measures of precision can overestimate the true
+poration, 2016) because it is reportedly used by de-
+precision. The results of our study thus confirm that
+fault in SPSS. To explore whether the heterogeneity
+asymptotic-based measures of precision can lead to
+between the MIXED Type I error rates of MLM-UN
+biased results of MLM. Finally, unexpected differ-
+for SAS and SPSS can be explained by this difference,
+ences between MLM-UN SPSS and MLM-UN SAS as
+we also included the Satterthwaite method to cor-
+well as between MLM-CS SPSS and MLM-CS SAS
+rect MLM-UN results (MLM-SAT) in our additional
+occurred for the simple repeated measures data
+simulation in SAS as there is no option to alter the
+structure investigated.
+default method in SPSS (see Table 3). We would ex-
+The results of this simulation study bear some
+pect similar average Type I error rates between
+implications for the analysis of repeated measures
+MLM-SAT SAS and MLM-UN SPSS when the sup-
+designs in terms of best practice recommendations.
+posed differences in the calculation of denominator
+Note that these suggestions are based on very basic
+degrees are causal for the diverging simulation re-
+designs as the simulated data contained no within-
+sults in MLM-UN. However, it turns out that it was
+subject effect and neither a between-subjects nor a
+not possible to reproduce the results of MLM-UN
+between-group effect. As pointed out before, we
+SPSS by employing the Satterthwaite method to
+took these restrictions to examine Type I error rates
+compute denominator degrees of freedom in SAS
+for within-subject models that are not distorted in
+because the results of MLM-SAT and MLM-UN SAS
+any way by the influences of other effects or levels.
+were nearly identical. It therefore remains an im-
+The following implications for simple within-
+portant question for future research to explain
+subject repeated measures designs can be derived
+these disparities between SAS and SPSS for suppos-
+from this simulation study:
+edly identical methods in rather simple repeated
+1. The use of MLM-UN to analyze data with nine
+measures data.
+or more measurement occasions with samples com-
+prising 30 cases or less is generally not recom-
+mended without a correction method. This bias is
+stronger when MLM-UN is performed with SPSS.
+
+===== PAGE 12/15 =====
+12
+HAVERKAMP & BEAUDUCEL
+When MLM-UN has to be applied, it is best to use it the normal distribution is violated (Schmider, Zieg-
+with the Kenward-Roger correction (MLM- KR). If ler, Danay, Beyer, & Bühner, 2010).
+an uncorrected MLM-UN has to be the method of There are, of course, several limitations to this
+choice for some reason, estimation via SAS would be study:
+more appropriate than estimation via SPSS but • The population data contained no within-sub-
+would still result in huge inflation of Type I error if ject effect and neither a between-subjects nor a be-
+the sample size is small. Although there was more tween-group effect and no interactions. Accord-
+convergence between MLM-UN SPSS and MLM-UN ingly, the model was restricted to a simple within-
+SAS for a sample of about 100 participants, there was subjects design.
+still a slightly smaller Type I error for SAS. Moreover, • Not all methods, particularly corrections for
+a small post-hoc simulation revealed that the differ- MLM as Kenward-Roger, were available in both soft-
+ences between MLM-UN SAS and MLM-UN SPSS ware packages. This is a limitation because we do
+cannot be accounted for by the Satterthwaite not know how the Kenward-Roger correction would
+method for the correction of degrees of freedom, work in the context of the SPSS algorithm.
+which is a non-default option in SAS and which is • SAS and SPSS do not provide a complete de-
+always used in SPSS. scription of their algorithms and they do not provide
+2. According to the criterion of Bradley (1978), the software scripts. Therefore, the exact reasons
+MLM-UN without correction showed a liberal bias for the differences could not be determined. Of
+under every simulated condition regardless of the course, the software packages are protected by law
+software package. For twelve measurement occa- because people who develop the software scripts
+sions, the Kenward-Roger correction in SAS does need to be paid for their work. However, when con-
+not solve the problem of Type I error inflation for n siderable differences between software packages
+= 30 or smaller. For nine measurement occasions, occur even for rather simple data, the law protec-
+Kenward-Roger only delivers a result without a lib- tion might constitute a limitation for the scientific
+eral bias if the sample size is above n = 25. The Ken- value of the software.
+ward-Roger correction does, however, correct for Furthermore, this study yields some indications
+some of the large liberal bias of uncorrected MLM- for future research:
+UN. If MLM-UN is required for the analysis of re- • The examination of Type I error rates for the
+peated measures data that involves a high number discussed methods should be expanded to more
+of measurement occasions as well as a small sample complex models including between-subject effects
+size that is about n = 25 or larger, it is recommended or between-within interaction effects.
+to use it with the Kenward-Roger correction. • The differences in the results of very basic
+3. For nine measurement occasions, a conserva- methods in statistical software packages have to be
+tive bias according to Bradley (1978) was found for further explored, especially concerning MLM-UN
+MLM-CS if sphericity was violated. This effect was and MLM-CS.
+specific to the SAS software package, as the MLM- • The reasons of the massive Type I error inflation
+CS results for SPSS showed no conservative bias but for MLM-UN at lower sample sizes have to be ana-
+Type I error rates that were on the verge of the lib- lyzed in-depth. It may also be interesting to include
+eral criterion. These findings plead for the use of R in further research in order to have at least one
+SPSS if MLM-CS has to be applied in spite of non- software where all the scripts are available.
+sphericity. In the course of the ongoing debate about the
+4. In accordance with previous research, the lack of reproducibility of scientific studies, different
+findings of this simulation study in general argue for recommendations have been developed: Benjamin
+the use of MLM-CS or rANOVA if the sphericity as- et al. (2017) proposed to set the statistical standards
+sumption holds as well as a correction of rANOVA of evidence higher by shifting the threshold for de-
+results via the Huynh-Feldt correction if sphericity fining statistical significance for new discoveries
+is violated. No major differences in the software from p < 0.05 to p < 0.005. Lakens et al. (2017), on the
+packages occurred for the results of these methods. other hand, formulate a more general demand of
+The encouraging results on rANOVA are in line with justifications of all key choices in research design
+previous results on ANOVA when the assumption of and statistical practice to increase transparency.
+
+===== PAGE 13/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 13
+DESIGNS
+We therefore see the results of this study as help- Benjamin, D., Berger, J., Johannesson, M., Nosek, B.,
+ful for researchers’ methodological choices when Wagenmakers, E.-J., Berk, R., . . . Johnson, V.
+analyzing repeated measures designs: Only if the (2017). Redefine statistical significance.
+characteristics of different methods under specific Berkhof, J., & Snijders, T. A. B. (2001). Variance
+conditions (e.g. their robustness against progressive Component Testing in Multilevel Models. Jour-
+bias when sample sizes are small or sphericity is vi- nal of Educational and Behavioral Statistics,
+olated) are known, researchers can choose their 26(2), 133–152.
+method on the basis of this knowledge. https://doi.org/10.3102/10769986026002133
+Boisgontier, M. P., & Cheval, B. (2016). The anova to
+mixed model transition. Neuroscience and Bi-
+Open Science Practices
+obehavioral Reviews, 68, 1004–1005.
+https://doi.org/10.1016/j.neubio-
+rev.2016.05.034
+Bradley, J. V. (1978). Robustness? British Journal of
+Mathematical and Statistical Psychology, 31(2),
+144–152. https://doi.org/10.1111/j.2044-
+This article earned the Open Materials badge for
+8317.1978.tb00581.x
+making the materials available. It has been verified
+Ferron, J. M., Bell, B. A., Hess, M. R., Rendina-Go-
+that the analysis reproduced the results presented
+bioff, G., & Hibbard, S. T. (2009). Making treat-
+in the article. The entire editorial process, including
+ment effect inferences from multiple-baseline
+the open reviews, are published in the online sup-
+data: The utility of multilevel modeling ap-
+plement.
+proaches. Behavior Research Methods, 41(2),
+372–384.
+https://doi.org/10.3758/BRM.41.2.372
+Ferron, J. M., Farmer, J. L., & Owens, C. M. (2010).
+References
+Estimating individual treatment effects from
+multiple-baseline data: A Monte Carlo study of
+Arnau, J., Bono, R., & Vallejo, G. (2009). Analyzing multilevel-modeling approaches. Behavior Re-
+Small Samples of Repeated Measures Data with search Methods, 42(4), 930–943.
+the Mixed-Model Adjusted F Test. Communica- https://doi.org/10.3758/BRM.42.4.930
+tions in Statistics - Simulation and Computa- Field, A. (1998). A bluffer's guide to … sphericity. The
+tion, 38(5), 1083–1103. British Psychological Society: Mathematical,
+https://doi.org/10.1080/03610910902785746 Statistical & Computing Section Newsletter, 6(1),
+Arnau, J., Balluerka, N., Bono, R., & Gorostiaga, A. 13–22.
+(2010). General linear mixed model for analys-
+Finch, W. H., Bolin, J. E., & Kelley, K. (2014). Multi-
+ing longitudinal data in developmental re-
+level modeling using R. New York: CRC Press.
+search. Perceptual and Motor Skills, 110(2), 547–
+Goedert, K. M., Boston, R. C., & Barrett, A. M. (2013).
+566. https://doi.org/10.2466/PMS.110.2.547-
+Advancing the science of spatial neglect reha-
+566
+bilitation: An improved statistical approach
+Baayen, R. H., Davidson, D. J., & Bates, D. M. (2008).
+with mixed linear modeling. Frontiers in Hu-
+Mixed-effects modeling with crossed random
+man Neuroscience, 7, 211.
+effects for subjects and items. Journal of
+https://doi.org/10.3389/fnhum.2013.00211
+Memory and Language, 59(4), 390–412.
+Gomez, E. V., Schaalje, G. B., & Fellingham, G. W.
+https://doi.org/10.1016/j.jml.2007.12.005
+(2005). Performance of the Kenward–Roger
+Baek, E. K., & Ferron, J. M. (2013). Multilevel models
+Method when the Covariance Structure is Se-
+for multiple-baseline data: Modeling across-
+lected Using AIC and BIC. Communications in
+participant variation in autocorrelation and re-
+Statistics - Simulation and Computation, 34(2),
+sidual variance. Behavior Research Methods,
+377–392. https://doi.org/10.1081/SAC-
+45(1), 65–74. https://doi.org/10.3758/s13428-
+200055719
+012-0231-z
+
+===== PAGE 14/15 =====
+14
+HAVERKAMP & BEAUDUCEL
+Gueorguieva, R., & Krystal, J. H. (2004). Move over Tests. Educational and Psychological Measure-
+ANOVA: Progress in analyzing repeated- ment, 64(2), 224–242.
+measures data and its reflection in papers pub- https://doi.org/10.1177/0013164403260196
+lished in the Archives of General Psychiatry. Lakens, D., Adolfi, F., Albers, C., Anvari, F., Apps, M.,
+Archives of General Psychiatry, 61(3), 310–317. Argamon, S., . . . Zwaan, R. (2017). Justify Your
+https://doi.org/10.1001/archpsyc.61.3.310 Alpha.
+Haverkamp, N., & Beauducel, A. (2017). Violation of Maas, C. J. M., & Hox, J. J. (2005). Sufficient Sample
+the Sphericity Assumption and Its Effect on Sizes for Multilevel Modeling. Methodology, 1(3),
+Type-I Error Rates in Repeated Measures 86–92. https://doi.org/10.1027/1614-
+ANOVA and Multi-Level Linear Models (MLM). 2241.1.3.86
+Frontiers in Psychology, 8, 1841. McNeish, D. (2016). On Using Bayesian Methods to
+https://doi.org/10.3389/fpsyg.2017.01841 Address Small Sample Problems. Structural
+IBM Corporation. (2013). IBM Knowledge Center. Equation Modeling: a Multidisciplinary Journal,
+Model (linear mixed models algorithms). Re- 23(5), 750–773.
+trieved September 7, 2018, from https://doi.org/10.1080/10705511.2016.118654
+https://www.ibm.com/support/knowledge- 9
+center/en/SSLVMB_22.0.0/com.ibm.spss.sta- McNeish, D. (2017). Small Sample Methods for Mul-
+tistics.algorithms/alg_mixed_model.htm tilevel Modeling: A Colloquial Elucidation of
+IBM Corporation. (2016, September 07). IBM Sup- REML and the Kenward-Roger Correction.
+port. Denominator degrees of freedom for fixed Multivariate Behavioral Research, 52(5), 661–
+effects in SPSS MIXED. Retrieved September 7, 670.
+2018, from http://www-01.ibm.com/sup- https://doi.org/10.1080/00273171.2017.134453
+port/docview.wss?uid=swg21477296 8
+Kenward, M. G., & Roger, J. H. (1997). Small Sample McNeish, D. M., & Stapleton, L. M. (2016a). The Ef-
+Inference for Fixed Effects from Restricted fect of Small Sample Size on Two-Level Model
+Maximum Likelihood. Biometrics, 53(3), 983. Estimates: A Review and Illustration. Educa-
+https://doi.org/10.2307/2533558 tional Psychology Review, 28(2), 295–314.
+Kenward, M. G., & Roger, J. H. (2009). An improved https://doi.org/10.1007/s10648-014-9287-x
+approximation to the precision of fixed effects McNeish, D. M., & Stapleton, L. M. (2016b). Model-
+from restricted maximum likelihood. Computa- ing Clustered Data with Very Few Clusters.
+tional Statistics & Data Analysis, 53(7), 2583– Multivariate Behavioral Research, 51(4), 495–
+2595. 518.
+https://doi.org/10.1016/j.csda.2008.12.013 https://doi.org/10.1080/00273171.2016.116700
+Keselman, H. J., Algina, J., Kowalchuk, R. K., & Wolf- 8
+inger, R. D. (1999). A comparison of recent ap- Nagelkerke, E., Oberski, D. L., & Vermunt, J. K.
+proaches to the analysis of repeated measure- (2016). Power and Type I Error of Local Fit Sta-
+ments. British Journal of Mathematical and Sta- tistics in Multilevel Latent Class Analysis.
+tistical Psychology, 52(1), 63–78. Structural Equation Modeling: a Multidiscipli-
+https://doi.org/10.1348/000711099158964 nary Journal, 24(2), 216–229.
+Knuth, D. E. (1981). The Art Of Computer Program- https://doi.org/10.1080/10705511.2016.125063
+ming: Seminumerical Algorithms (2. ed., 25. 9
+print). Addison-Wesley series in computer sci- Paccagnella, O. (2011). Sample Size and Accuracy of
+ence and information processing: / Donald E. Estimates in Multilevel Models. Methodology,
+Knuth ; Vol. 2. Reading, Mass.: Addison-Wesley. 7(3), 111–120. https://doi.org/10.1027/1614-
+Kowalchuk, R. K., Keselman, H. J., Algina, J., & Wolf- 2241/a000029
+inger, R. D. (2004). The Analysis of Repeated SAS Institute Inc. (n. d.). SAS/STAT(R) 14.1 User's
+Measurements with Mixed-Model Adjusted F Guide, Second Edition. Retrieved September 7,
+2018, from http://support.sas.com/documen-
+
+===== PAGE 15/15 =====
+DIFFERENCES OF TYPE I ERROR RATES FOR ANOVA AND MULTILEVEL-LINEAR-MODELS USING SAS AND SPSS FOR REPEATED MEASURES 15
+DESIGNS
+tation/cdl/en/statug/68162/HTML/de-
+fault/viewer.htm#statug_mixed_over-
+view02.htm
+Satterthwaite, F. E. (1946). An Approximate Distri-
+bution of Estimates of Variance Components.
+Biometrics Bulletin, 2(6), 110.
+https://doi.org/10.2307/3002019
+Schmider, E., Ziegler, M., Danay, E., Beyer, L., &
+Bühner, M. (2010). Is It Really Robust? Method-
+ology, 6(4), 147–151.
+https://doi.org/10.1027/1614-2241/a000016
+Snook, S. C., & Gorsuch, R. L. (1989). Component
+analysis versus common factor analysis: A
+Monte Carlo study. Psychological Bulletin,
+106(1), 148–154. https://doi.org/10.1037/0033-
+2909.106.1.148
+Tabachnick, B. G., & Fidell, L. S. (2013). Using multi-
+variate statistics (6. ed.). Boston: Pearson Edu-
+cation.
+Usami, S. (2014). A convenient method and numeri-
+cal tables for sample size determination in lon-
+gitudinal-experimental research using multi-
+level models. Behavior Research Methods, 46(4),
+1207–1219. https://doi.org/10.3758/s13428-
+013-0432-0
+West, B. T., Welch, K. B., & Galecki, A. T. (2007). Lin-
+ear mixed models: A practical guide using statis-
+tical software. Boca Raton Fla. u.a.: Chapman &
+Hall/CRC.

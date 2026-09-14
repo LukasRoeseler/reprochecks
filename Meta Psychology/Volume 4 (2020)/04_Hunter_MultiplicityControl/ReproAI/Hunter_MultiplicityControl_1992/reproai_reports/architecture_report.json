@@ -1,0 +1,44 @@
+{
+  "paper": "Hunter et al. (2020) MP.2019.1992",
+  "title": "Multiplicity Control vs Replication: Making an Obvious Choice Even More Obvious",
+  "doi": "10.15626/MP.2019.1992",
+  "osf": "9B6Z3",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "mode": "reimplementation + live author-code execution",
+  "empiricism": "Monte-Carlo simulation study (empirical, synthetic data)",
+  "components": [
+    {
+      "name": "Author simulation code (OSF GUID xrq3k)",
+      "type": "code",
+      "availability": "AVAILABLE and RUNNABLE (15,043 bytes; R 4.6.1 executes cleanly)",
+      "note": "Stripped demo: nsim<-5 + single hardcoded mean configuration; must be scaled to reproduce full manuscript tables.",
+      "corrects_prior_audit": "Prior 2026-09-10 audit reported a 404/0-byte placeholder; refuted by direct download on 2026-09-14."
+    },
+    {
+      "name": "Independent reimplementation (hunter_reimpl.R)",
+      "type": "simulation",
+      "engine": "R 4.6.1, base R, seed 20260914, 5000 sims/condition, all 12 n x J x mean-structure configs",
+      "runtime": "205 s",
+      "agreement": "336 manuscript rate-cells compared: 280 EXACT, 50 CLOSE, 6 MISMATCH (>0.02, all in meta-analysis cells)"
+    },
+    {
+      "name": "Python cross-check (hunter_crosscheck.py)",
+      "type": "simulation",
+      "engine": "Python 3.8 numpy/scipy, nsim 5000, seed 20260914",
+      "note": "no-control FWER and flagship power contrast reproduced within MC noise"
+    },
+    {
+      "name": "Seed",
+      "type": "rng",
+      "reported_in_paper": false,
+      "in_author_code": false,
+      "cross_seed_drift": "<=0.005 across seeds 20260914 vs 987654321 (results seed-stable)"
+    }
+  ],
+  "code_availability": {
+    "osf_node": "9b6z3 public, osfstorage EMPTY",
+    "submission_component_28g7m": "cover letter (fnph7), R script (xrq3k, 15,043 B), author manuscript PDF (jgpw4)",
+    "raw_data": "not applicable (synthetic Monte Carlo)"
+  }
+}

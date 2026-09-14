@@ -1,0 +1,48 @@
+{
+  "package": "Brunner_PowerHeterogeneity_874",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "Author's shipped p-uniform function (heteroNpunifF) contains a tail-direction bug and does not reproduce its own published Table 1 column",
+      "evidence": "recovered estimatR.txt heteroNpunifF uses pf(datta, log.p=T) [log LOWER tail] for the numerator of the modified p-value instead of pf(datta, lower.tail=F, log.p=T) [log UPPER tail]. Applied to Study-1 significant-F data it returns a degenerate ~0.80-0.91 estimate for every true power (true .25 -> 0.844, true .05 -> 0.808). Reproduced identically at fixed df2=84 and per-study df2, confirming the cause is the tail error, not df handling. Corrected code returns .251/.496/.746 exactly matching Table 1.",
+      "why_it_matters": "Paper carries the 'verified the analysis reproduced the results' badge; one of the four headline estimators' code, run as documented, contradicts its published column. The RESULT (Table 1 punif) is nonetheless correct when implemented correctly.",
+      "fix": "Change the numerator term in heteroNpunifF (and heteroNpunifCHI) from pf(...,log.p=T) to pf(...,lower.tail=F,log.p=T); re-verify Study 1 p-uniform column; host corrected code."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Published code-availability URL (https://osf.io/bvraz) does not resolve to an existing OSF node",
+      "evidence": "OSF API /v2/nodes/bvraz/ -> HTTP 404 (node does not exist); web https://osf.io/bvraz returns OSF's generic 200 fallback for unknown short links. Draft LaTeX (Zcurve6.7.tex) cites http://www.utstat.toronto.edu/~brunner/zcurve2018, also dead (9 Wayback captures 2018-2026; estimator file recovered from 2022-05-19 capture).",
+      "why_it_matters": "The manuscript's only documented path to the code is broken; a reader following the instructions cannot obtain the code without an archive.",
+      "fix": "Create the OSF component bvraz (or update the URL) and upload estimatR.txt + simulation drivers; fix the DOI/OSF records."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "OSF project PEUMW contains manuscript only; no code/data; 'Open Materials'/'reproduced analysis' badges weakly substantiated",
+      "evidence": "PEUMW has 6 folders (Submission, 2 review rounds, 3 revisions) holding LaTeX/PDF manuscript + editorial files only; no R source, no simulation data, no analysis scripts. The 'All supplementary files can be accessed at OSF' statement is only partially true.",
+      "why_it_matters": "Reproducibility badge overstates availability; the code is only recoverable via a third-party archive.",
+      "fix": "Upload estimatR.txt and the full simulation/replication drivers to PEUMW (or fix the bvraz link to them)."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Figure 1 caption 'after selection 0.635' is arithmetically inconsistent with Uniform[0.05,1]",
+      "evidence": "For Uniform[0.05,1], E[p|sig]=E[p^2]/E[p] = ((1^3-.05^3)/3)/((1^2-.05^2)/2) = 0.6683, not 0.635. No interval [a,b] yields before=0.525 and after=0.635 simultaneously. R and Python both give 0.6683.",
+      "why_it_matters": "Illustrative figure only; no effect on any simulation result or conclusion.",
+      "fix": "Correct Figure 1's post-selection mean to 0.668 (or recompute for the displayed distribution)."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Random seed for the 10,000-sim cell runs is not reported",
+      "evidence": "The paper does not state seeds for the reported simulation cells; exact replication of the specific published point estimates is impossible. Reduced-MC re-runs (fixed seed) reproduce all Table 1 means within ~0.003 (z-curve, p-curve, ML) and the p-uniform result exactly with corrected code.",
+      "why_it_matters": "Standard practice for large simulations; estimates are stable (SD in Table 1), so the practical impact is low but exact reproducibility is not possible.",
+      "fix": "Report the seed(s) (e.g., in the OSF supplement) so exact replication is possible."
+    }
+  ],
+  "summary": {"P0": 0, "P1": 1, "P2": 2, "P3": 2, "total": 5}
+}

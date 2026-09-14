@@ -1,0 +1,374 @@
+sint<-function(x,alpha=.05,pr=FALSE){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#
+#   The default value for alpha is .05.
+#
+x=elimna(x)
+if(pr){
+if(sum(duplicated(x)>0))print("Duplicate values detected; hdpb might have more power")
+}
+k<-qbinom(alpha/2,length(x),.5)
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+if(gk >= 1-alpha){
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+if(gk < 1-alpha){
+k<-k-1
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+xsort<-sort(x)
+nmk<-length(x)-k
+nmkp<-nmk+1
+ival<-(gk-1+alpha)/(gk-gkp1)
+lam<-((length(x)-k)*ival)/(k+(length(x)-2*k)*ival)
+low<-lam*xsort[kp]+(1-lam)*xsort[k]
+hi<-lam*xsort[nmk]+(1-lam)*xsort[nmkp]
+sint<-c(low,hi)
+sint
+}
+
+sint.sig <- function(x){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#
+#   The default value for alpha is .05.
+#
+# simplified for use in simulations + return sig (0/1) - GAR 2018-09-27
+alpha <- 0.05
+k<-qbinom(alpha/2,length(x),.5)
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+if(gk >= 1-alpha){
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+if(gk < 1-alpha){
+k<-k-1
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+xsort<-sort(x)
+nmk<-length(x)-k
+nmkp<-nmk+1
+ival<-(gk-1+alpha)/(gk-gkp1)
+lam<-((length(x)-k)*ival)/(k+(length(x)-2*k)*ival)
+low<-lam*xsort[kp]+(1-lam)*xsort[k]
+hi<-lam*xsort[nmk]+(1-lam)*xsort[nmkp]
+sig <- low > 0 | hi < 0
+sig
+}
+
+medpb.sig <- function(x,alpha=.05,nboot=2000){
+#
+#   Compute a percentile bootstrap, .95 confidence interval for the
+#   median. The default number of bootstrap samples is nboot=2000
+# 
+# Simplified from onesampb - GAR 2018-09-27
+data <- matrix(sample(x,size=length(x)*nboot,replace=TRUE),nrow=nboot)
+bvec <- apply(data,1,median)
+bvec <- sort(bvec)
+low <- round((alpha/2)*nboot)
+up <- nboot-low
+low <- low+1
+low <- bvec[low]
+hi <- bvec[up]
+sig <- low > 0 | hi < 0
+sig
+}
+
+# columnwise t-test function
+ttest.sig <- function(x, nullval=0){
+tval <- (apply(x, 2, mean)-nullval) / ( sqrt(apply(x, 2, var))/sqrt(nrow(x)) )
+df <- nrow(x) - 1
+pval <- 2*(1-pt(abs(tval),df))
+sig <- pval < 0.05
+sig
+}
+
+medpb2.sig <- function(x,y=NULL,alpha=.05,nboot=2000,SEED=TRUE){
+#
+#   Compare 2 independent groups using medians.
+#
+#   A percentile bootstrap method is used, which performs well when
+#   there are tied values.
+#
+#   The data are assumed to be stored in x and y. If y=NULL, x is assumed to have two columns.
+#
+# Simplified from medpb2 - GAR 2018-09-27
+if(is.null(y)){
+if(is.matrix(x) || is.data.frame(x)){
+y=x[,2]
+x=x[,1]
+}
+if(is.list(x)){
+y=x[[2]]
+x=x[[1]]
+}
+}
+x=elimna(x)
+y=elimna(y)
+xx<-list()
+xx[[1]]<-x
+xx[[2]]<-y
+if(SEED)set.seed(2) # set seed of random number generator so that
+#             results can be duplicated.
+est1=median(xx[[1]])
+est2=median(xx[[2]])
+est.dif<-median(xx[[1]])-median(xx[[2]])
+crit<-alpha/2
+temp<-round(crit*nboot)
+icl<-temp+1
+icu<-nboot-temp
+bvec<-matrix(NA,nrow=2,ncol=nboot)
+if(SEED)set.seed(2) # set seed of random number generator so that
+#             results can be duplicated.
+for(j in 1:2){
+data<-matrix(sample(xx[[j]],size=length(xx[[j]])*nboot,replace=TRUE),nrow=nboot)
+bvec[j,]<-apply(data,1,median) # Bootstrapped medians for jth group
+}
+top<-bvec[1,]-bvec[2,]
+test<-sum(top<0)/nboot+.5*sum(top==0)/nboot
+if(test > .5)test<-1-test
+top<-sort(top)
+ci<-NA
+ci[1]<-top[icl]
+ci[2]<-top[icu]
+list(n1=length(x),n2=length(y),p.value=2*test,ci=ci,est1=est1,est2=est2,
+est.dif=est.dif)
+}
+
+elimna<-function(m){
+#
+# remove any rows of data having missing values
+#
+DONE=FALSE
+if(is.list(m) && is.matrix(m)){
+z=pool.a.list(m)
+m=matrix(z,ncol=ncol(m))
+DONE=TRUE
+}
+if(!DONE){
+if(is.list(m) && is.matrix(m[[1]])){
+for(j in 1:length(m))m[[j]]=na.omit(m[[j]])
+e=m
+DONE=TRUE
+}}
+if(!DONE){
+if(is.list(m) && is.null(dim(m))){ #!is.matrix(m))
+for(j in 1:length(m))m[[j]]=as.vector(na.omit(m[[j]]))
+e=m
+DONE=TRUE
+}}
+if(!DONE){
+#if(!is.list(m)){
+#if(is.null(dim(m)))
+m<-as.matrix(m)
+ikeep<-c(1:nrow(m))
+for(i in 1:nrow(m))if(sum(is.na(m[i,])>=1))ikeep[i]<-0
+e<-m[ikeep[ikeep>=1],]
+#}
+}
+e
+}
+
+sintv2<-function(x,y=NULL,alpha=.05,nullval=0,null.value=NULL,pr=TRUE){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#   (See section 4.5.2.)
+#
+#   The default value for alpha is .05.
+#
+#  If y is not null, the function uses x-y, as might be done when comparing dependent variables.
+#
+if(!is.null(y))x=x-y
+if(!is.null(null.value))nullval=null.value
+if(pr){
+if(sum(duplicated(x)>0))print("Duplicate values detected; hdpb might have more power")
+}
+ci<-sint(x,alpha=alpha,pr=FALSE)
+alph<-c(1:99)/100
+for(i in 1:99){
+irem<-i
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}
+p.value<-irem/100
+if(p.value<=.01){
+iup<-(irem+1)/100
+alph<-seq(.001,iup,.001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+if(p.value<=.001){
+alph<-seq(.0001,.001,.0001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+list(median=median(elimna(x)),n=length(elimna(x)),ci.low=ci[1],ci.up=ci[2],p.value=p.value)
+}
+
+sintv2.pval<-function(x,y=NULL,alpha=.05,nullval=0){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#   (See section 4.5.2.)
+#
+#   The default value for alpha is .05.
+#
+#  Simplified to return only p value - GAR 2018-10-01
+#
+alph<-c(1:99)/100
+for(i in 1:99){
+irem<-i
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}
+p.value<-irem/100
+if(p.value<=.01){
+iup<-(irem+1)/100
+alph<-seq(.001,iup,.001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+if(p.value<=.001){
+alph<-seq(.0001,.001,.0001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+p.value
+}
+
+## Make t and p functions
+# functions work columwise
+ctval <- function(x, nullval=0){
+tval <- (apply(x, 2, mean)-nullval) / ( sqrt(apply(x, 2, var))/sqrt(nrow(x)) )
+tval
+}
+
+cpval <- function(tval, df){
+pval <- 2*(1-pt(abs(tval),df))
+pval
+}
+
+ctval2 <- function(x, y){
+nx <- nrow(x)
+ny <- nrow(y)
+varx <- apply(x, 2, var)
+vary <- apply(y, 2, var)
+tval <- (apply(x, 2, mean)-apply(y, 2, mean)) / sqrt( ( sqrt(varx)/sqrt(nx) )^2 + 
+        ( sqrt(vary)/sqrt(ny) )^2 )
+qx<-(nx-1)*varx/(nx*(nx-1))
+qy<-(ny-1)*vary/(ny*(ny-1))
+df<-(qx+qy)^2/((qx^2/(nx-1))+(qy^2/(ny-1)))
+pval <- cpval(tval, df)      
+list(tval = tval, pval = pval)
+}
+
+ctval1vall <- function(x, y){
+nx <- nrow(x) # several test groups
+ny <- nrow(y) # one control group
+varx <- apply(x, 2, var) 
+vary <- rep(var(y), ncol(x))
+tval <- (apply(x, 2, mean)-mean(y)) / sqrt( ( sqrt(varx)/sqrt(nx) )^2 + 
+        ( sqrt(vary)/sqrt(ny) )^2 )
+qx<-(nx-1)*varx/(nx*(nx-1))
+qy<-(ny-1)*vary/(ny*(ny-1))
+df<-(qx+qy)^2/((qx^2/(nx-1))+(qy^2/(ny-1)))
+pval <- cpval(tval, df)      
+list(tval = tval, pval = pval)
+}
+
+trimci<-function(x,tr=.2,alpha=.05,null.value=0,pr=TRUE,nullval=NULL){
+#
+#  Compute a 1-alpha confidence interval for the trimmed mean
+#
+#  The default amount of trimming is tr=.2
+#
+if(pr){
+print("The p-value returned by this function is based on the")
+print("null value specified by the argument null.value, which defaults to 0")
+print('To get a measure of effect size using a Winsorized measure of scale,  use trimciv2')
+}
+if(!is.null(nullval))null.value=nullval
+x<-elimna(x)
+se<-sqrt(winvar(x,tr))/((1-2*tr)*sqrt(length(x)))
+trimci<-vector(mode="numeric",length=2)
+df<-length(x)-2*floor(tr*length(x))-1
+trimci[1]<-mean(x,tr)-qt(1-alpha/2,df)*se
+trimci[2]<-mean(x,tr)+qt(1-alpha/2,df)*se
+test<-(mean(x,tr)-null.value)/se
+sig<-2*(1-pt(abs(test),df))
+list(ci=trimci,estimate=mean(x,tr),test.stat=test,se=se,p.value=sig,n=length(x))
+}
+
+trimci.pval<-function(x,tr=.2,alpha=.05,null.value=0){
+#
+#  Compute a 1-alpha confidence interval for the trimmed mean
+#
+#  The default amount of trimming is tr=.2
+#
+# Simplified to return only p value - GAR 2018-11-13
+#
+x<-elimna(x)
+se<-sqrt(winvar(x,tr))/((1-2*tr)*sqrt(length(x)))
+df<-length(x)-2*floor(tr*length(x))-1
+test<-(mean(x,tr)-null.value)/se
+sig<-2*(1-pt(abs(test),df))
+sig
+}
+
+# Yuen one-sample t-test
+ctval.yuen <- function(x, nullval=0, tr=0.2){
+tval <- (apply(x, 2, mean, tr)-nullval) / ( sqrt(apply(x, 2, winvar, tr))/((1-2*tr)*sqrt(nrow(x))) )
+tval
+}
+
+df.yuen <- function(x, tr=0.2){
+df <- length(x)-2*floor(tr*length(x))-1
+df
+}
+
+winvar<-function(x,tr=.2,na.rm=FALSE,STAND=NULL){
+#
+#  Compute the gamma Winsorized variance for the data in the vector x.
+#  tr is the amount of Winsorization which defaults to .2.
+#
+remx=x
+x<-x[!is.na(x)]
+y<-sort(x)
+n<-length(x)
+ibot<-floor(tr*n)+1
+itop<-length(x)-ibot+1
+xbot<-y[ibot]
+xtop<-y[itop]
+y<-ifelse(y<=xbot,xbot,y)
+y<-ifelse(y>=xtop,xtop,y)
+wv<-var(y)
+if(!na.rm)if(sum(is.na(remx)>0))wv=NA
+wv
+}

@@ -1,0 +1,60 @@
+{
+  "paper": "Hunter et al. (2020) MP.2019.1992",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "findings": [
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Shipped code is a stripped demo (nsim<-5, single condition) that does not, as-shipped, reproduce the manuscript tables",
+      "description": "The OSF R script (xrq3k) is available and runs, but hardcodes nsim<-5 and a single mean configuration (7-group non-null, n=100); the other 11 configs are comment-blocked. Running it as-is yields one nsim=5 row, not the manuscript's Tables 3-8. Reprogramming nsim to 5000 and looping the 12 configs (108 conditions) is required to reproduce the tables; we verified the logic is correct when scaled (live nsim=500 run reproduced the flagship Table 6/8 n100 cells within MC noise).",
+      "evidence": "hunter_author_sim.R:13 'nsim<-5'; lines 24-33 comment-blocked configs; lines 379-380 print partial results. Live run status 0.",
+      "impact": "Medium - primary simulation code present but under-configured; full reproduction requires user edits.",
+      "fix": "Ship the script with nsim<-5000 and an explicit loop over all 12 mean-structure x n configurations, plus a stated seed."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "meta_vard replication-variance columns are swapped (rep1/rep2)",
+      "description": "In the author code the replication-study variances for the FE meta-analysis are written to the wrong matrix columns: rep1 variance is stored at k+npair*2 and rep2 variance at k+npair (lines 117-125), instead of k+npair and k+npair*2. meta_d (the effect sizes) uses the correct mapping. Net effect on the fixed-effect meta p-values is negligible at typical conditions (n100 meta cells reproduced: .993 vs .994), but it is a latent defect affecting the small-n meta cells.",
+      "evidence": "hunter_author_sim.R lines 117-125; compare with correct meta_d mapping lines 108-116.",
+      "impact": "Low - did not change headline conclusions; small-n meta cells show up to ~0.05 deviation.",
+      "fix": "Correct the variance column indices (k+npair and k+npair*2) to match meta_d."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "No random seed set or reported",
+      "description": "The author code contains no set.seed() and the paper does not report one; R uses the default RNG. Because nsim=5000 per condition, MC sampling error is ~0.006 and our cross-seed drift test (20260914 vs 987654321) showed FWER cells stable to <=0.005.",
+      "evidence": "No seed string in hunter_author_sim.R or paper_extracted.txt; drift values in output/drift_seed2_fwer_4groups.rds.",
+      "impact": "Low - seed-stable results; exact bit-for-bit reproduction of table decimals not guaranteed.",
+      "fix": "Add set.seed() to the script and report it in supplementary materials."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Author code is computationally impractical for full reproduction (in-loop metafor::rma)",
+      "description": "The author script calls metafor::rma inside the per-simulation loop; a single condition at nsim=500 took ~355 s and nsim=2000 exceeded 900 s. Scaling to nsim=5000 x 108 conditions would take on the order of days. The independent base-R reimplementation reproduced all 12 configs x 5000 sims in 205 s.",
+      "evidence": "Live runs: nsim500 elapsed 355.2 s; nsim2000 exceeded 900 s (aborted).",
+      "impact": "Low for the manuscript numbers themselves (already computed), but a real barrier to any re-runner; flagged as efficiency/hygiene.",
+      "fix": "Vectorize or precompute the meta p-values (closed-form z on inverse-variance weighted d) outside the simulation loop."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "No archived reproduction log/output for 'Analysis reproduced by: Erin M. Buchanan'",
+      "description": "The 'Analysis reproduced by' badge is consistent with our independent reproduction of the simulation, but OSF contains no archived reproduction record (log, output, or script variant) that would let a reader witness the editor's run.",
+      "evidence": "OSF Submission component contains only cover letter, R script, author manuscript PDF; no output/CSV/log files.",
+      "impact": "Low - claim is plausible and independently corroborated here; hygiene/archival gap.",
+      "fix": "Archive the reproduction log and output tables alongside the code."
+    }
+  ],
+  "summary": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 1,
+    "P3": 4,
+    "total": 5
+  },
+  "prior_audit_correction": "Prior audit's ADV-001 (P2: 'R script is a broken 404 placeholder') is REFUTED: the code is present and runnable on 2026-09-14 (GUID xrq3k, 15,043 B). This paper is NOT a technical failure."
+}

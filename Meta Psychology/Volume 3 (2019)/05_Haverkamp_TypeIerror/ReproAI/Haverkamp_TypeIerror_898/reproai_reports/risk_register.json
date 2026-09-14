@@ -1,0 +1,71 @@
+{
+  "paper": "Haverkamp & Beauducel (2019) MP.2018.898 - Type I error rates ANOVA vs MLM (SAS/SPSS)",
+  "audit_date": "2026-09-14",
+  "re_audit": "Supersedes the 2026-09-10 audit by an earlier model. Key correction: ADV-002 of the prior audit (prose vs Table 3 inconsistency) is rescinded as a false positive.",
+  "risks": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Exact per-cell Table 3 Type I error percentages and the SAS-vs-SPSS split not bit-reproducible",
+      "detail": "The exact values in Table 3 (MLM-UN SAS n15=56.33%, n30=19.56%, n100=7.76%; MLM-UN SPSS n15=69.42%; MLM-KR SAS n15=36.87%) and the paper's SAS-vs-SPSS comparison depend on proprietary SAS 9.4 / SPSS 23 algorithm details (denominator df) and on the unarchived 1,000,000-case seed=1000 population and unarchived per-condition result tables. The R re-implementation reproduces the magnitude/order: m9/n15 = 0.33-0.35, m12/n15 = 0.68 (brackets SAS 56.33%/SPSS 69.42%), m12/n100 = 0.067 (near-nominal, cf. 7.76%); Python m9/n15 = 0.39. So the headline progressive-liberal-bias claim is CONFIRMED; only the exact cells are not bit-matched.",
+      "evidence": "exec_check/R/output/mlm_un_m9_hold_n15_s300_seed1.csv (0.35), mlm_un_m12_hold_n15_s50_seed1.csv (0.68), mlm_un_m12_hold_n100_s30_seed1.csv (0.067); exec_check/py/output/py_mlm_un_result.txt (0.3925); Table 3 (p.10).",
+      "impact": "The paper's exact numbers cannot be independently regenerated to 2 decimal places, but the central quantitative finding (large, sample-size-dependent liberal bias in MLM-UN) and the magnitude are supported.",
+      "recommendation": "Release the generated population .sav files (or reseedable generation with exact RNG+software versions) and the per-condition Type I error result tables (the SPSS scripts already SAVE these; upload them)."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "RESCINDED (prior P1 false positive)",
+      "title": "Prior audit's 'prose vs Table 3 inconsistency' is not present",
+      "detail": "The prior audit (2026-09-10) claimed p.8 prose ('close to five per cent') contradicted Table 3 (56%). Re-reading the actual manuscript text, the sentence reads: 'The MLM-CS and rANOVA results showed Type I error rates close to five per cent, regardless whether they were performed in SPSS or SAS or - in case of rANOVA - with or without Huynh-Feldt-correction.' The subject is explicitly MLM-CS and rANOVA, never MLM-UN (which the same sentence's preceding clause describes as having a 'large progressive bias'). There is NO internal inconsistency.",
+      "evidence": "paper_extracted.txt p.8 (lines ~392-400).",
+      "impact": "This re-audit corrects a false finding; the manuscript is internally consistent on this point.",
+      "recommendation": "No action required by the authors (this is an audit-correction record)."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Reproducible-analysis badge not fully supported: per-condition result tables and population .sav files not uploaded",
+      "detail": "The article carries 'Open and reproducible analysis: Yes; reproduced by Jack Davis', and OSF ships Data/Analysis scripts + 4 raster figures. However, the population .sav files, the generated long-format .sav files, and every per-condition result table are NOT on OSF. The SPSS scripts contain SAVE OUTFILE=... statements (Mauchly_Epsilon_Greenhouse_Huynh.sav, MLM_CS.sav, MLM_UN.sav, ANOVA.sav, MANOVA.sav, final_*.sav) that would have produced these tables, but those outputs were not uploaded. Thus 'reproducible analysis' is only script-level; the exact numbers are not independently reproducible without re-running the proprietary software.",
+      "evidence": "extracted/Analysis/SPSS_simulation_9.sps & _12.sps (SAVE OUTFILE statements); OSF archive contents; extracted/ listing (no .sav, no result tables).",
+      "impact": "A reader cannot verify the exact Table 3 / figure values from the archive; the badge overstates end-to-end reproducibility.",
+      "recommendation": "Upload the SAVE'd result .sav/CSV tables and the population .sav files; or scope the badge to the portions reproducible from the open scripts (rANOVA + MLM magnitude)."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P2",
+      "title": "SAS m=9 sphericity-violation MLM blocks reference C:\\Pop_long_violation _12.sav (stray space + wrong suffix)",
+      "detail": "In SAS_simulation_9.txt, all sphericity-VIOLATION MLM blocks (MLM-CS, MLM-UN, MLM-KR for n=15/20/25/30) read data= from 'C:\\Pop_long_violation _12.sav', which (a) has a space before '.sav' and (b) points at the m=12 violation long-format file, not the m=9 one. The m=12 script correctly uses 'C:\\Pop_long_violation_12.sav'. This is a copy-paste artifact making the exact m=9 MLM-violation input (Figs 2/4) ambiguous and, as written, likely non-runnnable.",
+      "evidence": "extracted/Analysis/SAS_simulation_9.txt lines ~603-918 (repeated 'data=C:\\Pop_long_violation _12.sav').",
+      "impact": "The m=9 sphericity-violation MLM results (conservative MLM-CS and liberal MLM-UN) are the least traceable: the shipped SAS script does not cleanly reproduce them.",
+      "recommendation": "Fix the file reference to C:\\Pop_long_violation_9.sav (and remove the stray space); re-verify the m=9 violation MLM numbers."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "MLM-UN grid computationally infeasible at stated S=5000 in open tooling",
+      "detail": "MLM-UN via nlme::gls(corSymm, REML) takes ~2.35 s/fit (m=9/n=15) to ~14-29 s/fit (m=12). S=5000 for the full MLM-UN grid (~72 UN conditions) is of order 100+ hours in R. Only reduced-S characterization was possible (m9/n15 S=300; m12/n15 S=50; m12/n100 S=30). SAS/SPSS are not installed in this environment.",
+      "evidence": "exec_check/R/output mlm_un_* CSV elapsed_s columns (665 s, 443 s, 691 s, 784 s for S=300/200/50/30).",
+      "impact": "A full independent re-run at the paper's precision is not feasible without the authors' software and data; this is a practical limitation, not a defect of the manuscript.",
+      "recommendation": "Publish the population .sav files and the SAVE'd result tables so full-precision verification does not require re-executing 5000 fits per condition."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Figs 1-4 are raster images; per-condition numbers behind the bars are not tabulated",
+      "detail": "The main 144-condition Type I error grid is presented only as 4 raster PNG/ TIF figures. The exact per-cell values are not in the text (except Table 3's n=100 sub-study). The auditing model in this session has no image-input (vision) support, so the figure bar values could not be extracted or numerically re-checked here; only prose + Table 3 numerics were audited.",
+      "evidence": "extracted/materials/Figure_1-4.png (raster).",
+      "impact": "The main-grid results are only visually inspectable, not numerically auditable.",
+      "recommendation": "Publish the per-condition Type I error rates as a CSV alongside the figures."
+    },
+    {
+      "id": "ADV-007",
+      "severity": "P3",
+      "title": "R reimplementation cannot distinguish MLM-KR(UN) from MLM-CS",
+      "detail": "In the R reimplementation, MLM-CS and MLM-KR-approx are both fit as lmer(y~idx+(1|id)) with idx a numeric linear trend (random-intercept = compound symmetry), so they return identical p-values and identical Type I error rates (CS == KR in every condition). The manuscript's MLM-KR is the Kenward-Roger df correction applied to an UN-structured model, which this reimplementation does not represent. Consequently the distinct 'MLM-KR reduces but does not fully correct MLM-UN inflation' sub-claim (C18, C21) is not verified from R (it would need lmerTest ddf='Kenward-Roger' on an UN fit or SAS/SPSS).",
+      "evidence": "exec_check/R/output/mlm_cskr_s300_seed1.csv (MLM_CS == MLM_KR every row).",
+      "impact": "The KR partial-correction claim is neither confirmed nor refuted by this reimplementation.",
+      "recommendation": "If R-based verification is desired, fit the UN model and apply ddf='Kenward-Roger' via lmerTest/pbkrtest, or obtain the SAS MLM-KR output."
+    }
+  ],
+  "counts": { "P0": 0, "P1": 0, "P2": 3, "P3": 3, "rescinded": 1 }
+}

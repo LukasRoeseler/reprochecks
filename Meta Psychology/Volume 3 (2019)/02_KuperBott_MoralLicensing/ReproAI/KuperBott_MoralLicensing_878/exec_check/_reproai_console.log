@@ -1,0 +1,49 @@
+==== START ReproAI re-audit (status: OK) ====
+Engine: anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT
+Rules: REPRO_STANDARDS.md 2026.06.27; audit date 2026-09-14
+Package: KuperBott_MoralLicensing_878 (MP.2018.878, DOI 10.17605/MP.2018.878)
+Host: win32, R 4.6.1 (2026-06-24 ucrt), Python 3.8.10 (numpy 1.24.4, scipy 1.10.1, pandas 2.0.3)
+
+[1] Verified archived materials:
+      downloads/submission_clone/osfstorage/Data and Code/{dat_new_s.txt k=102, dat_new_b.txt
+          k=90, dat_old_s.txt k=106, dat_old_b.txt k=91, codebook.xlsx}
+      downloads/rev1/osfstorage/reviewer,analysis_JH.R (loads dat_new_s.txt, k=102 only)
+    -> NO k=76 analytic dataset, NO Table1/2 exclusion+aggregation code, NO appendix simulation
+       code, NO power code in archive.
+
+[2] Ran shipped methodology verbatim on k=102 (exec_check/R/01_shipped_k102.R):
+      naive d=.253 I2=62.3% Q(101)=257.6; PET int d=-.10 slope 1.47 t=3.06 p=.003;
+      3-PSM corrected d=.105, X2(1)=11.67 p=.0006; NOA d=.392 EUR d=.219 SEA d=-.372
+    -> does NOT match manuscript Table 3 (k=76). Evidence for ADV-001.
+
+[3] Faithful re-derivation of k=76 from raw k=102 under paper's own Table 1 & 2 rules
+    (exec_check/R/02_reconstruct_k76.R; cross-checked in Python reimpl_python.py):
+      FINAL k = 76; NOA=40, EUR=30, SEA=1, NA=5  (all match Table 3)
+      naive d=.2657 SE=.0431 Z=6.168 CI[.181;.350] tau2=.0791 I2=62.0% Q(75)=187.75
+      PET int d=-.030 t=-.27 p=.787; slope b=1.237 t=2.43 p=.018
+      3-PSM corrected d=.266, X2(1)=5.31 p=.021
+      subgroup NOA d=.368 PET slope 1.969; EUR d=.213 PET int .10 slope .478;
+                 SEA d=-.372 Z=-1.958 p=.050 (matches manuscript -.37)
+    -> d and CI essentially reproduce; Z (6.17 vs 6.57), Q, I2, 3-PSM differ. Evidence ADV-003.
+
+[4] I2 internal consistency (exec_check/reimpl_python.py):
+      Reported I2=.26 and Q(75)=175.77 => I2=(175.77-75)/175.77 = 0.573. Contradiction. ADV-002.
+
+[5] Moderators (exec_check/R/03_moderators.R):
+      uncorrected comparison beta=-.421 Z=-3.72 p<.001 (EXACT match to -.42/-3.72)
+      corrected comparison beta=-.185 Z=-1.93 p=.054 (paper -.19 Z=-1.97 p=.049) ~
+      EUR vs SEA beta=.540 Z=1.66 p=.096 (paper .54 Z=1.76 p=.078) beta exact
+      PET+mods se beta=1.05 Z=1.69 p=.091 (paper 1.20 Z=2.00 p=.045) ~
+
+[6] Power analysis (Python): 2*(z.05+z.80)^2/0.18^2 ~= 764 total (paper 766) ~
+
+[7] 3-PSM reconstruction intercepts (weightr): full .266, NOA .368, EUR .212; fit-improvement
+      X2(1): full 5.31 p=.021, NOA 1.51 p=.219, EUR 3.59 p=.058.
+
+[8] Deliverables written:
+      REPROAI_REPORT.html, reproai_reports/{architecture_report,risk_register,advisory_plan}.json,
+      exec_check/manuscript_claims.md, exec_check/R/*.R, exec_check/reimpl_python.py,
+      exec_check/output/*.txt|rds, exec_check/_reproai_console.log
+
+Severity rollup: P0=0, P1=2, P2=2, P3=2 (ADV-001..ADV-006). No P0 blocker.
+==== END ReproAI re-audit (status: OK) ====

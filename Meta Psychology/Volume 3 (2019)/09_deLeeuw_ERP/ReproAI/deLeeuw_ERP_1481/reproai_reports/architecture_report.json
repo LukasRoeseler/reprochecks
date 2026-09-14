@@ -1,0 +1,60 @@
+{
+  "report_id": "MP.2018.1481",
+  "paper_title": "Similar event-related potentials to music and language: A replication of Patel, Gibson, Ratner, Besson, & Holcomb (1998)",
+  "authors": "de Leeuw, J. R., Andrews, J., Altman, Z., et al.",
+  "journal": "Meta-Psychology, 3, MP.2018.1481",
+  "doi": "10.15626/MP.2018.1481",
+  "empirical": true,
+  "paper_type": "Original empirical article (ERP replication study; NOT a methods/software paper). Task header label 'jsPsych...' is incorrect - jsPsych (de Leeuw 2015) is only a Methods citation.",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "audit_date": "2026-09-14",
+  "mode": "static audit + independent reimplementation",
+  "osf": {
+    "supplementary": "EPD42",
+    "data_materials": "zpm9t",
+    "preregistration": "g3b5j",
+    "analysis_notebook": "m9kej",
+    "reproduced_by": "Martina Sladekova"
+  },
+  "host_environment": {
+    "R": "4.6.1 (2026-06-24 ucrt)",
+    "readr": "2.2.0",
+    "dplyr": "1.2.1",
+    "tidyr": "1.3.2",
+    "purrr": "1.2.2",
+    "ez": "4.5.0",
+    "BayesFactor": "0.9.12.4.8",
+    "cowplot": "1.2.0",
+    "ggplot2": "4.0.3",
+    "python": "3.8.10",
+    "pandas": "2.0.3",
+    "numpy": "1.24.4",
+    "scipy": "1.10.1",
+    "seed": "12604 (author's BayesFactor seed)",
+    "rngkind": "Mersenne-Twister / Inversion / Rejection"
+  },
+  "data": {
+    "raw_demographics": "data/raw/demographic_data.csv",
+    "raw_behavioral": "data/raw/behavioral_data_raw.csv",
+    "processed_behavioral": "data/generated/beh_data_tidy.csv",
+    "processed_eeg": "data/generated/eeg_data_tidy.csv (2,002,000 rows, averaged waveforms, analytic N=35)",
+    "segment_bookkeeping": "data/generated/Good_Segments_Per_Category.xlsx (cutoff 19)"
+  },
+  "reimplementation_scripts": {
+    "R": [
+      "exec_check/R/10_env.R",
+      "exec_check/R/11_demographics_beh.R",
+      "exec_check/R/12_anovas.R",
+      "exec_check/R/13_bayes.R",
+      "exec_check/R/14_ratn_bf.R",
+      "exec_check/R/15_beh_excl_check.R"
+    ],
+    "python": "exec_check/python/python_crosscheck.py"
+  },
+  "scope_limits": [
+    "Processed (post-artifact-rejection) EEG data analyzed, not raw .fdt recordings; NetStation pre-processing not re-run.",
+    "Bayes factors are Monte-Carlo estimates; verified within stated +/-2% MC error.",
+    "Figures 1-3 (raster waveforms) and the O1/O2 visual claim not pixel-verified (no vision input)."
+  ]
+}

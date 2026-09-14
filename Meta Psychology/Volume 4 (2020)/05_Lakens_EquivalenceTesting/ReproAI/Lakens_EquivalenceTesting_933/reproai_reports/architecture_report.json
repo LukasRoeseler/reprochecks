@@ -1,0 +1,47 @@
+{
+  "paper": {
+    "id": "MP.2018.933",
+    "title": "Equivalence Testing and the Second Generation P-Value",
+    "authors": "Daniël Lakens (Eindhoven University of Technology); Marie Delacre (Université Libre de Bruxelles)",
+    "journal": "Meta-Psychology",
+    "volume": "4",
+    "year": "2020",
+    "doi": "10.15626/MP.2018.933",
+    "osf_badge": "https://doi.org/10.17605/OSF.IO/ZP3KF",
+    "github_authors_note": "https://github.com/Lakens/TOST_vs_SGPV",
+    "osf_authors_note": "https://osf.io/8crkg/",
+    "shiny": "http://shiny.ieis.tue.nl/TOST_vs_SGPV/",
+    "badges": { "open_materials": "Yes", "open_reproducible_analysis": "Yes", "analysis_reproduced_by": "André Kalmendal", "open_data": "N/A" }
+  },
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+    "rules": "REPRO_STANDARDS.md 2026.06.27",
+    "audit_date": "2026-09-14",
+    "mode": "independent reimplementation (R 4.6.1 + Python 3.8.10) + author-code p_delta() cross-check + live GitHub/OSF/Shiny provenance"
+  },
+  "empiricism": {
+    "type": "methodological / simulation-theoretic (continuous bivariate normal)",
+    "open_data": "N/A - no empirical dataset is shipped; claims are closed-form computational/analytic",
+    "verification_route": "recompute from first principles + match author's own function, not raw-data recompute"
+  },
+  "components": [
+    { "id": "fig1_tost_sgpv", "desc": "TOST p & SGPV, means 140-150, n=30, sd=2, eq[143,147]", "claim": "C2,C3,C4,C5,C6,C7,C8", "status": "reproduced exact (11/11, R & Python)" },
+    { "id": "sgpv_formula", "desc": "paper SGPV formula vs author p_delta()", "claim": "C1", "status": "identical (50/50)" },
+    { "id": "fig4_uniform_overlap", "desc": "SGPV 0.76/0.81/0.86/0.91 + tail p 0.16/0.12/0.08/0.05", "claim": "C9,C10", "status": "reproduced exact" },
+    { "id": "small_sample_correction", "desc": "n=10 sd=2: SGPV=0.5 plateau, TOST p>=0.05; n=10 sd=1: ratio 1.79, SGPV=0.56", "claim": "C11,C12", "status": "reproduced exact" },
+    { "id": "correlation_fisher", "desc": "CIs r=0/0.7 n=10, r=0.45 n=30 [0.11,0.70], overlap 58.11%", "claim": "C13,C15,C17", "status": "reproduced exact" },
+    { "id": "extreme_case_blume", "desc": "n=4 r=0.99: 97.60% overlap; ~36% future r in range", "claim": "C16", "status": "approx (97.57% recomputed; 35.6% simulated)" },
+    { "id": "shiny_app", "desc": "interactive app", "claim": "C24", "status": "live (HTTP 200)" }
+  ],
+  "open_code": {
+    "github": "Lakens/TOST_vs_SGPV - reproducible manuscript.Rmd + functions/ (SGPV_function.R, p_tost_*.R, TOST_to_SGPV.R) + TOST_vs_SGPV_app/ + archive/",
+    "osf_zp3kf": "EMPTY (0 files) as of 2026-09-14",
+    "osf_8crkg": "EMPTY (0 files) as of 2026-09-14"
+  },
+  "host": {
+    "R": "4.6.1 (2026-06-24 ucrt) - base stats only",
+    "Python": "3.8.10 (numpy 1.24.4, scipy 1.10.1)",
+    "os": "Windows (win32), PowerShell 5.1",
+    "seed": "R set.seed(20260914); Python np.random.seed(20260914) (only used for the non-deterministic extreme-case sampling simulation)"
+  }
+}

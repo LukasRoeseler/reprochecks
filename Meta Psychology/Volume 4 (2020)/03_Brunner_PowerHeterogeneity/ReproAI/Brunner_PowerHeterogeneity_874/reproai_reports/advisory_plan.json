@@ -1,0 +1,46 @@
+{
+  "package": "Brunner_PowerHeterogeneity_874",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "remediation": [
+    {
+      "id": "ADV-001",
+      "priority": "P1",
+      "action": "Correct the tail-direction bug in heteroNpunifF / heteroNpunifCHI (use pf(..., lower.tail=FALSE, log.p=TRUE) in the numerator of the modified p-value); regenerate and confirm Study 1 p-uniform column matches Table 1.",
+      "owner": "authors",
+      "verification": "re-run reaudit_03b_study1_punif_correct.R on corrected code -> expect .251/.496/.746 at k=100."
+    },
+    {
+      "id": "ADV-002",
+      "priority": "P2",
+      "action": "Create/resolve OSF component osf.io/bvraz (or update the published code statement) and host estimatR.txt + simulation drivers; update the draft's dead utstat URL references.",
+      "owner": "authors/OSF maintainer",
+      "verification": "GET https://api.osf.io/v2/nodes/bvraz/ returns 200 with code files; paper URL resolves."
+    },
+    {
+      "id": "ADV-003",
+      "priority": "P2",
+      "action": "Upload R source, simulation drivers, and any derived tables to OSF project PEUMW; align badge claims with what is actually archived.",
+      "owner": "authors",
+      "verification": "PEUMW storage contains .R files and (optional) per-cell tables."
+    },
+    {
+      "id": "ADV-004",
+      "priority": "P3",
+      "action": "Correct Figure 1's post-selection mean label from 0.635 to 0.668 (Uniform[0.05,1]).",
+      "owner": "authors",
+      "verification": "caption value equals E[p^2]/E[p]=0.6683."
+    },
+    {
+      "id": "ADV-005",
+      "priority": "P3",
+      "action": "Report simulation seeds (or seed generator + first seed) in the supplement so exact replication is possible.",
+      "owner": "authors",
+      "verification": "stated seeds allow exact re-run."
+    }
+  ],
+  "next_steps_for_auditor": [
+    "Reimplement Study 2 (gamma effect sizes) and Study 3 (correlated n & es) once the simulation drivers are recovered, to verify Tables 3-5.",
+    "Recompute the OSC-100 z-curve 66% value if the OSC p-value set is obtained, to verify the application section."
+  ]
+}

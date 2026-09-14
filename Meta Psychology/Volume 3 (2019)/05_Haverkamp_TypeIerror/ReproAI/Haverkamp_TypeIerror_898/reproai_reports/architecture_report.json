@@ -1,0 +1,63 @@
+{
+  "paper": "Haverkamp, N., & Beauducel, A. (2019). Differences of Type I error rates for ANOVA and Multilevel-Linear-Models using SAS and SPSS for repeated measures designs. Meta-Psychology, 3, MP.2018.898.",
+  "doi": "10.15626/MP.2018.898",
+  "osf_project": "em62j",
+  "audit_date": "2026-09-14",
+  "audit_type": "RE-AUDIT (empirical Monte Carlo simulation study; Type I error of rANOVA/MLM in SAS 9.4 vs SPSS 23)",
+  "engine": "anomalyco/opencode (ReproAI) -- DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "mode": "static audit + independent R 4.6.1 and Python 3.8 reimplementation of the described simulation (no SAS/SPSS installed)",
+  "design": {
+    "population_effects": "none (no between-subject, within-subject, or between-group effect)",
+    "measurement_occasions_m": [9, 12],
+    "sample_sizes_n": [15, 20, 25, 30],
+    "sphericity_conditions": ["holds (all pairwise corr 0.5)", "violation (even-t corr 0.5, odd-t corr 0.8)"],
+    "samples_per_condition_S": 5000,
+    "n_conditions": 144,
+    "alpha": 0.05,
+    "robustness_criterion": "Bradley (1978): robust if empirical Type I error in [0.025,0.075]; >0.075 liberal; <0.025 conservative",
+    "methods": ["rANOVA", "rANOVA-HF (Huynh-Feldt)", "MLM-UN", "MLM-CS", "MLM-KR (Kenward-Roger, SAS only)", "MLM-SAT (Satterthwaite, SAS, Table 3 only)"],
+    "estimation": "REML",
+    "software": "SAS 9.4 (SAS Studio 3.7), IBM SPSS Statistics 23.0.0.3",
+    "population_generation": "SPSS Mersenne Twister RNG, set RNG=MT seed=1000; 1,000,000-case population; x_t = sqrt(1-0.5)z + sqrt(0.5)c (holds); second common variable over odd t (violation)"
+  },
+  "open_artifacts": {
+    "open_data": false,
+    "open_data_note": "No raw population .sav files and no per-condition result tables on OSF. The SPSS analysis scripts explicitly SAVE the result tables (Mauchly_Epsilon_*, MLM_CS.sav, MLM_UN.sav, ANOV_A*.sav) to files that were NOT uploaded.",
+    "open_materials": true,
+    "open_reproducible_analysis": true,
+    "osf_contents": {
+      "Data": ["population_9.sps", "population_12.sps", "materials/Figure_1-4.png"],
+      "Analysis": ["SAS_simulation_9.txt", "SAS_simulation_12.txt", "SPSS_simulation_9.sps", "SPSS_simulation_12.sps"]
+    }
+  },
+  "reimplementation": {
+    "strategy": "R 4.6.1 (MASS::mvrnorm, stats for rANOVA, nlme::gls(corSymm,REML) for MLM-UN, lme4/lmerTest for MLM-CS and KR-aprox) + Python 3.8 (numpy/scipy/statsmodels) cross-language. The SPSS Mersenne-Twister stream (seed=1000) is not reproducible in R/Python, so samples are drawn as iid MVN from the described population covariance (distributionally equivalent; not bit-exact).",
+    "r_scripts": ["exec_check/R/sim_funcs.R", "exec_check/R/ranova_sim.R", "exec_check/R/mlm_cs_kr_sim.R", "exec_check/R/mlm_un_sim.R"],
+    "py_script": "exec_check/py/cross_lang_recompute.py",
+    "key_results": {
+      "ranova_holds": "R 4.30-5.95% / Py 4.15-5.90% (nominal) - C8 reproduces",
+      "ranova_violation": "R 6.8-8.3% / Py 6.5-9.0% (inflated) - C9 reproduces",
+      "ranova_hf_violation": "R 4.80-6.55% / Py 4.60-6.70% (corrected) - C11 ~ reproduces",
+      "mlm_cs_holds": "R 3.7-5.7% / Py 4.7-7.0% (nominal) - C14 reproduces",
+      "mlm_cs_violation": "R/Py 0.3-4.0% overall conservative (C15 SAS-side; SPSS split not representable)",
+      "mlm_un_m9_n15": "R 0.35 (S=300), 0.33 (S=200); Py 0.39 (S=400) - large liberal bias reproduced",
+      "mlm_un_m12_n15": "R 0.68 (S=50) - brackets Table 3 SAS 56.33% / SPSS 69.42%",
+      "mlm_un_m12_n100": "R 0.067 (S=30) - near-nominal at large n, consistent with Table 3 7.76%"
+    }
+  },
+  "findings": {
+    "ADV-001": {"severity": "P2", "title": "Exact per-cell Table 3 Type I error percentages and the SAS-vs-SPSS split not bit-reproducible", "note": "magnitude and direction ARE reproduced (R 0.35/0.68/0.067; Py 0.39); exact cells require SAS/SPSS + unarchived data/output"},
+    "ADV-002": {"severity": "RESCINDED", "title": "Previous-audit 'prose vs Table 3 inconsistency' was a FALSE POSITIVE: prose p.7-8 'close to five per cent' refers to MLM-CS and rANOVA, not MLM-UN"},
+    "ADV-003": {"severity": "P2", "title": "Reproducible-analysis badge not fully supported: per-condition result tables and .sav population files not uploaded"},
+    "ADV-004": {"severity": "P2", "title": "SAS m=9 sphericity-violation MLM blocks reference C:\\Pop_long_violation _12.sav (stray space, wrong suffix) - copy-paste defect"},
+    "ADV-005": {"severity": "P3", "title": "MLM-UN grid computationally infeasible at S=5000 in open tooling (~14-30 s/fit at m=12)"},
+    "ADV-006": {"severity": "P3", "title": "Figs 1-4 raster; per-condition numbers not tabulated; auditor model has no image input"},
+    "ADV-007": {"severity": "P3", "title": "R reimpl cannot distinguish MLM-KR(UN) from MLM-CS"}
+  },
+  "verdict": {
+    "overall": "substantially reproduces",
+    "p0": 0, "p1": 0, "p2": 3, "p3": 3,
+    "headline": "The rANOVA/rANOVA-HF results reproduce (R and Python), and - in contrast to the previous audit - the headline MLM-UN progressive liberal bias is now reproduced in both direction and magnitude (R 35%/68%, Python 39%). The m=12/n=15 R value (68%) brackets Table 3's SAS 56.33% / SPSS 69.42%. The paper's best-practice recommendations (use MLM-CS or rANOVA under sphericity, HF correction under violation) are supported. Exact per-cell Table 3 percentages and the SAS-vs-SPSS split remain software-specific and unarchived (ADV-001, P2). A previous-audit P1 finding (prose/Table inconsistency) is rescinded as a false positive."
+  }
+}

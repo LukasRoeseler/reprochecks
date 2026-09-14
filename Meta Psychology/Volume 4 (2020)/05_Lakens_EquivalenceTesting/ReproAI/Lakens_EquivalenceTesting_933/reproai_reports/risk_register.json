@@ -1,0 +1,25 @@
+{
+  "paper": "MP.2018.933 - Lakens & Delacre (2020), Equivalence Testing and the Second Generation P-Value",
+  "audit_date": "2026-09-14",
+  "summary": { "P0": 0, "P1": 0, "P2": 1, "P3": 1, "total": 2 },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Prose typo misstates the third TOST/SGPV correspondence point ('SGPV = 1' where it should be 'SGPV = 0' / '1-SGPV = 1')",
+      "description": "The text says: '...we focus on their correspondence at three values, namely where the TOST p = 0.025 and SGPV is 1, where the TOST p = 0.5 and SGPV = 0.5, and where the TOST p = 0.975 and SGPV = 1.' The third item is wrong: at TOST p = 0.975 the SGPV is 0 (equivalently 1-SGPV = 1), i.e. the CI lies outside the equivalence range and the data favour the alternative hypothesis. The correct values appear in Figure 2 and in the same paragraph's 'situation C' description ('the p-value will always be 0.975, and the SGPV is 0'). The error is present in the author's own reproducible source (manuscript.R2.Rmd line 136), so it is not an extraction artifact.",
+      "evidence": "manuscript.R2.Rmd line 136 vs line 325 (situation C: SGPV=0) and Figure 1 caption line 120 ('1-SGPV = 1'). Independent recomputation at mean=147.7468 gives TOST p=0.9750 and SGPV=0.0000, confirming SGPV=0 is correct.",
+      "impact": "Cosmetic prose error; no numeric or inferential consequence. The governing figures/caption and situation C are correct, and the following sentence correctly maps SGPV=0 to the alternative hypothesis. Only a reader taking the isolated sentence literally is misled on the third correspondence value.",
+      "fix": "Change 'and SGPV = 1' to 'and SGPV = 0' (or 'and 1-SGPV = 1') in that sentence."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Published OSF links point to empty projects; all open materials actually live on GitHub",
+      "description": "The badge line states 'All supplementary files can be accessed at OSF: ZP3KF' and the Authors' Note gives osf.io/8crkg for code. As of audit date both OSF nodes' osfstorage have 0 files. The full reproducible set (manuscript.Rmd, functions/, Shiny app source, archive/) exists at the GitHub repository explicitly cited in the Authors' Note, so the Open Materials / Open & reproducible analysis badges are substantiated - but the specific URLs readers are told to click are dead/empty.",
+      "evidence": "OSF API: /v2/nodes/zp3kf/files/osfstorage/ total=0; /v2/nodes/8crkg/files/osfstorage/ total=0 (2026-09-14). GitHub Lakens/TOST_vs_SGPV holds manuscript.R2.Rmd, functions/SGPV_function.R, TOST_vs_SGPV_app/, archive/.",
+      "impact": "Findability/archival hygiene only. Materials are fully available and this re-audit reproduced every claim from them; the empty OSF nodes are a broken-link risk and contradict the 'all supplementary files at OSF ZP3KF' wording.",
+      "fix": "Upload the R functions, reproducible manuscript.Rmd, Shiny app source, and figures to the ZP3KF project (and/or 8crkg), or reword the badge line to point to the GitHub repository."
+    }
+  ]
+}

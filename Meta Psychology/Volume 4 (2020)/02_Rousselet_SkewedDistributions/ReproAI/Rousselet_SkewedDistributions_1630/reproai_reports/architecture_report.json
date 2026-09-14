@@ -1,0 +1,28 @@
+{
+  "paper": "Rousselet & Wilcox (2020) Meta-Psychology MP.2019.1630",
+  "title": "Reaction Times and other Skewed Distributions: Problems with the Mean and the Median",
+  "doi": "10.15626/MP.2019.1630",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "audit_date": "2026-09-14",
+  "mode": "reimplementation + live verification of author-committed reproducibility data",
+  "empiricism": "Mixed methods / simulation paper. No original experimental data collected by the authors; Section 5 analyses a large third-party behavioural dataset (French Lexicon Project, Ferrand et al. 2010). Open data stamped N/A, Open materials Yes, Open analysis Yes. Real-data empirical claims independently verifiable from the shipped FLP trials.",
+  "data_sources": {
+    "osf_main": "10.17605/OSF.IO/3UZAM — project contains cover-letter PDF + wiki images only",
+    "figshare_package": "10.6084/m9.figshare.6911924 (Rousselet & Wilcox 2018a) — verified live: code.zip (18 Rmd), functions.zip, notebooks.zip, figures.zip, data.zip (includes sim_miller1988.RData, miller_exg_param.RData, sim_bias_size_participants.RData, sim_precision.RData, sim_gp_fp*.RData, french_lexicon_project_rt_data.RData)",
+    "github": "rogme (GRousselet/rogme) — referenced; not independently run",
+    "raw_data": "FLP trial-level data verified (959 participants, 1,917,983 rows)"
+  },
+  "components": [
+    {"name": "Table 1 population parameters (12 x-Gaussian)", "type": "verification", "commit_check": "12/12 medians, 12/12 skewness", "verdict": "OK"},
+    {"name": "Table 2 median mean-bias (120 ints)", "type": "MC simulation", "commit_check": "committed RData 73/120 exact, 118/120 within +/-2", "verdict": "WARN/APPROX"},
+    {"name": "Figure 1/4/5 bootstrap illustrations", "type": "MC + resampling", "commit_check": "not byte-reproducible (sample() RNG version drift)", "verdict": "NOTCHECK (qualitative OK)"},
+    {"name": "Two-group bias max (1.79/0.88 ms)", "type": "verification", "commit_check": "exact", "verdict": "OK"},
+    {"name": "False positives means-of-medians >50%", "type": "verification", "commit_check": "max 60.6%", "verdict": "OK"},
+    {"name": "FLP descriptive claims (959, 96.4/94.8%, 80/70%, MAD 57/54)", "type": "real-data recompute", "commit_check": "exact from raw FLP data", "verdict": "OK"},
+    {"name": "FLP bias values (-10.9, HDI, -4.8/-1, -1.9/-0.3, 6.9)", "type": "verification", "commit_check": "exact from sim_bias_size_participants.RData", "verdict": "OK"},
+    {"name": "Measurement precision (59/56, 37/38)", "type": "verification", "commit_check": "exact from sim_precision.RData", "verdict": "OK"},
+    {"name": "FLP decile claims (83.2/1.4, 52.9/14.9, trimmed means)", "type": "real-data recompute", "commit_check": "exact except 5th trimmed mean 81 vs 82", "verdict": "OK/APPROX"},
+    {"name": "Section 4 g&h power/FP curves", "type": "heavy simulation", "commit_check": "not re-derived; qualitative direction consistent", "verdict": "NOTE"}
+  ],
+  "rng_seed_notes": "Code uses set.seed() (4, 21, 44, 7, 666) in notebooks, but the exact R session/RNGkind that produced each printed number is not pinned. Cross-R-version sample.kind change (Rounding->Rejection in R 3.6.0) breaks byte reproduction of resampling illustrations; even the shipped sim_miller1988.RData does not exactly regenerate printed Table 2."
+}

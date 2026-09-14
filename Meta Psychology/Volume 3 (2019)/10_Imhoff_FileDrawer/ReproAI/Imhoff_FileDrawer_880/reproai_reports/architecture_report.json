@@ -1,0 +1,38 @@
+{
+  "report_type": "architecture_report",
+  "paper_id": "MP.2018.880",
+  "paper_title": "In Search of Experimental Evidence for Secondary Antisemitism: A File Drawer Report",
+  "authors": "Roland Imhoff & Mario Messer",
+  "journal": "Meta-Psychology 2019, vol 3",
+  "doi": "https://doi.org/10.15626/MP.2018.880",
+  "osf_doi": "https://doi.org/10.17605/OSF.IO/Z6SDM",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "audit_date": "2026-09-14",
+  "mode": "raw-level independent reimplementation (R 4.6.1 + Python 3.8 cross-check); data artifacts recovered live from OSF",
+  "data_availability": {
+    "previous_audit_conclusion": "raw data + analysis scripts ABSENT on OSF",
+    "reaudit_verification": "REFUTED. Raw data and author .sps scripts ARE present on OSF via linked project ja3yx",
+    "access_path": "z6sdm -> component 8au5x ('Data, Materials and Analysis', 0 files in osfstorage) -> LINKED NODE ja3yx 'Secondary Anti-Semitism'",
+    "recovered_files": "per-study dfg_as_study*_OSF.csv/sav + author dfg_as_study*_osf.sps analysis syntax + rawdata/ subfolders (Studies 1,2,3a-3c,4a,4b,5); Supplementary table_osm.1-7.pdf",
+    "osf_snapshot_date": "2026-09-14"
+  },
+  "environment": {
+    "R": "4.6.1 (2026-06-24 ucrt)",
+    "R_packages": "metafor 5.0.1, car (Anova type III), base stats",
+    "Python": "3.8.10",
+    "Python_packages": "numpy 1.24.4, scipy 1.10.1",
+    "seed_handling": "none required - all tests closed-form (t, F, r, metafor REML deterministic); no MCMC/simulation"
+  },
+  "pipeline": {
+    "trace": "raw/OSF CSV item scores -> SPSS .sps score computation (pre_ma/post_ma, ipanat_guilt, prejudice_pre/post, warmth, antiisr, empathy) -> author inferential analyses (residual regression + 2x2 ANOVA; t-tests; correlations; paired RM ANOVA; meta-analysis)",
+    "reimplementation": "recomputed intended statistics independently in R AND Python from the same shipped OSF CSVs, matching .sps specs (Type III sum-to-zero contrasts; SAVE ZRESID residualization; paired within-subject contrasts; metafor REML)",
+    "cross_language_agreement": "R == Python on all recomputed primary statistics"
+  },
+  "reimplementation_table": [
+    {"script":"exec_check/R/reimpl_raw.R","reimplements":"Study1/2 residual-change 2x2 ANOVAs, t-tests, correlations; Study3 RM ANOVA + Table1 paired t; Study4a/4b/5 t-tests; metafor meta-analysis","claims":"C4,C8-C12,C16-C19,C28,C33-C35,C38,C42,C48-C49,C52-C53"},
+    {"script":"exec_check/R/anova_study12.R","reimplements":"Type III ANOVAs with sum-to-zero (SPSS-matching) contrasts for Studies 1 & 2","claims":"C9,C17,C18,C19"},
+    {"script":"exec_check/crosscheck_raw.py","reimplements":"second-language (Python) recompute of headline t/r/F and meta-analysis","claims":"C8,C10-C11,C16,C28,C33-C35,C38,C42,C48-C49,C52"}
+  ],
+  "notes": "All shipped originals left untouched; work on copies under exec_check/."
+}

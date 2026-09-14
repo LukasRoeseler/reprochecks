@@ -1,0 +1,2630 @@
+Editedby:RickardCarlsson
+Meta-Psychology,2020,vol4,MP.2019.1630
+Opendata:N/A Reviewedby:ThomBaguley,JuliaHaaf,
+https://doi.org/10.15626/MP.2019.1630
+Openmaterials:Yes Paul-ChristianBürkner
+Articletype:OriginalArticle
+Openandreproducibleanalysis:Yes Analysisreproducedby:ErinBuchanan
+PublishedundertheCC-BY4.0license
+Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:N/A https://doi.org/10.17605/OSF.IO/3UZAM
+Reaction Times and other Skewed
+Distributions: Problems with the Mean and
+the Median
+Guillaume A. Rousselet
+Institute of Neuroscience and Psychology, College of Medical, Veterinary and Life Sciences,
+University of Glasgow, Glasgow, UK
+Rand R. Wilcox
+Dept. of Psychology, University of Southern California, Los Angeles, CA, USA
+Tosummariseskewed(asymmetric)distributions,suchasreactiontimes,typicallythemeanorthemedianareused
+as measures of central tendency. Using the mean might seem surprising, given that it provides a poor measure of
+central tendency for skewed distributions, whereas the median provides a better indication of the location of the
+bulk of the observations. However, the sample median is biased: with small sample sizes, it tends to overestimate
+the population median. This is not the case for the mean. Based on this observation, Miller (1988) concluded
+that "sample medians must not be used to compare reaction times across experimental conditions when there are
+unequalnumbersoftrialsintheconditions". HerewereplicateandextendMiller(1988),anddemonstratethathis
+conclusionwasill-advisedforseveralreasons. First,themedian’sbiascanbecorrectedusingapercentilebootstrap
+bias correction. Second, a careful examination of the sampling distributions reveals that the sample median is
+medianunbiased,whereasthemeanismedianbiasedwhendealingwithskeweddistributions. Thatis,onaverage
+thesamplemeanestimatesthepopulationmean,buttypicallythisisnotthecase. Inaddition,simulationsoffalse
+andtruepositivesinvarioussituationsshowthatnomethoddominates. Crucially,neitherthemeannorthemedian
+are sufficient or even necessary to compare skewed distributions. Different questions require different methods
+and it would be unwise to use the mean or the median in all situations. Better tools are available to get a deeper
+understanding of how distributions differ: we illustrate the hierarchical shift function, a powerful alternative that
+reliesonquantileestimation. Allthecodeanddatatoreproducethefiguresandanalysesinthearticleareavailable
+online.
+Keywords: mean,median,trimmedmean,quantile,sampling,bias,bootstrap,estimation,skewness
+Introduction and Abbt, 2001; Ho and Yu, 2015; Bono et al., 2017):
+such quantities with asymmetric distributions include
+Distributions of reaction times (RT) and many other
+estimations of onsets and durations from recordings of
+continuous quantities in social and life sciences are
+hand, foot and eye movements, neuronal responses,
+skewed (asymmetric) (Micceri, 1989; Limpert, Stahel,
+2
+as well as pupil size. This asymmetry tends to differ shapesofthedistributionsamongconditions. Aswewill
+among experimental conditions, such that a measure see, this intuition is correct in some situations. But the
+of central tendency and a measure of spread are in- use of a single value to capture shape differences nec-
+sufficient to capture how conditions differ (Balota and essarily leads to intractable analyses because the same
+Yap, 2011; Rousselet, Pernet, and Wilcox, 2017; Trafi- meancouldcorrespondtovariousshapes. Ifthegoalis
+mow, T. Wang, and C. Wang, 2018). Instead, to un- to understand shape differences between conditions, a
+derstand the potentially rich differences among distri- multiple quantile approach or explicit shape modelling
+butions, it is advised to consider multiple quantiles of shouldbeusedinstead,asmentionedpreviously.
+the distributions (Doksum, 1974; Doksum and Siev- Themeanandthemediandifferinanotherimportant
+ers, 1976; Pratte et al., 2010; Rousselet, Pernet, and aspect: forsmallsamplesizes,thesamplemeanisunbi-
+Wilcox, 2017), or to explicitly model the shapes of the ased,whereasthesamplemedianisbiased. Concretely,
+distributions (Heathcote, Popiel, and Mewhort, 1991; ifweperformmanytimesthesameRTexperiment,and
+J. N. Rouder, Lu, et al., 2005; Palmer et al., 2011; foreachexperimentwecomputethemeanandtheme-
+Matzke et al., 2013). Yet, it is still common practice dian, the average mean will be very close to the popu-
+to summarise RT distributions using a single number, lation mean. As the number of simulated experiments
+mostoftenthemean: thatonevalueforeachparticipant increases,theaveragesamplemeanwillconvergetothe
+and each condition can then be entered into a group exactpopulationmean. Thisisnotthecasefortheme-
+ANOVA to make statistical inferences (Ratcliff, 1993). dian when sample size is small. However, over many
+Becauseoftheskewness(asymmetry)ofreactiontimes, studies, the median of the sample medians is equal to
+themeanishoweverapoormeasureofcentraltendency the population median. That is, the median is median
+(the typical value of a distribution, which provides a unbiased. (This definition of bias also has the advan-
+good indication of the location of the majority of ob- tage, over the standard definition using the mean, to
+servations): skewness shifts the mean away from the be transformation invariant (Efron and Hastie, 2016).
+bulk of the distribution, an effect that can be amplified More precisely, like the mode, the median is invariant
+by the presence of outliers or a thick right tail. For in- to affine transformations — shift and scale transforma-
+stance, in Figure 1A, the median better represents the tions. For a random variable X, affine invariance is de-
+typical observation than the mean because it is closer finedas: Median(a+bX)=a+bMedian(X),withaandb>
+to the bulky part of the distribution. (Note that all fig- 0.) Incontrast,whendealingwithskeweddistributions,
+ures in this article can be reproduced using code and thesamplemeanismedianbiased.
+data available in a reproducibility package on figshare To illustrate, imagine that we perform simulated ex-
+(Rousselet and Wilcox, 2018a). Supplementary mate- periments to try to estimate the mean and the median
+rial notebooks referenced in the text are also available population values of the skewed distribution in Fig-
+inthisreproducibilitypackage). ure 1A. Let’s say we take 1,000 samples of 10 obser-
+Sothemedianappearstobeabetterchoicethanthe vations. Foreachexperiment(sample),wecomputethe
+meanifthegoalistohaveasinglevaluethatreflectsthe mean. These sample means are shown as grey vertical
+location of most observations in a skewed distribution. linesinFigure1B.Alotofthemfallverynearthepopu-
+Inourexperiencethemedianisthemostoftenusedal- lation mean (black vertical line), but some of them are
+ternativetothemeaninthepresenceofskewness. The wayoff. Themeanoftheseestimatesisshownwiththe
+mode is another option, but it is difficult to quantify black dashed vertical line. The difference between the
+in small samples and is undefined if two or more local meanofthemeanestimatesandthepopulationvalueis
+maxima exist, so we do not consider it here. We sus- called bias. Here bias is small (2.5 ms). Increasing the
+pect that inferences on the mode would be possible in numberofexperimentswilleventuallyleadtoabiasof
+conjunction with bootstrap techniques, for strictly uni- zero. In other words, the sample mean is an unbiased
+modal distributions and given sufficiently large sample estimatorofthepopulationmean.
+sizes,butthisremainstobeinvestigated. Forsmallsamplesizesfromskeweddistributions,this
+Thechoicebetweenthemeanandthemedianishow- isnotthecaseforthemedian. Ifweproceedaswedid
+ever more complicated. Depending on the goals of the for the mean, by taking 1,000 samples of 10 observa-
+experimenterandthesituationathand,themeanorthe tions, the bias is 15.1 ms: the average median across
+mediancanbeabetterchoice,butmostlikelyneitheris 1,000 experiments over-estimates the population me-
+thebestchoice—nomethoddominatesacrossallsitu- dian(Figure1C).Increasingsamplesizeto100reduces
+ations. Forinstance,itcouldbearguedthatbecausethe the bias to 0.7 ms and improves the precision of our
+meanissensitivetoskewness,outliersandthethickness estimates. On average, we get closer to the population
+oftherighttail,itisbetterabletocapturechangesinthe median (Figure 1D). The same improvement in preci-
+3
+905
+= naideM
+006
+=
+naeM
+0.002
+0.001
+0.000
+0 250 500 750 1000 1250 1500
+Reaction times (ms)
+ytisneD
+A
+naideM
+0.002
+0.001
+0.000
+0 250 500 750 1000 1250 1500
+Reaction times (ms)
+ytisneD
+C
+naeM
+0.002
+0.001
+0.000
+0 250 500 750 1000 1250 1500
+Reaction times (ms)
+ytisneD
+B
+naideM
+0.002
+0.001
+0.000
+0 250 500 750 1000 1250 1500
+Reaction times (ms)
+ytisneD
+D
+Figure1. Skewness,samplingandbias. A.Ex-Gaussiandistributionwithparametersµ=300,σ=20andτ=300.
+An ex-Gaussian distribution is formed by convolving a Gaussian distribution with an exponential distribution. It is
+definedby3parameters: themeanµandthestandarddeviationσofthenormaldistribution,andthedecayofthe
+exponentialcomponentτ. Inpractice,anex-GaussianrandomsamplecansimplybeobtainedbyaddingaGaussian
+random sample to an exponential random sample. For details and applications, see for instance Golubev (2010)
+and Palmer et al. (2011). In the current example, the distribution shows a sharp rise on the left and has a long
+righttail. Thisdistributionisusedbyconvenienceforillustration,becauseitlookslikeaveryskewedreactiontime
+distribution. The vertical lines mark the population mean and median. B. The vertical grey lines indicate 1,000
+means from 1,000 random samples of 10 observations. As in panel A, the vertical black line marks the population
+mean. The vertical black dashed line marks the mean of the 1,000 sample means. C. Same as panel B, but for the
+median. D. Same as C, but for 1,000 samples of 100 observations. This figure was created using the code in the
+illustrate_biasnotebook.
+sion with increasing sample size applies to the mean just as likely to be the score at the 40th per-
+(seesectiononsamplingdistributions). centile in the population as the score at the
+Thereasonforthebiasofthemedianisexplainedby 60th percentile. If the original distribution is
+Miller(1988): positively skewed, this symmetry implies that
+the distribution of sample medians will also
+’Like all sample statistics, sample medi-
+be positively skewed. Specifically, unusually
+ans vary randomly (from sample to sam-
+large sample medians (e.g., 60th percentile)
+ple)aroundthetruepopulationmedian,with
+will be farther above the population median
+more random variation when the sample size
+than unusually small sample medians (e.g.,
+is smaller. Because medians are determined
+40thpercentile)willbebelowit. Theaverage
+by ranks rather than magnitudes of scores,
+of all possible sample medians, then, will be
+the population percentiles of sample medians
+larger than the true median, because sample
+vary symmetrically around the desired value
+medians less than the true value will not be
+of 50%. For example, a sample median is
+4
+smallenoughtobalanceoutthesamplemedi- Table1
+ansgreaterthanthetruevalue. Naturally,the Miller’s 12 ex-Gaussian distributions. Each distribu-
+more the distribution is skewed, the greater tionisdefinedbythecombinationofthethreeparameters
+willbethebiasinthesamplemedian.’ µ (mu), σ (sigma) and τ (tau). The mean is defined as
+the sum of parameters µ and τ. The median was calcu-
+Because of this bias, Miller (1988) recommended to latedbasedonsamplesof1,000,000observations(Miller
+notusethemediantostudyskeweddistributionswhen 1988used10,000observations), becauseitisnotknown
+sample sizes are relatively small and differ across con- analytically. Skewnessisdefinedasthedifferencebetween
+ditions or groups of participants. We suspect such situ- themeanandthemedian.
+ations are fairly common given that small sample sizes µ σ τ mean median skewness
+arestillthenorminmanyfieldsofpsychologyandneu- 300 20 300 600 509 92
+roscience: for instance, in some areas of language re- 300 50 300 600 512 88
+searchparticipantscanonlybeexposedtostimulionce 350 20 250 600 524 76
+anduniquestimuliaredifficulttocreate;inclinicalpsy- 350 50 250 600 528 72
+chology, some experiments must be kept short to deal 400 20 200 600 540 60
+with special populations; in occupational psychology, 400 50 200 600 544 55
+socialpsychologyorcognitivepsychologyofageingand 450 20 150 600 555 45
+development, a whole battery of tests might be admin- 450 50 150 600 562 38
+istered in one session. However, as we demonstrate 500 20 100 600 572 29
+here, the problem is more complicated and the choice 500 50 100 600 579 21
+betweenthemeanandthemediandependsonthegoal 550 20 50 600 588 12
+oftheresearcher. Inthisarticle,whichisorganisedin5 550 50 50 600 594 6
+sections, we explore the advantages and disadvantages
+of the sample mean and the sample median. First, we
+replicate Miller’s simulations of estimations from sin- First, as shown in Figure 3A, we can check that the
+gle distributions. Second, we introduce bias correction mean is not mean biased. Each line shows the results
+and apply it to Miller’s simulations. Third, we exam- for one type of ex-Gaussian distribution: the mean of
+inesamplingdistributionsindetailtorevealunexpected 10,000simulationsfordifferentsamplesizesminusthe
+features of the sample mean and the sample median. population mean (600). Irrespective of skewness and
+Fourth, weextendMiller’ssimulationstoconsiderfalse samplesize,biasisverynearzero—itwouldconverge
+and true positives for the comparisons of two condi- to exactly zero as the number of simulations tends to
+tions. Finally, we consider a large dataset of RT from a infinity.
+lexicaldecisiontask,whichweusetocontrastdifferent Contrary to the mean, the median estimates are bi-
+approaches. ased for small sample sizes. The values from our
+simulations are very close to the values reported in
+ReplicationofMiller1988
+Miller(1988)(Table2). Theresultsarealsoillustrated
+To illustrate the sample median’s bias, Miller (1988) in Figure 3B. As reported by Miller (1988), bias can be
+employed 12 ex-Gaussian distributions that differed in quite large and it gets worse with decreasing sample
+skewness (Table 1). The distributions are illustrated sizes and increasing skewness. Based on these results,
+in Figure 2, and colour-coded using the difference be- Miller(1988)madethisrecommendation:
+tween the mean and the median as a non-parametric
+’An important practical consequence of the
+measure of skewness. Figure 1 used the most skewed
+distributionofthe12,withparameters(µ=300,σ=20, bias in median reaction time is that sam-
+τ=300). ple medians must not be used to compare re-
+action times across experimental conditions
+To estimate bias, following Miller (1988) we per-
+when there are unequal numbers of trials in
+formedasimulationinwhichwesampledwithreplace-
+theconditions.’
+ment 10,000 times from each of the 12 distributions.
+We took random samples of sizes 4, 6, 8, 10, 15, 20,
+AccordingtoGoogleScholar,Miller(1988)hasbeen
+25, 35, 50 and 100, as did Miller. For each random
+cited 187 times as of the 18th of April 2019. A look
+sample, we computed the mean and the median. For
+at some of the oldest and most recent citations reveals
+each sample size and ex-Gaussian parameter, the bias
+thathisadvicehasbeenfollowed. Apopularreviewarti-
+wasthendefinedasthedifferencebetweenthemeanof
+cleonreactiontimes,cited438times,reiteratesMiller’s
+the10,000sampleestimatesandthepopulationvalue.
+recommendations (Whelan, 2008). However, there are
+5
+0.0100
+0.0075
+0.0050
+0.0025
+0.0000
+0 250 500 750 1000 1250 1500
+Reaction times (ms)
+ytisneD
+Skewness
+92
+88
+76
+72
+60
+55
+45
+38
+29
+21
+12
+6
+Figure2. Miller’s12ex-Gaussiandistributions. Thisfigurewascreatedusingthecodeinthemiller1988notebook.
+severalproblemswithMiller’sadvice,whichweexplore To illustrate, let’s consider one random sample of 10
+in the next sections, starting with one omission from observationsfromtheskeweddistributioninFigure1A,
+Miller’s assessment: the bias of the sample median can which has a population median of 508.7 ms (rounded
+be corrected using a percentile bootstrap bias correc- to509inthefigure):
+tion.
+sample=[355.0,350.0,466.7,1758.2,604.5,1707.6,
+Biascorrection
+367.2,1741.3,331.4,1193.2]
+A simple technique to estimate and correct sampling
+biasisthepercentilebootstrap(Efron,1979;Efronand The median of the sample is 535.6 ms, which over-
+Tibshirani, 1994). If we have a sample of n observa- estimates the population value of 508.7 ms. Next, we
+tions,hereishowitworks: samplewithreplacement1,000timesfromoursample,
+and compute 1,000 bootstrap estimates of the median.
+• samplewithreplacementnobservationsfromthe
+Thedistributionobtainedisabootstrapestimateofthe
+originalsample
+sampling distribution of the median, as illustrated in
+Figure 4. The idea is this: if the bootstrap distribution
+• compute the estimate (say the mean or the me-
+approximates, on average, the shape of the sampling
+dian)
+distribution of the median, then we can use the boot-
+• performsteps1and2nboottimes strap distribution to estimate the bias and correct our
+sample estimate. However, as we’re going to see, this
+• compute the mean of the nboot bootstrap esti-
+works onaverage, in thelong-run. Thereis noguaran-
+mates
+teeforasingleexperiment.
+The difference between the estimate computed using The mean of the bootstrap estimates is 722.6
+theoriginalsampleandthemeanofthenbootbootstrap ms. Therefore, our estimate of bias is the difference
+estimatesisabootstrapestimateofbias. between the mean of the bootstrap estimates and
+6
+Table2
+Bias estimation for Miller’s 12 ex-Gaussian distributions. Columns correspond to different sample sizes. Rows
+correspondtodifferentdistributions,sortedbyskewness. Valuesareforthemeanbias,asillustratedinFigure3B.There
+areseveralwaystodefineskewnessusingparametricandnon-parametricmethods. FollowingMiller1988,andbecause
+the emphasis is on the contrast between the mean and the median in this article, we defined skewness as the difference
+betweenthemeanandthemedian.
+Skewness n=4 n=6 n=8 n=10 n=15 n=20 n=25 n=35 n=50 n=100
+92 41 26 19 18 8 8 6 4 3 1
+88 39 27 21 16 10 7 5 5 3 2
+76 35 23 16 12 8 7 5 4 3 1
+72 35 24 16 14 8 6 5 4 3 2
+60 28 18 15 9 6 6 4 3 2 1
+55 26 18 12 9 7 5 4 3 2 1
+45 21 14 10 9 5 4 3 2 2 1
+38 18 11 8 7 5 3 3 1 1 1
+29 13 10 6 5 3 2 2 1 1 0
+21 9 6 4 4 2 2 1 1 1 0
+12 5 4 3 2 1 1 1 1 0 0
+6 2 2 1 0 1 0 0 0 0 0
+the sample median, which is 187 ms, as shown by Whathappensifinsteadof100experiments,weper-
+the black horizontal arrow in Figure 4. To correct form1000experiments,eachwithn=10,andcompute
+for bias, we subtract the bootstrap bias estimate from a bias correction for each one? Now the average of the
+thesampleestimate(greyhorizontalarrowinFigure4): bias corrected median estimates is much closer to the
+truemedian: thepopulationmedianwas508.7ms,the
+samplemedian-(meanofbootstrapestimates-sample averagesamplemedianwas522.1ms,andtheaverage
+median) biascorrectedsamplemedianwas508.6ms. Sothebias
+correction works very well in the long-run for the me-
+whichisthesameas: dian. But that’s not always the case: it depends on the
+estimatorandontheamountofskewness(forinstance,
+2xsamplemedian-meanofbootstrapestimates. aswewillseeinthenextsection,biascorrectionfailsfor
+quantilesestimatedusingtheHarrell-Davisestimator).
+Here the bias corrected sample median is 348.6 If we apply the bias correction technique to our me-
+ms. So the sample bias has been reduced dramatically, dianestimatesofsamplesfromMiller’s12distributions,
+clearly too much from the original 535.6 ms. But bias we get the results in Figure 3C. For each iteration in
+is a long-run property of an estimator, so let’s look at a thesimulation,biascorrectionwasperformedusing200
+few more examples. We take 100 samples of n = 10, bootstrapsamples. Thebiascorrectionworksverywell
+and compute a bias correction for each of them. The on average, except for the smallest sample sizes. The
+results of these 100 simulated experiments are shown failure of the bias correction for very small n is not
+in Figure 5A. The arrows go from the sample median surprising, because the shape of the sampling distribu-
+tothebiascorrectedsamplemedian. Theblackvertical tioncannotbeproperlyestimatedbythebootstrapfrom
+line shows the population median we’re trying to esti- so few observations. More generally, we should keep
+mate. in mind that the performance of bootstrap techniques
+With n = 10, the sample estimates have large spread depends on sample sizes and the number of resam-
+around the population value and more so on the right ples, among other factors (Efron and Tibshirani, 1994;
+than the left of the distribution. The bias correction Wilcox, 2017). From n = 10, the bias values are very
+also varies a lot in magnitude and direction, some- close to those observed for the mean. So it seems that
+timesimprovingtheestimates,sometimesmakingmat- inthelong-run,wecaneliminatethebiasofthesample
+ters worse. Across experiments, it seems that the bias median by using a simple bootstrap procedure. As we
+correction was too strong: the population median was will see in another section, the bootstrap bias correc-
+508.7 ms, the average sample median was 515.1 ms, tion is also effective when comparing two groups. Be-
+buttheaveragebiascorrectedsamplemedianwasonly forethat,weneedtolookmorecloselyatthesampling
+498.8ms(Figure5B). distributionsofthemeanandthemedian.
+7
+40
+30
+20
+10
+0
+−10
+−20
+46810152025 35 50 100
+Sample size
+sm
+ni
+saiB
+A
+Mean RT: mean bias
+40
+92 72 45 21
+Skewness 88 60 38 12
+30
+76 55 29 6
+20
+10
+0
+−10
+−20
+46810152025 35 50 100
+Sample size
+sm
+ni
+saiB
+B
+Median RT: mean bias
+40
+30
+20
+10
+0
+−10
+−20
+46810152025 35 50 100
+Sample size
+sm
+ni
+saiB
+C
+Median RT: mean bias after bias correction
+40
+30
+20
+10
+0
+−10
+−20
+46810152025 35 50 100
+Sample size
+sm
+ni
+saiB
+D
+Mean RT: median bias
+40
+30
+20
+10
+0
+−10
+−20
+46810152025 35 50 100
+Sample size
+sm
+ni
+saiB
+E
+Median RT: median bias
+Figure3. Biasestimation. Foreachsamplesizeandex-Gaussianparameter,meanbiaswasdefinedasthedifference
+betweenthemeanof10,000sampleestimatesandthepopulationvalue;medianbiaswasdefinedusingthemedian
+of 10,000 sample estimates. A. Mean bias for mean reaction times. B. Mean bias for median reaction times. C.
+Mean bias for median reaction times after bootstrap bias correction. D. Median bias for mean reaction times. E.
+Medianbiasformedianreactiontimes. Thisfigurewascreatedusingthecodeinthemiller1988notebook.
+Samplingdistributions Carlo simulations) and the population value. However,
+using the mean to quantify bias assumes that this es-
+Thebiasresultspresentedsofarrelyonthestandard
+timator of central tendency is the most appropriate to
+definition of bias as the distance between the mean of
+characterisesamplingdistributions;italsoassumesthat
+thesamplingdistribution(hereestimatedusingMonte-
+8
+905
+=
+naidem
+noitalupoP
+635
+=
+naidem
+elpmaS
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooofffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooootttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssstttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaappppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeedddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss ===================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================== 777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777772222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222233333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+943
+=
+naidem
+elpmas
+CB
+0.0020
+0.0015
+0.0010
+0.0005
+0.0000
+200 400 600 800 1000 1200 1400
+Bootstrap median estimates (ms)
+ytisneD
+Figure 4. Bootstrap bias correction example: one experiment. The sample median (black dashed vertical line)
+overestimates the population value (black dotted vertical line). The kernel density estimate of 1,000 bootstrap
+estimatesofthesamplemediansuggests,correctly,thatthemediansamplingdistributionispositivelyskewed. The
+differencebetweenthesamplemedianandthemeanofthebootstrapmedians(thickblackverticalline)definesthe
+bootstrap estimate of the bias (black horizontal arrow). This estimate can be subtracted from the sample median
+(greyhorizontalarrow)toobtainabiascorrected(BC)samplemedian(greydashedverticalline). Thisfigurewas
+createdusingthecodeintheillustrate_biasnotebook.
+we areonly interested inthe long-term performanceof why results across small n experiments can differ sub-
+anestimator. Ifthesamplingdistributionsareasymmet- stantially(Buttonetal.,2013). Byshowingthevariabil-
+ricandwewanttoknowwhatbiastoexpectinatypical ity across simulations, the sampling distributions also
+—ormostrepresentative—experiment,othermeasures highlight an important aspect of the results: bias is a
+of central tendency, such as the median, would charac- long-run property of an estimator; there is no guaran-
+terisebiasbetterthanthemean. teethatonevaluefromasingleexperimentwillbeclose
+Considerthesamplingdistributionsof10,000means to the population value, particularly for small sample
+andmediansfordifferentsamplesizes(n=4ton=100) sizes.
+from the 12 ex-Gaussian distributions described in Fig- Whenskewnessislarge(92,secondrowofFigure6),
+ure 2. When skewness is low (6, first row of Figure 6), sampling distributions get more positively skewed with
+the sampling distributions are symmetric and centred decreasing sample sizes. To better understand how the
+on the population values: there is no bias. As we saw samplingdistributionschangewithsamplesize,weturn
+previously, with increasing sample size, variability de- to the last row of Figure 6, which shows 50% highest-
+creases, which is why studies with larger samples pro- density intervals (HDI). A HDI is the shortest interval
+vide more accurate estimations. The flip side is that thatcontainsacertainpercentageofobservationsfrom
+studies with small samples are much noisier, which is a distribution (J. K. Kruschke, 2013). For symmetric
+9
+100
+90
+80
+70
+60
+50
+40
+30
+20
+10
+0
+300 400 500 600 700 800 900
+Median estimates (ms)
+stnemirepxE
+A
+100
+90
+80
+70
+60
+50
+40
+30
+20
+10
+0
+500 600
+Cumulated averages (ms)
+stnemirepxE
+B
+estimator
+BC median
+Median
+Figure 5. Bootstrap bias correction example: 100 experiments. For each experiment, 10 observations were
+sampled. A. Each arrow starts at the sample median for one experiment and ends at the bias corrected sample
+median. Thebiaswasestimatedusing200bootstrapsamples. Theblackverticallinemarksthepopulationmedian.
+B.CumulatedaveragesofthedatainpanelA.Thisfigurewascreatedusingthecodeintheillustrate_biasnotebook.
+distributions, HDI and confidence intervals are similar, withincreasingsamplesize,butisstillpresentevenfor
+butforskeweddistributions,HDIbettercapturethelo- n=100.
+cation of the bulk of the observations. Each horizontal For medians and small sample sizes, there is a dis-
+lineisaHDIforaparticularsamplesize. Thelabelscon- crepancybetweenthe50%HDI,whichisshiftedtothe
+tainthevaluesoftheintervalboundaries. Thecoloured left of the population median, and the median of the
+verticaltickinsidetheintervalmarksthemedianofthe sampling distribution, which is shifted to the right of
+distribution. The red vertical line spanning the entire the population median. This contrasts with the results
+plotisthepopulationvalue. forthemean,andcanbeexplainedbydifferencesinthe
+For means and small sample sizes, the 50% HDI is shapes of the sampling distributions, in particular the
+offset to the left of the population mean, and so is the larger skewness and kurtosis of the median sampling
+medianofthesamplingdistribution. Thisdemonstrates distribution compared to that of the mean. The offset
+that the typical sample mean tends to under-estimate between the sample median and the population value
+the population mean – that is to say, the mean sam- reducesquicklywithincreasingsamplesize. Forn=10,
+pling distribution is median biased. This offset reduces themedianbiasisalreadyverysmall. Fromn = 15,the
+10
+Population mean
+0.04
+0.02
+0.00
+300350400450500550600650700750800850900
+Mean estimates
+ytisneD
+A
+Mean: skewness = 6
+Sample size Population median
+4
+6
+8 0.04
+10
+15
+20
+25
+35 0.02
+50
+100
+0.00
+300350400450500550600650700750800850900
+Median estimates
+ytisneD
+D
+Median: skewness = 6
+Population mean
+0.010
+0.005
+0.000
+300350400450500550600650700750800850900
+Mean estimates
+ytisneD
+B
+Mean: skewness = 92
+Population median
+0.010
+0.005
+0.000
+300350400450500550600650700750800850900
+Median estimates
+ytisneD
+E
+Median: skewness = 92
+100 575.5 | 615.2
+50 565.7 | 621.3
+35 560.1 | 627.2
+25 553.8 | 634.9
+20 545.6 | 632.6
+15 533.7 | 633.8
+10 518.2 | 643.2
+8 497.7 | 634.5
+6 470.7 | 623
+4 441.1 | 622.6
+400 425 450 475 500 525 550 575 600 625 650
+Mean estimates
+sezis
+elpmaS
+C
+Mean HDI: skewness = 92
+100 486.7 | 526.6
+50 475.9 | 531.3
+35 470.3 | 535.9
+25 460.6 | 538
+20 453.8 | 539.6
+15 443.8 | 542.6
+10 439.4 | 556.3
+8 427.7 | 552.3
+6 413.4 | 555.2
+4 397.9 | 564.7
+400 425 450 475 500 525 550 575 600
+Median estimates
+sezis
+elpmaS
+F
+Median HDI: skewness = 92
+Figure 6. Sampling distributions of the mean and the median. In each panel, results for sample sizes from 4 to
+100arecolourcoded. Theresultsarebasedon10,000samplesforeachsamplesizeandskewness. Theverticalred
+lines mark the population values. Left column: results for the mean; right column: results for the median. In the
+bottom row, the horizontal lines illustrate, for the mean (C) and the median (F), the 50% HDI of the distributions
+showninthesecondrow. ThecolouredverticaltickmarksintersectingtheHDIarethemediansofthedistributions.
+Thisfigurewascreatedusingthecodeinthesamp_distnotebook.
+11
+mediansampledistributionisnotmedianbiased,which butions used by Miller (1988), as described previously.
+meansthatthetypicalsamplemedianisnotbiased. Group2hadaconstantsizeofn=200;group1hadsize
+Another representation of the sampling distributions n = 10 to n = 200, in increments of 10. Thus, this sim-
+isprovidedinFigure7: 50%HDIofthedistributionsof ulation is a simple extension of the simulation results
+10,000samplebiasesareshownasafunctionofsample reportedinFigure3: theaimistoassessthebiasofthe
+size. Here bias was defined as the difference between difference between two samples that differ in size. For
+thesampleestimatefromeachsimulationandthepopu- themeanbiasofthesamplemean,theresultsof10,000
+lationvalue—sowearenotlookingattheaveragebias iterationsarepresentedinFigure8A.Allthebiasvalues
+but at the distribution of bias across simulated experi- arenearzero,asexpected.
+ments. For both the mean and the median, the spread Results for the mean bias of the sample median are
+of the bias increases with increasing skewness and de- presented in Figure 8B. Bias increases with skewness
+creasingsamplesize. Skewnessalsoincreasestheasym- andsamplesizedifference(thedifferencegetslargeras
+metryofthesamplingdistributionsofbias,butmoreso thesamplesizeofgroup1getssmaller). Atleastabout
+forthemeanthanthemedian. 90-100 trials in Group 1 are required to bring bias to
+So is the mean also biased? According to the stan- values similar to the mean. These results are not sur-
+dard definition of bias, which is based on the distance prising and could have been predicted from the simu-
+between the population mean and the average of the lation involving one group only (Figure 3). The only
+sampling distribution of the mean, the mean is not bi- clearly noticeable difference between the two simula-
+ased. But this definition applies to the long-run, after tionsisthesizeofthebias: ithadamaximumof40ms
+we replicate the same experiment many times - 10,000 when one group was considered, but only about 15 ms
+times in our simulations. So what happens in prac- whentwoconditionswerecompared.
+tice, when we perform only one experiment instead of Next,let’sfindoutifwecancorrectthebias. Biascor-
+10,000? Inthatcase,themedianofthesamplingdistri- rectionwasperformedin2ways: withthebootstrap,as
+butionprovidesabetterdescriptionofthetypicalexper- explained in the previous section, and with a different
+iment than the mean of the distribution. And the me- approach using subsamples. The second approach was
+dianofthesamplingdistributionofthemeanissmaller suggestedbyMiller(1988):
+thanthepopulationmeanwhensamplesizeissmall. So
+ifweconductonesmallnexperimentandcomputethe ’Althoughitiscomputationallyquitetedious,
+mean of a skewed distribution, we’re likely to under- there is a way to use medians to reduce the
+estimatethetruevalue. effects of outliers without introducing a bias
+Isthemedianbiasedafterall? Themedianisindeed dependent on sample size. One uses the reg-
+biased according to the standard definition. However, ular median from Condition F and compares
+with small n, the typical median (represented by the itwithaspecial“averagemedian”(Am)from
+median of the sampling distribution of the median) is ConditionM.TocomputeAm,onewouldtake
+close to the population median, and the difference dis- from Condition M all the possible subsamples
+appears for even relatively small sample sizes. In other ofSizefwherefisthenumberoftrialsinCon-
+words, in a typical experiment, the median shows very ditionF.Foreachsubsampleonecomputesthe
+limitedmedianbias. subsample median. Then, Am is the average,
+acrossallpossiblesubsamples,ofthesubsam-
+Groupdifferences: bias ple medians. This procedure does not intro-
+duce bias, because all medians are computed
+Now that we better understand the sampling distri-
+on the basis of the same sample (subsample)
+butions of the mean and the median, we consider how
+size.’
+thesetwoestimatorsperformwhenwecomparetwoin-
+dependentgroups. AccordingtoMiller(1988),because Using all possible subsamples would take far too
+the median is biased when taking small samples from long; for instance, if one group has 5 observations and
+(cid:16) (cid:17)
+skeweddistributions,groupcomparisoncanbeaffected the other group has 20 observations, there are 20 =
+5
+ifthetwogroupsdifferinsamplesize,suchthatrealdif-
+15504 subsamples to consider. Slightly larger sample
+ferences can be lowered or increased, and non-existent
+sizeswouldforceustoconsidermillionsofsubsamples.
+differencessuggested. Asaresult,forunequaln,Miller
+SoinsteadwecomputedKrandomsubsamples. Wear-
+advisedagainsttheuseofthemedian.
+bitrarilysetKto1,000. AlthoughthisisnotwhatMiller
+Weassessedtheproblemusingasimulationinwhich
+(1988) suggested, this shortcut should reduce bias to
+we drew 10,000 independent pairs of samples from
+some extent if it is due to sample size differences. The
+populations defined by the same 12 ex-Gaussian distri-
+results are presented in Figure 8C and show that the K
+12
+60
+40
+20
+0
+−20
+−40
+−60
+−80
+−100
+−120
+−140
+−160
+46810 15 20 25 35 50 100
+Sample size
+sm
+ni
+saiB
+A
+Mean RT: 50% HDI
+92 72 45 21
+Skewness 88 60 38 12
+76 55 29 6
+60
+40
+20
+0
+−20
+−40
+−60
+−80
+−100
+−120
+−140
+−160
+46810 15 20 25 35 50 100
+Sample size
+sm
+ni
+saiB
+B
+Median RT: 50% HDI
+Figure7. 50%highestdensityintervalsofthebiasesofthesamplemeanandthesamplemedianasafunction
+of sample size and skewness. The values were obtained by subtracting the population values from the sampling
+distributions of the mean and the median, before computing the 50% HDI. For skewness 6 and 92, the sampling
+distributionsareillustratedinFigure6. Thisfigurewascreatedusingthecodeinthesamp_distnotebook.
+loopapproachworksverywell. Butweneedtokeepin sampling or the percentile bootstrap approaches. Be-
+mind that it works in the long-run: for a single exper- causeoftheskewnessofthesamplingdistributions,we
+iment there is no guarantee, similarly to the bootstrap also consider the median bias: the bias observed in a
+procedure. The bias of the group differences between typicalexperiment. Inthatcase,thedifferencebetween
+medianscanalsobehandledbythebootstrap. Biascor- groupmeanstendstounderestimatethepopulationdif-
+rectionusing200bootstrapsamplesforeachsimulation ference, as shown in Figure 8E. For the median, the
+iteration leads to the results in Figure 8D: overall the median bias is much lower than the standard (mean)
+bootstrap bias correction works very well. At most, for bias, and near zero from n = 20 (Figure 8F). Thus, for
+n=10,themedian’smaximumbiasacrossdistributions atypicalexperiment,thedifferencebetweengroupme-
+is1.79ms,whereasthemean’sis0.88ms. dians actually suffers less from bias than the difference
+Sointhelong-run,thebiasintheestimationofdiffer- between group means. Also note that if the median is
+encesbetweenmedianscanbeeliminatedusingthesub- adjusted to be mean unbiased, a consequence is that it
+13
+15
+10
+5
+0
+−5
+−10
+102030405060708090100 120 140 160 180 200
+Group 1 sample size
+sm
+ni
+saiB
+A
+Mean: mean bias
+15
+92 72 45 21
+Skewness 88 60 38 12
+76 55 29 6 10
+5
+0
+−5
+−10
+102030405060708090100 120 140 160 180 200
+Group 1 sample size
+sm
+ni
+saiB
+B
+Median: mean bias without bc
+15
+10
+5
+0
+−5
+−10
+102030405060708090100 120 140 160 180 200
+Group 1 sample size
+sm
+ni
+saiB
+C
+Median: mean bias with subsample bc
+15
+10
+5
+0
+−5
+−10
+102030405060708090100 120 140 160 180 200
+Group 1 sample size
+sm
+ni
+saiB
+D
+Median: mean bias with bootstrap bc
+15
+10
+5
+0
+−5
+−10
+102030405060708090100 120 140 160 180 200
+Group 1 sample size
+sm
+ni
+saiB
+E
+Mean: median bias
+15
+10
+5
+0
+−5
+−10
+102030405060708090100 120 140 160 180 200
+Group 1 sample size
+sm
+ni
+saiB
+F
+Median: median bias
+Figure 8. Bias estimation for the difference between two independent groups. bc = bias correction. Group 2
+is always sampled from the least skewed distribution and has size n = 200. The size of group 1 is indicated along
+thexaxisineachpanel. Group1issampledfromMiller’s12skeweddistributionsandtheresultsarecolourcoded
+by skewness. A. Mean bias for mean reaction times. B. Mean bias for median reaction times. C. Mean bias for
+medianreactiontimesaftersubsamplebiascorrection. D.Meanbiasformedianreactiontimesafterbootstrapbias
+correction. E. Median bias for mean reaction times. F. Median bias for median reaction times. This figure was
+createdusingthecodeinthebias_diff notebook.
+14
+isnowmedianbiased. illustrationsofsamplingdistributionsandgroupbiases.
+Basedonourresultssofar,weconcludethatMiller’s In the case of an equal number of trials in each condi-
+(1988) advice was inappropriate because, when com- tion, the results show false positives close to the nomi-
+paringtwogroups, biasinatypicalexperimentisactu- nal level (0.05) for all skewness levels (Figure 9A; the
+allynegligible. Tobecautious, whensamplesizeisrel- expected 5% level is shown as a black horizontal line
+ativelysmall,itcouldbeusefultoreportmedianeffects in this figure and subsequent ones; the shaded grey
+withandwithoutbootstrapbiascorrection. Itwouldbe area spans the values 0.025 to 0.075, which is a min-
+evenbettertorunsimulationstodeterminethesample imallysatisfactoryrangesuggestedbyBradley(1978)).
+sizes required to achieve an acceptable measurement Although computing group means of individual differ-
+precision, irrespective of the estimator used (Schön- ences between means is a popular choice, the choice
+brodt and Perugini, 2013; Peters and Crutzen, 2017; of estimator must be made at the two levels of anal-
+Rothman and Greenland, 2018; Trafimow, 2019). We ysis. If we restrict our options to the mean and the
+provideanexampleofsuchsimulationofmeasurement median, we can consider three more combinations, for
+precisioninalatersection. Next,buildingupfromwhat whichresultssimilartothatofthemeanwereobtained:
+we have learned so far, we turn to a more complicated group means of individual differences between medi-
+situation,inwhichskewnessisconsideredattwolevels ans,mediansofmedians,mediansofmeans(Figure9B-
+of analysis: for each participant/condition, and at the D).Testsonmedianswereperformedusingthemethod
+grouplevel. by Hettmansperger and Sheather (1986). So, given
+equal sample sizes in the two conditions, on average
+Groupdifferences: errorrates we would commit the expected 5% of false positives in
+allsituations.
+When researchers compare groups, bias and sam-
+What happens if we use unequal sample sizes be-
+pling distributions are, regrettably, not at the top of
+tweenconditionsinstead? Again,weperformed10,000
+their minds. Most researchers are interested in false
+simulations, and varied the number of participants.
+positives (type I errors) and true positives (statistical
+The number of trials was constant in one condition at
+power) associated with a test. So in this section, we
+n = 200, and varied from 10 to 200 in the other con-
+extend the previous simulations to consider the error
+dition. As we saw previously, such differences in sam-
+rates associated with tests using the mean and the me-
+plesizes,whensamplingfromskeweddistributions,can
+dian in a hierarchical setting involving a within-subject
+leadtobiasedestimationofdifferencesbetweengroups
+(repeated-measure) design: single-trials are sampled
+or conditions. These sample size differences also affect
+from 2 conditions in multiple participants, each indi-
+the outcomes of statistical tests. For group means of
+vidual distribution of trials is summarised, and the in-
+individual means, the false positives are again at the
+dividual summaries are compared across participants.
+5% nominal level (Figure 10A). However, the results
+Forinstance,whenmeansareemployed,astandardap-
+change drastically for group means of individual me-
+proach is to compare means of means: that is, for each
+dians: with small sample sizes, the proportion of false
+condition and each participant, the distributionis sum-
+positivesincreaseswithskewnessandwiththenumber
+marised using the mean; then the means from the two
+of participants (Figure 10B). With n = 10 or 20, 200
+conditions are subtracted; finally, the individual differ-
+participants and very skewed distributions, false posi-
+ences between means are assessed across participants
+tives are committed more than 50% of the time! This
+by computing a one-sample t-test on group means. We
+unfortunate behaviour is due to the (mean) bias of the
+simulatedthissituationusingthe12ex-Gaussiandistri-
+samplemedian.
+butions used so far, 10,000 iterations, an arbitrary but
+Theeffectofthebiasofthesamplemediancanbead-
+conventionalalphalevelof0.05,anddifferentnumbers
+dressedbyincreasingthenumberoftrials(Figure10B).
+of trials (10 to 200) and participants (25, 50, 100 and
+The proportion of false positives can also be brought
+200). Because, for each participant, trials for the two
+close to the nominal level by using the percentile boot-
+conditionswererandomlysampledfromthesamepop-
+strapbiascorrection(Figure10C).Yetanotherstrategy
+ulation, on average the differences between conditions
+istoassessgroupmediansofindividualmediansinstead
+should be near zero. Also, because the tests were per-
+ofgroupmeans(Figure11A).Indeed,becausethesam-
+formed with an alpha of 0.05, about 5% of the 10,000
+plemedianisnotmedianbiased,computingmediansof
+tests, for each combination of parameters (number of
+medians gets rid of the bias. Conversely, because the
+trials, number of participants, population skewness),
+samplemeanismedianbiased,performingtestsonme-
+shouldbepositive.
+dians of means for small sample sizes leads to an in-
+The results of the false positive simulations are pre-
+crease in false positives with increasing skewness and
+sented in the sim_gp_fp notebook, which also contains
+15
+25 participants 50 participants 100 participants 200 participants
+0.20
+0.15
+0.10
+0.05
+0.00
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+A Means of mean RT
+92 72 45 21
+Skewness 88 60 38 12
+76 55 29 6
+25 participants 50 participants 100 participants 200 participants
+0.20
+0.15
+0.10
+0.05
+0.00
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+B Means of median RT
+25 participants 50 participants 100 participants 200 participants
+0.20
+0.15
+0.10
+0.05
+0.00
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+C Medians of median RT
+25 participants 50 participants 100 participants 200 participants
+0.20
+0.15
+0.10
+0.05
+0.00
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+D Medians of mean RT
+Figure 9. False positives: equal number of trials. Results from a simulation with 10,000 iterations are shown
+for group means of differences between individual mean reaction times A, means of medians B, medians of me-
+dians C and medians of means D. The shaded grey areas represent the minimally satisfactory range suggested by
+Bradley(1978): 0.025-0.075. Theblackhorizontallinesbehindtheshadedareasmarktheexpected0.05proportion
+offalsepositives. Thisfigurewascreatedusingthecodeinthesim_gp_fpnotebook.
+16
+25 participants 50 participants 100 participants 200 participants
+0.6
+0.4
+0.2
+0.0
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+A Means of mean RT
+92 72 45 21
+Skewness 88 60 38 12
+76 55 29 6
+25 participants 50 participants 100 participants 200 participants
+0.6
+0.4
+0.2
+0.0
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+B Means of median RT
+No bias correction With bias correction
+0.6
+0.4
+0.2
+0.0
+10 20 30 40 50 60 70 80 90 100 10 20 30 40 50 60 70 80 90 100
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+C Means of median RT: 200 participants
+Figure10. False positives: group means and unequal numbers of trials. Resultsfromasimulationwith10,000
+iterations. A.Biasforgroupmeansofindividualmeanreactiontimes. B.Biasforgroupmeansofindividualmedian
+reaction times. C. Effect of the percentile bootstrap bias correction on inferences based on the means of median
+reaction times calculated for 200 participants. The left panel is a replication of the right most panel from B, using
+2,000 iterations instead of 10,000. In the right panel, a bias correction with 200 bootstrap samples was applied.
+Thisfigurewascreatedusingthecodeinthesim_gp_fpnotebook.
+numberofparticipants(Figure11B). using group means of individual means or group me-
+dians of individual medians are satisfactory options in
+Effectsofasymmetryandoutliersonerrorrates the long-run. However, the choice of estimators used
+to make group inferences depends on the shape of the
+Fromthepreviousresults,wecouldconcludethat,if
+distributionsofgroupdifferences,whichthemselvesde-
+the goal is to keep false positives at the nominal level,
+17
+25 participants 50 participants 100 participants 200 participants
+0.6
+0.4
+0.2
+0.0
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+A
+Medians of median RT
+92 72 45 21
+Skewness 88 60 38 12
+76 55 29 6
+25 participants 50 participants 100 participants 200 participants
+0.6
+0.4
+0.2
+0.0
+1030507090 150 2001030507090 150 2001030507090 150 2001030507090 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+B
+Medians of mean RT
+Figure11. Falsepositives: groupmediansandunequalnumbersoftrials. Resultsfromasimulationwith10,000
+iterations. A. Bias for medians of median reaction times. B. Bias for medians of mean reaction times. This figure
+wascreatedusingthecodeinthesim_gp_fpnotebook.
+pend on between-subject variability and shape differ- of a group distribution (say of mean differences) de-
+ences between conditions (for instance, if condition 1 pendsonseveralfactors,andthesameshapecanpoten-
+hasskewnessk1andcondition2hasskewnessk2,then tiallybeobtainedbydifferentcombinationsofthesefac-
+the difference between conditions has skewness k1-k2 tors. Sample size was varied from 10 to 300. For each
+— we do not consider these factors in our simulations, sample, we perform three parametric tests: on means,
+except in the section "Applications to a large dataset", 20% trimmed means and median. For false positives,
+which provides illustrations of sampling distributions thesampleswerecentredsothatonaveragethesample
+acrossparticipants). Inparticular,skewnessandoutliers means, 20% trimmed means and medians were zero.
+can have very detrimental effects on the performance Alphawassetatthearbitrarybutconventional5%level,
+of certain test statistics, such as t-tests on means. We suchthatonaverage,weexpected5%offalsepositives.
+illustrate this problem with a simulation with 10,000 For true positives, the distributions were shifted by 0.4
+iterations using g&h distributions: the median of these fromzero,suchthatthetruemean,trimmedmeanand
+distributions is always zero, g controls the asymmetry medianwere0.4.
+of the distribution and h controls the thickness of the Let’sfirstconsiderfalsepositivesasafunctionofthe
+tails (Hoaglin, 1985a). With increasing h, outliers are g parameter (Figure 12). As expected, for normal dis-
+more and more frequent. For simplicity, we only sim- tributions (g = 0), the false positives are at the nomi-
+ulate what happens for one-sample distributions at the nal level (5%). However, with increasing g, the prob-
+grouplevel: thevaluesconsideredcouldbeanytypeof ability of false positives increases, and much more so
+differencesbetweenmeans,mediansoranyotherquan- with smaller sample sizes. In contrast, tests on me-
+tities. Thissimplificationisnecessarybecausetheshape dians are unaffected by skewness. A third estimator,
+18
+0.6
+0.4
+0.2
+0.0
+−4 −3 −2 −1 0 1 2 3 4 5 6
+x values
+ytisneD
+A
+g
+0
+0.1
+0.2
+0.3 0.4
+0.5
+0.6
+0.7
+0.8 0.9
+1
+0.30
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eslaF
+ytilibaborp
+B
+Mean
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eurT
+ytilibaborp
+C
+Mean
+0.30
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eslaF
+ytilibaborp
+20% Trimmed Mean
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eurT
+ytilibaborp
+20% Trimmed Mean
+0.30
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eslaF
+ytilibaborp
+Median
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eurT
+ytilibaborp
+Median
+Figure12. Groupinferencesusingg&hdistributions: falseandtruepositivesasafunctionofthegparameter.
+Resultsfromasimulationwith10,000iterations. A.Illustrationsofprobabilitydensityfunctionsforgvaryingfrom
+0to1,h=0. Withg=1andh=0,thedistributionhasthesameshapeasalognormaldistribution. B.Falsepositive
+resultsforthemean,the20%trimmedmeanandthemedian. Samplesweredrawnfrompopulationswithmeans,
+20% trimmed means and medians of 0. The shaded grey areas represent the minimally satisfactory range 0.025-
+0.075 suggested by Bradley (1978). The black horizontal lines behind the shaded areas mark the expected 0.05
+proportionoffalsepositives. C.Truepositiveresults(power)forthemean,the20%trimmedmeanandthemedian.
+Aneffectwassimulatedbyaddingaconstanttosamplesdrawnfrompopulationswithmeans,20%trimmedmeans
+and medians of 0. The black horizontal line at 0.8 marks the arbitrary but conventional target of 80% statistical
+power. Thisfigurewascreatedusingthecodeinthesim_gp_g&hnotebook.
+19
+the 20% trimmed mean, gives intermediate results: it Groupdifferences: powercurvesindifferent
+is affected by skewness much less than the mean and situations
+only for the smallest sample sizes. In a 20% trimmed
+With the simulations in the previous section, we ex-
+mean,observationsaresorted,20%ofobservationsare
+plored false positives and true positives at the group
+eliminated from each end of the distribution and the
+level, depending on the shape of the distributions of
+remaining observations are averaged. Inferences based
+differences. For true positives, we considered a sim-
+on the 20% trimmed mean were made via an exten-
+ple example in which the distribution of differences is
+sion of the one-sample t-test proposed by Tukey and
+shifted by a constant. However, distributions can differ
+McLaughlin (1963). Means and medians are special
+in various ways and it is important to determine which
+casesoftrimmedmeans: themeancorrespondstozero
+tests or categories of tests are best suited to detect dif-
+trimmingandthemedianto50%trimming.
+ferenttypesofdifferences. Sohereweassessstatistical
+Whathappenswhenwekeepgconstant(g=0.3)and
+power in three well-documented situations in a hierar-
+h varies (Figure 13A)? In the case of t-tests on means,
+chicalsetting: invaryingnumbersofparticipants,vary-
+forh = 0,falsepositiveprobabilitiesarenearthenomi-
+ing numbers of trials are sampled from 2 ex-Gaussian
+nallevel,butthenincreasewithhirrespectiveofsample
+distributions that differ by a constant, mostly in early
+size(Figure13B).Incontrast,mediansarenotaffected
+responses or mostly in late responses. As the previous
+by h, and for 20% trimmed means, false positives in-
+ones, these simulations assume no between-participant
+crease only when n = 10. When g = 0 and h varies,
+variability; we will provide a more realistic simulation
+theproportionoffalsepositivesforthemeandecreases
+in the section "Applications to a large dataset". First,
+slightlybelow0.05irrespectiveofsamplesize,whereas
+we consider a uniform shift, in which one distribution
+testson20%trimmedmeanandmedianareunaffected
+differs from another distribution by the addition of a
+(seesupplementarynotebooksim_gp_g&h).
+constantvalue. Thisissimilartotheg&hpowersimula-
+When it comes to true positives (power), t-tests on
+tions above, but in a hierarchical situation (again with
+means perform well for low levels of asymmetry. How-
+10,000 iterations). In condition 1, the ex-Gaussian pa-
+ever,withincreasingasymmetry,powercanbesubstan-
+rameters were µ = 500, σ = 50 and τ = 200 in every
+tially affected (Figure 12C). Power with 20% trimmed
+participant. Parameters in condition 2 were the same,
+means shows very little effects of asymmetry, except
+but each sample was shifted by 20 ms. The number of
+for the smallest sample sizes, but much less so than
+trials varied from 50 to 200, and we considered group
+the mean. The median is associated with a seemingly
+sample sizes of 25, 50 and 100 participants. For illus-
+oddbehaviour: powerincreaseswithasymmetry! Also,
+tration, Figure 14A shows two distributions with each
+powerishigherforthemeanwheng=0,awell-known
+n=1000andashiftof50ms.
+result due to the over-estimation of the standard-error
+To better understand how the distributions differ,
+of the median under normality (Wilcox, 2017). Extra
+panelBprovidesashiftfunction,inwhichthedifference
+illustrationsareavailableinnotebooksamp_dist,show-
+betweenthedecilesofthetwoconditionsareplottedas
+ing that, for the ex-Gaussian distributions considered
+afunctionofthedecilesincondition1—seedetailsin
+here, the sampling distribution of the mean becomes
+Rousselet,Pernet,andWilcox(2017). Thedecilediffer-
+more variable than that of the median with increasing
+encesareallnegative,showingstochasticdominanceof
+skewnessandlowersamplesizes.
+condition 2 over condition 1. The function is not flat
+When the probability of outliers increases (h in-
+because of random sampling and limited sample size.
+creases), the power of t-tests on means can be strongly
+PowercurvesareshowninpanelsCandD,respectively
+affected (Figure 13C), t-tests on 20% trimmed means
+for equal and unequal sample sizes. Naturally, power
+much less so, and tests on medians almost not at all.
+increases with the number of trials and the number of
+Altogether, the g&h simulations demonstrate that the
+participants. Andforallcombinationsofparametersthe
+choiceofestimatorcanhaveastronginfluenceonlong-
+meanisassociatedwithhigherpowerthanthemedian.
+runerrorrates: t-testsonmeansareverysensitivetothe
+In our example, other quantities are even more sen-
+asymmetryofdistributionsandthepresenceofoutliers.
+sitive than the mean to distribution differences. For in-
+But the results should not be used to advocate the use
+stance,consideringthatthemedianisthesecondquar-
+of mediansin all situations- as wewill see, nomethod
+tile, looking at the other quartiles can be of theoreti-
+dominates and the best approach depends on the em-
+cal interest to investigate effects in early or later parts
+piricalquestionandthetypeofeffect. Certainly,relying
+of distributions. This could be done in several ways -
+blindlyonthemeaninallsituationsisunwise.
+here we performed tests on the group median of the
+individual quartile differences. For the uniform shift
+considered here, inferences on the third quartile (Q3)
+20
+0.4
+0.3
+0.2
+0.1
+0.0
+−6 −5 −4 −3 −2 −1 0 1 2 3 4 5 6
+x values
+ytisneD
+A
+h
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.30
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eslaF
+ytilibaborp
+B
+Mean
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eurT
+ytilibaborp
+C
+Mean
+0.30
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eslaF
+ytilibaborp
+20% Trimmed Mean
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eurT
+ytilibaborp
+20% Trimmed Mean
+0.30
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eslaF
+ytilibaborp
+Median
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Sample size
+evitisop
+eurT
+ytilibaborp
+Median
+Figure13. Groupinferencesusingg&hdistributions: falseandtruepositivesasafunctionofthehparameter
+and g = 0.3. A. Illustrations of probability density functions for h varying from 0 to 0.5, g = 0.3. B. False positive
+results for the mean, the 20% trimmed mean and the median. C. True positive results (power) for the mean, the
+20%trimmedmeanandthemedian. Thisfigurewascreatedusingthecodeinthesim_gp_g&hnotebook.
+lead to lower power than the median. Using the first because the early part of skewed distributions is much
+quartile(Q1)insteadleadstoalargeincreaseinpower less variable than other parts, leading to more consis-
+relative to the mean. Q1 better captures uniform shifts tent differences across samples. Even with n = 1000,
+21
+0.003
+0.002
+0.001
+0.000
+0 500 1000 1500 2000 2500
+Reaction times
+ytisneD
+A
+Uniform shift
+100
+Conditions
+Condition1 50
+Condition2
+0
+−50
+−100
+500 600 700 800 900
+Deciles for Condition1
+:secnereffid
+eliceD
+2noitidnoC
+−
+1noitidnoC
+B
+25 participants 50 participants 100 participants
+1.00
+SF
+Q1
+0.75
+M
+0.50 Md
+0.25
+Q3
+0.00
+50 70 90 150 200 50 70 90 150 200 50 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+C n1 = n2
+25 participants 50 participants 100 participants
+1.00
+SF
+Q1
+0.75
+M
+0.50 Md
+0.25
+Q3
+0.00
+50 70 90 150 200 50 70 90 150 200 50 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+D n2 = 200
+Figure14. Truepositives: uniformshift. A.Examplesamplingdistributionsinconditions1and2. B.Shiftfunction.
+The differences between deciles are plotted as a function of deciles in condition 1. Deciles were computed using
+the Harrell-Davis quantile estimator. The error bars show 95% confidence intervals computed using a percentile
+bootstrap. C.Proportionoftruepositives(power)forequalsamplesizes,across10,000iterations. D.Powerresults
+forunequalsamplesizes. M=mean,Md=median,Q1=firstquartile,Q3=thirdquartile,SF=hierarchicalshift
+function. Thisfigurewascreatedusingthecodeinthesim_gp_tpnotebook.
+22
+this lower variability can be seen in Figure 14B. So we cur, a good option is the Harrell-Davis quantile estima-
+mightbeabletoachieveevenhigherpowerbyconsider- tor (Harrell and Davis, 1982), which performs well in
+ingsmallerquantilesthanthefirstquartile,whichcould conjunction with the percentile bootstrap (Wilcox and
+be motivated by an interest in the fastest responses Erceg-Hurn, 2012; Wilcox, Erceg-Hurn, et al., 2014).
+(Rousselet, Macé, and Fabre-Thorpe, 2003; Bieniek et However,inthesituationsconsideredhere,theHarrell-
+al.,2016;ReingoldandSheridan,2018). Butifthegoal Davis estimator is both mean and median biased, and
+is to detect differences anywhere in the distributions, the bias bootstrap correction has limited effects on this
+a more systematic approach consists in quantifying dif- bias (notebooks hd_bias and sf_bias). Again, no meth-
+ferencesatmultiplequantiles(Doksum,1974; Doksum odsdominate.
+andSievers,1976). Thegroupcomparisonswereperformedusingaone-
+sample t-test on 20% trimmed means. In simulations,
+Thehierarchicalshiftfunction the 20% trimmed mean gave false positive rates clos-
+est to the nominal value relative to the mean, the me-
+There is a rich tradition of using quantile estima-
+dian or the 10% trimmed mean (see simulation results
+tion to understand the shape of distributions and how
+in notebook sim_gp_fp). The four methods had similar
+theydiffer(DoksumandSievers,1976;Hoaglin,1985b;
+power, withthemeanperformingthebest, followedby
+Marden et al., 2004), in particular to compare RT dis-
+thetrimmedmeansandlastthemedian(seesimulation
+tributions (De Jong, Liang, and Lauber, 1994; Pratte
+results in notebook sim_gp_tp). Given that our simula-
+et al., 2010; Balota and Yap, 2011; Rousselet, Pernet,
+tionsdidnotincludeoutliers,towhichthemeanisvery
+and Wilcox, 2017; Ellinghaus and Miller, 2018). Here
+sensitive, it seems safer to use the 20% trimmed mean
+we consider the case of the deciles, but other quan-
+by default — a choice consistent with extant results
+tilescouldbeused. First, foreachparticipantandeach
+(Wilcox, 2017). The correction for multiple compar-
+condition, the sample deciles are computed over tri-
+isons employed Hochberg’s strategy (Hochberg, 1988),
+als. Second, for each participant, condition 2 deciles
+which guarantees that the probability of at least one
+are subtracted from condition 1 deciles — we’re deal-
+false positive will not exceed the nominal level as
+ing with a within-subject (repeated-measure) design.
+long as the nominal level is not exceeded for each
+Third, for each decile, the distribution of differences
+quantile (Wilcox, Erceg-Hurn, et al., 2014); the same
+is subjected to a one-sample test. Fourth, a correc-
+strategy is applied in other shift function applications
+tion for multiple comparisons is applied across the 9
+(Wilcox, 2017). The power curves for the hierarchical
+one-sample tests. We call this procedure a hierarchi-
+shift function are labelled SF in Figure 14C and D. SF’s
+cal shift function (an implementation is provided as
+powercurvesareverysimilartothoseobtainedforQ1.
+part of the rogme package in the R programming lan-
+TheadvantageofSFisthatthelocationofthedistribu-
+guage (R Core Team, 2018) — https://github.com/
+tiondifferencecanbeinterrogated,whichisimpossible
+GRousselet/rogme). There are many options avail-
+ifinferencesarelimitedtoasinglequantilesuchasQ1.
+abletoimplementthisprocedureandtheexampleused
+SF and Q1 methods are also very similar in their
+here is not the definitive answer: the goal is simply to
+sensitivity to early differences illustrated in Figure 15,
+demonstrate that a relatively simple procedure can be
+and much more so than methods based on the mean,
+muchmorepowerfulandinformativethanstandardap-
+the median, or Q3. These early differences were cre-
+proaches.
+ated by sampling from two ex-Gaussian distributions
+In creating a hierarchical shift function we need to
+with parameters µ = 500, σ = 50 and τ = 200. Con-
+make three choices: a quantile estimator, a statistical
+dition 1 was centred on its third quartile, multiplied
+test to assess quantile differences across participants,
+by 1.1 to stretch it, and then shifted by its third quar-
+and a correction for multiple comparisons technique.
+tile. Early differences are well documented in the Si-
+Thedecileswereestimatedusingalgorithm8described
+montask,forwhichthetwoconditionsdiffermostlyin
+in(HyndmanandFan,1996). Thisestimatorhasthead-
+thefastestreactiontimes,andthesedifferencesprogres-
+vantage,likethemedian,ofbeingmedianunbiasedand
+sively weaken and sometimes reverse sign (De Jong,
+itsstandard(mean)biascanbecorrectedusingthebias
+Liang, and Lauber, 1994; Pratte et al., 2010; Schwarz
+bootstrapcorrection(seedetailedsimulationsinsupple-
+and Miller, 2012). In our example, the median domi-
+mentarynotebookshd_biasandsf_bias). Themainlim-
+natesthemeanintermsofpowerinallsituations.
+itation of this estimator (and other estimators relying
+Finally, weconsiderasituationinwhichalateeffect
+on the weighted average of one or two order statistics)
+is observed (Figure 16). This situation was modelled
+is its poor handling of tied values. Tied values are not
+bytwoex-Gaussiandistributionswiththesameparam-
+expectedforcontinuousdistributionssuchasRT,unless
+eters µ = 500 and σ = 50 but different τ parameters,
+therawdataarerounded. Iftiedvaluesarelikelytooc-
+23
+0.003
+0.002
+0.001
+0.000
+0 500 1000 1500 2000 2500
+Reaction times
+ytisneD
+A
+Early difference
+Groups 100
+Condition1
+Condition2
+0
+−100
+500 700 900
+Deciles for Condition1
+:secnereffid
+eliceD
+2noitidnoC
+−
+1noitidnoC
+B
+25 participants 50 participants 100 participants
+1.00 SF
+Q1
+0.75
+Md
+0.50
+M
+0.25
+Q3
+0.00
+50 70 90 150 200 50 70 90 150 200 50 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+C n1 = n2
+25 participants 50 participants 100 participants
+1.00 Q1 SF
+0.75
+Md
+0.50
+M
+0.25
+Q3
+0.00
+50 70 90 150 200 50 70 90 150 200 50 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+D n2 = 200
+Figure 15. True positives: early difference. A. Example sampling distributions in conditions 1 and 2. For illus-
+tration, this distribution was created as explained in the text, but with a multiplication by 1.5 to create a stronger
+stretch. B. Shift function. C. Proportion of true positives (power) for equal sample sizes, across 10,000 iterations.
+D.Powerresultsforunequalsamplesizes. Thisfigurewascreatedusingthecodeinthesim_gp_tpnotebook.
+24
+0.003
+0.002
+0.001
+0.000
+0 500 1000 1500 2000 2500
+Reaction times
+ytisneD
+A
+Late difference
+200
+Groups
+Condition1
+Condition2
+0
+−200
+600 800 1000 1200
+Deciles for Condition1
+:secnereffid
+eliceD
+2noitidnoC
+−
+1noitidnoC
+B
+25 participants 50 participants 100 participants
+1.00
+M
+T
+0.75
+SF
+Q3
+0.50
+Md
+0.25 Q1
+0.00
+50 70 90 150 200 50 70 90 150 200 50 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+C n1 = n2
+25 participants 50 participants 100 participants
+1.00
+M
+T
+0.75
+SF
+Q3
+0.50
+Md
+0.25 Q1
+0.00
+50 70 90 150 200 50 70 90 150 200 50 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+D n1 = n2
+Figure16. True positives: late difference. A.Forillustration,thedifferenceintheτcomponentwasexaggerated.
+Thetwodistributionshadµ=500andσ=50,butτ=200incondition2and300incondition1. B.Shiftfunction. C.
+Proportion of true positives (power) for equal sample sizes, across 10,000 iterations. D. Power results for unequal
+sample sizes. T = one-sample t-tests on differences between the means of the τ component estimated using an
+ex-Gaussianfittothedata. Thisfigurewascreatedusingthecodeinthesim_gp_tpnotebook.
+25
+onesetto200,anotheronesetto215. Inthatsituation, If we save the median response time for each partic-
+the mean dominates all methods, including SF as well ipant and each condition, we get two distributions that
+as performing one-sample t-tests on the mean of dif- display positive skewness (Figure 18A). The same ap-
+ferences in τ estimates obtained by fitting ex-Gaussian pliestodistributionsofmeans(Figure18B).Thedistri-
+distributionstothedatausingthemaximumlikelihood butions of pairwise differences between the Non-Word
+method(Massidda,2013). Thus,inthisparticularsitu- and Word conditions is also positively skewed (Fig-
+ation, the median performs poorly and the strong sen- ure18C).Notably,mostparticipantshaveapositivedif-
+sitivity of the mean to the right tail of the distribution ference: basedonthemedian,96.4%ofparticipantsare
+is particularly useful, at least providing outliers do not fasterintheWordthantheNon-Wordcondition;94.8%
+affectgroupassessment. forthemean.
+In summary, the examples considered so far demon- Hence,Figure17andFigure18demonstratesthatwe
+strate that no method dominates: different methods have to worry about skewness at 2 levels of analysis:
+betterhandledifferentsituations. Crucially,neitherthe in individual distributions and in group distributions.
+mean nor the median are sufficient or even necessary Hereweexploreestimationbiasasaresultofskewness
+tocompareskeweddistributions. Bettertoolsareavail- andsamplesizeinindividualdistributions,becauseitis
+able;inparticular,consideringmultiplequantilesofthe the most similar to Miller’s 1988 simulations. Later we
+distributions allow us to get a deeper understanding of will consider false and true positives in a hierarchical
+how distributions differ. This can be done for instance situation. From what we’ve learnt so far, we can al-
+usingtheRfunctionsinthereproducibilitypackagefor readymakepredictions: becauseskewnesstendedtobe
+this article (Rousselet and Wilcox, 2018a) and in a re- stronger in the Word than in the Non-Word condition,
+centreview(Rousselet,Pernet,andWilcox,2017). the bias of the median will be stronger in the former
+than the later for small sample sizes. That is, the me-
+Applicationstoalargedataset dian in the Word condition will tend to be more over-
+estimated than the median in the Non-Word condition.
+Thesimulationsabovesuggestthatusingthemedian
+Asaconsequence,thedifferencebetweenthemedianof
+is appropriate in many situations involving skewed dis-
+the Non-Word condition (larger RT) and the median of
+tributions and is preferable to the mean in some situ-
+the Word condition (smaller RT) will tend to be under-
+ations. In this final section we consider what happens
+estimated. To check this prediction, we estimated bias
+whenwedealwithrealRTdistributionsinsteadofsim-
+in every participant using a simulation with 2,000 iter-
+ulated ones, as we have done so far. To find out, we
+ations (see details in notebook flp_bias_sim). We used
+look at the behaviour of the mean, the median and the
+the full sample of roughly 1,000 trials as the popula-
+hierarchical shift function in a large dataset of reaction
+tion, from which we computed population means and
+times from participants engaged in a lexical decision
+population medians. Because the Non-Word condition
+task. ThedataarefromtheFrenchlexiconproject(FLP)
+is the least skewed, we used it as the reference condi-
+(Ferrand et al., 2010). After removing a few partici-
+tion, which always had 200 trials. The Word condition
+pants who did not pay attention to the task (very low
+had 10 to 200 trials, with 10 trial increments. In the
+accuracy or too many late responses), we’re left with
+simulation, single RT were sampled with replacements
+959participants. Eachparticipanthadbetween996and
+among the roughly 1,000 trials available per condition
+1001 trials for each of two conditions, Word and Non-
+andparticipant,sothateachiterationisequivalenttoa
+Word. Figure 17 illustrates reaction time distributions
+simulatedexperiment.
+from 100 randomly sampled participants in the Word
+Let’s look at the results for the median. Figure 19A
+andNon-Wordconditions.
+showsthebiasofthedifferencebetweenmedians(Non-
+Among participants, the variability in the shapes of
+Word–Word),asafunctionofsamplesizeintheWord
+the distributions is particularly striking. The shapes of
+condition. The Non-Word condition always had 200
+thedistributionsalsodifferedbetweentheWordandthe
+trials. All participants are superimposed and shown
+Non-Word conditions. In particular, skewness tended
+as coloured traces. The average across participants is
+to be larger in the Word than the Non-Word condition.
+shownasathickerblackline.
+Based on the standard parametric definition of skew-
+As expected, bias tended to be negative with small
+ness,thatwasthecasein80%ofparticipants. Ifweuse
+sample sizes; that is, the difference between Non-Word
+a non-parametric estimate instead (mean – median), it
+and Word was underestimated because the median of
+was the case in 70% of participants. This difference in
+the Word condition was overestimated. For the small-
+skewnessbetweenconditionsimpliesthatthedifference
+est sample size, the average bias was -10.9 ms. That’s
+between medians will be biased in individual partici-
+probably substantial enough to seriously distort esti-
+pants.
+26
+0.006
+0.004
+0.002
+0.000
+0 250 500 750 1000 1250 1500 1750 2000
+Reaction times in ms
+ytisneD
+A
+Word: 100 participants
+0.006
+0.004
+0.002
+0.000
+0 250 500 750 1000 1250 1500 1750 2000
+Reaction times in ms
+ytisneD
+B
+Non−Word: 100 participants
+Figure 17. FLP dataset: reaction time distributions from 100 participants. Participants were randomly se-
+lectedamong959. Distributionsareshownforeachparticipant(colourcoded)intheWord(A)andNon-Word(B)
+conditions. Each distribution is composed of roughly 1,000 trials. This figure was created using the code in the
+flp_illustrate_datasetnotebook.
+mation in some experiments. Also, variability is high, provideagoodindicationofthebiaswecanexpectina
+witha80%highestdensityintervalof[-17.1,-2.6]ms. typicalexperiment. Ifinsteadofthemean,wecompute
+Bias decreases rapidly with increasing sample size. For themedianbias,wegettheresultsinFigure19C.Atthe
+n=20, the average bias was -4.8 ms, for n=60 it was smallest sample size, the average bias is only -1.9 ms,
+only-1ms. and it drops to -0.3 for n=20. This result is consistent
+After bootstrap bias correction (with 200 bootstrap with the simulations reported above and confirms that
+samples), the average bias dropped to roughly zero in the typical experiment, the bias associated with the
+for all sample sizes (Figure 19B). Bias correction also medianisnegligible.
+tendedtoreduceinter-participantvariability. What happens with the mean? The average bias of
+As we saw in Figure 6, the sampling distribution of themeanisnearzeroforallsamplesizes(Figure19D).
+the median is skewed, so the standard measure of bias As we did for the median, we also considered the me-
+(takingthemeanacrosssimulationiterations)doesnot dian bias of the mean (Figure 19E). For the smallest
+27
+0.004
+0.003
+0.002
+0.001
+0.000
+0 250 500 750 1000 1250 1500
+Median reaction times
+ytisneD
+A
+Distributions of medians
+Condition
+Word
+Non−word
+0.003
+0.002
+0.001
+0.000
+0 250 500 750 1000 1250 1500
+Mean reaction times
+ytisneD
+B
+Distributions of means
+Condition
+Word
+Non−word
+0.008
+0.006
+0.004
+0.002
+0.000
+−150 −100 −50 0 50 100 150 200 250 300 350 400 450
+Non−Word − Word differences (ms)
+ytisneD
+C
+Pairwise differences between conditions
+Estimator
+Mean
+Median
+Figure 18. FLP dataset: group distributions. For every participant, the median (A) and the mean (B) were com-
+putedfortheWordandNon-Wordobservationsseparately. Panel(C.)Distributionsofpairwisedifferencesbetween
+theNon-WordandWordconditions. Thisfigurewascreatedusingthecodeintheflp_illustrate_datasetnotebook.
+28
+20
+10
+0
+−10
+−20
+−30
+−40
+−50
+10 30 50 70 90 110 130 150 170 190
+Word condition sample size
+sm
+ni
+saiB
+A
+Mean bias of median differences
+20
+10
+0
+−10
+−20
+−30
+−40
+−50
+10 30 50 70 90 110 130 150 170 190
+Word condition sample size
+sm
+ni
+saiB
+D
+Mean bias of mean differences
+20
+10
+0
+−10
+−20
+−30
+−40
+−50
+10 30 50 70 90 110 130 150 170 190
+Word condition sample size
+sm
+ni
+saiB
+B
+Mean bias of bc median differences
+20
+10
+0
+−10
+−20
+−30
+−40
+−50
+10 30 50 70 90 110 130 150 170 190
+Word condition sample size
+sm
+ni
+saiB
+C
+Md bias of median differences
+20
+10
+0
+−10
+−20
+−30
+−40
+−50
+10 30 50 70 90 110 130 150 170 190
+Word condition sample size
+sm
+ni
+saiB
+E
+Md bias of mean differences
+Figure 19. FLP dataset: bias estimation for the difference between the Non-Word and Word conditions. bc
+= bias-corrected. Md bias = median bias. In each panel, thin coloured lines indicate bias values from individual
+participants and the thick black line indicates the mean bias across participants (group bias). The left column
+illustrates results for the median, the right column for the mean. This figure was created using the code in the
+flp_bias_simnotebook.
+sample size, the average bias across participants is 6.9 for small samples in that condition compared to the
+ms. This positive bias can be explained from the re- Non-Word condition, with the bulk of the bias esti-
+sultsusingtheex-Gaussiandistributions: becauseofthe mates being negative. That is, the mean tended to be
+larger skewness in the Word condition, the sampling more under-estimated in the Word condition, leading
+distribution of the mean was more positively skewed tolargerNon-Word–Worddifferencesinthetypicalex-
+29
+periment. Not surprisingly, the proportion of estimates close
+TheresultsfromtherealRTdistributionsconfirmour to the population value increases with the number of
+earlier simulations using ex-Gaussian distributions: for participants for the mean and the median (Figure 20).
+largedifferencesinsamplesizes,themeanandtheme- Moreinterestingly,therelationshipwasnon-linear,such
+diandifferinbiasduetodifferencesinsamplingdistri- that a larger gain in precision was achieved by increas-
+butionsandthebiasofthemediancanbecorrectedus- ing sample size for instance from 10 to 20 compared
+ing the bootstrap. Another striking difference between to from 90 to 100. The results also let us answer use-
+the mean and the median is the spread of bias values ful questions for planning experiments (see the black
+acrossparticipants,whichismuchlargerforthemedian arrowsinFigure20A&B):
+than the mean. This difference in bias variability does
+notreflectadifferenceinvariabilityamongparticipants • Sothatin70%ofexperimentsthegroupestimate
+for the two estimators of central tendency. Indeed, as isnomorethan10msfromthepopulationvalue,
+we saw in Figure 18C, the distributions of differences we need to test at least 59 participants for the
+between Non-Word and Word conditions are very sim- mean,56participantsforthemedian.
+ilar for the mean and the median. Estimates of spread
+• Sothatin90%ofexperimentsthegroupestimate
+are also similar between difference distributions (me-
+isnomorethan20msfromthepopulationvalue,
+dianabsolutedeviationtothemedian(MAD):meanRT
+we need to test at least 37 participants for the
+= 57 ms; median RT = 54 ms). This suggests that the
+mean,38participantsforthemedian.
+inter-participantbiasdifferencesareduetotheindivid-
+ual differences in shape distributions observed in Fig-
+Also, the mean and the median differed very little
+ure 17, to which the mean and the median are differ-
+inmeasurementprecision(Figure20C),whichsuggests
+entlysensitive.
+that at the group level, the mean does not provide any
+The larger inter-participant variability in bias for the
+clear advantage over the median. Of course, different
+median compared to the mean could also suggest that
+resultscouldbeobtainedindifferentsituations. Forin-
+across participants, measurement precision would be
+stance, the same simulations could be performed using
+lower for the median. We directly assessed measure-
+different numbers of trials per participant and condi-
+mentprecisionatthegrouplevelbyperformingamulti-
+tion. Also, skewness can differ much more among con-
+level simulation. In this simulation, we asked, for in-
+ditionsincertaintasks,suchasindifficultvisualsearch
+stance,howoftenthegroupestimatewasnomorethan
+tasks (Palmer et al., 2011), so new simulations should
+10 ms from the population value across many experi-
+beperformedtoplanspecificexperiments.
+ments (here 10,000 - see notebook flp_sim_precision).
+Ineachiteration(simulatedexperiment)ofthesimula- Falsepositivesandtruepositives
+tion,therewere200trialsperconditionandparticipant,
+such that bias at the participant level was not an issue Finally,weconsiderfalsepositivesandtruepositives
+(a total of 400 trials for an RT experiment is perfectly usingsimulationswithex-Gaussiandistributions. Alim-
+reasonable and could be done in no more than 20-30 itationofpreviousex-Gaussiansimulationsoffalseand
+minutesperparticipant). Foreachparticipantandcon- true positives was the lack of inter-participant variabil-
+dition,themeanandthemedianwerecomputedacross ity. To address this limitation, first we fit ex-Gaussian
+the 200 random trials for each condition, and then the distributions to the Word and Non-Word conditions of
+Non-Word - Word difference was saved. Group estima- each participant in the FLP dataset using maximum
+tionofthedifferencewasbasedonarandomsampleof likelihood estimation (Massidda, 2013) — see note-
+10 to 300 participants, with the group mean computed book flp_exg_parameters. Then, we sample partici-
+across participants’ differences between means and the pants’ ex-Gaussian parameters with replacement, and
+groupmediancomputedacrossparticipants’differences use them to generate simulated trials from the Word
+between medians. Population values were defined by and Non-Word conditions. Distributions of trials from
+first computing, for each condition, the mean and the each condition were summarised using the mean, the
+median across all available trials for each participant, median and the deciles, as done previously. Distribu-
+second by computing across all participants the mean tionsofindividualpairwisedifferenceswerethentested
+and the median of the pairwise differences. Measure- against zero using group tests on the mean of indi-
+ment precision was calculated as the proportion of ex- vidual means and median of individual medians. For
+periments in which the group estimate was no more the deciles, we performed group tests on the mean,
+than x ms from the population value, with x varying the median, the 10% and 20% trimmed means of each
+from5to40ms. decile,withanHochberg’scorrectionformultiplecom-
+parisons. All tests were performed with an alpha of
+30
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Number of participants
+setamitse
+fo
+noitroporP
+A
+Measurement precision: mean
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0
+10 30 50 70 90 150 200 300
+Number of participants
+setamitse
+fo
+noitroporP
+B
+Measurement precision: median
+0.05
+0.04
+0.03
+0.02
+0.01
+0.00
+−0.01
+−0.02
+−0.03
+−0.04
+−0.05
+10 30 50 70 90 150 200 300
+Number of participants
+setamitse
+fo
+noitroporP
+C
+Measurement precision: mean − median
+Precision 5 15 30 50
+(within +/− ms) 10 20 40
+Figure 20. FLP dataset: group measurement precision for the difference between the Non-Word and Word
+conditions. Measurement precision was estimated by using a simulation with 10,000 iterations, 200 trials per
+conditionandparticipant,andvaryingnumbersofparticipants. Resultsareillustratedforthemean(A),themedian
+(B), and the difference between the mean and the median (C). This figure was created using the code in the
+flp_sim_precisionnotebook.
+0.05. For the deciles, the group statistics based on sim_gp_fp_flp). Using 20% trimmed means also gave
+20%trimmedmeansgavelong-runproportionsoffalse thehighestpowerinmostsituations, soweonlyreport
+positives closer to the nominal level (see notebook results for this group estimator (see full report in note-
+31
+booksim_gp_tp_flp). 77, 82, 86, 89, 91, 89. Using Spearman’s correlation
+For false positives, for each participant two samples andanalphaof0.05,52.9%ofparticipantswereclassi-
+were drawn using ex-Gaussian parameters from the fiedasshowingamonotonicincreaseacrossdeciles,and
+Word condition, so that on average no effect was ex- 14.9% showed a monotonic decrease. As illustrated in
+pected. Whethersamplesizeswereequalornot,group Figure23B,ateachdecilemostparticipantshaveapos-
+tests using means of means (mean), medians of medi- itivedifference. Thepercentageofparticipantsshowing
+ans (median) or a hierarchical shift function with 20% at every decile a positive difference was 83.2%; a neg-
+trimmedmeans(SF)gaveproportionsoffalsepositives ative difference 1.4%; the rest had deciles straddling
+near the nominal 0.05 level (Figure 21). With increas- thezeroline. Soaclearmajorityofparticipantsshowed
+ingnumbersofparticipantsthenumberoftypeIerrors stochasticdominance(Speckmanetal.,2008). Whether
+decreasedslightlyfortheSFmethod(makingitslightly therearereallythreegroupswithqualitativelydifferent
+more conservative than the other techniques), but re- patternsofresultsacrossdecilescouldbeaddressedus-
+mained well within the satisfactory range (grey area in ing recently proposed hierarchical models for instance
+Figure21). (Haaf and J. Rouder, 2017). In sum, there is so much
+For true positives, for each participant we interpo- moretoadatasetthancanbecharacterisedbylooking
+lated each ex-Gaussian parameter between the Word onlyatthemeanorthemedian.
+andNon-Wordconditionin10steps. Forthesimulated
+Word condition, we generated trials using the param- Discussion
+eters from that condition; for the Non-Word condition,
+In this article, we reproduced the simulations from
+weusedacombinationofparametersfromstep2ofthe
+Miller(1988),extendedthemandappliedasimilarap-
+interpolationcontinuum. Weusedthisapproachtosim-
+proach to a large dataset of reaction times (Ferrand et
+ulate a relatively small but realistic effect, taking into
+al., 2010). The two sets of analyses led to the same
+account two important aspects of this dataset: Word
+conclusion: the recommendation by Miller (1988) to
+and Non-Word conditions are associated with distribu-
+not use the median when comparing distributions that
+tiondifferencesinall3ex-Gaussianparametersµ,σand
+differ in sample size was ill-advised, for several rea-
+τ, and these parameters are correlated with each other
+sons. First, the bias can be strongly attenuated by us-
+(see illustrations in notebook flp_exg_parameters). The
+ing a percentile bootstrap bias correction. However, al-
+results are shown in Figure 22. Across all conditions
+though the bootstrap bias correction appears to work
+considered, the mean was associated with more power
+well in the long-run, for a single experiment there is
+than the median. This can be explained by the rela-
+noguarantee itwillprovidean estimationclosertothe
+tively mild asymmetry of the distribution of pairwise
+truth. Onepossibilityistoreportresultswithandwith-
+differences for the mean and the median (Figure 18):
+outbiascorrection. Second,thesampledistributionsof
+unlike the median, the mean is very sensitive to this
+the mean and the median are positively skewed when
+asymmetry, but the asymmetry is not sufficient to in-
+sampling from positively skewed distributions such as
+flatethemean’sstandarderror. Insituationswithlarger
+RTdistribution; as aresult, computingthe meanofthe
+asymmetry,itcouldbecomebeneficialtousethemedian
+sample distributions to estimate bias can be mislead-
+instead. Relative to the mean and the median, using a
+ing. If instead we consider the median of the sample
+hierarchicalshiftfunctionapproachledtoalargepower
+distributions,wegetabetterindicationoftheexpected
+increaseacrossalltrialandparticipantconditions.
+biasinatypicalexperiment,andthismedianbiastends
+to be smaller for the sample median than the sample
+Acloserlook
+mean. Third,themeanandthemediandifferverylittle
+With the large effect sizes present in the FLP data, it in the measurement precision they afford. Fourth, the
+wouldn’tmatterwhetherweusethemean,themedian, mean is not robust to departures from normality and
+thehierarchicalshiftfunctiontechniqueoroneofmany higherpowerisobtainedwiththemedianinmanysitu-
+other options: most would reject at low alpha levels. ations. Thus, there seems to be no rationale for prefer-
+Over techniques considering only a measure of central ring the mean over the median as a measure of central
+tendency, the SF approach has the advantage of help- tendency for skewed distributions. If the goal is to ac-
+ing us understand the nature of the effects because it curatelyestimatethecentraltendencyofaRTdistribu-
+considers the shapes of the distributions. We can also tion,whileprotectingagainsttheinfluenceofskewness
+get a better understanding of how distributions differ and outliers, the median is far more efficient than the
+by plotting individual shift functions (Figure 23A). The mean (Wilcox and Rousselet, 2018). Providing sample
+20% trimmed mean across participants is always posi- sizes are moderately large, bias is actually not a prob-
+tiveandincreasesfromearlytolatedeciles: 59,66,72, lem, and the typical bias is very small. Overall, given a
+32
+25 participants 50 participants 100 participants
+0.20
+0.15
+0.10
+0.05
+0.00
+50 70 90 150 20050 70 90 150 20050 70 90 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+A
+n1 = n2
+Method
+Mean
+Median
+SF
+25 participants 50 participants 100 participants
+0.20
+0.15
+0.10
+0.05
+0.00
+50 70 90 150 20050 70 90 150 20050 70 90 150 200
+Number of trials
+sevitisop
+eslaf
+fo
+.porP
+B
+n2 = 200
+Figure 21. FLP dataset: false positive simulation. Results from a simulation with 10,000 iterations are shown
+for the cases in which each condition has the same number of trials (A) and different numbers of trials (B). The
+shaded grey areas represent the minimally satisfactory range 0.025-0.075 suggested by Bradley (1978). The black
+horizontal lines behind the shaded areas mark the expected 0.05 proportion of false positives. Mean = means of
+means, Median = medians of medians, SF = hierarchical shift function with 20% trimmed means to assess group
+differencesofdeciles. Thisfigurewascreatedusingthecodeinthesim_gp_fp_flpnotebook.
+choice between the mean and the median, the median timators used. For instance, when making inferences
+appearstobeabetteroptioninsomesituations,atleast about the mean or the median, conclusions should be
+for the theoretical and empirical distributions studied restrained to the mean or the median, not to the en-
+here, as which distributions best capture the shape of tire distributions. As we saw in our examples, distribu-
+RTdataisstilldebated(Campitellietal.,2017; Palmer tions can differ in many ways and inferences on means
+et al., 2011). In other situations, the mean could be a or medians are limited because they ask specific, non-
+better choice to detect differences, for instance in the exhaustive questions about distribution differences. So
+presence of differences more strongly affecting late re- the lack of differences between means or medians can-
+sponses,orinthecaseofthemoderatelyskeweddistri- not be used to conclude that distributions do not differ
+butionswithoutclearoutliersintheFLPdata. — more sensitive methods might reveal an effect (Par-
+Clearly,nomethoddominatesandresearchersshould ris,Dienes,andHodgson,2013). Afirststepinaddress-
+usearangeoftoolstoanswerdifferentquestionsabout ing this limitation is to use both the mean and the me-
+their data. For example, if the goal is to determine the dianonthesamedataset: anegativetestusingtheme-
+presence of ordinal relationships among variables, the dian in conjunction with a positive test using the mean
+mean appears to be appropriate in certain situations couldsuggestaneffectpredominantlyintherighttails.
+(Thiele,Haaf,andJ.N.Rouder,2017). Properlyassessingtheoriginoftheeffectwouldrequire
+Importantly, conclusions should be limited to the es- moreadvancedtechniques.
+33
+25 participants 50 participants 100 participants
+1.00
+0.75
+0.50
+0.25
+0.00
+50 70 90 150 20050 70 90 150 20050 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+A
+n1 = n2
+Method
+Mean
+Median
+SF
+25 participants 50 participants 100 participants
+1.00
+0.75
+0.50
+0.25
+0.00
+50 70 90 150 20050 70 90 150 20050 70 90 150 200
+Number of trials
+sevitisop
+eurt
+fo
+.porP
+B
+n2 = 200
+Figure22. FLPdataset: truepositivesimulation. Resultsareshownforthecasesinwhicheachconditionhasthe
+samenumberoftrials(A)anddifferentnumbersoftrials(B).Proportionswerecomputedacross10,000iterations
+ofthesimulation. Thisfigurewascreatedusingthecodeinthesim_gp_tp_flpnotebook.
+Despite their shortcomings, in practice many re- sis,trialsandparticipants,onemustthendeterminethe
+searchers will continue to use the mean or the median mostappropriatewaytoquantifyobservationsgiventhe
+tomakeinferencesaboutskeweddistributions. Sowhat experimentalgoals.
+samplesizesshouldresearchersuse,forinstancetomin- In our experience, the need to make decisions about
+imise bias, the main target of this article? Using the how to quantify effects at the two levels of analysis,
+FLPdata,wedeterminedthatmedianbiasisnearzero, trials and participants, is unfortunately often ignored.
+on average, from n = 20 trials per participant (Fig- Forinstance, inanextensiveseriesofsimulations, with
+ure 19). For the mean, at least n = 70 is required to 1930 citations as of April 24th 2019, Ratcliff (1993)
+get as close to zero median bias. These values should demonstrated that when performing standard group
+not be used to guide sample size planning for new ex- ANOVAs,themediancanlackpowercomparedtoother
+periments though: sample sizes depend on the goal of estimators. Ratcliff’s simulations involved ANOVAs on
+theexperimenterandontheshapeofthedistributions. group means, in which for each participant and each
+If the goal is to ensure a certain level of measurement condition, very few trials (7 to 12) were available.
+precision, then similar numbers of participants are re- These small samples were summarised using several
+quired for the mean and the median in the FLP data estimators, including the median. Based on the sim-
+20. Hence,ratherthanprovidinggenericguidelines,we ulations, Ratcliff recommended data transformations
+urge researchers to plan their experiments using simu- or computing the mean after applying specific cut-offs
+lationsinwhichtheyvarythenumberoftrialspercon- to maximise power. However, these recommendations
+dition and the number of participants (Ratcliff, 1993; shouldbeconsideredwithcautionbecause,first,there-
+J. N. Rouder and Haaf, 2018). For each level of analy- sults could be very different with more realistic sample
+34
+500
+250
+0
+−250
+−500
+1 2 3 4 5 6 7 8 9
+Deciles
+ecnereffiD
+A
+Non−Word − Word decile differences
+0.012
+0.009
+0.006
+0.003
+0.000
+−300 −200 −100 0 100 200 300 400
+Difference
+ytisneD
+B
+Decile sampling distributions
+Decile
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Figure 23. FLP dataset: illustrations of the deciles. (A.) Hierarchical shift function. Each coloured line
+represent one of 959 participants. The thick black line shows the 20% trimmed mean across participants for
+each decile. This figure can produce by calling the functions hsf and plot_hsf from the rogme R package
+(https://github.com/GRousselet/rogme). (B.) Sampling distributions of the deciles. The density curves were
+computed at each decile from panel B, each using data from 959 participants. This figure was created using the
+codeintheflp_dec_samp_distnotebook.
+sizes, second, there is no rationale for limiting group groupmeansarenotrobust,andalternativetechniques
+level analyses to mean differences - for instance, our should be considered, involving trimmed means, medi-
+simulations suggest that tests on medians of medians ans and M-estimators (Field and Wilcox, 2017; Wilcox
+canperformverywell. Liket-tests,standardANOVAson and Rousselet, 2018). More generally, standard pro-
+35
+cedures using the mean lack power, offer poor control ues) also leads to potentially severe bias of the mean,
+over false positives, lead to inaccurate confidence in- median, standard deviation and skewness of RT dis-
+tervals, and can have low estimation accuracy (Field tributions (Ulrich and Miller, 1994). The median is,
+and Wilcox, 2017; Wilcox and Rousselet, 2018; Davis- however,muchlessaffectedbytruncationbiasthanthe
+Stober, Dana, and J. N. Rouder, 2018). Using means mean. Also, the median is very resistant to the effect
+as measures of location can also mislead researchers of outliers and can be used on its own without relying
+when sampling from skewed distributions (Rousselet, ondubioustruncationmethods. Infact,themedianisa
+Pernet, and Wilcox, 2017; Trafimow, T. Wang, and C. specialtypeoftrimmedmean,inwhichonlyoneortwo
+Wang,2018). observations are used and the rest discarded (equiva-
+Another important data analysis topic considered by lent to 50% trimming on each side of the distribution).
+Ratcliff (1993) is the use of data transformations, such There are advantages in using 10% or 20% trimming
+asthelogtransformandtheinverseorreciprocaltrans- in certain situations, and this can done in conjunction
+form. Data transformations are routinely used to nor- with the application of t-tests and ANOVAs for which
+malise distributions, which can be successful in some the standard error terms are adjusted (Wilcox and Ke-
+situations (Marmolejo-Ramos et al., 2015). However, selman,2003;Wilcox,2017).
+theysometimesfailtoremovetheskewnessoftheorig- Overall,thereisnoconvincingevidenceagainstusing
+inal distributions, and they do not effectively deal with themedianofRTdistributions,ifthegoalistouseonly
+outliers (Wilcox, 2017). Recent simulations also sug- one measure of location to summarise the entire distri-
+gest that for inferences on the mean, transformations bution. Whichtouse,themeanorthemedian,depends
+do not increase statistical power and can even lower it ontheempiricalquestionandthetypeofdataathand.
+in some cases (Schramm and J. Rouder, 2019). Also, In many situations, we argue that neither should be
+applying a transform changes the shapes of the distri- used. Clearly, a better alternative is to not throw away
+butions,whichcontainimportantinformationaboutthe all the information available in the raw distributions,
+nature of the effects. And once data are transformed, by studying how entire distributions differ (Heathcote,
+inferences are made on the transformed data, not on Popiel, and Mewhort, 1991; Baayen and Milin, 2010;
+the original ones, an important caveat that tends to Rousselet, Pernet, and Wilcox, 2017; J. N. Rouder and
+be swept under the carpet when results are discussed. Province, Submitted). This can be done for instance
+Thereisneverthelessaplacefortransformationschosen using the hierarchical shift function introduced in this
+in a principled way to aid interpretation, for instance article. Lookingatmultiplequantilesprovidesaneffec-
+a log transformation to investigate multiplicative (non- tive way to boost power and, combined with detailed
+linear)relationships. graphical representations, to understand how and by
+As an alternative to transforms, Ratcliff (1993) also how much distributions differ. To be clear, we are not
+discusses the use of truncation. But truncating distri- suggesting that the hierarchical shift function should
+butions can also be detrimental, because it can intro- be used in all situations. The choice of estimators and
+ducebias,especiallywhenusedinconjunctionwiththe tests depends on the goal of the experimenter, and no
+mean (Miller, 1991; Ulrich and Miller, 1994). Indeed, method dominates. The particular implementations of
+commonoutlierexclusiontechniquesleadtobiasedes- the hierarchical shift function considered here is one
+timation of the mean (Miller, 1991). When applied to of many potential candidates. It also has clear disad-
+skewed distributions, removing any values more than vantages over other methods. For instance, it does not
+2 or 3 standard deviation from the mean affects slow include the shrinkage afforded by hierarchical models
+responses more than fast ones. As a consequence, the (J.N.RouderandProvince,Submitted). Itisalsoblind
+sample mean tends to underestimate the population totheunderlyinggenerativemodel,soitdoesnotallow
+mean. Andthisbiasincreaseswithsamplesizebecause inferences more directly related to cognitive processes
+theoutlierdetectiontechniquedoesnotworkforsmall (Matzke et al., 2013; Voss, Nagler, and Lerche, 2013).
+sample sizes, which results from the lack of robustness Moregenerally,veryspecificquestionscanbebetteran-
+ofthemeanandthestandarddeviation(WilcoxandKe- swered by very specific tools, such that a diverse and
+selman, 2003). The bias also increases with skewness. flexibletoolboxisrequired. Forinstance,somemethods
+Therefore, when comparing distributions that differ in have been proposed to quantify the minimal reaction
+sample size, or skewness, or both, differences can be times at which conditions differ — a specific question
+masked or created, resulting in inaccurate quantifica- thatcannotbeansweredbystandardmethods(Rousse-
+tion of effect sizes. Truncation using absolute thresh- let,Macé,andFabre-Thorpe,2003;ReingoldandSheri-
+olds (for instance by removing all RT < 300 ms and dan,2018).
+all RT > 1,200 ms and averaging the remaining val- Given the diversity of options available to study
+36
+skeweddistributions,weenvisagethathierarchicalshift Acknowledgments
+functionscouldbeusedtoachievedifferentgoals:
+Our thanks to Fernando Marmolejo-Ramos and Jeff
+• tosummarisedatanumericallyandgraphically,as Millerfortheirfeedbackonthefirstpreprintversionof
+partofexploratorydataanalyses(EDA); this article (Rousselet and Wilcox, 2018b). In particu-
+lar Jeff Miller pointed out a mistake in the logic of one
+• to replace t-tests, by providing relatively simple
+simulationandsuggestedweconsiderfalsepositivesin
+but much more robust and informative alterna-
+addition to bias. Thank you to Thom Baguley, Paul-
+tives;
+Christian Bürkner and Julia Haaf for their constructive
+• to test more specific hypotheses than differences open reviews. Thank you to Josh Pritsker who helped
+inlocation; solveadifficultLaTeXissue.
+• to provide an intermediate step between t-tests Contact
+and multi-level (hierarchical) models, to nudge
+Correspondenceregardingthisarticleshouldbesent
+userstowardsmorecomprehensivesolutions.
+to: Guillaume.Rousselet@glasgow.ac.uk
+Whatevertheapproach,orconjunctionofapproaches
+chosen, we need to consider the shape of the distribu- Dataandcodeavailability
+tionsandoutliersatbothlevelsofanalysis: ineachpar-
+All the figures in this article are licensed CC-BY 4.0
+ticipantandacrossparticipants. Andthesechoicesmust
+and can be reproduced using notebooks in the R pro-
+bejustified. Usinggroupmeansofindividualmeansby
+gramming language (R Core Team, 2018) and datasets
+defaultisnotwiseorjustified.
+available on figshare (Rousselet and Wilcox, 2018a):
+Finally, depending on the type of data and the goals
+https://doi.org/10.6084/m9.figshare.6911924.
+of the experiment, an important question is how to
+The main R packages used to generate the data and
+spendourmoney: byinvestinginmoretrialsorinmore
+makethefiguresareggplot2(Wickham,2016),cowplot
+participants(J.N.RouderandHaaf,2018)? Ananswer
+(Wilke, 2017), tibble (Müller and Wickham, 2018),
+can be obtained by running simulations, either data-
+tidyr (Wickham and Henry, 2018), retimes (Mas-
+driven using available large datasets or assuming gen-
+sidda, 2013), knitr (Xie, 2018), HDInterval (Meredith
+erative distributions (for instance ex-Gaussian distribu-
+and J. Kruschke, 2016), and the essential beepr
+tions for RT and other skewed distributions). Simula-
+(Bååth,2018).
+tions that take shape information into account are im-
+portanttoestimatebiasandpower. Assumingnormality
+OpenSciencePractices
+can have disastrous consequences (Wilcox and Rousse-
+let, 2018). In many situations, simulations will reveal
+that much larger samples than commonly used are re-
+quiredtoimproveourestimationprecision(Schönbrodt
+andPerugini,2013;PetersandCrutzen,2017;Rothman
+This article earned the Open Materials badge for mak-
+andGreenland,2018;Trafimow,2019).
+ing the materials openly available. It has been verified
+thattheanalysisreproducedtheresultspresentedinthe
+Contributions
+article. Theentireeditorialprocess, includingtheopen
+• Contributedtoconceptionanddesign: GAR,RRW reviews,arepublishedintheonlinesupplement.
+• Contributedtoanalysisandinterpretationofdata:
+GAR,RRW
+• Draftedarticle: GAR
+• Revisedarticle: GAR,RRW
+• Approved the submitted version for publication:
+GAR,RRW
+ConflictofInterestandFunding
+The authors declare no competing interests, besides
+thisarticleenhancingtheirCVs. Thisworkwasnotsup-
+portedbyaspecificgrant.
+37
+References Efron, B. (1979). “Bootstrap Methods: Another Look at
+the Jackknife.” In: Ann. Statist. 7(1), pp. 1–26. DOI:
+Bååth, R. (2018). beepr: Easily Play Notification Sounds
+10.1214/aos/1176344552. URL:https://doi.org/
+onanyPlatform.Rpackageversion1.3. URL:https:
+10.1214/aos/1176344552.
+//CRAN.R-project.org/package=beepr.
+Efron, B. and T. Hastie (2016). Computer age statistical
+Baayen, R. H. and P. Milin (2010). “Analyzing reaction
+inference.Vol.5.CambridgeUniversityPress.
+times.” In: International Journal of Psychological Re-
+Efron,B.andR.J.Tibshirani(1994).Anintroductionto
+search3(2),pp.12–28.
+thebootstrap.CRCpress.
+Balota,D.A.andM.J.Yap(2011).“Movingbeyondthe
+Ellinghaus, R. and J. Miller (2018). “Delta plots with
+meaninstudiesofmentalchronometry:Thepowerof
+negative-going slopes as a potential marker of de-
+responsetimedistributionalanalyses.”In:CurrentDi-
+creasing response activation in masked semantic
+rectionsinPsychologicalScience20(3),pp.160–166.
+priming.” In: Psychological research 82(3), pp. 590–
+Bieniek, M. M. et al. (2016). “A robust and representa-
+599.
+tive lower bound on object processing speed in hu-
+Ferrand, L. et al. (2010). “The French Lexicon Project:
+mans.” In: European Journal of Neuroscience 44(2),
+Lexical decision data for 38,840 French words and
+pp.1804–1814.
+38,840pseudowords.”In:BehaviorResearchMethods
+Bono,R.etal.(2017).“Non-normalDistributionsCom-
+42(2),pp.488–496.
+monly Used in Health, Education, and Social Sci-
+Field, A. P. and R. R. Wilcox (2017). “Robust statistical
+ences:ASystematicReview.”In:FrontiersinPsychol-
+methods:Aprimerforclinicalpsychologyandexper-
+ogy8,p.1602.
+imental psychopathology researchers.” In: Behaviour
+Bradley, J. V. (1978). “Robustness?” In: British Jour-
+ResearchandTherapy98,pp.19–38.
+nal of Mathematical and Statistical Psychology 31(2),
+Golubev, A. (2010). “Exponentially modified Gaussian
+pp. 144–152. DOI: 10.1111/j.2044-8317.1978.
+(EMG)relevancetodistributionsrelatedtocellprolif-
+tb00581 . x. eprint: https : / / onlinelibrary .
+erationanddifferentiation.”In:Journaloftheoretical
+wiley.com/doi/pdf/10.1111/j.2044-8317.
+biology262(2),pp.257–266.
+1978.tb00581.x. URL: https://onlinelibrary.
+Haaf, J. M. and J. Rouder (2017). “Some do
+wiley.com/doi/abs/10.1111/j.2044-8317.1978.
+and some don’t? Accounting for variability of
+tb00581.x.
+individual difference structures.” In: PsyArXiv
+Button, K. S. et al. (2013). “Power failure: why
+https://doi.org/10.31234/osf.io/zwjtp.
+small sample size undermines the reliability of neu-
+Harrell,F.E.andC.Davis(1982).“Anewdistribution-
+roscience.” In: Nature Reviews Neuroscience 14(5),
+free quantile estimator.” In: Biometrika 69(3),
+p.365.
+pp.635–640.
+Campitelli, G. et al. (2017). “Three strategies for the
+Heathcote, A., S. J. Popiel, and D. Mewhort (1991).
+criticaluseofstatisticalmethodsinpsychologicalre-
+“Analysis of response time distributions: An exam-
+search.” In: Educational and Psychological Measure-
+ple using the Stroop task.” In: Psychological Bulletin
+ment77(5),pp.881–895.
+109(2),p.340.
+Davis-Stober, C. P., J. Dana, and J. N. Rouder
+Hettmansperger, T. P. and S. J. Sheather (1986). “Con-
+(2018). “Estimation accuracy in the psychological
+fidence intervals based on interpolated order statis-
+sciences.” In: PLOS ONE 13(11). Ed. by A. D. Hut-
+tics.” In: Statistics & Probability Letters 4(2), pp. 75–
+son, e0207239. ISSN: 1932-6203. DOI: 10.1371/
+79.
+journal.pone.0207239. URL:http://dx.doi.org/
+Ho,A.D.andC.C.Yu(2015).“Descriptivestatisticsfor
+10.1371/journal.pone.0207239.
+modern test score distributions: Skewness, kurtosis,
+DeJong,R.,C.-C.Liang,andE.Lauber(1994).“Condi-
+discreteness,andceilingeffects.”In:Educationaland
+tionalandunconditionalautomaticity:adual-process
+PsychologicalMeasurement75(3),pp.365–388.
+model of effects of spatial stimulus-response corre-
+Hoaglin, D. C. (1985a). “Summarizing shape numeri-
+spondence.” In: Journal of Experimental Psychology:
+cally: The g-and-h distributions.” In: Exploring data
+HumanPerceptionandPerformance20(4),p.731.
+tables,trends,andshapes,pp.461–513.
+Doksum, K. A. (1974). “Empirical probability plots and
+Hoaglin, D. C. (1985b). “Using quantiles to study
+statistical inference for nonlinear models in the two-
+shape.” In: Exploring data tables, trends, and shapes,
+sample case.” In: The Annals of Statistics, pp. 267–
+pp.417–460.
+277.
+Hochberg, Y. (1988). “A sharper Bonferroni procedure
+Doksum, K. A. and G. L. Sievers (1976). “Plotting with
+for multiple tests of significance.” In: Biometrika
+confidence: Graphical comparisons of two popula-
+75(4),pp.800–802.
+tions.”In:Biometrika63(3),pp.421–434.
+38
+Hyndman, R. J. and Y. Fan (1996). “Sample quantiles Pratte,M.S.etal.(2010).“Exploringthedifferencesin
+in statistical packages.” In: The American Statistician distributional properties between Stroop and Simon
+50(4),pp.361–365. effects using delta plots.” In: Attention, Perception, &
+Kruschke,J.K.(2013).“Bayesianestimationsupersedes Psychophysics72(7),pp.2013–2025.
+the t test.” In: Journal of Experimental Psychology: R Core Team (2018). R: A Language and Environment
+General142(2),p.573. forStatisticalComputing.RFoundationforStatistical
+Limpert, E., W. A. Stahel, and M. Abbt (2001). “Log- Computing. Vienna, Austria. URL: https://www.R-
+normal Distributions across the Sciences: Keys and project.org/.
+Clues.”In:BioScience51(5),pp.341–352. Ratcliff, R. (1993). “Methods for dealing with reac-
+Marden,J.I.etal.(2004).“PositionsandQQplots.”In: tion time outliers.” In: Psychological Bulletin 114(3),
+StatisticalScience19(4),pp.606–614. p.510.
+Marmolejo-Ramos, F. et al. (2015). “On the efficacy of Reingold,E.M.andH.Sheridan(2018).“Onusingdis-
+procedures to normalize Ex-Gaussian distributions.” tributional analysis techniques for determining the
+In:FrontiersinPsychology5,p.1548. onset of the influence of experimental variables.” In:
+Massidda, D. (2013). retimes: Reaction Time Analysis. Quarterly Journal of Experimental Psychology 71(1),
+R package version 0.1-2. URL: https://CRAN.R- pp.260–271.
+project.org/package=retimes. Rothman, K. J. and S. Greenland (2018). “Planning
+Matzke, D. et al. (2013). “Bayesian parametric estima- Study Size Based on Precision Rather Than Power.”
+tion of stop-signal reaction time distributions.” In: In:Epidemiology29(5),pp.599–603.
+Journal of Experimental Psychology: General 142(4), Rouder, J. N. and J. M. Province (Submitted). “Hierar-
+p.1047. chical Bayesian Models With An Application in the
+Meredith,M.andJ.Kruschke(2016).HDInterval:High- AnalysisofResponseTimes.”In:
+est (Posterior) Density Intervals. R package version Rouder, J. N. and J. M. Haaf (2018). “Power, domi-
+0.1.3. URL: https://CRAN.R- project.org/ nance, and constraint: A note on the appeal of dif-
+package=HDInterval. ferentdesigntraditions.”In:AdvancesinMethodsand
+Micceri,T.(1989).“Theunicorn,thenormalcurve,and PracticesinPsychologicalScience1(1),pp.19–26.
+otherimprobablecreatures.”In:PsychologicalBulletin Rouder,J.N.,J.Lu,etal.(2005).“Ahierarchicalmodel
+105(1),p.156. for estimating response time distributions.” In: Psy-
+Miller, J. (1988). “A warning about median reaction chonomicBulletin&Review12(2),pp.195–223.
+time.”In:JournalofExperimentalPsychology:Human Rousselet, G. A., M. J.-M. Macé, and M. Fabre-Thorpe
+PerceptionandPerformance14(3),p.539. (2003).“Isitananimal?Isitahumanface?Fastpro-
+Miller, J. (1991). “Reaction time analysis with out- cessing in upright and inverted natural scenes.” In:
+lier exclusion: Bias varies with sample size.” In: The Journalofvision3(6),pp.5–5.
+Quarterly Journal of Experimental Psychology 43(4), Rousselet,G.A.,C.R.Pernet,andR.R.Wilcox(2017).
+pp.907–912. “Beyonddifferencesinmeans:robustgraphicalmeth-
+Müller, K. and H. Wickham (2018). tibble: Simple Data ods to compare two groups in neuroscience.” In: Eu-
+Frames. R package version 1.4.2. URL: https:// ropeanJournalofNeuroscience46(2),pp.1738–1748.
+CRAN.R-project.org/package=tibble. Rousselet, G. A. and R. R. Wilcox (2018a). “Reaction
+Palmer,E.M.etal.(2011).“Whataretheshapesofre- timesandotherskeweddistributions:problemswith
+sponse time distributions in visual search?” In: Jour- the mean and the median.” In: figshare. DOI: 10.
+nalofExperimentalPsychology:HumanPerceptionand 6084/m9.figshare.6911924.
+Performance37(1),p.58. Rousselet, G. A. and R. R. Wilcox (2018b). “Reaction
+Parris,B.A.,Z.Dienes,andT.L.Hodgson(2013).“Ap- timesandotherskeweddistributions:problemswith
+plication of the ex-Gaussian function to the effect of the mean and the median.” In: bioRxiv. DOI: 10.
+thewordblindnesssuggestiononStrooptaskperfor- 1101/383935. eprint: https://www.biorxiv.org/
+mance suggests no word blindness.” In: Frontiers in content/early/2018/08/02/383935.full.pdf.
+psychology4,p.647. URL: https://www.biorxiv.org/content/early/
+Peters, G.-J. and R. Crutzen (2017). “Knowing ex- 2018/08/02/383935.
+actly how effective an intervention, treatment, or Schönbrodt, F. D. and M. Perugini (2013). “At what
+manipulation is and ensuring that a study repli- sample size do correlations stabilize?” In: Journal of
+cates: accuracy in parameter estimation as a par- ResearchinPersonality47(5),pp.609–612.
+tial solution to the replication crisis.” In: PsyArXiv
+doi:10.31234/osf.io/cjsk2.
+39
+Schramm, P. and J. Rouder (2019). “Are Reaction Whelan, R. (2008). “Effective analysis of reaction time
+TimeTransformationsReallyBeneficial?”In:PsyArXiv data.” In: The Psychological Record 58(3), pp. 475–
+https://doi.org/10.31234/osf.io/9ksa6. 482.
+Schwarz,W.andJ.Miller(2012).“Responsetimemod- Wickham,H.(2016).ggplot2:ElegantGraphicsforData
+elsofdeltaplotswithnegative-goingslopes.”In:Psy- Analysis.Springer-VerlagNewYork.ISBN:978-3-319-
+chonomicBulletin&Review19(4),pp.555–574. 24277-4. URL:http://ggplot2.org.
+Speckman,P.L.etal.(2008).“Deltaplotsandcoherent Wickham, H. and L. Henry (2018). tidyr: Easily Tidy
+distribution ordering.” In: The American Statistician Data with ’spread()’ and ’gather()’ Functions. R pack-
+62(3),pp.262–266. age version 0.8.0. URL: https://CRAN.R-project.
+Thiele, J. E., J. M. Haaf, and J. N. Rouder (2017). org/package=tidyr.
+“Is there variation across individuals in processing? Wilcox, R. R. (2017). Introduction to Robust Estima-
+Bayesian analysis for systems factorial technology.” tionandHypothesisTesting.4th.Academicpress:San
+In:JournalofMathematicalPsychology81,pp.40–54. Diego,CA.
+Trafimow, D. (2019). “Five Nonobvious Changes in Ed- Wilcox, R. R. and D. M. Erceg-Hurn (2012). “Compar-
+itorial Practice for Editors and Reviewers to Con- ingtwodependentgroupsviaquantiles.”In:Journal
+siderWhenEvaluatingSubmissionsinaPostp<0.05 ofAppliedStatistics39(12),pp.2655–2664.
+Universe.” In: The American Statistician 73(sup1), Wilcox,R.R.,D.M.Erceg-Hurn,etal.(2014).“Compar-
+pp.340–345. ingtwoindependentgroupsviathelowerandupper
+Trafimow, D., T. Wang, and C. Wang (2018). “Means quantiles.” In: Journal of Statistical Computation and
+and standard deviations, or locations and scales? Simulation84(7),pp.1543–1551.
+Thatisthequestion!”In:NewIdeasinPsychology50, Wilcox, R. R. and H. Keselman (2003). “Modern ro-
+pp.34–37. bust data analysis methods: measures of central ten-
+Tukey, J. W. and D. H. McLaughlin (1963). “Less Vul- dency.”In:PsychologicalMethods8(3),p.254.
+nerable Confidence and Significance Procedures for Wilcox,R.R.andG.A.Rousselet(2018).“Aguidetoro-
+Location Based on a Single Sample: Trimming/Win- buststatisticalmethodsinneuroscience.”In:Current
+sorization 1.” In: Sankhya¯: The Indian Journal of protocolsinneuroscience82(1),pp.8–42.
+Statistics, Series A (1961-2002) 25(3), pp. 331–352. Wilke, C. O. (2017). cowplot: Streamlined Plot Theme
+ISSN: 0581572X. URL: http://www.jstor.org/ and Plot Annotations for ’ggplot2’. R package ver-
+stable/25049278. sion 0.9.2. URL: https://CRAN.R-project.org/
+Ulrich,R.andJ.Miller(1994).“Effectsoftruncationon package=cowplot.
+reaction time analysis.” In: Journal of Experimental Xie, Y. (2018). knitr: A General-Purpose Package for Dy-
+Psychology:General123(1),p.34. namicReportGenerationinR.Rpackageversion1.20.
+Voss, A., M. Nagler, and V. Lerche (2013). “Diffusion URL:https://yihui.name/knitr/.
+modelsinexperimentalpsychology.”In:Experimental
+psychology.

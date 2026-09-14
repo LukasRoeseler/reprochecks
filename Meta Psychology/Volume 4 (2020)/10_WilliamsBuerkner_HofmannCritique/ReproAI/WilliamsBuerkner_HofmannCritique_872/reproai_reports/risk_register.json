@@ -1,0 +1,27 @@
+{
+  "paper": "Williams & Bürkner (2020) MP.2018.872 - Coding Errors Lead to Unsupported Conclusions",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "summary": {"P0": 0, "P1": 0, "P2": 1, "P3": 1, "total": 2},
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "J2QGS Submission analysis script no longer reproduces the published results under metafor 5.0.1",
+      "description": "The analysis script duplicated inside the paper's own OSF DOI project (J2QGS/Submission/872-DataAnalysis.R) diverges from the paper-cited copy (osf.io/kd3en hofmann_analysis.R) in the hard-coded indices used to enter the Averbeck (2012) effect size. Run verbatim on R 4.6.1 + metafor 5.0.1, the J2QGS variant writes into columns that leave SMD_post/SMCR as NA and put -0.51 into the variance columns; metafor drops Averbeck (k=15 instead of 16) and the overall estimates drift from the manuscript (SMD: 0.1986, z=1.4586, p=0.1447, CI[-0.068,0.465] vs reported 0.22/1.67/0.0953/[-0.04,0.47]; SMCR: 0.1479, z=1.0451, p=0.2960 vs reported 0.17/1.23/0.217).",
+      "evidence": "exec_check/R/j2qgs_variant_check.R -> output/j2qgs_variant.log: 'Row1 after J2QGS hard-coding: SMD_post NA vSMD_post -0.51 SMCR NA vSMCR -0.51'; '1 study with NAs omitted'; Overall SMD k=15 ES=0.1986 p=0.1447. Contrast: exec_check/R/01_run_authors_analysis.R (kd3en variant) reproduces the manuscript exactly (k=16, SMD 0.2162 p=0.0953).",
+      "impact": "The paper's headline numbers are TRUE and reproducible via the analysis link cited in the manuscript (osf.io/kd3en). The defect is a secondary reproducibility pathway: a reader following the paper's own DOI/media-object project (J2QGS) finds a script that, run as shipped, does not reproduce the reported analysis. Cause is a fragile hard-coded column index that depends on metafor's escalc() output layout (version-sensitive), not a change in any reported number.",
+      "fix": "Replace the hard-coded column assignments with named-column assignments (e.g. adata$SMD_post[1] <- -0.51; adata$vSMCR[1] <- 0.19) and assign the same block in both OSF copies so they are byte-identical; or re-save the derived effect-size CSV including Averbeck as a row and load it directly. Pin/document the metafor version used.",
+      "prior_audit_correlation": "None. (Prior audit's ADV-001/002 — 'OSF J2QGS empty' — are RETRACTED by this re-audit; J2QGS/Submission is populated with data+code+manuscript.)"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Divergent duplicate analysis copies + no pinned metafor version (hygiene)",
+      "description": "The same analysis exists as two non-identical scripts across two OSF projects (kd3en/hofmann_analysis.R vs J2QGS/Submission/872-DataAnalysis.R) with different hard-coded column indices, and no lockfile or pinned metafor version is recorded/finalized in either. This is exactly what makes ADV-001 silent drift possible. The Averbeck (2012) effect size is also not present in dat.csv (it was computed externally from a t-statistic and hand-entered) - this is disclosed in the script comments and the manuscript Figure caption, so it is transparent, but it is a reproducibility seam worth making explicit.",
+      "evidence": "extracted/hofmann_analysis.R lines 32-35 vs extracted/J2QGS_Submission/872-DataAnalysis.R (adata[1,19/25/20/26] vs adata[1,20/26/21/27]).",
+      "impact": "Hygiene / maintainability; no effect on the correctness of the published numbers, which are fully reproducible via the paper-cited kd3en copy.",
+      "fix": "Maintain a single canonical analysis script + data file in one OSF project; add an renv.lock or a sessionInfo() line; sync/substitute the J2QGS Submission copy; record the exact metafor version."
+    }
+  ]
+}

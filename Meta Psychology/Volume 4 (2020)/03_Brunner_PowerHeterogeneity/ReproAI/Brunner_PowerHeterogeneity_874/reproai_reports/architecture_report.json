@@ -1,0 +1,40 @@
+{
+  "package": "Brunner_PowerHeterogeneity_874",
+  "title": "Estimating Population Mean Power Under Conditions of Heterogeneity and Selection for Significance",
+  "authors": ["Jerry Brunner", "Ulrich Schimmack"],
+  "doi": "10.15626/MP.2018.874",
+  "osf_project": "PEUMW",
+  "paper_type": "simulation_methods",
+  "open_data": "N/A",
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "mode": "static + deterministic theorem re-derivation + independent Monte-Carlo reimplementation (R author code) + independent second-language recompute (Python/scipy)"
+  },
+  "host_environment": {
+    "R": "4.6.1 (2026-06-24 ucrt), RNGkind Mersenne-Twister/Inversion/Rejection",
+    "python": "3.8.10 (numpy 1.24.4, scipy 1.10.1, pandas 2.0.3)",
+    "seed": "20260914 fixed in R and Python; author appendix example uses seed 9999 (paper-stated)"
+  },
+  "data_pipeline": {
+    "raw": "significant F statistics generated from the paper's described design (n ~ Poisson(86), fixed f, df1=1, inverse-CDF selection per author rsigF)",
+    "estimators": {
+      "zcurve": "author recovered zcurve() (scalar, p-values only)",
+      "pcurve": "per-study df2 implementation matching author heteroNpcurveF semantics",
+      "punif": "per-study df2 implementation; author heteroNpunifF found to have lower-tail bug",
+      "ml": "per-study df2 implementation matching author heteroNmleF semantics"
+    },
+    "provenance_chain": "paper-described parameters -> reduced-MC significance sampling -> estimator -> compare to Table 1 means (within ~3 SE)"
+  },
+  "verification_summary": {
+    "theorems_and_figures": "Figure1 before 0.525 EXACT; Figure1 after 0.635 DISCREPANT (correct 0.6683); Figure2 0.700/0.714 EXACT; appendix example (seed 9999) all values EXACT",
+    "table1_zcurve": "reproduced (delta <= 0.003) k=50/100/250, powers .05-.75",
+    "table1_pcurve": "reproduced (per-study df2)",
+    "table1_ml": "reproduced (per-study df2)",
+    "table1_punif": "result reproduced with corrected upper-tail code; author shipped function defective (P1)",
+    "study2_study3": "not reimplemented (computational infeasibility / unrecovered drivers)"
+  },
+  "primary_url": "paper states https://osf.io/bvraz (node 404 — dead); draft cites http://www.utstat.toronto.edu/~brunner/zcurve2018 (dead, archive-only)",
+  "osf": "PEUMW — manuscript only, no code/data/scripts"
+}

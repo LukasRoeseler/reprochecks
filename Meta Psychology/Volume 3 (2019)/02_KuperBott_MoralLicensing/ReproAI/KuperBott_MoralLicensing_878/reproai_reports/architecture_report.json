@@ -1,0 +1,36 @@
+{
+  "report": "ReproAI architecture report — Kuper & Bott (2019) MP.2018.878 (re-audit)",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "audit_date": "2026-09-14",
+  "package": {
+    "id": "MP.2018.878",
+    "doi": "https://doi.org/10.17605/MP.2018.878",
+    "title": "Has the evidence for moral licensing been inflated by publication bias?",
+    "authors": "Niclas Kuper, Antonia Bott",
+    "journal": "Meta-Psychology",
+    "osf": "https://doi.org/10.17605/OSF.IO/H2RX7",
+    "mode": "static audit + independent R/Python reimplementation (no live metafor/weightr run of unarchived k=76 dataset possible)"
+  },
+  "environment": {
+    "r": "R 4.6.1 (2026-06-24 ucrt), packages metafor, weightr, dplyr, forcats",
+    "python": "3.8.10 (numpy 1.24.4, scipy 1.10.1, pandas 2.0.3)",
+    "seed_handling": "No RNG used in the verified pathways (REML meta-analysis, WLS PET-PEESE, weightr 3-PSM are deterministic given data). The unarchived Appendix A1 simulation would be seed-sensitive but code/seed are not provided, so it is marked not checkable."
+  },
+  "archived_analysis_path": {
+    "shipped_code": "downloads/rev1/osfstorage/reviewer,analysis_JH.R",
+    "shipped_data": "downloads/submission_clone/osfstorage/Data and Code/dat_{new,old}_{s,b}.txt (+ codebook.xlsx)",
+    "k_shipped": 102,
+    "k_manuscript_headline": 76
+  },
+  "fetched_analysis_path": {
+    "reconstruct": "exec_check/R/02_reconstruct_k76.R",
+    "python_reimpl": "exec_check/reimpl_python.py"
+  },
+  "data_flow": {
+    "raw_archived": "dat_new_s.txt (k=102, corrected Simbrunner & Schlegelmilch set)",
+    "author_step_not_archived": "Table 1 exclusions + Table 2 aggregations -> k=76 analytic set (NOT shipped; code NOT shipped)",
+    "audit_step": "faithful re-derivation of Table 1/2 rules from dat_new_s -> k=76 (NOA=40, EUR=30, SEA=1, NA=5), verified in R (metafor) and Python (independent REML)",
+    "result": "d=.266 [0.181;0.350] Z=6.17; manuscript d=.27 [0.19;0.35] Z=6.57"
+  }
+}

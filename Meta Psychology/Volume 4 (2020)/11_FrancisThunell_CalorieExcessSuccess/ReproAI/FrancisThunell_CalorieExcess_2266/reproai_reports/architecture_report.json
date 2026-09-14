@@ -1,0 +1,27 @@
+{
+  "paper": "Francis & Thunell (2020) MP.2019.2266",
+  "title": "Excess success in \"Don't count calorie labeling out: Calorie counts on the left side of menu items lead to lower calorie food choices\"",
+  "authors": "Gregory Francis (Purdue), Evelina Thunell (Karolinska/Purdue)",
+  "doi": "10.15626/MP.2019.2266",
+  "osf": { "project": "4TGQ9", "code": "xrdhj" },
+  "badges": { "open_data": "No", "open_materials": "Yes", "open_analysis": "Yes", "preregistration": "No" },
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "rules": "REPRO_STANDARDS.md 2026.06.27",
+  "mode": "live author-code re-run (R 4.6.1, post-corrigendum 'AC' scripts + pre-corrigendum variants) + independent reimplementation (R closed-form & Python 3.8 numpy/scipy Monte Carlo)",
+  "method": "Test for Excess Success (TES): per-study power estimated by 100,000 Monte-Carlo replications of each Dallas et al. study (samples drawn from normal distributions with the reported means and a shared pooled SD, analysed with the same ANOVA + planned contrasts), and by closed-form two-sample-t power for studies 2 and S1; product of the six powers = overall success probability. Secondary: inverse-variance meta-analysis pooled Hedges' g and required-n power table.",
+  "components": [
+    {"name": "TES power, Study 1 (ANOVA + Left<Right + Left<None; n 45/54/50)", "type": "simulation (seed 3947194)", "paper": 0.4582, "reimpl": 0.4582, "status": "verified exact under author seed; independent Python MC 0.45847"},
+    {"name": "TES power, Study 2 (two-sample t from reported t=2.08)", "type": "closed-form", "paper": 0.5426, "reimpl": 0.54264, "status": "verified"},
+    {"name": "TES power, Study 3 (Left<Right + Right<None; n 85/86/81)", "type": "simulation (seed 3947194)", "paper": 0.3626, "reimpl": 0.36262, "status": "verified exact under author seed; independent Python MC 0.36338"},
+    {"name": "TES power, Study S1 (two-sample t from reported t=2.07)", "type": "closed-form", "paper": 0.5358, "reimpl": 0.53577, "status": "verified"},
+    {"name": "TES power, Study S2 (n 139/141/151)", "type": "simulation (unseeded)", "paper": 0.5667, "reimpl": "R 0.56738 / py 0.56610", "status": "MC drift within SE ~0.0016"},
+    {"name": "TES power, Study S3 (n 336/337/333)", "type": "simulation (unseeded)", "paper": 0.4953, "reimpl": "R 0.49435 / py 0.49552", "status": "MC drift within SE ~0.0016"},
+    {"name": "Overall success probability (product of six powers)", "type": "deterministic", "paper": 0.014, "reimpl": "0.01356 (AC) / 0.01356 (Table-1)", "status": "verified -> 0.014"},
+    {"name": "Meta-analysis pooled Hedges' g", "type": "inverse-variance", "paper": 0.2366, "reimpl": "0.23662 (PRE) / 0.23659 (POST)", "status": "both round to 0.2366; see ADV-001"},
+    {"name": "Table 2 required-n power analysis", "type": "pwr.t.test", "paper": "282/322/377/465/658; 1123/1284/1502/1858/2626", "reimpl": "matches PRE-corrigendum g run; POST differs (466, 1285, 1503, 1859, 2627)", "status": "ADV-001 mixed provenance"}
+  ],
+  "data_location": "No raw data (Open data: No). All analysis consumes the summary means/SD/n of Dallas et al. (2019/2020), transcribed in the R scripts ('extracted/osf_xrdhj/*.R'). Table-1 cell values verified internally consistent with post-corrigendum script inputs.",
+  "host": { "R": "4.6.1 (2026-06-24, ucrt)", "packages": "pwr, MBESS", "python": "3.8 numpy/scipy" },
+  "seeds": { "Study1AC/Study3AC": "set.seed(3947194) -> exact paper values", "Study2/S1": "closed-form, no seed", "StudyS2/StudyS3": "NO seed shipped -> MC drift quantified (ADV-003)" }
+}

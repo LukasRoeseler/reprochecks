@@ -1,0 +1,453 @@
+## Make t and p functions
+# functions work columwise
+ctval <- function(x, nullval=0){
+tval <- (apply(x, 2, mean)-nullval) / ( sqrt(apply(x, 2, var))/sqrt(nrow(x)) )
+tval
+}
+
+cpval <- function(tval, df){
+pval <- 2*(1-pt(abs(tval),df))
+pval
+}
+
+ctval2 <- function(x, y){
+nx <- nrow(x)
+ny <- nrow(y)
+varx <- apply(x, 2, var)
+vary <- apply(y, 2, var)
+tval <- (apply(x, 2, mean)-apply(y, 2, mean)) / sqrt( ( sqrt(varx)/sqrt(nx) )^2 + 
+        ( sqrt(vary)/sqrt(ny) )^2 )
+qx<-(nx-1)*varx/(nx*(nx-1))
+qy<-(ny-1)*vary/(ny*(ny-1))
+df<-(qx+qy)^2/((qx^2/(nx-1))+(qy^2/(ny-1)))
+pval <- cpval(tval, df)      
+list(tval = tval, pval = pval)
+}
+
+ctval1vall <- function(x, y){
+nx <- nrow(x) # several test groups
+ny <- nrow(y) # one control group
+varx <- apply(x, 2, var) 
+vary <- rep(var(y), ncol(x))
+tval <- (apply(x, 2, mean)-mean(y)) / sqrt( ( sqrt(varx)/sqrt(nx) )^2 + 
+        ( sqrt(vary)/sqrt(ny) )^2 )
+qx<-(nx-1)*varx/(nx*(nx-1))
+qy<-(ny-1)*vary/(ny*(ny-1))
+df<-(qx+qy)^2/((qx^2/(nx-1))+(qy^2/(ny-1)))
+pval <- cpval(tval, df)      
+list(tval = tval, pval = pval)
+}
+
+# Yuen one-sample t-test
+ctval.yuen <- function(x, nullval=0, tr=0.2){
+tval <- (apply(x, 2, mean, tr)-nullval) / ( sqrt(apply(x, 2, winvar, tr))/((1-2*tr)*sqrt(nrow(x))) )
+tval
+}
+
+df.yuen <- function(x, tr=0.2){
+df <- length(x)-2*floor(tr*length(x))-1
+df
+}
+
+winvar<-function(x,tr=.2,na.rm=FALSE,STAND=NULL){
+#
+#  Compute the gamma Winsorized variance for the data in the vector x.
+#  tr is the amount of Winsorization which defaults to .2.
+#
+remx=x
+x<-x[!is.na(x)]
+y<-sort(x)
+n<-length(x)
+ibot<-floor(tr*n)+1
+itop<-length(x)-ibot+1
+xbot<-y[ibot]
+xtop<-y[itop]
+y<-ifelse(y<=xbot,xbot,y)
+y<-ifelse(y>=xtop,xtop,y)
+wv<-var(y)
+if(!na.rm)if(sum(is.na(remx)>0))wv=NA
+wv
+}
+
+# Cluster correction
+## Bootstrap function
+bootfun <- function(data, nboot = 599){
+  Np <- nrow(data)
+  Ng <- ncol(data)
+  # centre data so null hypothesis is true
+  cdata <- data - matrix(rep(apply(data, 2, mean), Np), nrow = Np, byrow = TRUE)
+  # dependent data, so sample participants with replacement
+  bootsamples <- sample(Np, size = Np*nboot, replace = TRUE)
+  boot.tvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  boot.pvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  
+  for(G in 1:Ng){
+    bootdata <- matrix(cdata[bootsamples,G], nrow = Np)
+    # for each bootstrap:
+    boot.tvals[,G] <- ctval(bootdata)
+    boot.pvals[,G] <- cpval(boot.tvals[,G], df = Np-1)
+  }
+  list(tvals = boot.tvals, pvals = boot.pvals)
+}
+
+# for independent groups
+bootfun_ind <- function(data, nboot = 599){
+  Np <- nrow(data) # participants/observations
+  Ng <- ncol(data) # groups
+  # centre data so null hypothesis is true
+  cdata <- data - matrix(rep(apply(data, 2, mean), Np), nrow = Np, byrow = TRUE)
+  boot.tvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  boot.pvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  
+  for(G in 1:Ng){
+    bootsamples <- sample(Np, size = Np*nboot, replace = TRUE)
+    bootdata <- matrix(cdata[bootsamples,G], nrow = Np)
+    # for each bootstrap:
+    boot.tvals[,G] <- ctval(bootdata)
+    boot.pvals[,G] <- cpval(boot.tvals[,G], df = Np-1)
+  }
+  list(tvals = boot.tvals, pvals = boot.pvals)
+}
+
+# for two series of independent groups
+bootfun_ind2 <- function(data1, data2, nboot = 599){
+  Np1 <- nrow(data1) # participants/observations
+  Np2 <- nrow(data2) # participants/observations
+  Ng <- ncol(data1) # groups
+  # centre data so null hypothesis is true
+  cdata1 <- data1 - matrix(rep(apply(data1, 2, mean), Np1), nrow = Np1, byrow = TRUE)
+  cdata2 <- data2 - matrix(rep(apply(data2, 2, mean), Np2), nrow = Np2, byrow = TRUE)
+  boot.tvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  boot.pvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  
+  for(G in 1:Ng){
+    bootsamples1 <- sample(Np1, size = Np1*nboot, replace = TRUE)
+    bootdata1 <- matrix(cdata1[bootsamples1,G], nrow = Np1)
+    bootsamples2 <- sample(Np2, size = Np2*nboot, replace = TRUE)
+    bootdata2 <- matrix(cdata2[bootsamples2,G], nrow = Np2)
+    # for each bootstrap:
+    out <- ctval2(bootdata1, bootdata2)
+    boot.tvals[,G] <- out$tval
+    boot.pvals[,G] <- out$pval
+  }
+  list(tvals = boot.tvals, pvals = boot.pvals)
+}
+
+# independent groups: one control vs. n test groups
+# function assumes all groups have equal size. 
+# R package will have list input to handle unequal n.
+bootfun_ind1vall <- function(data1, data2, nboot = 599){
+  Np1 <- nrow(data1) # several test groups
+  Np2 <- nrow(data2) # one control group
+  Ng <- ncol(data1) # n test groups
+  # centre data so null hypothesis is true
+  cdata1 <- data1 - matrix(rep(apply(data1, 2, mean), Np1), nrow = Np1, byrow = TRUE)
+  cdata2 <- data2 - mean(data2)
+  boot.tvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  boot.pvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  
+  # bootstrap control group
+  bootsamples2 <- sample(Np2, size = Np2*nboot, replace = TRUE)
+  bootdata2 <- matrix(cdata2[bootsamples2], nrow = Np2)
+    
+  for(G in 1:Ng){
+  # bootstrap each test group
+    bootsamples1 <- sample(Np1, size = Np1*nboot, replace = TRUE)
+    bootdata1 <- matrix(cdata1[bootsamples1,G], nrow = Np1)
+    # for each bootstrap:
+    out <- ctval2(bootdata1, bootdata2)
+    boot.tvals[,G] <- out$tval
+    boot.pvals[,G] <- out$pval
+  }
+  list(tvals = boot.tvals, pvals = boot.pvals)
+}
+
+# for two independent series of dependent groups
+# t-tests for independent groups are applied, but participants are sampled with replacement
+# within series.
+bootfun_dep2 <- function(data1, data2, nboot = 599){
+  Np1 <- nrow(data1) # participants/observations
+  Np2 <- nrow(data2) # participants/observations
+  Ng <- ncol(data1) # groups
+  # centre data so null hypothesis is true
+  cdata1 <- data1 - matrix(rep(apply(data1, 2, mean), Np1), nrow = Np1, byrow = TRUE)
+  cdata2 <- data2 - matrix(rep(apply(data2, 2, mean), Np2), nrow = Np2, byrow = TRUE)
+  boot.tvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  boot.pvals <- matrix(data = 0, nrow = nboot, ncol = Ng)
+  
+  # same samples for each group within series
+  bootsamples1 <- sample(Np1, size = Np1*nboot, replace = TRUE)
+  bootsamples2 <- sample(Np2, size = Np2*nboot, replace = TRUE)
+    
+  for(G in 1:Ng){
+    bootdata1 <- matrix(cdata[bootsamples1,G], nrow = Np1)
+    bootdata2 <- matrix(cdata[bootsamples2,G], nrow = Np2)
+    # for each bootstrap:
+    out <- ctval2(bootdata)
+    boot.tvals[,G] <- out$tval
+    boot.pvals[,G] <- out$pval
+  }
+  list(tvals = boot.tvals, pvals = boot.pvals)
+}
+
+## Make cluster functions
+cluster.make <- function(x){
+  y <- rle(x)
+  cmap <- vector(mode = "numeric", length = 0)
+  nC <- length(y$values) # number of clusters
+  indx <- 0 # cluster counter
+  for(CL in 1:nC){
+    if(y$values[CL] == 0){
+      val <- 0
+    } else {
+      indx <- indx + 1
+      val <- indx
+    }
+    cmap <- c(cmap, rep(val, y$lengths[CL]))
+  }
+  cmap
+}
+
+# Save sum for each cluster
+cluster.sum <- function(values, cmap){
+  csum <- vector(mode = "numeric", length = max(cmap))
+  if(max(cmap)>0){
+    for(CL in 1:max(cmap)){
+      csum[CL] <- sum(values[cmap==CL])
+    }
+  } else {
+    csum <- 0
+  }
+  csum
+}
+
+# Cluster test
+cluster.test <- function(values, cmap, boot.th){
+    csig <- vector(mode = "logical", length = length(cmap))
+  if(max(cmap)>0){
+    for(CL in 1:max(cmap)){
+      csig[cmap==CL] <- sum(values[cmap==CL]) > boot.th
+    }
+  } else {
+    csig <- FALSE
+  }
+  csig
+}
+
+# =============
+# Tests on medians
+# =============
+sint<-function(x,alpha=.05,pr=FALSE){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#
+#   The default value for alpha is .05.
+#
+x=elimna(x)
+if(pr){
+if(sum(duplicated(x)>0))print("Duplicate values detected; hdpb might have more power")
+}
+k<-qbinom(alpha/2,length(x),.5)
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+if(gk >= 1-alpha){
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+if(gk < 1-alpha){
+k<-k-1
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+xsort<-sort(x)
+nmk<-length(x)-k
+nmkp<-nmk+1
+ival<-(gk-1+alpha)/(gk-gkp1)
+lam<-((length(x)-k)*ival)/(k+(length(x)-2*k)*ival)
+low<-lam*xsort[kp]+(1-lam)*xsort[k]
+hi<-lam*xsort[nmk]+(1-lam)*xsort[nmkp]
+sint<-c(low,hi)
+sint
+}
+
+sint.sig<-function(x,alpha=.05){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#   (See section 4.5.2.)
+#
+#   The default value for alpha is .05.
+#
+#  Simplified to return only sig 0/1 output - GAR 2018-10-01
+#
+x=elimna(x)
+k<-qbinom(alpha/2,length(x),.5)
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+if(gk >= 1-alpha){
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+if(gk < 1-alpha){
+k<-k-1
+gk<-pbinom(length(x)-k,length(x),.5)-pbinom(k-1,length(x),.5)
+gkp1<-pbinom(length(x)-k-1,length(x),.5)-pbinom(k,length(x),.5)
+kp<-k+1
+}
+xsort<-sort(x)
+nmk<-length(x)-k
+nmkp<-nmk+1
+ival<-(gk-1+alpha)/(gk-gkp1)
+lam<-((length(x)-k)*ival)/(k+(length(x)-2*k)*ival)
+low<-lam*xsort[kp]+(1-lam)*xsort[k]
+hi<-lam*xsort[nmk]+(1-lam)*xsort[nmkp]
+sig <- (low > 0 | hi < 0)
+sig
+}
+
+sintv2<-function(x,y=NULL,alpha=.05,nullval=0,null.value=NULL,pr=TRUE){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#   (See section 4.5.2.)
+#
+#   The default value for alpha is .05.
+#
+#  If y is not null, the function uses x-y, as might be done when comparing dependent variables.
+#
+if(!is.null(y))x=x-y
+if(!is.null(null.value))nullval=null.value
+if(pr){
+if(sum(duplicated(x)>0))print("Duplicate values detected; hdpb might have more power")
+}
+ci<-sint(x,alpha=alpha,pr=FALSE)
+alph<-c(1:99)/100
+for(i in 1:99){
+irem<-i
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}
+p.value<-irem/100
+if(p.value<=.01){
+iup<-(irem+1)/100
+alph<-seq(.001,iup,.001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+if(p.value<=.001){
+alph<-seq(.0001,.001,.0001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+list(median=median(elimna(x)),n=length(elimna(x)),ci.low=ci[1],ci.up=ci[2],p.value=p.value)
+}
+
+sintv2.pval<-function(x,y=NULL,alpha=.05,nullval=0){
+#
+#   Compute a 1-alpha confidence interval for the median using
+#   the Hettmansperger-Sheather interpolation method.
+#   (See section 4.5.2.)
+#
+#   The default value for alpha is .05.
+#
+#  Simplified to return only p value - GAR 2018-10-01
+#
+alph<-c(1:99)/100
+for(i in 1:99){
+irem<-i
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}
+p.value<-irem/100
+if(p.value<=.01){
+iup<-(irem+1)/100
+alph<-seq(.001,iup,.001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+if(p.value<=.001){
+alph<-seq(.0001,.001,.0001)
+for(i in 1:length(alph)){
+p.value<-alph[i]
+chkit<-sint(x,alpha=alph[i],pr=FALSE)
+if(is.na(chkit[1]))break
+if(is.na(chkit[2]))break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+if(chkit[1]>nullval || chkit[2]<nullval)break
+}}
+p.value
+}
+
+
+elimna<-function(m){
+#
+# remove any rows of data having missing values
+#
+DONE=FALSE
+if(is.list(m) && is.matrix(m)){
+z=pool.a.list(m)
+m=matrix(z,ncol=ncol(m))
+DONE=TRUE
+}
+if(!DONE){
+if(is.list(m) && is.matrix(m[[1]])){
+for(j in 1:length(m))m[[j]]=na.omit(m[[j]])
+e=m
+DONE=TRUE
+}}
+if(!DONE){
+if(is.list(m) && is.null(dim(m))){ #!is.matrix(m))
+for(j in 1:length(m))m[[j]]=as.vector(na.omit(m[[j]]))
+e=m
+DONE=TRUE
+}}
+if(!DONE){
+#if(!is.list(m)){
+#if(is.null(dim(m)))
+m<-as.matrix(m)
+ikeep<-c(1:nrow(m))
+for(i in 1:nrow(m))if(sum(is.na(m[i,])>=1))ikeep[i]<-0
+e<-m[ikeep[ikeep>=1],]
+#}
+}
+e
+}
+
+#  Compute a 1-alpha confidence interval for the trimmed mean
+#  The default amount of trimming is tr=.2
+trimci <- function(x,tr=.2,alpha=.05){
+se <- sqrt(winvar(x,tr))/((1-2*tr)*sqrt(length(x)))
+ci <- vector(mode="numeric",length=2)
+df <- length(x)-2*floor(tr*length(x))-1
+ci[1] <- mean(x,tr)-qt(1-alpha/2,df)*se
+ci[2] <- mean(x,tr)+qt(1-alpha/2,df)*se
+ci
+}
+
+#  Compute the gamma Winsorized variance for the data in the vector x.
+#  tr is the amount of Winsorization which defaults to .2.
+winvar <- function(x,tr=.2){
+y<-sort(x)
+n<-length(x)
+ibot<-floor(tr*n)+1
+itop<-length(x)-ibot+1
+xbot<-y[ibot]
+xtop<-y[itop]
+y<-ifelse(y<=xbot,xbot,y)
+y<-ifelse(y>=xtop,xtop,y)
+wv<-var(y)
+wv
+}

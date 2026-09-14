@@ -1,0 +1,41 @@
+options(stringsAsFactors = FALSE)
+wrk <- "C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/Meta Psychology/Volume 3 (2019)/07_Witt_GraphConstruction/ReproAI/Witt_GraphConstruction_895"
+
+cat("==== EXPERIMENT DATA INSPECTION ====\n")
+
+cat("\n## axisSize (Exp1+Exp2 combined file; Exp1=Ss 1-9, Exp2=Ss 10-24)\n")
+d1 <- read.csv(file.path(wrk,"data","axisSize_1-24.csv"))
+cat("columns:", paste(colnames(d1),collapse=", "), "\n")
+cat("unique Subject:", paste(sort(unique(d1$Subject)),collapse=","), "\n")
+cat("n subjects:", length(unique(d1$Subject)), "\n")
+cat("axisRange values:", paste(unique(d1$axisRange),collapse=","), "\n")
+cat("effectSize values:", paste(sort(unique(d1$effectSize)),collapse=","), "\n")
+cat("Exp1 (S<10) subjects:", paste(sort(unique(d1$Subject[d1$Subject<10])),collapse=","), "\n")
+cat("Exp2 (S>9) subjects:", paste(sort(unique(d1$Subject[d1$Subject>9])),collapse=","), "\n")
+cl <- d1[d1$Subject>9,]; cat("Exp2 n subjects:", length(unique(cl$Subject)), "\n")
+
+cat("\n## axisRangeEBv2 (Exp3)\n")
+d3 <- read.csv(file.path(wrk,"data","axisRangeEBv2_1-14.csv"))
+cat("columns:", paste(colnames(d3),collapse=", "), "\n")
+cat("unique Subject:", paste(sort(unique(d3$Subject)),collapse=","), "\n")
+cat("n subjects:", length(unique(d3$Subject)), "\n")
+cat("graphType values:", paste(unique(d3$graphType),collapse=","), "\n")
+cat("effectSize values:", paste(sort(unique(d3$effectSize)),collapse=","), "\n")
+
+cat("\n## axisRangeLineV2 (Exp4)\n")
+d4 <- read.csv(file.path(wrk,"data","axisRangeLineV2_1-20.csv"))
+cat("columns:", paste(colnames(d4),collapse=", "), "\n")
+cat("unique Subject:", paste(sort(unique(d4$Subject)),collapse=","), "\n")
+cat("n subjects:", length(unique(d4$Subject)), "\n")
+cat("graphType values:", paste(unique(d4$graphType),collapse=","), "\n")
+cat("effectSize values:", paste(sort(unique(d4$effectSize)),collapse=","), "\n")
+
+cat("\n## axisRangeLine (Exp5)\n")
+d5 <- read.csv(file.path(wrk,"data","axisRangeLine_1-14.csv"))
+cat("columns:", paste(colnames(d5),collapse=", "), "\n")
+cat("unique Subject:", paste(sort(unique(d5$Subject)),collapse=","), "\n")
+cat("n subjects:", length(unique(d5$Subject)), "\n")
+cat("graphType values:", paste(unique(d5$graphType),collapse=","), "\n")
+cat("effectSize values:", paste(sort(unique(d5$effectSize)),collapse=","), "\n")
+
+cat("==== DONE ====\n")

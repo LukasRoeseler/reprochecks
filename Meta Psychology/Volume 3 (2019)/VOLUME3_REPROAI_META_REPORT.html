@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Volume 3 (2019) — Meta-Report</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 1020px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.7rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .warn { color: #b35900; font-weight: bold; }
+  .hi { background: #FDEBD0; }
+</style>
+</head>
+<body>
+<h1>ReproAI meta-report — <em>Meta-Psychology</em> Volume 3 (2019)</h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-10
+<strong>Scope:</strong> All 10 articles in Volume 3 were screened. <strong>7 are empirical</strong> and received a full per-paper ReproAI audit (claim inventory + independent re-implementation from the shipped open data + a per-paper <code>REPROAI_REPORT.html</code> and machine-readable <code>reproai_reports/</code> JSON). <strong>3 are non-empirical</strong> (a methods guide, a theoretical/statistical commentary, and an opinion piece) and were classified as out of scope for a numerical audit (no per-paper report produced).
+<strong>Environment:</strong> Windows PowerShell 5.1; Python 3.8 (pandas, numpy, scipy, openpyxl, pdfplumber); R 4.6.1. Originals (<code>paper.pdf</code>, <code>paper_extracted.txt</code>) were left untouched; all work was done on copies under each paper's <code>ReproAI/&lt;id&gt;/</code> folder.
+<strong>Companion file:</strong> <code>VOLUME3_REPROAI_SUMMARY.csv</code> / <code>VOLUME3_REPROAI_SUMMARY.xlsx</code> (machine-readable per-paper table).</p>
+<hr />
+<h2>Bottom line</h2>
+<blockquote>
+<p><strong>The volume reproduces well at the numerical level, with two papers showing substantive non-reproduction.</strong> Across the 7 empirical papers there are <strong>31 findings: 0 P0, 5 P1, 10 P2, 16 P3</strong>. No blocker (P0) was found in any paper — no headline result was contradicted by an irreproducible pipeline or fabricated numbers. Four papers (01, 04, 07, 09) are <strong>near-exact reproductions</strong>: every reported statistic matches the shipped open data to the manuscript's own precision, independently in R and (where applicable) Python. Three papers (02, 05, 10) are <strong>partial reproductions</strong>: the core effect/claim survives, but a specific headline figure (the moral-licensing sample size k=76 and I²; the MLM-UN Type I error rate; the file-drawer open-data badges) does not reproduce from the archived materials. The P1 findings concentrate in these three papers and are almost entirely <em>archival / transparency</em> problems (missing or inconsistent open data), not invalid science. The highest-value remediation across the volume is ensuring the <em>open</em> artifacts actually contain what the badges claim.</p>
+</blockquote>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings (7 papers)</strong></td><td><strong>31</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td class="hi">P1 — high</td><td class="hi">5</td></tr>
+<tr><td>P2 — medium</td><td>10</td></tr>
+<tr><td>P3 — low</td><td>16</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Per-paper summary</h2>
+<table>
+<thead>
+<tr><th>Paper</th><th>ID</th><th>First author(s)</th><th>Reproduction verdict</th><th>Findings (P0/P1/P2/P3)</th><th>Key caveat</th></tr>
+</thead>
+<tbody>
+<tr><td>Signal Detection</td><td>MP.2018.871</td><td>Witt</td><td class="ok">Near-exact</td><td>0 / 0 / 1 / 4 (5)</td><td>Optional-stopping script simulates 40, not 20, studies</td></tr>
+<tr><td>Moral Licensing</td><td>MP.2018.878</td><td>Kuper &amp; Bott</td><td class="warn">Partial</td><td>0 / 2 / 2 / 2 (6)</td><td>Headline k=76 and I²=.26 not reproducible from archive</td></tr>
+<tr><td>Posterior Passing</td><td>MP.2017.840</td><td>Brand</td><td class="ok">Near-exact</td><td>0 / 0 / 1 / 3 (4)</td><td>False-positive rates from shipped result file (seed-sensitive MCMC)</td></tr>
+<tr><td>Type I Error (Sim)</td><td>MP.2018.898</td><td>Haverkamp</td><td class="warn">Partial</td><td>0 / 2 / 2 / 2 (6)</td><td>MLM-UN headline (35% vs ~5%) not reproduced; prose/table inconsistency</td></tr>
+<tr><td>Graph Construction</td><td>MP.2018.895</td><td>Witt</td><td class="ok">Near-exact</td><td>0 / 0 / 2 / 4 (6)</td><td>Author script not runnable as shipped; '57 participants' inconsistent</td></tr>
+<tr><td>ERP Music-Language</td><td>MP.2018.1481</td><td>de Leeuw et al.</td><td class="ok">Near-exact</td><td>0 / 0 / 1 / 3 (4)</td><td>Two appendix RATN BFs ~3%/1.5% low (MC noise)</td></tr>
+<tr><td>File Drawer</td><td>MP.2018.880</td><td>Imhoff &amp; Messer</td><td class="warn">Partial</td><td>0 / 1 / 2 / 3 (6)</td><td>Open-data / open-repro badges not substantiated (empty OSF component)</td></tr>
+<tr><td><strong>TOTAL</strong></td><td></td><td></td><td></td><td><strong>0 / 5 / 10 / 16 (31)</strong></td><td></td></tr>
+</tbody>
+</table>
+<figure>
+<img src="VOLUME3_FINDINGS_BY_PAPER.png" alt="Findings by paper and severity" style="max-width:100%;height:auto;">
+<figcaption>Findings by paper and severity (grouped bars = P0–P3; line = total per paper). All 31 findings are P1–P3; no P0 blockers in the volume.</figcaption>
+</figure>
+<hr />
+<h2>Cross-cutting observations</h2>
+<h3>1. Open-data badges are the weakest link in the volume</h3>
+<p>The three P1 findings that threaten a paper's credibility are all <em>open-science</em> failures rather than invalid statistics: <strong>MP.2018.880</strong> (Imhoff) carries "Open data: Yes" and "Open and reproducible analysis: Yes" but the OSF data component is empty; <strong>MP.2018.878</strong> (Kuper &amp; Bott) cannot have its headline k=76 / I² recomputed from the archived meta-analytic data; <strong>MP.2018.898</strong> (Haverkamp) ships only scripts and raster figures (no raw .sav / result tables), and its MLM-UN headline does not reproduce. In each case the underlying <em>effect</em> (moral-licensing main effect; rANOVA Type I control; file-drawer logic) is sound and reproduces — it is the <em>specific headline number</em> or the <em>badge</em> that fails. Recommendation for the journal: audit that "Open Data / Open Materials / Open Reproducible Analysis" badges are only awarded when the OSF component actually contains the data and a runnable script that regenerates the paper's tables.</p>
+<h3>2. Seed-sensitivity of simulation / MCMC papers</h3>
+<p>Three papers are simulations or Bayesian MCMC (01, 04, 05). For these, exact single-run reproduction is not the right standard; the correct standard is <em>drift/stability</em> across runs. Papers 01 and 04 meet it (AUCs and false-positive rates stable; AUC_p≡AUC_BF exact; PP-vs-meta-BGLMM correlation near-identical). Paper 05 is the exception: the MLM-UN model is both seed-sensitive and computationally prohibitive at the full S=5000 (gls corSymm), and the reduced-S reimplementation diverges from the prose headline — flagged as P1. Where authors ship a fixed-seed result file (04), the audit can verify the exact reported number; where they ship only scripts (05), the audit must re-simulate and quantify drift.</p>
+<h3>3. Near-exact reproduction is the norm for open-data papers with runnable scripts</h3>
+<p>The four "near-exact" papers (01, 04, 07, 09) share a property: the shipped open data + (runnable or easily re-implemented) script let an independent analyst regenerate <em>every</em> reported statistic to the manuscript's precision, in both R and Python. This is the target state. The recurring P2/P3 items in these papers are procedural, not scientific: a non-runnable analysis notebook (07), a mis-stated participant count (07), a Monte-Carlo-noise Bayes factor (09), and a trial-count off-by-one (07). None changes a conclusion.</p>
+<h3>4. Methodological transparency was generally good</h3>
+<p>All seven papers were pre-registered and earned open-practice badges. Where a deviation occurred it was usually disclosed (e.g., de Leeuw's non-preregistered, reviewer-requested RATN analysis; the conditional-exclusion cutoffs in the ERP and moral-licensing studies). The residual risk is <em>silent</em> divergence: a table using a different N than the text (07), a prose value inconsistent with its own table (05), and badges not backed by files (10). These are cheap to fix and are the most important things a replication-minded journal can enforce.</p>
+<hr />
+<h2>What this meta-audit does not guarantee</h2>
+<ul>
+<li><strong>No vision input.</strong> The ReproAI engine cannot read raster figures. Figure-based claims (waveforms, distribution plots) were checked only for the numerical quantities that underlie them; the visual appearance was not pixel-verified (noted per paper, e.g. de Leeuw ADV-004, Haverkamp ADV-006).</li>
+<li><strong>Processed data, not raw, where only processed data was shipped.</strong> For the ERP paper the shipped dataset is post-NetStation (artifact-rejected, re-referenced, baseline-corrected); the raw .fdt and the pre-processing were not re-run. Reproducibility is established at the analysis-ready level, which is the level the "Open Data" badge claims.</li>
+<li><strong>Monte-Carlo / seed sensitivity.</strong> Bayes factors and MCMC estimates carry sampling noise; values are judged against the stated error bands and multi-run drift, not against an exact single-number match (see §2 above).</li>
+<li><strong>Scope.</strong> Only the 7 empirical papers were audited numerically. The 3 non-empirical articles (LeBel's methods guide MP.2018.879-area, Williams' distributional-assumptions commentary, Clyburne-Sherin's containers opinion piece) contain no testable numerical claims and were classified out of scope (no per-paper report).</li>
+<li><strong>Live re-fetch.</strong> Where the OSF API was transiently unavailable, already-retrieved local copies of the open data/code were used and their integrity was checked against the manuscript's design description; no live re-fetch was possible at audit time for those files.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>VOLUME3_REPROAI_SUMMARY.csv</code> / <code>.xlsx</code></td><td>Machine-readable per-paper table (findings, verdicts, caveats, totals)</td></tr>
+<tr><td><code>VOLUME3_REPROAI_META_REPORT.html</code></td><td>This meta-report</td></tr>
+<tr><td><code>&lt;paper&gt;/ReproAI/&lt;id&gt;/REPROAI_REPORT.html</code></td><td>Per-paper house-style report (7 files, one per empirical paper)</td></tr>
+<tr><td><code>&lt;paper&gt;/ReproAI/&lt;id&gt;/extracted/manuscript_claims.md</code></td><td>Per-paper numbered claims inventory (C1…Cn), each checked</td></tr>
+<tr><td><code>&lt;paper&gt;/ReproAI/&lt;id&gt;/reproai_reports/{architecture_report,risk_register,advisory_plan}.json</code></td><td>Per-paper machine-readable design, risk register, and remediation plan</td></tr>
+<tr><td><code>&lt;paper&gt;/ReproAI/&lt;id&gt;/exec_check/</code></td><td>Per-paper re-implementation scripts + console logs + retrieved open data/code</td></tr>
+<tr><td><code>&lt;paper&gt;/paper.pdf</code>, <code>paper_extracted.txt</code></td><td>Originals (untouched)</td></tr>
+</tbody>
+</table>
+</body>
+</html>

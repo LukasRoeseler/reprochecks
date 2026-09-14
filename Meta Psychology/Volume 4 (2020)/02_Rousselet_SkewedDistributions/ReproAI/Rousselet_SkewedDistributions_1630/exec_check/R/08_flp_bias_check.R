@@ -1,0 +1,20 @@
+datadir <- "C:/Users/lroesele.IVV5NET/AppData/Local/Temp/opencode/flpdata/extracted/data"
+load(file.path(datadir, "sim_bias_size_participants.RData"))
+cat("Objects:", ls(), "\n")
+mmd     <- apply(sim.md.diff, 2, mean)
+bc.mmd  <- apply(bc.md.diff, 2, mean)
+mm      <- apply(sim.m.diff, 2, mean)
+md.mmd  <- apply(sim.md.diff.md, 2, mean)
+md.mm   <- apply(sim.m.diff.md, 2, mean)
+hdi_manual <- function(x, credMass=0.80){ s<-sort(x); n<-length(x); k<-floor(n*credMass); best<-Inf; bi<-1
+  for(i in 1:(n-k)){ w<-s[i+k]-s[i]; if(w<best){best<-w; bi<-i} }; c(s[bi], s[bi+k]) }
+h80 <- hdi_manual(sim.md.diff[,1], 0.80)
+cat("nvec[1] sample size:", nvec[1], " mmd[1] (paper -10.9):", round(mmd[1],1), "\n")
+cat("80% HDI of sim.md.diff[,1] (paper [-17.1,-2.6]):", round(h80[1],1), round(h80[2],1), "\n")
+cat("mmd[2] n=20 (paper -4.8):", round(mmd[2],1), "\n")
+cat("mmd[6] n=60 (paper -1):", round(mmd[6],1), "\n")
+cat("bc.mmd[1] bias-corrected (paper 'roughly zero'):", round(bc.mmd[1],2), "\n")
+cat("md.mmd[1] median bias smallest (paper -1.9):", round(md.mmd[1],1), "\n")
+cat("md.mmd[2] median bias n=20 (paper -0.3):", round(md.mmd[2],1), "\n")
+cat("mm[1] mean-bias of mean smallest (paper 'near zero'):", round(mm[1],1), "\n")
+cat("md.mm[1] median-bias of mean smallest (paper 6.9):", round(md.mm[1],1), "\n")

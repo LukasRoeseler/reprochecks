@@ -1,0 +1,52 @@
+{
+  "paper": "Niemeyer, H., van Aert, R.C.M., Schmid, S., Uelsmann, D., Knaevelsrud, C., & Schulte-Herbrueggen, O. (2020). Publication Bias in Meta-Analyses of Posttraumatic Stress Disorder Interventions. Meta-Psychology, 4, MP.2018.884.",
+  "doi": "10.15626/MP.2018.884",
+  "osf": "https://doi.org/10.17605/OSF.IO/MY8S6",
+  "title": "Publication Bias in Meta-Analyses of Posttraumatic Stress Disorder Interventions",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "mode": "live/static re-execution + independent cross-check (R 4.6.1 + Python 3.8)",
+  "data_provenance": {
+    "data_file": "afnvr -> Data_sets_PTSD_update_130419.xlsx (205,669 B, live on OSF, downloaded 2026-09-14)",
+    "analysis_code": "taq5f -> Code_Analyses_R3.R (45,718 B, live on OSF)",
+    "simulation_code": "pg7sj -> sim_power.R (11,921 B, live on OSF)",
+    "simulation_results_rank": "6bnc5 -> res2_rank.csv",
+    "simulation_results_egger": "ufdps -> res2_egg.csv",
+    "simulation_results_tes": "5yehp -> res2_tes.csv",
+    "simulation_results_puniform": "feux3 -> res2_puni.csv",
+    "author_notes": "49cke (publication-bias test results upload) returns HTTP 410 Gone",
+    "previous_audit_claim": "REFUTED - earlier audit (2026-09-10) reported all OSF links empty/dead (missing User-Agent header caused spurious HTTP 404); re-audit with User-Agent shows all primary artifacts present and downloadable."
+  },
+  "components": [
+    {
+      "name": "Sample selection (flowchart)",
+      "type": "descriptive/counting",
+      "data": "83 MAs, 2110 data sets, 98 eligible from 26 MAs",
+      "reproducibility": "percentages reproduce (C10-C21); flowchart sum inconsistencies found (C7, C9)"
+    },
+    {
+      "name": "Meta-analysis + 4 PB tests + 5 corrected estimators",
+      "type": "re-execution of author code",
+      "data": "98 data sets (97 after ID77 exclusion) x several methods",
+      "reproducibility": "Table 1 (C28-C32) and all difference scores (C33-C42) reproduced EXACTLY by re-running Code_Analyses_R3.R"
+    },
+    {
+      "name": "Monte-Carlo simulation (Figure 3)",
+      "type": "simulation",
+      "data": "98 data sets x 10000 reps x 7 pub levels x 4 tests",
+      "reproducibility": "claims (C23-C26) verified against author-shipped res2_*.csv; full re-run computationally prohibitive on host; independent Python logic check confirms generation + conservative Type-I error"
+    }
+  ],
+  "environment": {
+    "r": "R 4.6.1 (2026-06-24, ucrt)",
+    "r_packages": {
+      "metafor": "5.0-1",
+      "puniform": "0.2.8",
+      "weightr": "present",
+      "openxlsx": "substituted for XLConnect (Java unavailable on host)",
+      "XLConnect": "present but requires Java (rJava) - JAVA_HOME not resolvable on host"
+    },
+    "python": "Python 3.8 (numpy, scipy, pandas, openpyxl)",
+    "host": "win32, Windows PowerShell 5.1, 16 CPU cores"
+  }
+}

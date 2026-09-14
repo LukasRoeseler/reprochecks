@@ -1,0 +1,323 @@
+==== Faithful run of SHIPPED reviewer,analysis_JH.R on dat_new_s.txt ====
+
+SHIPPED DATASET k = 102   (manuscript headline is k = 76)
+
+---- random effects meta-analysis (entire dataset) ----
+
+Random-Effects Model (k = 102; tau^2 estimator: REML)
+
+  logLik  deviance       AIC       BIC      AICc   
+-46.6651   93.3302   97.3302  102.5604   97.4526   
+
+tau^2 (estimated amount of total heterogeneity): 0.0826 (SE = 0.0199)
+tau (square root of estimated tau^2 value):      0.2874
+I^2 (total heterogeneity / total variability):   62.26%
+H^2 (total variability / sampling variability):  2.65
+
+Test for Heterogeneity:
+Q(df = 101) = 257.6253, p-val < .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub      
+  0.2526  0.0376  6.7152  <.0001  0.1789  0.3263  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+  >> k = 102  d = 0.2526  I2 = 62.26  Q = 257.63 
+
+---- moderator rma (~ comparison + world_region) ----
+
+Mixed-Effects Model (k = 97; tau^2 estimator: REML)
+
+  logLik  deviance       AIC       BIC      AICc   
+-29.3790   58.7579   68.7579   81.4209   69.4476   
+
+tau^2 (estimated amount of residual heterogeneity):     0.0463 (SE = 0.0150)
+tau (square root of estimated tau^2 value):             0.2153
+I^2 (residual heterogeneity / unaccounted variability): 47.91%
+H^2 (unaccounted variability / sampling variability):   1.92
+R^2 (amount of heterogeneity accounted for):            44.04%
+
+Test for Residual Heterogeneity:
+QE(df = 93) = 183.4420, p-val < .0001
+
+Test of Moderators (coefficients 2:4):
+QM(df = 3) = 35.5996, p-val < .0001
+
+Model Results:
+
+                   estimate      se     zval    pval    ci.lb   ci.ub      
+intrcpt             -0.2279  0.1541  -1.4788  0.1392  -0.5301  0.0742      
+comparisonneutral   -0.1441  0.0853  -1.6892  0.0912  -0.3112  0.0231    . 
+world_regionNOA      0.7297  0.1384   5.2723  <.0001   0.4584  1.0009  *** 
+world_regionEUR      0.5653  0.1382   4.0907  <.0001   0.2945  0.8362  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+---- PET-PEESE (entire dataset) ----
+
+Call:
+lm(formula = dat$yi ~ dat$se, weights = 1/dat$vi)
+
+Weighted Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.6120 -1.0593  0.5786  1.0764  3.0889 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept) -0.09953    0.10671  -0.933   0.3532   
+dat$se       1.46745    0.47880   3.065   0.0028 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.535 on 100 degrees of freedom
+Multiple R-squared:  0.08587,	Adjusted R-squared:  0.07672 
+F-statistic: 9.393 on 1 and 100 DF,  p-value: 0.0028
+
+
+---- 3-PSM (entire dataset) ----
+
+Unadjusted Model (k = 102):
+
+tau^2 (estimated amount of total heterogeneity): 0.0812 (SE = 0.0196)
+tau (square root of estimated tau^2 value):  0.2849
+
+Test for Heterogeneity:
+Q(df = 101) = 257.6253, p-val = 1.915295e-15
+
+Model Results:
+
+          estimate std.error z-stat      p-val  ci.lb ci.ub
+Intercept   0.2524   0.03753  6.725 1.7508e-11 0.1789 0.326
+
+Adjusted Model (k = 102):
+
+tau^2 (estimated amount of total heterogeneity): 0.0470 (SE = 0.0159)
+tau (square root of estimated tau^2 value):  0.2169
+
+Test for Heterogeneity:
+Q(df = 101) = 257.6253, p-val = 1.915295e-15
+
+Model Results:
+
+              estimate std.error z-stat    p-val   ci.lb  ci.ub
+Intercept       0.1047   0.04785  2.188 0.028650 0.01092 0.1985
+0.025 < p < 1   0.2585   0.10449  2.474 0.013351 0.05374 0.4633
+
+Likelihood Ratio Test:
+X^2(df = 1) = 11.67116, p-val = 0.00063476
+
+Number of Effect Sizes per Interval:
+
+                     Frequency
+p-values <0.025             37
+0.025 < p-values < 1        65
+
+---- moderator rma + se ----
+
+Mixed-Effects Model (k = 97; tau^2 estimator: REML)
+
+tau^2 (estimated amount of residual heterogeneity):     0.0400 (SE = 0.0141)
+tau (square root of estimated tau^2 value):             0.2001
+I^2 (residual heterogeneity / unaccounted variability): 43.73%
+H^2 (unaccounted variability / sampling variability):   1.78
+R^2 (amount of heterogeneity accounted for):            51.66%
+
+Test for Residual Heterogeneity:
+QE(df = 92) = 163.1600, p-val < .0001
+
+Test of Moderators (coefficients 2:5):
+QM(df = 4) = 43.9503, p-val < .0001
+
+Model Results:
+
+                   estimate      se     zval    pval    ci.lb    ci.ub      
+intrcpt             -0.4917  0.1839  -2.6741  0.0075  -0.8521  -0.1313   ** 
+comparisonneutral   -0.1189  0.0832  -1.4296  0.1528  -0.2820   0.0441      
+world_regionNOA      0.6751  0.1349   5.0058  <.0001   0.4108   0.9395  *** 
+world_regionEUR      0.5089  0.1349   3.7725  0.0002   0.2445   0.7733  *** 
+se                   1.2561  0.5187   2.4217  0.0154   0.2395   2.2726    * 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+---- culture: NOA ----
+NOA k = 48 
+
+Random-Effects Model (k = 48; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 0.0460 (SE = 0.0212)
+tau (square root of estimated tau^2 value):      0.2145
+I^2 (total heterogeneity / total variability):   47.83%
+H^2 (total variability / sampling variability):  1.92
+
+Test for Heterogeneity:
+Q(df = 47) = 97.6396, p-val < .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub      
+  0.3920  0.0473  8.2789  <.0001  0.2992  0.4848  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Call:
+lm(formula = dat2$yi ~ dat2$se, weights = 1/dat2$vi)
+
+Weighted Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.1900 -0.2998  0.1513  0.6357  2.5101 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.09827    0.11297  -0.870 0.388873    
+dat2$se      2.04099    0.51015   4.001 0.000227 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.255 on 46 degrees of freedom
+Multiple R-squared:  0.2581,	Adjusted R-squared:  0.242 
+F-statistic: 16.01 on 1 and 46 DF,  p-value: 0.0002273
+
+
+Unadjusted Model (k = 48):
+
+tau^2 (estimated amount of total heterogeneity): 0.0442 (SE = 0.0186)
+tau (square root of estimated tau^2 value):  0.2101
+
+Test for Heterogeneity:
+Q(df = 47) = 97.6396, p-val = 3.06645e-05
+
+Model Results:
+
+          estimate std.error z-stat      p-val  ci.lb  ci.ub
+Intercept   0.3913   0.04737  8.262 < 2.22e-16 0.2985 0.4842
+
+Adjusted Model (k = 48):
+
+tau^2 (estimated amount of total heterogeneity): 0.0324 (SE = 0.0164)
+tau (square root of estimated tau^2 value):  0.1799
+
+Test for Heterogeneity:
+Q(df = 47) = 97.6396, p-val = 3.06645e-05
+
+Model Results:
+
+              estimate std.error z-stat      p-val    ci.lb  ci.ub
+Intercept       0.2681   0.06921  3.873 0.00010729 0.132443 0.4038
+0.025 < p < 1   0.3393   0.17197  1.973 0.04846593 0.002286 0.6764
+
+Likelihood Ratio Test:
+X^2(df = 1) = 4.63139, p-val = 0.031392
+
+Number of Effect Sizes per Interval:
+
+                     Frequency
+p-values <0.025             23
+0.025 < p-values < 1        25
+
+---- culture: EUR ----
+EUR k = 44 
+
+Random-Effects Model (k = 44; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 0.0626 (SE = 0.0261)
+tau (square root of estimated tau^2 value):      0.2503
+I^2 (total heterogeneity / total variability):   54.68%
+H^2 (total variability / sampling variability):  2.21
+
+Test for Heterogeneity:
+Q(df = 43) = 89.9613, p-val < .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub      
+  0.2188  0.0530  4.1305  <.0001  0.1150  0.3226  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Call:
+lm(formula = dat2$yi ~ dat2$se, weights = 1/dat2$vi)
+
+Weighted Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.3737 -1.1698  0.4011  1.1199  2.9699 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   0.0557     0.1676   0.332    0.741
+dat2$se       0.6859     0.7414   0.925    0.360
+
+Residual standard error: 1.449 on 42 degrees of freedom
+Multiple R-squared:  0.01998,	Adjusted R-squared:  -0.003359 
+F-statistic: 0.8561 on 1 and 42 DF,  p-value: 0.3601
+
+
+Unadjusted Model (k = 44):
+
+tau^2 (estimated amount of total heterogeneity): 0.0595 (SE = 0.0266)
+tau (square root of estimated tau^2 value):  0.2439
+
+Test for Heterogeneity:
+Q(df = 43) = 89.9613, p-val = 5.368004e-05
+
+Model Results:
+
+          estimate std.error z-stat      p-val  ci.lb ci.ub
+Intercept   0.2185   0.05234  4.174 2.9923e-05 0.1159 0.321
+
+Adjusted Model (k = 44):
+
+tau^2 (estimated amount of total heterogeneity): 0.0202 (SE = 0.0199)
+tau (square root of estimated tau^2 value):  0.1420
+
+Test for Heterogeneity:
+Q(df = 43) = 89.9613, p-val = 5.368004e-05
+
+Model Results:
+
+              estimate std.error z-stat   p-val    ci.lb  ci.ub
+Intercept      0.08136   0.05791  1.405 0.16002 -0.03214 0.1948
+0.025 < p < 1  0.19221   0.13007  1.478 0.13946 -0.06271 0.4471
+
+Likelihood Ratio Test:
+X^2(df = 1) = 6.240571, p-val = 0.012486
+
+Number of Effect Sizes per Interval:
+
+                     Frequency
+p-values <0.025             14
+0.025 < p-values < 1        30
+
+---- culture: SEA ----
+SEA k = 5 
+
+Random-Effects Model (k = 5; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 0 (SE = 0.0255)
+tau (square root of estimated tau^2 value):      0
+I^2 (total heterogeneity / total variability):   0.00%
+H^2 (total variability / sampling variability):  1.00
+
+Test for Heterogeneity:
+Q(df = 4) = 0.8499, p-val = 0.9316
+
+Model Results:
+
+estimate      se     zval    pval    ci.lb    ci.ub      
+ -0.3720  0.0850  -4.3780  <.0001  -0.5385  -0.2055  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+==== DONE ====
