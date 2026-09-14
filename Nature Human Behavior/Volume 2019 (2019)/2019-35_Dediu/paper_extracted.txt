@@ -1,26 +1,946 @@
-# Weak biases emerging from vocal tract anatomy shape the repeated transmission of vowels
-
-## Abstract
-Linguistic diversity is affected by multiple factors, but it is usually assumed that variation in the anatomy of our speech organs plays no explanatory role. Here we use realistic computer models of the human speech organs to test whether inter-individual and inter-group variation in the shape of the hard palate (the bony roof of the mouth) affects acoustics of speech sounds. Based on 107 midsagittal MRI scans of the hard palate of human participants, we modelled with high accuracy the articulation of a set of five cross-linguistically representative vowels by agents learning to produce speech sounds. We found that different hard palate shapes result in subtle differences in the acoustics and articulatory strategies of the produced vowels, and that these individual-level speech idiosyncrasies are amplified by the repeated transmission of language across generations. Therefore, we suggest that, besides culture and environment, quantitative biological variation can be amplified, also influencing language. 
-
- This is a preview of subscription content, access via your institution
-
-## GitHub Links
-https://github.com/ddediu/hard-palate-vowels
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM2_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM3_ESM.html
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM4_ESM.html
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM5_ESM.txt
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM6_ESM.csv
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM7_ESM.tsv
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM8_ESM.tsv
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM9_ESM.csv
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM10_ESM.csv
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM11_ESM.zip
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM12_ESM.zip
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM13_ESM.zip
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0663-x/MediaObjects/41562_2019_663_MOESM14_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-019-0663-x
+Weak biases emerging from vocal tract anatomy
+shape the repeated transmission of vowels
+Dan Dediu 1,2,3,4*, Rick Janssen2 and Scott R. Moisik 2,5
+Linguistic diversity is affected by multiple factors, but it is usually assumed that variation in the anatomy of our speech organs
+plays no explanatory role. Here we use realistic computer models of the human speech organs to test whether inter-individual
+and inter-group variation in the shape of the hard palate (the bony roof of the mouth) affects acoustics of speech sounds. Based
+on 107 midsagittal MRI scans of the hard palate of human participants, we modelled with high accuracy the articulation of a set
+of five cross-linguistically representative vowels by agents learning to produce speech sounds. We found that different hard
+palate shapes result in subtle differences in the acoustics and articulatory strategies of the produced vowels, and that these
+individual-level speech idiosyncrasies are amplified by the repeated transmission of language across generations. Therefore,
+we suggest that, besides culture and environment, quantitative biological variation can be amplified, also influencing language.
+L
+anguage—similarly to other aspects of culture—is an evolution- processes of sound change and ultimately affecting the patterns of
+ary system in its own right, constantly shaped by adaptive pres- linguistic diversity5,16. However, this is an extremely complex, long
+sures and neutral processes1,2. There are currently about 7,000 and heterogeneous causal path with feedback loops, which must be
+spoken languages3, an essential aspect of this diversity being repre- investigated using methodologies and data from several scientific
+sented by their speech sounds (phonetics and phonology). There is disciplines10,16,25. We have previously shown, using biomechani-
+wide cross-linguistic variation at this level4, and a crucial question cal modelling, that click production is affected by the shape of the
+concerns the factors and processes driving the emergence and main- alveolar ridge17, and that the covert articulatory strategies used by
+tenance of this diversity5. Most sound changes are due to language- non-native participants to produce the North American English ‘r’
+internal factors, such as co-articulation and misperception6, but sound is influenced by the shape of their hard palate16.
+recent studies suggest that external factors might also generate pres- We test here the hypothesis that the usually weak effects of such
+sures to which sound systems adapt5. As such, it has been suggested ‘idiosyncratic’ variation may be amplified through the repeated use
+that aspects of the physical environment that vary spatially (e.g., and learning of language in groups where these variants are fre-
+altitude or air humidity) affect the physiology of speech production quent enough, resulting in differences between the languages of
+differently in different populations, resulting in differences between groups with different biases5. While the cultural amplification of
+the speech sounds that occur in different languages5,7,8. weak biases is supported by abstract modelling26,27 and experiments
+However, our own cognitive, physiological and anatomical involving universal properties of human cognition28,29, we use here
+biases are probably the most important components shaping lan- a more realistic model, where a detailed geometric simulation of
+guages. Biases that are shared by all humans result in linguistic uni- the vocal tract built from actual human data is used to learn and
+versals and universal tendencies6,9. However, in previous work we produce vowels widely attested cross-linguistically. In this model we
+have argued that the extensive inter-individual variation that exists can precisely control the VT anatomy and observe (and propagate)
+at all levels—from the molecular to the anatomical, physiological its effects on the production of actual speech sounds. We concen-
+and neuro-cognitive—also plays a role in the emergence of cross- trate here on one component of the oral VT, the hard palate (HP,
+linguistic variation5,10. which is under genetic and environmental controls, and shows
+There is widespread variation at all levels between individuals inter-individual and inter-group variation5,19,22,23), and in particular,
+and groups, including in genetics, anatomy and physiology, aris- on the midsagittal hard palate shape (MSHPS; Fig. 1).
+ing from our complex evolutionary history11–15. Here, we focus on We use a model of MSHPS we developed previously19 that allows
+variation in the morphology of the vocal tract (VT; see Fig. 1), us to accurately describe the midsagittal shape of any human hard
+which, despite the rather sparse evidence5,16–19 is no exception20–23. palate (and to generate novel ones) using only four meaningful
+Using high-quality data from a large multi-ethnic sample, we show parameters (angle, fronting, concavity and weight) controlling a
+that the oral part of the VT has overlapping but statistically dis- customized Bézier curve. With this model, we imported MSHPSs
+tinguishable patterns of variation between participants from four from 107 normal human participants into a simulation that learns to
+broad ethno-linguistic groups. As we argue in detail elsewhere16,17, articulate, to a very high accuracy, a set of five ‘seed’ vowels (simul-
+variation in VT anatomy can produce articulatory biases that sur- taneously cross-linguistically widespread and extreme in their cov-
+vive compensatory mechanisms, and that result in subtle acoustic erage of the human vowel space; Fig. 2). It does so by discovering
+or coarticulatory effects19,24. These weak effects can be amplified the affordances and constraints of its articulators (such as tongue,
+by the repeated use and transmission of language, influencing the jaw and lips) and the nonlinear mapping between configurations of
+1Laboratoire Dynamique Du Langage UMR5596, Université Lumière Lyon 2, Lyon, France. 2Language and Genetics Department, Max Planck Institute for
+Psycholinguistics, Nijmegen, The Netherlands. 3Collegium de Lyon, Institut d’Études Avancées, Lyon, France. 4Donders Institute for Brain, Cognition and
+Behaviour, Radboud University, Nijmegen, The Netherlands. 5Linguistics and Multilingual Studies, Nanyang Technological University, Singapore, Singapore.
+*e-mail: dan.dediu@univ-lyon2.fr
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+2.5
+5.0
+Fig. 1 | the shape of the human hard palate (the bony roof of the mouth).
+Top left: midsagittal MRI scan (yellow scale bar, 1 cm). The other three
+panels are projections of the three-dimensional (3D) intra-oral optical
+scan (red scale bar, 1 cm). Top right: transverse/inferior view (incisors to
+the right); bottom left: midsagittal/left view (incisors to the right); bottom
+right: coronal/posterior view (incisors away from viewer). Images not to
+scale (see the scale bars); the images are derived from the structural MRI
+and 3D optical intra-oral scans of author D.D., a 41-year-old male (n = 1
+participant). The top-left panel was created using Horos 2.4.0 (https://
+horosproject.org); the other three panels were created using MeshLab
+2016.12 (http://www.meshlab.net), and the whole image assembled using
+GIMP 2.8.22 (https://www.gimp.org) on macOS 10.13 High Sierra.
+articulators and the produced sounds. This allowed us to precisely
+quantify the effects of observed variation in human MSHPS on how
+well vowels are learned, while keeping everything else constant. We
+focused on vowels because of the continuous (but cross-linguisti-
+cally structured) nature of the human vowel space, the possibility
+to represent them by a small number of formants, and their rela-
+tively simple articulation. Variation in MSHPS produces biases that
+affect the articulation of vowels in subtle ways, resulting in weak
+but systematic inter-individual differences in the acoustics of the
+produced vowels. These effects are small within a generation (com-
+pared to the observed within-dialect and within-language variation
+in the realizations of these vowels). However, using the Iterated
+Learning Model paradigm30 (where agents successively learn from
+the previous generation in a linear transmission chain), we show
+that these effects are amplified through cultural transmission. This
+results in differences between chains that are composed of agents
+with identical MSHPS within the chains, but different across them. multiple independent runs for a select subsample of MSHPSs; we
+Thus, the clustering of similar MSHPSs within groups, but different analyse the effects of MSHPS on the vowels produced at the end
+between groups, may lead to cross-linguistic differences between of the transmission chains and the amplification of the weak biases
+vowel systems. due to MSHPS by the repeated transmission along these chains; and
+we report on how the free articulators are used to partially compen-
+Results sate for variation in MSHPS.
+We present here the three main components of the results (see We represent vowels by their first formants, and, while usually
+Methods and Supplementary Results 1 and 2 for methodological the first two (denoted F and F) are used (given their importance
+1 2
+details and full results). First, we show that dense multidimensional for vowel perception), we also include the higher formants F, F
+3 4
+measurements of oral VT anatomy do vary between broad ethno- and even F, as fine details of the hard palate shape are more likely
+5
+linguistic groups, strongly supporting the fundamental assumption to affect higher resonances (associated with smaller wavelengths).
+motivating these simulations. Second, we analyse a large cross-lin-
+guistic database of actual vowel productions, providing the proper Oral VT morphology varies across groups. We analysed data on
+background against which the results of our simulations should the anatomy of the anterior part of VT from more than 100 par-
+be understood. Finally, we focus on the simulations themselves, ticipants from four broad ethno-linguistic groups (‘European’
+describing the quantification of the MSHPS using four-parameter and ‘North American of European descent’, ‘North Indian’, ‘South
+Bézier curves. We show that our results are consistent between Indian’ and ‘Chinese’; these include the participants whose MSHPS
+mottob
+ot
+pot
+morf
+desrever
+)skraB
+ni(
+F 1
+Vowel
+]e[
+[α]
+[æ]
+[i]
+[u]
+7.5
+15.0 12.5 10.0 7.5 5.0
+F (in Barks) reversed from right to left
+2
+Fig. 2 | the distribution across languages and dialects of the five vowels
+used in the current study, highlighting the particular realizations used as
+‘seeds’ for our models. The vowels are represented in the space of the first
+two formants F 1 × F 2, where, as is customary for this type of plot: both axes
+are reversed, they show only the actual range of values excluding 0, and
+F is represented on the y axis. The large black symbols (with associated
+1
+white-on-black International Phonetic Alphabet (IPA) notations) are the
+canonical productions of the vowels we used as ‘seeds’ in our simulations
+(n = 5 seed vowels): the mid central [ə] (as in American English ‘uh’ or
+‘sofa’, with the values of the first five formants F– F in Barks (5.13, 9.5,
+1 5
+14.56, 16.08, 18.04)); the high front [i] (as in ‘beet’ (2.29, 14.05, 15.63,
+16.52, 17.88)); the low front [æ] (‘bat’ (6.69, 12.02, 14.69, 16.32, 18.9));
+the high back rounded [u] (‘boot’ (2.72, 5.07, 15.14, 15.79, 16.96)); and the
+low back [ɑ] (‘hot’ (6.59, 8.34, 15.11, 15.91, 18.03)). The coloured symbols
+are actual realizations of these vowels recorded from several languages
+and dialects31 (n = 1,051 vowel realizations across 202 languages and 309
+dialects); we also show their convex hulls (as transparent polygons) and
+means (large white symbols with associated black-on-white IPA notations).
+Our canonical vowels are more extreme than their cross-linguistic average
+realization (to which they are connected by black segments for easier
+visualization) and more extreme than even the most extreme actual
+realizations, as we want to start from extreme positions to maximally cover
+the potential human vowel space (especially for [i] and [u]). Moreover,
+actual productions during speech are influenced by multiple factors related
+to coarticulation, discourse and speed.
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+were used in the simulations). We found (see Supplementary Fig. 1, MSHPSs from the ArtiVarK participants A87 and A73 (selected
+Supplementary Results 1 Part III and Supplementary Results 2) for their representativeness of the variation in that sample), and the
+that the canonical variate analysis (CVA; a technique widely used average MSHPS across the participants in ref. 22 (Supplementary
+for the analysis of multivariate data that computes linear combina- Fig. 3). This procedure ensures that we sample the possible evo-
+tions of the original variables that are not necessarily orthogonal but lutionary trajectories of the transmission chain for each of these
+that maximize the ratio of between- and within-group variances) five hard palate shapes. Reassuringly, we found that, in the final
+of 57 classical anthropological measurements has an overall clas- generation, the first five formants (F–F) of the tested vowels [ə],
+1 5
+sification accuracy of 84% for group and 94% for sex—whereas for [ɑ], [æ], [i] and [u] have very narrow distributions across replica-
+the actual 3D intra-oral scans (IOS) of the lower jaw, CVA reaches tions, with standard deviations between 0.02 and 0.43 (mean 0.10,
+75% for group and 80% for sex, and for the upper jaw, 64% for median 0.05) Bark, and coefficients of variation between 0.001
+group and 85% for sex. The Procrustes ANOVA with permutation and 0.08 (mean 0.01, median 0.004). Compared to the real-world
+(Supplementary Results 2, section 3.3.4.2) of the same IOS data for within-dialect distances (Supplementary Results 1, section 2.2.1.4),
+the lower jaw found that both main effects and their interaction the inter-replication differences for the actual MSHPSs (A87, aver-
+are significant (Procrustes ANOVA with 1,000 permutations; for age and A73) were significantly smaller (Tukey’s post-hoc Honest
+group: F(3,86) = 1.35, 95% permutations confidence interval (95% Significant Difference tests across vowels and formants: P < 0.001
+pCI: the interval containing 95% of the F values obtained when per- for all three MSHPSs; see Supplementary Table 1), while for the two
+muting the data, that is, if the null hypothesis were true) is (0.79, artificial extremes (low and high) were of a similar order of magni-
+1.28), P = 0.007, Z = 2.52; sex: F(1,86) = 1.40, 95% pCI (0.69, 1.48), tude (see Fig. 3, Supplementary Fig. 4 and Supplementary Results 1,
+P = 0.048, Z = 1.82; group × sex interaction: F(3,86) = 1.28, 95% section 2.2.1). Moreover, the multidimensional scaling (MDS) and
+pCI (0.77, 1.30), P = 0.030, Z = 1.96), while for the upper jaw, only hierarchical clustering of the dynamic time warp distances (DWT)
+the main effects are significant (Procrustes ANOVA with 1,000 per- between all pairs of trajectories (that is, the time series of formant
+mutations; for group: F(3,86) = 1.46, 95% pCI (0.77, 1.30), P = 0.005, values over the generations of a chain) across MSHPSs, vowels and
+Z = 2.92; sex: F(1,86) = 1.53, 95% pCI (0.68, 1.53), P = 0.028, replications (Supplementary Results 1, section 2.2) found no sys-
+Z = 2.09; group × sex interaction: F(3,86) = 0.85, 95% pCI (0.76, tematic effects of replication. Therefore, we will focus here on the
+1.32), P = 0.84, Z = −1.06). Thus, the anatomy of the anterior part full dataset of 107 MSHPSs with a single replication each.
+of VT shows differences between groups and sexes, but these dif-
+ferences are not sharp, are found only in highly multidimensional The effects of hard palate shape on the vowels in the final genera-
+datasets, there are important overlaps between groups, and there are tion. The shape PCs affect the vowels in the final generation (Fig. 4
+many ‘mis-classified’ individuals. and Supplementary Fig. 5; see Table 1 for the linear regressions of
+individual formants on the shape PCs and their interactions for
+Real-world variation in the acoustics of the five vowels. We ana- each vowel and formant): this influence is significant for [æ], [ɑ]
+lysed a large database of vowel realizations (including [ə], [ɑ], [æ], and [i] for the first two formants, but covers all five vowels for the
+[i] and [u]), containing mostly the first three formants F–F, across higher formants. The ethno-linguistic group, but not the sex, of the
+1 3
+several languages and dialects31 (Fig. 2 and Supplementary Results participant from which the MSHPS used in the model came makes a
+1 Part I). We found that, as expected, there is important variation significant contribution to the final generation’s acoustics, excluding
+between the realizations of the ‘same’ vowel across languages (stan- F and F (see Supplementary Results 1, section 2.3.9). The F-tests
+1 2
+dard deviations (SD) between 0.33 and 1.01 with average 0.60 across comparing the regression models with and without group as predic-
+all vowels and formants; all in Bark), but also within languages tor, separately for each formant, are as follows: F: F(40,525) = 1.15,
+1
+(average SD of 0.37, range 0.0–1.52) and dialects (average SD of P = 0.246; F: F(40,525) = 1.34, P = 0.084; F: F(40,525) = 2.16,
+2 3
+0.31, range 0.0–1.51). This variation is an important baseline against P < 0.001; F: F(40,525) = 3.77, P < 0.001; F: F(40,525) = 2.93,
+4 5
+which to understand the results of our simulations. P < 0.001. Likewise, considering the vowel system as a whole, group
+significantly affects the Procrustes distance to the ‘seed’ vowel sys-
+Hard palate shape quantification for simulations. For our simula- tem: F(8,533) = 6.15, P < 0.001. These effects are vowel-specific and
+tions, we modelled MSHPS using a Bézier curve with four mean- concern especially [i] and [u].
+ingful parameters: angle, fronting, concavity and weight; more
+precisely, given a MSHPS tracing, we find the values of these param- The effects of hard palate shape are amplified across generations.
+eters that produce a Bézier curve that best fits the MSHPS (detailed The repeated transmission of language across generations results
+in ref. 19). We conducted principal component analysis (PCA) on in the statistically significant increasing (but decelerating) diver-
+these four parameters across all 107 MSHPSs in our sample, and we gence (measured by Procrustes distances; see Supplementary
+found that the first two PCs (denoted as shape PCs and shortened to Fig. 6) of the five-vowel system as a whole from the original ‘seed’
+‘sPCs’) explain 73.3% of the variance. Shape PC1 (44.9%) represents system. These distances are very small (on the order of 0.14–0.24
+weight and fronting (contrasting higher, angled palates to shallower, interquartile range) when compared to a set of Procrustes dis-
+smoother ones), and shape PC2 (28.4%) represents concavity and tances between randomly generated five-vowel systems (rang-
+angle (contrasting flatter to more rounded shapes) (Supplementary ing between 1.7 and 2.6), and their quadratic regression finds
+Fig. 2). Using the methods described above, we found that these significant slopes β for both generation (linear regression slope
+Bézier parameters do not capture the group and sex differences in β = 0.0065, 95% CI (0.0059, 0.0071), P < 0.001) and generation2
+our sample, which is probably due to their very low dimensionality, (β = −0.000078, 95% CI (−0.000089, −0.000067), P < 0.001), with
+requiring much larger samples. an adjusted R2 of 22% (Supplementary Results 1, section 2.3.6).
+Overall, the vowels become slightly more similar to each other,
+Consistency and variation across replications. Given that ran- especially [u] (migrating towards [ə], [ɑ] and [æ] by almost 1.0
+domness plays a major role in many aspects of our simulations Bark) and less so for [i], while [ə], [ɑ] and [æ] are relatively stable;
+(especially in the learning mechanism), we checked the consistency this quadratic trend is statistically significant but decelerating
+of our results by re-running the whole transmission chain process (Supplementary Fig. 7).
+70 times for five selected MSHPSs: two artificial extremes created by For a given vowel, formant and generation (denoted ‘k’), we
+manually setting the Bézier curve parameters to produce extremely define drift as the formant value of the vowel produced at the end
+k
+low and extremely high (but still plausible) shapes, two actual of generation k minus the seed formant value (Fig. 5 shows the
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+Low A87 Average A73 High
+2
+3
+4
+5
+6
+12.5 10.0 7.5 5.0 12.5 10.0 7.5 5.0 12.5 10.0 7.5 5.0 12.5 10.0 7.5 5.0 12.5 10.0 7.5 5.0
+F (in Barks)
+2
+evolution of drift across generations). With this notation, the bias Supplementary Table 4). Moreover, drift is significantly smaller
+50
+amplification due to repeated transmission is captured well by the than the inter-replication differences across vowels, formants and
+slope of the linear regression of the drift after the whole chain was MSHSPs, and is positively correlated with drift (mixed-effects
+1
+run (drift ) on the drift after the first generation (drift). This is models for the five replicated MSHPSs with drift, vowel, formant
+50 1 1
+especially strong for [æ] and [i] (Supplementary Table 4), but and their interactions as fixed effects and MSHPSs as a random
+applies generally: the linear regression across vowels, formants and effect with varying slopes for drift gives a positive and significant
+1
+MSHPSs has R2 = 15.8%, each generation amplifying the initial dif- fixed effect slope β = 1.3, 95% CI (0.61, 2.00), P = 0.007, and large
+drift1
+ference by the linear regression slope β = 1.33, 95% CI (1.21, 1.44), inter-MSHPSs variation in slope with sd = 0.65; see Supplementary
+P < 0.001. Compared with the real-world vowel data for the first Results 1, section 2.2.1.5). Across MSHPSs, the final-generation
+three formants, the within-dialect variation for the same vowel is vowels (except [ə]) are significantly less extreme than their seeds
+significantly (as judged by the Bonferroni-corrected independent and closer to the actually observed real-world realizations, espe-
+samples t-tests reported in Supplementary Table 4) larger than cially for [i] and [u] (compare Fig. 2, Fig. 3 and Supplementary
+drift, but of comparable magnitude to drift (which is, never- Fig. 5; see Supplementary Table 4 for the Bonferroni-corrected inde-
+1 50
+theless, generally smaller than the within-language variation; see pendent samples t-tests comparing the ‘seed’, final and real-world
+)skraB
+ni(
+F 1
+Replication: Vowel: ]e[ [α] [æ] [i] [u]
+0 20 40 60
+Fig. 3 | the distribution of the vowels in the final generation across replications for a selected set of five MSHPSs. Each panel shows the distribution (for
+one MSHPS named in the panel title) in the F 1 × F 2 space (using the same conventions as in Fig. 2) of the seed (yellow symbols) and of actual productions
+in the final generation (blue symbols) across replications (the shade of blue). The dispersion across replications is small and varies among the vowels (the
+largest being for [u] and [i]) and MSHPSs (the two actual and the ‘average’ MSHPSs were capable of learning and transmitting our canonical [i]). Note
+that, for a given MSHPS, each replication represents a new run (thus using new pseudo-random values) of the same transmission chain composed of one
+agent per generation, for n = 50 generations, with all agents having the same MSHPS.
+Shape PC1 Shape PC2
+6
+4
+2
+0
+–2–1 0 1 2 –2–1 0 1 2 –2–1 0 1 2 –2–1 0 1 2
+Shape PC values
+–2–1 0 1 2 –2–1 0 1 2
+Shape PC values
+)skraB
+ni(
+F 1
+)skraB
+ni(
+F 2
+Shape PC1 Shape PC2 Shape PC1 Shape PC2
+15
+15
+10
+10
+5 5
+0 0
+–2–1 0 1 2 –2–1 0 1 2
+Shape PC values Shape PC values
+–2–1 0 1 2 –2–1 0 1 2
+Shape PC values
+)skraB
+ni(
+F 3
+Shape PC1 Shape PC2
+15
+10
+5
+0
+)skraB
+ni(
+F 4
+Shape PC1 Shape PC2
+15
+10
+5
+0
+)skraB
+ni(
+F 5
+Vowel
+]e[
+[α]
+[æ]
+[i]
+[u]
+Fig. 4 | the dependency of the five formants (panels) on the shape of the hard palate (captured by the first two shape PCs; the twin columns in each
+panel) in the final generation for each vowel (colours). The x axis represents the values of the first two shape PCs describing the shape of the hard
+palate across participants, and the y axis the values of the first five formants; the coloured lines are the LOESS (locally estimated scatterplot smoothing)
+regressions (with 95% confidence intervals) per vowel. The vowel colour legend (bottom right) applies to all panels. Each dot represents the data for one
+of the n = 107 completed chains of 50 generations, where each generation comprises a single agent and all agents in a chain have the same MSHPS. See
+Supplementary Results 1 section 2.3.2.1 for a version of this plot where the scales and starting points of the y axes vary by formant to better capture the
+formant-specific range of variation (particularly important for the higher formants).
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+Table 1 | Linear regressions of the formant values of the final generation’s vowels on quantitative measures of hard palate shape
+Formant vowel R2 sPC1 sPC2 sPC1 × sPC2
+F
+1
+[æ] 11.6% 0.003 (0.077) −0.008 (0.002) −0.002 (0.310)
+F
+1
+[i] 12.9% −0.053 (<0.001) 0.017 (0.358) 0.003 (0.860)
+F
+2
+[ɑ] 5.0% 0.000 (0.957) −0.004 (0.292) −0.007 (0.022)
+F
+2
+[i] 19.4% 0.065 (0.003) −0.065 (0.023) −0.098 (<0.001)
+F [ə] 12.7% 0.007 (0.008) 0.009 (0.011) 0.000 (0.935)
+3
+F
+3
+[ɑ] 61.2% 0.012 (<0.001) 0.031 (<0.001) −0.02 (<0.001)
+F
+3
+[æ] 20.2% −0.001 (0.801) 0.005 (0.284) −0.018 (<0.001)
+F
+3
+[i] 34.5% 0.085 (<0.001) 0.084 (<0.001) −0.023 (0.213)
+F
+4
+[ɑ] 16.2% −0.002 (0.374) 0.007 (0.004) −0.004 (0.043)
+F
+4
+[æ] 8.2% 0.000 (0.903) −0.011 (0.004) −0.005 (0.118)
+F
+4
+[i] 17.9% 0.058 (0.006) 0.105 (<0.001) 0.018 (0.463)
+F
+5
+[ə] 26.7% −0.004 (0.223) −0.028 (<0.001) −0.002 (0.660)
+F
+5
+[ɑ] 13.5% 0.007 (0.011) −0.010 (0.003) −0.003 (0.339)
+F
+5
+[æ] 35.0% −0.005 (0.279) −0.035 (<0.001) 0.007 (0.184)
+F
+5
+[i] 43.8% −0.023 (0.068) −0.064 (<0.001) 0.092 (<0.001)
+F
+5
+[u] 19.1% −0.022 (0.130) −0.077 (<0.001) 0.018 (0.301)
+Each row contains the regression of one formant for one given vowel on the first two shape PCs (and their interaction), showing the explained variance (R2, in percent), and the βs (with uncorrected
+P values in parentheses) of the main effects (sPC1 and sPC2) and their interaction (sPC1 × sPC2). For economy reasons, the intercept α is not shown and we only include those rows (regressions) with at
+least one significant β (see Supplementary Results 1, section 2.3.2 for the full results); significant cells are in bold; the significance α-level is 0.05.
+vowel realizations, and Supplementary Results 1, section 2.3.10 for canonical seeds we started with, towards realizations more typical
+more information and a different visual representation). of attested languages.
+To check robustness, we ran 70 independent replications of the
+Articulatory compensation for hard palate shape. A PCA on the simulations for five selected MSHPSs, and found that the varia-
+11 articulatory parameters (of relevance here are jaw angle (JA), tion between replications is constrained around a central tendency
+hyoid position (HX and HY), and positions of the tongue body, blade (on the scale of real-world within-dialect variation), and that even
+and tip (TCX, TCY, TBX, TBY, TTX and TTY); see Supplementary artificially extreme MSHPSs produce effects within the range of
+Methods and Supplementary Fig. 9 for details) across vowels and the actually observed variation, but that there is a certain degree
+MSHPSs found that the first two PCs (denoted as articulatory PCs of contingency affecting individual replications. We represented the
+and shortened to ‘aPCs’) explain 50.6% of the variation and repre- acoustics of vowels using the first five formants (thus going beyond
+sent roughly the position and degree of tongue constriction: tongue the usual two or three), and we found that all vowels change across
+height by aPC1 (28.1% of variation, with TCY, HX and TBY load- generations and for all MSHPSs following a decelerating trajectory,
+ing positively) and tongue fronting by aPC2 (22.6%, with TCX, but that there are clear differences between the influence of MSHPS
+TBX, HY loading positively, and JA negatively). These two articula- on different vowels and formants. Of the free articulators included
+tory PCs correlate strongly with acoustics, especially PC1 with F in our vocal tract model, the most important ones were those con-
+1
+(Pearson’s r(26748) = −0.905, 95% CI (−0.907, −0.903), P < 0.001) trolling the position of the tongue body, blade and tip, being actively
+and PC2 with F (Pearson’s r(26748) = 0.857, 95% CI (0.854, 0.860), used to compensate for variation in MSHPS. However, this compen-
+2
+P < 0.001), and change across generations in concordance with the sation is not perfect, and we found that the repeated transmission of
+changes in acoustics (Supplementary Fig. 8). However, the articula- the vowels across generations, far from dampening the weak influ-
+tors also respond to variation in HP shape: their regression on the ence of MSHPS, amplified it to an appreciable degree while produc-
+shape PCs (sPC1 and sPC2) while controlling for the acoustics in ing overall more realistic vowels than the extreme initial exemplars
+the final generation (Table 2) shows that it is mainly the tongue we used to seed the transmission process.
+position being adjusted in response to HP shape. Despite these results, our model described here has several short-
+comings. First, the learning mechanism we used is neither ecologi-
+Discussion cally valid nor very efficient, and while our decision is justified by
+Using realistic computer models of the human vocal tract, we our wish to use components that are as generic as possible to better
+investigated if different midsagittal hard palate shapes (MSHPSs) isolate the sources of our results, alternatives such as intrinsic moti-
+resulted in different patterns of ‘errors’ in the production of these vation and curiosity-driven learning32 may be more appropriate.
+five vowels, and found that they did, but also that the effects were Second, our homogeneous, single-agent-per-generation chains are
+very small. Therefore, we investigated if the repeated transmission admittedly unrealistic and raise the possibility that the trans-gen-
+of vowels across generations (that is, their learning anew by naive erational amplification of weak biases we observed is probably too
+agents using the productions of the previous generation as targets) strong. However, our earlier abstract computational modelling33,34
+would amplify these effects. We found that this amplification is a and theoretical16 work suggests that far from dampening (or hiding)
+robust phenomenon, that it produces changes comparable to the weak individual biases, complex settings (where whole communi-
+observed patterns of vowel dispersion within real dialects and lan- ties of agents that have different anatomies use and transmit vowels
+guages, and that it varies by MSHPS (producing final vowels that across communicative networks over time) hugely complexify the
+differ statistically across shapes and ethno-linguistic groups)— preconditions and dynamics of their amplification. Moreover, our
+but also that the produced vowels ‘move away’ from the extreme design here is purposefully simplified as much as possible, because
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+it is a necessary first step to ascertain that amplification works at
+all, before investigating it in realistic models with inter- and intra-
+group variation. Having established the necessary baseline, subse-
+quent studies must test the deeper cultural evolutionary questions
+concerning intra-group variation. Third, we do not explicitly model
+phonology, co-articulation or language use in communication,
+focusing instead on individual vowels, but we do not expect such
+additions to invalidate the results reported here.
+Taking our results at face value, how much of the observed lin-
+guistic diversity might be explained by such anatomical biases?
+On the one hand, there is extensive variation in hard palate shape
+between individuals that speak the same dialect, while, on the other,
+very dissimilar languages are spoken by groups with ostensibly
+similar distributions of hard palate shapes. Our own empirical data
+reported here show that there is continuous, multidimensional,
+overlapping variation between groups in the anatomy of the vocal
+tract. In our view, these phenomena are two sides of the same coin:
+as these biases are very weak, their effects are (in the vast major-
+ity of cases) successfully compensated and when not fully com-
+pensated, they are usually seen as speaker-specific idiosyncrasies
+F1
+F2
+F3
+F4
+F5
+2
+1
+0
+–1
+2
+1
+0
+–1
+2
+1
+0
+–1
+2
+1
+0
+–1
+2
+1
+0
+–1
+0 10 20 30 40 50 0 10 20 30 40 50 0 10 20 30 40 50 0 10 20 30 40 50 0 10 20 30 40 50
+Generation
+)skraB
+ni(
+tfirD
+Drift in the current generation from: The previous generation The ‘seed’
+]e[ [α] [æ] [i] [u]
+Fig. 5 | the amplification of weak biases through repeated transmission across generations. Each column shows one of the five vowels and each row one
+of the five formants, and each plot shows the evolution of drift across generations. In any given panel, each thin grey path represents the drift to the seed
+vowel in generation k (drift k) in one of the n = 107 completed chains, while the thick blue curve is the LOESS smoothing across these paths. The yellow
+curve is the LOESS smoothing of the drift to the previous generation (drift) across all chains, and the black dotted line is ‘no change’ (that is, 0 drift). Each
+1
+generation k comprises a single agent, and all agents in a chain have the same MSHPS. For different views, including magnification of the range of formant
+frequencies where the change takes place or focusing on the relationship between drift after the first generation and that after the whole chain was run,
+see Supplementary Results 1, section 2.3.7.
+Table 2 | articulators respond to hard palate shape
+vowel articulator R2 sPC1 sPC2
+[ə] aPC2 7.3% 0.013 (0.836) −0.195 (0.028)
+[ə] TBX 6.7% −0.002 (0.983) −0.267 (0.042)
+[ɑ] TTY 13.0% −0.093 (0.007) −0.119 (0.025)
+[æ] TCX 39.6% −0.062 (0.001) −0.063 (0.019)
+[i] aPC1 19.5% −0.085 (0.036) −0.026 (0.645)
+[i] HY 17.8% 0.029 (0.042) −0.004 (0.859)
+[i] TCX 28.2% 0.207 (0.002) 0.032 (0.725)
+[i] TCY 77.8% −0.079 (<0.001) −0.113 (<0.001)
+[i] TBY 64.5% −0.090 (<0.001) −0.141 (<0.001)
+[u] TTY 10.6% 0.016 (0.826) −0.285 (0.007)
+In the final generation, we regressed each articulator individually, as well as the two articulatory
+PCs (aPC1 and aPC2), on the first two shape PCs (sPC1 and sPC2), while controlling for the
+acoustics (the formant values), separately for each vowel. We show R2 (in percent) and βs
+(P values in parentheses) only for those cases where at least one β is significant at α = 0.05 (bold).
+See Supplementary Results 1, section 2.3.8.2 for full results.
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+(or speech defects), easily overridden by other forces of sound model, which produces a sound with formants F ip. Thus, the neural network maps,
+change. Nevertheless, in the right conditions (frequency of biased through the synaptic weights w jk of the connections between neurons, the first five
+formants of the target vowel, Ft, onto the formants of the produced sound, Fp.
+speakers, their positions in the communicative network and i i
+We trained the neural network using a genetic algorithm approach, where a
+language-internal conditions, among others), the effects of such ‘genome’ is composed of 147 real-valued ‘genes’, each gene being one of the neural
+biases can be amplified and their effects phonologized16. network’s synaptic weights w . The genetic algorithm minimizes the ‘fitness’ of
+jk
+The work presented here represents a first step in a long and the ‘genome’, defined as the Euclidean distance d tp between the target vowel and
+inter-disciplinary research program5,25. After showing here (in a the sound produced by the neural network with synaptic weights w jk (or +∞ if the
+articulatory configuration is impossible or no sound would be produced). We used
+highly controlled and simplified setting) that vowels are sensitive
+a fixed population size of 100 ‘genomes’ with stochastic universal sampling with
+to small differences in anatomy on the scale and pattern observed elitism42,43, and we used evolution strategies44 to find a set of parameters controlling
+between individuals, the next steps should involve modelling of mutation. The genetic algorithm was run for a maximum of 500 iterations, unless
+heterogeneous generations and experimental designs with human the best fitness stabilizes across 100 successive iterations (an early stop). The
+genetic algorithm searches an enormous non-linear space defined by the 147
+participants involving, for example, the reversible manipulation of
+synaptic weights, attempting to find the neural network that maps the given target
+hard palate shape35. The perspective advocated here argues that
+vowel to a configuration of the 11 free articulatory parameters of the VT that
+culture and biology co-evolve, and helps refocus interest from uni- produces a sound closest to the target.
+versalist and highly reductionistic explanations36 towards an evo-
+lutionary view where variation is not noise, but a core feature of Seed vowels and language change across generations. We predefined five seed
+language and culture1,37. vowels: the mid central [ə] (as in American English ‘uh’ or ‘sofa’, with the values
+of the first five formants F–F on the psychoacoustical Bark scale (which takes
+1 5
+into account properties of human auditory perception) given by the vector of five
+Methods
+numeric values (in Bark): (5.13, 9.5, 14.56, 16.08, 18.04)), the high front [i] (as
+We implemented a computer agent that has a realistic model of the human vocal in ‘beet’, (2.29, 14.05, 15.63, 16.52, 17.88)), the low front [æ] (‘bat’, (6.69, 12.02,
+tract, where several articulators (for example, tongue tip or lip protrusion) can 14.69, 16.32, 18.9)), the high back rounded [u] (‘boot’, (2.72, 5.07, 15.14, 15.79,
+be moved to produce configurations resulting in actual speech sounds. The 16.96)), and the low back [ɑ] (‘hot’, (6.59, 8.34, 15.11, 15.91, 18.03)), which are very
+articulators are controlled by a neural network trained using a genetic algorithm frequent cross-linguistically4 and better cover the phonetic space than the usual [i],
+to match as well as possible a set of predefined vowel targets (the ‘seeds’). We can [a] and [u] (Fig. 2).
+precisely control the MSHPS, and we investigated its impact on how accurately the For a given MSHPS c, we first trained a single naive agent to produce
+seed vowels are learned and reproduced, within a single individual (ontogeny), and reproductions of the five seed vowels v ∈ {[ə], [i], [æ], [u], [ɑ]} as well as possible.
+after the repeated transmission of language across generations (glossogeny). We denote this process as:
+Vocal tract model and hard palate shape. To model the shape of the human hard c:{[ə],[i],[æ],[u],[α]}→{v [1 ə],v [1 i],v [1 æ],v [1 u],v [1 α]}
+palate (the bony roof of the mouth; see Fig. 1), we modified the 3D geometric
+model of the vocal tract38 VocalTractLab 2.1 (VTL2), which allows 11 articulatory where v1
+[ə]
+is the actually produced sound for ‘seed’ vowel [ə], and so on. We
+parameters (Supplementary Fig. 11 and Supplementary Methods) to be further implemented an iterated learning Model (ILM)30 whereby the vowels
+manipulated and, for a set of parameter values, produces the corresponding sound. produced by the first generation of agents, {v1 , v1 , v1 , v1 , v1 }, are used as
+[ə] [i] [æ] [u] [ɑ]
+Internally, this is done by computing the area function corresponding to the shape targets for training a second generation of naive agents, whose productions are
+of the vocal tract created by the position of the articulators by cutting this in planar used to train a third generation, and so on until a predetermined final generation
+sections along the airway centreline and computing the area of each section38,39. n > 1. These chains are homogeneous as the MSHPS of the agents, c, is conserved
+We added the capability to specify HP shape from actual human data (for example, across generations:
+MRI or intra-oral scanning) or programmatically, while maintaining the other
+aspects of the model unchanged. The MSHPS is described by a four-parameter c:{[ə],[i],[æ],[u],[α]}→{v [1 ə],v [1 i],v [1 æ],v [1 u],v [1 α]}→
+Bézier curve model that we introduced previously19 (Supplementary Methods and
+Supplementary Fig. 9), the transverse jaw curvature by a one-parameter cth-root
+{v [2 ə],v [2 i],v [2 æ],v [2 u],v [2 α]}→…→{v [n ə],v [n i],v [n æ],v [n u],v [n α]}
+curve, and the coronal profile by a one-parameter parabola, the last two being
+fixed here (Supplementary Methods and Supplementary Fig. 1040). Two MSHPSs We quantify the effects of MSHPS c and number of generations 1 ≤ k ≤ n by
+were artificially generated extremes (one extremely ‘low’ and one extremely ‘high’, comparing the seed vowels {[ə], [i], [æ], [u], [ɑ]} to the corresponding productions
+but still plausibly human) by setting the Bézier curve parameters manually. 107 in that generation {vk [ə], vk [i], vk [æ], vk [u], vk [ɑ]}.
+MSHPSs resulted from fitting the Bézier curve model to tracings of actual human For any such chain, we extracted the trajectory of each of the formants for each
+MRI structural scans using the procedure described in ref. 19: 85 are participants in of the vowels across generations (that is, the time series formed by the values F v(i)k
+our own ArtiVarK study18,19 (identified by ‘A’; this is the subsample of participants of the formant 1 ≤ i ≤ 5 for vowel v in generation 1 ≤ k ≤ n), and we computed the
+with MRI scans used in ref. 19: 32 female, age range 18–61, mean 27.2, median 24, dynamic time warping distance between all corresponding pairs of trajectories (a
+SD 7.6), and 22 are from published MRI scans22 (identified by ‘T’; 10 female, age lower distance captures similar trajectories). For a given vowel ‘v’, we computed
+range 18–51, mean 29.8, median 27.5, SD 9.2). Finally, one MSHPS is fitted to the the Euclidean distance (in the F 1 × F 2 × F 3 × F 4 × F 5 space) between its realization
+average of the ‘T’ MRI scans, denoted as ‘average’. Supplementary Fig. 3 shows five in generation 1 ≤ k≤ n, vk, and the seed vowel v0, and between vk and its realization
+selected MSHPSs (low, A87, average, A73 and high) with their midsagittal Bézier in the previous generation, vk−1 (for k ≥ 2). For the vowel system as a whole (that
+parameter values, and the fixed coronal and transverse profiles. The ArtiVarK is, the set of all five vowels) in generation k, we computed the ordinary Procrustes
+study is covered by amendment 45659.091.14 (1 June 2015) “ArtiVarK: articulatory distances to the seed vowels and to the previous generation (for k ≥ 2). Separately,
+variation in speech and language” to the ethics approval “Imaging Human we generated 100,000 random five-vowel systems in the F 1 × F 2 × F 3 × F 4 × F 5 space
+Cognition”, Donders Center for Brain, Cognition and Behaviour, Nijmegen, that respect the observed range of formant values, and we obtained a distribution
+approved by CMO Regio Arnhem-Nijmegen, The Netherlands (please see of ordinary Procrustes distances between 0.24 and 4.51 (mean 2.18).
+https://doi.org/10.5281/zenodo.1480426 for details). For Fig. 1, author D.D. has Because the learning procedure is computationally expensive, we ran a single
+explicitly given his approval for the use of his MRI and intra-oral scans. replication (with 50 generations) for each of the 107 actual human MSHPSs,
+supplemented by 70 independent replications (each with 50 generations) for
+Learning to best approximate a set of given vowels. A vowel is described by its five MSHPSs selected for being extremes (low and high), representative for the
+first five formants, F i ∈ R+, i ∈{1,2,3,4,5}, measured on the psychoacoustical Bark observed human variation (A87 and A73) and the average of the observed
+scale41. For a given target vowel (which can be a predefined ‘seed’ vowel or a vowel human variation.
+produced by a different agent), described by its first five formants Ft, our goal is to
+i
+train a naïve agent to produce a vowel Fp that best approximates the target, in the Within- and between-group variation in VT anatomy. We used three types of
+i
+sense that it minimizes the Euclidean distance between them, d tp = ((F 1t - F 1p)2 + data: two derived from high-resolution 3D intra-oral scans (IOS) of 94 ArtiVarK
+(F 2t - F 2p)2 + … + (F 5t - F 5p)2)1/2. participants (37 female, age range 18–61, mean 27.6, median 25, SD 8.1; note
+We implemented a feed-forward fully connected neural network with three that not all participants with IOS also provided MRI scans due to, for example,
+layers, using the standard sigmoid activation function. The input layer has 6 orthodontic metallic implements), namely (1) the raw 3D coordinates of the IOS
+neurons: 5 take the formants Ft of the target sound as input (scaled so that the scans, and (2) a set of 57 ‘classical’ anthropological measures derived from these
+i
+approximate range of F 1– F 3, about 2 to 16 Bark, maps to the unit interval: 0.71 × IOS scans (angles, distances, ratios and regression coefficients; see Supplementary
+(F it − 2) − 5), the 6th neuron being a bias neuron. The hidden layer has 9 neurons, Results 1 section 3.1), as well as (3) the Bézier curve parameters19 derived
+8 receiving information from all 6 input neurons and the 9th being a bias neuron; from the MRI scans of the 85 ArtiVarK participants and 22 North American
+all 9 are feeding information into the 11 neurons of the output layer. Each output participants from ref. 22 described above. The ArtiVarK study was designed with
+neuron sets the value of one of the 11 free articulatory parameters of the VT inter-individual and inter-group variation in mind, so that we aimed to recruit
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+about n = 100 participants in total, distributed as equally as possible between Code availability
+sexes and four broad ethno-linguistic groups (‘European’ and ‘North American All the computer code of the simulations, the Rmarkdown scripts implementing
+of European descent’, ‘North Indian’, ‘South Indian’ and ‘Chinese’), resulting in a the statistical analyses and plots, and a detailed ‘How-To’, are freely available in
+convenience sample recruited through multiple channels (personal contacts, direct the Supplementary Information (Supplementary Software) and in the GitHub
+mailing and social networks) in the Netherlands and areas of Germany close to repository https://github.com/ddediu/hard-palate-vowels. The only exception is
+Nijmegen. Given the exploratory nature of the study, we did not conduct a formal the modified source code of VTL2, available upon request under a custom license
+power analysis, with the final sample size resulting from a balance between costs modelled on the original VocalTractLab 2.1 license; for this, only the pre-compiled
+and access to MRI and intra-oral optical scanning facilities, and is larger than version is freely distributable. The simulation software is written in C++, Java
+those usually reported in the literature22–24. As ArtiVarK is aimed at uncovering and Python2 and runs under Microsoft Windows 7 (or later), while the statistical
+the patterning and effects of inter-individual and inter-group variation, we kept analyses are implemented in R (embedded in Rmarkdown) and should run on any
+the conditions as uniform as possible across participants (that is, we did not have platform supported by these (Windows, macOS and various versions of Linux
+multiple experimental conditions and we did not randomize the participants and BSD).
+beyond fluctuations due to recruitment). The VT anatomy data used in this
+paper was derived through a standardized procedure blinded to the aims of
+Received: 5 July 2018; Accepted: 21 June 2019;
+this study, as was the analysis. To test the presence of information about group
+and sex in these VT anatomical data, we applied both (1) exploratory methods Published: xx xx xxxx
+(PCA and MDS) and (2) methods with a priori information about group and
+sex (MANOVA, random forests, CVA and Procrustes analysis). We found that, References
+while the exploratory techniques do not recover the participant’s group and sex
+1. Dediu, D. et al. in Cultural Evolution: Society, Technology, Language, and
+from any data type, the methods with a priori information generally successfully
+Religion (eds. Richerson, P. J. & Christiansen, M. H.) 303–332 (MIT, 2013).
+recover significant differences between the groups using IOS data. The Bézier
+2. Bentz, C., Dediu, D., Verkerk, A. & Jäger, G. The evolution of language
+parameters have low dimensionality and cover only a specific aspect of VT
+families is shaped by the environment beyond neutral drift. Nat. Hum. Behav.
+anatomy, probably requiring a much larger sample than we currently have: a power
+2, 816 (2018).
+analysis using G*Power 3.145 of the MANOVA test using the actual effect size with
+3. Hammarström, H., Bank, S., Forkel, R. & Haspelmath, M. Glottolog 3.2
+power 1−β = 80% and significance level α = 0.05, suggests a sample size of ≥27
+(Max Planck Institute for the Science of Human History, 2018).
+participants per group (compared to our 10 ‘Chinese’, 50 ‘Caucasian’, 15 ‘North
+4. PHOIBLE 2.0 (eds. Moran, S. & McCloy, D.) (Max Planck Institute for
+Indian’ and 19 ‘South Indian’ participants), and close to 300 per sex (compared to
+Evolutionary Anthropology, 2019).
+our 37 female and 57 male participants).
+5. Dediu, D., Janssen, R. & Moisik, S. R. Language is not isolated from its wider
+environment: vocal tract influences on the evolution of speech and language.
+Distribution of [ə], [i], [æ], [u] and [ɑ] across languages and dialects. Building
+Lang. Commun. 54, 9–20 (2017).
+on shared code (https://github.com/soskuthy/u-fronting), we extracted up to the
+6. Yu, A. C. L. Origins of Sound Change: Approaches to Phonologization
+4th formant for 1,051 actual realizations of the five vowels (72 for [ə], 438 [i],
+(Oxford Univ. Press, 2013).
+63 [æ], 410 [u] and 68 [ɑ]) across 202 unique languages and 309 dialects from
+7. Everett, C., Blasi, D. E. & Roberts, S. G. Climate, vocal folds, and tonal
+a published dataset31 (see Fig. 2 and Supplementary Results 1 Part I), and we
+languages: connecting the physiological and geographic dots. Proc. Natl Acad.
+compared our simulated results to these data both in terms of spread for the same
+Sci. USA 112, 201417413 (2015).
+vowel and their central tendencies.
+8. Everett, C. Languages in drier climates use fewer vowels. Front. Psychol. 8,
+1285 (2017).
+Computational details. For the results reported here, we used several high-end
+9. Christiansen, M. H. & Chater, N. Language as shaped by the brain. Behav.
+desktop computers (Intel Core i7-4790k 32 Gb RAM and Intel Core i7-3770
+Brain Sci. 31, 489–508 (2008).
+16 Gb RAM) and dedicated server blades (dual Intel Xeon E5-2620 64 Gb RAM),
+10. Dediu, D. & Ladd, D. R. Linguistic tone is related to the population
+resulting in a maximum of 36 parallel execution threads, each thread implementing
+frequency of the adaptive haplogroups of two brain size genes, ASPM and
+the learning of a single vowel for a given MSHPS; with this setup, more than
+Microcephalin. Proc. Natl Acad. Sci. USA 104, 10944–10949 (2007).
+120,000 computer-days (more than 6 wall-clock months) were required.
+11. Reich, D. Who We Are and How We Got Here: Ancient DNA and the New
+Science of the Human Past (Oxford Univ. Press, 2018).
+Statistical analysis. All analyses are included and described in the reproducible
+12. Jobling, M. A., Hollox, E., Hurles, M., Kivisild, T. & Tyler-Smith, C. Human
+Rmarkdown scripts, and all the results are contained in the HTML reports that
+Evolutionary Genetics (Garland Science, 2013).
+result from the scripts’ compilation, (see Supplementary Results 1 and 2). If not
+13. Dediu, D. An Introduction to Genetics for Language Scientists: Current
+otherwise specified, we report uncorrected P values and the percent of adjusted
+Concepts, Methods, and Findings (Cambridge Univ. Press, 2015).
+explained variance R2, and used two-tailed tests and an α-level of 0.05 for all
+14. Betti, L., Balloux, F., Amos, W., Hanihara, T. & Manica, A. Distance from
+statistical tests. We included all participants with the relevant data (MSHPS
+Africa, not climate, explains within-population phenotypic diversity in
+tracings derived from MRI scans, intra-oral scans and classical measurements,
+humans. Proc. R. Soc. B Biol. Sci. 276, 809–814 (2009).
+respectively; some ArtiVarK participants did not have MRI data due to issues such
+15. Cramon-Taubadel, Nvon & Lycett, S. J. Human cranial variation fits iterative
+as orthodontic devices, but did have intra-oral scans, while none of the participants
+founder effect model with African origin. Am. J. Phys. Anthropol. 136,
+from ref. 22 have intra-oral scans or classical measurements). We conducted PCA
+108–113 (2008).
+across the four Bézier parameters (resulting in the ‘shape PCs’) and separately on
+16. Dediu, D. & Moisik, S. R. Pushes and pulls from below: anatomical variation,
+the 11 free articulatory parameters (resulting in the ‘articulatory PCs’). For the
+articulation and sound change. Glossa J. Gen. Linguist. 4, 7 (2019).
+final generation of the chains, we performed linear regressions of the formant
+17. Moisik, S. R. & Dediu, D. Anatomical biasing and clicks: evidence from
+values on the ‘shape PCs’ and their interactions, and of the articulatory parameters
+biomechanical modeling. J. Lang. Evol. 2, 37–51 (2017).
+(and the ‘articulatory PCs’) on the ‘shape PCs’ while controlling for the formant
+18. Moisik, S. R. & Dediu, D. Does morphological variation influence click
+values, separately for each vowel (as the vowels show different chain dynamics).
+learning and production? Evidence from a phonetic learning and imaging
+We performed multidimensional scaling (MDS) and hierarchical agglomerative
+study. in The Handbook of Clicks (ed. Sands, B.) (Brill, in the press).
+clustering on the pairwise Dynamic Time Warping (DTW) distances between
+19. Janssen, R., Moisik, S. R. & Dediu, D. Modelling human hard palate shape
+trajectories, and we conducted linear quadratic regressions of the Euclidean and
+with Bézier curves. PLOS One 13, e0191557 (2018).
+Procrustes distances on the chain generation (these are supported by Generalized
+20. Howells, W. W. Cranial variation in man: a study by multivariate analysis of
+Additive Models (GAMs) shown in the Supplementary Results 1 Sections
+patterns of difference among recent human populations. Pap. Peabody Mus.
+2.2.5. “Generalized Additive Models (GAMs)” and 2.3.3. “The formants across
+Archaeol. Ethnol. 67, 1–259 (1973).
+generations”). Our data are relatively normally distributed (see Supplementary
+21. Bosman, A. M., Moisik, S. R., Dediu, D. & Waters-Rist, A. Talking heads:
+Results 1 Appendix V: Normality checks), with the notable exception of the
+morphological variation in the human mandible over the last 500 years in the
+Bézier parameters.
+Netherlands. HOMO - J. Comp. Hum. Biol. 68, 329–342 (2017).
+22. Tiede, M. K., Boyce, S. E., Holland, C. K. & Choe, K. A. A new taxonomy of
+Reporting Summary. Further information on research design is available in the
+American English /r/ using MRI and ultrasound. J. Acoust. Soc. Am. 115,
+Nature Research Reporting Summary linked to this article.
+2633–2634 (2004).
+23. Zhou, X. et al. A magnetic resonance imaging-based articulatory and acoustic
+Data availability study of “retroflex” and “bunched” American English ∕r∕. J. Acoust. Soc. Am.
+All data, including the participant vocal tract anatomies, the MSHPS parameters 123, 4466–4481 (2008).
+and seed vowels (except for the 3D intra-oral scans, which are not provided 24. Brunner, J., Fuchs, S. & Perrier, P. On the relationship between palate shape
+because they may endanger our participants’ privacy), are available in the and articulatory behavior. J. Acoust. Soc. Am. 125, 3936–3949 (2009).
+Supplementary Information and in the GitHub repository https://github.com/ 25. Dediu, D. in Dependencies in Language: On the Causal Ontology of Linguistics
+ddediu/hard-palate-vowels. Systems (ed. Enfield, N.) 39–53 (Language Science Press, 2017).
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+26. Kirby, S., Dowman, M. & Griffiths, T. L. Innateness and culture in the 45. Faul, F., Erdfelder, E., Lang, A.-G. & Buchner, A. G*Power 3: a flexible
+evolution of language. Proc. Natl Acad. Sci. USA 104, 5241–5245 (2007). statistical power analysis for the social, behavioral, and biomedical science.
+27. Thompson, B., Kirby, S. & Smith, K. Culture shapes the evolution of Behav. Res. Methods 39, 175–191 (2007).
+cognition. Proc. Natl Acad. Sci. USA 113, 4530–4535 (2016).
+28. Kirby, S., Cornish, H. & Smith, K. Cumulative cultural evolution in the acknowledgements
+laboratory: an experimental approach to the origins of structure in human
+We thank P. Birkholz for access to VocalTactLab 2.1’s source code; our ArtiVarK
+language. Proc. Natl Acad. Sci. USA 105, 10681–10686 (2008).
+participants; D. Norris and P. Gaalman for using the Avanto MRI scanner; T. Maal,
+29. Culbertson, J. & Kirby, S. Simplicity and specificity in language: domain-
+F. Delfos and C. Kreulen for access to and help with the TRIOS intra-oral scanner;
+general biases have domain-specific effects. Front. Psychol. 6, 1964 (2016).
+C. Jaques for participant recruitment and management; S. Kooijman for assistance
+30. Kirby, S., Griffiths, T. & Smith, K. Iterated learning and the evolution of
+with ethics; and M. Soskuthy for providing the community with the Becker-Kristal
+language. Curr. Opin. Neurobiol. 28, 108–114 (2014).
+vowel corpus and base R code for its use. This work was funded by the Netherlands
+31. Becker-Kristal, R. Acoustic Typology of Vowel Inventories and Dispersion
+Organisation for Scientific Research (NWO) VIDI grant 276-70-022 to D.D., who was
+Theory: Insights from a Large Cross-linguistic Corpus (Univ. California, 2010).
+supported during the writing of this paper by a European Institutes for Advanced Study
+32. Moulin-Frier, C., Nguyen, S. M. & Oudeyer, P.-Y. Self-organization of early
+(EURIAS) Fellowship (2017-2018) and an IDEXLyon (16-IDEX-0005) Fellowship grant
+vocal development in infants and machines: the role of intrinsic motivation.
+(2018–2021). The funders had no role in study design, data collection and analysis,
+Cogn. Sci. 4, 1006 (2014).
+decision to publish, or preparation of the manuscript.
+33. Dediu, D. The role of genetic biases in shaping language-genes correlations.
+J. Theor. Biol. 254, 400–407 (2008).
+34. Dediu, D. Genetic biasing through cultural transmission: do simple Bayesian author contributions
+models of language evolution generalize? J. Theor. Biol. 259, 552–561 (2009). R.J. wrote the computer code; S.R.M. created the seed vowels; S.R.M. and R.J. acquired
+35. Brunner, J., Fuchs, S. & Perrier, P. The influence of the palate shape on the MRI and 3D intra-oral scanning data; S.R.M performed the non-rigid registration,
+articulatory token-to-token variability. ZAS Pap. Linguist. 42, 43–67 (2005). landmarking, classical measures estimation, and initial CVA; R.J. and D.D. ran the
+36. Berwick, R. C. & Chomsky, N. Why only us: recent questions and answers. simulations; D.D. performed the statistical analyses and plotting; D.D. and R.J. wrote
+J. Neurolinguist. 43, 166–177 (2017). the paper; R.J., D.D. and S.R.M commented on the paper; D.D. and S.R.M. designed and
+37. Evans, N. & Levinson, S. C. The myth of language universals: language supervised the research; D.D. acquired funding.
+diversity and its importance for cognitive science. Behav. Brain Sci. 32,
+429–492 (2009).
+Competing interests
+38. Birkholz, P. Modeling consonant-vowel coarticulation for articulatory speech
+synthesis. PLoS One 8, e60603 (2013). The authors declare no competing interests.
+39. Birkholz, P. 3D-Artikulatorische Sprachsynthese (Logos Verlag, 2005).
+40. Janssen, R. Let the Agents do the Talking: On the Influence of Vocal Tract additional information
+Anatomy on Speech During Ontogeny and Glossogeny (Radboud University/
+Supplementary information is available for this paper at https://doi.org/10.1038/
+Max Planck Institute for Psycholinguistics, 2018).
+s41562-019-0663-x.
+41. Traunmüller, H. Analytical expressions for the tonotopic sensory scale.
+J. Acoust. Soc. Am. 88, 97–100 (1990). Reprints and permissions information is available at www.nature.com/reprints.
+42. Baker, J. E. in Genetic Algorithms and Their Applications: Proceedings of the Correspondence and requests for materials should be addressed to D.D.
+Second International Conference on Genetic Algorithms 14–21 (1987).
+Peer review information: Primary Handling Editor: Marike Schiffer
+43. Eiben, A. E. & Smith, J. E. Introduction to Evolutionary Computing
+(Springer, 2003). Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+44. Beyer, H.-G. & Schwefel, H.-P. Evolution strategies–a comprehensive published maps and institutional affiliations.
+introduction. Nat. Comput. 1, 3–52 (2002). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Dan Dediu
+Corresponding author(s): dan.dediu@univ-lyon2.fr
+Last updated by author(s): Jun 16, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection A Python 2 script was used to fit the Bézier parameters to the manually traced MRI midsagittal hard palate shape. The simulation consists
+of a software chain comprising sections written in C++, Java and Python2. All these are available in the supplementary materials, the
+associated GitHub repository, and in already published materials, all clearly referred in the paper and the supplementary information.
+Data analysis The Rmarkdown scripts are fully available in the SI and in the GitHub repository. The analysis was run mainly on an Ubuntu 18.04
+machine with R 3.4.4 and R 3.5.0, and was checked and replicated on separate machines running macOS High Sierra, macOS Mojave,
+Ubuntu 16.04, and Windows 10 Professional with R 3.4.4 and R 3.5.0 using different BLAS/LAPACK implementations (standard R, Apple
+Accelerate Framework and OpenBLAS).
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+All primary data are freely and fully available with the paper (in the SI and the GitHub repository) or are already fully and freely available as part of prior publications
+(as mentioned in the paper and the SI), with the exception of the 3D intra-oral scanning data which could potentially contain personal and/or identifiable
+information about our participants (for these, only the analysis script and its results are made public).
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Quantitative experimental primary data derived from MRI and intra-oral scans of the vocal tract, and computer simulations.
+Research sample We used two samples. One comes a from published source [Tiede, M. K., Boyce, S. E., Holland, C. K. & Choe, K. A. A new taxonomy of
+American English /r/ using MRI and ultrasound. J. Acoust. Soc. Am. 115, 2633–2634 (2004)] containing data from 22 adult North
+American participants (10 female; age range 18-51, mean 29.8, median 27.5, sd 9.2).
+The other sample comes from our own ArtiVarK project and contains 85 adult participants (32 female; age range 18-61, mean 27.2,
+median 24, sd 7.6) recruited from four broad ethno-linguistic groups (Europe and North American of European Descent [speakeing Indo-
+European languages, mostly Germanic]; North India [speakers of Indo-Aryan languages]; South India [speakers of Dravidian languages];
+and "Chinese" [speaekrs of Sino-Tibetan languages]).
+These data should be representative of the normal variation among adults in vocal tract anatomy.
+Sampling strategy Our own sample (ArtiVarK) was designed to cover language backgrounds of general interest, with targeted recruiting of participants from
+these backgrounds. We used multiple methods for recruiting participants (Facebook groups, direct e-mailing, announcements) from the
+Netherlands and areas of Germany close to Nijmegen. Given the exploratory nature of this study, we did not conduct a formal power
+analysis, with the final sample size resulting from a balance between costs and access to MRI and intra-oral optical scanning facilities, but
+it is larger than those usually reported in the literature. The full details about this sample are described in the paper and in cited
+published materials.
+Data collection For this study, we used only the static MRI and intra-oral scans of the participants (full details about the procedure are given in the article
+itself and the cited publications). The scanning procedure was standardized, and while the researcher was not blinded to the overall goals
+of the data collection (the effect of normal variation in vocal tract anatomy on speech production and cross-linguistic diversity), at the
+time the data was collected we did not yet fully design this particular study reported here (thus, there was implicit blinding in what
+concerns the influence of midsagittal hard palate shape on vowel transmission across chains of simulated agents, as reported here).
+Timing Our data was collected between April and September 2015. The published data comes from a paper published in 2004.
+Data exclusions We used all the participants with the appropriate data (MRI or intra-oral scans) -- please note that some could not provide MRI data due
+to various issues such as orthodontic metallic implements (the entire ArtiVarK database, including the test and calibration runs, contains
+a total of 94 participants, of which 85 could be used in this study).
+Non-participation The general non-participation rate is hard to estimate given the types of recruitment used, but among those that contacted us with an
+interest in participating, it was very low and related to conflicting scheduling or to situations (such as metallic orthodontic implements)
+that prevented safe MRI scanning.
+Randomization Given the focus of the study, namely inter-individual variation, we kept everything as constant as possible across participants. Thus, the
+tasks were identical, in the same order, and in the same conditions across all participants.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics See above
+Recruitment Adverts on campus and online, e-mailing campaigns, direct requests, and contacting facebook groups. Self-selection based on
+interest in language (and, more generally, science) is a possibility, but given that we were interested in inter-individual normal
+variation in vocal tract anatomy this is probably not a major issue.
+Ethics oversight The ArtiVarK study is covered by amendment 45659.091.14 (1 June 2015) "ArtiVarK: articulatory variation in speech and
+language" to the ethics approval "Imaging Human Cognition", Donders Center for Brain, Cognition and Behaviour, Nijmegen,
+approved by CMO Regio Arnhem-Nijmegen, The Netherlands (please see doi:/10.5281/zenodo.1480426 for details).
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Magnetic resonance imaging
+Experimental design
+Design type Static structural MRI scan of the vocal tract
+Design specifications Single structural scan obtained per subject with 10 minute acquisition time.
+Behavioral performance measures For the structural MRI scan, no behavioral measures were used.
+Acquisition
+Imaging type(s) Structural
+Field strength 1.5T
+Sequence & imaging parameters T1 MPR NS PH8, TE=2.58ms, TR=2250ms, flip angle 15°, slice thickness 1mm, pixel spacing 1mm×1mm, FOV 256×256
+Area of acquisition The vocal tract
+Diffusion MRI Used Not used
+Preprocessing
+Preprocessing software MRI processed using MATLAB (Versions 2018b). Midsagittal hard palate traces obtained using a custom graphical user
+interface in Matlab of our own creation.
+Normalization Not applicable.
+Normalization template Not applicable.
+Noise and artifact removal Not applicable.
+Volume censoring Not applicable.
+Statistical modeling & inference
+Model type and settings None relevant here
+Effect(s) tested None relevant here
+Specify type of analysis: Whole brain ROI-based Both
+Statistic type for inference None relevant here
+(See Eklund et al. 2016)
+Correction None relevant here
+4
+nature
+research
+|
+reporting
+summary
+October
+2018
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis

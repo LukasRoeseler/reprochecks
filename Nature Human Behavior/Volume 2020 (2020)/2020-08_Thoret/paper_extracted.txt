@@ -1,15 +1,825 @@
-# Learning metrics on spectrotemporal modulations reveals the perception of musical instrument timbre
-
-## Abstract
-Humans excel at using sounds to make judgements about their immediate environment. In particular, timbre is an auditory attribute that conveys crucial information about the identity of a sound source, especially for music. While timbre has been primarily considered to occupy a multidimensional space, unravelling the acoustic correlates of timbre remains a challenge. Here we re-analyse 17 datasets from published studies between 1977 and 2016 and observe that original results are only partially replicable. We use a data-driven computational account to reveal the acoustic correlates of timbre. Human dissimilarity ratings are simulated with metrics learned on acoustic spectrotemporal modulation models inspired by cortical processing. We observe that timbre has both generic and experiment-specific acoustic correlates. These findings provide a broad overview of former studies on musical timbre and identify its relevant acoustic substrates according to biologically inspired models. 
-
- This is a preview of subscription content, access via your institution
-
-## GitHub Links
-https://github.com/EtienneTho/musical-timbre-studies.
-https://github.com/EtienneTho/musical-timbre-studies
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00987-5/MediaObjects/41562_2020_987_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00987-5/MediaObjects/41562_2020_987_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-00987-5
+Learning metrics on spectrotemporal modulations
+reveals the perception of musical instrument timbre
+Etienne Thoret 1,2,3 ✉, Baptiste Caramiaux 4, Philippe Depalle1 and Stephen McAdams 1
+Humans excel at using sounds to make judgements about their immediate environment. In particular, timbre is an auditory
+attribute that conveys crucial information about the identity of a sound source, especially for music. While timbre has been pri-
+marily considered to occupy a multidimensional space, unravelling the acoustic correlates of timbre remains a challenge. Here
+we re-analyse 17 datasets from published studies between 1977 and 2016 and observe that original results are only partially
+replicable. We use a data-driven computational account to reveal the acoustic correlates of timbre. Human dissimilarity ratings
+are simulated with metrics learned on acoustic spectrotemporal modulation models inspired by cortical processing. We observe
+that timbre has both generic and experiment-specific acoustic correlates. These findings provide a broad overview of former
+studies on musical timbre and identify its relevant acoustic substrates according to biologically inspired models.
+T
+he human auditory system processes acoustic information audio descriptors computed from the sound signal, enabling a psy-
+through several levels of increasing complexity1,2. At the first choacoustic interpretation of musical timbre perception. However,
+levels, transformations of the physical vibrations into neural this approach suffers from severe limitations. First, it has not been
+activity conveyed by the peripheral auditory system are reasonably tested simultaneously across a wide variety of musical instru-
+well known3. Yet, nonlinear transformations carried out at higher ment timbre datasets, which renders its generalizability uncertain.
+cortical levels remain poorly understood from a computational Second, among a plethora of audio descriptors, only two descriptors
+point of view. This is all the more striking when considering the have been found to correlate well with the two first dimensions of
+perception of complex and rich sounds such as those from musi- timbre spaces: the attack time, corresponding to the initial onset
+cal instruments, which involves a complex combination of both portion of the temporal envelope, and the centroid of the spectral
+bottom-up and top-down processes. As such, achieving a unified content11,18. Despite more than 40 years of research on timbre, the
+comprehension of how human auditory perception responds to acoustic correlates for higher dimensions remain unclear15. Finally,
+such complex sounds has the potential to critically advance our and most problematically, by reducing timbre spaces to two main
+global understanding of the processing of acoustic information dimensions, the subtle differences between musical instrument tim-
+by the auditory system. We accomplished a meta-analysis of 17 bres are lost. A rigorous argument comes from a series of experi-
+published datasets and apply metric distance learning to acoustic ments done on cochlear implanted patients. A study19 observed that
+models of spectrotemporal modulations (STMs) similar to those dissimilarity rating experiments run with hearing-impaired par-
+represented in the primary auditory cortex. Our main contribu- ticipants led to the same main two dimensions in timbre spaces,
+tions are thus: (1) to address theoretically the historical question of although these listeners are clearly unable to perceive the subtleties
+defining the acoustical basis of musical instrument timbre, and (2) of musical timbre.
+to develop a data-driven method to reveal the acoustic correlates of Here, we present the meta-analysis of 17 datasets, comprising a
+sound perception and interpret these correlates with STM models. wide range of stimuli and dissimilarity measures, stemming from eight
+More generally, this study implements a data-driven procedure to historical studies on timbre between 1977 and 2016 (refs. 7,8,10–14,16).
+address the relationship between the physical properties of complex The studies used very different stimuli ranging from recorded notes
+sounds and their perceptual ratings. to synthesized and hybrid sounds (see Extended Data Fig. 1 for
+Musical instrument sounds have perceptually salient properties details on the datasets). We trained an interpretable distance metric
+such as loudness (perceived energy), pitch (perceived frequency) that could reveal latent acoustic dimensions involved in sound per-
+and timbre (related to their ‘sound quality’). Although the first two ception. In other words, rather than determining the salient dimen-
+properties are well understood, the timbre of musical instrument sions of dissimilarity measures and correlating these with scalar
+sounds remains complex and ill defined4. Wherein lies the differ- acoustic features20, we computationally train a distance kernel func-
+ence between the sounds produced by two musical instruments tion k (similar to a weighted Euclidean distance) between acoustic
+playing the same pitch at the same loudness? Participants are usu- models to maximally correlate with human dissimilarity measures
+ally asked to rate the dissimilarity between pairs of sounds (Fig. 1a) (Fig. 1c). The trained weights of this function highlight acoustic
+from which relevant perceptual dimensions of a timbre space are information fitting human perceptual distance.
+revealed by multidimensional scaling (MDS) (Fig. 1b)5–17. MDS We apply metric learning to acoustic models as achieved by pri-
+produces a low-dimensional parametric space (typically with two mary auditory cortices, highlighting the STMs of a sound event21.
+or three dimensions) in which sounds are assigned coordinates, and STM models have been shown to be relevant to the study of musical
+the distances between sounds reflect their perceptual dissimilarities. sounds14,22. It is, however, unknown which parts of these acoustic
+Relevant dimensions of these timbre spaces are then correlated with models are relevant from a perceptual point of view.
+1Schulich School of Music, McGill University, Montreal, Canada. 2Aix Marseille Univ, CNRS, PRISM, LIS, Marseille, France. 3Institute of Language
+Communication and the Brain (ILCB), Marseille, France. 4Université Paris-Saclay, CNRS, Inria, LRI, Gif-sur-Yvette, France. ✉e-mail: etienne.thoret@mail.mcgill.ca
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHavIour
+a
+Sound stimuli Auditory judgments Human dissimilarity
+ratings
+A B C D
+A0.90.30.80.5
+B 0.80.30.9
+C 1 0.7
+0.6
+b
+Human data
+Correlation MDS
+c
+Correlation
+results and Supplementary Table 1 for the full statistics), whereas it cor-
+MDS analysis. To assess the replicability of previous studies, we relates well with the second dimension (ρ2, median, 0.61; IQR,
+first re-analysed the 17 datasets with the classical MDS-based 0.45; Extended Data Fig. 2 and see Supplementary Table 1 for the
+approach. Although parameters are usually adjusted differently full statistics). In addition, when available, the original acoustical
+in each study, here we used the same method for all the datasets analyses can be replicated more or less well depending on the study
+(see Methods for details). We evaluated the Spearman correlations (Fig. 2 and Extended Data Fig. 3). To optimize the correlation
+of the positions along the dimensions of the MDS solutions with between LAT and spectral centroid with one of the two first dimen-
+the two most basic acoustic descriptors (hereafter expressed as ρ2): sions, we chose a method that automatically finds the best set of MDS
+the logarithm of the attack time (LAT) and the spectral centroid20. parameters; that is, the number of projected dimensions and the
+Globally, the LAT correlates moderately with the first dimension of optimal rotation of the MDS dimensions (Methods). Nevertheless,
+the timbre spaces (ρ2, median, 0.41; interquartile range (IQR), 0.29; replicating the published correlation values remains very difficult.
+Extended Data Fig. 2) and moderately with the second dimension This is a major limitation of the MDS-based approach. Indeed,
+(ρ2, median, 0.20; IQR, 0.32; Extended Data Fig. 2). The median and this critically depends on implicit decisions made by the authors,
+IQR are taken from the Spearman correlations for the 17 datasets. often not accurately and/or comprehensively reported in published
+The degrees of freedom range from 9 to 18. The detailed full sta- papers: the experimenter always makes choices to optimize the final
+tistics (significance, statistical power and 95% confidence intervals outcomes, for example, by choosing one particular type of MDS,
+(CI)) for each dataset are reported within the Supplementary Table adapting its parameters or hand-tuning the audio descriptors used
+1. It must be noted that datasets including sounds whose temporal for the correlations. Taken together, these observations show the
+envelopes have been manipulated (Iverson and Krumhansl10, onset limitation of the dimensional approach and the need for an alterna-
+dataset; Iverson and Krumhansl10, remainder dataset)7,10 failed to tive to reveal the acoustical substrates of musical timbre.
+provide high correlations with MDS dimensions, whereas those
+including unmanipulated stimuli had higher correlations. The cor- STMs of musical sounds. STM models are produced by
+relations between the spectral centroid and the first dimension are mathematical tools that mimic the output of the processing of
+generally poor (ρ2, median, 0.06; IQR, 0.07; Extended Data Fig. 2 sounds by primary auditory cortical neurons. These models refer to
+?? :3 miD
+D
+A B C D
+A 0.90.30.80.5
+specD ti rm al 2 c: entroid C DB 0.80 1.30 0 0. . .9 7
+6
+A B C D
+A 0.90.30.80.5
+B 0.80.30.9
+C 1 0.7 D 0.6
+lacirotsiH
+cirtem
+ecnatsiD
+tnemirepxE
+hcaorppa
+gninrael
+A
+1
+A
+2
+Trials
+A
+3
+Waveform
+A tt it ma eck Spectral centroid
+edutilpmA
+edutilpmA )zH(
+qerF
+B
+1
+B
+2
+B
+3
+Acoustic
+Audio descriptors
+Auditory
+Spectrogram
+7,246
+180
+Cortical representation
+Auditory Cortical Waveform spectrogram representation
+)zH( qerF )o/c( elacS
+Time
+0 Time (s) 0.9 Dim 1: Attack time
+k (x,y)=exp –ΣN i= 1∣xi w– iy 2j∣2
+Scale–rate
+7,246 8 Time 1 7,246
+180 0 Time (s) 0.9 0 –.2 15 28 –4 4 128 180 Fre (q Hz)
+Rate (Hz)
+)o/c( elacS )zH( qerF 8 7,246 1
+0.25 180
+)zH( qerF
+Model of dissimilarity
+Timbre space
+Interpretable metric
+Freq–rate Freq–scale
+7,246
+180 –128 –44 128 –128 –44 128 8 1 0.25
+Rate (Hz) Rate (Hz) Scale (c/o)
+Fig. 1 | Two different approaches to investigate the auditory perception of musical instrument timbre. Each approach aims to fit a model (green box) to
+human participants’ dissimilarity ratings between pairs of sounds (blue box) on the basis of the acoustic information (pink box). a, Experiments: listeners
+make dissimilarity ratings on all pairs of sounds to produce a dissimilarity matrix. b, Historical approach: dissimilarity ratings are analysed with MDS
+and the dimensions (Dim, dimension; ??, Dimension 3 is not well defined) are correlated with scalar audio descriptors computed from basic acoustic
+representations. This has several limitations; in particular, the audio descriptors and the MDS parameters are hand-tuned by experimenters leading to
+difficulties in replicating the findings in the literature. c, Distance metric learning on the STM representation: this data-driven approach simulates human
+dissimilarity ratings from the STM representations of sounds, which can then be interpreted. For computation of the STM representation, the waveform
+is first transformed into a time–frequency (freq) representation—an auditory spectrogram—and then into a STM representation embedding frequency,
+rate (temporal modulations) and scale (spectral modulations). A distance k(x,y) is optimized by learning the weighting coefficients w that best mimic the
+i
+human dissimilarity ratings, providing an interpretable metric revealing the relevant information embedded in the STM representations. For each dataset,
+the generalizability of the fitted kernel is first cross-validated with the leave-one-sound-out method. The metric is then refitted on the whole dataset and
+the correlation with the cross-validated set is evaluated.
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHavIour Articles
+a LAT b
+1.0
+B2010 B2010
+L2000H P2012A3 P2012A3
+L2000H
+I1993W I1993W
+P2012DX4 P2012DX4
+McA1995 McA1995
+L2000P P2012GD4 P2012GD4 L2000P
+L2000C L2000C
+I1993R
+I1993O
+Original explained variance Original explained variance
+(median: 0.88) (median: 0.54)
+spectrotemporal receptive fields (STRFs)23,24, which are tuned to fire (Supplementary Tables 4–6). Last, as frequency and rate have more
+for specific STM patterns in sounds. Practically, the auditory spec- dimensions than scale, we tested for another potential overfitting in
+trogram, representing the cochlear processing of a sound, is pro- these two dimensions by running the previous analysis after hav-
+jected into a four-dimensional representation space characterized ing downsampled the rates and frequencies to the same number of
+by time, frequency (in Hz), temporal modulations (rate in Hz) and dimensions as the scales (10 frequencies × 10 rates × 10 scales; see
+spectral modulations (scale in cycles per octave) (Fig. 1). This STM Methods for details). The explained variances obtained with this
+representation (STM transfer function, STMF) reflects the multires- test are lower on average than with the higher-dimensional rep-
+olution analysis of the spectrotemporal information21,25, which has resentation (see comparison in Table 1 and Supplementary Tables
+already provided insights into the identification of musical instru- 7–10) but respect the same trends. As a first control, we ran the opti-
+ment sounds14,26–29 and correlates with human brain activity30–32. In mization process with the time-averaged auditory spectrum, which
+this study, 128 frequency channels, 22 rates and 11 scales were cho- revealed lower proportion of variance explained (r2, median, 0.19;
+sen to compute the representations (Methods). As these represen- IQR, 0.48) (Supplementary Table 11). As a second control, we com-
+tations are high-dimensional, they are averaged over time leading puted the Euclidean distance between full STMFs of pairs of stimuli
+to tensors with the dimensions 128 × 22 × 11 (called the full STMF to show the interest of learning the distance. This does not allow
+below; further technical details on computations are provided in us to accurately simulate the human dissimilarities (r2, median,
+Methods) (Fig. 1c, left box). To understand the role of the three 0.11; IQR, 0.20) (Table 1 and Supplementary Tables 12 and 13).
+acoustic dimensions embedded in the global three-dimensional These results support the relevance of the distance metric learning
+tensor, representations projected onto each pair of the three dimen- approach to suggest a link between human behavioural data with
+sions will also be considered, that is, scale–rate (averaged over fre- acoustic representations of the stimuli.
+quency), frequency–rate (averaged over scale) and frequency–scale
+(averaged over rate) (Fig. 1c, middle box). Acoustic interpretations of the metrics. We first assess whether
+the kernels fitted to each individual dataset show similarities
+Optimized metrics simulating human dissimilarity ratings. The between datasets. We computed pairwise Spearman (ρ) correlations
+human ratings are perceptual distances between sounds. To under- between the fitted weights w (Methods). Spearman correlations
+stand the extent to which these ratings are derived from the acous- were computed as the different fitted metrics may have different
+tic difference between sounds, we fit a distance kernel (radial basis scales that may bias Pearson’s correlations values. A summary of
+function) between STM representations that best approximate the the full statistics is available in Supplementary Table 14. The fitted
+perceptual distances (Methods and Supplementary Fig. 1). This kernels for the full STMF do not generalize well across the differ-
+method seeks the parts of the STMFs that are the most relevant ent datasets (ρ2(30,974), median, 0.25; IQR, 0.17). Nevertheless, if
+to reproduce the ratings of the stimuli. On median, across the 17 we inspect each 2D projection of the metrics, as observed in Fig. 3
+datasets, 78% of the variance in dissimilarity ratings is explained for example, the fitted weights appear to have qualitatively similar
+by the optimized metrics (r2, median, 0.78; IQR, 0.58) (Table 1 and traits. In particular, the weights fitted on the scale–rate projection
+Supplementary Table 2). We control for overfitting of each metric are very similar across all of the datasets (ρ2(240), median, 0.68;
+with the leave-one-sound-out cross-validation method (Methods, IQR, 0.33). In addition, for each metric, most of the energy is cen-
+Extended Data Fig. 4 and Supplementary Table 3). Notably, the tred on low temporal modulations (<15 Hz) and spectral modula-
+two-dimensional (2D) projections scale–rate, frequency–rate and tions around 1 cycle per octave. Conversely, the weights fitted on the
+frequency–scale do not explain a large proportion of variance alone frequency–rate and frequency–scale projections are specific to each
+(scale–rate: r2, median, 0.20; IQR, 0.25; frequency–rate: r2, median, dataset (ρ2(2,814), median, 0.50; IQR, 0.23 and ρ2(1,406), median,
+0.32; IQR, 0.49; frequency–scale: r2, median, 0.55; IQR, 0.57) 0.28; IQR, 0.29, respectively).
+ecnairav
+denialpxe
+sisylana-ateM
+)76.0
+:naidem(
+ecnairav
+denialpxe
+sisylana-ateM
+)95.0
+:naidem(
+SC
+1.0
+0.8 0.8
+0.6 0.6
+0.4 0.4
+0.2 0.2
+0 0
+0 0.2 0.4 0.6 0.8 1.0 0 0.2 0.4 0.6 0.8 1.0
+Fig. 2 | replicability of the MDS-based approach. a,b, Spearman correlation (ρ2) with the LAT (a) and the spectral centroid (SC) (b) in the meta-analysis
+versus explained variance in the original study. The computed correlations in the meta-analysis are generally lower than the explained variance provided
+in the original studies. Eleven studies are considered for the LAT and nine for the spectral centroid, corresponding to those available in the original papers
+(Extended Data Fig. 3)—B2010, Barthet et al.13; P2012A3, Patil et al.14; A3 dataset. P2012GD4, Patil et al.14; GD4 dataset. P2012DX4, Patil et al.14; DX4 dataset.
+L2000P, Lakatos12 percussive dataset. L2000H, Lakatos12 harmonic dataset. L2000C, Lakatos12 combined dataset. I1993W, Iverson and Krumhansl10 whole
+dataset. I1993O, Iverson and Krumhansl10 onset dataset. I1993R, Iverson and Krumhansl10 remainder dataset. McA1995, McAdams et al.11.
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHavIour
+Table 1 | Explained variance (r2) of the human ratings by the optimized Gaussian kernels
+Study Dataset name Degrees of Auditory Euclidean distance Full STMFa Scale–ratea Frequency–ratea Frequency–
+freedom spectrum on full STMFa scalea
+Grey8 – 118 0.47 0.17 (0.17) 0.78 (0.61) 0.10 (0.10) 0.46 (0.45) 0.57 (0.48)
+Grey and – 118 0.11 0.00 (0.00) 0.30 (0.15) 0.09 (0.08) 0.12 (0.10) 0.18 (0.09)
+Gordon7
+Iverson and Whole 118 0.16 0.26 (0.26) 0.83 (0.48) 0.35 (0.37) 0.40 (0.24) 0.61 (0.25)
+Krumhansl10
+Onset 118 0.08 0.01 (0.01) 0.21 (0.16) 0.06 (0.08) 0.07 (0.05) 0.13 (0.08)
+Remainder 118 0.03 0.02 (0.04) 0.27 (0.14) 0.04 (0.03) 0.06 (0.04) 0.10 (0.04)
+McAdams et al.11 – 151 0.30 0.08 (0.13) 0.73 (0.52) 0.20 (0.18) 0.25 (0.22) 0.42 (0.26)
+Lakatos12 Harmonic 134 0.19 0.06 (0.02) 0.83 (0.48) 0.35 (0.37) 0.40 (0.24) 0.61 (0.25)
+Percussive 151 0.18 0.02 (0.01) 0.29 (0.23) 0.08 (0.08) 0.19 (0.16) 0.17 (0.15)
+Combined 188 0.14 0.08 (0.09) 0.33 (0.20) 0.00 (0.00) 0.17 (0.15) 0.24 (0.16)
+Barthet et al.13 – 103 0.74 0.57 (0.57) 0.97 (0.92) 0.83 (0.82) 0.87 (0.83) 0.88 (0.85)
+Patil et al.14 A3 53 0.62 0.31 (0.27) 0.93 (0.69) 0.36 (0.25) 0.65 (0.49) 0.76 (0.53)
+DX4 53 0.69 0.25 (0.20) 0.98 (0.80) 0.26 (0.09) 0.76 (0.53) 0.84 (0.60)
+GD4 53 0.45 0.25 (0.23) 0.91 (0.74) 0.49 (0.17) 0.64 (0.51) 0.67 (0.60)
+Siedenburg Experiment 2A, 89 0.58 0.18 (0.21) 0.90 (0.80) 0.20 (0.22) 0.55 (0.49) 0.73 (0.65)
+et al.16 set 1
+Experiment 2A, 89 0.70 0.19 (0.22) 0.94 (0.85) 0.35 (0.35) 0.75 (0.72) 0.76 (0.75)
+set 2
+Experiment 2A, 89 0.10 0.04 (0.05) 0.48 (0.26) 0.19 (0.16) 0.14 (0.10) 0.16 (0.13)
+set 3
+Experiment 2B 89 0.07 0.04 (0.04) 0.42 (0.21) 0.21 (0.18) 0.11 (0.07) 0.12 (0.10)
+(2A, set 3)
+Median 0.19 0.11 (0.13) 0.78 (0.51) 0.20 (0.16) 0.32 (0.22) 0.55 (0.26)
+aThe values in parentheses correspond to the explained variance with the downsampled representations.
+As a control, we also equalized the dimensionalities of each rep- conclusions regarding the effect of fundamental frequency. Further
+resentation to evaluate a potential influence of this factor on the research should therefore be conducted to investigate more system-
+correlation. Overall, it confirms our conclusions by showing very atically the relationship between fundamental frequency and tim-
+similar trends between the different projections (downsampled full bre. However, scale–rate is the representation that captures most of
+STMF (10 × 10 × 10), ρ2(98), median, 0.30; IQR, 0.18; scale–rate, the generality across the datasets as shown by the tight clustering of
+ρ2(98), median, 0.58; IQR, 0.32; frequency–rate, ρ2(98), median, all but five datasets. This reinforces the idea that timbre has generic
+0.55; IQR, 0.26; freqency–scale, ρ2(98), median, 0.45; IQR, 0.37). dimensions embedded in the scale–rate projection and that the sub-
+We further refined this analysis by considering only the ten data- tler aspects of timbre that are specific to the stimulus set are embed-
+sets with stimuli that share the same fundamental frequency (Eb4, ded in the frequency–rate and frequency–scale projections.
+311 Hz). This confirms the previous observations: scale–rate met-
+rics generalize between the datasets better than frequency–rate Timbre perceptual metrics are experiment-specific. To under-
+and frequency–scales (full STMF, ρ2(30,974): median, 0.30; IQR, stand the links between the stimuli and the metrics for each dataset,
+0.18; scale–rate, ρ2(240), median, 0.74; IQR, 0.25; frequency–rate, Pearson correlations between the fitted metrics and the sample-wise
+ρ2(2,814): median, 0.55; IQR, 0.22; frequency–scale, ρ2(1406), standard deviations of the stimuli were computed. Practically, for
+median, 0.38; IQR, 0.31). each dataset and each metric, we first compute the standard devia-
+tion for each bin of the representation across the stimuli, that is, the
+Clustering of optimized metrics. To understand in depth how the standard deviation ‘pixel per pixel’. Then, the Pearson correlation
+stimuli of the experiments drive the properties of the metrics, clus- between the vectorized arrays of standard deviations and the vector-
+tering analyses were run on the basis of the previous correlational ized version of the metrics was computed. This revealed that the full
+analyses (Fig. 4). For the full STMF and each of its three projections, STMF is strongly correlated with the stimulus standard deviations
+a cluster analysis was conducted based on the pairwise Spearman (r2(30,974), median, 0.75; IQR, 0.12) (Fig. 3, Supplementary Figs.
+correlations. This analysis aims to understand whether: (1) the 2–18 and Supplementary Table 15). If we inspect these correlations
+stimulus sets of similar stimuli group together; (2) edited, recorded for each of the three 2D representations, all three strongly corre-
+and synthesized stimuli group together; (3) fundamental frequency late with the stimulus sample-wise standard deviations (scale–rate,
+affects grouping and (4) which representation captures general and r2(240), median, 0.90; IQR, 0.11; frequency–rate, r2(2,814), median,
+more stimulus set-specific features. Based on the clusters deter- 0.83; IQR, 0.04; frequency–scale, r2(1,406): median, 0.79; IQR, 0.10)
+mined with a hierarchical clustering of the Spearman correlation (Fig. 3 and Supplementary Tables 16–18). This result strongly sug-
+coefficients with a complete linkage method, the first two factors gests that perceptual metrics are experiment-dependent and can be
+do not affect grouping in the case of the datasets under consider- derived from the stimulus variability. To understand more precisely
+ation. It is worth noting that 10 out of 17 datasets have the same the link between the optimized metrics and the stimuli of each
+fundamental frequency (311 Hz), which partly limits the potential experiment, we performed a multiple linear regression between
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHavIour Articles
+Optimized metric
+8 S–R 7,246 F–R 7,246 F–S
+1
+Max
+0.25 180 180
+–128 –4 4 128 –128 –4 4 128 0.25 1 8
+Stimuli standard deviation
+8 S–R 7,246 F–R 7,246 F–S
+Min
+1
+0.25 180 180
+–128 –4 4 128 –128 –4 4 128 0.25 1 8
+Fig. 3 | Correspondence between fitted metrics and standard deviations of the stimuli. Projections of optimized metrics (top) and standard deviations
+between stimuli (bottom) (from the A3 dataset in Patil et al.14) in the three projections of the STM representation, scale–rate (S–R, cycles per octave
+versus Hz), frequency–rate (F–R, Hz versus Hz) and frequency–scale (F–S, Hz versus cycles per octave). The similarity of these representations is
+particularly high (r2(30,974) = 0.83 in the case of the Patil et al.14, A3 dataset and r2(30,974) = 0.74 on average across all the datasets) (Supplementary
+Figs. 2–18 for the other datasets and Supplementary Table 2).
+the fitted metrics and the stimuli for the four representations (full different datasets, does not share common properties with fre-
+STMF, scale–rate, frequency–rate, frequency–scale) for each data- quency–rate and frequency–scale decompositions.
+set. We observed that each metric can be decomposed as a linear
+combination of the different stimuli representations (full STMF, Discussion
+R2, median, 0.86; IQR, 0.05; scale–rate, R2, median, 0.98; IQR, 0.04; In this paper, we addressed a historical question about musical
+frequency–rate, R2, median, 0.96; IQR, 0.05; frequency–scale, R2, instrument timbre perception: is the timbre of sounds best repre-
+median, 0.92; IQR, 0.05). Second, to understand whether the four sented as a rigid acoustical space, or is it composed of both generic
+representations led to the same linear combination of stimuli, we acoustical correlates embedded in the spectral and temporal enve-
+computed the pairwise Spearman correlations between the regres- lopes and stimulus set-specific ones embedded in the frequency–
+sion weights obtained with the four different projections for each scale and frequency–rate patterns of STM representations. Through
+dataset. High correlations reflect that the global metric (full STMF) a computational meta-analysis of 17 experiments, this study showed
+is decomposed in the same way as the other considered metric. that the classical MDS-based approach of correlating positions of
+We observed that the weights of the linear combinations explain- stimuli along a given perceptual dimension with univariate acoustic
+ing the full STMF metric correlate moderately with the weights of descriptors is only partially replicable for most of the studies, and
+the regressions obtained with the frequency–rate and frequency– that it is only adapted to investigate the generic acoustic correlates
+scale representations (full STMF/frequency–rate, ρ2, median, 0.59; of timbre. With the distance metric learning method, we determine
+IQR, 0.33; full STMF/frequency–scale, ρ2, median, 0.55; IQR, 0.38) which information in the STM representations of sounds best sim-
+(Supplementary Table 19). Conversely, these weights have a lower ulates human dissimilarity ratings of musical instrument timbres.
+correlation with those obtained with the scale–rate projections This study revealed that STM representations are crucial tools, and
+(full STMF/scale–rate, ρ2, median, 0.17; IQR, 0.31) (Supplementary in particular we uncovered the role of each of their three projec-
+Table 19). Last, the weights obtained with frequency–rate and fre- tions for the perception of musical instrument timbre. This makes a
+quency–scale projections correlates moderately with each other significant step forward in understanding the acoustic correlates of
+(frequency–rate/scale, ρ2, median, 0.31; IQR, 0.25) and do not musical instrument timbres by showing how listeners use the vari-
+correlate with the weights obtained with the scale–rate projection ability of the frequency–scale and frequency–rate representations
+(scale–rate/frequency–rate, ρ2, median, 0.08; IQR, 0.18; scale–rate/ of the stimuli to make their perceptual ratings. More globally, this
+frequency–scale, ρ2, median, 0.05; IQR, 0.24) (Supplementary Table study supports a generic data-driven procedure to address the rela-
+19). This analysis reinforces the fact that the metrics fitted for each tionship between the physical properties of sounds and their per-
+dataset is principally driven by the information embedded in the ceptual ratings.
+range of frequency–rate and frequency–scale projections in each Most of the studies in the last 40 years have considered timbre as
+dataset. Conversely, scale–rate, which is more generic across the a fixed perceptual space with dimensions correlating with acoustic
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHavIour
+a b
+Full STMF Scale–rate
+B2010 165 P2012GD4 415
+S2016e2set3 311 S2016e2set1 311
+S2016_e3 311 G1977 311
+L2000C 311 S2016e2set2 311
+S2016e2set1 311 L2000H 311
+S2016e2set2 311 L2000P 311
+P2012GD4 415 P2012DX4 311
+G1977 311 S2016e2set3 311
+G1978 311 S2016_e3 311
+McA1995 311 I1993O 262
+P2012A3 220 G1978 311
+P2012DX4 311 L2000C 311
+L2000P 311 B2010 165
+L2000H 311 P2012A3 220
+I1993O 262 I1993R 262
+I1993R 262 I1993W 262
+I1993W 262 McA1995 311
+c d
+Frequency–rate Frequency–scale
+B2010 165 P2012DX4 311
+S2016e2set3 311 L2000C 311
+S2016_e3 311 McA1995 311
+S2016e2set1 311 S2016e2set1 311
+S2016e2set2 311 S2016e2set2 311
+P2012GD4 415 S2016e2set3 311
+G1977 311 S2016_e3 311
+G1978 311 G1977 311
+McA1995 311 P2012A3 220
+P2012A3 220 G1978 311
+I1993R 262 P2012GD4 415
+I1993W 262 I1993O 262
+L2000H 311 I1993R 262
+L2000P 311 I1993W 262
+P2012DX4 311 L2000P 311
+I1993O 262 B2010 165
+L2000C 311 L2000H 311
+Fig. 4 | Generalizability of the metrics learned for the different datasets. Fitted weights are correlated between all pairs of datasets. In the dissimilarity
+matrices, yellow indicates a perfect correlation (identity on the diagonal) and dark blue a zero correlation. a–d, For each representation: full STMF
+(a), scale–rate (b), frequency–rate (c) and frequency–scale (d), dendrograms with complete linkage from the Spearman correlations were computed.
+Dendrograms are presented on the top of the correlation matrices and represent the similarity structure of the optimized metrics among the datasets. The
+fundamental frequency of the stimuli in each dataset are mentioned at the right of each label.
+descriptors7,8,10–12,14; see ref. 4 for a review. Although it has been parameters and acoustic descriptors used by the authors of each
+efficient for the two first dimensions, this led to a never-ending study. Nevertheless, the present results confirm the relevance of the
+debate concerning the number of perceptually relevant dimensions temporal and spectral envelopes: the fitted metrics indeed gener-
+of the underlying musical instrument timbre spaces15,33. In addi- alize in the scale–rate representation. But here, rather than focus-
+tion, as shown in the MDS-based meta-analysis, the replicability of ing on a reduced dimensional space, we observed that human
+these studies is not obvious and is sensitive to the MDS model dissimilarity ratings are explained by the variability of the STM
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHavIour Articles
+representations of the stimuli in each experiment, whereas the 44.1 kHz, were first downsampled to 16 kHz. The auditory representations were
+MDS-based approach excludes significant information by reduc- computed with an adapted version of the NSL Tools21. Cochlear processing is
+modelled as a bank of 128 constant-Q asymmetric bandpass filters equally spaced
+ing a complex spectrotemporal morphology to a small number of
+on a logarithmic frequency–scale spanning 5.3 octaves. Inner hair cell potentials
+dimensions and scalar descriptors. We argue here that in addition and lateral inhibitory networks are modelled by a high-/low-pass filter and spectral
+to these main acoustic dimensions, listeners adjust the range of their sharpening, respectively. The loss in phase locking operating at the midbrain
+dissimilarity ratings on the basis of the variability of more subtle level is performed by using a short-term integration of 4 ms. These computations
+subrepresentations of the STM representation: the frequency–scale result in the auditory spectrogram, a two-dimensional time-frequency array.
+The auditory spectrum is computed by averaging the auditory spectrogram
+and frequency–rate projections, which can be directly observed by
+along the temporal dimension. The STM model is computed by applying a STM
+way of the optimization of Gaussian kernels. Practically, this adjust- filterbank to the spectrogram. A detailed description is provided by Patil and
+ment of the dissimilarity range by the listeners may depend on the colleagues14. Practically, a two-dimensional Fourier transform is first applied
+specific stimulus set, either during the training preceding each to the spectrogram, which results in a two-dimensional array, also called the
+modulation power spectrum28,40 whose dimensions are spectral modulation
+experiment or even over the course of the experiment itself.
+(scale) and temporal modulation (rate). Because of the spectral symmetry of the
+The previous acoustic considerations support the use of STM
+spectrogram, only positive scale values are kept, whereas both positive and negative
+representations and this notably relates to neurophysiological obser- rates are kept. Finally, the STMF representation is a multiresolution analysis of the
+vations. In particular, the neuronal populations of primary auditory spectrogram that is derived by filtering the modulation power spectrum according
+cortex—the spectrotemporal receptive fields—are indeed plastic to different rates and scales and then coming back to the time-frequency domain.
+and driven by attention34–38. Brain imaging studies also support the The final STMF representation can be seen as a series of spectrograms filtered
+according to different rates and scales. Here, we chose the following scale (s) and
+hypothesis that musical timbre is specifically encoded in the human
+rate (r) centre values as 2D Gaussian filters to generate the STM representation:
+auditory cortex30,31,39. Human dissimilarity ratings could be adjusted s = (0.25, 0.35, 0.50, 0.71, 1.00, 1.41, 2.00, 2.83, 4.00, 5.66, 8.00 cycles per octave),
+on the basis of this plasticity and through attentional processes that r = ± (4.0, 5.7, 8.0, 11.3, 16.0, 22.6, 32.0, 45.3, 64.0, 90.5, 128.0 Hz). The resulting
+focus on different acoustic factors, which may depend on selective representation thus corresponds to a 4D matrix with time, frequency, scale and
+rate dimensions. This representation is then averaged across time to make the
+attention processes. These findings support the hypothesis that rel-
+full STMF representation (frequency, scale, rate). The full STMF is then averaged
+evant STM cues can thus be opportunistically probed by attentional
+across each of its three dimensions to make the 2D scale–rate, frequency–rate and
+processes according to the listening situation and to the task, here frequency–scale representations. Decimated representations were also used with
+judging the dissimilarity between two sounds. The STM representa- the following parameters: s = (0.25, 0.50, 0.71, 1.00, 1.41, 2.00, 2.83, 4.00, 5.66, 8.00
+tion thus provides a relevant unbiased acoustic input to more com- cycles per octave), r = ± (4.0, 11.3, 22.6, 45.3, 128.0 Hz) and frequency channels (1,
+15, 29, 43, 57, 72, 86, 100, 114, 128).
+plex modelling of auditory processes as those performed by higher
+cortical levels. More complex tasks would indeed need more com- Stimulus datasets. We investigated 17 published timbre spaces that used
+plex models given that the acoustic correlates feeding the Gaussian different kinds of sounds: natural musical instrument sounds that have been
+kernel metrics are not complex enough to reflect the globality of the analysed and then resynthesized with simplifications or systematic modifications
+cortical processes’ nonlinear behaviours2. (Grey8; Grey and Gordon7; Barthet et al.13; Siedenburg et al.16, experiment 2A,
+sets 2 and 3), imitations and hybrids of musical instruments synthesized with a
+Understanding which acoustic information is relevant to per-
+frequency-modulation algorithm available on a commercial synthesizer (McAdams
+form an auditory task is a crucial issue in auditory cognitive neu- et al.11), and recorded and edited natural sounds (Iverson and Krumhansl10;
+roscience that goes well beyond musical instrument perception to Lakatos12; Patil et al.14; Siedenburg et al.16, experiment 2A, set 1).
+speech22,40,41, environmental sounds42, and even animal bioacous-
+tics43. The method implemented here allows one to determine: (1) MDS-based analysis. For each dataset, eight standard non-metric MDS analyses
+were performed with MATLAB (The MathWorks). The choice of dimensionality
+whether an acoustic representation is relevant to simulate a given
+onto which the MDS is projected is generally based on the curve representing
+dissimilarity rating perceptual task, and (2) which information is stress as a function of number of dimensions. Here we chose to use eight values,
+used to reproduce the task. In the present case, STM representa- from two to ten dimensions, which is clearly higher than the average number of
+tions were used. While the gold-standard approach has mainly used dimensions generally sufficient to fit an MDS solution to a perceptual dataset.
+In addition, this allows us to be less user-specific. For each dataset and each
+combinations of large numbers of audio descriptors to explain audi-
+MDS dimension, we then evaluated the Spearman correlation of the first two
+tory tasks44, the tools clearly lack interpretability regarding which
+dimensions with the two most classical descriptors: the LAT and the spectral
+biologically plausible representations are useful to model auditory centroid. We finally assessed the correlation between the descriptors and the first
+cognition45. Here we implement a framework in which we inter- two perceptual dimensions by choosing the solution from among the eight with
+pret the weights of a Gaussian kernel on STM representations. The the maximum correlation (ρ2). As the non-metric MDS is based on ranks, we
+strength of this approach can be generalized with other metrics46, report the Spearman correlation here that provides a non-parametric assessment
+of correlation between two variables. The LAT was computed as in Patil et al.14 by
+to other acoustic models, for example, statistical representations47,48,
+taking the logarithm of the time to increase the temporal envelope from −40 dB to
+and to other parametric models, for example, speech prosody41. The −12 dB relative to the maximum waveform amplitude. The spectral centroid was
+method implemented here thus aims to provide a way to investigate computed as the centroid of the Fast-Fourier Transform averaged over all time
+the links between low-level acoustic representations and high-level frames.
+auditory judgements, which was not easily achieved with the statis-
+Optimization of Gaussian kernels. For each dataset, we learn a distance metric
+tical methods used up to this point. It nevertheless captures a sig-
+mimicking human ratings from a STM representation. Distance metric learning is
+nificant part of the variance in human dissimilarity ratings and links a well-known problem in machine learning49,50, which aims to learn the coefficients
+it to a potential acoustical substrate. This approach has the poten- of a distance to fit with a given distance. These coefficients can be interpreted as
+tial to be applied in many other domains of cognitive neuroscience, weights on the representations of the stimuli. Here the learned distance, the kernel,
+is a radial basis function (see below) between STMFs of two sounds x and y:
+in particular to make non-intuitive hypotheses on a possible link
+between high-dimensional models and global dissimilarity data.
+kx;y exp
+N xi�y i2
+1
+ð Þ¼ � i 1 w2 i  ! ð Þ
+Methods X¼  
+Ethics. Our study reports an analysis of quantitative experimental data collected where x and y are the vectorized versions of the STMFs defined in the previous
+from human participants who rated dissimilarity between pairs of sounds. No section. Practically, each stimulus is initially a three-dimensional array with 22
+participants were actually run in this study as the data were provided by the rates, 11 scales and 128 frequencies, which is reshaped into a one-dimensional
+original authors. For details on ethical regulations and editorial board references, array of size N = 22 × 11 × 128. w is the array of coefficients (weights). From a
+see the original papers. generic point of view, the distance metric learning here can be interpreted as a
+way to optimize weights on a Euclidean distance passed through an exponential
+Acoustic representations of sounds. To enhance the speed of processing in function. The main interest here is that the relative importance of each feature
+the modelling effort, the sound files of the different studies, initially sampled at can be directly observed as masks on the STMFs, which makes the method
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHavIour
+fully interpretable. More precisely, the learned coefficients w array has the same 5. Plomp, R. in Frequency Analysis and Periodicity Detection in Hearing (eds
+dimensionality as the STMF and can then be directly observed by reshaping it to Plomp, R. & Smoorenburg, G. F.) 397–414 (Sijthoff, 1970).
+the original 22 × 11 × 128 three-dimensional matrix. 6. Wessel, D. L. Timbre space as a musical control structure. Comput. Music J. 3,
+The loss function used to fit the kernel (learning weights, w) is the correlation 45–52 (1979).
+between the simulated distances between sounds and the mean dissimilarity 7. Grey, J. M. & Gordon, J. W. Perceptual effects of spectral modifications on
+ratings. In other words, the objective is to learn the weights w by maximizing the musical timbres. J. Acoustical Soc. Am. 63, 1493–1500 (1978).
+Pearson correlation between the kernel distances k and the human ratings r, which 8. Grey, J. M. Multidimensional perceptual scaling of musical timbres.
+can be formulated as: J. Acoustical Soc. Am. 61, 1270–1277 (1977).
+9. Krumhansl, C. L. in Structure and Perception of Electroacoustic Sound and
+J ¼ PN i ¼1 PN j ¼1 �k �x σi; kx σj d�k �d �xi;xj �d
+
+ð2
+Þ 10.
+IM veu rs si oc n( ,e d P.s &N i Kel rz ue mn,
+h
+S a.
+n
+&
+sl ,
+O Cl .s s Lo .n I,
+s
+oO la.)
+t
+i4 n3 g– t5 h3
+e
+( dE yx nc ae mrp it ca aM ttre id bi uc ta e, s1 o9 f8 9 m).
+usical
+timbre. J. Acoustical Soc. Am. 94, 2595–2603 (1993).
+where k and d and (σk and σd, respectively) are the means (standard deviations) of
+11. McAdams, S., Winsberg, S., Donnadieu, S., De Soete, G. & Krimphoff, J.
+the representations and human dissimilarity ratings across sounds, respectively.
+Perceptual scaling of synthesized musical timbres: common dimensions,
+Optimizing the weights w thus allows one to observe how the kernel emphasizes
+specificities, and latent subject classes. Psychological Res. 58, 177–192 (1995).
+certain dimensions of the STM representation to mimic the human ratings (Fig. 3
+12. Lakatos, S. A common perceptual space for harmonic and percussive timbres.
+and Supplementary Figs. 2–18).
+Percept. Psychophys. 62, 1426–1439 (2000).
+The optimization of the Gaussian kernel weights, that is, w in equation (1), is
+i 13. Barthet, M., Guillemain, P., Kronland-Martinet, R. & Ystad, S.
+performed by maximizing the correlation between the human dissimilarities and
+From clarinet control to timbre perception. Acta Acust. U. Acust. 96,
+the kernel distance. In practice we considered the log-kernel, which simplified
+678–689 (2010).
+the computation of the first- and second-order derivatives and stabilized the
+14. Patil, K., Pressnitzer, D., Shamma, S. & Elhilali, M. Music in our ears: the
+optimization. The optimization is performed using the limited-memory Broyden–
+biological bases of musical timbre perception. PLoS Comput. Biol. 8,
+Fletcher–Goldfarb–Shannon algorithm. This is a particularly fast gradient-descent
+e1002759 (2012).
+algorithm that is adapted for parameter estimation in machine learning with very
+15. Elliott, T. M., Hamilton, L. S. & Theunissen, F. E. Acoustic structure of the
+large numbers of variables51.
+five perceptual dimensions of timbre in orchestral instrument tones.
+In this paper, we use the metric optimized on the whole set of sounds within
+J. Acoustical Soc. Am. 133, 389–404 (2013).
+each dataset. However, this method may be prone to overfitting, which we assessed
+16. Siedenburg, K., Jones-Mollerup, K. & McAdams, S. Acoustic and categorical
+as follows. We tested the metric learning approach using a leave-one-sound-out
+dissimilarity of musical timbre: evidence from asymmetries between acoustic
+cross-validation protocol. More precisely, for a dataset with N sounds, N folds were
+and chimeric sounds. Front. Psychol. 6, 1977 (2016).
+considered. For each fold, the metric was fitted considering N − 1 sounds from
+17. Ogg, M. & Slevc, L. R. Acoustic correlates of auditory object and event
+the dataset, and tested on the remaining sound. Early stopping was used when the
+perception: speakers, musical timbres and environmental sounds.
+testing correlation reach a local minimum and then went up during 200 iterations.
+Front. Psychol. 10, 1594 (2019).
+Early stopping thus maximizes the cross-validation of the metric within each
+18. McAdams, S. in Timbre: Acoustics, Perception, and Cognition (eds Siedenburg,
+dataset. We found that the median of the N − 1 training correlations is strongly
+K. et al.) 23–57 (Springer, 2019).
+correlated to the testing correlations across datasets (r2(15) = 0.93: CI 95% = (0.82;
+19. Macherey, O. & Delpierre, A. Perception of musical timbre by cochlear
+0.98); P < 0.001, power, 1). Then, the fitted weights on each fold for a given
+implant listeners: a multidimensional scaling study. Ear Hearing 34,
+dataset were correlated to the fitted weights on the whole set of sounds within the
+426–436 (2013).
+same dataset (r2, median, 0.92; IQR, 0.109, Extended Data Fig. 4). We found that
+20. Peeters, G., Giordano, B. L., Susini, P., Misdariis, N. & McAdams, S. The
+the metrics strongly correlate within the N folds (r2, median, 0.85; IQR, 0.210,
+timbre toolbox: extracting audio descriptors from musical signals.
+Extended Data Fig. 4, Supplementary Table 3) showing that the metric learned on
+J. Acoustical Soc. Am. 130, 2902–2916 (2011).
+all the sounds within a dataset does not overfit. We then used this metric for the
+21. Chi, T., Ru, P. & Shamma, S. A. Multiresolution spectrotemporal analysis of
+subsequent analyses.
+complex sounds. J. Acoustical Soc. Am. 118, 887–906 (2005).
+22. Albouy, P., Benjamin, L., Morillon, B. & Zatorre, R. J. Distinct sensitivity to
+Statistics. All the correlations reported in the paper are supported by full statistics:
+spectrotemporal modulation supports brain asymmetry for speech and
+degrees of freedom, 95% CI or 95% CI range (95% CI range) and statistical power
+melody. Science 367, 1043–1047 (2020).
+(power). They are either reported in the main article or in the supplementary
+23. Theunissen, F. E., Sen, K. & Doupe, A. J. Spectral-temporal receptive fields of
+materials. All the statistical tests were two-tailed. The results can also be
+nonlinear auditory neurons obtained using natural sounds. J. Neurosci. 20,
+replicated with the scripts openly available at https://github.com/EtienneTho/
+2315–2331 (2000).
+musical-timbre-studies.
+24. Shamma, S. On the role of space and time in auditory processing. Trends
+Cogn. Sci. 5, 340–348 (2001).
+Reporting Summary. Further information on research design is available in the
+25. Chi, T., Gao, Y., Guyton, M. C., Ru, P. & Shamma, S. Spectro-temporal
+Nature Research Reporting Summary linked to this article.
+modulation transfer functions and speech intelligibility. J. Acoustical Soc. Am.
+106, 2719–2732 (1999).
+Data availability
+26. Suied, C., Dremeau, A., Pressnitzer, D., & Daudet, L. Auditory sketches:
+The data that support the findings of this study are available from the sparse representations of sounds based on perceptual models. Proc.
+corresponding author upon request and at https://github.com/EtienneTho/ International Symposium on Computer Music Modeling and Retrieval 2012
+musical-timbre-studies. Lecture Notes in Computer Science (eds Aramaki, M. et al.) 7900,
+154–170 (Springer, 2013).
+Code availability 27. Isnard, V., Taffou, M., Viaud-Delmon, I. & Suied, C. Auditory sketches: very
+Custom codes that support the findings of this study are available from the sparse representations of sounds are still recognizable. PLoS ONE 11,
+corresponding author upon request and at https://github.com/EtienneTho/ e0150313 (2016).
+musical-timbre-studies. 28. Thoret, E., Depalle, P. & McAdams, S. Perceptually salient spectrotemporal
+modulations for recognition of sustained musical instruments. J. Acoustical
+Received: 21 October 2019; Accepted: 18 September 2020; Soc. Am. 140, EL478–EL483 (2016).
+29. Thoret, E., Depalle, P. & McAdams, S. Perceptually salient regions of the
+Published: xx xx xxxx
+modulation power spectrum for musical instrument identification. Front.
+Psychol. 8, 587 (2017).
+references 30. Halpern, A. R., Zatorre, R. J., Bouffard, M. & Johnson, J. A. Behavioral and
+1. Huang, N., Slaney, M. & Elhilali, M. Connecting deep neural networks to neural correlates of perceived and imagined musical timbre. Neuropsychologia
+physical, perceptual, and electrophysiological auditory signals. Front. Neurosci. 42, 1281–1292 (2004).
+12, 532 (2018). 31. Allen, E. J., Burton, P. C., Olman, C. A. & Oxenham, A. J. Representations of
+2. Kell, A. J., Yamins, D. L., Shook, E. N., Norman-Haignere, S. V. & pitch and timbre variation in human auditory cortex. J. Neurosci. 37,
+McDermott, J. H. A task-optimized neural network replicates human auditory 1284–1293 (2017).
+behavior, predicts brain responses, and reveals a cortical processing hierarchy. 32. Ogg, M., Moraczewski, D., Kuchinsky, S. E. & Slevc, L. R. Separable neural
+Neuron 98, 630–644 (2018). representations of sound sources: speaker identity and musical timbre.
+3. Moore, B. C. An Introduction to the Psychology of Hearing 6th edn (Emerald, Neuroimage 191, 116–126 (2019).
+2012). 33. Terasawa, H., Slaney, M., & Berger, J. The thirteen colors of timbre. In Proc.
+4. Siedenburg, K. & McAdams, S. Four distinctions for the auditory IEEE Workshop on Applications of Signal Processing to Audio and Acoustics
+“wastebasket” of timbre. Front. Psychol. 8, 1747 (2017). (New Paltz, NY, 2005) 323–326 (IEEE, 2005).
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHavIour Articles
+34. Fritz, J., Shamma, S., Elhilali, M. & Klein, D. Rapid task-related plasticity of 51. Zhu, C., Byrd, R. H., Lu, P. & Nocedal, J. Algorithm 778: L-BFGS-B: Fortran
+spectrotemporal receptive fields in primary auditory cortex. Nat. Neurosci. 6, subroutines for large-scale bound-constrained optimization. ACM Trans.
+1216–1223 (2003). Math. Softw. 23, 550–560 (1997).
+35. Kraus, N., Skoe, E., Parbery-Clark, A. & Ashley, R. Experience-induced
+malleability in neural encoding of pitch, timbre, and timing: implications for Acknowledgements
+language and music. Ann. N. Y. Acad. Sci. 1169, 543–557 (2009).
+This work was supported by the Canadian Natural Sciences and Engineering Research
+36. David, S. V., Fritz, J. B. & Shamma, S. A. Task reward structure shapes rapid
+Council awarded to S.M. (grant nos. RGPIN-2015-05280 and RGPAS 478121-15) and
+receptive field plasticity in auditory cortex. Proc. Natl Acad. Sci. USA 109,
+to P.D. (RGPIN- 2018-05662), as well as a Canada Research Chair (grant nos. 950-
+2144–2149 (2012).
+223484 and 950-231872) awarded to S.M. E.T. was funded through an ILCB/BLRI grant
+37. Mesgarani, N. & Chang, E. F. Selective cortical representation of attended
+no. ANR-16-CONV-0002 (ILCB), ANR-11-LABX-0036 (BLRI) and the Excellence
+speaker in multi-talker speech perception. Nature 485, 233–236 (2012).
+Initiative of Aix-Marseille University (A*MIDEX), B.C. was founded through EU Marie
+38. Kaya, E. M. & Elhilali, M. Modelling auditory attention. Phil. Trans. R. Soc. B:
+Skłodowska-Curie fellowship (Project MIM, H2020-MSCA-IF-2014, grant agreement no.
+Biol. Sci. 372, 1–10 (2017).
+659232). B.C. acknowledges STMS IRCAM-CNRS-Sorbonne Université in Paris where
+39. Allen, E. J. et al. Encoding of natural timbre dimensions in human auditory
+he recieved support from a Marie Sklodowska Curie research fellowship at the beginning
+cortex. Neuroimage 166, 60–70 (2018).
+of the project. The funders had no role in study design, data collection and analysis,
+40. Flinker, A., Doyle, W. K., Mehta, A. D., Devinsky, O. & Poeppel, D.
+decision to publish or preparation of the manuscript. We thank the authors of the studies
+Spectrotemporal modulation provides a unifying framework for auditory
+re-analysed for providing the stimuli and data from their experiments; G. Mestdagh,
+cortical asymmetries. Nat. Hum. Behav. 3, 393–405 (2019).
+E. Ponsot and B. Morillon for helpful discussions on earlier versions of the manuscript;
+41. Ponsot, E., Burred, J. J., Belin, P. & Aucouturier, J. J. Cracking the social code
+and M. Elhilali and D. Pressnitzer for help in the initial implementation of the
+of speech prosody using reverse correlation. Proc. Natl Acad. Sci. USA 115,
+optimization framework.
+3972–3977 (2018).
+42. Nelken, I. & De Cheveigne, A. An ear for statistics. Nat. Neurosci. 16,
+381 (2013). Author contributions
+43. Bregman, M. R., Patel, A. D. & Gentner, T. Q. Songbirds use spectral shape, E.T., B.C., P.D. and S.M. worked on the conceptualization and methodology, and also
+not pitch, for sound pattern recognition. Proc. Natl Acad. Sci. USA 113, reviewed and edited the article. E.T. and B.C. worked on the software, formal analysis
+1666–1671 (2016). and the investigation. E.T. conducted data curation, wrote the original draft and worked
+44. Lartillot, O., Toiviainen, P., & Eerola, T. in Data Analysis, Machine Learning on the visualization. SM. supervised the work, conducted project administration and
+and Applications (eds Preisach, C. et al.) 261–268 (Springer, 2008). obtained funding.
+45. Aucouturier, J. J. & Bigand, E. Seven problems that keep MIR from attracting
+the interest of cognition and neuroscience. J. Intell. Inf. Syst. 41, Competing interests
+483–497 (2013).
+The authors declare no competing interests.
+46. Bellet, A., Habrard, A., & Sebban, M. A survey on metric learning for feature
+vectors and structured data. Preprint at arXiv https://arxiv.org/abs/1306.6709
+(2013). Additional information
+47. McDermott, J. H. & Simoncelli, E. P. Sound texture perception via Extended data is available for this paper at https://doi.org/10.1038/s41562-020-00987-5.
+statistics of the auditory periphery: evidence from sound synthesis. Neuron
+Supplementary information is available for this paper at https://doi.org/10.1038/
+71, 926–940 (2011).
+s41562-020-00987-5.
+48. Anden, J., Lostanlen, V. & Mallat, S. Joint time-frequency scattering. IEEE
+Trans. Signal Process. 67, 3704–3718 (2019). Correspondence and requests for materials should be addressed to E.T.
+49. Vinyals, O., Blundell, C., Lillicrap, T., Kavukcuoglu, K., & Wierstra, D. in Peer review information Primary Handling Editor: Marike Schiffer.
+Advances in Neural Information Processing Systems (eds Lee, D. D. et al.)
+Reprints and permissions information is available at www.nature.com/reprints.
+3630–3638 (Curran Associates, 2016).
+50. Goldberger, J., Hinton, G. E., Roweis, S. T., & Salakhutdinov, R. R. in Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+Advances in Neural Information Processing Systems (eds Saul, L. K., Weiss, Y. published maps and institutional affiliations.
+& Bottou, L.) 513–520 (MIT Press, 2005). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavvIIoouurr
+Extended Data Fig. 1 | Details of the datasets. Summary of the properties of the 17 datasets from the 8 different studies: dataset name (when applicable),
+number of stimuli in the dataset (Nb Sounds), fundamental frequency of the stimuli in Hz (f0), number and type of participants, type of sounds, and
+supplemental information when applicable.
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavvIIoouurr AArrttiicclleess
+Extended Data Fig. 2 | Multi-Dimensional Scaling analysis. Spearman correlation (ρ2) of the LAT and SC values with the positions of stimuli along the first
+two dimensions of the timbre spaces using the same MDS method for all datasets. The full statistics are provided in the Supplementary Table 1.
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavvIIoouurr
+Extended Data Fig. 3 | replicability of the MDS-based analyses. Spearman correlations (ρ2) of LAT and SC with perceptual dimensions reported in the
+original studies and determined with the same MDS parameters here (see Methods). It is noticeable that for almost all datasets, the original correlations
+reported in the studies are quasi-systematically lower than those computed in this meta-analysis. The full statistics are reported in the Supplementary
+Table 1.
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavvIIoouurr AArrttiicclleess
+Extended Data Fig. 4 | Cross-validation of the metrics. For each dataset, the metrics were cross-validated to test their generalizability within the dataset.
+Explained variances (r2) of the human ratings by the cross-validated metrics for each dataset are presented for: the Training correlations (fitted on the N-1
+sounds), the Testing correlations (tested on the removed sound), the within correlation between the N*(N-1)/2 metric pairs characterizing the Internal
+consistency of the fitted metrics in each dataset, and the average correlation (r2) with the metric Refitted on all sounds with those on the N-1 subsets
+showing the extent to which this metric is different from the cross-validated one. On median, the metrics were cross-validated with r2 = 0.51 on the testing
+sets. For each dataset, they are highly consistent within the N-folds (r2
+:
+Mdn=0.85), and they strongly correlate with the metric fitted on the whole dataset
+(r2
+:
+Mdn=0.92). For each dataset, the correlation of the refitted metric on whole sounds with those fitted for the cross-validation (last column) are high
+showing that the metric fitted on whole sounds can be used to perform the analyses.
+NATurE HuMAN BEHAvIour | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2020
+Corresponding author(s): Etienne Thoret
+Last updated by author(s): Sep 15, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see our Editorial Policies and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection Custom codes that supports the findings of this study are available from the corresponding author upon request and on: https://github.com/
+EtienneTho/musical-timbre-studies
+Data analysis Custom codes that supports the findings of this study are available from the corresponding author upon request and on: https://github.com/
+EtienneTho/musical-timbre-studies
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data that support the findings of this study are available from the corresponding author upon request.
+2
+nature
+research
+|
+reporting
+summary
+April
+2020
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description This is a meta-analysis of quantitative experimental data collected from human participants who rated dissimilarity between pairs of
+sounds. No participants were actually run in this study as the data were provided by the original authors. For details, see the original
+papers.
+Research sample See Study Description
+Sampling strategy See Study Description
+Data collection See Study Description
+Timing See Study Description
+Data exclusions See Study Description
+Non-participation See Study Description
+Randomization See Study Description
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology and archaeology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Dual use research of concern
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics This is a meta-analysis of quantitative experimental data collected from human participants who rated dissimilarity between
+pairs of sounds. No participants were actually run in this study as the data were provided by the original authors. For details,
+see the original papers.
+Recruitment See Study Description
+Ethics oversight See Study Description
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

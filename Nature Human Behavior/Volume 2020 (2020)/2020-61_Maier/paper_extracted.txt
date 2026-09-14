@@ -1,15 +1,1319 @@
-# Dissociable mechanisms govern when and how strongly reward attributes affect decisions
-
-## Abstract
-Theories and computational models of decision-making usually focus on how strongly different attributes are weighted in choice, for example, as a function of their importance or salience to the decision-maker. However, when different attributes affect the decision process is a question that has received far less attention. Here, we investigated whether the timing of attribute consideration has a unique influence on decision-making by using a time-varying drift diffusion model and data from four separate experiments. Experimental manipulations of attention and neural activity demonstrated that we can dissociate the processes that determine the relative weighting strength and timing of attribute consideration. Thus, the processes determining either the weighting strengths or the timing of attributes in decision-making can independently adapt to changes in the environment or goals. Quantifying these separate influences of timing and weighting on choice improves our understanding and predictions of individual differences in decision behaviour. 
-
- This is a preview of subscription content, access via your institution
-
-## OSF Links
-https://osf.io/g76fn
-https://osf.io/jmiwn
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0893-y/MediaObjects/41562_2020_893_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0893-y/MediaObjects/41562_2020_893_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-0893-y
+Dissociable mechanisms govern when and how
+strongly reward attributes affect decisions
+Silvia U. Maier 1,2,3,5 ✉, Anjali Raja Beharelle 1,2,5 ✉, Rafael Polanía 2,4, Christian C. Ruff 1,2,6 and
+Todd A. Hare 1,2,6 ✉
+Theories and computational models of decision-making usually focus on how strongly different attributes are weighted in
+choice, for example, as a function of their importance or salience to the decision-maker. However, when different attributes
+affect the decision process is a question that has received far less attention. Here, we investigated whether the timing of attri-
+bute consideration has a unique influence on decision-making by using a time-varying drift diffusion model and data from four
+separate experiments. Experimental manipulations of attention and neural activity demonstrated that we can dissociate the
+processes that determine the relative weighting strength and timing of attribute consideration. Thus, the processes determin-
+ing either the weighting strengths or the timing of attributes in decision-making can independently adapt to changes in the
+environment or goals. Quantifying these separate influences of timing and weighting on choice improves our understanding and
+predictions of individual differences in decision behaviour.
+D
+ecisions regularly involve comparisons of several attributes Uncovering such features of the decision process enables us to dis-
+of the choice options. Consider the example of deciding criminate between and evaluate the plausibility of different models
+between foods that differ in two attributes: tastiness and that seek to explain choice behaviour5. For example, choice models
+healthiness. Often, these attributes are misaligned, creating a con- utilizing not only decision outcomes but also RTs and eye-tracking
+flict between the goal of eating healthily and the desire to experience or computer-mouse-tracking data have provided insights into how
+pleasant tastes. Typically, we assume that choices for the healthier or and why decision-making is influenced by visual attention, time
+better tasting food are determined by the values of these attributes delays or pressure, additional alternatives, and earlier versus later
+together with a subjective decision weight that the decision-maker occurring external evidence6–13. Moreover, it has been shown that
+assigns to healthiness and taste. The assumption that reward attri- dynamic accumulation models utilizing RT data provide a deeper
+butes are subjectively weighted in the course of decision-making understanding of decisions and make better out-of-sample predic-
+applies not only to food choices but also to many other types of deci- tions than reduced-form models such as logistic regressions14,15.
+sions. In fact, it is a core feature of the standard analysis approaches Here, we show that we can also use RT data to determine when
+for intertemporal, social and risky decisions1–4. Here, we show that specific attributes enter the decision process, in addition to how
+this common approach is incomplete because it overlooks the pos- strongly they influence the evidence accumulation rate. Moreover,
+sibility that reward attributes can enter the decision process at dif- incorporating this information into the model improves predictions
+ferent times (in addition to having different weighting strengths). about individual decision-making behaviour.
+Across several food choice paradigms, we find that there is consid- An important implication of the finding that different attributes
+erable asynchrony in when tastiness and healthiness attributes are can enter the choice process at separate times is that coefficients
+taken into consideration. Furthermore, we demonstrate that the from traditional regression models (for example, linear, logit or
+relative weighting strengths (that is, the degree to which an attribute probit) will represent a combination of both the true underlying
+influences the evidence accumulation rate) and the onset times for weight or importance placed on each attribute and its relative dis-
+tastiness and healthiness attributes in the decision process have sep- advantage or advantage in processing time over the decision period.
+arable influences on whether people choose to eat healthier foods. Therefore, any form of static or synchronous onset dynamic model
+We used an adapted time-varying sequential sampling model will fail to fully capture the true underlying choice-generating pro-
+that can separate attribute consideration onset times to better cess. By static we mean models that treat values or value differences
+understand the dynamic decision processes underlying choices as fixed rather than being actively constructed. As a consequence,
+between rewards with multiple attributes. This model allows us even though such models may explain multi-attribute choice pat-
+to draw inferences on latent aspects of the decision process from terns relatively well if the relationship between attribute weighting
+the observable choice outcomes and response times (RTs). It is and timing is fixed or sufficiently stable, they will fail to explain or
+well established that direct measures and estimates of information predict alterations in decision behaviour if attribute weights and
+acquisition, evaluation and comparison processes during choice processing onset times can independently change in response to
+provide a key means of testing predictions from different mod- external environmental features or changes in internal cognitive
+els of how stimulus and decision values are constructed or used. strategies. The plausibility of this latter scenario is underlined by
+1Zurich Center for Neuroeconomics, Department of Economics, University of Zurich, Zurich, Switzerland. 2Neuroscience Center Zurich, University
+of Zurich, Swiss Federal Institute of Technology Zurich, Zurich, Switzerland. 3Translational Neuromodeling Unit, Institute for Biomedical Engineering,
+University of Zurich and ETH Zurich, Zurich, Switzerland. 4Decision Neuroscience Lab, Department of Health Sciences and Technology, ETH, Swiss Federal
+Institute of Technology, Zurich, Switzerland. 5These authors contributed equally: Silvia U. Maier, Anjali Raja Beharelle. 6These authors jointly supervised
+this work: Christian C. Ruff, Todd A. Hare. ✉e-mail: silvia.maier@econ.uzh.ch; anjali.rajabeharelle@econ.uzh.ch; todd.hare@econ.uzh.ch
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+mouse-tracking experiments16,17 showing that different attributes a previously reported mouse response trajectory (MRT) analysis16.
+(taste and healthiness) of the same food reward can enter the deci- Participants in that study made choices by moving a computer
+sion process at separate times. However, the fundamental question mouse from the bottom centre to the upper left or right corners
+of whether the relationship between attribute weighting strength of the screen to indicate their choices. Sullivan et al.16 analysed the
+and timing is stable or instead flexible and context-dependent has response trajectories to determine the relative times at which health
+not yet been addressed. and taste attributes enter the decision process. We compared their
+We addressed this question using an adapted sequential sam- estimates with those we computed using the tDDM for the same
+pling model that quantifies both the weight given to each attribute data (Table 1). The time at which healthiness attributes were con-
+and its temporal onset during the decision process. This allowed sidered was significantly correlated across the two analysis meth-
+us to explicitly measure whether the weighting strength and tim- ods (r = 0.503, posterior probability of the correlation being positive
+ing with which different attributes affect choice are determined (PP(r > 0)) = 0.991, 95% highest density interval (HDI) = [0.157,
+by a unitary process (or a set of consistently linked processes) or 0.811], Bayes factor (BF) = 7.86), thereby establishing face validity
+if, instead, attribute timing and weighting are the results of sepa- for the tDDM estimates.
+rable processes. By modelling choices from four separate datasets, In total, we tested the tDDM in 272 participants across four
+which measured decision behaviour under different experimental datasets from the following different experimental conditions: MRT
+manipulations (Fig. 1), we show that attribute timing and weighting choices, standard binary choices in a combined gambling and food
+are determined by dissociable decision mechanisms. For example, choice (GFC) task that was repeated 2 weeks apart, choices following
+we find that explicitly instructing individuals to consider either instructed attention cues (IACs) towards taste or healthiness, and
+tastiness or healthiness during the choice process18 exerts sepa- choices under tDCS (Fig. 1). The tDDM yielded a better fit to choices
+rate effects on attribute weighting strength and timing. In another and RT distributions than the standard formulation of a DDM with a
+experiment, we show that transcranial direct current stimulation single, synchronous onset time (overall tDDM Bayesian information
+(tDCS) over the left dorsolateral prefrontal cortex (dlPFC) during criterion = 280,632 versus overall standard DDM Bayesian informa-
+food decisions has a selective effect on attribute weighting strength tion criterion = 281,909) (Fig. 3; Supplementary Table 1). Parameter
+but not timing, thus demonstrating the separability of the underly- recovery tests demonstrated that choice and RT patterns simulated
+ing neural processes. using known values of the standard DDM and the tDDM could
+be recovered in each case (Extended Data Fig. 1; Supplementary
+Results Fig. 1; Supplementary Results). In other words, our estimation
+We adapted the traditional drift diffusion modelling (DDM) frame- procedures for the tDDM yielded accurate parameter estimates.
+work19–21 to allow for each attribute in a multi-attribute decision Critically, the parameter recovery tests also showed that earlier
+problem to enter the evidence accumulation process at separate (later) onset of evidence accumulation can be distinguished from
+times (Fig. 2a). We chose the DDM as a starting point because stronger (weaker) weighting of evidence (Extended Data Fig. 1e).
+this type of sequential sampling model is relatively simple, yet has Furthermore, the tDDM with separate onset times also generated
+often been shown to be useful in explaining behaviour across many significantly better out-of-sample predictions for food choices than
+domains21 (see Supplementary Discussion). This modified model is the standard DDM. The mean squared error for this tDDM (0.163)
+a time-varying DDM (tDDM) because the separate consideration was lower than that of the standard DDM (0.170) (PP of greater
+onset times for each attribute cause the drift rate to vary over time accuracy for this tDDM versus a standard DDM = 0.97; see also
+within a choice. Briefly, we added a free parameter (relative start Supplementary Table 2). Thus, fitting the tDDM results in more
+time (RST)) to estimate how quickly one attribute begins to influ- accurate predictions about out-of-sample dietary choices.
+ence the rate of evidence accumulation relative to another. Adding the separate onset time feature allows the model to cap-
+The drift rate determining the evidence update at each time step ture important choice and RT patterns. Specifically, different onset
+(dt = 8 ms) if taste enters first is as follows: times for the two attributes can explain the fact that the relative con-
+tribution of the tastiness and healthiness attributes to the evidence in
+E E ω ´TD t> RST ´ω ´HD ´dt
+t ¼ t �1 þ taste þ dt health 1 favour of one food changes during the decision process. This change
+þnoise (cid:30) (cid:30) (cid:31)
+(cid:31)
+(cid:31) (cid:31)(cid:29) (cid:29) ð Þ i an
+ls
+oth se
+e
+r ee nla it niv se
+i
+mwe ui lg ah tit oin ng
+s
+(o df et pa is cte
+te
+v de r insu Fs ih g.e a 2l bth –i dn )e ass
+n
+din
+i
+no u cr
+o
+d ma pta
+u
+tw ina gs
+While if healthiness enters first, it is as follows: a logistic regression model. This model calculated the influences of
+taste and healthiness on choices made by participants before or after
+E E t> RST ´ω ´TD ω ´HD ´dt
+t ¼ t �1 þ dt taste þ health 2 both attributes were estimated to have begun being considered (Fig.
+þnoise (cid:30)(cid:30) (cid:31)
+(cid:31)
+(cid:31) (cid:31)(cid:29) (cid:29) ð Þ 3 re; pS lu icp ap tl ee tm he en et fa fery
+ct
+T sa hb ol wes
+n
+3
+i
+nan Fd
+i
+g4 s) .. 2S h anar de 3d
+,
+o En xs te et
+n
+t dim ede DD aD taM Fs
+i
+gd
+.
+i 2d an no dt
+Where E is decision evidence, t is the time step, RST is in ms, Supplementary Table 5. We note that separate attribute consider-
+dt = 8 ms, TD is the tastiness difference, HD is the healthiness dif- ation onset timing is a general feature that could be added to many
+ference, and ω and ω are subjective weights for taste and other types of sequential sampling models in addition to the DDM
+taste health
+health, respectively. Thus, the times at which the weighted value (for examples, see refs. 12,22–28).
+differences in tastiness and healthiness attributes begin to influence This feature of our tDDM differs in important ways from other
+the evidence accumulation rate are determined by the RST. When types of multiprocess sequential sampling models that include a
+the conditional statement t> RST is false, it equals 0, while if true combination of fast automatic processes and slower deliberate pro-
+dt
+it equals 1. Multiplying oneI of the two weighted attribute values by cesses (for example, dual process, fast guess, Ulrich diffusion model
+0 until t> RST is true m(cid:30) ean(cid:31) (cid:31)s th(cid:31) (cid:31)(cid:29) at this attribute does not factor for conflict tasks)29–32. These other frameworks can account for
+dt
+into the Ievidence accumulation process for the initial time period changes in the way evidence is accumulated over time in certain
+(cid:30) (cid:31) (cid:31)(cid:29)
+determined (cid:31)by |R(cid:31)ST|. The RST parameter is defined as the consider- cognitive tasks, but are fundamentally inconsistent with our food
+ation start time for healthiness minus the starting time for tastiness. choice data. First, responses made before the second attribute is
+Note that the standard, synchronous onset DDM is equivalent to the considered are similarly or even more sensitive to the level of the
+specific case of RST = 0. first attribute relative to choices made after both attributes begin
+We found that the attribute timing asynchrony estimated from to be considered. This indicates that these choices are not random
+RTs by our tDDM was significantly associated with the results from guesses or prepotent or habitual responses. Second, the data from
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+a b c d
+Your alternative for this block:
+START Consider the
+healthiness
+Trial start + Block cue Block cue
+(5 s) (3 s)
+Strong Left Right Strong
+left right
+Choice screen
+(3 s)
+Strong no No Yes Strong yes I want to eat the item on this
+screen rather than cauliflower:
+Strong no No Yes Strong yes
+Blank screen + Choice screen Choice screen
+(random duration) (3 s) (3 s)
+Strong Left Right Strong
+left right
+Feedback
+(0.5 s) Yes +
+Choice screen + Feedback Inter-trial fixation
+(free RT) (0.5 s) (2–6 s)
+(×10)
++ Inter-trial fixation + Your alternative for this block:
+(1–3 s)
+(×10)
+Inter-trial fixation Inter-trial fixation
+(random duration) (4–9 s) Block cue
+(×10) (3 s)
+Fig. 1 | Details of the different food choice tasks used in each study. a, For each trial in the MRT task used by Sullivan et al.16, participants first saw a start
+screen and had to respond by continuously moving the mouse towards the option they wanted to choose until they reached the box that contained the
+desired item. b, In our GFC study, participants chose between two foods without being instructed to think about healthiness. They had up to 3 s to make
+their choice on a four-point scale ranging from ‘strongly prefer left’ to ‘strongly prefer right’. Intermixed between the food choices were trials in which
+participants had to select between decks of cards for monetary rewards. c, In the IAC task used by Hare et al.18, cues to consider a specific attribute or
+to choose naturally were depicted for 5 s before each choice block of ten trials. Participants then had 3 s to make their choice on a four-point scale from
+‘strong no’ to ‘strong yes’. d, In our tDCS study, the reference food for the upcoming block was shown for 3 s before each block began. During each block, a
+series of ten different foods were shown together with a four-point scale from ‘strong no’ to ‘strong yes’ (in favour of eating the item shown compared with
+the reference). The identity of the reference food was written in text below each alternative shown on the screen as depicted.
+the IAC experiment described below show that whether tastiness together, or potentially separately, to influence choice outcomes
+or healthiness is considered first is not automatic. Thus, modifying during healthy choice challenges.
+sequential sampling models to allow different attributes to enter a
+deliberate consideration process at separate times is more appropri- Are more abstract attributes considered later in the choice pro-
+ate to explain the outcomes and RTs from the goal-directed choice cess?. One may assume that for dietary choices, the RST of the more
+process studied here. abstract attribute (healthiness) will lag behind the more concrete
+In the paragraphs above, we established the face validity (that is, and immediately gratifying attribute of taste. However, our results
+correspondence to the mouse trajectory analysis), accuracy (that is, indicated that this is not the case. Pooling the data across all stud-
+good parameter recovery) and predictive utility (that is, improved ies, we found that the PP that healthiness is taken into consider-
+out-of-sample predictive accuracy relative to the standard DDM) of ation later than tastiness was only 0.48 (mean difference in starting
+our modelling approach. Next, we used a tDDM to test several fun- times = 0.001 s, 95% HDI = [−0.05, 0.06, BF (for RST > 0) = 0.21). In
+damental questions about how attribute timing and weighting work total, only 130 out of 272 participants (48%) had RSTs for healthiness
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+attributes that were delayed relative to those for tastiness (Extended taste > health or vice versa) was the same for 92% of the partici-
+Data Fig. 3). We used the linear regression model in equation (4) pants across both visits, while the attribute considered first (that is,
+(Methods) to test the relationship between RST and other tDDM RST) was consistent in 76% of the participants. Furthermore, tDDM
+parameters. The RST parameter was related to both the tastiness and parameters fit to choices in session one accurately predicted new
+healthiness weights as well as to the starting point bias parameter food choices made in session two 2 weeks later 77% of the time. In
+(Supplementary Tables 6 and 7), but overall, the linear combination comparison, in-sample predictions for session two choices based on
+of other tDDM parameters explained only 30% of the variability in tDDM parameters fit to those same choices were correct 78% of the
+RSTs across participants. time. These results indicate that taste versus health weighting and
+consideration onset times may be relatively stable individual char-
+Are individual RSTs and attribute weights stable over time?. We acteristics, at least in the absence of experimental manipulations or
+tested whether tDDM parameters provide good estimates of stable interventions designed to alter these choice processes.
+individual characteristics by comparing parameters estimated from
+food choices made by the same participants 2 weeks apart. Previous Effects of attention cues on attribute weights and RSTs. Next, we
+work has shown that the test–retest reliability of choice outcomes examined whether directing attention towards either healthiness
+in the food choice task is high when participants repeat the same or tastiness could change the time at which those attributes enter
+incentivized choices a few days or 1 month apart33. In contrast, the decision process and whether changes in timing were linked to
+within each session of our GFC study, participants (n = 37) faced changes in weighting strength. This analysis was motivated by pre-
+150 trials consisting of a choice between two randomly paired vious findings18 that directing attention to the healthiness aspects
+food items. In other words, participants did not complete the exact of a food item resulted in substantial changes in choice patterns
+same set of trials on the two visits, but instead the food pairings (Fig. 4a). In this IAC experiment, instructive cues highlighted
+randomly varied. This precludes a direct comparison of choice out- health, taste or neither attribute for explicit consideration during the
+comes in the two sessions. Nevertheless, individual characteristics upcoming block of ten food choices. We refer to these three block
+inferred from the tDDM parameter fits were consistent over time. types as health cued (HC), taste cued (TC) and natural cued (NC).
+The relative weighting of taste and healthiness attributes (that is, The original analysis of these choice data focused on the regression
+tDDM
+sDDM
+bDDM
+Example for considering taste first Example for considering health first
+3 2
+1
+0
+3 2
+1
+0
+3 2
+1
+0
+0 50 100 150
+tDDM
+sDDM
+bDDM
+4 3 2
+1
+0
+4 3 2
+1
+0
+4 3 2
+1
+0
+0 25 50 75 100
+Time Window
+Attribute Healthiness Tastiness
+tDDM
+sDDM
+bDDM
+1
+0
+1
+0
+1
+0
+1 2 3
+tDDM
+sDDM
+bDDM
+a c
+b d
+1
+0
+1
+0
+1
+0
+1 2 3
+Category LH_MT MH_LT MH_MT
+thgiew
+ateB
+noitubirtsid
+evitalumuC
+Time window
+1.5
+1.0
+0.5
+0
+RT (s) RT (s)
+0 20 40 60
+thgiew
+ateB
+Time window
+ecnedivE
+Number of
+choices
+Tastier choice
+boundary
+Healthier choice boundary
+RT
+Decisions determined by
+- Taste alone - Health alone - Taste + health together
+Tastiness
+Healthiness
+Fig. 2 | Patterns of behaviour predicted by this tDDM. a, The trajectories that begin as red are simulations from an agent that considers tastiness alone
+first before beginning to consider healthiness attributes. Those that begin as blue are for an agent that considers healthiness before taste. Our tDDM
+includes an additional parameter (the RST) that represents the average difference in consideration start times between attributes. If a choice boundary is
+not reached within the RST, then both attributes influence the decision. This is indicated by the lines becoming purple. The histograms at each boundary
+show the distribution of RTs for each choice outcome. Note that choices in favour of the earlier-considered attribute are, on average, more frequent and
+faster. b, The y axis shows the β1 (red triangles and line) and β2 (blue circles and line) coefficients from the logistic regression, Choice ~ β0 + β1 × taste
+difference + β2 × health difference + e, as a function of RT from a simulated agent that considers tastiness first. The x axis represents overlapping 100-ms RT
+windows that slide from minimum to maximum RT in steps of 20 ms. Red shading indicates the period during which only tastiness influences the decision,
+and purple shading indicates choices made after both attributes are considered. c, These plots are analogous to the one in b, but are based on simulations
+from the best-fitting tDDM, standard DDM (sDDM) and tastier starting-point-bias DDM (bDDM) parameters for two example participants. d, The plots
+show the cumulative density functions of the RTs from the simulated choices in c as a function of choice outcome. Choice outcome abbreviations: LH_MT,
+less healthy but more tasty (that is, health challenge failure); MH_LT, more healthy but less tasty (that is, health challenge success); MH_MT, more healthy
+and more tasty (that is, no challenge).
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+Table 1 | Fitted separate attribute onset tDDM parameters by study and condition
+Dataset Parameter estimate
+ωtaste ωhealth Thr nDT RST Bias
+MRT
+Keyboard trials 1.42 ± 0.45 0.12 ± 1.03 1.04 ± 0.28 0.65 ± 0.14 0.26 ± 0.36 0.11 ± 0.18
+Mouse trials 0.94 ± 0.36 0.27 ± 0.32 1.36 ± 0.25 0.77 ± 0.16 0.14 ± 0.34 0.07 ± 0.19
+GFC
+Session one 1.11 ± 0.35 −0.07 ± 0.65 1.29 ± 0.17 0.84 ± 0.13 0.3 ± 0.37 −0.01 ± 0.08
+Session two 1.19 ± 0.36 −0.29 ± 0.62 1.19 ± 0.22 0.75 ± 0.12 0.29 ± 0.37 −0.03 ± 0.12
+IAC
+NC 1.37 ± 0.79 0.33 ± 1.33 1.27 ± 0.28 0.86 ± 0.12 0.42 ± 0.54 0.00 ± 0 37
+HC 0.98 ± 1.12 1.11 ± 0.60 1.39 ± 0.36 0.85 ± 0.14 −0.06 ± 0.55 −0.22 ± 0.33
+TC 1.42 ± 0.96 0.47 ± 0.99 1.36 ± 0.36 0.83 ± 0.14 0.28 ± 0.49 0.00 ± 0.31
+tDCS
+Sham baseline 0.74 ± 0.67 1.01 ± 0.50 1.29 ± 0.23 0.77 ± 0.16 −0.21 ± 0.40 −0.11 ± 0.26
+Sham stimulation 0.67 ± 0.61 1.03 ± 0.55 1.21 ± 0.21 0.71 ± 0.14 −0.10 ± 0.34 −0.14 ± 0.24
+Cathodal baseline 0.63 ± 0.81 1.01 ± 0.62 1.26 ± 0.24 0.75 ± 0.14 −0.05 ± 0.44 −0.07 ± 0.24
+Cathodal stimulation 0.92 ± 0.45 1.07 ± 0.73 1.19 ± 0.21 0.69 ± 0.11 −0.03 ± 0.38 −0.03 ± 0.22
+Anodal baseline 0.60 ± 0.84 1.15 ± 0.48 1.25 ± 0.2 0.75 ± 0.13 −0.09 ± 0.41 −0.08 ± 0.24
+Anodal stimulation 0.85 ± 0.6 1.19 ± 0.62 1.16 ± 0.2 0.70 ± 0.12 −0.09 ± 0.38 −0.04 ± 0.25
+All parameters are reported as the mean ± s.d. See Methods for details of the parameters. ωtaste, weighting factor determining how much the difference in taste attributes contributes to the evidence
+accumulation rate; ωhealth, weighting factor determining how much the difference in health attributes contributes to the evidence accumulation rate; Thr, evidence threshold for responding; nDT, non-decision
+time, which corresponds to the starting time for taste in our model; RST, relative start time for health (timing relative to start of taste processing, where positive values denote that health enters the process
+later than taste); Bias, starting point bias for the evidence accumulation process (zero = no bias).
+weights for taste and health attributes in each choice condition, but applying cathodal, anodal or sham tDCS over the left dlPFC during
+did not consider that the cues might change the relative times at food choices (see Methods for details). Numerous neuroimaging
+which these attributes entered the choice process. Our goal was to and electrophysiological studies have reported correlational evi-
+determine how potential alterations in attribute timing and weight- dence for a role of the dlPFC in multi-attribute choice34–37. There is
+ing contributed to the observed changes in choice behaviour during also ample evidence showing that applying brain stimulation (both
+HC relative to NC blocks. transcranial direct current and magnetic) over multiple different
+First, we found that attention cues changed both the relative subregions of the left or right dlPFC is associated with changes
+weighting and timing of taste and healthiness attributes. Compared in several different forms of multi-attribute decision-making38–44.
+to the natural choice blocks, 70% of the participants reversed their Here, we applied tDCS over a region of the left dlPFC that is cor-
+relative weighting of taste and healthiness in taste or health cue related with individual differences in health challenge success rates,
+blocks (that is, went from taste > healthiness to taste < healthiness and in multi-attribute decisions more generally18,45–55, to uncover the
+weight or vice versa), and 64% switched whether they considered mechanistic changes in the choice process caused by tDCS over this
+tastiness or healthiness first. There was not a significant difference particular region. Stimulation over this region of left dlPFC did not
+in how often participants reversed the order of relative weights significantly change measures of working memory, response inhi-
+(switching from ω > ω to ω < ω , or vice versa) com- bition or monetary temporal discounting in our participants (see
+taste health taste health
+pared with how often they reversed the order of relative onset times Supplementary Results).
+(switching from taste first to healthiness first, or vice versa) when Previous studies have suggested that the effects of stimulation
+moving from attribute cued and natural choice blocks (PP(weight over the left dlPFC are strongest during trials in which the partici-
+reversal more prevalent than timing reversal) = 0.70, BF = 1.4). pant does not strongly favour one outcome over the other (that is,
+Focusing our analyses on the HC blocks that showed a significant stimulation effects are greatest in difficult choices) and depend on
+change in choice outcomes compared to natural blocks (Fig. 4a), baseline preferences over the rewards39,43. Therefore, we restricted
+we found that on average, cueing attention to health attributes both our analysis of health challenge success to trials in which the pre-
+significantly increased the magnitude of the weights for healthiness dicted probability of choosing the healthier food was between 0.2
+of the participants and sped up the time at which health entered and 0.8 and focused on the difference in behaviour between baseline
+the evidence accumulation process (relative to taste, that is, RSTs) and active-stimulation choice sessions. Specifically, we computed a
+(Fig. 4b,c; Table 2). These results demonstrate that both the timing Bayesian hierarchical logistic regression model that accounted for
+and weighting of taste and healthiness attributes can be flexibly and both stimulation type and the healthiness and tastiness differences
+rapidly changed in response to the attention cues preceding every for each trial in the tDCS dataset (see equation (5) in the Methods
+block of ten choices. for details). We compared the interaction effects by measur-
+ing changes in health challenge success for each participant from
+Dissociating attribute weighting strengths and timing at the the pre-stimulation baseline to the active stimulation condition
+neural level. We next addressed the question of whether attribute for cathodal and anodal versus sham simulation groups. This
+weighting strength and timing are implemented by dissociable revealed a greater decrease in health challenge success under cath-
+neural processes. We did so by analysing data from an experiment odal relative to sham stimulation (Supplementary Table 8; regression
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+4
+2
+0
+4
+2
+0
+4
+2
+0
+4
+2
+0
+Early Late
+coefficient = −0.32 ± 0.15, 95% HDI = [−0.58, −0.08], PP(cathodal (regression coefficient = −0.31 ± 0.15, 95% HDI = [−0.55, −0.08],
+polarity × active stimulation interaction coefficient < 0) = 0.98), but PP(active stimulation < 0) = 0.9999). Thus, we find that inhibitory
+no change in health challenge success for anodal relative to sham stim- stimulation over the left dlPFC leads to fewer health challenge suc-
+ulation (regression coefficient = −0.03 ± 0.15, 95% HDI = [−0.28, cesses (see also Fig. 5a).
+0.22], PP(anodal polarity × active stimulation interaction coeffi- To elucidate the changes in choice processes caused by the stim-
+cient > 0) = 0.4). There was also a main effect within the cathodal ulation, we fit the separate attribute consideration onset tDDM to
+stimulation group, which indicates that these individuals had fewer dietary choices made during the pre-stimulation baseline and active
+health challenge successes when making food choices under active or sham tDCS sessions. When testing how the tDDM parameters
+stimulation compared with their pre-stimulation baseline choices changed between baseline and active stimulation sessions in each
+thgiew
+ateB
+Taste first
+Data
+tDDM
+sDDM
+bDDM
+Early Late
+thgiew
+ateB
+a
+Health first Taste first Health first
+Health Taste
+Data
+tDDM
+sDDM
+bDDM
+1
+0
+1
+0
+1
+0
+1
+0
+1 2 3 1 2 3
+RT
+noitubirtsid
+evitalumuC
+b
+Choice: LH_MT MH_LT MH_MT
+Fig. 3 | influence of taste and healthiness attributes on choice outcomes and RTs. Top row shows results from the empirical data and bottom three
+rows show results from data simulated using the best-fitting tDDM, sDDM and bDDM parameters. The tDDM reproduces the time-dependent attribute
+influence and RT patterns found in the data better than any of the alternative models. a, These plots show the mean (filled shapes) and 95% HDIs (open
+rectangles) of beta weights from the logistic regressions in Supplementary Table 5 and represent the estimated influences of tastiness (red triangle) and
+healthiness (blue circle) attributes on choice outcomes. These influences are shown separately for early (<1 s) and later (>1 s) RTs and participants that
+are estimated to consider taste or health first. The blue, orange, and purple background shading corresponds to Fig. 2 and indicates periods where, on
+average, health alone, taste alone, or both taste and health are expected to have a significant influence on choices. b, These plots show the cumulative
+distributions of RTs observed in the empirical and simulated data. The left and right columns show data from participants who are estimated to consider
+taste first or healthiness first, respectively. The three choice outcomes are (red) less healthy but more tasty (LH_MT), (blue) more healthy but less tasty
+(MH_LT) or (black) both more healthy and more tasty (MH_MT). Choices in favour of the option rated as less healthy and less tasty were rarely made
+(less than 5% of trials) and are omitted for clarity.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+1
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+Health Natural Taste Health Natural Taste Health Natural Taste Health Natural Taste
+Unhealthy–untasty Healthy–untasty Unhealthy–tasty Healthy–tasty
+2
+1.5
+1
+0.5
+0
+–0.5
+–1
+–1.5
+–2
+Health Natural Taste Health Natural Taste
+Health Taste
+group, we found that the cathodal group had increased weight-
+ing of taste attributes under stimulation compared with baseline
+choices (mean difference = 0.14, HDI = [0.03, 0.25], PP(cathodal
+active > cathodal baseline) = 0.99, BF = 5.75; Fig. 5a) and that
+the change from baseline was greater under cathodal stimula-
+tion than sham (mean difference = 0.21, 95% HDI = [0.01, 0.42],
+PP(∆cathodal > ∆sham) = 0.98, BF = 4.20). Crucially, the RST
+parameters were unaffected during left-dlPFC-targeted cathodal
+tDCS (Table 3; Fig. 5b). Moreover, the tDCS-induced changes in
+taste relative to health weighting parameters and RSTs were not
+significantly correlated (r = −0.07, 95% HDI = [−0.325, 0.188],
+PP(r > 0) = 0.30, BF = 0.210). Consistent with the lack of significant
+change in choice behaviour under anodal tDCS, we found no sig-
+nificant changes in any tDDM parameter under anodal stimulation
+(Table 3). In summary, we found that cathodal tDCS over the left
+dlPFC changed the relative decision weight placed on taste attri-
+butes, but not the speed with which taste, relative to healthiness,
+began to influence the choice process (Table 3).
+Discussion
+We have shown that separable mechanisms determine the degree to
+which an attribute affects the evidence accumulation rate (weight-
+ing strength) and the relative speed with which it begins to do so
+thgiew
+tfirD
+1
+0.8
+0.6
+0.4
+0.2
+0
+–0.2
+–0.4
+–0.6
+–0.8
+–1
+Health Natural Taste
+htlaeh
+rof
+emit
+trats
+evitaleR
+a
+b c
+* *
+noitroporp
+esnopser
+seY
+Fig. 4 | Choice patterns and separate attribute consideration onset tDDM parameter estimates for the iAC study by condition. a, The proportion of
+times that participants (n = 33) chose to eat the food (that is, they responded ‘yes’ or ‘strong yes’) as a function of attention cue type (health, natural
+or taste) and taste–health combination of food under consideration (tasty or untasty crossed with healthy or unhealthy). In terms of mean choice
+proportions, directing attention towards healthiness decreased the proportion of choosing healthy–untasty items and decreased the proportion of
+choosing unhealthy–tasty items compared with the natural condition. The changes in choices during health blocks were accompanied by higher weights
+and faster RSTs for healthiness. b, Compared to the natural condition, attention cues to health resulted in a higher relative drift weight (arbitrary units) for
+the corresponding health attribute compared with the natural condition (blue shading). There was no significant change in the relative drift weights of the
+two attributes during the taste cue blocks (red shading). c, Attention cues to health also led to a faster RST (seconds) for health attributes compared with
+natural blocks (green shading). Once again, there was no significant difference in relative timing between natural and taste blocks. For all plots, the dots
+within each column represent the value for a single participant in the sample. Darker shading indicates that multiple participants share the same value for
+that parameter. Black horizontal bars indicate condition means, and white, blue, red or green shaded rectangles indicate the 95% HDIs for each measure.
+The grey shaded bars in each plot serve to visually separate the columns for each condition and highlight the zero points on the y axes. Asterisks in b and c
+denote a significant change of the parameter estimate between the health and natural cue conditions.
+Table 2 | Changes in separate attribute consideration onset
+tDDM parameters between attention-cued conditions
+Mean 95% HDi PP BF
+difference
+ωtaste
+Natural – health 0.354 [−0.113, 0.832] 0.933 1.251
+Taste – health 0.455 [−0.088, 1.003] 0.951 1.122
+ωhealth
+Health – natural 0.746 [0.188, 1.325] 0.995 12.818
+Health – taste 0.633 [0.245, 1.028] 0.999 39.041
+RST of health
+Natural – health 0.469 [0.2, 0.748] 0.999 60.868
+Taste – health 0.336 [0.121, 0.548] 0.999 26.655
+This table shows the effects of attention cues on the tDDM parameters estimated from choice
+data in the IAC study. Changes in RSTs or weighting parameters (ωtaste, ωhealth) induced by the
+experimental conditions that are shown in bold were significantly different from zero. Mean
+differences and their 95% HDIs were computed based on 100,000 samples drawn from the
+posterior distributions of each parameter75. The third column displays the posterior probabilities
+that differences are greater than zero. All comparisons were made so that a priori predicted effects
+would be positive.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+a c
+0.6 1
+0.8
+0.4
+0.6
+0.2
+0.4
+0
+0.2
+–0.2 0
+–0.2
+–0.4
+–0.4
+–0.6
+–0.6
+–0.8
+–0.8
+–1 –1
+Cathodal Sham Anodal BL ST BL ST BL ST
+Cathodal Sham Anodal
+b
+*
+*
+2
+1.5
+1
+0.5
+0
+–0.5
+–1
+–1.5
+–2
+BL ST BL ST BL ST BL ST BL ST BL ST
+Cath Sham Anod Cath Sham Anod
+(timing). Measuring each of these distinct processes helps to explain healthiness attributes during dietary choices. Moreover, changes
+individual differences in dietary choices at baseline as well as how in the relative weighting and the relative timing of each attribute
+behavioural and neurophysiological manipulations effect changes between baseline and cathodal stimulation sessions were not
+in the decision process. Thus, both attribute timing and weight- significantly correlated, which further indicates that the neu-
+ing strength must be examined if we seek to better understand ral mechanisms altered by our tDCS protocol were specifically
+decision-making at the mechanistic level. related to attribute weighting (additional implications of these
+The clearest evidence that timing and weighting strength are results are included in the Supplementary Discussion).
+dissociable comes from our tDCS experiment, which showed that In our current work, for example, we found that the relative
+stimulation over the left dlPFC caused a change in the weights importance given to a specific attribute, as well as its speed in enter-
+placed on the taste factor, but not the timing of taste versus ing the choice process, could be altered by instructions that directed
+seciohc
+reihtlaeh
+ni
+egnahC
+thgiew
+tfirD
+emit
+trats
+evitaleR
+Health Taste
+Fig. 5 | Changes in health challenge success and tDDM parameter estimates following tDCS over the left dlPFC. a, This plot shows the raw changes in health
+challenge success under stimulation compared with baseline across stimulation groups (n = 58 anodal, n = 57 cathodal, n = 59 sham). Unlike the regression
+summarized in Supplementary Table 8, the effects shown in this plot do not account for the taste or health differences in each choice. Each dot represents
+the difference between active stimulation or sham and baseline in one participant. Left dlPFC-targeted cathodal stimulation significantly decreased health
+challenge success (mean decrease = 5.7 ± 0.02%, 95% HDI = [–10%, −1.5%], PP(active cathodal stimulation < 0) = 0.995, BF = 6.41). Note that we tested the
+change under cathodal stimulation using a method75 that is robust against outliers such as the two extreme participants near −1. There were no significant
+differences in healthy choices under anodal or sham stimulation. b, Cathodal (cath) stimulation (ST) increased the weighting of taste attributes (ωtaste, red
+shading on the right) relative to baseline (BL) choices; PP(cathodal ST > cathodal BL) = 0.99, BF = 5.75). This change from baseline was greater under cathodal
+stimulation than sham; PP((cathodal ST – cathodal BL) > (sham ST – sham BL) = 0.98, BF = 4.20). The red horizontal lines and asterisks highlight this main
+effect and interaction. Anodal (anod) stimulation did not lead to significant changes in attribute weighting parameters, and neither tDCS protocol affected
+drifts weights for healthiness (ωhealth, blue shading on the left). The weighting strength parameters are plotted in arbitrary units. c, tDCS had no significant effect
+on the RST parameters (plotted in seconds, green shading). Black horizontal bars indicate group means and rectangles indicate the 95% HDIs for each effect.
+The grey shaded bars in each plot serve to visually separate the columns for each condition and highlight the zero points on the y axes.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+Table 3 | effects of tDCS over the left dlPFC on tDDM parameters
+Mean difference 95% HDi PP BF
+ωtaste
+Baseline – Anodal tDCS −0.094 [−0.23, 0.043] 0.081 0.047
+Cathodal tDCS – Baseline 0.138 [0.027, 0.248] 0.993 5.748
+Baseline – Sham tDCS 0.072 [−0.087, 0.23] 0.815 0.33
+ΔSham – ΔAnodal −0.185 [−0.41, 0.047] 0.053 0.091
+ΔCathodal – ΔSham 0.215 [0.014, 0.42] 0.982 8.333
+ωhealth
+Anodal tDCS – Baseline 0.098 [−0.023, 0.221] 0.941 0.267
+Baseline – Cathodal tDCS −0.074 [−0.246, 0.102] 0.197 0.094
+Sham tDCS – Baseline 0.025 [−0.082, 0.13] 0.685 0.188
+ΔAnodal – ΔSham 0.063 [−0.093, 0.223] 0.787 0.261
+ΔSham – ΔCathodal −0.039 [−0.241, 0.164] 0.349 0.149
+RST
+Baseline – Anodal tDCS −0.002 [−0.098, 0.093] 0.484 0.144
+Cathodal tDCS – Baseline 0.021 [−0.095, 0.135] 0.648 0.193
+Baseline – Sham tDCS −0.103 [−0.225, 0.018] 0.047 0.056
+ΔSham – ΔAnodal 0.098 [−0.057, 0.251] 0.895 0.764
+ΔCathodal – ΔSham −0.081 [−0.25, 0.086] 0.171 0.106
+This table reports changes in the separate attribute consideration onset tDDM RSTs or weighting parameters (ωtaste, ωhealth) as a result of tDCS over the left dlPFC. Rows in bold indicate changes that are
+significantly different from zero. The Δ symbol always indicates a difference score equal to the value in the stimulation minus the baseline session within a given condition. Rows containing this symbol
+report differences of differences across conditions. Mean differences (or differences of differences) and their 95% HDI were computed based on 100,000 samples drawn from the posterior distributions of
+each parameter. The third column displays the PPs that differences are greater than zero. All comparisons were made so that a priori predicted effects would be positive.
+attention to that attribute. Although a large body of work has estab- determined by a weighted sum of the differences in attribute val-
+lished that value construction and comparison processes are mal- ues. However, we showed that attribute-level comparisons do not all
+leable and subject to attention, perceptual constraints and other begin at the same point in time, and that the magnitude of the dif-
+contextual factors9–11,56,57, the influence of attribute consideration ference in RSTs across attributes influences option-level compari-
+timing within a given decision is rarely discussed or directly tested. sons and choice outcomes.
+Query theory58,59 is a notable exception in that it explicitly posits Our results raise important questions about how attribute
+that the order in which attribute values are queried from memory or weighting strengths and onset timing jointly influence choice out-
+external sources will bias value construction and choice processes comes. How should we interpret choices in which the outcome
+because the recall of initial attributes reduces the accessibility of is determined by the advantage in relative timing as opposed to
+subsequent attributes. Although the current data cannot be used to weighted evidence? Could this be strategic use of cognitive flex-
+directly address the question, future experiments may address the ibility to align decision-making with current goals or should we
+important mechanistic question of whether memory retrieval is a consider such outcomes to be mistakes? Traditionally, a weighted
+driving factor in the consideration onset asynchronies revealed by combination of all attribute values is assumed to yield the ‘correct’
+the separate attribute consideration onset tDDM. choice60. If the weighting strength on each attribute is appropriate,
+Despite open questions about the relationship between memory then any asynchrony in onset timing could produce suboptimal
+and relative starting times, our finding that attribute consideration choices (that is, choices in favour of options with a lower weighted
+start times are asynchronous lends strong support to the idea that sum over all attribute values than another available alternative). In
+choices are made based on comparisons of both separate attribute that sense, it is surprising that we find substantial attribute onset
+values as well as overall option values. Hunt and colleagues11 dem- asynchrony in healthy young adults and that, in individuals striving
+onstrated that a hierarchical sequential sampling process that oper- to maintain a healthy lifestyle (that is, the sample recruited for our
+ates over both separate attribute and overall option values explains tDCS experiment), a higher level of asynchrony is associated with
+risky choice behaviour and brain activity better than models operat- better health challenge success. However, this view is predicated on
+ing only on integrated values. Reeck and colleagues10 showed that the assumption that the attribute weighting strengths are appropri-
+individual variation in temporal discounting can be explained by ate for the current goal or context.
+patterns of information acquisition that support attribute-wise or Conversely, it is possible that shifts in the timing of attribute
+option-wise comparisons. Moreover, their study showed that an consideration can be used to achieve the desired outcome. Suppose
+experimental manipulation that promotes attribute-wise com- that a decision-maker knows (not necessarily explicitly) that her
+parisons compared with one promoting option-wise comparisons standard attribute weights are inconsistent with her current deci-
+increased the patience level of participants when making choices. sion context or goal, and adjusting those weights by the necessary
+Together, these results and others (for example, refs. 27,57) indicate amount is costly or unlikely. In that case, shifting the relative onset
+that attribute-level comparisons play an important role in determin- timing could be an effective means of reducing effort and improv-
+ing choice outcomes. Hierarchical attribute and option-level com- ing the chances of making a goal-consistent choice. In other words,
+parisons are implicit in our specification of the separate attribute altering the relative starting times may be a form of proactive con-
+consideration onset tDDM because the choice outcome and RT are trol61,62. For example, a decision-maker who goes on a diet may find
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+it difficult to convince herself that she does not like the taste of ice Dataset 1—MRTs. We use the choice and RT data from the study of Sullivan et al.16
+cream and/or to constantly trade-off this delicious taste against the to test the face validity of our time-varying sequential sampling model. These data
+are openly available at https://osf.io/jmiwn/. All participants in the MRT sample
+downsides of excess sugar and fat. An alternative way to bring about
+were healthy adults and had no specific dietary restrictions. Before making any
+health challenge success in this situation may be to adjust the pro- choices, they were reminded of the importance of healthy eating by reading a short
+cess (or processes) that determine RSTs for healthiness and tastiness excerpt from WebMD.com before starting the choice task.
+and to focus on the healthiness of each alternative option alone for a
+brief period to forgo extremely unhealthy options (without putting Participants. The experiment was approved by the Institutional Review Board of
+the California Institute of Technology. Twenty-eight (seven female) healthy adult
+in time or effort to compare taste benefits to health costs).
+participants completed the study.
+The use of timing differences as described above would be
+consistent with at least two existing theories on the role of atten- Procedure. Participants were asked to fast for 4 h before the study. They first rated
+tion in cognition. First, it is consistent with the idea that rational 160 foods for taste and health on a five-point Likert scale with values from −2
+inattention strategies63–65 can be employed as a means of reducing (very little) to +2 (very much). After these ratings, participants were asked to
+read a short text from WebMD.com on the beneficial effect of healthy eating to
+effort costs. Specifically, if the time advantage for healthiness is
+increase the frequency with which they tried to succeed in health challenges in
+large enough, then one could theoretically decide against eating an the subsequent dietary choice task. In the choice paradigm, participants made 280
+unhealthy food before even considering its tastiness and thus not choices between two foods on the screen (Fig. 1a). The selection ensured that food
+experience temptation or conflict. Second, the idea that distinct pro- pairs would equally represent all possible combinations of taste and health ratings.
+After each block of 40 choices, participants could take a short break. In 240 trials,
+cesses determine consideration onset times and weights for differ-
+participants used a computer mouse to answer, while in the remaining 40 trials,
+ent attributes is paralleled in theories of emotion and food-craving
+they answered with a keyboard. For the mouse trials, participants had to click the
+regulation that posit separate attention deployment and stimulus ‘start’ box at the bottom of the screen to initiate the trial. The cursor reappeared
+appraisal steps (for examples, see refs. 35,66,67). However, we do not after a random waiting period of 0.2–0.5 s. From this point on, participants had
+yet know whether strategic use of attribute consideration onsets or to move the mouse continuously towards the food they wanted to select. They
+were instructed to answer as quickly and accurately as possible. A random fixation
+related processes actually happen or whether adjusting the process
+time of 0.4–0.7 s separated the trials. For the keyboard trials, participants selected
+determining relative onset times is, in fact, less effortful or more
+food items by pressing the left or right choice keys. At the end of the study, one
+likely to succeed than strategies that attempt to alter the attribute randomly selected trial was paid out, and participants were asked to stay in the
+weighting strengths. laboratory for 30 min or until they had eaten their obtained food.
+Altering the processes that determine the relative onset times
+Dataset 2—GFC. Data for this behavioural GFC study were collected from the
+could be a means or a result of delaying and reducing attention.
+same individuals in two testing sessions 2 weeks apart. The two sessions were run
+However, although we found that both cueing attention to healthi- on the same weekday and daytime in a 2-h visit in the afternoon. Participants in
+ness and having the goal of maintaining a healthy lifestyle (tDCS this study were healthy and did not have any specific dietary restrictions. During
+sample versus all others) were associated with faster average onset the study, they chose naturally and were neither reminded about eating a healthy
+times for healthiness attributes, we do not know yet whether relative diet nor encouraged to eat healthy in any way.
+onset times can be manipulated as part of a deliberate strategy. It is
+Participants. The study was approved by the Institutional Review Board of
+also important to note that the response to healthiness cues was het- the University of Zurich’s Faculty of Business, Economics and Informatics.
+erogeneous in the sense that although most participants made healthy Thirty-seven participants (17 female, age = 22.6 ± 3 years (mean ± s.d.)) were
+choices more often following those cues, some participants changed included in this study. A prescreening procedure ensured that all participants
+only attribute weights or only attribute start times in favour of healthy regularly consumed sweets and other snack foods and were not currently
+following any specific diet or seeking to lose weight. All participants were
+choices rather than both. Further research is needed to understand
+healthy and had no current or recent acute illness (for example, cold or flu) at the
+why individuals responded to these cues in different ways. time of the study. All participants complied with the following rules to ensure
+The ability to understand or predict how an intervention or pol- comparability across the study sessions: they got a good night’s sleep and did
+icy change will affect choice processes and their outcomes for spe- not consume alcohol the evening before the study. On the study day, they took
+a photograph of the small meal that they consumed 3 h before the appointment,
+cific individuals or groups of people is important for any programme
+and sent this photo to the experimenter. One day before the second study session,
+hoping to promote behavioural change, for example, in domains
+participants received a reminder about the rules (described above) and were asked
+such as health, crime or financial stability. Greater knowledge of the to consume a small meal before their second appointment that was equivalent to
+cognitive and neural mechanisms that drive choices in specific indi- their meal before the first test session. Participants received CHF37.5 (~US$39)
+viduals is an important step towards this understanding68. Our find- for each session.
+ings demonstrate that when a specific attribute begins to influence
+Procedure. Participants were asked to eat a small meal of approximately 400 calories
+the decision process—a factor that has been generally neglected—is
+3 h before their appointment and to consume nothing but water in the 2.5 h before
+an important determinant of choice outcomes. They also suggest the study started. In the laboratory, participants first rated 180 food items for taste
+that examining relative differences in attribute start times may and health. They then made 150 food choices, one of which was randomly selected
+prove useful in understanding why interventions and policies work to be received at the end of the experiment. For each trial, the screen showed two
+foods next to each other, and participants chose the food they wanted to eat using
+in some cases (for example, for specific individuals or groups) but
+a four-point scale, picking either ‘strong left’, ‘left’, ‘right’ or ‘strong right’ (Fig. 1b).
+not in others, and may help to increase their effectiveness. Overall,
+The pairing order and positions of the foods on the screen (left versus right) were
+the work we present here provides both a concrete advancement in completely randomized, and the allocation algorithm ensured that one of the
+our knowledge of multi-attribute choice processes and a functional foods would be rated as healthier than the other. Participants had 3 s to make their
+set of computational modelling tools that can be applied to extract choice, with a jittered interval of 1–3 s of fixation between trials. Between blocks of
+dietary decisions, participants played a game in which they had to guess cards for
+deeper mechanistic insights from data on choice outcomes and RTs.
+monetary rewards. We ignored the card guessing choices for the analyses presented
+here. At the end of the experiment, participants stayed in the laboratory for an
+Methods additional 30 min, during which they ate the food they obtained during the study.
+For all datasets in which we relied on published studies, we included the final Note that participants on the second day saw a new set of choice options that was
+reported sample in our analyses. For these studies, we describe the methodological created based on the taste and health ratings they gave on that second day, using
+details relevant for our analyses and refer the reader to the published papers for any the same allocation algorithm as in session one.
+further details. All participants provided written informed consent in accordance
+with the procedures of the Institutional Review Board of the California Institute of Dataset 3—IACs. To determine how attention cues affected attribute timing and
+Technology, the Institutional Review Board of the Faculty of Business, Economics weighting, we reanalysed data from Hare et al.18. Participants in this study were not
+and Informatics at the University of Zurich, or the Ethics Committee of the Canton following a specific health or dietary goal in their everyday life, but received a cue
+of Zurich. All participants received a flat fee to compensate for their time in to think about the healthiness or tastiness of the foods before deciding on a subset
+addition to the food they chose. of choices in the study.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+Participants. The study was approved by the Institutional Review Board of the regard to age, body mass index or self-reported eating patterns (as assessed by
+California Institute of Technology. Thirty-three participants (23 female, age the “three factor eating” questionnaire, German validated version by Pudel and
+24.8 ± 5.1 years (mean ± s.d.)) were included. Screening ensured that they were Westenhöfer66) (Supplementary Table 9). The groups also did not differ with regard
+not currently following any specific diet or seeking to lose weight. All participants to impulse control (in the stop signal reaction time), working memory capacity
+were healthy, had no history of psychiatric diagnoses or neurological or metabolic (digit span test) or time discounting preferences. Finally, the groups did not differ
+illness, were not taking medication, had normal or corrected-to-normal vision, and in the level of hunger that they reported before the choice task (Supplementary
+were right-handed. Tables 10–17).
+Procedure. Participants were instructed to fast and drink only water in tDCS stimulation protocol. The target electrode (5 × 7 cm) was placed on the left
+the 3 h before the study. In this experiment, participants made a series of dlPFC (Supplementary Fig. 2). The reference electrode (10 × 10 cm) was placed
+180 choices within a magnetic resonance imaging (MRI) scanner while over the vertex, off-centred to the contralateral side in such a way that a 5 × 7-cm
+blood-oxygenation-level-dependant functional MRI was acquired. The area of the reference electrode was centred over the vertex while the remaining
+experiment had 3 conditions with 60 trials each that were presented in blocks area was placed more to the right side. The target electrode covered the two dlPFC
+of 10, with the order of blocks and foods shown within blocks fully randomized regions depicted in Supplementary Fig. 2 (MNI peak coordinates = (−46, 18, 24)
+for each participant. Each food was shown only once (Fig. 1c). In condition one, and (−30, 42, 24)). These targets were selected because they both showed greater
+participants were asked to attend to the tastiness of the food when making their activity for health challenge success > failure in two previous functional MRI
+choices, in the second condition, to attend to the healthiness of the food, and in the studies51,53. The coordinates for both the dlPFC and the vertex were identified
+third condition, to choose naturally. The instructions emphasized that participants using a neuronavigation system (Brainsight, Rogue Research, RRID:SCR_009539,
+should always choose what they preferred to eat regardless of the attention and https://www.rogue-research.com/; see Supplementary Fig. 2) from individual
+consideration cues. Before each block, the attention condition cue was displayed T1-weighted anatomical MR images for each participant. We applied anodal,
+for 5 s. For each choice trial, participants had 3 s to answer and were shown cathodal or sham tDCS over this dlPFC site using a commercially available
+feedback on their choice for 0.5 s after responding. Trials were separated by a multichannel stimulator (neuroConn). Between a ramp-up and ramp-down phase
+variable fixation period of 4–6 s. Most participants responded on a four-point scale of 20 s, active stimulation with 1 milliampere (mA) took place for 30 min (anodal
+of ‘strong yes’, ‘yes’, ‘no’ or ‘strong no’ to indicate whether they preferred to eat or to and cathodal group) or 5 s (sham). Sham stimulation was delivered with either the
+not eat the food shown on the current trial. Five out of 33 participants completed anode or the cathode over the dlPFC, counterbalanced over the entire sham group.
+a version of the task that included a fifth option that allowed them to signal Both the participants and the experimenters mounting the tDCS electrodes were
+indifference between eating and not eating the food. We followed the original blind to the stimulation condition.
+analysis procedures in the IAC study and analysed all 33 subjects as one set. After
+the scan, participants rated the 180 food items for taste (regardless of health) Procedure. Participants first rated 180 food items for health and taste. They were
+and health (regardless of taste), with the order of rating types randomized across instructed to rate taste regardless of the healthiness and vice versa for each of our
+participants. After both the choice task and ratings were complete, one trial from 180 food items on a continuous scale that showed visual anchor points from −5
+the choice task was randomly chosen to be realized. Participants were required to (not at all) to +5 (very much). Before or after these ratings, participants completed
+eat the food if they answered ‘yes’ or ‘strong yes’. If they answered ‘no’ or ‘strong no’, a battery of control tasks in a randomized order. All control tasks were performed
+they still had to stay in the laboratory for the 30-min waiting period; however, they both before and after stimulation: a stop signal reaction time task, a self-paced digit
+were not allowed to eat any other food. Participants were fully informed of these span working memory test and a self-paced monetary inter-temporal choice task.
+choice incentivization procedures before beginning the study. To test for stimulation effects on taste and health ratings, participants also re-rated
+a subset of foods after stimulation (see Supplementary Results).
+Dataset 4—tDCS study. All participants in this study were prescreened during After all pre-stimulation tasks had been completed, but before any food
+recruitment to ensure that they were actively following a healthy lifestyle. They choices were made, we asked participants to sign a health goal statement in which
+were specifically asked if they would agree to do their best to choose the healthier they indicated whether they would commit to maintaining a health goal during
+option whenever possible on the day of the study. Participants who indicated that the subsequent food choice task (see Supplementary Methods for an English
+they would not do so were still allowed to complete the experiment and were translation of the health goal text). Participants indicated that they would or would
+reimbursed for their time, but we did not analyse their data. All participants not commit to the goal, dated and signed the document, and then handed it back
+received a flat fee of CHF100 (~$104). to the experimenter. Participants could not see which option others in the room
+The procedures for this study were originally described in ref. 69. We repeat that had selected, and the experimenter randomizing the tDCS conditions was blind to
+description here to make this paper self-contained. the responses of the participants to the health goal.
+Immediately before beginning the food choice task, participants indicated their
+Participants. The Ethics Committee of the Canton of Zurich approved the study current hunger levels. They then completed a series of food choices. The first 101
+protocol and all participants provided written informed consent. In total, 199 participants made 60 food choices at baseline; however, we increased the number
+participants were enrolled in the study. No participants reported any history of of baseline choices to 80 for the final 98 participants to have an even number at
+psychiatric or neurological conditions or had any acute somatic illness. Participants baseline and under stimulation. All other experimental factors were kept the same
+were prescreened in telephone interviews to ensure they did not suffer from any for all 199 participants. The baseline choices allowed us to make within-subject
+allergies, food intolerances or eating disorders. To ensure that the snacks in the comparisons of health challenge success before and during stimulation. Once
+food choice task would present a temptation, participants were only eligible if they participants had finished making the baseline choices, stimulation was applied.
+reported regularly consuming snack foods (at a minimum two to three times per Participants did not make any choices for the first 3 min of stimulation to allow the
+week) while at the same time trying to maintain an overall balanced and healthy diet. current to stabilize. Following the stabilization period, they completed another set
+Data from 25 participants were excluded because they failed to meet a priori of food choices (n = 120 for participants 1:101 and n = 80 for participants 102:199).
+inclusion criteria or data quality checks. Within the study, we requested a written No choice pairs were repeated between the baseline and stimulation choice sets.
+statement of compliance with a health goal for the time of the experiment (see However, the difficulty in terms of taste difference was balanced across the two
+below). Seven men and one woman indicated that they would not comply with the choice sets (Supplementary Information).
+health goal; their data were excluded from all analyses. Note that these participants Participants completed the set of food choices under stimulation (or sham)
+still completed the experimental procedures and received the same compensation in a maximum of 16 min. In the remaining 8–14 min of stimulation (or sham)
+through food and monetary incentives as those who complied, so there was no time, participants completed several control tasks. We randomized the order of
+incentive for the participants to lie about following the health goal. Data from the post-stimulation control tasks so that all tasks had an equal chance of being
+eight participants had to be excluded because they confused the response keys or run in the period when current was still being applied versus the 5–10-min
+forgot the identity of the reference item during the task. Four participants were window immediately after stimulation (during which physiological after
+excluded on site due to safety precautions regarding tDCS. Three participants were effects of the tDCS were still present, see refs. 70,71). Once they had completed
+excluded on site because a re-check of the inclusion criteria revealed that they all post-stimulation control tasks, participants filled in a questionnaire battery
+did not actually like snacks or only consumed them on one to two occasions per (the three factor eating questionnaire, the cognitive reflection test, the ‘Big Five’
+month instead of the minimum two times per week. One additional participant personality dimensions and socioeconomic status). They also indicated whether
+had to be excluded because the choice set could not be constructed due to the fact and to what degree they had tried to comply with the health goal throughout
+that he reported only the most extreme values on all health and taste ratings. Last, the study, whether they had felt the stimulation and how strongly, and whether
+data from one participant was excluded because she never made a healthy choice they had any problems understanding or following the instructions. Finally,
+when taste and healthiness were in conflict in the baseline condition, precluding participants received and ate their selected food 30 min after they made their final
+inference about within-subject changes due to stimulation. This left 87 men and 87 decision in the food choice task.
+women in the final dataset.
+Participants were randomly allocated to stimulation conditions. The anodal Food choice paradigm. Participants were asked to eat a small meal of ~400 kcal 3 h
+(58 participants, 30 female), cathodal (57 participants, 30 female) and sham (59 before the study and consume nothing but water in the meantime. In the health
+participants, 27 female) stimulation groups did not differ from each other with challenge paradigm, participants chose which food they wanted to eat at the end of
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+the study. To comply with their health goal, they had to choose the healthier item times, non-decision times that varied as a function of choice outcome or
+as often as they could. However, the paradigm was engineered such that health and starting point biases in favour of tastiness (Figs. 2 and 3; Extended Data Fig. 2;
+taste of the food options always conflicted based on the ratings of the participant, Supplementary Table 1).
+so that they would always have to forgo the tastier food to choose healthy. Evidence accumulation proceeds according to equation (1) or (2) in the
+Participants knew that one of their choices would be realized at the end, and they following manner. The evidence accumulation process begins with an initial value
+would have to eat whatever they chose on the trial that was randomly selected. (E) that is equal to the value of the Bias parameter. This value is then updated in
+0
+Participants were shown the picture of a reference food for 3 s at the beginning discrete time steps of dt = 0.008 s until |E t| is greater than the Thr parameter value.
+of each block. This reference food was either healthier and less tasty than all The noise at each step of the accumulation process is drawn from a Gaussian
+ten items shown in the upcoming block or tastier and less healthy than all ten distribution with mean = 0. The differences in taste and healthiness ratings
+upcoming items. For each of the ten trials within a block, participants had to between Food 1 and Food 2 (or Food 1 versus 0 for the single-item choices in
+decide whether they preferred to eat the food currently shown on the screen or the IAC dataset) on a given trial are denoted by TD and HD, respectively. Once
+the reference food at the end of the study. The identity of the reference food was the threshold is crossed, the RT is computed as t × dt + nDT, where nDT is a free
+written in text on the screen so that participants did not need to remember it parameter for a non-decision time that accounts for the time required for any
+(Fig. 1d). During each choice trial, participants had 3 s to make their decisions, initial perceptual or subsequent motor processes that surround the period of active
+and each trial was separated by a jittered inter-trial interval of 2–6 s. One trial evidence accumulation and comparison.
+was selected at random to be realized after all experimental procedures were We estimated the best values for all six free parameters described above
+completed. At the end of the study, participants stayed in the laboratory for separately for each participant and condition using the differential evolution
+30 min to eat the food they obtained in the study. algorithm described in Mullen, et al.72, with a population size of 60 members run
+over 150 iterations. For every iteration, we simulated 3,000 decisions and RTs for
+Statistical analyses. For all Bayesian modelling analyses, we used the default, all unique combinations of taste and healthiness trade-offs in the choice set for
+uninformative priors specified by the packages brms, BEST or BayesFactor from R each participant using the six tDDM parameters for each population member. We
+(see Supplementary Methods). These analyses are not predicated on assumptions then computed the likelihood of the observed data given the distribution generated
+of normally distributed data or equal variances across groups. Throughout the by the 3,000 simulated choices for a given set of parameters. For each subsequent
+paper, the notation “PP()” indicates the posterior probability that the relation iteration, the population evolves towards a set of parameters that maximize the
+stated within the parentheses is true. Similarly, the BF represents the relative likelihood of the observed data using the procedures described by Mullen and
+evidence for this relationship over its opposite (for example, greater than zero colleagues72. We examined the evolution of the population over the 150 iterations
+versus less than zero). Whenever we analysed previously published data, we and generations and found that the differential evolution algorithm settled on a
+applied the same subject-level and trial-level exclusion criteria described in the set of best-fitting parameters well before 150 iterations in our datasets. The upper
+original papers. and lower bounds on the search space for each of the six parameters are listed in
+Supplementary Table 18. The ratings for taste and healthiness were z-scored across
+tDDM with separate attribute consideration onset times. We fit a DDM that all available ratings of each type for the entire set of participants in each study.
+allowed for differential onset times for taste and health attributes during evidence Last, we also fit a standard DDM and several other alternative DDM
+accumulation to choice outcome and reaction time data of participants. Several of formulations (Supplementary Table 1) to all datasets using the same procedures
+the food choice tasks used a four-point decision-strength scale, and for these data, as the tDDM. The simulated choice sets from each model shown in Fig. 2
+we collapsed choices into a binary yes/no or left/right choice. The following six free were composed of 1,000 repetitions of each of the 673 unique taste and health
+parameters were separately estimated for each participant and condition: combinations used across all four datasets.
+Thr: the evidence threshold for responding (symmetric around zero). We also fit the tDDM using two levels of resolution for the tastiness and
+Bias: the starting point bias for the evidence accumulation process healthiness ratings in the GFC and tDCS studies. The tastiness and healthiness
+(zero = no bias). ratings from these two studies were collected on a 426-point visual analogue
+nDT: the non-decision time and corresponds to the starting time for taste in scale. We initially fit the tDDM using the 426-point ratings scale. We also
+our model. estimated the fits after first reducing the resolution to 10 equally sized bins (that
+RST: the relative start time for health (timing is relative to the start of taste is, 42.6 points per bin) for both taste and health. Both versions yielded very
+processing; positive values mean that health enters the process after taste, negative similar results, but the estimation proceeded considerably faster when using
+values mean health enters before taste). the binned ratings because this reduced the number of unique combinations
+ωtaste: the weighting factor determining how much taste contributes to the of attributes and therefore the number of simulations required for the fitting
+evidence accumulation rate. procedure. We report the parameter values and results from the model with
+ωhealth: the weighting factor determining how much healthiness contributes to binned ratings for these studies.
+the evidence accumulation rate.
+The values of these six parameters were used to simulate choices and RTs using Tests of parameter recovery. We generated simulated choices and reaction times
+the sequential sampling model described in the equation below to update the by parameterizing the standard DDM and tDDM using the best-fitting parameters
+relative evidence level at each subsequent time step t. for each model estimated from the choices made by the participants in the
+If taste enters first, the evidence-updating equation is as follows: baseline condition for all four studies. The simulated choice sets were based on
+these parameters and the tastiness and healthiness differences participants faced
+RST
+Et¼Et �1þ (cid:30)ω taste´TD þ (cid:30)t> (cid:31) dt (cid:31)(cid:29)´ω health´HD (cid:29)´dt þnoise ð1 Þ d du atr ain ing e tev re mry s d oe f c ti rs ii ao ln n t ur mia bl. eT rsh u ans, d t h ate t rs ii bm uu tela dte ifd f ec rh eo ni cc ee dse ist ts r im buat tc ioh ne sd . t Fh ite t ie nm g p ti hr eic sa e l
+(cid:31) (cid:31) (cid:31) (cid:31) simulated choices allowed us to quantify the ability of both models to recover
+While if healthiness enters first it is a(cid:31)s foll(cid:31)ows: known parameter values within the context of our experimental datasets and the
+RST ability to distinguish between these models (Extended Data Fig. 1; Supplementary
+Et¼Et �1þ (cid:30)(cid:30)t>
+(cid:31)
+dt (cid:31)(cid:29)´ω taste´TD þω health´HD (cid:29)´dt þnoise ð2 Þ Fig. 1; Supplementary Table 1).
+(cid:31) (cid:31)
+(cid:31) (cid:31) Testing taste versus healthiness influence by RT. In addition to parameter
+Thus, the times at whic(cid:31)h the(cid:31) weighted value differences in tastiness and
+recovery tests, we used simulated choices to test how well each model reproduced
+healthiness attributes (ωtaste × TD and ωhealth × HD, respectively) begin to influence choice and RT characteristics observed in the empirical data. A hierarchical
+the evidence accumulation rate are determined by the RST. When the conditional
+Bayesian logistic regression analysis showed that the influence of taste and
+statement t> RST is false, it equals 0, while if true, it equals 1. Multiplying
+dt healthiness on choice outcomes differed as a function of RTs (equation (3);
+one of the tIwo weighted attribute values by 0 until t> RST is true means that
+(cid:30) (cid:31) (cid:31)(cid:29) dt Supplementary Tables 2–4). Specifically, this analysis tested the influence of
+that attribute d(cid:31)oes (cid:31)not factor into the evidence accuImulation process for the
+(cid:30) (cid:31) (cid:31)(cid:29) each attribute on trials in which the response was made before versus after the
+initial time period determined by |RST|. The RST param(cid:31)ete(cid:31)r is defined as the
+relative-starting-time advantage of the first attribute had on average elapsed. The
+consideration start time for healthiness minus the starting time for tastiness.
+population-level regressors are listed in equation (3) below.
+Thus, RST will have a positive value when tastiness enters consideration first
+and a negative value when healthiness is considered first. Note that the standard, Left ¼β 0þβ 1HFirst þβ 2InitAdv þβ 3TD þβ 4HD þβ 5HFirst´InitAdv
+synchronous onset DDM is equivalent to the specific case of RST = 0, and then β HFirst´TD β HFirst´HD β InitAdv´TD β InitAdv´HD
+equations (1) and (2) are equivalent because t is always greater than (|RST/ t|) and þ 6 þ 7 þ 8 þ 9
+t> R dS tT always equals 1. þβ 10HFirst´InitAdv´TD þβ 11HFirst´InitAdv´HD þe
+I Based on previous mouse-tracking results from Sullivan et al.16, our model 3
+(cid:30) (cid:31) (cid:31)(cid:29) ð Þ
+form(cid:31)ulat(cid:31)ion makes the simplifying assumption that once an attribute comes into
+consideration, it continues to influence the rate of evidence accumulation until In this equation, Left is a binary indicator of the choice outcome. HFirst is a
+the choice is made. Model comparisons testing this assumption showed that the dummy variable (1 = healthiness, 0 = taste) indicating which attribute is considered
+different starting time formulation fit the data better than DDMs that allowed first (as determined by the tDDM). InitAdv is a dummy variable (1 = before, 0 = after)
+for differential attribute consideration end times, both different start and end indicating whether the response was made before the median value of the sum of
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+RST difference plus non-decision time across participants had elapsed. This sum was in our tDCS dataset. Based on those fitted parameters, we generated predictions
+equal to 1 s. One second was also the cut-off for the first quartile of the RT range, about the probability of health challenge success in even-numbered trials as a
+meaning that 25% of choices were made in 1 s or less. The abbreviations TD and function of tDCS polarity (anodal, cathodal, sham), stimulation session (baseline,
+HD stand for the differences in tastiness and healthiness, respectively, for each trial. active), health difference, taste difference and participant identity. We then
+Subject-specific coefficients were estimated for all regressors except HFirst because estimated equation (5) on all even-numbered trials for which the probability of
+each participant had only one level of that regressor in his or her baseline condition. health challenge success was predicted to be between 0.2 and 0.8.
+We computed this regression using four different subsets of empirical or To examine whether stimulation over the left dlPFC caused changes in health
+simulated data. Initially, we analysed the baseline choice trials pooled over all four challenge success, we fit a Bayesian hierarchical logistic regression model to
+studies (baseline = mouse response trials from MRT, day 1 trials from GFC, no-cue the tDCS dataset. The population-level regressors for this model are given in
+trials from IAC, pre-stimulation trials from tDCS). We then compared this model condensed notation in equation (5).
+to two simpler models that omitted either (1) the dependency on RT (that is,
+Healthchallengesuccess β β TD β HD β stimulationon
+InitAdv dummy variable) or (2) both the dependency on RT and the indicator for ¼ 0þ 1 þ 2 þ 3 þ
+which attribute a participant considered first (that is, InitAdv and HFirst dummy β 4cathodal þβ 5anodal þβ 6TD´stimulationon þβ 7HD´stimulationon þβ 8
+variables). The full model explained the data better (Supplementary Table 4); TD´cathodal β TD´anodal β HD´cathodal β HD´anodal β
+therefore, we used it to examine choice patterns generated by the standard DDM þ 9 þ 10 þ 11 þ 12
+stimulationon´cathodal β stimulationon´anodal β
+and tDDM. The means and 95% HDIs for regression coefficients plotted in Fig. 3a þ 13 þ 14
+are derived from estimating the hierarchical logistic regression in equation (3) to TD´stimulationon´cathodal þβ 15TD´stimulationon´anodal þβ 16
+observed, time-varying (tDDM), standard (sDDM) or tastier starting-point-bias HD´stimulationon´cathodal β HD´stimulationon´anodal e
+þ 17 þ
+(bDDM) model-simulated choices for all participants in whom the |RST| 5
+parameter fell into the third quartile. We subset the data into this quartile so that ð Þ
+timing differences between taste and healthiness would be big enough to have a Here, TD and HD denote the absolute value of taste and healthiness,
+clear effect in both the real and simulated data. respectively, difference between foods for each trial, stimulation on is a dummy
+variable taking the value 1 under stimulation and 0 at baseline, and anodal and
+Correspondence of tDDM health delay estimates with MRT estimates. With cathodal are the active stimulation conditions. The sham condition is the baseline
+their MRT analysis, Sullivan and colleagues16 were able to estimate to within a in this regression. The model included the main effects of all regressors as well
+fraction (1/101) of each RT when health first became and remained significant as the two-way and three-way interactions between attribute differences and
+in each choice (see Fig. 4b in that study). To compare our estimate (which is stimulation type and session (that is, baseline versus stimulation on). The model
+given in seconds and represents a mean value across all a given set of choices) also included subject-specific intercepts, stimulation effects and slopes for HD and
+to the MRT estimates, we also transformed the MRT estimates of start times for TD (Supplementary Table 8).
+health into a mean estimate in seconds. Specifically, we took the mean of the
+estimated trial-wise health start time bins for each participant and multiplied Choice of sample sizes, randomization and blinding. The IAC and MRT studies
+it by the mean RT of the participants, then divided by 101. The MRT method were based on preexisting datasets and we included the participants analysed in
+was only able to estimate health start times for n = 18 out of 28) participants; the original papers. No statistical methods were used to predetermine sample
+therefore, we calculated the Bayesian equivalent of Pearson’s correlation sizes for the GFC study and tDCS studies, but our sample sizes were similar
+coefficient between tDDM and mouse-tracking estimates of health start times to those reported in relevant previous publications18,38,51. For the tDCS study,
+in this subset of participants. Unless otherwise noted, all correlation coefficients participants were randomly assigned to the stimulation condition. Experimental
+reported in this paper represent the mean of the posterior distribution from a conditions in the tDCS and GFC studies were blocked. For the tDCS study,
+Bayesian correlation analysis. These Bayesian correlations were implemented the baseline condition was always presented first to prevent any influence of
+in R and JAGS based on code published at http://doingbayesiandataanalysis. potential tDCS after-effects. The food choice and gambling conditions in the GFC
+blogspot.com/2017/06/bayesian-estimation-of-correlations-and.html, which study were presented in random order. Data in the tDCS study were collected
+accompanies the book by Kruschke73. double-blind. Data analyses were performed with knowledge of the condition
+labels in all experiments.
+Relationship between RSTs and other tDDM parameters. To explain how
+individual differences in the RST for healthiness were related to the other tDDM
+Reporting Summary. Further information on research design is available in the
+parameters (Supplementary Table 6), we estimated the model specified in
+Nature Research Reporting Summary linked to this article.
+equation (4) below:
+RST ¼β 0þβ 1ω tasteþβ 2ω healthþβ 3nDT þβ 4Thr þβ 5bias þβ 6 Data availability
+studyIAC þβ 7studyMRT þβ 8studytDCS þβ 9bias´studyIAC þβ 10 The data analysed in this paper are openly available on the Open Science
+bias´studyMRT β bias´studytDCS e Framework at https://osf.io/g76fn/. Additional data for the MRT experiments from
+þ 11 þ Sullivan et al.16 are available at https://osf.io/jmiwn/.
+4
+ð Þ
+Note that we interacted the bias parameter from the tDDM with a dummy Code availability
+variable indicating the study because the bias measures different answers across The code for fitting the diffusion models and running the other analyses is openly
+studies given the task designs (for example, left/right, eat/do not eat). The GFC available on the Open Science Framework at https://osf.io/g76fn/.
+study served as the baseline in this regression.
+Received: 9 November 2018; Accepted: 4 May 2020;
+Out-of-sample tests for comparing the standard DDM and tDDM. We fit the
+Published: xx xx xxxx
+standard DDM and tDDM with separate attribute consideration onsets to the
+odd-numbered choices from each participant and then compared the accuracy
+of the two models when predicting even-numbered choice outcomes. We used References
+the squared error in predicting choice outcomes as our measure of accuracy74. 1. Mazur, J. E. in Quantitative Analyses of Behavior: The Effect of Delay and of
+The predicted outcome for each choice was computed as the mean outcome Intervening Events on Reinforcement Value Vol. 5 (eds Commons, M. L. et al.)
+over 1,000 simulations from the standard DDM and tDDM. Choices for the 55–73 (Erlbaum, 1987).
+food on the left or to eat the food in single-option decisions were set to a value 2. Fehr, E. & Schmidt, K. M. A theory of fairness, competition, and cooperation.
+of 1, and the alternative choice was set to a value of 0. Thus, the mean outcome Q. J. Econ. 114, 817–868 (1999).
+from the 1,000 simulations for each choice represented the probability of a given 3. Laibson, D. Golden eggs and hyperbolic discounting. Q. J. Econ. 112,
+outcome. The scoring rule for accuracy on each trial was then computed as: (True 443–477 (1997).
+outcome – Prediction)2. We computed the squared error separately for tastier and 4. Kahneman, D. & Tversky, A. Prospect theory: an analysis of decisions under
+less tasty choice outcomes and then took the mean error across these trials types to risk. Econometrica 47, 263–292 (1979).
+obtain a measure of balanced error. 5. Palminteri, S., Wyart, V. & Koechlin, E. The importance of falsification
+in computational cognitive modeling. Trends Cogn. Sci. 21,
+Changes in tDDM parameters between instructed attention conditions. We 425–433 (2017).
+compared tDDM parameters fit to choices during HC, TC and NC blocks using a 6. Carland, M. A., Marcos, E., Thura, D. & Cisek, P. Evidence against perfect
+Bayesian t-like test (implemented in the R package BEST v.3.1.0)75, which in turn integration of sensory information during perceptual decision making.
+relies on JAGS (v.3.3.0). J. Neurophysiol. 115, 915–930 (2016).
+7. Summerfield, C. & Tsetsos, K. Building bridges between perceptual
+Modelling changes in behaviour under tDCS. We first fit the hierarchical and economic decision-making: neural and computational mechanisms.
+regression model specified in equation (5) to the odd-numbered baseline trials Front. Neurosci. 6, 70 (2012).
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+8. Gluth, S., Hotaling, J. M. & Rieskamp, J. The attraction effect modulates 41. Cho, S. S. et al. Effect of continuous theta burst stimulation of the right
+reward prediction errors and intertemporal choices. J. Neurosci. 37, dorsolateral prefrontal cortex on cerebral blood flow changes during decision
+371–382 (2017). making. Brain Stimul. 5, 116–123 (2012).
+9. Krajbich, I., Armel, C. & Rangel, A. Visual fixations and the computation and 42. Camus, M. et al. Repetitive transcranial magnetic stimulation over the right
+comparison of value in simple choice. Nat. Neurosci. 13, 1292–1298 (2010). dorsolateral prefrontal cortex decreases valuations during food choices.
+10. Reeck, C., Wall, D. & Johnson, E. J. Search predicts and changes patience in Eur. J. Neurosci. 30, 1980–1988 (2009).
+intertemporal choice. Proc. Natl Acad. Sci. USA 114, 11890–11895 (2017). 43. Figner, B. et al. Lateral prefrontal cortex and self-control in intertemporal
+11. Hunt, L. T., Dolan, R. J. & Behrens, T. E. Hierarchical competitions choice. Nat. Neurosci. 13, 538–539 (2010).
+subserving multi-attribute choice. Nat. Neurosci. 17, 1613–1622 (2014). 44. Knoch, D. et al. Studying the neurobiology of social interaction with
+12. Kunar, M. A., Watson, D. G., Tsetsos, K. & Chater, N. The influence transcranial direct current stimulation-the example of punishing unfairness.
+of attention on value integration. Atten Percept. Psychophys. 79, Cereb. Cortex 18, 1987–1990 (2008).
+1615–1627 (2017). 45. Kool, W., McGuire, J. T., Wang, G. J. & Botvinick, M. M. Neural and
+13. Forstmann, B. U., Ratcliff, R. & Wagenmakers, E. J. Sequential sampling behavioral evidence for an intrinsic cost of self-control. PLoS ONE 8,
+models in cognitive neuroscience: advantages, applications, and extensions. e72626 (2013).
+Annu. Rev. Psychol. 67, 641–666 (2016). 46. Rudorf, S. & Hare, T. A. Interactions between dorsolateral and ventromedial
+14. Clithero, J. A. Improving out-of-sample predictions using response times and prefrontal cortex underlie context-dependent stimulus valuation in
+a model of the decision process. J. Econ. Behav. Organ 148, 344–375 (2018). goal-directed choice. J. Neurosci. 34, 15988–15996 (2014).
+15. Webb, R. The (neural) dynamics of stochastic choice. Manage. Sci. https://doi. 47. Zysset, S. et al. The neural implementation of multi-attribute decision
+org/10.1287/mnsc.2017.2931 (2018). making: a parametric fMRI study with human subjects. NeuroImage 31,
+16. Sullivan, N., Hutcherson, C., Harris, A. & Rangel, A. Dietary self-control is 1380–1388 (2006).
+related to the speed with which attributes of healthfulness and tastiness are 48. Kahnt, T., Heinzle, J., Park, S. Q. & Haynes, J. D. Decoding different roles for
+processed. Psychol. Sci. 26, 122–134 (2015). vmPFC and dlPFC in multi-attribute decision making. NeuroImage 56,
+17. Lim, S. L., Penrod, M. T., Ha, O. R., Bruce, J. M. & Bruce, A. S. Calorie 709–715 (2011).
+labeling promotes dietary self-control by shifting the temporal dynamics of 49. Enax, L., Hu, Y., Trautner, P. & Weber, B. Nutrition labels influence value
+health- and taste-attribute integration in overweight individuals. Psychol. Sci. computation of food products in the ventromedial prefrontal cortex. Obesity 23,
+29, 447–462 (2018). 786–792 (2015).
+18. Hare, T. A., Malmaud, J. & Rangel, A. Focusing attention on the health 50. Luo, S., Ainslie, G., Pollini, D., Giragosian, L. & Monterosso, J. R. Moderators
+aspects of foods changes value signals in vmPFC and improves dietary of the association between brain activation and farsighted choice. NeuroImage
+choice. J. Neurosci. 31, 11077–11087 (2011). 59, 1469–1477 (2012).
+19. Ratcliff, R. A note on modeling accumulation of information when the rate of 51. Hare, T. A., Camerer, C. F. & Rangel, A. Self-control in decision-making
+accumulation changes over time. J. Math. Psychol. 21, 178–184 (1980). involves modulation of the vmPFC valuation system. Science 324,
+20. Ratcliff, R. A theory of memory retrieval. Psychol. Rev. 85, 59–108 (1978). 646–648 (2009).
+21. Ratcliff, R., Smith, P. L., Brown, S. D. & McKoon, G. Diffusion decision 52. Hare, T. A., Hakimi, S. & Rangel, A. Activity in dlPFC and its effective
+model: current issues and history. Trends Cogn. Sci. 20, 260–281 (2016). connectivity to vmPFC are associated with temporal discounting. Front.
+22. Holmes, W. R., Trueblood, J. S. & Heathcote, A. A new framework for Neurosci. 8, 50 (2014).
+modeling decisions about changing information: the piecewise linear ballistic 53. Maier, S. U., Makwana, A. B. & Hare, T. A. Acute stress impairs self-control
+accumulator model. Cogn. Psychol. 85, 1–29 (2016). in goal-directed choice by altering multiple functional connections within the
+23. Cisek, P., Puskas, G. A. & El-Murr, S. Decisions in changing conditions: the brain’s decision circuits. Neuron 87, 621–631 (2015).
+urgency-gating model. J. Neurosci. 29, 11560–11571 (2009). 54. Marechal, M. A., Cohn, A., Ugazio, G. & Ruff, C. C. Increasing honesty in
+24. Usher, M. & McClelland, J. L. The time course of perceptual choice: the leaky, humans with noninvasive brain stimulation. Proc. Natl Acad. Sci. USA 114,
+competing accumulator model. Psychol. Rev. 108, 550–592 (2001). 4360–4364 (2017).
+25. Brown, S. D. & Heathcote, A. The simplest complete model of choice 55. Brevet-Aeby, C., Brunelin, J., Iceta, S., Padovan, C. & Poulet, E. Prefrontal
+response time: linear ballistic accumulation. Cogn. Psychol. 57, cortex and impulsivity: interest of noninvasive brain stimulation. Neurosci.
+153–178 (2008). Biobehav. Rev. 71, 112–134 (2016).
+26. Busemeyer, J. R. & Townsend, J. T. Decision field theory: a dynamic-cognitive 56. Caplin, A. Measuring and modeling attention. Annu. Rev. Econ. 8,
+approach to decision making in an uncertain environment. Psychol. Rev. 100, 379–403 (2016).
+432–459 (1993). 57. Bhatia, S. Associations and the accumulation of preference. Psychol. Rev. 120,
+27. Roe, R. M., Busemeyer, J. R. & Townsend, J. T. Multialternative decision field 522–543 (2013).
+theory: a dynamic connectionist model of decision making. Psychol. Rev. 108, 58. Johnson, E. J., Haubl, G. & Keinan, A. Aspects of endowment: a query
+370–392 (2001). theory of value construction. J. Exp. Psychol. Learn. Mem. Cogn. 33,
+28. Stewart, N., Chater, N. & Brown, G. D. Decision by sampling. Cogn. Psychol. 461–474 (2007).
+53, 1–26 (2006). 59. Weber, E. U. & Johnson, E. J. Mindful judgment and decision making.
+29. Ulrich, R., Schröter, H., Leuthold, H. & Birngruber, T. Automatic and Annu. Rev. Psychol. 60, 53–85 (2009).
+controlled stimulus processing in conflict tasks: superimposed diffusion 60. Payne, J. W., Bettman, J. R. & Johnson, E. J. The Adaptive Decision Maker
+processes and delta functions. Cogn. Psychol. 78, 148–174 (2015). (Cambridge Univ. Press, 1993).
+30. Ratcliff, R. & Rouder, J. N. Modeling response times for two-choice decisions. 61. Aron, A. R. From reactive to proactive and selective control: developing a
+Psychol. Sci. 9, 347–356 (1998). richer model for stopping inappropriate responses. Biol. Psychiatry 69,
+31. Alós‐Ferrer, C. A dual-process diffusion model. J. Behav. Decis. Mak. 31, e55–e68 (2011).
+203–218 (2018). 62. Castiglione, A., Wagner, J., Anderson, M. & Aron, A. R. Preventing a thought
+32. Caplin, A. & Martin, D. The dual-process drift diffusion model: evidence from coming to mind elicits increased right frontal beta just as stopping
+from response times. Econ. Inq. 54, 1274–1282 (2016). action does. Cereb. Cortex 29, 2160–2172 (2019).
+33. Foerde, K. et al. Assessment of test–retest reliability of a food choice task 63. Sims, C. A. Implications of rational inattention. J. Monetary Econ. 50,
+among healthy individuals. Appetite 123, 352–356 (2018). 665–690 (2003).
+34. Krawczyk, D. C. Contributions of the prefrontal cortex to the neural basis of 64. Caplin, A. & Dean, M. Revealed preference, rational inattention, and costly
+human decision making. Neurosci. Biobehav. Rev. 26, 631–664 (2002). information acquisition. Am. Econ. Rev. 105, 2183–2203 (2015).
+35. Han, J. E., Boachie, N., Garcia-Garcia, I., Michaud, A. & Dagher, A. Neural 65. Krajbich, I. & Dean, M. How can neuroscience inform economics?
+correlates of dietary self-control in healthy adults: a meta-analysis of Curr. Opin. Behav. Sci. 5, 51–57 (2015).
+functional brain imaging studies. Physiol. Behav. 192, 98–108 (2018). 66. Giuliani, N. R. & Berkman, E. T. Craving is an affective state and its
+36. Kable, J. W. & Glimcher, P. W. The neural correlates of subjective value during regulation can be understood in terms of the extended process model of
+intertemporal choice. Nat. Neurosci. 10, 1625–1633 (2007). emotion regulation. Psychol. Inq. 26, 48–53 (2015).
+37. Rushworth, M. F. & Behrens, T. E. Choice, uncertainty and value in prefrontal 67. Gross, J. J. Emotion regulation: current status and future prospects.
+and cingulate cortex. Nat. Neurosci. 11, 389–397 (2008). Psychol. Inq. 26, 1–26 (2015).
+38. Ruff, C. C., Ugazio, G. & Fehr, E. Changing social norm compliance with 68. Eldar, E., Bae, G. J., Kurth-Nelson, Z., Dayan, P. & Dolan, R. J.
+noninvasive brain stimulation. Science 342, 482–484 (2013). Magnetoencephalography decoding reveals structural differences
+39. Shen, B. et al. High-definition tDCS alters impulsivity in a within integrative decision processes. Nat. Hum. Behav. 2,
+baseline-dependent manner. NeuroImage 143, 343–352 (2016). 670–681 (2018).
+40. Essex, B. G., Clinton, S. A., Wonderley, L. R. & Zald, D. H. The impact of the 69. Maier, S. U. Mastering Temptation: Behavioral, Neural and Physiological
+posterior parietal and dorsolateral prefrontal cortices on the optimization of Investigations of Self-Control in Goal-Directed Choice. PhD thesis, Univ.
+long-term versus immediate value. J. Neurosci. 32, 15403–15413 (2012). of Zurich (2016).
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+70. Nitsche, M. A. & Paulus, W. Sustained excitability elevations induced by help with data collection and documentation as well as useful discussions about analysis
+transcranial DC motor cortex stimulation in humans. Neurology 57, strategies and implementation.
+1899–1901 (2001).
+71. Fritsch, B. et al. Direct current stimulation promotes BDNF-dependent Author contributions
+synaptic plasticity: potential implications for motor learning. Neuron 66,
+S.U.M., A.R.B., R.P., C.C.R. and T.A.H. designed one or more aspects of the research.
+198–204 (2010).
+S.U.M. and A.R.B. collected the novel data for the GFC and tDCS studies. R.P. and
+72. Mullen, K., Ardia, D., Gil, D. L., Windover, D. & Cline, J. DEoptim: an R
+T.A.H. designed the tDDM with separate attribute consideration onset times. S.U.M.,
+package for global optimization by differential evolution. J. Stat. Soft. 40,
+A.R.B., R.P. and T.A.H. analysed the data. S.U.M., A.R.B., R.P., C.C.R. and T.A.H. wrote
+1–26 (2011).
+the paper.
+73. Kruschke, J. K. Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and
+Stan. 2nd edn (Academic Press, Elsevier, 2015).
+Competing interests
+74. Gneiting, T. & Raftery, A. E. Strictly proper scoring rules, prediction, and
+estimation. J. Am. Stat. Assoc. 102, 359–378 (2007). The authors declare no competing interests.
+75. Kruschke, J. K. Bayesian estimation supersedes the t test. J. Exp. Psychol. Gen.
+142, 573–603 (2013). Additional information
+Extended data is available for this paper at https://doi.org/10.1038/s41562-020-0893-y.
+Acknowledgements
+Supplementary information is available for this paper at https://doi.org/10.1038/
+This study has been supported by Swiss National Science Foundation (SNSF)
+s41562-020-0893-y.
+grants 320030_143443 and 32003B_166566 (to C.C.R. and T.A.H.), a Marie Curie
+International Incoming Fellowship PIIF-GA-2012-327196 (to A.R.B.) and EU Correspondence and requests for materials should be addressed to S.U.M., A.R. or
+FP7 grant 607310 (to T.A.H.). C.C.R. received support from the SNSF (grant no. T.A.H.
+100019L_173248) and from the European Research Council (ERC) under the European Peer review information Primary Handling Editor: Marike Schiffer
+Union’s Horizon 2020 research and innovation programme (grant agreement No
+Reprints and permissions information is available at www.nature.com/reprints.
+725355, BRAINCODES). The funders had no role in the conceptualization, design, data
+collection, analysis, decision to publish or preparation of the manuscript. The authors Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+thank A. Makwana and A. Cubillo for contributing code for the food choice and control published maps and institutional affiliations.
+tasks, J. Price for help with data collection and documentation, and G. Lombardi for © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavviioouurr
+Extended Data Fig. 1 | Parameter recovery for the time-varying DDM. Parameter recovery for the time-varying DDM with separate consideration onset
+times for tastiness and healthiness attributes. The plots in the first column show the distributions of all 272 generating and recovered relative weighting
+(a) and timing parameters (b). There was no significant difference between generating and recovered relative weighting (mean difference = 0.01, 95%
+HDI = [−0.36, 0.54], posterior probability of a difference > 0 = 0.662, Bayes factor = 0.140) or relative timing parameters (mean difference = −0.01,
+95% HDI = [−0.03, 0.01], posterior probability of a difference > 0 = 0.105, Bayes factor = 0.024). The panels in the second column show the correlations
+between the generating and recovered relative weighting (c) and timing parameters (d). The red dotted line indicates the x = y identity line. Panel e) plots
+the error in relative weight recovery against the error in relative timing recovery. This plot shows that there is no significant correlation between the two
+types of error when fitting the model (r = − 0.1, 95% HDI = [−0.215; 0.018], posterior probability of observing a negative correlation = 0.95). The grey
+shaded area (panels c-e) signifies the 95% confidence interval.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 2 | Cumulative response time distributions for sDDM, tDDM and bDDM. Cumulative distributions for response times by participant
+type, choice outcome and data source. Participants estimated to consider taste or health first are plotted in the top and bottom rows, respectively.
+Response times for choices in favour of (91) less healthy but more tasty (LH_MT), (2) more healthy but less tasty (MH_LT), or (3) both more healthy and
+more tasty (MH_MT) outcomes are shown in columns 1-3, respectively. Choices in favour of the option rated as less healthy and less tasty were rarely
+made (less than 5% of trials) and are omitted for clarity. Responses generated by human participants are shown in green lines. Responses generated
+by simulated agents using the best-fitting sDDM, tDDM, and bDDM parameters are shown in orange, purple, and magenta lines respectively. All three
+models can recreate the RT patterns in the empirical data equally well when choice outcomes align with the attribute participants consider first. However,
+the sDDM and bDDM both generate response times that are too fast relative to the empirical data when participants that consider taste first ultimately
+choose in favour of a more healthy, but less tasty option (row 1, column 2) or if participants that consider health first ultimately choose in favour of a less
+healthy, but more tasty option (row 2, column 1). In contrast, the tDDM is able to reproduce the observed response time distributions in these cases well.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavviioouurr
+Extended Data Fig. 3 | Relative start time for all participants in each dataset. Relative start times in seconds for healthiness compared to tastiness for all
+participants in each study. Positive values indicate that tastiness is considered before healthiness and negative values that healthiness is considered before
+tastiness. In each column every dot is a separate participant. The thick black horizontal bars represent within-study means and the rectangular bands
+indicate the 95% highest density intervals (HDIs). Dataset abbreviations: MRT = data from the computer-mouse response trials in Sullivan et al 2015; IAC
+= data from the natural choice condition in Hare et al 2011; GFC = newly collected data from the first session/day of an experiment combining gambles
+and food choices; TDCS = newly collected data from the pre-stimulation baseline choices in our tDCS experiment.
+NATURe HUMAN BeHAvioUR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Silvia U. Maier, Anjali Raja Beharelle, Todd A.
+Corresponding author(s): Hare
+Last updated by author(s): Apr 16, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection Data were collected with Psychophysics Toolbox version 3.0.11 in Matlab.
+Data analysis All analyses were performed with the R, STAN and JAGS software. For all Bayesian modeling analyses, we used the default, uninformative
+priors specified by the respective R-packages.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data analysed in this paper are openly available on the Open Science Framework at, https://osf.io/g76fn/. Additional data for the mouse response trajectory
+experiments from Sullivan et al. (2015) are available at https://osf.io/jmiwn/
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Quantitative experimental study
+Research sample University undergraduate students from California Institute of Technology (datasets Sullivan et al. 2015 (MRT) and Hare et al. 2011 (IAC)),
+and University of Zurich (datasets GFC and TDCS); no representative samples because we studied basic choice processes that should not
+vary with demographics; for details on demographics of the 4 different datasets please see the methods section on pages 22-29; the MRT
+dataset is openly available at: https://osf.io/jmiwn/
+Sampling strategy We randomly invited participants from an established database of research volunteers maintained at the University of Zurich for the
+newly collected datasets presented in this paper.
+We originally collected the data on the "gamble plus food choices" task (GFC) to test a hypothesis unrelated to the current paper. We
+collected data from 30-40 participants according to the common practice for preliminary behavioral experiments in our group. We simply
+re-used these data to test the accuracy of the model we develop in the current work in predicting choices made by the same participants
+two weeks apart.
+We aimed to collect at least 150 participants (i.e. 50 per condition) in our tDCS experiment because we expected the effects of tDCS on
+food choices to be more variable across participants than in our previous work pairing tDCS manipulations with monetary decisions and
+using 20-25 participants per condition (Ruff et al., 2013 Science; Raja-Beharelle et al., 2015 J Neuro). We expected greater variability
+because of the heterogeneity in both food preferences and self-control strategies and ability across individuals. Therefore, we doubled
+the number of participants per condition relative to our previous work.
+Data collection Data were collected with computerized behavioral paradigms; additional techniques: MRT used mouse-tracking as additional technique,
+the IAC dataset was collected while participants were undergoing fMRI, and the TDCS dataset was collected before and during
+transcranial direct current stimulation. No one besides the researcher(s) and the participants were present. The experiments MRT, IAC,
+and GFC were conducted without blinding (as there was no need) but fully incentivized to avoid experimenter demand effects, the TDCS
+experiment was conducted double-blind.
+Timing Information on data collection is not available for the MRT and IAC datasets. They are existing datasets from different teams that we
+reused in full here. Data were collected in April 2016 for the GFC study. Data for the TDCS study were collected from December 2014 to
+February 2016 .
+Data exclusions The exclusion criteria described in the Methods section were established a priori for the GFC and TDCS datasets. For the other two re-
+used datasets, all data utilized in the original publications were included in our current analyses.
+Non-participation No participants dropped out or declined participation.
+Randomization MRT, IAC and GFC did not have treatment groups. Participants for the TDCS study were randomly allocated to the anodal, cathodal and
+sham stimulation conditions and were blind to the treatment condition. The experimenters giving instructions to and mounting the
+electrodes on participants’ heads were also blind to the participants' stimulation condition.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics Healthy young adults
+Recruitment Participants in the novel datasets were drawn from a database of research volunteers maintained at the University of Zurich.
+Registration for this database is advertised with flyers on campus and brief presentations in lectures at the beginning of each
+term.
+Ethics oversight All participants provided written informed consent in accordance with the procedures of the Institutional Review Board of the
+California Institute of Technology, the Institutional Review Board of the Faculty of Business, Economics and Informatics at the
+University of Zurich, or the Ethics Committee of the Canton of Zurich.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

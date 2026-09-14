@@ -1,18 +1,1247 @@
-# Cognitive prostheses for goal achievement
-
-## Abstract
-Procrastination takes a considerable toll on people’s lives, the economy and society at large. Procrastination is often a consequence of people’s propensity to prioritize their immediate experiences over the long-term consequences of their actions. This suggests that aligning immediate rewards with long-term values could be a promising way to help people make more future-minded decisions and overcome procrastination. Here we develop an approach to decision support that leverages artificial intelligence and game elements to restructure challenging sequential decision problems in such a way that it becomes easier for people to take the right course of action. A series of four increasingly realistic experiments suggests that this approach can enable people to make better decisions faster, procrastinate less, complete their work on time and waste less time on unimportant tasks. These findings suggest that our method is a promising step towards developing cognitive prostheses that help people achieve their goals. 
-
- This is a preview of subscription content, access via your institution
-
-## OSF Links
-https://osf.io/h7vqy
-
-## GitHub Links
-https://github.com/BrowenChen/Cognitive-Tools-for-Self-Mastery
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0672-9/MediaObjects/41562_2019_672_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0672-9/MediaObjects/41562_2019_672_MOESM2_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0672-9/MediaObjects/41562_2019_672_MOESM3_ESM.zip
-
+Articles
+https://doi.org/10.1038/s41562-019-0672-9
+Cognitive prostheses for goal achievement
+Falk Lieder 1*, Owen X. Chen2, Paul M. Krueger3 and Thomas L. Griffiths3,4
+Procrastination takes a considerable toll on people’s lives, the economy and society at large. Procrastination is often a conse-
+quence of people’s propensity to prioritize their immediate experiences over the long-term consequences of their actions. This
+suggests that aligning immediate rewards with long-term values could be a promising way to help people make more future-
+minded decisions and overcome procrastination. Here we develop an approach to decision support that leverages artificial
+intelligence and game elements to restructure challenging sequential decision problems in such a way that it becomes easier
+for people to take the right course of action. A series of four increasingly realistic experiments suggests that this approach can
+enable people to make better decisions faster, procrastinate less, complete their work on time and waste less time on unimport-
+ant tasks. These findings suggest that our method is a promising step towards developing cognitive prostheses that help people
+achieve their goals.
+W
+hile artificial intelligence (AI) is progressing steadily and than a science, and misspecified incentives can have devastating
+the computing power of our electronic devices contin- consequences28,29.
+ues to grow, the computing power of the human brain Here, we leverage ideas from AI to develop a mathematical
+does not. Our bounded cognitive resources continue to constrain framework to help people make more future-minded decisions. The
+our decision-making and often lead to simple heuristics. Previous basic idea is to align each action’s immediate reward with its long-
+research has shown that these heuristics can fail miserably in certain term value. The resulting system can be interpreted as a cognitive
+scenarios1–3 but perform very well in the environments they have prosthesis that uses AI to solve people’s complex sequential deci-
+evolved for4–8. These two observations suggest that in the future the sion problems and uses gamification to restructure them in such a
+human mind could be augmented with cognitive prostheses that use way that people can easily identify the course of action that is best
+AI to automatically restructure situations in which people’s heuris- for them in the long run. This approach offloads the computational
+tics perform poorly into situations in which those heuristics per- challenges of long-term planning into the reward structure of the
+form very well. environment, and the underlying theory ensures that the added
+In line with this vision, previous work has found that human game elements will never incentivize counterproductive behaviour.
+judgement and decision-making can be improved by restructur- We evaluate our approach in a series of four increasingly naturalistic
+ing how information is presented to people9–13, and parallel work in experiments starting with controlled proof-of-concept experiments
+operations research and computer science has developed decision- and culminating in longitudinal studies with a naturalistic to-do list
+support systems14,15 that use planning algorithms to solve complex, app. We find that our optimal gamification method can mitigate the
+sequential decision problems for people16–20. These approaches have adverse effects of cognitive biases and is more effective at helping
+rarely been combined to help people overcome motivational obsta- people get started on important tasks and waste less time on unim-
+cles and achieve their personal long-term goals. portant tasks than simpler approaches to incentivizing productivity.
+One class of decision problems in which people systematically
+underperform involves choices whose proximal rewards are mis- An optimal gamification method for decision support
+aligned with their long-term value (for example, persevering with A sequential decision problem can be modelled as a Markov deci-
+a frustrating challenge versus getting drunk and watching TV). sion process (MDP)
+In situations like these, people’s heuristics tend to reach short-
+sighted decisions21–23 that can manifest in procrastination24 and M=(S,A,T,γ,r,P 0) (1)
+impulsivity25. This apparently myopic nature of human decision-
+making suggests that decision environments can be repaired by where S is the set of states, A is the set of actions and T(s, a, s′) is the
+aligning each action’s immediate reward with the value of its long- probability that the agent will transition from state s to state s′ if it
+term consequences. takes action a. The discount factor γ can be interpreted as the prob-
+While it is generally difficult to change how people experience ability that the decision maker can continue to act and gather more
+the actions necessary to achieve their goals (for example, dieting, rewards when they arrive in state s′. Setting γ to a value less than 1
+debugging or filing taxes) relative to actions that do not (such as thereby captures the possibility that the episode described by the
+eating chocolate or watching TV), it is possible to incentivize those MDP can end early so that future rewards might become unavail-
+actions with game elements such as points, levels and badges. This able; for instance, γ < 1 could be used to model the probability that
+approach is known as gamification26. Previous research has found one cannot reap all of the long-term rewards of getting promoted
+that gamification can have positive effects on motivation, engage- because the company might go bankrupt. The reward generated
+ment, behaviour and learning outcomes27. Yet determining which by this transition is r(s, a, s′), and P is the probability distribution
+0
+actions should be incentivized and by how much is still an art rather of the initial state S (ref. 30). A policy π:S↦A specifies which
+0
+1Max Planck Institute for Intelligent Systems, Tübingen, Germany. 2Department of Electrical Engineering and Computer Science, University of California,
+Berkeley, CA, USA. 3Department of Computer Science, Princeton University, Princeton, NJ, USA. 4Department of Psychology, Princeton University,
+Princeton, NJ, USA. *e-mail: falk.lieder@tuebingen.mpg.de
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviour
+action to take in each of the states. The expected sum of discounted This method could thus be used to avoid some of the dark sides
+rewards that a policy π will generate in the MDP M starting from a of gamification28,29.
+state s is known as its value While the shaping theorem constrains pseudo-rewards to be
+potential-based, there are infinitely many potential functions one
+∞ 
+could choose. Given that people’s cognitive limitations prevent
+V Mπ(s)=E ∑γtr(S t,π(S t),S t+1) . (2) them from fully incorporating distant rewards22,23, the modified
+
+t=0
+
+reward structure r′(s, a, s′) should be such that the best action yields
+the highest immediate reward, that is:
+A rational decision maker should follow the optimal policy π⋆,
+M
+which maximizes the expected sum of discounted rewards; that is, π⋆(s)=arg max r′(s,a,s′). (7)
+M a
+∞ 
+Here, we show that this can be achieved with our method by setting
+π M⋆=arg max πE ∑γtr(S t,π(S t),S t+1) . (3)
+
+t=0
+
+Φ to the optimal value function V⋆ of M:
+M
+People’s limited cognitive resources make it impractical for them to
+always plan out the optimal policy31. And even when people know Φ⋆(s)=V⋆(s)=max Vπ(s). (8)
+M π M
+which action would be best in the long term, they do not always
+exert enough self-control to override their more short-sighted First, note that the resulting pseudo-rewards are
+impulses and habits32. The value function of the optimal policy sat-
+isfies the Bellman equation f(s,a,s′)=γV⋆(s′)−V⋆(s) (9)
+M M
+V M⋆(s t)=max aE[r(s t,a,S t+1)+γV M⋆(S t+1)]. (4) which leads to the modified reward function
+We can therefore rewrite the optimal policy as r′(s,a,s′)=r(s,a,s′)+γV⋆(s′)−V⋆(s) (10)
+M M
+π M⋆(s)=arg max aE[r(s t,a,S t+1)+γV M⋆(S t+1)] (5) Hence, if the agent always maximized its immediate reward without
+regard for future rewards, then its policy would be
+which reveals that it is myopic with respect to the sum of the imme-
+diate reward and the discounted value of the next state. Here, we π(s) = arg max E[r(s,a,s′)+γV⋆(s′)−V⋆(s)]
+a M M (11)
+leverage the MDP framework to model game elements such as = arg max E[r(s,a,s′)+γV⋆(s′)].
+points and badges as pseudo-rewards f(s, a, s′) that are added to the a M
+reward function r(s, a, s′) of a decision environment M to create a According to equation (5), this is π⋆ for the original decision envi-
+M
+modified environment M′=(S,A,T,γ,r′,P) with a more benign ronment M. Thus, people would act optimally even if they were com-
+0
+reward function r′(s, a, s′) = r(s, a, s′) + f(s, a, s′) that aligns immedi- pletely myopic; this property by itself could be achieved by heuristic
+ate reward with long-term value. incentive structures that always put the largest reward on the best
+Designing an incentive system that aligns each action’s immedi- action. However, when this is done heuristically, there is a risk that
+ate reward with its long-term value is non-trivial, and misspecified decision makers could find ways to game the system by collecting the
+incentives can divert people even farther away from the optimal incentives in ways that undermine their intended purpose34–36. For
+policy. From the perspective of our formal MDP framework, the instance, a heuristic incentive system (for example, pay proportional
+problem with misspecified incentives is that they change the opti- to the number of hours worked) that rewards a worker for complet-
+mal policy π⋆ of the original decision problem M into a different ing certain tasks (such as reviewing paperwork) could create perverse
+M
+policy π⋆ that is optimal for the gamified environment M′ but not incentives for them to create unnecessary work for themselves and
+M′
+for the original environment M. To avoid this problem, we have to others (for example, by inventing further bureaucracy to justify their
+ensure that each optimal policy of M′ is also an optimal policy of M. job) even when the incentive system does not reward that directly. By
+Research on machine learning has identified which conditions contrast, the optimal incentive structures designed with our method
+pseudo-rewards must satisfy to achieve this: according to the shap- cannot be gamed and are therefore unlikely to mislead decision mak-
+ing theorem33 adding pseudo-rewards retains the optimal policies ers. This safety guarantee is unique to incentive structures that obey
+of any original MDP if, and only if, the pseudo-reward function f is the shaping theorem33, and our optimal gamification method applies
+potential-based; that is, if there exists a potential function Φ:S↦R this theorem to support human decision-making. This suggests that
+such that potential-based pseudo-rewards derived from V⋆ should allow even
+M
+the most myopic agent that considers only the immediate reward to
+f(s,a,s′)=γΦ(s′)−Φ(s) (6) perform optimally. In this sense, the pseudo-rewards defined in equa-
+tion (9) can be considered optimal. Optimal pseudo-rewards have
+for all values of s, a and s′. also been found to facilitate reinforcement learning in machines33 and
+If gamification is to help people achieve their goals, then the people37 (F. Lieder et al., manuscript in preparation).
+pseudo-rewards added in the form of points or badges must not divert Computing the optimal pseudo-rewards requires perfect knowl-
+people from the best course of action but must make its path easier edge of the decision environment and the decision maker’s prefer-
+to follow. Gamification would otherwise lead people astray instead of ences. This information may be unavailable in practice. Yet even
+guiding them to their goals. Hence, the practical significance of the when V⋆ cannot be computed, it is often possible to approximate it.
+M
+shaping theorem is that it gives the architects of incentive structures a If so, the approximate value function V̂ can be used to approximate
+M
+method to rule out incentivizing counterproductive behaviours: the optimal pseudo-rewards (equation (9)) by
+1. Model the decision environment as an MDP. f̂(s,a,s′)=γV̂ (s′)−V̂ (s). (12)
+M M
+2. Define a potential function Φ that specifies the value of each
+state of the MDP. For example, one can estimate the value of s from its approximate
+3. Assign points according to equation (6). distance to a goal33.
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+NATure HumAN BeHAviour Articles
+Here we develop and evaluate an approach that leverages AI to median performance: [+3.12, +23.75]) but not as much as optimal
+help people make better decisions. The basic idea is to automati- pseudo-rewards (Z = 2.68, P = 0.007, r = 0.29, 95% confidence inter-
+cally restructure decision environments in such a way that people’s val of the difference between the median performance with opti-
+Pavlovian impulses to collect immediate rewards and avoid imme- mal and approximate pseudo-rewards: [1.67, 22.08]). By contrast,
+diate losses lead to optimal decisions. To achieve this, our method the non-potential-based pseudo-rewards failed to improve people’s
+leverages AI to compute optimal pseudo-rewards and delivers them performance (Z = 0.72, P = 0.469, r = 0.07, 95% confidence interval:
+through game elements. On the basis of previous simulations33, [–10.42, 12.50]). Optimal pseudo-rewards also accelerated the deci-
+we predict that adding approximate pseudo-rewards (equation sion process (Supplementary Results and Supplementary Fig. 15),
+(12)) improves people’s decisions and that adding optimal pseudo- supporting the conclusion that optimal pseudo-rewards simplify
+rewards is even more beneficial. We test these predictions in three decision problems. Inspecting the four groups’ choice frequencies
+behavioural experiments. revealed that the optimal pseudo-rewards significantly changed the
+choice frequencies in each of the six states and successfully nudged
+results participants to follow the optimal cycle: Smithsville → Jonesville
+Reward shaping is more effective than heuristic incentive struc- → Williamsville → Bakersville → Smithsville (see Supplementary
+tures at improving people’s choices. As a proof of concept, we Results and Supplementary Fig. 16).
+demonstrate that our mathematical framework for decision sup- These results indicate that our mathematical framework makes
+port makes it possible to automatically compute optimal incentive it possible to automatically compute optimal incentives that can be
+structures for a difficult sequential decision problem. In this prob- more effective than manually designed incentive structures. To the
+lem, people often overlook the optimal course of action because extent that game elements such as points act as rewards, these find-
+they fail to plan beyond intermediate steps that incur a large loss23. ings suggest that optimal gamification should be safer and more
+Experiment 1 showed that the optimal incentives computed by our effective than the prevailing heuristic gamification methods. We
+method allowed people to overcome this bias and perform better test this prediction in the following experiments.
+than when the incentives were designed heuristically or when no
+additional incentives were provided. Optimal pseudo-rewards can be effectively conveyed by game
+The sequential decision problem used in this study was the flight elements. Having found that optimal pseudo-rewards can sub-
+planning problem shown in Fig. 1a; it is based on the task that Huys stantially improve people’s performance, we asked how they should
+et al.23 used to demonstrate that people often fail to find optimal plans be presented in practice. In Experiment 1, pseudo-rewards were
+when this requires looking beyond short-term losses. To help people embedded directly into the reward structure of the decision envi-
+make better decisions in this task, the incentives computed with our ronment. In the real world, this kind of intervention could be imple-
+method or heuristic approaches were added directly onto the rewards mented by changing tax rates or corporate compensation schemes,
+shown on the arrows in Fig. 1a. In the control condition, people were for instance. Most of the time such radical changes are beyond the
+shown the true transition and reward structure of this task, and their scope of what a choice architect can do, but adding game elements,
+incentives were identical to the task’s reward function r(s, a, s′) (see such as points and badges, is cheap and comparatively easy. Game
+Fig. 2a). By contrast, in the experimental conditions, the incentives elements could be used to convey the optimal pseudo-rewards com-
+shown to the participants (r′(s, a, s′)) differed from the task’s true puted with our computational method; here we refer to this idea as
+reward function by the pseudo-rewards f(s, a, s′) (i.e., r′(s, a, s′) = r(s, ‘optimal gamification’. This could be done in many different ways,
+a, s′) + f(s, a, s′)). We evaluated three kinds of pseudo-rewards: opti- some of which might be more effective than others. As a first step
+mal pseudo-rewards (see equation (9) and Fig. 2b), potential-based towards designing optimal gamification apps for decision support
+pseudo-rewards based on an approximate value function (equa- in the real world, Experiment 2 evaluated candidate solutions in a
+tion (12) and Fig. 2c) and a heuristic incentive system (see Fig. 2d). more controlled online experiment. We augmented the task from
+The approximate value function and the heuristic incentive system Experiment 1 with game mechanics that conveyed optimal pseudo-
+both rewarded moving towards the most profitable location (that is, rewards through stars and badges (see Fig. 3a and Supplementary
+Smithsville in Fig. 2a), but the former satisfied the shaping theorem Methods). In the first experimental condition, the number of stars
+(equation (6)) whereas the latter violated it. Regardless of the incen- awarded for each action was equal to its optimal pseudo-reward
+tives shown to the participants, we measured their performance (see Fig. 4c). Thus, the player could, in principle, identify the
+according to the reward function r(s, a, s′) of the original task. optimal course of action by adding rewards and pseudo-rewards.
+A Kruskal–Wallis analysis of variance (ANOVA) revealed that Because this process can be tedious and prone to errors, the second
+the type of pseudo-rewards added to the reward function signifi- experimental condition used an alternative presentation format in
+cantly affected people’s performance in the original task (Kruskal’s which stars represented the sum of pseudo-rewards and immediate
+H(3) = 40.35, P < 0.001, η2 = 0.218, 95% confidence intervals: rewards (integrated pseudo-rewards) so that people would no lon-
+[–27.92, –10.42], [–28.75, –9.58], [–14.58, 0.83], [–2.08, 16.25] ger have to perform mental arithmetic to use the pseudo-rewards
+points per trial for the conditions without pseudo-rewards, with optimally (see Fig. 4d). We compared people’s performance in these
+non-potential-based, with approximate pseudo-rewards and with conditions with their performance in a control condition with-
+optimal pseudo-rewards, respectively; see Fig. 1b). To elucidate this out pseudo-rewards (see Fig. 4a) and a condition where optimal
+effect further, we performed a series of two-sided Mann–Whitney pseudo-rewards were added directly to the pay-offs (embedded
+U tests. As expected, the unaided participants in the control condi- pseudo-rewards; see Fig. 4b).
+tion performed very poorly, attaining a median loss of 18.75 points A Kruskal–Wallis ANOVA revealed that whether and how
+per trial (95% confidence interval: [–28.75, –9.58]). Aiding partici- pseudo-rewards were presented had a significant effect on people’s
+pants with optimal pseudo-rewards led to significantly better per- performance in the task (H(3) = 29.08, P < 0.001, η2 = 0.092, 95%
+formance, enabling them to achieve a median gain of +5.00 points confidence intervals on median performance: [–1.3, +0.4] without
+per trial (95% confidence interval: [–2.08, +16.25], standardized pseudo-rewards, [–0.1, +0.9] for embedded pseudo-rewards, [–1.5,
+U-score: Z = 4.76, P < 0.001, effect size r = 0.48, 95% confidence +0.0] for separately presented pseudo-rewards and [–0.2, +0.8]
+interval on the difference between the medians: [+15.00, +36.25]). for the integrated presentation format). To evaluate the relative
+Potential-based pseudo-rewards derived from an approximate value effectiveness of these presentation formats, we performed a series
+function also improved people’s performance (Z = 2.86, P = 0.004, of two-sided Mann–Whitney U tests. The results of this experi-
+r = −0.30, 95% confidence interval of the resulting increase in the ment replicated the finding that when optimal pseudo-rewards
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviour
+Trial 3/24 interval on the difference between the medians: [+0.48, +1.73]).
+Location: Jonesville Flight 9 20 points
+Furthermore, the results suggest that optimal pseudo-rewards can
+be effectively conveyed by game elements such as stars and badges.
++140
+Jonesville Smithsville Integrated pseudo-rewards presented in the form of stars signifi-
+–30
+–70 +30 –30 c +a Unt Sl $y
+0
+i .n 1c 7r e pa es re d
+tr
+ip ae
+l
+o (p Zl e =’s
+3
+p .6e 9r ,f o Pr m
+<
+a 0n .0c 0e
+1
+f
+,
+r ro =m
+0
+− .2U 98S ,$ 90 5.7 %3 p coer
+n
+ft ir dia enl cto
+e
+–70 interval: [+0.42, +1.65]), which was not significantly lower than
+Willliamsville Bakersville the performance of the group presented embedded pseudo-rewards
++30 (US$0.42 per trial, Z = 0.52, P = 0.610, r = −0.04, 95% confidence
+–30
+interval: [–0.69, +0.50]). Presenting pseudo-rewards in this inte-
++30 –70
+–30 grated format was critical to their effectiveness, since presenting
+Brownsville Clarksville them separately failed to significantly increase people’s perfor-
+–30
+mance (median performance: −US$0.5 per trial; Z = 0.22, P = 0.83,
+Willliamsville: –30 Clarksville: –70 r = 0.017, 95% confidence interval: [–0.90, +0.88]). Inspecting par-
+ticipants’ choice frequencies revealed that the three presentation
+formats had significantly different effects on people’s decisions (see
+40 Supplementary Results and Supplementary Fig. 18). In summary,
+incentivizing good decisions with game elements can be as effective
+20 as redesigning the decision environment, and this approach is most
+effective when the game elements make it very easy for people to
+0 identify the best course of action.
+–20 Optimal gamification helps people overcome procrastina-
+tion. Given that optimal gamification enabled the participants of
+–40 Experiment 2 to act more far-sightedly, we hypothesized that this
+approach might be able to alleviate the myopic biases that give rise to
+–60 procrastination in everyday life. To test this hypothesis, we designed
+a more naturalistic experiment in which participants used the to-do
+list app shown in Fig. 5. In Experiment 3, each participant’s to-do
+–80
+list comprised five daunting writing assignments. Participants were
+free to complete as few or as many of those assignments as they
+wanted and could earn a US$20 bonus by completing all assign-
+ments by a distant deadline. The critical experimental manipula-
+tion was whether and how the to-do list items were incentivized
+with game elements. The experiment comprised a control condition
+where participants were presented with a regular to-do list without
+game elements and three conditions where participants could earn
+points and badges for completing the items on their to-do list (see
+Fig. 5). In one of these conditions, each task was assigned the same
+number of points; this was considered a second control condition.
+In the other two conditions, the number of points assigned to each
+task was computed by optimal gamification (see Fig. 5). The opti-
+mal point values displayed next to each to-do item conveyed how
+much closer completing that task would bring the participant to
+earning the US$20 bonus. Consequently, more difficult tasks would
+earn the participant more points than shorter and simpler ones. In
+one of these conditions, the incentives for completing each assign-
+ment were conveyed as points (see Fig. 5), and a participant’s total
+number of points determined their level in the game. In the other
+condition, the optimal pseudo-rewards were displayed as virtual
+dollars.
+To evaluate the effect of presentation format on the probability
+that participants would complete all the writing assignments on
+time, we conducted a series of χ2 tests. As shown in Fig. 6, opti-
+mal pseudo-rewards significantly increased the completion rate
+from 56.1% in the control conditions to 85.2% in the experimental
+conditions with optimal pseudo-rewards (χ2(1) = 11.20, P < 0.001,
+goodness of fit w = 2.863, 95% confidence intervals: [41.0%, 75.9%]
+versus [82.2%, 99.7%]). This benefit cannot be explained by the
+mere presence of incentives or game elements because adding con-
+stant point values failed to increase the completion rate (53.6% with
+constant points versus 58.6% without points, χ2(1) = 0.15, P = 0.701,
+w = 0.384, 95% confidence intervals: [35.6%, 71.5%] versus [41.0%,
+are embedded in the task’s reward structure, participants achieve 75.9%]). Framing optimal pseudo-rewards in terms of money led to
+a significantly higher median score than participants who receive a completion rate of 92.3% while presenting them as points led to
+no pseudo-rewards (Z = 4.53, P < 0.001, η2 = 0.357, 95% confidence a completion rate of 78.6%, but this difference was not statistically
+lairt
+rep
+stnioP
+a
+b
+***
+***
+**
+**
+NS
+Non-potential-based None Approximate Optimal
+Fig. 1 | experiment 1. a, Task in Experiment 1: screenshot of the control
+condition without pseudo-rewards. Participants can move the airplane
+along the arrows from one airport (e.g., Williamsville) to the next. The
+number on the arrow indicates the loss or profit of each flight. b, Box
+plots of performance by condition. The red line indicates the median.
+The blue lines are quartiles. The red crosses denote outliers, and the
+black whiskers extend to the most extreme data points not considered
+outliers. The number of stars indicates the significance level according to
+two-sided Mann–Whitney U tests: *P < 0.05; **P < 0.01; ***P < 0.001; NS,
+not significant). As shown in this figure, optimal pseudo-rewards led to
+significantly higher performance than no pseudo-rewards (50 participants,
+Z = 4.76, P < 0.001, effect size r = 0.48, 95% confidence interval on the
+difference between the medians: [+15.00, +36.25] points/trial), non-
+potential-based pseudo-rewards (Z = 5.34, P < 0.001, r = 0.545, 95%
+confidence interval: [+15.42, +37.92]) or approximate pseudo-rewards
+(Z = 2.68, P = 0.007, r = 0.29, 95% confidence interval: [1.67, 22.08]).
+Furthermore, approximate pseudo-rewards led to significantly higher
+performance than no pseudo-rewards (Z = 2.86, P = 0.004, r = −0.30,
+95% confidence interval: [+3.12, +23.75]) or non-potential-based pseudo-
+rewards (Z = 3.61, P < 0.001, r = 0.383, 95% confidence interval: [+4.17,
++24.38]). Non-potential-based pseudo-rewards had no beneficial effect
+compared to no pseudo-rewards (Z = 0.72, P = 0.469, r = 0.07, 95%
+confidence interval: [–10.42, 12.50]). These findings are based on data from
+186 participants of which 50 received no pseudo-rewards, 47 received
+optimal pseudo-rewards, 49 received non-potential-based pseudo-rewards
+and 40 received approximate pseudo-rewards.
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+NATure HumAN BeHAviour Articles
+a b
++140 +2
+–30 Jonesville Smithsville +2 Jonesville Smithsville
+–70 +30 –30 –5 –76 +2
+–70 +2
+Willliamsville Bakersville Willliamsville Bakersville
++30 –42
+–
+– 3 1 2
+0
++30 –70 –30 +2
+–4
+0
++2
+Brownsville Clarksville Brownsville Clarksville
+–30
+c d
++119 +8
+–51 Jonesville Smithsville –22 Jonesville Smithsville
+–41 +9 –1 –4 –102 +24
+–41
+–4
+Willliamsville Bakersville Willliamsville Bakersville
++9 –32
+–51 –
+2
+2
++9 –41 –51 +38 –16 –34
+Brownsville Clarksville Brownsville Clarksville
+–1 +36
+Fig. 2 | Conditions of experiment 1. a, No pseudo-rewards. b, Optimal pseudo-rewards. c, Approximate pseudo-rewards. d, Non-potential-based
+pseudo-rewards.
+significant (χ2(1) = 2.01, P = 0.156, w = 1.42, 95% confidence inter- is exactly what optimal gamification did in Experiment 3. However,
+vals: [82.2%, 99.7%] versus [63.5%, 92.4%]). Along with the increase optimal gamification also takes into account the value of the goals
+in the completion rate, the average number of completed assign- that each task contributes to and how much it contributes to that
+ments increased from 2.93 out of 5 without optimal gamification value. Experiment 4 shows that this makes optimal gamification
+to 4.30 out of 5 with optimal gamification according to a two-sided more effective than a simple heuristic that incentivizes each task
+Mann–Whitney U test (Z = 3.38, P = 0.001, r = 0.321, 95% confi- only according its length (i.e., the number of points for completing
+dence intervals on the means: [2.30, 3.54] without optimal gami- task A is $20 times the length of task A divided by the total length
+fication versus [3.81, 4.72] with optimal gamification), and the of all tasks combined). Participants were given a to-do list of ten
+average total number of words written by each participant signifi- tasks. Five of those tasks belonged to a valuable project (Project 1)
+cantly increased from 458.4 ± 59.0 without optimal gamification whose completion would earn the participant a US$20 bonus. The
+to 765.46 ± 71.45 with optimal gamification according to a Mann– other five tasks were equally difficult but belonged to an unworth-
+Whitney U test (Z = 3.37, P = 0.001, r = 0.320, 95% confidence while project (Project 2) whose completion would earn the partici-
+intervals on the means: [345.6, 576.1] without optimal gamification pant only US$1. Participants were free to complete either one of the
+versus [634.2, 911.2] with optimal gamification). Further analy- projects, both or neither.
+ses reported in the Supplementary Information suggested that the According to a χ2 test of independence, gamification signifi-
+primary benefit of optimal gamification was to increase the prob- cantly reduced the proportion of participants who wasted their
+ability that a participant would complete the first task from 59.65% time by working on the unworthwhile second project(χ2(2) = 10.85,
+to 87.04% (Kruskal–Wallis ANOVA, χ2(1) = 11.01, P < 0.001, P = 0.004,w = 0.726, 95% confidence intervals: [19.1%, 46.5%]
+η2 = 0.09, 95% confidence intervals: [48.8%, 73.7%] versus [80.5%, without gamification, [27.5%, 56.4%] with heuristic gamification
+96.4%]), because regardless of gamification 95.1% of all participants and [3.0%, 20.2%] with optimal gamification). Consistent with
+who completed the first task went on to complete all of the tasks our prediction, we found that the proportion of participants who
+(Kruskal–Wallis ANOVA: χ2(1) = 0.69, P = 0.408, η2 = 0.006, 95% worked on Project 2 was lowest in the optimal gamification condi-
+confidence intervals: [82.2%, 98.9%] without gamification versus tion (11.1%), highest in the condition with heuristic gamification
+[90.2%, 99.9%] with gamification), and their motivation and behav- (41.9%) and intermediate in the control condition (32.6%). Mann–
+iour seemed to be unaffected. Whitney U tests confirmed our hypothesis that participants who
+are supported by optimal gamification perform fewer wasteful tasks
+Optimal gamification helps people prioritize. While Experiment of Project 2 (avg. 0.38) than participants supported by heuristic
+3 showed that optimal gamification is more effective than assign- gamification (avg. 1.47; Z = 3.22, P = 0.001, r = −0.343, 95% confi-
+ing the same number of points to every item on one’s to-do list, dence intervals on the means: [0.88, 2.09] with heuristic gamifica-
+there might be other simple heuristics that are just as effective as tion versus [0.04, 0.80] with optimal gamification) and participants
+our computationally intense optimal gamification method. One in the control condition (avg. 1.00, Z = 2.38, P = 0.017, r = −0.254,
+intuitive heuristic is that long and difficult tasks should be assigned 95% confidence intervals: [0.51, 1.56] without gamification versus
+more points than tasks that are short and easy. On the surface, this [0.04, 0.80] with optimal gamification). Likewise, the proportion
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviour
+Trial 1/24 in the control condition (14.0%), although these differences were
+Location: Bakersville Flight 5 US$67and102.9 not statistically significant according to a χ2 test of independence
+(χ2(2) = 3.78, P = 0.151, w = 1.943, 95% confidence intervals: [4.6%,
+24.3%] without gamification, [9.6%, 33.1%] with heuristic gamifi-
+cation and [0.8%, 13.9%] with optimal gamification). These find-
+Willliamsville Smithsville
+ings suggest that optimal gamification can not only help people get
+started on important tasks, as shown in Experiment 3, but can also
+help them avoid wasting time on unimportant ones.
+Consistent with the findings in Experiment 3, an increasing trend
+in the completion rate of Project 1 from the control condition (34.9%)
+Jonesville Bakersville to the optimal gamification condition (42.2%) via the heuristic gamifi-
+cation condition (37.2%) pointed in the predicted direction, but these
+differences were not statistically significant according to a Kruskal–
+Wallis ANOVA (χ2(2) = 0.53, P = .769, w = 0.726, 95% confidence
+intervals: [21.2%, 49.0%] without gamification, [23.2%, 51.5%] with
+Brownsville Clarksville heuristic gamification and [28.2%, 56.5%] with optimal gamification);
+we think this is primarily because the addition of five more writing
+Smithsville Jonesville assignments drastically reduced the overall completion rate in all con-
+ditions, thereby reducing the statistical power of our experimental
+4 design. See the Supplementary Results for more detail on how optimal
+gamification affected people’s engagement with Project 1.
+3
+According to a one-way ANOVA, gamification also had a sig-
+2 nificant effect on participants’ self-reported motivation to complete
+1 the tasks (F(2, 46) = 3.35, P = 0.044, η2 = 0.127, 95% confidence
+0 intervals: [3.94, 5.22] without gamification, [4.83, 5.69] with heu-
+ristic gamification and [5.91, 6.51] with optimal gamification) with
+–1
+motivation higher in the optimal gamification condition than in the
+–2 NS
+control condition (t(29) = 2.58, P = 0.015, d = 0.951 according to
+–3 NS two-sided t-test) and potentially higher than in the heuristic gami-
+–4 fication condition (t(35) = 1.82, P = 0.077, d = 0.598).
+Contrary to the concern that people might experience gamifica-
+–5
+tion as a manipulative intrusion on their freedom of choice, a series
+–6
+No
+pseudo-rewards
+Separate
+pseudo-rewar Id ns
+tegrated
+pseudo-rewar Eds
+mbedded
+pseudo-rewards co l
+d
+h
+oe of
+re
+ev
+nn
+uo e
+p
+fn rcl
+ie
+iee do
+s
+r
+-
+t
+cf
+ei
+iw
+n
+e
+nca
+t
+ia cu
+ve
+gy et
+r
+eao vA
+d
+imn
+na
+N o
+l tiis
+n
+efmO
+:
+i
+rt
+c[
+vryV
+a4
+u
+a
+tA .(
+lsi7
+sF
+o
+is
+4
+:o(
+n
+r
+,
+[n2 e 15,
+a
+v
+..
+(4
+n
+56e F6 5da
+5
+() ,l
+]
+2
+e [= 2,d
+w
+5
+.
+3.1 4it
+5t
+7. 6h 35
+h
+])a ,7
+o
+=t w,
+6
+u
+g P
+.
+i0t
+3a
+t
+.
+h=m
+g
+6
+2
+oa
+]
+7
+0i
+m
+u,f w. i t2c
+Pi
+i1
+f
+ga
+t
+i
+=h9t aci ,
+m
+a
+o 0oη tn
+.i
+ip2
+7o
+f
+=h
+t
+i6n
+cia
+1m
+,
+a0 d
+,
+t[
+.
+a
+i1
+4
+ηn ol2
+.
+2
+no
+5
+g7
+=
+6
+,ae ,
+,
+[m
+0f 9 1f
+5
+.5e
+0
+.i.
+1c %
+f3
+1i
+5t
+8
+c
+2
+,o c
+]
+a
+,
+1n o
+tw
+9i
+.n
+o
+8t 5ih f
+nt
+5%i he -
+])
+with heuristic gamification and [1.19, 2.10] with optimal gamifica-
+tion) that our participants experienced. To the contrary, in our sam-
+ple participants supported by optimal gamification gave the highest
+median rating of autonomy (6.2 versus 5.1 in the control condition
+and 4.9 in the heuristic condition) and the lowest median rating of
+perceived intrusion (0.50 versus 1.75 in the control condition and
+1.50 in the heuristic gamification condition).
+Discussion
+The results of Experiments 1–4 suggest that optimal gamification
+can help people make better decisions and act more far-sightedly
+(Experiments 1 and 2), get started on daunting tasks (Experiment
+3) and waste less time on unimportant tasks (Experiment 4). These
+findings jointly show that aligning each action’s immediate reward
+with its long-term value succeeds in improving people’s choices
+when heuristic gamification methods fail. We found that optimal
+gamification is more effective than uniformly incentivizing progress
+towards a goal (Experiment 1), assigning the same number of points
+to each behaviour the designer wants to encourage (Experiment 3)
+or making the number of points proportional to how long a task
+takes (Experiment 4). Our optimal gamification method achieves
+this alignment between immediate reward and long-term value by
+leveraging AI to solve sequential decision problems that are chal-
+lenging for people and translating the solutions into incentives that
+align each action’s immediate reward with its long-term value. The
+of participants who completed the unworthwhile project was high- resulting incentive structures are implemented using game elements
+est in the condition with heuristic gamification (20.9%), lowest such as points and levels that motivate people to do what is best
+in the optimal gamification condition (10.0%) and intermediate for them in the long run. While each of the heuristics we evaluated
+)1–lairt
+$SU(
+ecnamrofreP
+Congratulations, you have been promoted to ATP Senior Captain! If you
+reach 113.75 and have at least US$14 you will be promoted to ATP
+Commander.
+US$14 – 13.1
+–US$3
++
+3.9 –US$7
++ 7.3
+US$3 –
+9.8
+–US$3
++ 3.9
+–US$7 + 7.9
+US$3 – 6.4
+–US$3
++ 2.6
+–US$3 + 3.4
+7.7 +
+7$S U
+– –US$3 +
+3.9
+***
+***
+1.2
+– 3$SU
+a
+b
+Fig. 3 | experiment 2. a, Screenshot from the pilot game with separately
+presented pseudo-rewards. b, Box plots of performance in Experiment
+2 by condition. When game elements conveyed the optimal pseudo-
+rewards in the integrated format, participants performed significantly
+better than when they were presented no pseudo-rewards (Z = 3.69,
+P < 0.001, η2 = 0.298, 95% confidence interval: [+0.48, +1.73] points/
+trial) or when the optimal pseudo-rewards were presented separately
+(Z = 3.21, P = 0.001, r = 0.258, 95% confidence interval: [+0.17, +1.83]),
+and not significantly better or worse than when optimal pseudo-rewards
+were embedded directly into the environment’s reward structure (Z = 0.52,
+P = 0.610, r = −0.04, 95% confidence interval: [–0.69, +0.50]). By contrast,
+separately presented pseudo-rewards did not significantly improve people’s
+performance compared to the control condition (Z = 0.22, P = 0.829,
+r = 0.017, 95% confidence interval: [–0.90, +0.88]) and led to significantly
+lower performance than embedded pseudo-rewards (Z = −3.63, P < 0.001,
+r = −0.285, 95% confidence interval: [–1.96, +0.25]). As in Experiment
+1, embedding optimal pseudo-rewards into the task’s reward structure
+significantly improved participants’ performance relative to the control
+condition (Z = 4.53, P < 0.001, η2 = 0.357, 95% confidence interval: [+0.48,
++1.73]). All statistical comparisons reported in this figure are two-sided
+Mann–Whitney U tests. These findings are based on data from 316
+participants (about 80 in each condition).
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+NATure HumAN BeHAviour Articles
+–US$3 Willliamsville Smithsville Willliamsville Smithsville
+–US$7 Willliamsville
+–US$7
+Jonesville Bakersville Jonesville Bakersville
+–US$3
+Brownsville –US$3 Clarksville
+–US$3
+Brownsville Clarksville
+Willliamsville Smithsville
+Willliamsville Smithsville
+Jonesville Bakersville Jonesville Bakersville
+Brownsville Clarksville
+Brownsville Clarksville
+optimal gamification against may work in some cases, our results one could accommodate people’s tendency to select the first option
+suggest that optimal gamification is more reliable across a wider they find good enough38 by leveraging AI to sort the alternatives
+range of potential applications. in descending order of their predicted value to the decision maker.
+More generally, our results illustrate that AI can be used to auto- This approach could be combined with optimal gamification to help
+matically restructure decision problems in such a way that people’s people choose the option that is best in the long term even when
+heuristics work well. This approach is in line with an extensive lit- there are too many alternatives to be considered and many of them
+erature on bounded rationality that emphasizes that decision qual- are decent. Furthermore, an intelligent personal assistant could try
+ity depends on the fit between people’s heuristics and the structure to ensure that the default decision is always an action with high
+of their environment4–8,38. While optimal gamification accommo- expected utility rather than the status quo12.
+dates the myopic nature of many heuristics, AI can also be lever- There are already many decision support systems that solve
+aged to adapt the way in which decision problems are presented MDPs to compute optimal decisions and advise people to exe-
+to other characteristics of heuristic decision-making. For instance, cute them16–20. However, research in psychology suggests that this
+7$SU–
+US$14 US$0.9 US$0.9
+US$3 US$0.3 –US$6.8
+–US$3 US$0.9
+US$0.9
+US$3 –US$3.4
+–US$0.4
+US$0.9
+9.0$SU 7.0$SU
+US$0.4
+3$SU
+–US$3
+&
+0.9
+US$3 & –3.4
+–US$3
+& –0.4
+–US$3 &
+0.9
+–US$3 & 0.4
+9.0
+&
+3$SU
+US$14 & 0.9
+–US$3
++ 3.9 –US$7
++ 7.3
+–US$3
++ 3.9
+–US$3 &
+0.9
+–US$7
+& 0.3
+US$3
+&
+–6.8
+–US$7 + 7.9 –US$7 & 0.9
+–US$3
++ 2.6
+–US$3 + 3.4
+1.2
+–
+3$SU
+US$14 – 13.1
+US$3
+–
+9.8
+US$3 – 6.4
+7.7 +
+7$SU–
+a b
+c d
+–US$3 +
+3.9
+7.0 &
+7$SU–
+Fig. 4 | Conditions of experiment 2. a, Control condition. b, Embedded pseudo-rewards. c, Separate pseudo-rewards. d, Integrated pseudo-rewards.
+Fig. 5 | Screenshot from experiment 3. Screenshot.
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviour
+nitive resources with the power of computing and leveraging plan-
+ning algorithms developed in AI41 to build the solution of complex
+100 decision problems into the reward structure of the environment.
+Future work will investigate these hypotheses and explore optimal
+gamification as an interface between artificial and human intelli-
+80 gence. By integrating the power of computing with psychological
+insight into human motivation and decision-making, this line of
+research could lead to cognitive prostheses that might substantially
+60 enhance human productivity and self-mastery. Our approach illus-
+trates how advances in AI can be leveraged to help people make bet-
+ter decisions. In this way, the continuing progress in AI could enable
+40
+a parallel growth in human effectiveness. Given that people learn to
+adapt their planning horizon to the structure of the environment42,
+optimal gamification could have adverse effects on how people
+20
+make decisions in the absence of game elements. A preliminary
+follow-up experiment reported in the Supplementary Information
+0 suggests that this might not be the case when the environment
+remains the same, but transfer effects from a gamified environment
+to decision-making in other environments remain to be investi-
+gated. Furthermore, we agree with earlier studies43,44 that nudges
+and decision-support systems should be complemented by improv-
+ing people’s decision-making competencies, and ongoing work sug-
+gests that AI and optimal gamification can be combined in a more
+sophisticated way to teach people better decision-making strategies
+(Lieder, Callaway, Das, Jain, Gul, Krueger, & Griffiths, manuscript
+in preparation)37.
+Methods
+The experiments reported in this Article were approved by the Committee for
+the Protection of Human Subjects of the University of California, Berkeley under
+protocol number 2016-02-8359 (To-Do-List Gamification), and Experiment 4
+was also approved by the Independent Ethics Council of the medical faculty of
+the University of Tübingen as IEC Project Number 668/2018BO2 (To-Do-List
+Gamification).
+Experiment 1. On the basis of our experience with similar online experiments, we
+recruited 200 adult participants on Amazon Mechanical Turk to obtain a sample
+size of about 60 participants per condition. No statistical methods were used to
+approach to decision support would probably undermine people’s predetermine sample sizes, but our sample sizes are larger than those reported
+intrinsic motivation because it runs counter to the fundamental in previous publications23,45. Participants received US$0.50 and a performance-
+human need for self-determination and autonomy39. Optimal gami- dependent bonus of up to US$2 for playing 24 rounds of the flight planning game
+shown in Fig. 2. In this game, the player receives points for routing an airplane
+fication, by contrast, gives people complete freedom over what to do
+along profitable routes between six cities. In each round, the initial location of
+and can be applied to help people motivate themselves to take action
+the airplane is chosen at random. Participants then choose which of two possible
+towards their own goals. Using game elements to boost motivation destinations to fly to, receive the profit or loss of that flight, and choose the next
+is not a new idea, but optimal gamification is based on a rigorous flight until the round ends. After each flight there was a 1 in 6 chance that the
+mathematical theory for determining which actions should be round would end. Participants were instructed to score as highly as possible,
+and their financial bonus was proportional to the rank of their score among all
+incentivized and by how much. This theory guarantees that optimal
+participants in their condition. This game is based on the planning task that Huys
+gamification will never incentivize counterproductive behaviour33.
+et al.23 used to demonstrate how cognitive limitations shape human planning and
+Here we have shown that it can be leveraged to avoid the perils of induce cognitive biases. We modelled our version of this task as an infinite horizon
+less principled approaches to motivating people with incentives and MDP with a discount factor of γ = 1–1/6 that models the probability that the
+game elements28,29. current round will end after each move (see Supplementary Methods). This MDP
+model of the task is defined such that maximizing the expected sum of discounted
+The results of Experiment 3 suggest that optimal gamification
+rewards over an infinite horizon was equivalent to maximizing the expected sum of
+might be able to help people align their actions (for example, whether
+points the player earns until the game ends.
+or not to work on a writing assignment) with their long-term goal Participants were randomly assigned to one of four conditions (see Fig. 2 and
+(for example, to earn a US$20 bonus). The primary problem that Supplementary Table 1). In the control condition, there were no pseudo-rewards
+optimal gamification solved in this setting was to help people over- (Fig. 2a), and finding the optimal path required planning four steps ahead. In
+the three experimental conditions, the reward structure was modified by adding
+come the motivational barriers of immediate effort that would be
+pseudo-rewards that summed to zero. In the first experimental condition, the
+rewarded much later. This suggests that optimal gamification might pseudo-rewards were derived from the optimal value function according to the
+be useful for helping people overcome the myopic biases affecting shaping theorem (see equation (9); Fig. 2b). In this condition, looking only one step
+their motivation40, avoid self-control failure and support the pursuit ahead was sufficient to find the optimal path. This makes it possible for people to
+of long-term goals. While Experiment 3 presented pseudo-rewards make optimal decisions by simply following the Pavlovian impulses that draw them
+towards immediate gains and push them away from immediate losses without having
+numerically, future work will investigate whether optimal gamifica-
+to engage in any planning or self-control. The second experimental condition used
+tion can also be effectively implemented using other presentation potential-based pseudo-rewards based on an approximate value function (equation
+formats that are more commonly used in practice. (12)). This approximate value function (equation (3) in the Supplementary Methods)
+Beyond motivational issues, many decision problems that arise was designed by identifying the most profitable location (that is, Smithsville in Fig.
+in the pursuit of long-term goals are simply too large and too com- 2a) as a goal and then scoring each location by its distance to that goal. The resulting
+pseudo-rewards were positive for actions that brought the airplane closer to the goal
+plex for people to solve them optimally. Our approach could be used
+and negative for actions that moved it away from the goal. The resulting pseudo-
+to overcome such challenges by augmenting people’s bounded cog- rewards simplified planning but not as much as the optimal pseudo-rewards. Finding
+)%(
+etar
+noitelpmoC
+***
+NS
+NS
+No points Constant Pseudo-rewards Pseudo-rewards
+points as points as US$
+Fig. 6 | Proportions of participants in experiment 3 who completed all
+assignments by the deadline. Error bars show ±1 s.e.m. The completion
+rate was significantly higher when participants were incentivized by
+optimal gamification than when all tasks were incentivized equally or no
+points were provided (χ2(1) = 11.20, P < 0.001,w = 3.35, 95% confidence
+intervals: [67.6%, 91.5%] without optimal gamification, [75.7%, 93.9%]
+with optimal gamification). The difference between the conditions with
+no points and those with constant point values was not statistically
+significant (χ2(1) = 0.15, P = 0.701, w = 0.384, 95% confidence intervals:
+[35.6%, 71.5%] versus [41.0%, 75.9%]). The difference between framing
+optimal pseudo-rewards in terms of points and framing them in terms of
+money was not statistically significant (χ2(1) = 2.01, P = 0.156, w = 1.42,
+95% confidence intervals: [82.2%, 99.7%] versus [63.5%, 92.4%]). All
+statistical tests reported in this figure are χ2 tests. These results are based
+on 111 participants (about 28 per condition).
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+NATure HumAN BeHAviour Articles
+the optimal path required planning two or three steps ahead, and the immediate determined and three questions testing their understanding of the mechanics of
+losses were smaller. In the third experimental condition (Fig. 2d), the pseudo-rewards the task. If participants got one or more questions wrong, they were asked to reread
+were also designed to encourage participants to move towards the most profitable the instructions and retake the quiz until they answered all questions correctly.
+location. The heuristic pseudo-reward was +50 for each transition that reduced Out of the 400 participants, 65 had participated in previous flight planning
+the distance to the most valuable state (Smithsville). But unlike the approximate experiments and were therefore excluded from this study. Out of the 335 remaining
+potential-based pseudo-rewards, they imposed no penalty for moving away from the participants, we excluded participants whose median response time was less than
+goal. The resulting pseudo-rewards violated the shaping theorem and were slightly one-third of the median response time across all included participants. In addition,
+too high relative to the true rewards. As a consequence, they incentivized taking a we excluded the 5% of participants with the lowest scores of each group. These two
+bad short cut to Smithsville (Jonesville → Clarksville → Smithsville) and rendered criteria led to the exclusion of 19 of the 335 included participants (5.7%), leaving
+the optimal path (Jonesville → Williamsville → Bakersville → Smithsville) suboptimal us with 316 included participants: 80 in the control condition, 81 in the condition
+in the gamified environment. This made it impossible for participants to recognize with embedded pseudo-rewards, 81 in the condition with separate pseudo-rewards
+the best path as optimal even with extensive learning or perfect long-term planning. and 74 in the condition with integrated pseudo-rewards.
+To ensure that all conditions were comparable in terms of the total reward, the This experiment was run only once, but its main finding was replicated in the
+pseudo-rewards of each condition were shifted such that their sum was zero. Since follow-up study to Experiment 2 presented in the Supplementary Information.
+the experimental manipulation only affected the flights’ pay-offs, participants were Data collection and analysis were not performed blind to the conditions of the
+unaware of the pseudo-rewards in Experiment 1. experiments.
+Inclusion criteria. The average completion time of the experiment was 13.6 min, Experiment 3. We recruited 120 participants by posting a sign-up form on Amazon
+and the median response time was 1.3 s per choice. The median of our participants’ Mechanical Turk. We aimed for a sample size of 30 participants per condition so
+relative scores (that is, (R − r min)(r max − r min) where R is the sum total of the player’s that a χ2 test would be able to detect an increase from an expected completion rate
+points) was 79%. We excluded 3 participants who invested less than one-third of of about 60% in the control condition to about 90% in the condition with monetary
+the median response time of their condition and 11 participants who scored lower pseudo-rewards at α = 0.05 with a power of 0.85. According to the exit survey
+than 95% of all participants in their condition (5.5%), leading to a total exclusion (see below), the ages of our participants ranged from 20 to 68 yr (average: 36.7 yr,
+rate of 7% (14/200). Of the 186 participants included in the analysis, 50 were in the standard deviation: 10.6 yr), and our sample was roughly gender balanced (54% of
+condition without pseudo-rewards, 47 were in the condition with optimal pseudo- our participants were women and 46% were men).
+rewards, 40 were in the condition with approximate pseudo-rewards and 49 were The sign-up form told potential participants that the study would comprise the
+in the condition with non-potential-based pseudo-rewards. five writing assignments shown in Supplementary Table 2. Potential participants
+This exact experiment was run only once, but its main finding was replicated were informed that they would earn a US$20 bonus if, and only if, they completed
+in Experiment 2. Data collection and analysis were not performed blind to the all five assignments by a deadline 10 d later. They were told that participants
+conditions of the experiments. who failed to complete all assignments by the deadline would receive only
+US$3 for each hour’s worth of completed tasks. The sign-up form let potential
+Experiment 2. Since we expected the effect of varying the format in which participants choose either to sign up for the experiment and receive an immediate
+optimal pseudo-rewards were presented to be smaller than the effect of presenting compensation of US$0.05 or to receive US$0.15 and forego the opportunity to
+optimal pseudo-rewards at all, we recruited 100 participants per condition (that participate in the study. People who chose to participate were directed to create an
+is, 400 participants in total) on Amazon Mechanical Turk. No statistical methods account on the to-do list website where the study would be conducted.
+were used to predetermine sample sizes, but our sample sizes are larger than The study website presented participants with a to-do list comprising five
+those reported in previous publications23,45. We paid our participants US$2.50 for writing assignments (see Fig. 5; Supplementary Methods). Participants typed each
+about 20–25 min of work plus a performance-dependent bonus of up to US$2. essay into a text box below the corresponding assignment. When a participant
+The average value of the bonus was US$1. The median completion time of the submitted an assignment, its length would be checked against the required number
+experiment was 21.2 min. of words. If the essay was long enough, the corresponding task was crossed off
+The task was equivalent to the one used in Experiment 1 except that all from the person’s to-do list. Participants could freely choose whether and when to
+rewards were scaled down by a factor of 10 to keep the arithmetic operations start their first assignment, how to spread out their assignments over the 10 day
+required to solve the task simple. Participants were randomly assigned to one of study period and in which order to complete their assignments. They were also free
+four conditions. In the control condition, no pseudo-rewards were presented (Fig. to quit the study at any time, and the website allowed them to log out and log back
+4a). Three experimental conditions presented the optimal pseudo-rewards in in at their convenience.
+three different formats. In the first experimental condition, the pseudo-rewards The experiment comprised four conditions that differed in whether and how
+were embedded into the decision environment by adding them directly onto the the tasks on the participant’s to-do list were incentivized. On creating their account
+flights’ profits and losses (Fig. 4b). In the second experimental condition, the on the study website, the nth participant was assigned to condition n modulo 4.
+pseudo-rewards were presented separately from the monetary rewards in the In the two experimental conditions, the tasks were incentivized by applying the
+form of stars (Fig. 4c). In the third experimental condition, the number of stars optimal gamification method described above to an MDP model of the sequential
+communicated the sum of the shifted optimal pseudo-reward and the immediate decision problem entailed by the to-do list (see below). In the first experimental
+reward (Fig. 4d). In the conditions with stars, participants were informed that the condition, the resulting optimal pseudo-rewards for completing each assignment
+stars were designed to help the pilots make better, less short-sighted decisions. were conveyed as points (see Fig. 5), and the participant’s total number of points
+The instructions explained the meaning of the stars. In the second experimental determined their level in the game. In the second experimental condition, the
+condition, participants were told that the difference in the number of stars awarded optimal pseudo-rewards were displayed as dollars rather than points. The first
+for flying to destination A versus B predicted the difference in the amount of control group was shown a plain to-do list without any incentives or game
+money that could be earned from there onward in the long run. In addition, these elements, and in the second control condition, the number of points was constant
+participants were given the tip that the flight with the highest sum of stars plus across all tasks. The incentives were displayed next to each entry of the participant’s
+dollars was most profitable in the long run. In the third experimental condition, to-do list, and the level and current number of points were displayed above the
+participants were told that the difference between the number of stars awarded for current task (see Fig. 5).
+flying to destination A versus B predicted the difference in how much profit they Of the 111 people who created an account on the to-do list website, 28 were
+were going to make in the long run if they chose destination A over destination assigned to the control condition with constant points, 29 were assigned to the
+B. Participants in this condition were given the tip that they could earn the most control condition without points, 26 were assigned to the condition where pseudo-
+by always flying the route with the larger number of stars. In all conditions, each rewards were framed as dollars and 28 were assigned to the condition were pseudo-
+flight’s pay-off and number of stars were rounded to one decimal digit. Stars rewards were framed as points.
+had no monetary value, but they determined the player’s level in the game (see To compute optimal pseudo-rewards, we modelled the sequential decision
+Supplementary Methods). Screenshots of the instructions for the experimental problem entailed by the to-do list as a finite horizon MDP whose state encodes
+conditions are shown in the Supplementary Methods. which tasks have already been completed. This model includes one action for
+The optimal pseudo-rewards presented in the three experimental conditions each task and an additional action for taking a break. The essence of this model
+were computed according to equation (9) and then shifted by a constant such that, is that completing a task incurs an immediate cost because it requires time and
+on average across all states, the sum of the immediate reward and pseudo-reward effort but transports the worker into a state that is closer to the desired final
+for the optimal action was equal to the expected discounted long-run reward of state in which they can claim the US$20 bonus for having completed all of their
+the optimal strategy averaged across all possible starting states. This is appealing assignments on time. The subjective costs of completing the assignments were
+because it makes the pseudo-rewards assigned to each action predict how much measured in the prestudy described in the Supplementary Information. The
+money players will earn in the long run if they choose that action and then resulting optimal pseudo-rewards conveyed how much completing each task
+continue optimally. would contribute towards achieving the goal to earn the US$20 bonus. Because
+of this principle, tasks that workers perceived to be harder were incentivized with
+Attention checks and inclusion criteria. To start the experiment, participants had a larger number of points. A detailed description of this model is included in the
+to pass a quiz comprising three questions on how their financial bonus would be Supplementary Methods.
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAviour
+When participants completed all tasks, they were shown a bonus code. After BrowenChen/Cognitive-Tools-for-Self-Mastery. The code used to analyse the data
+the deadline, we posted a reimbursement Human Intelligence Task on Amazon is available at https://osf.io/h7vqy/ and in the Supplementary Software file.
+Mechanical Turk that included an exit survey. The exit survey asked participants to
+rate their motivation to complete the tasks and how rewarding it felt to complete Received: 14 December 2017; Accepted: 27 June 2019;
+the second task on nine-point Likert scales. This experiment was run only once Published: xx xx xxxx
+because it was relatively expensive and time-consuming. No participant’s data was
+excluded from the analysis. Data collection and analysis were not performed blind
+references
+to the conditions of the experiments.
+1. Ariely, D. Predictably iIrrational. (Harper Collins, 2008).
+Experiment 4. We recruited 200 participants on Amazon Mechanical Turk 2. Tversky, A. & Kahneman, D. Judgment under uncertainty: heuristics and
+following the procedure of Experiment 3. The sample size was selected to achieve biases. Science 185, 1124–1131 (1974).
+a statistical power of at least 0.8 in a two-tailed Mann–Whitney U test on the 3. Gilovich, T., Griffin, D. & Kahneman, D. Heuristics and Biases: The Psychology
+number of tasks completed in Project 2 with α = 0.05 and an anticipated effect size of Intuitive Judgment (Cambridge Univ. Press, 2002).
+of about 0.5 (as observed in a pilot experiment), while accounting for the fact that 4. Todd, P. M. & Gigerenzer, G. Environments that make us smart: ecological
+not all participants would opt into the second part of the experiment. According rationality. Curr. Dir. Psychol. Sci. 16, 167–171 (2007).
+to the exit survey (see below), the ages of our participants ranged from 24 to 77 yr 5. Oaksford, M. & Chater, N. A rational analysis of the selection task as optimal
+(average: 38.3 yr, s.d.: 11.6 yr), and about 61% of our participants were women. data selection. Psychol. Rev. 101, 608–631 (1994).
+Experiment 4 was similar to Experiment 3, but the to-do list now comprised 6. Chater, N. & Oaksford, M. Ten years of the rational analysis of cognition.
+ten daunting writing assignments rather than just five (see Supplementary Table Trends Cogn. Sci. 3, 57–65 (1999).
+4). The ten assignments were grouped into two unequal projects. Completing 7. Todd, P. M. & Gigerenzer, G. Ecological Rationality: Intelligence in the World.
+Project 1 was worth US$20, whereas completing Project 2 was worth only US$1. (Oxford Univ. Press, New York, 2012).
+Project 1 comprised five of the ten writing assignments, and Project 2 comprised 8. Griffiths, T. L., Lieder, F. & Goodman, N. D. Rational use of cognitive
+the remaining five. Both projects were comparable in the total amount of work they resources: levels of analysis between the computational and the algorithmic.
+required, according to the estimates Mechanical Turk workers gave in our prestudy Top. Cogn. Sci. 7, 217–229 (2015).
+(85 min for Project 1 and 88 min for Project 2; Supplementary Table 4) and their 9. Gigerenzer, G. & Hoffrage, U. How to improve Bayesian reasoning without
+estimates of each task’s fair price (US$11.50 in total for all tasks of Project 1 and instruction: frequency formats. Psychol. Rev. 102, 684–704 (1995).
+US$10.50 in total for all tasks of Project 2; Supplementary Table 4). This made 10. Hoffrage, U., Lindsey, S., Hertwig, R. & Gigerenzer, G. Communicating
+Project 1 highly lucrative (US$20 pay for work worth only US$11.50) and Project statistical information. Science 290, 2261–2262 (2000).
+2 highly unprofitable (only US$1 pay for work worth US$10.50). Participants were 11. Gigerenzer, G. & Edwards, A. Simple tools for understanding risks: from
+informed about the projects and the payments they would receive for completing innumeracy to insight. BMJ 327, 741 (2003).
+them (see Supplementary Fig. 10a). But they were free to complete whichever tasks 12. Thaler, R. H. & Sunstein, C. R. Nudge: Improving Decisions about Health,
+they wanted or none at all. The assignment of participants to the experiment’s three Wealth, and Happiness. (Yale Univ. Press, New Haven, 2008).
+conditions followed the same counterbalancing procedure we used in Experiment 3; 13. Johnson, E. J. et al. Beyond nudges: tools of a choice architecture. Mark. Lett.
+that is, the nth participant was assigned to condition n modulo 3. 23, 487–504 (2012).
+When we applied our optimal gamification method to the to-do list of 14. Aronson, J. E., Liang, T.-P. & Turban, E. Decision Support Systems and
+Experiment 4, it automatically assigned positive points to the tasks of Project 1 and Intelligent Systems (Pearson Prentice-Hall, 2005).
+negative points to the tasks of Project 2 (see Supplementary Fig. 10d) based on the 15. Power, D. J., Sharda, R. & Burstein, F. in Wiley Encyclopedia of Management
+value of each project, the amount of time required to complete each task and the Vol. 7 (eds Straub, D. & Welke, R.) 1–11 (Wiley, 2015).
+average wage our participants could earn by working on another task on Amazon 16. Aviv, Y. & Pazgal, A. A partially observed Markov decision procBhatnagar, S.,
+Mechanical Turk. The heuristic to incentivize each task according to its duration, Fernández-Gaucherand, E., Fu, M. C., He, Y. & Marcus, S. I. A Markov
+by contrast, was insensitive to the projects’ values and incentivized the tasks of decision process model for capacity expansion and allocation. InIEEE
+Project 2 just as much as the tasks of Project 1 (see Supplementary Fig. 10c). Conference on Decision and Control Vol. 2 (ed Altman, E.) 1380–1385
+Experiment 4 was conducted over a period of 7 d starting on Monday 4 (IEEE, 1999).ess for dynamic pricing. Manag. Sci. 51, 1400–1416 (2005).
+February 2019 and ending on Monday 11 February 2019. Participants could fill 17. Song, H., Liu, C.-C., Lawarrée, J. & Dahlgren, R. W. Optimal electricity
+out the exit survey at any point before the deadline regardless of how many tasks supply bidding by Markov decision process. IEEE Trans. Power Syst. 15,
+or projects they had completed. The exit survey was available until the day after 618–624 (2000).
+the deadline. On the following day, each participant was paid a bonus based on 18. Gadomski, A. M., Bologna, S., Costanzo, G. D., Perini, A. & Schaerf, M.
+which project(s) they had completed plus an extra US$0.50. Participants who had Towards intelligent decision support systems for emergency managers: the
+completed some assignments of a project but not all of them received an extra IDA approach. Int. J. Risk Assess. Manag. 2, 224–242 (2001).
+US$0.50 for each such assignment. In addition to the questions asked at the end of 19. Bhatnagar, S., Fernández-Gaucherand, E., Fu, M. C., He, Y. & Marcus, S. I. A
+Experiment 3, the exit survey of Experiment 4 included Likert scales for measuring Markov decision process model for capacity expansion and allocation. In
+participants’ motivation, how rewarding it felt to complete tasks, to what extent IEEE Conference on Decision and Control Vol. 2 (ed Altman, E.) 1380–1385
+they felt they could choose their tasks freely (P. Michaelsen et al., manuscript in (IEEE, 1999).
+preparation)46, and to what extent they felt that the to-do list website manipulated 20. Nunes, L. G. N., de Carvalho, S. V. & de Cássia Meneses Rodrigues, R.
+them (P. Michaelsen et al., manuscript in preparation)46,47. Markov decision process applied to the control of hospital elective
+No participant’s data were excluded from the analysis. Data collection and admissions. Artif. Intell. Med. 47, 159–171 (2009).
+analysis were not performed blind to the conditions of the experiments. We tested 21. Ainslie, G. & Haslam, N. in Choice over Time (eds Loewenstein, G. & Elster,
+the normality assumptions and heteroscedasticity assumptions of all ANOVAs J.) 57–92 (Russell Sage Foundation, 1992).
+and t-tests using the Kolmogorov–Smirnov test and Bartlett’s test, respectively. We 22. Myerson, J. & Green, L. Discounting of delayed rewards: models of individual
+found no statistically significant violations of these assumptions for the data on choice. J. Exp. Anal. Behav. 64, 263–276 (1995).
+people’s motivation (K 1 = 0.12, P 1 = 0.990, K 2 = 0.15, P 2 = 0.761, K 3 = 0.17, P 3 = 0.610 23. Huys, Q. J. M. et al. Bonsai trees in your head: how the Pavlovian system
+and χ2(2) = 2.12, P = 0.347), perceived autonomy (Kolmogorov–Smirnov test, sculpts goal-directed choices by pruning decision trees. PLoS Comput. Biol. 8,
+K 1 = 0.13, P 1 = 0.975, K 2 = 0.10, P 2 = 0.987, K 3 = 0.14, P 3 = 0.775 and χ2(2) = 0.24, e1002410 (2012).
+P = 0.887 for Bartlett’s test) or perceived intrusion (K 1 = 0.19, P 1 = 0.731, K 2 = 0.20, 24. Steel, P. The nature of procrastination: a meta-analytic and theoretical review
+P 2 = 0.432, K 3 = 0.25, P 3 = 0.143 and χ2(2) = 2.12, P = 0.347). of quintessential self-regulatory failure. Psychol. Bull. 133, 65–94 (2007).
+More details on Experiment 4 are included in the Supplementary Methods. 25. Mischel, W., Shoda, Y. & Rodriguez, M. L. Delay of gratification in children.
+Science 244, 933–938 (1989).
+Reporting Summary. Further information on research design is available in the 26. Deterding, S., Dixon, D., Khaled, R. & Nacke, L. From game design elements
+Nature Research Reporting Summary linked to this article. to gamefulness: defining gamification. In Proc. of the 15th International
+Academic MindTrek Conference: Envisioning Future Media Environments (eds
+Data availability Lugmayr, A., Franssila, H., Safran, C. & Hammouda, I.) 9–15 (ACM, 2011).
+27. Hamari, J., Koivisto, J. & Sarsa, H. Does gamification work? A literature
+The data that support the findings of this study are available at https://osf.io/
+review of empirical studies on gamification. In Proc. of the 47th Hawaii
+h7vqy/.
+International Conference on System Sciences (ed Sprague, R. H., Jr.) 3025–3034
+(IEEE, 2014).
+Code availability 28. Callan, R. C., Bauer, K. N. & Landers, R. N. in Gamification in Education and
+The code used to conduct Experiment 1, Experiment 2 and its follow-up Business (eds Reiners, T. & Wood, L. C.) 553–568 (Springer, 2015).
+experiments is available at https://osf.io/h7vqy/. The code used to conduct 29. Devers, C. J. & Gurung, R. A. in Gamification in Education and Business (eds
+Experiment 3 and Experiment 4 is available on GitHub at https://github.com/ Reiners, T. & Wood, L. C.) 417–430 (Springer, 2015).
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+NATure HumAN BeHAviour Articles
+30. Sutton, R. S. & Barto, A. G. Reinforcement Learning: An Introduction. (MIT 46. Michaelsen, P., Johansson, L.-O. & Hedesström, M. Experiencing nudges:
+Press, 1998). autonomy, intrusion and choice satisfaction as judged by people themselves.
+31. Callaway, F. et al. A resource-rational analysis of human planning. In Proc. of In Society for Judgment and Decision Making: The 2017 38th Annual
+the 40th Annual Conference of the Cognitive Science Society (eds Kalish, C. Conference (eds Shu, S. et al.) 30 (SJDM, 2017).
+et al.) 178–183 (Cognitive Science Society, 2018). 47. Dillard, J. P. & Shen, L. On the nature of reactance and its role in persuasive
+32. Baumeister, R. F., Heatherton, T. F. & Tice, D. M. Losing Control: How and health communication. Commun. Monogr. 72, 144–168 (2005).
+Why People Fail at Self-Regulation (Academic, 1994).
+33. Ng, A. Y., Harada, D. & Russell, S. Policy invariance under reward Acknowledgements
+transformations: theory and application to reward shaping. In Proc. of the
+Preliminary versions of Experiments 1 and 2 were presented at the 38th Annual
+16th Annual International Conference on Machine Learning (eds Bratko, I. &
+Meeting of the Cognitive Science Society. This material has been substantially revised
+Dzeroski, S.) 278–287 (Morgan Kaufmann, 1999).
+and expanded for the present Article. We would like to thank J. R. Nill and E. Q. Zhang
+34. Rieley, J. B. Are your employees gaming the system? Natl Product. Rev. 19,
+for their contributions to developing the to-do list gamification app, P. Michaelsen for
+1–6 (2000).
+sharing his self-report measures of autonomy and intrusion, T. Ntounis for technical
+35. Bevan, G. & Hood, C. What’s measured is what matters: targets and gaming
+support, and E. Kon, R. Antonova, P. Krueger, M. Pacer, D. Reichman, S. Russell and J.
+in the english public health care system. Public Adm. 84, 517–538 (2006).
+Suchow for feedback and discussion. This work was supported by grant number 1757269
+36. Thom, J., Millen, D. & DiMicco, J. Removing gamification from an enterprise
+from the National Science Foundation, grant number ONR MURI N00014-13-1-0341,
+SNS. In Proc. of the ACM 2012 Conference on Computer Supported
+and a grant from the Templeton World Charity Foundation to T.L.G. The funders had no
+Cooperative Work (eds Poltrock, S., Simone, C., Grudin, J., Mark, G. & Riedl,
+role in study design, data collection and analysis, decision to publish or preparation of
+J.) 1067–1070 (ACM, 2012).
+the manuscript.
+37. Lieder, F., Callaway, F., Krueger, P., Griffiths, T. & Gul, S. Discovering and
+teaching optimal planning strategies. In KOGWIS2018: Computational
+Author contributions
+Approaches to Cognitive Science (eds Rothkopf, C. et al.) 38 (GK, 2018).
+38. Simon, H. A. Rational choice and the structure of the environment. Psychol. F.L. and T.L.G. designed the research. F.L., P.M.K. and O.C. performed the research. F.L.
+Rev. 63, 129 (1956). and P.M.K. analysed the data. F.L. and T.L.G. wrote the paper.
+39. Gagné, M. & Deci, E. L. Self-determination theory and work motivation. J.
+Organ. Behav. 26, 331–362 (2005).
+40. Steel, P. & König, C. J. Integrating theories of motivation. Acad. Manag. Rev. Competing interests
+31, 889–913 (2006). The authors declare no competing interests.
+41. Puterman, M. L. Markov Decision Processes: Discrete Stochastic Dynamic
+Programming (John Wiley & Sons, 2014).
+42. Krueger, P. M., Lieder, F. & Griffiths, T. L. Enhancing metacognitive Additional information
+reinforcement learning using reward structures and feedback. In Proc. of the Supplementary information is available for this paper at https://doi.org/10.1038/
+39th Annual Conference of the Cognitive Science Society (eds Gunzelmann, G. s41562-019-0672-9.
+et al.) 2469–2474 (Cognitive Science Society, 2017).
+Reprints and permissions information is available at www.nature.com/reprints.
+43. Hertwig, R. & Grüne-Yanoff, T. Nudging and boosting: steering or
+empowering good decisions. Perspect. Psychol. Sci. 12, 973–986 (2017). Correspondence and requests for materials should be addressed to F.L.
+44. Hertwig, R. When to consider boosting: some rules for policy-makers. Behav. Peer review information: Primary Handling Editor: Stavroula Kousta.
+Public Policy 1, 143–161 (2017).
+Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+45. Keramati, M., Smittenaar, P., Dolan, R. J. & Dayan, P. Adaptive integration of
+published maps and institutional affiliations.
+habits into depth-limited planning defines a habitual-goal–directed spectrum.
+Proc. Natl Acad. Sci. USA 113, 12868–12873 (2016). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NATure HuMAN BeHAviOur | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Falk Lieder
+Last updated by author(s): Apr 24, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection The code used to conduct Experiment 1, Experiment 2, and its follow-up experiments is available via the Open Science Framework:
+https://osf.io/h7vqy/
+The code used to conduct Experiment 3 and Experiment 4 is available on GitHub at https://github.com/BrowenChen/Cognitive-Tools-for-
+Self-Mastery.
+Data analysis The code used to analyze the data is available through the Open Science Framework: https://osf.io/h7vqy/
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data presented in this article is available at https://osf.io/h7vqy/
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Experiments 1 and 2 and their follow-up experiments were quantitative online experiments that measured people's decisions and
+reaction times in a sequential decision-making task. Experiments 3 and 4 were naturalistic online experiments that measured people's
+decision about which task to work on.
+Research sample Adults working on Amazon Mechanical Turk who are located in the USA who have a HIT approval rate of at least 95%.
+Sampling strategy We posted HITs on Amazon Mechanical Turk and let any member of our sample participate in the posted experiment until we had
+reached the intended number of participants.
+The sample size was chosen to achieve about 60 participants per condition. No statistical methods were used to predetermine sample
+sizes but our sample sizes are larger than those reported in previous publications (Huys, et al., 2012; Keramati, et al., 2016}. Having 60
+participants per condition would achieve a power of about 0.8 for a two-sided, two-sample t-test with alpha=0.05 assuming an effect size
+of 0.50 (exact power: 0.78).
+For Experiment 2 we increased the sample size to about 100 participants per condition, because the expected some of the effect sizes to
+be lower than in Experiment 1..No statistical methods were used to predetermine sample sizes but our sample sizes are larger than those
+reported in previous publications (Huys, et al., 2012; Keramati, et al., 2016}. The selected sample size achieved a power of about 0.70 for
+a two-sided, two-sample t-test assuming an effect size of 0.35.
+For Experiment 3, we aimed for a sample size of 30 participants per condition so that a chi^2 test would be able to detect an increase
+from an expected completion rate of about 60% in the control condition to about 90% in the condition with monetary pseudo-rewards at
+an alpha-level of 0.05 with a power of 0.85.
+For Experiment 4, we aimed for a sample size of 42 participants per condition to achieve a power of at least 0.8 in a two-sided Mann-
+Whitney U-tests on the number of tasks completed in Project 2 with alpha=.05 and an anticipated effect size of about 0.5 (as observed in
+a pilot experiment). Taking into account the proportion of participants who chose not to participate in Part 2 in our pilot experiment, we
+increased the sample size per condition to 50.
+Data collection Data collection was performed via websites that people were directed to via Amazon Mechanical Turk. All data was collected via
+keyboard and/or mouse input from the participants.
+Timing Experiment 1: January 8 2016
+Experiment 2: March 17 2016; Follow-Up Experiment 1: April 6 2016; Follow-Up Experiment 2: December 22 2016
+Experiment 3: April 24 2017 -- May 4 2017
+Experiment 4: February 4 2019 -- February 12 2019
+Data exclusions The exclusion criteria of each experiment are described in the Supplementary Information.
+In Experiment 1, We excluded 3 participants who invested less than one third of the median
+response time of their condition and 11 participants who scored lower than 95% of all
+participants in their condition (5.5%), leading to a total exclusion rate of 7%.
+To start Experiment 2, the experiment participants had to pass a quiz comprising three
+questions on how their financial bonus would be determined and three questions testing
+their understanding of the mechanics of the task. Out of the 400 participants, 335 had not
+participated in any of our previous flight planning experiments and were included for in this
+study. Out of those 335 participants, we excluded subjects whose median response time was
+less than one third of the median response time across all included subjects. In addition, we
+excluded the 5% of participants with the lowest scores of each group. This led to the
+exclusion of 19 out of the 335 included participants (5.7%).
+No participants were excluded from Experiment 3.
+No participants were excluded from Experiment 4.
+Non-participation In Experiments 1 and 2 data was only recorded to our data base when a participant finished the experiment. We therefore cannot tell
+how many people started the experiment but dropped out before finishing it; however these experiments were very short.
+In Experiment 3, nine out of 120 participants opted not to participate in the second part of the experiment and to receive $0.10 instead.
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+In Experiment 4, 45 out of 200 participants opted not to participate in the second part of the experiment and to receive $0.10 instead.
+Randomization The assignments of participants to groups was performed at random. In Experiments 1 and 2
+this was was implemented by drawing a random number from a uniform distribution over the
+conditions independently for each participant. In Experiment 3 the first participant who
+registered was assigned to condition 1, the second participant was assigned to condition 2,
+the third participant was assigned to condition 3, the fourth participant was assigned to
+condition 4, the fifth participant was assigned to condition 1, and so on. Experiment 4 used a
+counterbalancing procedure that was equivalent to the one used in Experiment 3.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics Participants were adults located in the United States of America who work on Amazon Mechanical Turk.
+Recruitment All participants were recruited online by posting HITs to Amazon Mechanical Turk. Anyone who was located in the USA and had
+an acceptance rate of at least 95% on Amazon Mechanical Turk was allowed to participate.
+Ethics oversight The experiments reported in this article were approved by the Committee for the Protection of Human Subjects of the University
+of California, Berkeley under protocol number 2016-02-8359 (``To-Do-List Gamification'') and Experiment 4 was additionally
+approved by the Independent Ethics Council of the medical faculty of the University of Tübingen as IEC Project Number
+668/2018BO2 (``To-Do-List Gamification'').
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

@@ -1,11 +1,965 @@
-# Investigating the effect of changing parameters when building prediction models for post-stroke aphasia
-
-## Abstract
-Neuroimaging has radically improved our understanding of how speech and language abilities map to the brain in normal and impaired participants, including the diverse, graded variations observed in post-stroke aphasia. A handful of studies have begun to explore the reverse inference: creating brain-to-behaviour prediction models. In this study, we explored the effect of three critical parameters on model performance: (1) brain partitions as predictive features, (2) combination of multimodal neuroimaging and (3) type of machine learning algorithms. We explored the influence of these factors while predicting four principal dimensions of language and cognition variation in post-stroke aphasia. Across all four behavioural dimensions, we consistently found that prediction models derived from diffusion-weighted data did not improve performance over models using structural measures extracted from T1 scans. Our results provide a set of principles to guide future work aiming to predict outcomes in neurological patients from brain imaging data. 
-
- This is a preview of subscription content, access via your institution
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0854-5/MediaObjects/41562_2020_854_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0854-5/MediaObjects/41562_2020_854_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-0854-5
+Investigating the effect of changing parameters
+when building prediction models for post-stroke
+aphasia
+Ajay D. Halai 1 ✉, Anna M. Woollams2 and Matthew A. Lambon Ralph 1 ✉
+Neuroimaging has radically improved our understanding of how speech and language abilities map to the brain in normal and
+impaired participants, including the diverse, graded variations observed in post-stroke aphasia. A handful of studies have begun
+to explore the reverse inference: creating brain-to-behaviour prediction models. In this study, we explored the effect of three
+critical parameters on model performance: (1) brain partitions as predictive features, (2) combination of multimodal neuroim-
+aging and (3) type of machine learning algorithms. We explored the influence of these factors while predicting four principal
+dimensions of language and cognition variation in post-stroke aphasia. Across all four behavioural dimensions, we consistently
+found that prediction models derived from diffusion-weighted data did not improve performance over models using structural
+measures extracted from T1 scans. Our results provide a set of principles to guide future work aiming to predict outcomes in
+neurological patients from brain imaging data.
+S
+troke is a leading cause of severe disability1, and approximately it is possible to predict performance on individual neuropsycho-
+one-third of patients in the chronic phase are left with speech logical tests, any assessment taps multiple underlying component
+and language impairments2,3. Aphasia is not a singular, homo- abilities, and hence performance across tests is often intercorrelated
+geneous symptom but rather refers to a broad range of diverse, con- over patients. An alternative approach places patients as points in
+trastive language impairments. Both for advancing our theoretical a continuous multidimensional space, where the axes represent
+understanding of the neurobiology of language and for a potential primary neuro-computational processes15–19. This approach also
+paradigm shift in clinical prognosis, management and therapy path- aligns with the fact that language activities (for example, naming,
+ways, it is critically important to predict these language and cognitive comprehension and repeating) are not localized to different, single
+variations from brain imaging data. Recently, a handful of studies brain regions but instead reflect the interplay between primary sys-
+have embarked on using brain lesion information to predict perfor- tems20–23. Rather than predicting inhomogeneous aphasia classifi-
+mance on specific neuropsychological tests or aphasia types4–10. The cations or whole swathes of individual test results, targeting each
+key aim of the current investigation was to take the next major step patient’s position in the continuous multidimensional space offers
+from these proof-of-principle studies towards understanding what a complete yet parsimonious behavioural description, summarized
+effect three foundational parameters have on brain-to-behaviour by the essential components. Regardless of the specific targets one
+prediction models: (1) how the brain is partitioned as features in would like to predict, there is an issue of how we validate predic-
+the prediction models; (2) whether there are differences between tion models generated within a research or clinical centre. The sim-
+different combinations of information derived from multimodal plest approach is to use leave-one-out cross validation, where N − 1
+neuroimaging (for example, whether diffusion-weighted imaging cases are used to fit a model and the single left-out case is estimated
+(DWI) improves prediction models over using typical clinical T1/ (iterated so that each case has been left out). This method does not
+T2 weighted images); and (3) whether there are differences between guard against overfitting, and k-fold (k = 4–10) alternatives are pre-
+machine learning algorithms. Each of these foundational issues is ferred as the training sets have less overlap (resulting in less variance
+discussed briefly below. in the test error). These k-fold procedures require relatively larger
+Before we discuss the three factors mentioned above, we note samples than leave-one-out cross validation as a larger proportion
+that there is a non-trivial issue regarding what measures or classifi- of the data is left out for testing.
+cations should be predicted and how the predictions should be eval- Modern neuroimaging provides high-dimensionality data (~106
+uated. In the current study, we focused on predicting cross-sectional voxels) compared with the number of samples (~102), which can
+aphasia symptomology. This can provide insights about the neuro- lead to overfitting problems when building prediction models. This
+biology of language and be clinically useful in terms of diagnosing large number of brain prediction features can be down-sampled in
+and potentially predicting deficits, and in turn, it can assist with different ways: through the use of anatomical or functional atlases,
+the selection of appropriate specialist treatment or rehabilitation methods to select a subset of features (for example, recursive feature
+pathways. In terms of aphasia symptomology, there is increasing selection) or kernel methods to create similarity matrices. The most
+agreement that binary aphasia classifications are limited. Instead of common procedure is to down-sample using anatomical atlases
+homogeneous, mutually exclusive categories of aphasia type, there (for example, the automated anatomical labelling atlas) or func-
+is considerable variability within and between groups, often lead- tional atlases that have been derived by grouping voxels together
+ing to misdiagnosis or patients being classified as mixed11–14. While on the basis of their resting-state functional connectivity24,25.
+1MRC Cognition and Brain Sciences Unit, University of Cambridge, Cambridge, UK. 2Division of Neuroscience and Experimental Psychology, School of
+Biological Sciences, University of Manchester, Manchester, UK. ✉e-mail: ajay.halai@mrc-cbu.cam.ac.uk; matt.lambon-ralph@mrc-cbu.cam.ac.uk
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+One key alternative approach involves using areas identified as There are now a large number of learning algorithms for multi-
+functionally relevant through activation or lesion mapping stud- variate analyses, each associated with their own biases and assump-
+ies4,26. For example, Halai et al.4 used a functional model of language tions37–46. Yet it is not clear which algorithms should be used for any
+that contained three distinct neural clusters related to phonology given problem, and to achieve the goals of this study, there is a need
+(peri-Sylvian region), semantics (ventral temporal lobe) and speech to handle multiple neuroimaging inputs as well as multiple parti-
+output (precentral gyrus). The resultant functionally partitioned tions of the brain space. One approach that is designed to handle
+lesions were able to predict the patients’ neuropsychological test multiple data is multiple kernel learning (MKL), which searches
+scores in addition to their aphasia subtypes. Another option is to for meaningful groupings and combines their contributions47. This
+use knowledge about neurovascular anatomy, which heavily con- method creates a separate kernel for each modality or region and
+strains the inherent resolution of the brain sampling in a post-stroke assigns a weight to each48. We note, however, that it is very diffi-
+population as well as the co-occurrence of voxel damage. Previous cult to determine why features have high weights, and therefore
+angiography studies demonstrated that the middle cerebral artery the interpretation of specific weights should be approached with
+(MCA) branches typically supply 13 cortical areas (the orbito- caution49,50. A modification of MKL to allow for sparsity has been
+frontal, prefrontal, precentral, central, anterior parietal, posterior recently implemented in the Pattern Recognition for Neuroimaging
+parietal, angular, temporo-occipital, posterior temporal, middle, Toolbox (PRoNTo v.2.1; http://www.mlnl.cs.ucl.ac.uk/pronto/)46.
+temporal, anterior and polar temporal areas27). Given that these This modification has additional benefits such as improved gen-
+seminal anatomical studies provided only hand-drawn renderings eralizability and the identification of a smaller subset of features,
+of the vascular regions, in a recent study we applied principal com- which helps interpretability51,52. Besides the MKL method, the tool-
+ponent analysis (PCA) to extract the underlying, co-linear factors box implements three additional machines for regression: kernel
+from the non-random lesioned tissue in post-stroke aphasia. This ridge regression (KRR), Gaussian process regression (GPR) and
+method resulted in 17 coherent clusters that closely reflected the relevance vector regression (RVR). Therefore, we opted to use
+pattern of cortical vascular supplies noted above28. this toolbox for its ease of use and integration with the Statistical
+The most common neuroimaging measure used in building pre- Parametric Mapping software version 12 (Wellcome Trust Centre
+diction models is the amount of damage on the basis of a T1 or for Neuroimaging, http://www.fil.ion.ucl.ac.uk/spm/)53.
+T2 weighted image, either across the whole brain or for targeted The current study was designed to undertake a systematic inves-
+structural or functional areas4–10,29. Classical neurological studies tigation of these foundational issues when building prediction mod-
+proposed that certain features of aphasia might reflect white-matter els of the variation in aphasia presentation post-stroke. On the basis
+disconnections as well as local grey-matter damage30. More recently, of our previous research16, we focused on four orthogonal language
+studies using direct electrical stimulation in neurosurgical patients and cognitive continuous dimensions as prediction targets (phonol-
+have shown that different aspects of aphasia can be generated ogy, semantics, speech fluency and executive skill), and paramet-
+transiently through fascicular stimulation31,32. This suggests that rically established the validity and reliability of this solution. For
+prediction models might be substantially improved by adding each prediction target, we compared the accuracy of various model
+information about white-matter connectivity derived either from recipes reflecting the different choices over brain parcellation (five
+in vivo patient-specific DWI or with reference to population-level methods), different measures of brain tissue and white-matter integ-
+white-matter connectivity maps (though it is worth noting that rity derived from multimodal imaging (six inputs and their combi-
+the processing of DWI data is technically non-trivial and thus nations) and different machine learning algorithms (four types). An
+could be a financial and practical barrier for clinical adoption). overview of the model recipe is shown in Fig. 1 where all possible
+The small handful of studies that have explored the addition of combinations of these varying ingredients were tested. This allowed
+white-matter information have generated inconsistent findings. us to establish where there are differences in prediction model per-
+Studies that have incorporated patient-specific structural connec- formance depending on the recipe and whether these differences
+tivity data9,33 have shown that lesion or connectome data can dif- changed substantially depending on the prediction target.
+ferentiate between pairs of aphasia type better than chance, yet
+the combination of information did not substantially improve the Results
+prediction accuracy and in some cases was actually lower than a Neuropsychological profile and lesion overlap. One subject was
+model based simply on lesion size. Similarly, studies that have used removed owing to incomplete diffusion data during MRI acquisi-
+some variant of the population-level approach have also found tion. For the PCA of the extensive behavioural data, the Kaiser–
+inconsistences with respect to white-matter connectivity data. Meyer–Olkin measure of sampling adequacy was 0.834 and Bartlett’s
+Hope et al.5 used white-matter disconnections inferred by projec- test of sphericity was significant (approximate χ2 = 1535.486,
+tion of the patients’ lesions to a white-matter population-level atlas d.f. = 210, P < 0.001). We implemented a fivefold cross-validation
+and found that information about white-matter disconnection did approach to determine the optimal number of components in our
+not improve aphasia prediction models over lesion features alone. data and found that a four-factor solution was significantly better in
+Another recent, sophisticated study used a multivariate learning all sample sizes except the lowest (N = 28), where it was numerically
+approach (random forests) with a prediction stacking method to superior but not significantly different from a five-factor solution
+combine lesion features, virtual tractography disconnections and (Fig. 2). Therefore, data from 69 participants were used in a PCA
+resting-state functional magnetic resonance imaging (fMRI) to with varimax rotation to extract four factors, which were also the
+predict aphasia severity and Western Aphasia Battery subscores8. only factors with an eigenvalue above one, accounting for 77.0% of
+Although the initially reported correlations between predicted the variance (Factor 1, 31.05%; Factor 2, 16.72%; Factor 3, 16.16%;
+and observed Western Aphasia Battery subscores were encourag- and Factor 4, 13.07%). The factor loading for each test variable is
+ingly high (coefficient of correlation (r), ~0.8), when there was full given in Supplementary Table 1. The PCA model showed a high
+separation between training and test data the prediction accuracy correlation between the predicted left-out folds and observed data
+was reduced (r = 0.66) and was little better than when using the best (r = 0.8128). The factors replicated findings from Halai et al.16,
+single predictor (r = 0.63 using a structural connectivity matrix). which was based on a smaller subset (N = 31) of this group. In brief,
+A recent study investigating disconnections and lesion load of Factor 1 was termed phonology, as repetition, naming and digit span
+white-matter tracts34 suggested that individual measures are to be loaded strongly; Factor 2 was termed semantics, as picture matching
+preferred after reporting partially consistent results with previous and other comprehension tests were strongly related to this factor;
+studies using population-level disconnection35,36. Factor 3 was termed executive demand, as cognitively demanding
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+Ingredients
+Input features
+% Grey matter
+% White matter
+Machines Targets
+% Abnormality
+Fractional anisotropy
+Mean diffusivity KRR Phonology
+Anatomical connectivity maps
+GPR Semantics
+Brain partitions RVR Executive demand
+No partition
+MKR Speech fluency
+Anatomical atlas
+Lesion-driven atlas
+Functional connectivity atlas
+VBM lesion clusters
+Fig. 1 | A schematic representation of the prediction model creations. For each model we used one or more input features and selected one brain partition
+(green box), which were entered into one of the machines (blue box) for training to predict a behavioural component (red box). We iterated the inputs
+using each single input, all pairwise combinations, T1 or diffusion-related inputs separately, and all inputs together. VBM, voxel-based morphometry.
+3.35 Figure 3 shows the lesion overlap map in the left hemisphere for
+the 69 participants in this study converted into a percentage map. 3.30
+The voxel that was most frequently damaged (N = 56 or 81.16%)
+3.25
+was situated in the left superior longitudinal fasciculus/central
+3.20 operculum (Montreal Neurological Institute (MNI) coordinates:
+–38, −10, 24).
+3.15
+3.10 Multivariate pattern recognition analyses. Owing to the vast
+number of models, in the main body of the paper we present sum-
+3.05
+maries of the results and specific details of the winning models.
+3.00 The full details for all models are in Supplementary Table 3 and
+Supplementary Results 1. The six imaging measures (% abnormal-
+ity, % grey, % white, mean diffusivity (MD), fractional anisotropy
+(FA) and anatomical connectivity map (ACM)) were tested as inputs
+3 4 5 6 7
+(either alone or in combination) in separate models used to predict
+each behavioural factor (phonology, semantics, executive demand
+and speech quanta). For each model, we determined the perfor-
+mance across four machines (KRR, GPR, RVR and multikernel
+regression (MKR)) and five brain partitions (no partition, anatomi-
+cal atlas, function connectivity-based atlas, PCA-derived functional
+clusters and PCA-derived lesion clusters). We first present summary
+violin plots showing the cross-validated mean squared error (MSE)
+between predicted and observed scores for different model configu-
+rations. All reported MSE values indicate the median value of the
+overall set of models in a particular configuration. Model perfor-
+mances across different configurations were not normally distrib-
+uted; therefore, we used non-parametric tests with two tails. For all
+statistical comparisons, we provide an effect size (Cohen’s d) and a
+Bayes factor (BF > 3 suggests evidence for a difference between the 10
+pairs, and BF < 0.3 suggests evidence for a null effect)54. Figure 4 10
+shows the results for all models based on the neural inputs, as a
+single feature, pairwise features, three features from T1 or diffusion
+tests that required problem-solving loaded strongly; and Factor 4 and all inputs together—regardless of brain partition or machine.
+was termed speech quanta, as it loaded with the amount of speech The results show relatively high consistency between different
+produced. Supplementary Table 2 displays demographic informa- inputs. Specifically, the models with % grey matter combined with
+tion for each participant. FA produced the lowest error (MSE = 0.7729). The configuration
+ESMR
+Sample size
+28
+35
+42
+49
+56
+63
+69
+0
+Number of components
+Fig. 2 | Cross-validation approach to determine the optimal number
+of components for PCA. The graph shows the results for three to seven
+factors in the PCA model, which were used to predict left-out data (using
+fivefold cross validation). The y axis represents the root mean squared
+error (RMSE), where lower values indicate better performance. The lines
+represent different sample sizes, where the total dataset contained data
+from 70 chronic stroke patients. To make sure the subsamples were not
+biased, we randomly selected N cases 100 times, and for each iteration
+we randomly shuffled the order of the cases 100 times (to avoid ordering
+bias for venetian blinds sampling). The RMSE was calculated on each
+shuffle using a PCA model and averaged across the 100 shuffles. This was
+repeated for a number of PCA models, where the number of components
+ranged from 1 to N – 1 (where N is the number of test variables). Standard
+error bars are displayed for each point.
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+–40 –30 –20 –10
+0 10 20 30
+40 50 60
+0 20 40 60 80
+Fig. 3 | Lesion overlap map for 69 patients with left-hemisphere post-stroke aphasia. The colour scale indicates the percentage of patients with damage
+to each brain region (scale 1–80%). The voxel that was most frequently damaged (81.16% of cases) was located in the superior longitudinal fasciculus/
+central operculum cortex (MNI coordinates: −38, −10, 24). The values above each brain represent axial slices in MNI space.
+with the next lowest error was % grey matter combined with % difference, 0.006; 95% CI, 0–0.012; BF = 0.306) or using no parti-
+10
+white matter (MSE = 0.8005), which utilized two measures from tion (MSE = 0.807; P = 0.500; effect size, 0.069; difference, 0.002; 95%
+the T1 image. A comparison between the two models showed no CI, −0.004–0.008; BF = 0.072). These three partitions were sig-
+10
+statistical difference (Wilcoxon test: Z = 1.765; P = 0.07756; effect nificantly lower than the PCA-derived lesion clusters (MSE = 0.824;
+size, 0.403; difference, 0.008; 95% confidence interval (CI), 0.001– P < 0.001; mean effect size, 0.282; mean difference, 0.03; 95% CI,
+0.018), but the Bayes factor did not provide sufficient evidence for 0.019–0.043; BF > 2,498) and voxel-based correlational methodol-
+10
+a null effect (BF = 0.541). Importantly, there were no further gains ogy (VBCM) derived functional clusters (MSE = 0.860; P < 0.001;
+10
+when adding extra neural inputs from either imaging modality (see mean effect size, 0.391; mean difference, 0.057; 95% CI, 0.042–
+Supplementary Results 1 for the details on all comparisons). 0.072; BF > 1.13 × 109). There was no statistical difference between
+10
+Figure 5 shows summary violin plots for the same data but the latter two atlases, but the Bayes factor proved insufficient to
+now grouped by machines or brain partitions. The statistical com- find evidence for the null hypothesis (Wilcoxon test: Z = 2.332;
+parisons between the machines show that the error value for each P = 0.02; effect size, 0.119; difference, 0.013; 95% CI, 0.002–0.024;
+machine was significantly different from each other. The Gaussian BF = 0.835).
+10
+process models produced lower errors (MSE = 0.782) than the ker- Table 1 lists the best model configuration for each PCA factor
+nel ridge (MSE = 0.794; effect size, 0.715; difference, 0.012; 95% CI, score, when varying the input features, machines and brain partitions.
+0.009–0.016; BF = 6.90 × 109), multikernel (MSE = 0.840; effect For Factor 1 (phonology), the model configuration with the lowest
+10
+size, 1.171; difference, 0.057; 95% CI, 0.048–0.066; BF = 1.92 × 1022) error consisted of using two neural inputs (ACM and MD) with
+10
+and relevance vector models (MSE = 0.887; effect size, 1.948; dif- the PCA-derived lesion clusters and the KRR machine (r = 0.5093,
+ference, 0.104; 95% CI, 0.092–0.117; BF = 6.80 × 1039). The results MSE = 0.6376, P < 0.001). We compared this with the model with
+10
+for the brain partitions revealed that models with the functional the lowest error that used only T1 data (in any configuration) and
+atlas produced the lowest error (MSE = 0.800), but those models found that the % grey matter input with the PCA-derived functional
+did not have significantly lower errors than models with the ana- clusters and the RVR machine (r = 0.4698, MSE = 0.7204, P < 0.001)
+tomical atlas partition (MSE = 0.803; P = 0.066; effect size, 0.189; did not significantly differ from the winning model (Wilcoxon test:
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+2.0
+1.8
+1.6
+1.4
+1.2
+1.0
+0.8
+0.6
+0.4
+0.2
+0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+Model ID
+Z = 0.1345; P = 0.893; effect size, 0.032; difference, −0.014; 95% metrics in explaining behavioural variation, thereby reflecting the
+CI, −0.168–0.158; BF = 0.1334). The best model configuration causal relationship between variables. Second, from a clinical per-
+10
+for Factor 2 (semantics) was obtained using the MKR machine on spective, securing successful brain-to-behaviour prediction models
+the T1 triplet data with the functional connectivity atlas partition could offer a step change in clinical practice and research. This is
+(r = 0.5087, MSE = 0.6668, P < 0.001). The best model configura- especially true in disorders such as post-stroke cognitive and lan-
+tion for Factor 3 (executive demand) was obtained using the MKR guage impairments, where the status of the damaged brain is clear
+machine on a combination of % abnormality and % white matter long before the chronic behavioural profile emerges. Accordingly,
+data with the combined anatomical atlas (r = 0.7333, MSE = 0.3963, accurate prediction models could be used to provide essential prog-
+P < 0.001). Finally, the best model for Factor 4 (speech fluency) was nostic information to patients, carers and health professionals, as
+obtained using the RVR machine on a combination of % grey matter well as establish important new lines of clinical research includ-
+and FA data using no partition (r = 0.5228, MSE = 0.6274, P < 0.001). ing the use of predictions for guiding clinical management (that is,
+We compared this model with the lowest-error model that used only what behaviours or neural features should be targeted), stratifica-
+T1 data (in any configuration) and found that the % grey matter tion to treatment pathways (that is, which individuals will benefit
+combined with % white matter inputs with the RVR machine and from certain treatments on the basis of their neurology), and so
+no brain partition (r = 0.5174, MSE = 0.6346, P < 0.001) did not sig- on. Recently, a number of research groups have started to evalu-
+nificantly differ from the winning model (Wilcoxon test: Z = 1.085; ate brain-to-behaviour prediction models for their ability to predict
+P = 0.2778; effect size, 0.264; difference, −0.037; 95% CI, −0.103– the diverse cognitive-language presentations found in post-stroke
+0.036; BF = 0.232). aphasia4–10,33. The key aim of the current investigation was to take
+10
+In summary, these results suggest that the T1 input features (in the next major step from these proof-of-principle studies towards
+different combinations) produce sufficiently good models when understanding three foundational issues that are critical in the next
+compared with all other models that include diffusion measures (in phase of brain-to-behaviour prediction models. We observed the
+isolation or combination with T1). The pattern of winning models impact on model performance when changing: (1) brain partition,
+suggests that the multikernel machine is preferred when the brain (2) machine learning algorithms and (3) the combination of infor-
+space is partitioned into a large number of regions. This outcome mation derived from multimodal neuroimaging. The findings on
+probably reflects the fact that the multikernel machine is designed each of these foundational issues are discussed briefly below along-
+to deal with multiple partitions, making it more sensitive to subtle side a consideration of why a change in how we conceptualize and
+effects at the local level, which are then combined into the final describe symptoms may be needed.
+model. In contrast, the kernel ridge and relevance vector machines Classically, variations in the type and severity of aphasia have
+work well for a small number of partitions or no partitions. been described with reference to formal clinical classification sys-
+tems55,56. Contemporary aphasiological research and clinical prac-
+Discussion tice have increasingly moved away from relying on these schemes.
+Recent advances in multimodal neuroimaging and applied math- This is because, rather than forming homogeneous, mutually exclu-
+ematics have provided the opportunity to build sophisticated sive categories, there are considerable variations within each apha-
+brain-to-behaviour prediction models of cognitive, language and sia type and overlapping symptoms between them. Accordingly,
+mental health disorders. These models are important for at least classification is difficult and often unreliable11–14, limiting the utility
+two reasons. First, prediction models provide formal and strin- of aphasia types for patient stratification and treatment pathways
+gent tests of hypotheses about the neural bases of higher cogni- and (importantly for the current study) their use as stable targets in
+tive function. Rather than mapping variations in cognitive skill brain-to-behaviour prediction models. Recent reconceptualizations
+back to the brain, they test the reverse inference by evaluating the have captured aphasiological variations in terms of graded differ-
+importance of brain regions, connectivity or other brain imaging ences along multiple, independent dimensions (with classical aphasia
+ESM
+noitadilav-ssorC
+Model IDs
+1 % abnormal
+2 % grey
+3 % white
+4 ACM
+5 FA
+6 MD
+7 % abnormal + % grey
+8 % abnormal + % white
+9 % abnormal + ACM
+10 % abnormal + FA
+11 % abnormal + MD
+12 % grey + % white
+13 % grey + ACM
+14 % grey + FA
+15 % grey + MD
+16 % white + ACM
+17 % white + FA
+18 % white + MD
+19 ACM + FA
+20 ACM + MD
+21 FA + MD
+22 T1
+23 DWI
+24 All
+Fig. 4 | Model performance across different input features. Violin plots showing model performance (MSE between observed and predicted behavioural
+factor scores) for each neural input feature set used in this study (see Model IDs on the right for information). Each coloured dot represents the result of
+one model configuration, and the white central dot represents the median.
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+reasons for this result. First, the latter two partitions were confined
+a
+2.0 to the left hemisphere only, whereas the former covered the whole
+brain. This suggests that areas outside of the lesion territory may
+1.8
+contribute to the successful predictions, perhaps representing areas
+1.6 that are critical for successful recovery. A simple second explanation
+is that a larger number of partitions allows for more subtle effects
+1.4
+to be observed than when averaging into a smaller number of larger
+1.2 regions of interest (ROIs). It is not clear whether these particular
+anatomical or functional features are important per se or whether
+1.0
+their superiority emerges purely from their higher resolution or
+0.8 greater number of partitions. Future work could determine whether
+0.6 we would observe a similar set of results if there were a large num-
+ber of features randomly partitioned (not adhering to functional or
+0.4
+anatomical boundaries) across the whole brain.
+0.2 In the past decade, there has been an explosion in tools for per-
+forming multivariate machine learning. Given the variety of options
+0
+Kernel Gaussian Relevance Multikernel available, we compared the performance of four types of learning
+ridge process vector algorithms implemented in PRoNTo46. These included KRR, GPR,
+Machine RVR and MKR. Our results showed that MKR produced the best
+b single models when used with a large number of ROI features. This
+is probably unsurprising as MKR performs many support vector
+regression models within each ROI and then combines the infor-
+mation using a sparsity constraint. This method is likely to capture
+subtle effects that are present at high resolutions and that become
+diluted when using fewer ROIs or missing if parts of the brain
+space are not sampled. Recent work has documented the broader
+applicability of MKL methods in electrocorticography51, fMRI and
+structural T1 (ref. 52) data. Taking the results from the parcels and
+machines together, one can consider whether model complexity
+might have played a role in our results (that is, models that used a
+large number of partitions with the most sophisticated algorithm
+typically had the best performance). Calculating and controlling
+for model complexity are rendered non-trivial in multivariate mod-
+els with hierarchical analysis steps and sparsity constraints. Future
+statistical and computational advances in quantifying model com-
+plexity will help improve our ability to compare model performance
+more objectively.
+Modern neuroimaging technology provides the opportunity not
+only for high-resolution structural images but also for multiple types
+of brain images. Such multimodal neuroimaging could improve
+the accuracy of prediction models through the combination of
+complementary brain measures. As noted in the Introduction, the
+handful of studies that have added direct or indirect measures of
+white-matter connectivity to prediction models on the basis of stan-
+dard T1/T2 data have generated inconsistent results5,8,9,33. Indeed,
+even studies with positive results have reported only modest gains
+labels referring to approximate regions in this multidimensional in prediction accuracy. The evidence from the current investigation
+space, much as colour labels indicate regions in the continuous hue aligns with these observations: combinations of abnormal tissue,
+space15). To use the dimensions from this aphasia space as predic- grey matter and white matter measures from the standard T1 scan
+tion targets, it is important to test the space’s reliability and stability. are sufficient. Adding white-matter integrity or connectivity mea-
+This was confirmed by performing a fivefold cross-validation analy- sures (in the form of FA, MD or ACM) does not improve the MSE
+sis to determine the optimal number of components. Furthermore, of the prediction models (observed using Bayes factor scores). This
+we demonstrated that this solution is stable when the sample size conclusion might seem at odds with classical and contemporary dis-
+is reduced from N = 69 to a minimum of N = 28. In addition, the connection theories of language function22,58–60 and demonstrations
+nature and form of this four-factor solution have been observed from cognitive neurosurgery that direct electrical stimulation to
+with remarkable similarities across multiple independent studies on major fasciculi results in different aphasic features31,32. Rather than
+chronic16–19 and acute57 stroke aphasia. being contradictory, it seems more likely that the result reflects the
+In this investigation, we evaluated five different brain partitions intrinsic nature of stroke, where infarction always involves a com-
+(which provide the input feature data to the prediction models). bination of grey and white matter damage61. Accordingly, in stroke,
+We used whole-brain atlases that were defined using anatomically there is a tight coupling between the area of damage and its dis-
+or functionally coherent voxels to reduce the feature set to 133 or connection from other regions, and this high collinearity makes
+268 partitions, respectively. Our results showed that these models white-matter integrity measures redundant in brain–behaviour pre-
+typically outperformed those using a smaller number of parcel- diction models (even if the connection is neurocomputationally crit-
+lations (obtained using known functional partitions of language ical). Indeed, Hope et al.5 observed a very high correlation between
+performance (3 features) or the lesion clusters that follow from an the first principal component of lesion and pseudo-disconnection
+MCA stroke (17 features)). We suggest that there may be at least two data. In short, while disconnections are undoubtedly important
+ESM
+noitadilav-ssorC
+2.0
+1.8
+1.6
+1.4
+1.2
+1.0
+0.8
+0.6
+0.4
+0.2
+0
+No partition Anatomy Functional PCA lesion PCA functional
+clusters clusters
+Brain partition
+ESM
+noitadilav-ssorC
+Fig. 5 | Model performance across machines and brain partitions.
+a,b, Violin plots showing model performance (MSE between observed
+and predicted behavioural factor scores) for four machine learning
+regression algorithms (a) and five brain partitions (b). Each coloured
+dot represents the result for one model configuration, and the white
+circle represents the median.
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+Table 1 | Best overall models for each behavioural factor score
+Winning model
+Factor Machine Modality Partition MSe Correlation
+Phonology Kernel ridge ACM and MD PCA-derived lesion clusters 0.6376 0.5093
+Semantics Multikernel Combined T1 Functional connectivity-based 0.6668 0.5087
+atlas
+Executive demand Multikernel % abnormality and % Anatomical atlas 0.3963 0.7333
+white matter
+Speech quanta Relevance vector % grey matter and FA Whole brain—no partition 0.6274 0.5228
+The first column indicates the factor, and each corresponding row indicates the characteristics of the winning model.
+in the nature of some impairments, in stroke this disconnection is neuroimaging measures (for example, positive structural changes
+caused by the local lesion, and thus local measures are sufficient compared with controls, the addition of fMRI or alternative ways
+for building prediction models. Furthermore, although secondary to encode structural connectivity such as using graph theoreti-
+connectivity changes (for example, Wallerian degeneration or posi- cal measures). We believe that neuroimaging methods identifying
+tive recovery-related improvements) might contribute to patients’ the functional properties of remaining tissue may provide benefits
+performance, again it is possible that, in stroke, these changes are over structural measures26. Structural measures alone do not tell us
+triggered by the local lesion, and thus they share too much variance whether the underlying tissue is functioning (normally, at a reduced
+to improve prediction models significantly. We note here that this capacity or after having been adapted); therefore, novel decoding
+conclusion is very likely to be disease specific. While the lesion is methods such as representational similarity analysis42 could reveal
+primary in stroke, in other diseases changes in brain volume are how brain processes have been affected post-stroke, which might be
+the end point of a cascade of brain changes. Thus, for example, in predictive of chronic deficits and/or recovery more generally. These
+neurodegenerative diseases local pathology leads to cell loss, axonal studies will be able to determine which, if any, of these measures
+thinning and ultimately regional atrophy. Accordingly, in these dis- improve prediction accuracy, significantly and substantially, over
+eases it is not surprising that the addition of white-matter measures lesion information alone. In the current study, we refrained from
+does improve brain–behaviour models62. While we do not believe interpreting the neural weights as it is non-trivial (for example,
+that the types of prediction models outlined in the current study see refs. 41,49). There are novel ways, however, that try to evaluate
+would generalize across diseases, the underlying question would feature importance either as part of the modelling process (that
+be interesting to explore. For example, the international commu- is, using sparse features) or post hoc (that is, using virtual lesion-
+nity researching Alzheimer’s disease have abundant multisite data, ing approaches or weight transformations). Future studies should
+which could be used in future studies. incorporate the methods to help provide theoretical insights into
+Inevitably, every study has its limitations. Stability and repro- brain–behaviour relationships. We note explicitly that, although it is
+ducibility are critically important. In this study, we have taken hard to compare model performance directly across different stud-
+important strides in this direction in terms of formal analyses of ies (as the input data and targets are different), our current results
+the stability of the PCA behavioural factors and the k-fold cross fare well relative to the existing investigations that used in vivo T1
+validation not only of the prediction models but also of the data and diffusion data. For example, a recent study used connections to
+to be predicted. Future studies in our field could go even further predict various subtest scores from the Western Aphasia Battery9
+by undertaking an additional, formal out-of-sample validation (for and reported similar correlations between observed and predicted
+example, on an independent behavioural and neuroimaging dataset) scores as those found in the current study using structural-only
+of the type that is becoming standard practice in related fields (for brain measures (in the range of 0.5 to 0.75 depending on the target
+example, the Alzheimer’s Disease Neuroimaging Initiative). This language function). Despite the promising results, we acknowledge
+is not possible in the current study because comparable datasets that there is substantial unexplained variance, which needs to be
+(comprising the same high-resolution behavioural data and multi- addressed in future studies and for generating accurate clinically
+modal neuroimaging for every patient) do not exist. While multiple applicable tools.
+research groups, including our own, have focused their efforts to In conclusion, this study suggests that using a large number of
+achieve a step change in the number of participants included and neural partitions (on the basis of anatomical or functional simi-
+the range of data collected, the ability to undertake these formal larity) in combination with an MKL algorithm on neural features
+out-of-sample evaluations will require a shared international com- extracted from a T1 MRI leads to good model predictions of lan-
+munity endeavour to create an open-access database containing an guage and executive abilities in post-stroke behaviour. We did not
+agreed behavioural and neuroimaging core dataset for all partici- find evidence that diffusion MRI measures improve model pre-
+pants, and additional research on how to achieve this across differ- dictions. From a clinical implementation perspective, this study
+ent languages. Another limitation is that the models evaluated in suggests that the majority of the information needed for effective
+the current study specifically target three language components and outcome prediction in stroke aphasia can be obtained using stan-
+one general executive behavioural component. It is unclear whether dard clinical MR scanning protocols, obviating the need for the
+other domains affected post-stroke (that is, syntax, detailed execu- acquisition and processing of diffusion-weighted data.
+tive abilities, mobility, mood, anxiety and so on) would result in
+the same findings. Also, in this systematic investigation we have Methods
+examined a range of brain partitions, machine learning algorithms Participants. All participants gave written informed consent with ethical
+and neuroimaging measures. It will be important for future studies approval from the local ethics committee (North West Haydock MREC 01/8/94).
+Participation was on a voluntary basis, and all travel expenses were reimbursed.
+to explore additional options, including other learning algorithms
+Seventy chronic post-stroke patients were included (53 males; mean age ± s.d.,
+(for example, random forest and neural network models), alterna- 65.21 ± 11.70 yr; 12 months post-onset median, 38 months; range, 12–278 months).
+tive brain parcellations (in both resolution and basis) and different All participants were diagnosed with aphasia (using the Boston Diagnostic Aphasia
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+Examination), having difficulty with producing and/or understanding speech. phase-encoding directions in the left–right plane. To correct susceptibility-related
+The participants were recruited from local community clinics and from referrals image distortions, a B0 image was collected at the beginning of each
+from the local National Health Service. No restrictions were placed according to phase-encoding sequence. Cardiac gating was implemented during the diffusion
+aphasia type or severity (therefore, our sample included people with cases classed data acquisition.
+as global to anomic). Part or all of the cases were used in other published work
+from our group4,15,16,63–69. Data from a healthy age- and education-matched control Neuroimaging preprocessing. T1-weighted MRI. The T1 images were
+group (8 females and 11 males) were used to determine abnormal voxels using preprocessed with Statistical Parametric Mapping software (SPM12: Wellcome
+the automated lesion identification procedure70. No statistical methods were used Trust Centre for Neuroimaging, http://www.fil.ion.ucl.ac.uk/spm/)53. This involved
+to predetermine sample sizes as there is not a clear way to determine power when transforming the images into the standard MNI space using a modified unified
+building multivariate prediction models. The data collection and analysis were segmentation–normalization procedure optimized for focal lesioned brains
+not blind to the researchers; however, in the analysis for this study there was a (ref. 70 version 3). The data from all participants with stroke aphasia and all healthy
+separation between model training and test sets. controls were entered into the segmentation–normalization. This procedure
+combines segmentation, bias correction and spatial normalization through the
+Neuropsychological assessment. As described in ref. 4, all participants inversion of a single unified model (see ref. 81 for details). In brief, the unified
+underwent an extensive and detailed neuropsychological battery of tests to assess model combines tissue class (with an additional tissue class for abnormal voxels),
+a range of language and cognitive abilities15,16. These included subtests from intensity bias and nonlinear warping into the same probabilistic models that are
+the Psycholinguistic Assessments of Language Processing in Aphasia (PALPA) assumed to generate subject-specific images. The healthy matched control group
+battery71: auditory discrimination using non-word (PALPA 1) and word (PALPA 2) was used to determine the extent of abnormality per voxel. This was achieved
+minimal pairs, and immediate and delayed repetition of non-words (PALPA 8) using a fuzzy-clustering fixed-prototypes approach, which measures the similarity
+and words (PALPA 9). Tests from the 64-item Cambridge Semantic Battery72 between a voxel in the patient data and the mean of the same voxel in the control
+were included: spoken and written versions of the word-to-picture matching data. One can apply a threshold to the similarity values to determine membership
+task, the Camel and Cactus Test (pictures), and the picture-naming test. To to abnormal or normal voxels. We modified the default U threshold from 0.3 to
+increase the sensitivity to mild naming and semantic deficits, we used the Boston 0.5 to create a binary lesion image after comparing the results obtained from a
+Naming Test73 and a written 96-trial synonym judgement test74. The spoken sample of patients with what would be nominated as lesioned tissue by an expert
+sentence comprehension task from the Comprehensive Aphasia Test75 was used neurologist. All images generated for each patient were individually checked and
+to assess sentential receptive skills. Speech production deficits were assessed by modified (if needed) with respect to the original scan. The binary images were
+coding responses to the ‘Cookie theft’ picture in the Boston Diagnostic Aphasia only used to create the lesion overlap map in Fig. 3 (2-mm3 MNI voxel size) and
+Examination, which included tokens, mean length of utterance, type-to-token were not part of the main analyses. The continuous abnormal/normal images
+ratio and words per minute (see ref. 16 for details). The additional cognitive tests were used in the main analyses as the values have in effect been normalized and
+included forward and backward digit span76, the Brixton Spatial Rule Anticipation represent a quantitative measure (termed % abnormality). This image included
+Task77 and Raven’s Coloured Progressive Matrices78. The assessments were only hypotrophic signal (that is, lower T1-weighted signal than expected). In
+conducted with participants over several testing sessions, with the pace and addition, the unified segmentation procedure outputs probability maps for the
+number determined by the participant. All scores were converted into percentages; grey and white matter, which were also selected for use in the main analyses. The
+if no maximum score was available for the test, we used the maximum score in the abnormality, grey and white probability maps were smoothed using an 8-mm
+dataset to scale the data. full-width at half-maximum Gaussian kernel. We selected the Seghier et al.70
+method as it is objective and efficient for a large sample of patients82, in comparison
+PCA. There were two stages to the PCA used to generate the behavioural target with a labour-intensive hand-traced lesion mask. The method has been shown to
+dimensions: (1) determine the optimal number of components and the stability of have a Dice overlap greater than 0.64 with manual segmentation of the lesion and
+the solution and (2) use that information to perform a varimax-rotated PCA on greater than 0.7 with a simulated ‘real’ lesion where real lesions are superimposed
+the behavioural data. In the first stage, we performed a fivefold cross validation onto healthy brains70. We should note here, explicitly, that although commonly
+with venetian blind sampling using a freely available MATLAB toolbox79. This referred to as an automated lesion segmentation method, the technique detects
+toolbox builds a PCA model on the training set (z score scaling to all variables) areas of unexpected tissue class, and thus identifies not only missing grey and white
+and is used to predict the variables in the hold-out set79. One variable is removed matter but also areas of augmented cerebrospinal fluid space.
+at a time, and these held-out data are predicted using linear regression from the
+PCA model80. The residuals of this reconstruction are calculated as the RMSE in DWI. The diffusion-weighted images were preprocessed using tools from the
+cross validation and analysed as a function of the number of components (total FSL software (Oxford Centre for Functional MRI of the Brain; FMRIB v.5.0.9
+N − 1, where N = number of test variables). We repeated this step 100 times; (ref. 83,84)). The data were collected with reversed phase encode blips, resulting in
+on each occasion, the order of the patients was shuffled to avoid biases in the pairs of images with distortions going in opposite directions. From these pairs
+venetian blind sampling approach. We further repeated this process (100 times) the susceptibility-induced off-resonance field was estimated using a method
+using varying sample sizes to test the stability of the solution (that is, we removed similar to that described in Andersson et al.85 implemented in FSL, and the two
+10–60% of the data in 10% steps). images were combined into a single corrected one (topup command). In the next
+Having determined the optimal number of components, we performed a step, we used eddy_openmp to correct for eddy current-induced distortions and
+PCA with varimax rotation on each training fold (MATLAB R2018a). Following participant movements86. The replace outliers option was used to identify outliers
+rotation, the loadings of each test allowed a clear behavioural interpretation owing to participant motion and replace the slices by using a non-parametric
+of each factor. The PCA model coefficients were used to determine the factor prediction based on GPR (ref. 87). Once the data had been preprocessed, we fitted a
+scores expected for the test fold (by projecting the test fold data into the PCA diffusion tensor model at each voxel (dtifit command) to obtain the local MD and
+model space); these scores were used as targets during modelling. An additional FA values. An inclusive mask was created per participant using the MD map and
+analysis was used to determine the predictability of the optimum PCA model, by thresholding 50% of the range of non-zero voxels. This had the effect of removing
+comparing the similarity between the observed and predicted scores in each voxels in cerebrospinal fluid and/or lesioned space where we would not expect to
+fold (by projecting the held-out cases into the component space using the see sensible fibres or tracking (all masks were visually inspected). A probabilistic
+coefficient matrix). diffusion model using Bayesian Estimation of Diffusion Parameters Obtained
+using Sampling Techniques for crossing fibres88,89 was applied to the inclusive
+Acquisition of neuroimaging data. High-resolution structural T1-weighted MRI voxels of the preprocessed data. All parameters for the estimation were set to the
+scans were acquired on a 3.0 Tesla Philips Achieva scanner (Philips Healthcare) default values except the following: number of fibres, 3; burn in period, 3,000;
+using an eight-element SENSE head coil. A T1-weighted inversion recovery and model, 3 (zepplin axially symmetric tensor). Finally, we used probtrackx2 to
+sequence with three-dimensional acquisition was employed, with the following obtain a whole-brain ACM (ref. 90). This was achieved by including all inclusive
+parameters: repetition time, 9.0 ms; echo time, 3.93 ms; flip angle, 8°; 150 voxels as a seed and sending 50 streamlines per voxel. The output reflects how
+contiguous slices; slice thickness, 1 mm; acquired voxel size, 1.0 × 1.0 × 1.0 mm3; connected overall a voxel is to the rest of the brain. A B0 image in diffusion space
+matrix size, 256 × 256; field of view, 256 mm; inversion time, 1,150 ms; SENSE was coregistered to the high-resolution T1 image using flirt91,92 (with mutual
+acceleration factor, 2.5; total scan acquisition time, 575 s. information and six degrees of freedom) to obtain a transformation matrix
+The diffusion-weighted images were acquired with a pulsed-gradient between diffusion and T1 space. The diffusion measures were then transformed
+spin-echo echo-planar sequence with the following parameters: echo time, 59 ms; into MNI space using the transformation matrix obtained from the normalization
+repetition time, ~11,884 ms (cardiac gated using a peripheral pulse monitor on produced above. These images were smoothed using an 8-mm full-width at
+the participant’s index finger); maximum gradient strength (Gmax), 62 mT m−1; half-maximum Gaussian kernel to account for intersubject variability.
+half scan factor, 0.679; 112 × 112 image matrix reconstructed to 128 × 128 using
+zero padding; reconstructed in-plane voxel resolution, 1.875 mm × 1.875 mm; Multivariate pattern recognition models. We used PRoNTo v.2.1 (http://www.
+slice thickness, 2.1 mm; 60 contiguous slices; 43 non-collinear diffusion mlnl.cs.ucl.ac.uk/pronto/)46 to determine whether individual scores on principal
+sensitization directions at b = 1,200 s mm−2 (Δ = 29 ms, δ = 13.1 ms) and 1 at b = 0; components could be predicted on the basis of multivariate analysis of the T1
+SENSE acceleration factor, 2.5. The sequence was repeated twice with opposing and/or DWI data. To find an optimal solution, we performed the regression
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+analysis using three machine implementations in PRoNTo: KRR (ref. 93), RVR Received: 23 April 2019; Accepted: 6 March 2020;
+(ref. 94) and GPR (ref. 95). In cases where we had multiple modalities and/or Published: xx xx xxxx
+subdivided the brain mask into ROIs, we used a fourth machine, MKR (refs. 96,97),
+as this method has been proposed to simultaneously learn and combine different
+models represented by different kernels. PRoNTo relies on kernel methods to References
+overcome the high-dimensionality problem in neuroimaging (approximately 1. Adamson, J., Beswick, A. & Ebrahim, S. Is stroke the most common cause
+2–5 × 106 voxels per image versus 20–100 datasets). A pairwise similarity matrix of disability? J. Stroke Cerebrovasc. Dis. 13, 171–177 (2004).
+is built between all neuroimaging scans, summarized in a kernel matrix as 2. Berthier, M. L. Poststroke aphasia: epidemiology, pathophysiology and
+N × N dimensions, instead of N × d. The default parameters were used for all treatment. Drugs Aging 22, 163–182 (2005).
+machines. A nested cross validation was used to optimize the hyperparameter, 3. Engelter, S. T. et al. Epidemiology of aphasia attributable to first ischemic
+λ, controlling for regularization in KRR and MKR (both using 10i with i = −2:5), stroke: incidence, severity, fluency, etiology, and thrombolysis. Stroke 37,
+while the GPR and RVR machines optimize hyperparameters automatically using 1379–1384 (2006).
+a Bayesian framework. A tenfold cross-validation scheme was used to assess the 4. Halai, A. D., Woollams, A. M. & Lambon Ralph, M. A. Predicting the
+ability of the machines to learn associations between the predictors and targets. pattern and severity of chronic post-stroke language deficits from
+We applied some data operations to the training data kernels, the voxel-wise functionally-partitioned structural lesions. NeuroImage Clin. 19,
+mean was subtracted from each data vector for all models and samples were 1–13 (2018).
+normalized (vector norm, 1) for all models with multiple modalities and/or ROIs 5. Hope, T. M. H., Leff, A. P. & Price, C. J. Predicting language outcomes after
+as recommended by the software. In the current report, we focus primarily on the stroke: is structural disconnection a useful predictor? NeuroImage Clin. 19,
+MSE, and the significance of each machine was assessed by a permutation test 22–29 (2018).
+of the observed scores (N = 1,000) with a P < 0.05 alpha threshold. To determine 6. Hope, T. M. H., Seghier, M. L., Leff, A. P. & Price, C. J. Predicting outcome
+the levels of performance of different model recipes, we used Wilcoxon tests to and recovery after stroke with lesions extracted from MRI images.
+compare the MSE after collating specific groups for each model parameter. For NeuroImage Clin. 22, 424–433 (2013).
+example, to examine the overall accuracy differences between different machines, 7. Hope, T. M. H. et al. Comparing language outcomes in monolingual and
+we aggregated the MSE values for all models separately for KRR, GPR, RVR bilingual stroke patients. Brain 138, 1070–1083 (2015).
+and MKR, and conducted pairwise Wilcoxon tests (Bonferroni corrected for 8. Pustina, D. et al. Enhanced estimations of post-stroke aphasia severity using
+multiple comparisons). We also calculated the Bayes factor for each comparison stacked multimodal predictions. Hum. Brain Mapp. 38, 5603–5615 (2017).
+using a package developed in R (ref. 98), which can provide evidence in favour 9. Yourganov, G., Fridriksson, J., Rorden, C., Gleichgerrcht, E. & Bonilha, L.
+of a difference between pairs (>3), evidence for the null hypothesis (<0.3) or Multivariate connectome-based symptom mapping in post-stroke patients:
+insufficient evidence (0.3–3) (on the basis of the criterion in ref. 54). In regard networks supporting language and speech. J. Neurosci. 36, 6668–6679 (2016).
+to model complexity, we believe this is not trivial when dealing with advanced 10. Yourganov, G., Smith, K. G., Fridriksson, J. & Rorden, C. Predicting
+machine learning pipelines. For example, it is unclear whether the number aphasia type from brain damage measured with structural MRI. Cortex 73,
+of parameters should include the number of voxels (as the raw inputs) or the 203–215 (2015).
+similarity kernels, and how this is affected on the basis of the number of partitions. 11. Godefroy, O., Dubois, C., Debachy, B., Leclerc, M. & Kreisler, A. Vascular
+In addition, the complexity of models that include sparsity constraints could be aphasias: main characteristics of patients hospitalized in acute stroke units.
+quantified using the full data or the final sparse solution (on which the model Stroke 33, 702–705 (2002).
+predictions are made). Given the difficulties in quantifying model complexity, 12. Kasselimis, D. S., Simos, P. G., Peppas, C., Evdokimidis, I. & Potagas, C.
+we did not correct this in our results. Finally, we report the effect size (Cohen’s d) The unbridged gap between clinical diagnosis and contemporary research
+for each non-parametric test by combining two equations99,100, which convert a z on aphasia: a short discussion on the validity and clinical utility of
+statistic to r to Cohen’s d. taxonomic categories. Brain Lang. 164, 63–67 (2017).
+13. Poeppel, D., Emmorey, K., Hickok, G. & Pylkkänen, L. Towards a new
+Parcellations. We used five different masks to define the brain space. As a neurobiology of language. J. Neurosci. 32, 14125–14131 (2012).
+starting point, we used a whole-brain mask with no partitions to capture the 14. Schwartz, M. F. What the classical aphasia categories can’t do for us, and why.
+overall status of the brain. We then used two anatomical-based atlases. First, we Brain Lang. 21, 3–8 (1984).
+created a composite whole-brain atlas that combined the Harvard–Oxford cortical 15. Butler, R. A., Lambon Ralph, M. A. & Woollams, A. M. Capturing
+and subcortical atlases with the Johns Hopkins University white-matter atlas. multidimensionality in stroke aphasia: mapping principal behavioural
+We binarized each voxel by assigning it to the maximum structural likelihood components to neural structures. Brain 137, 3248–2366 (2014).
+on the basis of the probability values. For example, for each voxel we loaded 16. Halai, A. D., Woollams, A. M. & Lambon Ralph, M. A. Using principal
+the probability for 133 structures (48 bilateral cortical, 7 bilateral subcortical, 9 component analysis to capture individual differences within a unified
+bilateral white-matter tracts, bilateral lateral ventricles and brainstem) and assigned neuropsychological model of chronic post-stroke aphasia: revealing the
+the voxel with a label that had the maximum likelihood. Second, we used a unique neural correlates of speech fluency, phonology and semantics.
+data-driven method to identify lesion clusters for voxels with co-occurring damage Cortex 86, 275–289 (2017).
+in left-hemisphere MCA stroke. The lesion clusters were obtained by applying a 17. Lacey, E. H., Skipper-Kallal, L. M., Xing, S., Fama, M. E. & Turkeltaub, P. E.
+PCA on the lesioned brain to extract the underlying structure of the damage. In Mapping common aphasia assessments to underlying cognitive processes
+effect, the lesioned territory is split into partitions that reflect the neurovasculature and their neural substrates. Neurorehabil. Neural Repair 31, 442–450 (2017).
+while reducing the dimensions of the data, in this case 17 non-overlapping 18. Mirman, D. et al. Neural organization of spoken language revealed by
+clusters28. We also used two functional-based atlases: (1) a whole-brain atlas based lesion–symptom mapping. Nat. Commun. 6, 6762 (2015).
+on the functional connectivity similarity24,101 and (2) a restricted-space language 19. Mirman, D., Zhang, Y., Wang, Z., Coslett, H. B. & Schwartz, M. F. The ins
+model based on lesion correlates to three functional components of behaviour16. and outs of meaning: behavioral and neuroanatomical dissociation of
+The prediction models were developed in stages to determine the utility of semantically-driven word retrieval and multimodal semantic recognition in
+each imaging modality. We had six neural inputs that represented data from T1 aphasia. Neuropsychologia 76, 208–219 (2015).
+(% abnormality, % grey matter and % white matter) and diffusion imaging (FA, 20. Patterson, K. & Lambon Ralph, M. A. Selective disorders of reading? Curr.
+MD and ACM) scans. These were tested: (1) alone, (2) in 15 pairwise combinations Opin. Neurobiol. 9, 235–239 (1999).
+(that is, % abnormality and % grey matter, % abnormality and % white matter, and 21. Seidenberg, M. S. & McClelland, J. L. A distributed, developmental model
+so on), (3) as a triplet within each domain (T1 or diffusion) and (4) all together. of word recognition and naming. Psychol. Rev. 96, 523–568 (1989).
+There were four models created for each input modality, relating to the four 22. Ueno, T., Saito, S., Rogers, T. T. & Lambon Ralph, M. A. Lichtheim 2:
+principal behavioural factors. An overview of the model recipe is shown in Fig. 1. synthesizing aphasia and the neural basis of language in a
+neurocomputational model of the dual dorsal–ventral language pathways.
+Reporting Summary. Further information on research design is available in the Neuron 72, 385–396 (2011).
+Nature Research Reporting Summary linked to this article. 23. Ueno, T. & Lambon Ralph, M. A. The roles of the ‘ventral’ semantic and
+‘dorsal’ pathways in conduite d’approche: a neuroanatomically-constrained
+Data availability computational modeling investigation. Front. Hum. Neurosci. 7, 422 (2013).
+24. Shen, X., Tokoglu, F., Papademetris, X. & Constable, R. T. Groupwise
+The conditions of our ethical approval do not permit the public archiving of
+whole-brain parcellation from resting-state fMRI data for network node
+anonymized study data. The anonymized data necessary for reproducing the results
+identification. Neuroimage 82, 403–415 (2013).
+in this article can be requested from the corresponding authors.
+25. Craddock, R. C., James, G. A., Holtzheimer, P. E., Hu, X. P. & Mayberg, H. S.
+A whole brain fMRI atlas generated via spatially constrained spectral
+Code availability clustering. Hum. Brain Mapp. 33, 1914–1928 (2012).
+The computer code that supports the findings of this study is available from the 26. Saur, D. et al. Early functional magnetic resonance imaging activations
+corresponding author on reasonable request. predict language outcome after stroke. Brain 133, 1252–1264 (2010).
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+27. Michotey, P., Moskow, N. P. & Salamon, G. in Radiology of the Skull and 61. Catani, M. & Ffytche, D. H. The rises and falls of disconnection syndromes.
+Brain (eds Newton, T. H. & Poots, D. G.) 1471–1478 (Mosby, 1974). Brain 128, 2224–2239 (2005).
+28. Zhao, Y., Halai, A. D. & Lambon Ralph, M. A. Evaluating the granularity 62. Staffaroni, A. M. et al. Longitudinal multimodal imaging and clinical
+and statistical structure of lesions and behaviour in post-stroke aphasia. endpoints for frontotemporal dementia clinical trials. Brain 142,
+Preprint at bioRxiv https://doi.org/10.1101/802595 (2019). 443–459 (2019).
+29. Basilakos, A. et al. Regional white matter damage predicts speech fluency in 63. Alyahya, R. S. W., Halai, A. D., Conroy, P. & Lambon Ralph, M. A. Noun
+chronic post-stroke aphasia. Front. Hum. Neurosci. 8, 845 (2014). and verb processing in aphasia: behavioural profiles and neural correlates.
+30. Eggert, G.H. Wernicke's Works on Aphasia: A Sourcebook and Review NeuroImage Clin. 18, 215–230 (2018).
+(Mouton de Gruyter, 1977). 64. Alyahya, R. S. W., Halai, A. D., Conroy, P. & Lambon Ralph, M. A. The
+31. Kinoshita, M. et al. Role of fronto-striatal tract and frontal aslant tract in behavioural patterns and neural correlates of concrete and abstract verb
+movement and speech: an axonal mapping study. Brain Struct. Funct. 220, processing in aphasia: a novel verb semantic battery. NeuroImage Clin. 17,
+3399–3412 (2015). 811–825 (2018).
+32. Duffau, H., Gatignol, P., Mandonnet, E., Capelle, L. & Taillandier, L. 65. Conroy, P., Sotiropoulou Drosopoulou, C., Humphreys, G. F., Halai, A. D.
+Intraoperative subcortical stimulation mapping of language pathways in a & Lambon Ralph, M. A. Time for a quick word? The striking benefits
+consecutive series of 115 patients with grade II glioma in the left dominant of training speed and accuracy of word retrieval in post-stroke aphasia.
+hemisphere. J. Neurosurg. 109, 461–471 (2008). Brain 141, 1815–1827 (2018).
+33. Marebwa, B. K. et al. Chronic post-stroke aphasia severity is determined by 66. Woollams, A. M., Halai, A. D. & Lambon Ralph, M. A. Mapping the
+fragmentation of residual white matter networks. Sci. Rep. 7, 8188 (2017). intersection of language and reading: the neural bases of the primary
+34. Geller, J., Thye, M. & Mirman, D. Estimating effects of graded white matter systems hypothesis. Brain Struct. Funct. 223, 3769–3786 (2018).
+damage and binary tract disconnection on post-stroke language 67. Halai, A. D., Woollams, A. M. & Lambon Ralph, M. A. Triangulation of
+impairment. Neuroimage 189, 248–257 (2019). language–cognitive impairments, naming errors and their neural bases
+35. Hope, T. M. H., Seghier, M. L., Prejawa, S., Leff, A. P. & Price, C. J. post-stroke. NeuroImage Clin. 17, 465–473 (2018).
+Distinguishing the effect of lesion load from tract disconnection in the 68. Tochadse, M., Halai, A. D., Lambon Ralph, M. A. & Abel, S. Unification of
+arcuate and uncinate fasciculi. Neuroimage 125, 1169–1173 (2016). behavioural, computational and neural accounts of word production errors
+36. Marchina, S. et al. Impairment of speech production predicted by lesion in post-stroke aphasia. NeuroImage Clin. 18, 952–962 (2018).
+load of the left arcuate fasciculus. Stroke 42, 2251–2256 (2011). 69. Schumacher, R., Halai, A. D. & Lambon Ralph, M. A. Assessing and
+37. Abraham, A. et al. Machine learning for neuroimaging with scikit-learn. mapping language, attention and executive multidimensional deficits in
+Front. Neuroinform. 8, 14 (2014). stroke aphasia. Brain 142, 3202–3216 (2019).
+38. Grotegerd, D. et al. MANIA—a pattern classification toolbox for 70. Seghier, M. L., Ramlackhansingh, A., Crinion, J., Leff, A. P. & Price, C. J.
+neuroimaging data. Neuroinformatics 12, 471–486 (2014). Lesion identification using unified segmentation–normalisation models and
+39. Hanke, M. et al. PyMVPA: a Python toolbox for multivariate pattern fuzzy clustering. Neuroimage 41, 1253–1266 (2008).
+analysis of fMRI data. Neuroinformatics 7, 37–53 (2009). 71. Kay, J., Lesser, R. & Coltheart, M. Psycholinguistic Assessments of Language
+40. Hanke, M. et al. PyMVPA: a unifying approach to the analysis of Processing in Aphasia: PALPA: Aphasiology (Psychology Press, 1992).
+neuroscientific data. Front. Neuroinform. 3, 3 (2009). 72. Bozeat, S., Lambon Ralph, M. A., Patterson, K., Garrard, P. & Hodges, J. R.
+41. Hebart, M. N. & Baker, C. I. Deconstructing multivariate decoding for the Non-verbal semantic impairment in semantic dementia. Neuropsychologia
+study of brain function. Neuroimage 180, 4–18 (2018). 38, 1207–1215 (2000).
+42. Kriegeskorte, N., Mur, M. & Bandettini, P. Representational similarity 73. Kaplan, E., Goodglass, H. & Weintraub, S. The Boston Naming Test (Lea &
+analysis—connecting the branches of systems neuroscience. Front. Syst. Febinger, 1983).
+Neurosci. 2, 4 (2008). 74. Jefferies, E., Patterson, K., Jones, R. W. & Lambon Ralph, M. A.
+43. LaConte, S., Strother, S., Cherkassky, V., Anderson, J. & Hu, X. Support Comprehension of concrete and abstract words in semantic dementia.
+vector machines for temporal classification of block design fMRI data. Neuropsychology 23, 492–499 (2009).
+Neuroimage 26, 317–329 (2005). 75. Swinburn, K., Baker, G. & Howard, D. CAT: Comprehensive Aphasia Test
+44. Oosterhof, N. N., Connolly, A. C. & Haxby, J. V. CoSMoMVPA: (Psychology Press, 2005).
+multi-modal multivariate pattern analysis of neuroimaging data in 76. Wechsler, D. A. Wechsler Memory Scale—Revised (Psychological
+MATLAB/GNU Octave. Front. Neuroinform. 10, 27 (2016). Corporation, 1987).
+45. Pereira, F. & Botvinick, M. Information mapping with pattern classifiers: 77. Burgess, P. W. & Shallice, T. The Hayling and Brixton Tests (Pearson
+a comparative study. Neuroimage 56, 476–496 (2011). Clinical, 1997).
+46. Schrouff, J. et al. PRoNTo: pattern recognition for neuroimaging toolbox. 78. Raven, J. C. Advanced Progressive Matrices, Set II (H. K. Lewis, 1962).
+Neuroinformatics 11, 19–37 (2013). 79. Ballabio, D. A MATLAB toolbox for principal component analysis and
+47. Huang, J. & Zhang, T. The benefit of group sparsity. Ann. Stat. 38, unsupervised exploration of data structure. Chemometr. Intell. Lab. Syst.
+1978–2004 (2010). 149, 1–9 (2015).
+48. Filippone, M. et al. Probabilistic prediction of neurological disorders with a 80. Bro, R., Kjeldahl, K., Smilde, A. K. & Kiers, H. A. L. Cross-validation of
+statistical assessment of neuroimaging data modalities. Ann. Appl. Stat. 6, component models: a critical look at current methods. Anal. Bioanal. Chem.
+1883–1905 (2012). 390, 1241–1251 (2008).
+49. Haufe, S. et al. On the interpretation of weight vectors of linear models in 81. Ashburner, J. & Friston, K. J. Unified segmentation. Neuroimage 26,
+multivariate neuroimaging. Neuroimage 87, 96–110 (2014). 839–851 (2005).
+50. Weichwald, S. et al. Causal interpretation rules for encoding and decoding 82. Wilke, M., de Haan, B., Juenger, H. & Karnath, H. O. Manual,
+models in neuroimaging. Neuroimage 110, 48–59 (2015). semi-automated, and automated delineation of chronic brain lesions:
+51. Schrouff, J., Mourão-Miranda, J., Phillips, C. & Parvizi, J. Decoding a comparison of methods. Neuroimage 56, 2038–2046 (2011).
+intracranial EEG data with multiple kernel learning method. J. Neurosci. 83. Jenkinson, M., Beckmann, C. F., Behrens, T. E. J., Woolrich, M. W. & Smith,
+Methods 261, 19–28 (2016). S. M. FSL. Neuroimage 62, 782–790 (2012).
+52. Schrouff, J. et al. Embedding anatomical or functional knowledge in 84. Smith, S. M. et al. Advances in functional and structural MR
+whole-brain multiple kernel learning models. Neuroinformatics 16, image analysis and implementation as FSL. Neuroimage 23,
+117–143 (2018). S208–S219 (2004).
+53. Penny, W., Friston, K., Ashburner, J., Kiebel, S. & Nichols, T., eds. Statistical 85. Andersson, J. L. R., Skare, S. & Ashburner, J. How to correct susceptibility
+Parametric Mapping: The Analysis of Functional Brain Images (Academic distortions in spin-echo echo-planar images: application to diffusion tensor
+Press, 2007). imaging. Neuroimage 20, 870–888 (2003).
+54. Jeffreys, H. The Theory of Probability (Oxford Univ. Press, 1961). 86. Andersson, J. L. R. & Sotiropoulos, S. N. An integrated approach to
+55. Goodglass, H. & Kaplan, E. The Assessment of Aphasia and Related correction for off-resonance effects and subject movement in diffusion MR
+Disorders: Revised (Lea & Febiger, 1972). imaging. Neuroimage 125, 1063–1078 (2016).
+56. Kertesz, A. Western Aphasia Battery (Grune & Stratton, 1982). 87. Andersson, J. L. R., Graham, M. S., Zsoldos, E. & Sotiropoulos, S. N.
+57. Kümmerer, D. et al. Damage to ventral and dorsal language pathways in Incorporating outlier detection and replacement into a non-parametric
+acute aphasia. Brain 136, 619–629 (2013). framework for movement and distortion correction of diffusion MR images.
+58. Geschwind, N. The organization of language and the brain. Science 170, Neuroimage 141, 556–572 (2016).
+940–944 (1970). 88. Behrens, T. E. J., Berg, H. J., Jbabdi, S., Rushworth, M. F. S. & Woolrich, M. W.
+59. Hickok, G. & Poeppel, D. The cortical organization of speech processing. Probabilistic diffusion tractography with multiple fibre orientations: what can
+Nat. Rev. Neurosci. 8, 393–402 (2007). we gain? Neuroimage 34, 144–155 (2007).
+60. Lichtheim, L. in Broca’s Region (eds Grodzinsky, Y. & Amunts, K.) 318–334 89. Behrens, T. E. J. et al. Characterization and propagation of uncertainty in
+(Oxford Univ. Press, 2009). diffusion-weighted MR imaging. Magn. Reson. Med. 50, 1077–1088 (2003).
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+90. Bozzali, M. et al. Anatomical connectivity mapping: a new tool to assess brain Acknowledgements
+disconnection in Alzheimer’s disease. Neuroimage 54, 2045–2051 (2011). We thank all the patients, families, carers and community support groups for
+91. Jenkinson, M., Bannister, P., Brady, M. & Smith, S. Improved optimization their continued, enthusiastic support of our research programme. This research
+for the robust and accurate linear registration and motion correction of was supported by grants from The Rosetrees Trust (no. A1699) and ERC
+brain images. Neuroimage 17, 825–841 (2002). (GAP: 670428 - BRAIN2MIND_NEUROCOMP). The funders had no role
+92. Jenkinson, M. & Smith, S. A global optimisation method for robust affine in study design, data collection and analysis, decision to publish or preparation
+registration of brain images. Med. Image Anal. 5, 143–156 (2001). of the manuscript.
+93. Hastie, T., Tibshirani, R. & Friedman, J. Elements of Statistical Learning
+(Springer, 2009); https://doi.org/10.1007/978-0-387-84858-7
+94. Tipping, M. E. Sparse Bayesian learning and the relevance vector machine. Author contributions
+J. Mach. Learn. Res. 1, 211–244 (2001). A.D.H., A.M.W. and M.A.L.R. conceived and designed the experiment. A.D.H. collected
+95. Rasmussen, C. E. & Williams, C. K. I. Gaussian Processes for Machine and analysed the data. A.D.H., A.M.W. and M.A.LR. wrote the paper.
+Learning (MIT Press, 2006).
+96. Bach, F. R., Lanckriet, G. R. G. & Jordan, M. I. Multiple kernel learning, conic
+duality, and the SMO algorithm. in Proc. Twenty-First International Conference Competing interests
+on Machine Learning (ICML 2004) https://doi.org/10.1145/1015330.1015424 The authors declare no competing interests.
+(Association for Computing Machinery, 2004).
+97. Rakotomamonjy, A., Bach, F. R., Canu, S. & Grandvalet, Y. SimpleMKL.
+J. Mach. Learn. Res. 9, 2491–2521 (2008). Additional information
+98. Morey, R. D. et al. BayesFactor: Computation of Bayes Factors for Common Supplementary information is available for this paper at https://doi.org/10.1038/
+Designs. https://cran.r-project.org/web/packages/BayesFactor/index.html s41562-020-0854-5.
+(CRAN, 2018).
+Correspondence and requests for materials should be addressed to A.D.H. or M.A.L.
+99. Fritz, C. O., Morris, P. E. & Richler, J. J. Effect size estimates: current use,
+calculations, and interpretation. J. Exp. Psychol. Gen. 141, 2–18 (2012). Peer review information Primary Handling Editor: Marike Schiffer.
+100. Rosenthal, R. in The Handbook of Research Synthesis (eds Cooper, H. Reprints and permissions information is available at www.nature.com/reprints.
+& Hedges, L. V.) 231–244, (Sage, 1994).
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+101. Finn, E. S. et al. Functional connectome fingerprinting: identifying
+published maps and institutional affiliations.
+individuals using patterns of brain connectivity. Nat. Neurosci. 18,
+1664–1671 (2015). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NAtuRe HuMAN BeHAvIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Matthew Lambon Ralph
+Corresponding author(s): Ajay D. Halai
+Last updated by author(s): Feb 11, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection N/A
+Data analysis We used the Statistical Parametric Mapping (v12) and the FMRIB Software Library (v5.0.9) toolboxes to conduct pre-processing of
+neuroimaging data. The pattern recognition for neuroimaging toolbox (PRoNTo v2.1) was used to create multivariate regression models.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data that support the findings of this study are available from the corresponding author on reasonable request.
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description This study used multivariate prediction models to predict behavioural deficits using pattern recognition tools applied to multi-modal
+neuroimaging data. All data analysis methods are quantitative.
+Research sample Seventy chronic post-stroke patients were included (53 males, mean age ± standard deviation [SD] = 65.21 ± 11.70 years old, 12 months
+post onset median = 38 months, range = 12-278 months). All cases were diagnosed with language deficits, having difficulty with
+producing and/or understanding speech. No restrictions were placed according to aphasia type or severity (therefore our sample
+included cases spanning the entire range of severity). Stroke cases have been classically used in mapping brain-behaviour relationships,
+mainly due to their variable behavioural profiles and distinctive focal brain lesions; therefore, they were the focus of this study.
+Sampling strategy Our sample was recruited via NHS stroke clinics and community support clinics. The sample was largely recruited in an opportunistic
+manner, however we also attempted to make sure we had cases across the entire spectrum of severity. There are no agreed ways to
+formally assess power and effect sizes in multivariate prediction models, therefore we do not report any power analyses or justify our
+sample size.
+Data collection The behavioural tests were largely collected using pen and paper methods, with the exception of a few that were based on a computer
+screen. The neuroimaging data was collected using a 3T MRI (Philips Achieva) scanner. The researcher was not blind to the experiment.
+Timing The dataset is part of a large on-going database collected at the University of Manchester over several years (2010-present). The data for
+each case in the sample was collected over a span of 2-4 weeks, which included multiple neuropsychological test sessions and an MRI
+scan.
+Data exclusions One subject was removed from the analysis due to incomplete MRI data.
+Non-participation We did not have any cases drop out during data collection.
+Randomization Participants were not allocated into experimental groups.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics See above
+Recruitment See above
+Ethics oversight The study was approved by a local ethics committee (North West Haydock MREC 01/8/094)
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Magnetic resonance imaging
+Experimental design
+Design type We did not implement a functional task
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Design specifications N/A
+Behavioral performance measures N/A
+Acquisition
+Imaging type(s) Strucutral T1-weighted image and high angular resolution diffusion imaging
+Field strength 3 Tesla
+Sequence & imaging parameters A T1-weighted inversion recovery sequence with 3D acquisition was employed, with the following parameters: TR
+(repetition time) = 9.0 ms, TE (echo time) = 3.93 ms, flip angle = 8°, 150 contiguous slices, slice thickness = 1 mm,
+acquired voxel size 1.0 x 1.0 x 1.0 mm3, matrix size 256 x 256, FOV = 256 mm, TI (inversion time) = 1150 ms, SENSE
+acceleration factor 2.5, total scan acquisition time = 575 s.
+Area of acquisition Whole brain scan
+Diffusion MRI Used Not used
+Parameters The diffusion-weighted images were acquired with a pulsed gradient spin echo echo-planar sequence with TE=59 ms, TR ≈ 11884 ms
+(cardiac gated using a peripheral pulse monitor on the participant's index finger), Gmax=62 mT/m, half scan factor=0.679, 112×112
+image matrix reconstructed to 128×128 using zero padding, reconstructed in-plane voxel resolution 1.875×1.875 mm, slice thickness
+2.1 mm, 60 contiguous slices, 43 non-collinear diffusion sensitization directions at b=1200 s/mm2 (Δ=29 ms, δ=13.1 ms), 1 at b=0 and
+SENSE acceleration factor=2.5. The sequence was repeated twice with opposing phase encoding directions in the left-right plane. In
+order to correct susceptibility-related image distortions, a B0 image was collected at the beginning of each phase encoding sequence.
+Cardiac gating was implemented during diffusion data acquisition.
+Preprocessing
+Preprocessing software We used SPM12 to perform pre-processing of T1 images using the modified unified segmentation-normalisation
+procedure optimised for focal lesioned brains (Seghier et al., 2008, version 3). We made one change to the default
+settings, which was to change the U-threshold from 0.3 to 0.5, which determine the threshold of a voxel being
+abnormal. We used FSL (version 5.0.9) to pre-process diffusion images, using 'topup' (default), 'eddy_openmp' (default
+plus 'replace outliers'), 'dtifit' (default) and BEDPOSTX (default except model=3). We used 'probtrackx2' to conduct
+streamline estimation (N=50 per voxel). The MNI normalised T1 and diffusion data were finally smoothed using 8mm
+FHWM. These processes produced the necessary brain maps that were used in model estimation.
+Normalization We normalised all neuroimaging data to MNI space using a modified unified segmentation-normalisation procedure
+optimised for focal lesioned brains (Seghier et al., 2008). Data from all participants with stroke aphasia and all healthy
+controls were entered into the segmentation-normalisation. This procedure combines segmentation, bias correction
+and spatial normalisation through the inversion of a single unified model (see Ashburner & Friston, 2005 for more
+details). In brief, the unified model combines tissue class (with an additional tissue class for abnormal voxels), In brief,
+the unified model combines tissue class (with an additional tissue class for abnormal voxels), intensity bias and non-
+linear warping into the same probabilistic models that are assumed to generate subject-specific images.
+Normalization template All native subject T1 and diffusion scans were normalised to MNI space using SPM12 tools. Specifically, we used a
+modified version of the normalisation technique that has been optimised for brains with large focal lesions (such as
+stroke patients) (Seghier et al., 2008)
+Noise and artifact removal We used the FSL to pre-process diffusion data. Specifically used the 'topup' function to limit image field distortions and
+the 'eddy_openmp' function to limit eddy currents, movement artifacts and 'replace outliers.
+Volume censoring We used the FSL to pre-process diffusion data and specifically used the function 'eddy_openmp' with the 'replace
+outliers' flag
+Statistical modeling & inference
+Model type and settings We used a multivariate prediction model using machine-learning algorithms. See below
+Effect(s) tested We tested how similar the point predictions made by the multivariate models were to the observed behavioural data.
+We used mean squared error as the main metric but also report correlations.
+Specify type of analysis: Whole brain ROI-based Both
+Statistic type for inference We used permutation testing (see below)
+(See Eklund et al. 2016)
+Correction Each model is estimated independently and therefore there is no need to correct for multiple comparison. We did
+correct for multiple comparisons (Bonferroni) when comparing model configurations.
+4
+nature
+research
+|
+reporting
+summary
+October
+2018
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis
+Multivariate modeling and predictive analysis The aim of the study was to determine if changing the independent variables and the way the features
+were combined affected model performance. In addition, we changed the types of machines used and
+ways to partition the brain space. The independent variables were extracted from T1 and diffusion tensor
+images in the form of three modalities per neuroimaging sequence. From the T1 data, we extracted the
+probability of a voxel being grey matter, the probability of a voxel being white matter and the probability
+of voxel being abnormal (compared to a group of age and education matched controls). From the diffusion
+data, we extracted fractional anisotropy (integrity of white matter fibres), mean diffusivity and long-range
+connectivity map. These data we analysed using the pattern recognition of neuroimaging toolbox (PRoNTo
+v2.1), within which we specified a number of different parameters. We ran each model with four different
+machine-learning algorithms: 1) kernel ridge regression, 2) Gaussian process regression, 3) relevance
+vector regression, and 4) multi-kernel regression. We also varied the partitions based on different
+theoretical bases: 1) using no partition, 2) using an anatomical atlas (combining Harvard-Oxford grey
+matter atlas and John Hopkins white matter atlas), 3) using a functional atlas (Shen et al., 2013), 4) using a
+model of language (Halai et al., 2017) and 5) using a data-driven parcellation of the stroke lesions (Zhao et
+al., 2019). The models were cross-validated using 10-folds and all free hyper-parameters were optimised
+within a nested loop using leave-one-out. PRoNTo uses similarity kernels to reduce dimensionality.
+Permutation testing was carried out for each multivariate model, to determine if the regression model was
+significant (N=1000 iterations) using p<0.05.

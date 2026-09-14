@@ -20,5 +20,6 @@ Audit type: FULL TEXT
 - **C10**: p=0.001 (Location: Full text, Type: p_value)
 - **C11**: p=0.001 (Location: Full text, Type: p_value)
 - **C12**: p=0.722 (Location: Full text, Type: p_value)
+- **C13**: p=0.001 (Location: Full text, Type: p_value)
 
-## Total claims: 12
+## Total claims: 13

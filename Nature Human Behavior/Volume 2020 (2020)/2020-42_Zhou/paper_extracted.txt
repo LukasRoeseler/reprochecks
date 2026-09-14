@@ -1,14 +1,1072 @@
-# Realistic modelling of information spread using peer-to-peer diffusion patterns
-
-## Abstract
-In computational social science, epidemic-inspired spread models have been widely used to simulate information diffusion. However, recent empirical studies suggest that simple epidemic-like models typically fail to generate the structure of real-world diffusion trees. Such discrepancy calls for a better understanding of how information spreads from person to person in real-world social networks. Here, we analyse comprehensive diffusion records and associated social networks in three distinct online social platforms. We find that the diffusion probability along a social tie follows a power-law relationship with the numbers of disseminator’s followers and receiver’s followees. To develop a more realistic model of information diffusion, we incorporate this finding together with a heterogeneous response time into a cascade model. After adjusting for observational bias, the proposed model reproduces key structural features of real-world diffusion trees across the three platforms. Our finding provides a practical approach to designing more realistic generative models of information diffusion. 
-
- This is a preview of subscription content, access via your institution
-
-## GitHub Links
-https://github.com/bnzu/main-code-of-rmis
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00945-1/MediaObjects/41562_2020_945_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00945-1/MediaObjects/41562_2020_945_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-00945-1
+Realistic modelling of information spread using
+peer-to-peer diffusion patterns
+Bin Zhou 1,2,9 ✉, Sen Pei 3,9 ✉, Lev Muchnik 4,5, Xiangyi Meng 2, Xiaoke Xu6, Alon Sela 7,
+Shlomo Havlin2,8 and H. Eugene Stanley2
+In computational social science, epidemic-inspired spread models have been widely used to simulate information diffu-
+sion. However, recent empirical studies suggest that simple epidemic-like models typically fail to generate the structure of
+real-world diffusion trees. Such discrepancy calls for a better understanding of how information spreads from person to person
+in real-world social networks. Here, we analyse comprehensive diffusion records and associated social networks in three dis-
+tinct online social platforms. We find that the diffusion probability along a social tie follows a power-law relationship with the
+numbers of disseminator’s followers and receiver’s followees. To develop a more realistic model of information diffusion, we
+incorporate this finding together with a heterogeneous response time into a cascade model. After adjusting for observational
+bias, the proposed model reproduces key structural features of real-world diffusion trees across the three platforms. Our find-
+ing provides a practical approach to designing more realistic generative models of information diffusion.
+A
+s a ubiquitous process in social networks, information dif- contagion is a deliberate action taken by individuals who receive
+fusion plays a central role in applications ranging from the information. Empirical studies have demonstrated that simple gen-
+spread of news and opinions1, the propagation of innova- erative models inspired by epidemic processes fail to reproduce
+tions2, word-of-mouth viral marketing3 and change in behaviour4 some key features of the observed diffusion trees14–17. For instance,
+to product adoption5. A growing number of studies have revealed contrary to the high frequency of occurrence of multi-generation
+that information diffusion is a complex process shaped by such cascades produced by epidemic-like models, such events were
+interacting factors as network structure6, information content7, rarely observed in a range of online social platforms15–17. This criti-
+human activity8, stochastic dynamics9 and even users’ behavioural10 cal discrepancy between observed and model-generated diffusion
+and sociodemographic characteristics11. These entwined factors patterns indicates that a better understanding of how information
+give rise to the diverse structure of diffusion paths observed in the spreads from person to person is required for the development of
+real world12–17, which obscures our understanding of the mecha- more realistic diffusion models.
+nisms driving spreading dynamics. Several generative models have been developed to reproduce
+To understand how different factors affect information diffusion, the characteristics of real-world diffusion trees in different set-
+the ideal method is to design randomized controlled experiments tings13–15,37. For instance, a probabilistic model based on network
+in real-world social networks4,18–21. However, due to the difficulty clustering and asynchronous response time can generate the narrow
+and cost in implementing such in vivo experiments, in silico and deep tree-like structure of the propagation of Internet chain
+agent-based modelling in structured networks has been routinely letters14; a branching process incorporated with high variability of
+employed as an alternative to simulate information spread22–26. human behaviour can replicate realistic distribution of cascade sizes
+Simplified epidemic-like models have been frequently used and in viral marketing campaigns37 and a susceptible-infected-recovered
+applied in a wide range of studies such as influential spreader iden- (SIR) model in scale-free networks with appropriate parameter set-
+tification27–33, social recommendation1,3 and rumour containment34. tings can reproduce the distribution of structural virality (that is,
+In analogy to transmission of contagious diseases35,36, informa- the average distance between all pairs of nodes in a diffusion tree)
+tion in epidemic-like models diffuses along social ties from per- for diffusion trees in Twitter15. Although these models successfully
+son to person, with diffusion events independent from each other. generated certain features of realistic diffusion trees, due to the
+Following this rule, consecutive peer-to-peer diffusion can form unavailability of underlying social connections, most of them were
+large-scale deep information cascades lasting multiple generations. not tested on the same social networks in which the observed diffu-
+As such, these models are also referred to as independent cascade sion occurred. In particular, these models were unable to relate the
+models in literature5. propensity of a social tie to convey information to characteristics
+Despite the widespread use of such epidemic-like models, the of the involved users and had to model the probability of diffusion
+mechanism of biological contagion and information diffusion between two users as either a constant or a random number drawn
+are fundamentally different. In contrast to epidemic processes in from a predefined distribution. This intuitive setting, simple as it is,
+which exposures to infection result in passive transmission, social has rarely been verified by empirical evidence. Even the literature
+1School of Economics and Management, Jiangsu University of Science and Technology, Zhenjiang, China. 2Center for Polymer Studies and Department
+of Physics, Boston University, Boston, MA, USA. 3Department of Environmental Health Sciences, Mailman School of Public Health, Columbia University,
+New York, NY, USA. 4School of Business Administration, The Hebrew University of Jerusalem, Jerusalem, Israel. 5Microsoft Research Israel, Alan Turing
+3, Hertzliya, Israel. 6College of Information and Communication Engineering, Dalian Minzu University, Dalian, China. 7Industrial Engineering Department,
+Ariel University, Ariel, Israel. 8Department of Physics, Bar-Ilan University, Ramat Gan, Israel. 9These authors contributed equally: Bin Zhou, Sen Pei.
+✉e-mail: binzhou@mail.ustc.edu.cn; sp3449@cumc.columbia.edu
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+on complex contagion38 that studied the impact of the number of between users and to understand the dynamics of underlying infor-
+exposures on behaviour adoption does not reveal how information mation spread processes.
+diffusion in a structurally heterogeneous social network depends We start by examining the probability of diffusion along a social
+on network attributes. tie connecting a disseminator with a degree k to a receiver with a
+d
+In this work, we explore the patterns of peer-to-peer informa- degree k. For the LiveJournal platform, k and k are the numbers
+r d r
+tion diffusion in online social media, and aim to use these uncov- of friends in the undirected social network. For the directed social
+ered patterns to develop a generative model capable to better networks of Weibo and Twitter, k represents the number of fol-
+d
+reproduce the observed diffusion trees. Specifically, we focus on lowers of the disseminator (that is, in-degree) and k stands for the
+r
+the relationship between the diffusion probability along a social number of friends the receiver follows (that is, out-degree). In both
+tie and the numbers of connections (that is, degrees) of both cases, k is the number of receivers reached by the information, and
+d
+the disseminator (also commonly named the spreader) and the k is the number of potential information sources of the receiver.
+r
+receiver. To perform this analysis, detailed data of individual-level We group the links from the disseminators involved in the diffusion
+diffusion events and the associated social network structure are event to their receivers into a group R. The links in R encompass all
+needed. In this study, we use datasets containing both real-world observed diffusion ‘attempts’ of which only a subgroup is success-
+information flows and the underlying social relationships in three ful. Another set S contains only links actively involved in diffusion
+distinct online social platforms: a blog-sharing community— cascades (that is, successful diffusion paths). Within the groups of R
+LiveJournal (https://www.livejournal.com), and two microblog and S, we bin the links with a certain combination of k and k into
+d r
+services—Weibo (https://www.weibo.com) and Twitter (https:// subgroups R kd;kr and S kd;kr. As k d and k r are highly heterogeneous,
+twitter.com). These detailed and large datasets allow us to exam- the data binI is performI ed in the logarithmic scale, with ten bins
+ine the impact of social network structure on diffusion dynamics in each dimension. Aggregation of links into bins is necessary to
+across diverse social platforms. reduce the number of (k d,k r) combinations. Group size S kd;kr and
+R kd;kr represent the numbers of links that match criter (cid:31)iIon ( (cid:31)k d,k r)
+Results i (cid:31)nI S kd;k (cid:31)r and R kd;kr (see Supplementary Fig. 3 for plots of (cid:31)S kd;kr(cid:31) and
+Information diffusion in real-world social platforms. LiveJournal (cid:31)R kdI ;kr(cid:31)). NextI, we define the average diffusion probab (cid:31)iIlity a (cid:31)long
+is one of the earliest online platforms designed to host and dis- s (cid:31)Iocial (cid:31)ties with k d and k r users as Λ kd;kr ¼ S kd;kr = R kd;kr . (cid:31)The q(cid:31)uan-
+seminate personal posts. Every LiveJournal user maintains a friend t(cid:31)ity Λ k(cid:31) d;kr represents the average frIaction o (cid:31)f the (cid:31)(k (cid:31)d,k r) lin (cid:31)ks exposed
+list. The undirected friend relationship is reciprocal, and the entire to theI content that were actively involved(cid:31) in the(cid:31) o(cid:31)bserv(cid:31)ed informa-
+friendship network, consisting of about 9 million users and 188 tion diffusion cascade (Fig. 1a–c).
+million social ties, reflects the social relations among LiveJournal The stripe pattern in the double-logarithmic scale of Fig. 1a–c
+users. In LiveJournal community, users can get access to the posts suggests a power-law functional form of the diffusion probability
+published by their friends, and may refer to these posts in their own Λ kd;kr ¼ckα dkβ r. We fit the equation parameters using the 10 × 10
+articles by including hyperlinks to the original posts. We therefore dIata points in Fig. 1a–c. Specifically, we performed a linear regres-
+use the hyperlink reference to track the information flow from user sion to the function logΛ kd;kr ¼αlogk d þβlogk r þlogc (see
+to user. A total of 721,547 diffusion events following friend rela- Supplementary Table 3 foIr the fitted parameters). The power-law
+tionships during 14 February 2010 to 21 November 2011 were col- function explains the data well, as demonstrated in Fig. 1d–f where
+lected. In addition, the total number of posts published by each user the data points kα dkβ
+r
+are proportional to Λ kd;kr.
+during the same period was recorded. I I
+In contrast to LiveJournal in which social relationships are undi- Adjusting observational bias. Despite the good fitting, the data
+rected, Weibo and Twitter maintain directed social ties using a ‘fol- reported in Fig. 1a–c are in fact subject to an observational bias
+low’ mechanism: one can follow other users without their consent. towards successful diffusion events and overlook unsuccessful dif-
+Particularly, users can get updates on the ‘tweets’ posted by their fusion attempts. This observational bias is a major obstacle pre-
+friends (that is, users they follow, or termed ‘followees’). Diffusion venting realistic modelling of information diffusion using passively
+events between users are identified by the ‘retweet’ marker. The observed data. To develop a more realistic cascade model for infor-
+Weibo dataset contains 9,019,288 diffusion events, involving mation diffusion, this observational bias needs to be corrected.
+4,483,515 users. In addition, we analyse 43,099 retweets in Twitter Among the examined datasets, only the LiveJournal data con-
+about the discovery of Higgs boson among 67,680 users39. The tain the number of posts published by each user, including those
+social networks of Weibo and Twitter, consisting of the friends and that were not reposted. To keep the analysis consistent across
+followers of the users involved in retweeting, contain about 8 mil- three platforms, in Fig. 1a, we show the diffusion probability in
+lion and 457 thousand users, respectively (see details in Methods, LiveJournal calculated using only the succeeded diffusion attempts,
+Supplementary Tables 1 and 2 and Supplementary Fig. 1). same as the analysis for Weibo and Twitter. However, given that
+we have access to all diffusion attempts in LiveJournal, the actual
+Observed peer-to-peer information diffusion. We focus on the diffusion probability can be obtained by including all attempts into
+local structure of ego-networks formed by connections between the denominator R kd;kr , which corrects the observational bias. For
+users and their neighbours. For LiveJournal, these neighbours are the Weibo and TwitterI, such information is unavailable. We therefore
+(cid:31) (cid:31)
+friends in one’s friend list; for Weibo and Twitter, these neighbours need an alternativ(cid:31)e app(cid:31)roximation method to adjust the observa-
+are users’ followers who can view their tweets. Once a dissemina- tional bias in the Weibo and Twitter datasets.
+tor posts an article or tweet, all neighbours in the ego-network get Here we propose a framework to adjust this bias using the Bayes’
+exposed to the information and become receivers who may further rule. Define a diffusion attempt from a disseminator with a degree
+repost it to their neighbours (Supplementary Fig. 2). In real-world k to a receiver with a degree k as a (k,k) attempt. For each (k,k)
+d r d r d r
+diffusion, most receivers exposed to content chose not to repost attempt, we define the event ‘spread’ as a successful transmission
+it15–17. Receivers might not repost the content because they saw it and the event ‘observed’ as the attempt being observed (that is,
+but decided not to share, or sometimes they might not even see the included in the group of diffusion attempts R). Note that for Twitter
+content due to overload. Receivers who do decide to share the infor- and Weibo, a (k,k) attempt is observed if and only if the informa-
+d r
+mation with their followers are referred to as adopters. Although tion is reposted by at least one receiver. Because we only considered
+receivers who are not adopters do not contribute to information diffusion attempts of observed information in previous calculation,
+dissemination, they are crucial to assess the diffusion probability the diffusion probability Λ kd;kr is actually a conditional probability
+I
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+a b c
+LiveJournal
+105
+–0.5
+105 105
+104 –1.0 104 104
+–1.5
+103 103 103 –2.0
+102
+–2.5
+102 102
+101 –3.0 101 101
+–3.5
+101 102 103 104 105 101 102 103 104 105 101 102 103 104 105
+k k k
+r r r
+d e f
+100 R2 = 0.90
+Slope = 1.00 100 100
+10–1
+10–1
+10–1
+10–2
+10–2
+10–3 10–2 α = –0.66(2)
+10–3 β = –0.55(2)
+10–2 10–1 100 101 10–3 10–2 10–1 100 10–2 10–1 100
+kαkβ kαkβ kαkβ
+d r d r d r
+aP Imkd o;k nrð gs p thre ea (d kj do ,kb rs )e arv tte ed mÞ— ptsth oe f op br so eb ra vb ei dli it ny foo rf m s au tic oc ne .s Is nfu ml od dif ef lu ss ii mon - a Λd a kj du ;ks rte ¼d Pd kdi ;f kf ru ðosi bo sn e rvp er do Þb Λa kb di ;kli rty
+¼
+o Sf kdL ;ki rv =eJ Rou a kdr ;n kra .l is calculated by
+u sula ct ci eo sn s, f uh lo dw ie ffv ue sr i, o w nh aa mt w one gn e thed e (is k dP ,Ikk rd ); k ar tð ts ep mre pa td sÞ o— f ath ne y p pr oo sb tea dbi il nit fy o o r-f isI F uo nr k W noe wib no . a In nd T pw rii ntt ce ipr, l eth , e t n hu e(cid:31) (cid:31) m fb ae cr to (cid:31) (cid:31)o rf (cid:31) (cid:31) (cid:31) a Pc kt du ;ka(cid:31) (cid:31) (cid:31)rl ð d oi bf sf eu rs vio edn Þ a t cte am nnp ots t
+mation. Using the Bayes’ rule, we have be calculated without this information. IHowever, if the fre-
+quency of posting activity for users with a given degree k is not
+d
+P kd;krðspread
+Þ¼P
+kd;kP rk ðd o;k br sð eo rb vs ee dr jv se pd rÞ
+ead
+ÞP kd;krðspread jobserved Þ; e Px kt dr ;ke rm ðoe bl sy
+e
+rh ve et de Þro gen Oe ko du ;ks r, =w Ge kc da ;kn
+r
+,a p wp hro erx ei ma Gt ke
+d
+;kP
+I
+rk d; ik sr ðo thb es er nv ue md Þ
+b
+a ers
+oIf (k d,k r) links in th (cid:31)e soci (cid:31)al
+(cid:31)
+netwo (cid:31)rk and O (cid:31)Ikd;kr (cid:31)is the number of
+where P kd;krðobserved jspread
+Þ
+is the probability of a (k d,k r) diffu- unique (k d,k r) links(cid:31) in R k(cid:31) d;k(cid:31)
+r
+(see (cid:31)Methods
+(cid:31)
+I(cid:31)for d (cid:31)e(cid:31)tails on the defi-
+sion atteImpt being included in R given the information success- nitions and calculationsI, Supplementary (cid:31)Fig. 4b(cid:31),c). The adjusted
+fully diffuses along the (k d,k r) link, and P kd;krðobserved Þ is the diffusion probability is estimated by Λa kd;kr ¼Λ kd;kr O kd;kr =G kd;kr .
+probability of a (k d,k r) diffusion attempt beinIg included into R kd;kr, To better illustrate this observational bIias correction
+(cid:31)
+proce (cid:31)d (cid:31)ure, w (cid:31)e
+no matter whether the information is reposted or not. AccorIding introduce a concrete example in Supplementary Fig(cid:31). 5. (cid:31) (cid:31) (cid:31)
+to the definition of R kd;kr, if a (k d,k r) diffusion attempt succeeds, We note that this approximation method only provides an upper
+it would be definitelIy included in R kd;kr. As a result, we have bound for the adjustment factor P kd;krðobserved Þ. In our following
+P kd;krðobserved jspread Þ¼1, which leadIs to analysis, we performed a consistenIcy check using the LiveJournal
+I dataset, in which all published posts are available. Results obtained
+P kd;krðspread Þ¼P kd;krðobserved ÞΛ kd;kr: using all posts and the approximation method generally agree with
+each other. This consistency check provides additional credibility
+This relationship indicates that we can adjust the bias of the con- for our analysis on Weibo and Twitter datasets.
+ditional probability Λ kd;kr by multiplying a factor P kd;krðobserved Þ. Alternative to the approximation method, in real-world appli-
+To calculate P kd;I krðobserved Þ, the total numIber of articles/ cations, the adjustment factor P kd;krðobserved
+Þ
+could also be
+tweets posted by eIach user is needed. This information is known estimated by actively monitoring thIe activity of a sufficient num-
+for LiveJournal but unavailable for Weibo and Twitter. For ber of sample users. All posts published by these users could
+LiveJournal, we group the diffusion attempts of all posted infor- be collected to better estimate the adjustment factor through
+mation, whether reposted by other users or not, into an adjusted P kd;krðobserved Þ¼ R kd;kr = Ra kd;kr , similar to our analysis on the
+g thro e u frp a co tf i oa ntt e om f tp hts e, (d ke d,n ko r)t e ad tt eb my pR ta s. iW n e R ac a thlc au t l wat ee r eP I akd c;k turð ao lb lys e rr ev pe od sÞ t ea ds LIiveJournal dataset (cid:31) (cid:31). (cid:31) (cid:31) (cid:31) (cid:31) (cid:31) (cid:31) (cid:31) (cid:31)
+and observed in the group R: P kd;krðobserved Þ¼ R kd;kr =Ra kd;kr P ma et tt he orn ds po rof pp oe se er d- t io n- p te he er lain stf o sr em cta ioti no n to d ai dff ju uss ti o tn h. e W obe s ea rp vp al ty io t nh ae l
+(see values of P Ikd;krðobserved Þ iIn Supplementary (cid:31) (cid:31)Fig. 4(cid:31) (cid:31)a(cid:31) (cid:31) (cid:31)). The(cid:31) (cid:31)
+(cid:31)
+bias in the results reported in Fig. 1a–c. In general, after adjusting
+k d k d k d
+Weibo Twitter
+–0.5 –0.5
+–1.0
+–1.0
+–1.5
+–1.5
+–2.0
+–2.5 –2.0
+–3.0
+R2 = 0.93 R2 = 0.93
+Slope = 1.00 Slope = 1.00
+α = –0.96(3) α = –0.73(2)
+β = 0.28(3) β = –0.47(2)
+Fig. 1 | the unadjusted diffusion probability Λkd;kr following (k d,k r) links. a–c, For LiveJournal (a), Weibo (b) and Twitter (c) datasets, the diffusion
+probability is calculated as the fraction of succIessful diffusion events among observed diffusion attempts along social ties from a disseminator with a
+degree k d to a receiver with a degree k r. Colour indicates the logarithmic value of Λkd;kr (base 10). The relationships between Λkd;kr and k dαkβ r are shown for
+LiveJournal (d), Weibo (e) and Twitter (f). Standard errors for α and β are reporteId in the parentheses. Each dot represents oIne (k d,k r) cIombination and its
+corresponding diffusion probability Λkd;kr in a–c. Analyses are based on 721,547 diffusion events in LiveJournal, 9,019,288 diffusion events in Weibo and
+43,099 diffusion events in Twitter. I
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+a
+105
+104
+103
+102
+101
+k
+r
+10–1
+10–2
+10–3
+10–4
+the observational bias, the diffusion probability Λa follows the diffusion probability42–44. In particular, several studies have
+kd;kr
+a power-law relationship with the disseminator anId recipient’s reported similar observations in microblog websites. For instance,
+degree:
+Λa
+kd;kr
+¼ckα dkβ
+r. We used the data for a 10 × 10 grid of k d and it has been found that the finite ability to process incoming infor-
+k values Iin Fig. 2a–c, and performed a linear regression to the func- mation constraints social contagion in Twitter, and the probability
+r
+tion logΛa kd;kr ¼αlogk d þβlogk r þlogc. The fitted exponents are of retweeting a URL decays as a power-law function of the number
+reporIted in Fig. 2d–f and Supplementary Table 4. Consistent with of friends45,46. In LiveJournal, however, information is more likely
+Fig. 2a–c, the exponent α is negative for all platforms; β is nega- to be reposted by well-connected receivers. This dramatic differ-
+tive for Weibo and Twitter, but positive for LiveJournal. Figure 2d–f ence is potentially caused by the distinct behaviour of users in blog
+indicates that Λa is proportional to kαkβ. communities. Specifically, it is possible that users of a blog-sharing
+kd;kr d r
+We find thaIt dependence of the adIjusted diffusion probability community that uses reciprocal connections such as LiveJournal
+Λa on k is universal across all three platforms: the information need to maintain a high frequency of posting to attract friends and
+kd;kr d
+pIosted by a highly connected disseminator is in fact less likely to be achieve a large degree, as observed in other online content-sharing
+reposted by each of the followers (Fig. 2a–c). In other words, effec- platforms47. As a result, well-connected users tend to be more
+tiveness of the social network actors to spread information drops actively involved in reposting in LiveJournal. In Supplementary
+with their degree. We speculate that this counterintuitive result Fig. 7, we show that the numbers of reposts of LiveJournal users
+could be explained by the fact that recipients of content from highly have a stronger positive correlation with their degrees. In addition,
+connected individuals could perceive the information published the network directionality can reinforce this effect. In LiveJournal,
+by those ‘hubs’ as too widespread (and not sufficiently new)40. An the bidirectional links effectively limit social connections to mutual
+alternative structural explanation could be that users connected to acquaintances, which is likely to increase the relevance of informa-
+hubs are probably linked to multiple hubs active in posting and suf- tion. Consequently, active LiveJournal users, typically with high
+fer from information overload, which leads them to respond less to degrees, tend to repost more frequently than Weibo and Twitter
+the content they receive41. We examined the probability of repost- users who may suffer information overload and receive less relevant
+ing as a function of the number of posts each user was exposed to, information. We leave identification of the reasons for the differ-
+and verified that the reposting probability generally decreases as ence between the two kinds of platforms to further research.
+the number of received information grows (Supplementary Fig. 6). We remark that the variation in the change of α after bias correc-
+In contrast with the dependence of Λa on k, dependence of tion in different platforms does not undermine the validity of the
+kd;kr d
+responsiveness of the users exposed to cIontent on their degree k method. Instead, it highlights the radical difference in users’ behav-
+r
+differs for different platforms: it drops with increasing k in both iour between different social platforms—a blog community and
+r
+microblogging platforms (on the basis of directional networks) two microblog services. Such behavioural difference is encoded in
+(Fig. 2b,c), but increases with k
+r
+in the undirected network of blogs the factor P kd;krðobserved Þ, which should be uniquely defined for
+(Fig. 2a). In microblog service, information from a large number each platforIm. In this study, we did not attempt to show that all
+of sources may compete for receivers’ attention and thus reduce social platforms share the same diffusion pattern, but to develop a
+k d
+LiveJournal Weibo Twitter
+–1 105 105
+–1.5
+104 104 –1.5
+–2
+103 –2.0 103 –2.0 –3
+102 –2.5 102
+–2.5
+–4 101 101
+–3.0
+–3.0
+101 102 103 104 105 101 102 103 104 105 101 102 103 104 105
+k k
+r r
+a
+k d k d
+b c
+d e 10–1 f 10–1
+R2 = 0.94 R2 = 0.83 R2 = 0.84
+Slope = 1.00 Slope = 1.00 Slope = 1.00
+10–2
+10–2
+α = –1.22(2) 10–3 α = –0.05(2) 10–3 α = –0.25(3)
+β = 0.29(2) β = –0.46(2) β = –0.74(3)
+10–3 10–2 10–1 100 10–2 10–1 100 10–2 10–1 100
+kαkβ kαkβ kαkβ
+d r d r d r
+a a
+Fig. 2 | the power-law relationship between peer-to-peer diffusion probability and users’ degrees. a–c, The adjusted peer-to-peer diffusion probability
+TΛ Iwa kd i; tk tr ef ro l (l co )w sin hg
+a
+r( ek sd, ik mr)
+i
+ll ain rk ps
+e
+f eo rr
+-
+tL oiv -e pJ eo eu
+r
+r dn ia ffl u, W sioe nib po
+a
+a ttn ed
+rn
+T ,w Li it vt ee Jr o. uT rh ne
+a
+l lo (g aa )r eit xh hm ibic
+it
+sv a fulu ne ds
+a
+o mf eΛ nIk td a;k lr
+l
+y( b da ifs fe
+e
+r1 e0 n)
+t
+a br ee
+h
+r ae vp ir oe us re
+.
+n dt –e fd
+, T
+b hy
+e
+c ro el lo au tir os n. sW hih pi sle
+b
+W etwei eb eo
+n
+( b th)
+e
+a nd
+adjusted diffusion probability Λa and k dαkβ r for LiveJournal (d), Weibo (e) and Twitter (f). The fitted parameters α and β are reported with standard errors in
+the parenthesis. Analyses are based oIn 721,547 diffusion events in LiveJournal, 9,019,288 diffusion events in Weibo and 43,099 diffusion events in Twitter.
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+a
+LiveJournal
+100
+10–1
+10–2
+generic method to estimate diffusion patterns in social platforms attempts and S contains all observed successful diffusion paths);
+using available data. in the second, we ran a cascading model using the unadjusted
+diffusion probability Λ kd;kr ¼ckα dkβ r (Fig. 1 and Supplementary
+Realistic modelling of information diffusion. The same Table 3). For each set oIf simulations, we used the distribution of
+power-law functional form describes peer-to-peer diffusion pat- response time fitted specifically to the diffusion data collected from
+terns in all three systems despite considerable differences in plat- that platform.
+form implementation, social mechanisms and user behaviours. We Figure 4 shows distributions of diffusion size N, depth L and
+leverage this to develop more realistic models capable of reproduc- structural virality D generated by the simulations described before.
+ing the structure of observed diffusion trees. Considering that dif- Cascades produced by SIR models and simulations based on unad-
+fusion of a single piece of information is stochastic and could result justed diffusion probability Λ kd;kr are substantially larger than the
+in diverse diffusion trees in different model realizations, we test actually observed ones. TheI adjustment effectively reduces the
+performance of our models by examining generic structural prop- discrepancy between the observed and model-generated distribu-
+erties of diffusion trees generated from numerous simulations. In tions for all features. The distributions obtained from the adjusted
+particular, we focus on three features: (1) diffusion size N—the total model agree better with the observed distributions for all three sys-
+number of users in a diffusion tree; (2) diffusion depth L—the larg- tems. Although the examined social platforms differ considerably
+est number of generations in a cascade and (3) structural virality in their social mechanisms, the adjusted models provide a generic
+D—the average distance between all pairs of nodes in a diffusion generative method to simulate online information diffusion. This
+tree. The structural virality characterizes the high-level structure of close match of distributions also indicates that the approximation
+diffusion trees: given the same diffusion size, a small D corresponds method for computing P kd;krðobserved
+Þ
+in Weibo and Twitter is
+to a shallow and wide tree, and a large D corresponds to a deep and effective. Certain discrepanIcies between the simulated and observed
+narrow tree15. Across three platforms, the diffusion size and depth distributions of diffusion size, depth and structural virality still exist,
+follow heavy-tailed distributions, indicating that most observed which may be attributed to more complex factors not considered in
+diffusion cascades are small and shallow. Indeed, the structural the models.
+virality of diffusion trees is limited to small values. This finding As the structural features of diffusion trees are obtained after dif-
+is in agreement with the results in other online social systems15,16. fusion terminates, response time does not affect the distributions of
+We implement a data-driven simulation to reproduce informa- diffusion tree size, depth and structural virality. To further explore
+tion cascades using parameters inferred from the fitted Λa to the impact of heterogeneous response time on simulated informa-
+kαkβ (Methods and Supplementary Table 4). The simulatioInkd ; rk er al- tion diffusion, we performed a comparison on the distribution of the
+d r
+izIes the following two mechanisms. First, diffusion probability for lifetime T of diffusion trees, that is, time (in hours) between the post-
+each diffusion attempt accounts for the degrees of the disseminator ing of the first and last post/tweet in a diffusion tree. Specifically, we
+(k d) and the receiver (k r) and is calculated through
+Λa
+kd;kr
+¼ckα dkβ
+r. generated diffusion events using both the response time distribution
+Second, in compliance with existing literature8,14,17,37,I48,49, response fitted to observations and a constant response time, set as the mean
+times of the realized diffusion attempts (that is, the time it takes for value of the observed response time. Results in Fig. 5 indicate that a
+a receiver to repost the information) are drawn from a power-law homogeneous response time substantially shortens the lifetime of dif-
+distribution P(τ) = dτγ (Fig. 3). Such asynchronous response time fusion trees. This analysis highlights the importance of using a realis-
+has been reported in other social systems, and was used to model tic response time distribution in simulating information diffusion49.
+real-world information diffusion14,37. We confirm the distribution In application, it is desirable to estimate the parameters α and
+in our data and infer the response time power-law exponents (see β using samples of diffusion events so that the peer-to-peer dif-
+Supplementary Table 5). Once a receiver reposts the information, fusion pattern can be generalized to model information spread in
+he/she becomes a new disseminator and may trigger further dif- the same platform. To check the generality of the power-law dif-
+fusion. The diffusion terminates when no reposting occurs. For fusion pattern, we estimated the adjusted parameters α and β on
+comparison, two additional sets of simulations were performed. the basis of 2, 4, 6, 8, 10 and 20% up to 100% of observed diffusion
+In the first, we ran a susceptible–infected–recovered model using a trees in three platforms. Supplementary Fig. 8 shows the estima-
+constant diffusion probability computed directly from the observed tion results in the occasion where only the sampled diffusion trees
+diffusion events (Λ S=R, the mean diffusion probability aver- were observed. Generally, the estimated parameters are close to the
+¼j j j j
+aged over all obserIved attempts; here R is the group of all diffusion results obtained using all observed diffusion trees. This indicates
+P
+b c
+Weibo Twitter
+R2 = 0.99 R2 = 0.99 R2 = 0.96
+10–3
+10–4
+10–5 γ = –1.27(4)
+100 101 102 103
+τ (h)
+P P
+100
+10–1
+10–2 10–1
+10–3
+10–4
+10–5
+10–2
+10–6 γ = –1.47(4) γ = –0.81(6)
+100 101 102 103 104 100 101 102
+τ (h) τ (h)
+Fig. 3 | the power-law distributions of response time τ. a–c, The distributions of response time for LiveJournal (a), Weibo (b) and Twitter (c), with the
+fitted power-law exponents reported. The 95% confidence intervals were calculated using bootstrap. Analyses are based on 721,547 diffusion events in
+LiveJournal, 9,019,288 diffusion events in Weibo and 43,099 diffusion events in Twitter.
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+a b c
+LiveJournal Weibo Twitter
+100
+10–2
+that it is feasible to learn the peer-to-peer diffusion pattern by sam- we estimated the parameters α and β using the actual diffusion
+pling a fraction of diffusion events. attempts as well as the estimated adjustment factor, obtained using
+the same method applied to the Weibo and Twitter data. The
+Validation of the observational bias correction using LiveJournal estimated power-law exponents for LiveJournal are α = −1.22(2)
+data. To validate the observational bias correction applied to Weibo and β = 0.29(2) using the actual attempts, and α = −0.94(2) and
+and Twitter, we performed a consistency check using LiveJournal β = 0.23(2) using the approximation method. The diffusion pattern
+data, for which all published posts are available. In particular, remains the same, and the estimated parameters generally match
+P
+100
+10–1 10–2
+10–4 10–2 10–4
+100 101 102 101 103 101 102 103
+N N N
+P
+P
+P
+P
+P
+P
+P
+P
+d e f
+10–1
+10–1 10–1
+10–3
+10–3
+10–5 10–3
+10–7
+100 101 100 101 1 2 3 4 5 6 78
+L L L
+g h i
+100
+100
+10–1
+10–1 10–1
+SIR
+10–3 10–2 10–2 Adjusted
+Observed
+Unadjusted
+10–3
+1 2 3 4 5 6 1 2 3 4 5 6 789 1 2 3 4
+D D D
+Fig. 4 | Comparison of distributions of diffusion tree size N, depth L and structural virality D. Distributions obtained from the observed data (observed),
+SIR simulations (SIR), simulations using parameters fitted directly to the data (unadjusted) and simulations using adjusted parameters (adjusted) are
+distinguished by different symbols. We compare the distributions of diffusion tree size N, depth L and structural virality D for LiveJournal (a,d,g),
+Weibo (b,e,h) and Twitter (c,f,i). The 95% confidence intervals were obtained by bootstrapping. Analyses are based on 2 million model simulations for
+each platform.
+a
+LiveJournal
+100
+10–1
+10–2
+10–3 P
+b c
+Weibo Twitter
+100
+10–1
+10–2
+10–3
+10–4
+10–5
+10–6
+100 101 102 103
+P
+100
+10–1
+10–2
+10–4
+10–5 10–3
+P
+Constant
+Observed
+Power-law
+100 101 102 103 100 101 102
+Time (h) Time (h) Time (h)
+Fig. 5 | Distributions of the lifetime T of diffusion trees. Distributions of the lifetime T of diffusion trees obtained from the observed data (observed),
+simulations using a power-law response time (power-law) and simulations using a constant response time (constant) are compared. Comparisons are
+shown for LiveJournal (a), Weibo (b) and Twitter (c). The 95% confidence intervals were obtained by bootstrapping. Analyses are based on 2 million
+model simulations for each platform.
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+a c d
+LiveJournal
+105 100 100
+–1.0
+104
+–1.5
+10–1 10–1
+103 –2.0 10–2
+10–2
+10–3
+102 –2.5 10–3
+10–4
+–3.0
+101 10–4 10–5
+–3.5
+10–5 10–6
+101 102 103 104 105
+100 101 102 1 2 3 4 5 6 78
+b e f
+R2 = 0.92 100
+Slope = 1.00 10–1
+10–1
+10–2 10–2
+10–3 10–3
+α = –0.94(2)
+β = 0.23(2)
+10–4
+10–2 10–1 100 1 2 3 4
+kαkβ
+d r
+their actual values in magnitude. Using the estimated parameters, diffusion pattern probably holds in a range of social platforms.
+we reran model simulations and compared the distributions of dif- The choice of this specific form is not based on assumptions but
+fusion size, depth, structural virality and diffusion tree lifetime with is supported by empirical diffusion data. Even using a power-law
+those obtained using actual parameters (Fig. 6). For each feature, form, the structure of simulated diffusion trees can be far from
+distributions obtained using actual and estimated parameters gen- that of those observed if the parameters are mis-specified. This is
+erally agree with each other (see the power-law fitting parameters evidenced in the simulation using uncorrected parameters α and
+in Supplementary Table 6). Since the estimate of P kd;krðobserved
+Þ
+β. This failure to reproduce the observed diffusion trees using the
+is an upper bound, the diffusion trees generated uIsing the esti- unadjusted power-law function in turn demonstrates the impor-
+mated parameters tend to be larger and deeper. This pattern is tance of the observational bias correction. In a realistic model, two
+consistent with what we observed for Weibo and Twitter; that is, ingredients are necessary: (1) a correct form of diffusion prob-
+the model-generated diffusion trees are generally larger and deeper ability derived from empirical data and (2) accurate estimation of
+than observed ones. This consistency check provides additional parameters using observational bias correction. Without either of
+validation of the observational bias correction method. them, the model may not be able to generate realtistic diffusion
+trees. We note that, even if a model using a constant diffusion prob-
+Discussion ability could reproduce the observed diffusion, this model is not
+In this work, we demonstrate that an independent cascade model realistic, as it contradicts the power-law form of diffusion probabil-
+incorporated with peer-to-peer diffusion patterns and a hetero- ity observed in empirical data.
+geneous response time is able to generate key structural features This work contributes to the existing literature on information
+of real-world diffusion trees. Compared with previous modelling diffusion in two ways. First, we demonstrate that the diffusion
+works, our approach is more realistic as the model simulations were probability along a social tie is a product of power-laws of degrees
+performed on the same social networks where the diffusion occurs of the disseminator and the receiver. The power-law exponents are
+and used parameters learned from the observation data. Given that different across social platforms and can be inferred from observed
+information diffusion depends on a number of factors, it is sur- diffusion events. Second, we propose a framework to account for
+prising that such a simple model can reproduce important statisti- the bias in observed diffusion data to develop a more realistic
+cal properties of realistic diffusion trees. One possible explanation model. We adjust for the bias using the actual number of diffusion
+may be that the effect of dominating factors, for example, activity attempts for LiveJournal, and provide an approximation method
+frequency and local social network structure, has been implicitly for Weibo and Twitter. Information diffusion cascades generated
+reflected by the power-law peer-to-peer diffusion patterns. by the suggested model fit the structural properties of the observed
+The specific probability form ckαkβ is directly derived from dif- cascades in these systems.
+d r
+fusion data. For LiveJournal, whichI we have the full records of posts, Network abstraction of social systems differs from random mix-
+this form is the true diffusion pattern. Some other studies have ing because it allows for heterogeneity of exposure. Such models
+also reported the power-law dependence of diffusion probability predict a very special role of hubs that ought to have dispropor-
+on users’ degree45,46. On the basis of this evidence, the power-law tional effect due to the number of exposures they can generate.
+P
+N L
+100
+10–1
+10–2
+10–3
+10–4
+Direct
+10–5 Observed
+Approximate
+10–6
+100 101 102 103 104
+D
+P
+k
+r
+Time (h)
+k d
+a
+P P
+Fig. 6 | A consistency check for the observational bias correction using LiveJournal data. a, The adjusted peer-to-peer diffusion probability for LiveJournal
+c (co )m
+,
+dp eu pte thd Lu s (din )g
+,
+sth tre
+u
+ca tp up rr ao
+l
+x vi im raa lit te yd
+D
+a (d eju )s at nm de ln ift
+e
+f ta imct eo r T. b (,
+f
+)T oh be
+t
+p ao inw ee dr - frla ow
+m
+r oe bla st eio rvn es dh i dp
+a
+Λ tIaa
+(/
+obk sdα ek rrβ v.
+e
+c d– )f ,, sW ime
+u
+c lao tm iop na sr e
+b
+ath see
+d
+d ois nt r pib au rati mon es
+t
+eo rf
+s
+d ci off mus pio un
+te
+t dr e de
+ir
+s ei cz te
+ly
+N
+from all posts (direct) and simulations based on parameters approximated using the bias correction (approximate). Analyses are based on 721,547
+diffusion events in LiveJournal and 2 million model simulations.
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+Same kinds of models predict that agents having exceptionally high v2/cmptDetail.html?id=166, and is publicly available. The Twitter dataset was
+numbers of incoming connections are expected to be exposed to collected by monitoring retweets on Twitter about the discovery of Higgs boson
+around 7 July 2012, when the news was announced. In total, 24,581 retweets
+a large volume of information and receive that information early
+diffusion trees were reconstructed from 43,099 diffusion events. The social
+in the diffusion process50. In this work we enrich the now-classical network that includes the 67,680 users involved in retweeting activities contains
+network abstraction by adding an additional layer of heterogene- 456,626 unique users with 15 million following links. The Twitter dataset was
+ity that dramatically affects dynamics of information cascades. In used to explore to diffusion of scientific rumours39, and is available at https://snap.
+particular, we demonstrate that the probability to share the infor- stanford.edu/data/higgs-twitter.html.
+In general, three types of diffusion exist in online social media17: social
+mation received via social network tie depends on in-degree of the
+diffusion (that is, A retweets B, A follows B), broadcasting or mediated diffusion
+source node as well as the out-degree of the information recipient. (that is, A retweets B, A does not follow B) and self-promotion (that is, A
+The earlier factor could, for example, be considered as a proxy of retweets A). In data preprocessing, all retweets that do not follow social links
+the information uniqueness: information received from a network were discarded. Such operation removed broadcasting or mediated diffusion and
+self-promotion, but guaranteed that all retweets considered in the analysis were
+hub is less likely to be perceived by its recipient as unique and is less
+between neighbours in social networks.
+likely to be shared40. Simultaneously, social network users who fol-
+low many sources experience information overload and have to be Estimation of adjustment factor. We assume that users with the same degree
+very selective about the information they choose to share42–44. These k have similar posting frequency in Weibo and Twitter. Define the adjustment
+d
+mechanisms need further empirical or experimental validations in factor Pkd;krðobserved Þ as the probability of a (k d,k r) diffusion attempt being
+future works.
+observeId (that is, present in Rkd;kr). If each user with a degree k
+d
+posts n tweets
+fusI ion n t h ee v ep nr to sp ao rs ee d in m deo pd ee nl, d ew ne t a as ns du m ne e gt lh ea ct t p ther es o efn f- et co t- op fe r cs oo mn pd li ef x- (d s kau tr i ,ksin f )ig e l s io nb kR Is ske dr i; nkv r a tt hi ¼o e n sn, o Pt ch k id ae ;k l t r no ð eota tb wl s nI e oru rv km e d (b iÞ ner G t o hkf d e ; o k erb x,s a e w mr hv pee lr ed e i d ni G I f Sf k uu d p;s ki pro l n eis m a tt eht ne em t t aop rt yt as l F i n in gu .R mI 5k ,d b ; tk e hr r e o sf e t
+d r (cid:31) (cid:31) (cid:31) (cid:31) (cid:31) (cid:31)
+contagion; that is, exposure to information from multiple dis- of all (5,3(cid:31)) link(cid:31)s in the social networ(cid:31)k is G 5(cid:31) ,3 = {a→b(cid:31), a→c(cid:31), a→e, d→c, d→e}). To
+seminators simultaneously4,38. Nevertheless, as most diffusion estimate Pkd;krðobserved Þ, the number of tweets posted by each user, n, is needed.
+Here, we aIpproximate the lower bound of n using the repetition of links in the
+events were reposted within a short response time (a few hours),
+it is reasonable to use an independent cascade model. In a recent grou Sp
+u
+po pf oo sb is ne gr v ee ad
+ch
+d uif sf eu rs i io
+s
+n
+a
+la lott wem edp tt os R pIk od s;k tr o.
+nly one tweet (n = 1), the (k d,k r) links
+experimental study that used Twitter bots51, it was found that in Rkd;kr would have no repetition, as each (k d,k r) link has only one chance to
+complex contagion models outperform simple contagion models be oIbserved. That is, Rkd;kr
+¼
+Okd;kr , where Okd;kr is the number of unique
+(that is, independent cascade models) in explaining information (k d,k r) links in Rkd;kr. F (cid:31)Ior n = (cid:31) 2, e (cid:31)ach us (cid:31)er can p (cid:31)eIrform (cid:31) two rounds of posting. In
+this case, some (Ik,k)(cid:31) attem(cid:31)pts m(cid:31) ay be(cid:31) observe(cid:31)d in on(cid:31)ly one round, thus we have
+spread. However, the contagion models used in the comparison are d r
+equipped with a constant transmission rate, which is at odds with W (cid:31)R Iekd e;k sr t (cid:31)i≤ m2 a (cid:31)tO e tk hd; ekr l (cid:31)o. wTh eris b i on ue nqu da oli ft ny c ba yn n b ≥e g Re kn de ;kr ra =liz Oed kd ;t ko r (cid:31), R Iwk hd; ik cr h (cid:31)≤ qn u (cid:31)aO nk tid f;k ier (cid:31)s f to hr e n > 2.
+real-world diffusion. How to disentangle and evaluate the impacts a(cid:31)verag(cid:31)e rep(cid:31)etitio(cid:31)n of (k d,k r) links in RkdI;kr(cid:31). In th (cid:31)e e (cid:31)xamp (cid:31)le(cid:31) in Su(cid:31)pple(cid:31)menta(cid:31)ry Fig.
+of complex and simple contagion requires more detailed data or 5, this average repetition of (5,3) linkIs in (cid:31)our ex(cid:31)am(cid:31)ple is(cid:31) |R 5,3|/|O 5,3| = 6/3 ≤ 2 = n,
+controlled experiments. where R5;3¼ ða !b Þ1; ða !c Þ1; ða !e Þ1; ða !b Þ2; ða !c Þ2; ða !e Þ2 and
+Our work focuses on diffusion that follows explicit social ties. O 5,3 = {aI→b, a (cid:31)→c, a→e}. (cid:30)
+For Weibo and Twitter, little information of users’ posting activity is available.
+C onu r sr oe cn it aly
+l
+, rw ele
+a
+d tii os nre sg ha iprd
+s
+o st uh ce hr d ai sf f bu rs oio an
+d
+cm ase tc h anan di s sm els
+f-
+t ph ra ot
+m
+do
+o
+tn ioo nt r 15e ,1l 7y
+.
+A dis
+s
+sa
+e
+r mes inu alt t,
+o
+h re
+s
+r we iw the la ap rgp er o kxi
+,
+m tha it se
+a
+n
+p
+pu rs oin xg
+im
+it as
+t
+ilo ow
+n
+e isr mbo ou rn
+e
+d a:
+c
+n cIu(cid:31) rateR
+,
+k ad s;k r th= eiO
+r
+k td w;k er e.
+t
+sF or
+d (cid:31) (cid:31) (cid:31) (cid:31)
+Understanding their role in information spread dynamics in online are more likely to be reposted and observed due to a larger num(cid:31)ber o(cid:31)f r(cid:31)eceive(cid:31)rs.
+social networks may require construction of hybrid diffusion mod- The adjustment factor Pkd;krðobserved Þ is then estimated using its upper bound:
+els driven by multiple mechanisms. Further, quantification and
+Pkd;krðobserved
+Þ¼
+Rkd;kI
+r
+= nGkd;kr ≤ Okd;kr =Gkd;kr . Since Okd;kr ≤ Gkd;kr , it
+inclusion of more specific features of information, for instance, i osI v g eu rea sr ta in mt ae te ed d t , h that i sP (cid:31) (cid:31)Iak dd; jk urð so t(cid:31) (cid:31)mbs (cid:30) ee nr (cid:31) (cid:31)tv e sd uÞ b≤ st(cid:31) (cid:31)a1 (cid:29) n. E ti(cid:31) (cid:31)v ae lln y t rh e(cid:31) (cid:31)do uu (cid:31) (cid:31)cg eh s P tIhkd(cid:31) (cid:31)e;k drð io scb rs ee p(cid:31) (cid:31)rIv aned cÞ y i (cid:31) (cid:31)bs eg t(cid:31) (cid:31)e wn ee er na l (cid:31) (cid:31)ly
+novelty, validity or virality52,53, could possibly further improve the distributions of attributes of the observed and model-simulated diffusion
+understanding of information dissemination. In addition, whether trees. Using this approximation, the adjusted diffusion probability is estimated by
+similar topics in the same platform exhibit similar peer-to-peer dif- Λa kd;kr ¼Λkd;kr Okd;kr =Gkd;kr . This approximation turns out to yield satisfactory
+pIerformance in model simulations. In Supplementary Fig. 4, we report the
+fusion patterns needs exploration using more comprehensive data- (cid:31) (cid:31) (cid:31) (cid:31)
+sets with text or hashtag information. fb Poe ku dh ;n ka rdv ði oto h bu a sr et ro P vf Ik e t d dh ;(cid:31) k Þe rð ¼a od b hj su(cid:31) kes η drt(cid:31) v km e μ rd e (Þn S t ua lf(cid:31) psa poc l t efo o mr l l eP oI nwk td s a;k rr a yð o p Tb o as w be e lr ev r -e 7ld a ).Þ w a rg ea li an tis ot nk sd h a in pd w k ir t hv a kl du ae ns. d W ke r:
+I
+Methods
+Model simulations. We performed model simulations in real-world social
+Data. In this study, we used datasets containing both information diffusion
+networks. For each social platform, 20,000 observed diffusion trees were
+records and the associated social networks for three online social platforms—a
+randomly selected without replacement. We ran 100 independent simulations of
+community of bloggers, LiveJournal, and two microblog services, Weibo and
+contagion, each started from the root of each diffusion tree. In total, 2 million
+Twitter.
+simulations were performed for each of the three versions of simulations: the
+o 9,t 5h 7eI 3rn ,u 1L 2si e 7v r e LsJ . io vTu ehr Jn e o ua ul rn, n e d aa i lrc e uh c s u t ee rs d se . r f U rm i sea eni rdn s t ara e ri eln a s nt ia oo tnf ir fsi ihe ein dpd s o fl fi os thrt m ere p p t ohr se e ts sse on pct uii ban l lg in s s heo t ec w dia o bl r ykt i s te h s a e mt io ro ng dSI ifR fu m sio od ne pl, r a on bd a bc ia lis tc ya (d Λin a kg d; km r).o Fd oe rls a w lli tt hh r t eh ee s u etn sa od fj u ss imte ud l ( aΛ tIiokd n;k sr ,) wan e d u sa ed dju ts ht ee d
+same power-law responIse time learned from the observed data. In the SIR
+friends and may reference these posts in their own articles. These references
+model, the diffusion probability was set as the average value computed from the
+reveal the diffusion cascades and allow direct observation of the information
+observed diffusion events, that is, Λ = |S|/|R|. The 95% confidence intervals in
+passed from one user to another. In the dataset, we identified 721,547 diffusion
+Figs. 4 and 5 were obtained by bootstrapping55. Specifically, from the simulated
+events that follow social ties during 14 February 2010 to 21 November 2011.
+diffusion trees, we drew 104 random samples consisting of the same number
+These diffusion events form 357,749 diffusion trees involving 165,508 users. The
+(2 million) of diffusion trees uniformly with replacement, designating them as
+number of posts published by each LiveJournal user during the same period was
+bootstrap samples. For each bootstrap sample, we calculated the distributions
+also recorded. In addition, we have collected the underlying social network that
+and confidence intervals of diffusion tree size, depth, structural virality and
+contained 188 million friendship relationships. This dataset has been previously
+lifetime. The 95% confidence intervals in Figs. 3–6 were computed using the
+used in analysing the pattern of information diffusion17,54.
+2.5 and 97.5% percentiles of the 104 bootstrap samples of the probability density
+In Weibo and Twitter, users keep track of the posts published by the users
+corresponding to each x axis value.
+they follow. This enables information cascades on top of the underlying social
+network. We infer the person-to-person diffusion events in Weibo and Twitter
+Reporting Summary. Further information on research design is available in the
+using ‘retweet’ mentions. For Weibo, 9,019,288 diffusion events were collected,
+Nature Research Reporting Summary linked to this article.
+from which 397,445 diffusion trees containing 4,483,515 unique users were
+reconstructed. The social network structure, consisting of 7,977,942 users and
+700 million following links, was obtained by crawling the friends/followers Data availability
+relationships between the users involved in retweet. The Weibo dataset was Weibo and Twitter data are publicly available at https://www.dcjingsai.com/v2/
+released as the training data in an open challenge at https://www.dcjingsai.com/ cmptDetail.html?id=166 (in Mandarin) and https://snap.stanford.edu/data/
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+NATure HumAN BeHAvIOur Articles
+higgs-twitter.html. LiveJournal data are subject to restrictions for user privacy 28. Kempe, D., Kleinberg, J. & Tardos, É. Maximizing the spread of influence
+protection. Interested readers should contact L. Muchnik (lev.muchnik@huji.ac.il) through a social network. In Proc. 9th ACM SIGKDD International
+to gain access to the LiveJournal dataset. Conference on Knowledge Discovery and Data Mining 137–146 (ACM, 2003).
+29. Kitsak, M. et al. Identification of influential spreaders in complex networks.
+Code availability Nat. Phys. 6, 888–893 (2010).
+30. Lü, L. et al. Vital nodes identification in complex networks. Phys. Rep. 650,
+Custom code that supports the findings of this study is available at https://github.
+1–63 (2016).
+com/bnzu/main-code-of-rmis.
+31. Hu, Y. et al. Local structure can identify and quantify influential global
+spreaders in large scale social networks. Proc. Natl Acad. Sci. USA 115,
+Received: 1 October 2019; Accepted: 6 August 2020;
+7468–7472 (2018).
+Published: xx xx xxxx 32. Aral, S. & Dhillon, P. S. Social influence maximization under empirical
+influence models. Nat. Hum. Behav. 2, 375 (2018).
+33. Pei, S., Wang, J., Morone, F. & Makse, H. A. Influencer identification in
+References dynamical complex systems. J. Complex Netw. 8, cnz029 (2020).
+34. Moreno, Y., Nekovee, M. & Pacheco, A. F. Dynamics of rumor spreading in
+1. Watts, D. J. & Dodds, P. S. Influentials, networks, and public opinion
+complex networks. Phys. Rev. E 69, 066130 (2004).
+formation. J. Consum. Res. 34, 441–458 (2007).
+35. Kermack, W. O. & McKendrick, A. G. A contribution to the mathematical
+2. Rogers, E. M. Diffusion of Innovations (Simon and Schuster, 2010).
+theory of epidemics. Proc. R. Soc. Lond. A. 115, 700–721 (1927).
+3. Leskovec, J., Adamic, L. A. & Huberman, B. A. The dynamics of viral
+36. Pastor-Satorras, R., Castellano, C., Van Mieghem, P. & Vespignani, A.
+marketing. ACM Trans. Web 1, 5 (2007).
+Epidemic processes in complex networks. Rev. Mod. Phys. 87, 925 (2015).
+4. Centola, D. The spread of behavior in an online social network experiment.
+37. Iribarren, J. L. & Moro, E. Branching dynamics of viral information
+Science 329, 1194–1197 (2010).
+spreading. Phys. Rev. E 84, 046116 (2011).
+5. Aral, S. & Walker, D. Creating social contagion through viral product
+38. Centola, D. & Macy, M. Complex contagions and the weakness of long ties.
+design: a randomized trial of peer influence in networks. Manag. Sci. 57,
+Am. J. Sociol. 113, 702–734 (2007).
+1623–1639 (2011).
+39. De Domenico, M., Lima, A., Mougel, P. & Musolesi, M. The anatomy of a
+6. Newman, M., Barabási, A. L. & Watts, D. J. The Structure and Dynamics of
+scientific rumor. Sci. Rep. 3, 2980 (2013).
+Networks (Princeton Univ. Press, 2011).
+40. Stephen, A. T., Dover, Y., Muchnik, L. & Goldenberg, J. Pump it out! The
+7. Vosoughi, S., Roy, D. & Aral, S. The spread of true and false news online.
+effect of transmitter activity on content propagation in social media. Saïd
+Science 359, 1146–1151 (2018).
+Business School WP https://doi.org/10.2139/ssrn.2897582 (2017).
+8. Iribarren, J. L. & Moro, E. Impact of human activity patterns on the
+41. Rodriguez, M. G., Gummadi, K. & Schoelkopf, B. Quantifying information
+dynamics of information diffusion. Phys. Rev. Lett. 103, 038702 (2009).
+overload in social media and its impact on social contagions. In Proc. 8th
+9. Salganik, M. J., Dodds, P. S. & Watts, D. J. Experimental study of inequality
+International AAAI Conference on Weblogs and Social Media 170–179
+and unpredictability in an artificial cultural market. Science 311,
+(AAAI, 2014).
+854–856 (2006).
+42. Weng, L., Flammini, A., Vespignani, A. & Menczer, F. Competition among
+10. Aral, S., Muchnik, L. & Sundararajan, A. Engineering social contagions:
+memes in a world with limited attention. Sci. Rep. 2, 335 (2012).
+optimal network seeding in the presence of homophily. Netw. Sci. 1,
+43. Gleeson, J. P., Ward, J. A., O’Sullivan, K. P. & Lee, W. T. Competition-induced
+125–153 (2013).
+criticality in a model of meme popularity. Phys. Rev. Lett. 112, 048701 (2014).
+11. Aral, S. & Walker, D. Identifying influential and susceptible members of
+44. Feng, L. et al. Competing for attention in social media under information
+social networks. Science 337, 337–341 (2012).
+overload conditions. PLoS ONE 10, e0126090 (2015).
+12. Kwak, H., Lee, C., Park, H. & Moon, S. What is Twitter, a social network or
+45. Hodas, N. O. & Lerman, K. How visibility and divided attention constrain
+a news media? In Proc. 19th International Conference on World Wide Web
+social contagion. In Proc. 2012 International Conference on Privacy, Security,
+591–600 (ACM, 2010).
+Risk and Trust and 2012 International Conference on Social Computing
+13. Gruhl, D., Guha, R., Liben-Nowell, D. & Tomkins, A. Information diffusion
+249–257 (IEEE, 2012).
+through blogspace. In Proc. 13th International Conference on World Wide
+46. Lerman, K. Information is not a virus, and other consequences of human
+Web 491–501 (ACM, 2004).
+cognitive limits. Future Internet 8, 21 (2016).
+14. Liben-Nowell, D. & Kleinberg, J. Tracing information flow on a global
+47. Muchnik, L. et al. Origins of power-law degree distribution in the
+scale using Internet chain-letter data. Proc. Natl Acad. Sci. USA 105,
+heterogeneity of human activity in social networks. Sci. Rep. 3, 1783 (2013).
+4633–4638 (2008).
+48. Barabási, A. L. The origin of bursts and heavy tails in human dynamics.
+15. Goel, S., Anderson, A., Hofman, J. & Watts, D. J. The structural virality of
+Nature 435, 207–211 (2005).
+online diffusion. Manag. Sci. 62, 180–196 (2015).
+49. Akbarpour, M. & Jackson, M. O. Diffusion in networks and the virtue of
+16. Goel, S., Watts, D. J. & Goldstein, D. G. The structure of online diffusion
+burstiness. Proc. Natl Acad. Sci. USA 115, E6996–E7004 (2018).
+networks. In Proc. 13th ACM Conference on Electronic Commerce
+50. Goldenberg, J., Han, S., Lehmann, D. R. & Hong, J. W. The role of hubs in
+623–638 (ACM, 2012).
+the adoption process. J. Mark. 73, 1–13 (2009).
+17. Pei, S., Muchnik, L., Tang, S., Zheng, Z. & Makse, H. A. Exploring the
+51. Mønsted, B., Sapieżyński, P., Ferrara, E. & Lehmann, S. Evidence of complex
+complex pattern of information spreading in online blog communities.
+contagion of information in social media: an experiment using Twitter bots.
+PLoS ONE 10, e0126894 (2015).
+PLoS ONE 12, e0184148 (2017).
+18. Muchnik, L., Aral, S. & Taylor, S. J. Social influence bias: a randomized
+52. Weng, L., Menczer, F. & Ahn, Y. Y. Virality prediction and community
+experiment. Science 341, 647–651 (2013).
+structure in social networks. Sci. Rep. 3, 2522 (2013).
+19. Bapna, R., Ramaprasad, J., Shmueli, G. & Umyarov, A. One-way
+53. Cheng, J., Adamic, L., Dow, P. A., Kleinberg, J. M. & Leskovec, J. Can
+mirrors in online dating: a randomized field experiment. Manag. Sci. 62,
+cascades be predicted? In Proc. 23rd International Conference on World Wide
+3100–3122 (2016).
+Web 925–936 (ACM, 2014).
+20. Eckles, D., Kizilcec, R. F. & Bakshy, E. Estimating peer effects in networks
+54. Pei, S., Muchnik, L., Andrade, J. S. Jr, Zheng, Z. & Makse, H. A. Searching
+with peer encouragement designs. Proc. Natl Acad. Sci. USA 113,
+for superspreaders of information in real-world social media. Sci. Rep. 4,
+7316–7322 (2016).
+5547 (2014).
+21. Centola, D. An experimental study of homophily in the adoption of health
+55. Efron, B. & Tibshirani, R. J. An Introduction to the Bootstrap (CRC Press, 1994).
+behavior. Science 334, 1269–1272 (2011).
+22. Goldenberg, J., Libai, B. & Muller, E. Talk of the network: a complex
+systems look at the underlying process of word-of-mouth. Mark. Lett. 12, Acknowledgements
+211–223 (2001). B.Z. is funded by Natural Science Foundation of China (grant no. 61503159) and
+23. Watts, D. J. A simple model of global cascades on random networks. Jiangsu University Overseas Training Programme. S.P. is supported by NIH NIGMS
+Proc. Natl Acad. Sci. USA 99, 5766–5771 (2002). grant no. 5U01GM110748. L.M. is supported by Israel Science Foundation grant no.
+24. Castellano, C., Fortunato, S. & Loreto, V. Statistical physics of social 1777/17. X.M. and H.E.S. are supported by NSF Grant PHY-1505000 and DTRA grant
+dynamics. Rev. Mod. Phys. 81, 591 (2009). no. HDTRA-1-14-1-0017. X.X. is supported by National Natural Science Foundation
+25. Zhang, Z. K. et al. Dynamics of information diffusion and its applications on of China (grant no. 61773091). A.S. wishes to thank the Ariel Cyber Innovation Centre
+complex networks. Phys. Rep. 651, 1–34 (2016). in conjunction with the Israel National directorate in the Prime Minister’s Office for
+26. Pei, S. & Makse, H. A. Spreading dynamics in complex networks. J. Stat. their support. S.H. thanks the Italian Ministry of Foreign Affairs and International
+Mech. 2013, P12002 (2013). Cooperation jointly with the Israeli Ministry of Science, Technology, and Space (MOST);
+27. Domingos, P. & Richardson, M. Mining the network value of customers. In the Israel Science Foundation, ONR, the Japan Science Foundation with MOST,
+Proc. 7th ACM SIGKDD International Conference on Knowledge Discovery BSF-NSF, ARO, the Bar-Ilan University Centre for Research in Applied Cryptography
+and Data Mining 57–66 (ACM, 2001). and Cyber Security and DTRA (grant no. HDTRA-1-19-1-0016) for financial support.
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+Articles NATure HumAN BeHAvIOur
+The funders had no role in study design, data collection and analysis, decision to publish Additional information
+or preparation of the manuscript. Supplementary information is available for this paper at https://doi.org/10.1038/
+s41562-020-00945-1.
+Author contributions
+Correspondence and requests for materials should be addressed to B.Z. or S.P.
+All authors designed the research. B.Z. and S.P. performed the experiments and
+Peer review information Primary handling editor: Aisha Bradshaw.
+analysis. B.Z., S.P. and L.M. curated data. B.Z., S.P. and L.M. wrote the first draft of the
+manuscript. X.M., X.X., A.S., S.H. and H.E.S. reviewed and edited the manuscript. Reprints and permissions information is available at www.nature.com/reprints.
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+Competing interests published maps and institutional affiliations.
+The authors declare no competing interests. © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NAtuRE HuMAN BEHAviouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Sen Pei
+Last updated by author(s): 07/11/2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection Data were collected from online depositories. LiveJournal data were stored in MySQL.
+Data analysis Data were analyzed using Python 2.7.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The Weibo and Twitter data are publicly available. The LiveJournal data are subject to restrictions due to privacy issue.
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description We use information diffusion records and associated social relations in LiveJournal, Weibo and Twitter to quantitatively study the person-
+to-person diffusion probability.
+Research sample Retweet records and follower networks in Twitter and Weibo, URL reference records and friend relationship in LiveJournal
+Sampling strategy LiveJournal data were collected through crawling all public accessible pages. Weibo tweets were randomly sampled. Twitter data were
+collected using terms related to the discovery of Higgs boson.
+Data collection Weibo and Twitter data were downloaded from public repositories. LiveJournal data were collected through crawling all public accessible
+pages.
+Timing LiveJournal data were collected during Feb. 14th, 2010 to Nov. 21st, 2011. Time of collection for Weibo is not reported. The Twitter
+dataset was collected by monitoring retweets on Twitter about the discovery of Higgs boson around Jul. 7th, 2012, when the news was
+announced.
+Data exclusions No data were excluded.
+Non-participation Not applicable.
+Randomization Not applicable.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data

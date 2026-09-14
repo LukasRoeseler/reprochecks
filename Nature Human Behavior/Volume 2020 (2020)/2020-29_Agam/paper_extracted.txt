@@ -1,15 +1,748 @@
-# Estimating temperatures of heated Lower Palaeolithic flint artefacts
-
-## Abstract
-Production of stone artefacts using pyro-technology is known from the Middle and Upper Palaeolithic of Europe and the Levant, and the Middle Stone Age in Africa. However, determination of temperatures to which flint artefacts were exposed is impeded by the chemical and structural variability of flint. Here we combine Raman spectroscopy and machine learning to build temperature-estimation models to infer the degree of pyro-technological control effected by inhabitants of the late Lower Palaeolithic (Acheulo-Yabrudian) site of Qesem Cave, Israel. Temperature estimation shows that blades were heated at lower median temperatures (259 °C) compared to flakes (413 °C), whereas heat-induced structural flint damage (for example, pot-lids and microcracks) appears at 447 °C. These results are consistent with a differential behaviour for selective tool production that can be viewed as part of a plethora of innovative and adaptive behaviours of Levantine hominins >300,000 years ago. 
-
- This is a preview of subscription content, access via your institution
-
-## GitHub Links
-https://github.com/fnatalio/QesemCave-UVRaman
-https://github.com/fnatalio/QesemCave-UVRaman.
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00955-z/MediaObjects/41562_2020_955_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00955-z/MediaObjects/41562_2020_955_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-00955-z
+Estimating temperatures of heated Lower
+Palaeolithic flint artefacts
+Aviad Agam 1,6, Ido Azuri 2,6, Iddo Pinkas 3, Avi Gopher4 and Filipe Natalio 1,5 ✉
+Production of stone artefacts using pyro-technology is known from the Middle and Upper Palaeolithic of Europe and the
+Levant, and the Middle Stone Age in Africa. However, determination of temperatures to which flint artefacts were exposed
+is impeded by the chemical and structural variability of flint. Here we combine Raman spectroscopy and machine learning
+to build temperature-estimation models to infer the degree of pyro-technological control effected by inhabitants of the late
+Lower Palaeolithic (Acheulo-Yabrudian) site of Qesem Cave, Israel. Temperature estimation shows that blades were heated at
+lower median temperatures (259 °C) compared to flakes (413 °C), whereas heat-induced structural flint damage (for example,
+pot-lids and microcracks) appears at 447 °C. These results are consistent with a differential behaviour for selective tool produc-
+tion that can be viewed as part of a plethora of innovative and adaptive behaviours of Levantine hominins >300,000 years ago.
+F
+lint, a fine-grained sedimentary rock, is a raw material com- and consumption of medium-sized, prime-aged animals, mainly
+monly found to be used by the inhabitants of archaeo- fallow deer24.
+logical sites in Europe and the Near East as well as Africa. Qesem Cave (QC, central Israel) is one of the key sites of the
+Experimental, archaeological1–4 and ethnographic studies5 have Levantine AYCC24,25. It has yielded a multitude of finds, including
+repeatedly shown that heat treatment of flint reduces its fracture the extensive and habitual use of fire26,27. A salient feature of the
+toughness and therefore improves its knappability6. The methods QC lithic assemblage is serial and intensive blade production that
+available for identification of the intentional use of fire for the reflects new, advanced knapping skills and the careful exploita-
+purpose of transforming the mechanical properties of flint rely on tion and selection of raw materials, mainly from locally available
+visual identification of micro-cracks, colour change and fractured Upper Cretaceous Turonian sources18,23. In addition, the presence of
+surface lustre2,7, as well as on its magnetic properties8,9 and electron burned flint artefacts at QC, determined both visually and by ther-
+spin resonance10, thermoluminescence11,12 and spectroscopic13–15 moluminescence25, has demonstrated that flint was clearly exposed
+techniques. While visual techniques provide a binary identification, to fire. What remains unanswered is whether the QC inhabitants
+allowing both false-positive and -negative recognition, and exclude had a sufficient degree of control over fire for the production of spe-
+lithic items that do not display macroscopically visible heat-induced cific tool types.
+alterations, other techniques are destructive (for example, thermo-
+luminescence) and/or difficult to handle (for example, magnetic Results
+properties). Due to the intrinsic heterogeneity of flint, these methods To develop the method, we collected raw flint from ten different
+can provide only coarse estimates of the temperatures to which the geological sources across Israel (Extended Data Figs. 1 and 2 and
+flint was heated, hindering the ability to infer any potential relations Supplementary Note), including those located within 2–3 km of
+between intentional heat treatment, knapping skills and the spe- QC23, and heated them to temperatures of 275, 400, 500, 600, 700
+cific functions of the tools produced16,17, or to determine how these and 800 °C for 3 h. In line with previous reports, we found that mac-
+were incorporated into newly introduced adaptive human behav- roscopic visual evaluation of flint exposed to fire was not a reliable
+iours. We have combined, into a single method, non-destructive proxy for determination of whether it had been heat treated2,16,28,29
+Raman spectroscopy analysis of flint and machine learning (ML), (Extended Data Fig. 2). To collect flint spectra we used Raman spec-
+which overcomes this limitation. This approach facilitates handling troscopy excited by an ultraviolet (UV) laser (325 nm), which ben-
+of large datasets, high-resolution temperature-estimation models, efited from reduced autofluorescence and background. The typical
+robustness, objectivity and reproducibility with which to explore Raman spectrum of flint has an inorganic component that includes
+past behaviours (Fig. 1). α-quartz (characteristic Raman line at 464 cm−1) and moganite
+The systematic production of blades is one of the hallmarks (characteristic Raman line at 503 cm−1)30 and a pristine organic
+of the Acheulo-Yabrudian cultural complex (AYCC), a Levantine component attributed to intercrystalline polyaromatic amorphous
+Late Lower Palaeolithic cultural entity (~420,000–200,000 years hydrocarbons (that is, characteristic D and G lines located at 1,379
+ago (420–200 kya))18,19. This technological innovation is well and 1,605 cm−1, respectively; Extended Data Fig. 3). We collected
+known in regard to the AYCC and coincides with additional inno- 25 Raman spectra (laser spot diameter of ~1 µm) within a random
+vative lithic behaviours, including the systematic production of region of radius 200 µm from the surface of several arbitrarily cho-
+Quina scrapers20,21 and complex lithic procurement and exploitation sen pieces obtained from all ten flint sources, both unheated and
+strategies22,23. Animal protein was gained from intensive hunting heated at different temperatures. Evaluation of peak area, height,
+1Kimmel Centre for Archaeological Science, Weizmann Institute of Science, Rehovot, Israel. 2Bioinformatics Unit, Department of Life Sciences Core
+Facilities, Weizmann Institute of Science, Rehovot, Israel. 3Department of Chemical Research Support, Weizmann Institute of Science, Rehovot, Israel.
+4Sonia and Marco Nadler Institute of Archaeology, Tel Aviv University, Tel Aviv, Israel. 5Department of Plant and Environmental Sciences, Weizmann
+Institute of Science, Rehovot, Israel. 6These authors contributed equally: Aviad Agam, Ido Azuri. ✉e-mail: filipe.natalio@weizmann.ac.il
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+Wavenumbers (cm–1)
+Heating flint Raman spectroscopy
+Geological horizons with flint nodules
+Lithic assemblages Wavenumbers (cm–1)
+Raman spectroscopy
+full height at half maximum, peak centre and ratio yielded no con- suggest that pot-lids do not necessarily originate exclusively from
+clusive pattern (Supplementary Figs. 1 and 2). This inability to over- high-temperature exposure. The different reactions of particular
+come the intrinsic variability of flint makes it difficult to extract raw materials to heat may be the result of intrinsic material inhomo-
+reliable information17. geneity, such as crystal defects, geologically induced micro-cracks
+We therefore employed ML algorithms using our large spec- (for example, cold temperatures) and/or the presence of internal
+troscopic dataset to overcome classical data treatment approaches organic pools converted to CO after exposure to heat resulting in
+2
+and build temperature-estimation models. The ML algorithm input flint being shattered. These compositional and structural differ-
+included the full Raman shift range of 100–1,800 cm−1 of all UV ences may lead, in turn, to differences in the response of flint to
+Raman spectra acquired for all ten different geological sources, heat. Therefore, the application of heat treatment for the production
+unheated and heated at different temperatures. Using all prepro- of stone tools may have required, in addition to advanced knapping
+cessed spectra (background subtraction and spectral normalization, skills and a careful process of raw material selection, a high degree
+Methods), we trained three classification models (M1, logistic regres- of control over fire to prevent structural damage that would render
+sion; M2, linear support vector machines; and M3, neural network) the flint useless.
+and two regression models (R2, linear support vector machines; and Following these results, we randomly selected flint artefacts from
+R3, neural network; Methods and Supplementary Note). Notably, two different technological trajectories (non-cortical flakes with no
+M1, M2 and R2 are linear models while M3 and R3 are nonlinear. base modification produced from flake cores (n = 30; Extended Data
+We found that neural network models M3 and R3 give an accuracy Fig. 4) and non-cortical blades produced from designated blade
+of 80%, root mean squared error (RMSE) of ~105 °C and Pearson cores (n = 38; Extended Data Fig. 5), excavated from the Deep Shelf
+correlation coefficient of 0.89 between estimated and true values, Unit I area. We selected non-cortical blades and flakes to avoid dif-
+yielding better estimation of performance when compared to mod- ferential heating bias between items derived from outside the flint
+els M1 and M2 in the classification task, and to R2 in the regression core during reduction and those derived from the inside of the core.
+task (Supplementary Note). We therefore selected model R3 for fur- Again, we randomly collected UV Raman spectra (n = 25) from the
+ther temperature estimations. Our model showed that temperature artefact surface. The estimated median temperature ranged between
+estimation relies on variation among three wavenumber regions, 127 ± 4 and 581 ± 62 °C for the flakes (Fig. 3c), and between 42 ± 36
+each comprising multiple peaks located at 100–300, 400–600 and and 617 ± 74 °C for the blades (Fig. 3d). Comparatively, blades were,
+1,300–1,800 cm−1, which is attributed to structural modification of in general, exposed to lower temperatures than flakes (Fig. 4a,b).
+α-quartz and moganite (region <600 cm−1) and the D and G bands Welch’s test of estimated temperature shows statistically significant
+(1,300–1,800 cm−1), respectively. This overcomes previous analysis differences (d.f. = 62.4, P = 0.002, effect size = 0.77, 95% confidence
+based solely on a single component30,31. interval (CI) [38.0, 165.6]) between the different tool types. The
+We then randomly measured UV Raman spectra (n = 25) from estimated low-temperature regime artefacts were either not exposed
+lithic artefacts collected from the oldest layer excavated thus far at to heat at all or, alternatively, were produced from cores unevenly
+QC, an area named Deep Shelf Unit I, aged >300 kyr (Fig. 2a,b and exposed to heat. Box–whisker plots (Fig. 4b) show the estimated
+Methods)25,32. We started by selecting artefacts (n = 4) displaying median temperature of artefacts bearing pot-lids at the top of the
+visual traits of high-temperature exposure (for example, pot-lids; scale (447 °C) followed by that of flakes (413 °C), with that of blades
+Fig. 3a,b). As a follow-up, after acquiring and processing all UV located at the lower end (259 °C). Accordingly, heat damage visual
+Raman spectra, we used model R3 to estimate the temperatures to traits (for example, pot-lids and cracks) were observed among
+which these flint artefacts were exposed. Our results indicate that 18.4% (7 out of 38 artefacts) and 46.7% (14 out of 30 artefacts) for
+artefacts bearing pot-lids were exposed to average temperatures blades and flakes, respectively. Although the R3 model estimation
+ranging between 266 ± 99 and 523 ± 91 °C (Fig. 3b)2. These results values of different temperature categories provide a finer resolution
+stnuoc
+ytisnetnI
+stnuoc
+ytisnetnI
+⚬
+⚬
+⚬
+⚬
+⚬
+⚬ ⚬ ⚬ ⚬ ⚬ ⚬
+Machine learning
+predictive model
+⚬
+°C
+⚬ 800
+700
+⚬ 600 500
+⚬ 400
+300
+⚬ 200
+100
+25
+⚬ ⚬ ⚬ ⚬ ⚬ ⚬
+Machine learning Classification/ Material handling/ predictive model regression heat treatment
+Fig. 1 | Road map for artificial intelligence applied to flint-based stone tools. Schematic representation of the use of Raman spectroscopy and ML-based
+regression/classification models to build a tool for the assessment of heat treatment of lithic assemblages and to infer heat-related behaviours, material
+handling and controlled use of fire in the heat treatment of raw materials.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+a
+Shelf
+b
+A B C D E F G H I J K L M N O P Q R S T U V W
+1
+2
+3
+4
+5
+Modern fence Modern steps
+6
+347
+7
+360
+105
+8 505 480
+515 515 465 340 300 250 215160
+9 135 160
+Concentration
+10 Rock of blades
+11
+12
+13 560 Fireplace
+660
+700
+14
+550 560
+775 530
+Concentration 480
+15 640 of animal bones
+570
+16
+17
+18
+Modern fence
+19
+20
+21
+22
+23
+Qesem Cave, 2005 N
+W
+24 Map/overview E
+with sections and levels S
+25
+University of Tel Aviv
+0 5 10 m
+Fig. 2 | Qesem Cave. a, Photographic image of QC and the entrance to the Shelf Area. b, Schematic plan of QC, with Deep Shelf Unit I marked by a red
+rectangle. Green arrows represent the possible entrance to the cave. Top letters (A–W) and left side numbers (1–25) represent the grid and the numerals
+inside represent elevations (in cm).
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+a b
+600
+Pot-lids
+500
+400
+D4d + D5b1195-1200
+D6d1180-1185
+300
+200
+100
+D6d1140-1145 D6d1140-1145
+0 3 cm
+Flakes Blades
+0 3 cm
+at higher temperatures than at lower, the Pearson correlation coeffi- for validation experiment/testing set drop from 209/103 °C for the
+cient between estimated temperature values and true ones on testing temperature category of 25 °C to 78/52 °C for the temperature cat-
+was 0.89 (d.f. = 324, P = 4.6 × 10−118, effect size = 0.89, 95% CI [0.88, egory of 800 °C; Supplementary Figs. 5 and 7). Coarser estimation
+0.92]; Supplementary Note). RMSE and mean absolute error (MAE) at lower temperatures is a limitation and can be attributed to either
+for the averaged estimated versus true values are ~56 and ~40 °C, (1) small spectral data in the training set or (2) the intrinsic physi-
+respectively. In addition, we found an average Pearson correlation cal properties of flint. On the one hand, cross-validation of training
+coefficient of 0.78 between estimated and true temperature values dataset rules out insufficient spectral data on the training set. On
+on tenfold testing for model R3 (average d.f. = 161, P = 7.6 × 10−21, the other hand, flint undergoes minimal structural modifications
+effect size = 0.78, 95% CI [0.71, 0.83]). Thus we conclude that, on when exposed to lower temperatures expressed by slight modifica-
+average, model R3 is able to provide reliable temperature estima- tions of the spectral profile in the organic region. Thus, we attribute
+tions. Nevertheless, our ML model is not able to resolve a scenario coarser estimations at lower temperatures to the intrinsic physi-
+where blades at QC were not exposed to heat while flakes were ran- cal properties of flint, representing a limitation to our approach.
+domly exposed to high temperatures. Interpretation of coarser temperature estimation at lower tempera-
+To validate the performance of model R3 and its estimability, we tures should be carefully considered.
+conducted an independent validation experiment (Supplementary We performed Fourier transform infrared (FTIR) spectroscopic
+Note) using heated geological flints and in which the temperatures analysis of clay peak shift33, bone-splitting factor34 and the absence/
+reached are known. Estimations of different temperature categories presence of pyrogenic calcite35 from sediments collected from Deep
+clustered near the true temperature (average estimated temperatures Shelf Unit I, eastern stratigraphic section (Extended Data Figs. 6
+are 243, 339, 392, 510, 577, 619 and 746 °C for corresponding true and 7 and Supplementary Note), which showed that these sediment
+temperatures of 25, 275, 400, 500, 600, 700 and 800 °C, respectively, samples had not been exposed to fire. Moreover, the spatial distri-
+with RMSE and MAE for the averaged estimated versus true values bution of the artefacts analysed (Extended Data Fig. 8) presents a
+of ~94 and ~66 °C, respectively; Supplementary Fig. 6), demonstrat- wide variation between estimated temperatures in neighbouring
+ing that the temperature-estimation distributions performed by excavation subsquares, with no clear spatial clustering. This fur-
+model R3 are distinctive. Independent validation of R3 average esti- ther reduces the likelihood of these artefacts having been accidently
+mation values of different temperature categories shows consistency exposed to a local fire or, alternatively, to a repeated naturally occur-
+with the testing set in regard to finer resolution at higher, rather than ring fire outside the cave. These results are in accordance with the
+lower, temperatures (standard deviations of estimated temperatures low frequency of artefacts bearing pot-lids within the random sam-
+)C°(
+erutarepmeT
+D6d D4d + D5b D6d D6d
+1140-1145 1195-1200 1140-1145 1180-1185
+Artefacts with pot-lids
+c d
+C7c1195-1200 (127 °C) D7c1180-1185 (274 °C) D7a1170-1175 (42 °C) C7b1140-1145 (314 °C)
+C7d1135-1140 (498 °C) C7d1160-1165 (581 °C) D6d1155-1160 (452 °C) D6b1190-1195 (617 °C)
+0 3 cm
+Fig. 3 | Estimated temperatures of the artefacts analysed. a, Selected flint artefacts from Deep Shelf Unit I displaying visual traits of (excessive) heat
+treatment (pot-lids highlighted by arrows). b, Estimated temperatures using ML model R3 for the same artefacts. Error bars represent the standard
+deviation from estimated temperatures obtained from 25 spectra per sample. c,d, Selected flakes (c) and blades (d) from Deep Shelf Unit I and
+corresponding estimated temperatures using R3, showing maximum and minimum temperatures.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+a
+700
+Blades
+5711-0711b7D
+5711-0711a7D
+0611-5511a5D
+5511-0511d7C
+0411-5311d6D
+5711-0711d5D
+5711-0711a5D
+5711-0711a5D
+0021-5911c7C
+5511-0511b6D
+5511-0511d6D
+0811-5711a5D
+5811-0811c7D
+0411-5311d6D
+0511-5411c6D
+0411-5311c7D
+5511-0511b7D
+5711-0711c7C
+0811-5711c7D
+0511-5411d6D
+0611-5511d7C
+0911-0911d
++
+c6D
+5611-0611b5D
+0811-5711a7D
+5411-0411a7D
+5811-0811a6D
+5511-0411c7C
+5611-0611a7D
+5911-0911c7C
+0411-5311d6D
+5411-0411d7C
+5511-0511d7C
+0911-0511d6D
+5711-0711a5D
+0511-5411a7D
+0021-5911b7D
+5311-5311d
++
+b6D
+0711-5611a5D
+5611-0611c6D
+5511-0511d6D
+0411-5311d7C
+0411-5311b7C
+0911-5811c7C
+0911-5811d5D
+5611-0611d4D
+0021-5911d5D
+0911-5811b5D
++
+d4D
+0411-5311d6D
+0611-5511a5D
+5411-0411b7D
+0511-5411d7C
+5511-0311b7C
+5511-0511d7C
+0711-5611d6D
+5611-0611d7C
+5911-0911b7D 0411-5311d7D 0021-5311b6D 5511-0311b7C 0611-5511d6D 5311-5311d
++
+b6D
+0911-5811d5D 0811-5711c6D 5911-0911b6D
+600 Flakes
+500
+400
+Pot-lids Flakes Blades
+)C°(
+erutarepmet
+detciderP
+700
+600
+500
+400
+300
+200
+100
+0
+Predicted
+temperature
+(°C)
+300
+200
+100
+0
+b ~25–75%
+Range within 1.5 × IQR
+700 Median
+Mean
+Outliers
+600
+500 495 498
+447
+421 413
+400
+380
+347
+328
+274 278
+259
+202
+)C°(
+erutarepmeT
+300
+200
+100
+0
+Fig. 4 | mL estimation of QC artefacts collected along Deep Shelf unit I. a, Full range of estimated temperatures using model R3 for all flakes and blades
+analysed, showing that blades were generally exposed to lower temperatures. b, Box–whisker plots of temperatures for artefacts bearing pot-lids, flakes
+and blades estimated using model R3 and showing that, in general, artefacts with pot-lids were exposed to the highest temperatures, followed by flakes
+and finally by blades. Standard deviation is high due to the heterogeneity of flint. IQR, interquartile range.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+ples (8 out of 68, 11.8%). Together with the fact that significant parts samples were then allowed to cool to room temperature inside the oven overnight.
+of the context of Deep Shelf Unit I can be viewed as generally intact The samples were kept in sealed 50-ml test tubes until further analysis.
+(Methods), these artefacts may have been exposed to heat in a loca-
+UV Raman spectroscopy. All samples were analysed by Raman using a
+tion different from where they were unearthed. Blades were prob- Horiba LabRAM HR Evolution spectrometer equipped with a HeCd 325-nm
+ably moved from one place to another within the cave to be used for laser (Kimmon). The system has an 800-mm focal length spectrograph
+cutting, as part of space management of the cave. Similarly, burnt with interchangeable gratings and is mounted with an open-electrode,
+artefacts bearing pot-lids could have been used in complementing front-illuminated, cooled charge-coupled device detector. Samples were placed
+under a modular microscope (Olympus BX-FM) with a suitable objective. For
+cutting procedures36.
+this work, a LMU-40X-NUV ×40/0.5 numerical aperture objective (Thorlabs) was
+To validate the R3 model estimation with archaeologically rel- used. To acquire spectra from a section of the sample, we used an automated XYZ
+evant data, we conducted preliminary knapping experiments after stage that moved under the objective lens. To overcome within-sample structural
+heating flat flint nodules/slabs collected in the surroundings of QC heterogeneity, we randomly selected a region of 200-µm radius from the flint
+at 259, 413, 447 and 600 °C (Supplementary Note). Visual inspec-
+surface (laser spot diameter of ~1 µm), and 25 spectra were recorded for several
+samples (randomly picked) unheated or heated at different temperatures using the
+tion of blades produced from flint slabs heated at 259 °C suggests
+following conditions: 325 nm (near-UV), grating 1,800 g mm–1 (500-nm blaze),
+that these appear to display more regular edges and surfaces than ×40 objective, 5-s exposure, averaged twice, Syncerity OE detector, confocal hole
+those produced from nodules heated to other temperature ranges 100 µm and intensity correction system (ICS) correction for the optical system.
+(Supplementary Fig. 13). These preliminary knapping experiments Archaeological artefacts were measured using surfaces recently washed with fresh
+water; geological samples were measured using freshly exposed surfaces.
+(see Supplementary Note for full description of the experimental
+outcome) seem to support the idea that controlled heating of flint
+FTIR spectroscopy. Sediment samples were collected from freshly exposed QC
+at relatively low temperatures offers a higher degree of control over Deep Shelf cross-sections, then powdered and mixed with 5 mg of KBr. The
+flakability, and improved blade production, rendering them more mixture was pressed into a 7-mm die using a Pike hand press and analysed with a
+suitable for specific activities (for example, higher efficiency in Thermo Nicolet iS5 FTIR spectrometer. FTIR spectra were collected by performing
+32 scans at a resolution of 4 cm−1 in the spectral range 4,000–400 cm−1. FTIR
+butchering game). However, fuel gathering would have carried high
+spectra were analysed using Omnic software and replotted with an OriginLab Pro
+energetic costs had this been for the purpose of heat treatment of
+2018 (b9.5.0193).
+raw material only. Thus, we hypothesize that fuel collection served
+not only for stone tool production but can also be viewed as part ML and spectra preprocessing. Before using Raman spectra as input to the ML
+of habitual fire-related behaviours demonstrated by QC hominins. models, several preprocessing steps were applied40. First, the spectra (intensities)
+were interpolated and cropped for fixed wavenumbers (1,000 waveumbers)
+spanning uniformly the whole wavenumber Raman spectral range. This was done
+Discussion
+since the input features (intensities) for the machine learning models are required
+The use of fire was one of the most important discoveries made by to be at the same wavenumber location for any individual spectrum. The spectra
+early hominins, and pyro-technology for the heat treatment of raw were then smoothed for noise reduction using the generalized cross-validation
+material was one of its many uses. It permitted greater control over spline41. Next, the asymmetric least squares42 algorithm was applied for baseline
+correction and, finally, intensity normalization was applied to the spectra. The
+the knapping process, providing hominins with sets of tools with
+preprocessing steps were done with the Python packages Scipy43 and Rampy44.
+unique properties for improved adaptation and survival37–39. The Following the preprocessing steps, noisy measurements were removed (that
+ML-based methodology presented here allows estimation of the is, failed measurements) along with outlier measurements not corresponding
+temperatures to which flint artefacts were heated while overcoming to the general Raman spectrum shape of flint. Supervised ML: at this stage the
+its intrinsic chemical and structural variability. Our study of flint preprocessed spectra were used as input to the ML models for training, with
+spectral intensities (1,000 features for each measurement) serving as the features.
+tools from QC Deep Shelf Unit I provides evidence consistent with
+Here, classification and regression models were applied using the Python packages
+hominins at the site heating flint to low temperatures specifically for Sklearn45 and Keras46,47. For classification, the main purpose was to train classifiers
+improving blade production. that correctly classify the spectra obtained from heated flint to their heated
+Our ML approach is limited by the physical properties of flint— temperature category (25, 275, 400, 500, 600. 700 and 800 °C). The dataset was
+divided into training (80%) and testing (20%) sets, with stratification (division
+it relies on heat-induced structural modifications of both organic
+into smaller and larger testing sets (75/25% or 70/30%) leading to roughly similar
+and inorganic flint components. When flint is exposed to lower
+performance on the testing set, justifying an adequate sample size for this research,
+temperatures these modifications are subtle, occurring primarily although increased sample size may have improved performance). Multi-class
+in the organic component. Hence, temperature estimations for flint logistic regression (M1) and multi-class linear support vector machine (M2)
+exposed to lower temperatures should be interpreted cautiously and models with their default hyper-parameters were used, as well as a neural network
+model (M3) tuned (Supplementary Note) with regard to the validation sets48–51.
+backed by statistical analyses.
+With regard to regression, the main purpose was to train models that estimate the
+Our ML approach can provide unique information on past
+temperature to which the flints were heated from the measured spectra with the
+behaviours, consistent with differential heat treatment of flint lowest RMSE between true and estimated values. Since the intensity features (input
+linked to the production of specific tool types. This approach offers of the ML models) are a few orders of magnitude lower than the temperature
+a robust platform for the study of paleo-pyro-technology with no values, the latter were scaled before training the models using the ‘Min Max’ scaler,
+leading to a fitting process that is more robust and accurate. In this study we used a
+spatial or temporal constraints and, in addition, of aspects of the
+linear support vector machine model (R2) with its default hyper-parameters and a
+cognitive evolution of our species.
+neural network model (R3) tuned (Supplementary Note) with respect to validation
+sets. The UV Raman spectra collected from Deep Shelf Unit I artefacts were
+methods preprocessed as described above. Each spectrum (out of the 25 spectra per artefact)
+Flint collection and heat treatment. Flint was directly collected from a geological was individually used for temperature estimation using our pretrained model. The
+cross-section at Sde Boker (Negev Desert, southern Israel, Nizanna and Mor 25 estimated temperatures for each sample were averaged and the s.d. calculated.
+Formation) (30° 52′ 08″ N, 34° 47′ 33″ E), Isfiya (32° 43′ 10″ N, 35° 03′ 48″ E),
+Tel Hazor (33° 1′ 0″ N, 35° 34′ 1″ E) and Zippori (32° 44′ 44″ N, 35° 16′ 43″ E); QC archaeological artefacts. Qesem Cave is a sediment-filled karst chamber
+and from Turonian sources of the Bi’na Formation within a 3-km radius of situated 12 km east (32° 6' 7.30″ N, 34° 59' 11.90″ E) of the Mediterranean coast
+QC, labelled UF (‘Under the Fort’; 32° 4′ 52.98″ N, 34° 59′ 55.23″ E), FR (‘Firing of Tel Aviv (Israel), on the western slopes of the Samaria Hills. The entire QC
+Range’; 32° 5′ 1.90″ N, 34° 59′ 14.14″ E) and SQC (‘South of Qesem’; 32° 6′ 1.31″ N, sequence has been assigned to the AYCC of the Lower Palaeolithic of the Levant,
+34° 58′ 30.70″ E)23. An additional source sampled is from Campanian, Mishash dated to ~420–200 kya (ref. 25). The rock shelf area lies in the north-western
+Formation, located 15 km south of QC (32° 6′ 7.30″ N, 34° 59′ 11.90″ E), labelled part of the cave. All layers below the rock shelf are aged >300,000 years25,52. In
+ZM (‘Zaglembie Martyrs Memorial’; 31° 56′ 14.53″ N, 34° 59′ 1.06″ E). The flint was this study we analysed 72 artefacts obtained from Deep Shelf Unit I, the oldest
+further treated as follows: no treatment (measured at room temperature) or heated assemblage excavated at QC to date. It is situated at the northernmost excavated
+to 275, 400, 500, 600, 700 or 800 °C for 3 h using an electric oven. Samples were part of the cave, under the rock shelf, and includes squares C–E/6–8 at elevations
+inserted into the oven before turning it on, allowing them to be heated at a rate 800–1,130 cm below datum. The sediments in this layer are dark brown,
+of 10 °C min–1, and left for 3 h after reaching the desired temperature plateau. The moist and contain small (up to 10 cm in diameter) and medium (10–20 cm in
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+diameter) rocks. Some of the top sediments of the rock shelf area are inclined 18. Shimelmitz, R., Barkai, R. & Gopher, A. Systematic blade production at Late
+to the west-southwest and talus-like in nature (filling up the space under the Lower Paleolithic (400–200 kyr) Qesem Cave, Israel. J. Hum. Evol. 61,
+rock shelf after it became disused (that is, it was too low for human use)). The 458–479 (2011).
+deeper sediments (including Unit I), especially those away from the rocky wall 19. Zaidner, Y. & Weinstein-Evron, M. The end of the Lower Paleolithic in the
+to the west (where water erosion could be observed), comprise nearly horizontal Levant: the Acheulo-Yabrudian lithic technology at Misliya Cave, Israel. Quat.
+depositions that are considered generally intact. The entire lithic assemblage of this Int. 409, 9–22 (2016).
+unit composes 7,287 artefacts (débitage and shaped items: 3,373), representing a 20. Lemorini, C., Stiner, M. C., Gopher, A., Shimelmitz, R. & Barkai, R. Use-wear
+density of 1,751 artefacts per m3. Generally, flakes are more common than blades analysis of an Amudian laminar assemblage from the Acheuleo-Yabrudian of
+within the QC lithic assemblages18,53. Archaeological flint artefacts were washed Qesem Cave, Israel. J. Archaeol. Sci. 33, 921–934 (2006).
+immediately after excavation using fresh water and were then spread out to dry 21. Shimelmitz, R. et al. ‘Fire at will’: the emergence of habitual fire use 350,000
+before being collected and transferred to the laboratory for further processing. years ago. J. Hum. Evol. 77, 196–203 (2014).
+Artefacts were selected based on pot-lids or randomly selected using a web-based 22. Barkai, R., Gopher, A., Berna, F., Kubik, P. W. & Weiner, S. Specialized Flint
+randomizer (https://www.random.org/lists/). Data collection and analysis were not Procurement Strategies for Hand Axes, Scrapers and Blades in the Late Lower
+performed blind to the conditions of the experiments. No statistical methods were Paleolithic: A 10Be Study at Qesem Cave, Israel (ETH Zurich, 2009).
+used to predetermine sample size, but our sample sizes are similar to, or greater 23. Wilson, L., Agam, A., Barkai, R. & Gopher, A. Raw material choices in
+than, those reported in previous publications13,17,39. Amudian versus Yabrudian lithic assemblages at Qesem Cave: a preliminary
+evaluation. Quat. Int. 398, 61–69 (2016).
+Reporting Summary. Further information on research design is available in the 24. Stiner, M. C., Barkai, R. & Gopher, A. Cooperative hunting and meat sharing
+Nature Research Reporting Summary linked to this article. 400–200 kya at Qesem Cave, Israel. Proc. Natl Acad. Sci. USA 106,
+13207–13212 (2009).
+Data availability 25. Gopher, A. et al. The chronology of the late Lower Paleolithic in the Levant
+based on U–Th ages of speleothems from Qesem Cave, Israel. Quat.
+The raw UV Raman spectra are publicly available at https://github.com/fnatalio/
+Geochronol. 5, 644–656 (2010).
+QesemCave-UVRaman.
+26. Barkai, R., Rosell, J., Blasco, R. & Gopher, A. Fire for a reason: barbecue at
+Middle Pleistocene Qesem Cave, Israel. Curr. Anthropol. 58, S314–S328 (2017).
+Code availability
+27. Karkanas, P. et al. Evidence for habitual use of fire at the end of the Lower
+The custom code supporting the findings of this study is available from the Paleolithic: site-formation processes at Qesem Cave, Israel. J. Hum. Evol. 53,
+corresponding author upon request. 197–212 (2007).
+28. Purdy, B. A. & Brooks, H. K. Thermal alteration of silica minerals: an
+Received: 30 January 2020; Accepted: 19 August 2020; archeological approach. Science 173, 322–325 (1971).
+Published: xx xx xxxx 29. Purdy, B. A. in Lithic Technology: Making and Using Stone Tools (ed. Swanson,
+E. H. Jr) 133–141 (Mouton, 1975).
+30. Schmidt, P., Bellot-Gurlet, L., Slodczyk, A. & Fröhlich, F. A hitherto
+References unrecognised band in the Raman spectra of silica rocks: influence of
+1. Crabtree, D. E. & Butler, B. R. Notes on experiment in flint knapping: 1 heat hydroxylated Si–O bonds (silanole) on the Raman moganite band in
+treatment of silica materials. Tebiwa 7, 1–6 (1964). chalcedony and flint (SiO2). Phys. Chem. Miner. 39, 455–464 (2012).
+2. Domanski, M. & Webb, J. A review of heat treatment research. Lithic. Technol. 31. Wadley, L., Luong, S., Sievers, C. & Prinsloo, L. Underground transfer of
+32, 153–194 (2007). carbonised organic residues to lithics during preliminary fire experiments:
+3. Aldeias, V., Dibble, H. L., Sandgathe, D., Goldberg, P. & McPherron, S. J. P. implications for archaeology. Herit. Sci. 7, 59 (2019).
+How heat alters underlying deposits and implications for archaeological fire 32. Barkai, R., Gopher, A., Lauritzen, S. E. & Frumkin, A. Uranium series dates
+features: a controlled experiment. J. Archaeol. Sci. 67, 64–79 (2016). from Qesem Cave, Israel, and the end of the Lower Palaeolithic. Nature 423,
+4. Mercieca, A. & Hiscock, P. Experimental insights into alternative strategies of 977–979 (2003).
+lithic heat treatment. J. Archaeol. Sci. 35, 2634–2639 (2008). 33. Berna, F. et al. Sediments exposed to high temperatures: reconstructing
+5. Hester, T. R. Ethnographic evidence for the thermal alteration of siliceous pyrotechnological processes in Late Bronze and Iron Age Strata at Tel Dor
+stone. Tebiwa 15, 63–65 (1972). (Israel). J. Archaeol. Sci. 34, 358–373 (2007).
+6. Beauchamp, E. K. & Purdy, B. A. Decrease in fracture toughness of chert by 34. Weiner, S. & Bar-Yosef, O. States of preservation of bones from prehistoric
+heat treatment. J. Mater. Sci. 21, 1963–1966 (1986). sites in the Near East: a survey. J. Archaeol. Sci. 17, 187–196 (1990).
+7. Goren-Inbar, N. et al. Evidence of hominin control of fire at Gesher Benot 35. Regev, L., Poduska, K. M., Addadi, L., Weiner, S. & Boaretto, E.
+Yaaqov, Israel. Science 304, 725–727 (2004). Distinguishing between calcites formed by different mechanisms using
+8. Larrasoaña, J. C. et al. Magnetic properties of cherts from the infrared spectrometry: archaeological applications. J. Archaeol. Sci. 37,
+Basque-Cantabrian basin and surrounding regions: archeological implications. 3022–3029 (2010).
+Front. Earth Sci. https://doi.org/10.3389/feart.2016.00035 (2016). 36. Venditti, F., Nunziante-Cesaro, S., Parush, Y., Gopher, A. & Barkai, R.
+9. Domanski, M. & Webb, J. A. Effect of heat treatment on siliceous rocks used Recycling for a purpose in the Late Lower Paleolithic Levant: use-wear and
+in prehistoric lithic technology. J. Archaeol. Sci. 19, 601–614 (1992). residue analyses of small sharp flint items indicate a planned and integrated
+10. Porat, N., Schwarcz, H. P., Valladas, H., Bar‐Yosef, O. & Vandermeersch, B. subsistence behavior at Qesem Cave (Israel). J. Hum. Evol. 131, 109–128
+Electron spin resonance dating of burned flint from Kebara Cave, Israel. (2019).
+Geoarchaeology 9, 393–407 (1994). 37. Roebroeks, W. & Villa, P. On the earliest evidence for habitual use of fire in
+11. Stahlschmidt, M. C. et al. On the evidence for human use and control of fire Europe. Proc. Natl Acad. Sci. USA 108, 5209–5214 (2011).
+at Schöningen. J. Hum. Evol. 89, 181–201 (2015). 38. Mourre, V., Villa, P. & Henshilwood, C. S. Early use of pressure flaking on
+12. Göksu, H. Y., Fremlin, J. H., Irwin, H. T. & Fryxell, R. Age determination of lithic artifacts at Blombos Cave, South Africa. Science 330, 659–662 (2010).
+burned flint by a thermoluminescent method. Am. Assoc. Adv. Sci. 183, 39. Brown, K. S. et al. Fire as an engineering tool of early modern humans.
+651–654 (1974). Science 325, 859–862 (2009).
+13. Weiner, S., Brumfeld, V., Marder, O. & Barzilai, O. Heating of flint debitage 40. Díez-Pastor, J. F. et al. Machine learning algorithms applied to Raman spectra
+from Upper Palaeolithic contexts at Manot Cave, Israel: changes in atomic for the identification of variscite originating from the mining complex of
+organization due to heating using infrared spectroscopy. J. Archaeol. Sci. 54, Gavà. J. Raman Spectrosc. https://doi.org/10.1002/jrs.5509 (2018).
+45–53 (2015). 41. Eilers, P. H. C. A perfect smoother. Anal. Chem. 75, 3631–3636 (2003).
+14. Goder-Goldberger, M., Weiner, S., Barzilai, O. & Boaretto, E. Heating of flint 42. Eilers, P. H. C. & Boelens, H. F. M. Baseline correction with asymmetric least
+artifacts from the site of Boker Tachtit (Israel) was not detected using FTIR squares smoothing. Leiden-. Univ. Med. Cent. Rep. 1, 5 (2005).
+peak broadening. J. Archaeol. Sci. Rep. 12, 173–182 (2017). 43. Virtanen, P. et al. SciPy 1.0: fundamental algorithms for scientific computing
+15. Schmidt, P., Lea, V., Sciau, P. & Fröhlich, F. Detecting and quantifying heat in Python. Nat. Methods 17, 261–272 (2020).
+treatment of flint and other silica rocks: a new non‐destructive method 44. Le Losq, C. Rampy: a Python library for processing spectroscopic (IR,
+applied to heat‐treated flint from the Neolithic Chassey culture, Southern Raman, XAS) data. Zenodo https://zenodo.org/record/1168730#.
+France. Archaeometry 55, 794–805 (2013). X2RhemgzYuU (2018).
+16. Rick, J. W. & Chappell, S. Thermal alteration of silica materials in 45. Pedregosa, F. et al. Scikit-learn: machine learning in Python. J. Mach. Learn.
+technological and functional perspective. Lithic Technol. 12, 69–70 (1983). Res. 12, 2825–2830 (2011).
+17. Bachellerie, J., Renard, C. & Schmidt, P. Technical innovations during the 46. Chollet, F. Deep Learning mit Python und Keras: Das Praxis-Handbuch vom
+recent Solutrean in the southwest of France: recognition of heat treatment of Entwickler der Keras-Bibliothek (MITP-Verlags, 2018).
+chert and estimation of heating temperatures based on the example of Le 47. Gulli, A. & Pal, S. Deep Learning with Keras (Packt Publishing, 2017).
+Piage (Lot, France). J. Archaeol. Sci. Rep. 27, 102001 (2019). 48. McCullagh, P. Generalized Linear Models (Routledge, 2019).
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+49. Cortes, C. & Vapnik, V. Support-vector networks. Mach. Learn. 20, 273–297 conducted by A.A. and I.P. Machine learning analysis and temperature estimations
+(1995). were performed by I.A. Sediment sampling was carried out by A.A., A.G. and F.N.
+50. Gurney, K. An Introduction to Neural Networks (CRC Press, 2014). FTIR analysis was performed by F.N. Data analysis was conducted by A.A. and F.N.
+51. Haykin, S. Neural Networks: A Comprehensive Foundation (Prentice Hall, 1994). This manuscript was written and edited by A.A., I.A., I.P., A.G. and F.N. All authors
+52. Falguères, C. et al. New ESR/U-series dates in Yabrudian and Amudian layers commented on and contributed to the manuscript.
+at Qesem Cave, Israel. Quat. Int. 398, 6–12 (2016).
+53. Parush, Y., Assaf, E., Slon, V., Gopher, A. & Barkai, R. Looking for sharp
+Competing interests
+edges: modes of flint recycling at Middle Pleistocene Qesem Cave, Israel.
+Quat. Int. 361, 61–87 (2015). The authors declare no competing interests.
+Acknowledgements
+We thank R. Barkai (Tel Aviv University, Israel) for his advice and help in conducting Additional information
+the blind flint knapping experiments. We thank V. Levy for her help in sample collection Extended data are available for this paper at https://doi.org/10.1038/
+and Y. Avni (Geological Survey Israel) for his help in collecting flint from the Negev s41562-020-00955-z.
+Desert. This work was supported by a research grant from the Benoziyo Endowment
+Supplementary information is available for this paper at https://doi.org/10.1038/
+Fund for the Advancement of Science, Estate of Raymond Lapon and Estate of Olga
+s41562-020-00955-z.
+Klein Astrachan and a research grant from the George Schwartzman Fund (Weizmann
+Institute of Science). I.P. is the incumbent of the Sharon Zuckerman Research Fellow Correspondence and requests for materials should be addressed to F.N.
+Chair. The funders had no role in study design, data collection and analysis, decision to Peer review information Primary handling editor: Charlotte Payne.
+publish or preparation of the manuscript.
+Reprints and permissions information is available at www.nature.com/reprints.
+Author contributions Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+published maps and institutional affiliations.
+A.A., I.A., I.P., A.G. and F.N. designed the study. QC excavations were carried out by
+A.G. A.A. and F.N. collected the geological samples. UV Raman measurements were © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 1 | Raw flint collection locations. Map displaying the locations from where the raw flint was collected (red dots).
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 2 | Heat treatment of flint. Photographic images of flint collected from different geological formations across Israel before and
+after heating to 275, 400, 500, 600, 700 and 800 °C for 3h. The samples were allowed to slowly cool down to room temperature. The samples were
+kept overnight inside the oven. Macroscopic visual evaluation of flint exposed to heat is not a reliable proxy for determining whether or not flint was
+heat-treated. Scale bar: 2 cm.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 3 | uv-Raman spectrum of flint. Unprocessed UV Raman spectrum taken from a flint surface collected from Mor formation (Sde
+Boker, Negev Desert, Israel) using 325 nm wavelength. The spectrum obtained using UV laser (325 nm) shows no intrinsic autofluorescence.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 4 | Qesem Cave flakes. Photographic images of all the flakes used in this study.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 5 | Qesem Cave blades. Photographic images of all the blades used in this study.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 6 | Deep Shelf unit I cross-section. Photographic images from a freshly exposed Qesem Cave ‘Deep Shelf’ cross-section. The blue
+tags (Sed 1–20) show the locations from which 20 samples of sediment were taken. The deeper sediments (including ‘Deep Shelf Unit I’) comprise in situ
+almost horizontal deposits.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 7 | Ft-IR analysis of sediments. FT-IR spectra of the sediments (N=20) collected from the freshly exposed Qesem Cave ‘Deep
+Shelf Unit I’ cross-section. The main clay peak centers around 1032 cm-1 with the 3695 and 3620 cm-1 (clay structural water) peaks indicating that the
+sediment from where the artefacts were taken was not exposed to temperatures exceeding 400 °C. In addition, FT-IR analysis of splitting factor of bone1,2
+and the absence of pyrogenic calcite3,4 in all sediments samples show that the bones were not burnt (Supplementary Figs. 9 and 10), and the calcite falls
+on the grinding curves of chalk (Supplementary Fig. 11), respectively. Taken together, these sediments were not exposed to heat supporting the idea that
+the artefacts were intentionally burnt in a location different from where they were unearthed.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 8 | Flint artefacts distribution. Average of the estimated temperatures of artefacts (both blades and flakes) by sub-squares (of 1x1m
+square) of Deep Shelf Unit I. The data show no temperature-based clustering.
+NAtuRE HumAN BEHAvIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2020
+Corresponding author(s): Dr. Filipe Natalio
+Last updated by author(s): Jul 8, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see our Editorial Policies and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection All samples were analyzed by Raman collected by a Horiba LabRAM HR Evolution (Horiba, France) spectrometer, equipped with a HeCd 325
+nm laser (Kimmon, Japan). Raman spectra were preprocessed in several steps: First, the spectra were cropped, interpolated and then
+smoothed, using the Generalized Cross Validation Spline. Next, the ALS algorithm was applied for baseline correction. Finally, intensity
+normalization was applied to the spectra. The preprocessing steps were done with Scipy and Rampy Python packages.
+Data analysis Supervised machine learning was performed using the Sklearn and Keras Python packages. FT-IR spectra were analyzed using Omnic software
+and replotted using OriginLab Pro 2018 (b9.5.0193). The FT-IR spectra were analyzed using Omnic software and replotted using OriginLab Pro
+2018 (b9.5.0193). For regression, the main purpose was to train regression models that predict the temperature to which the flints were
+heated form the measured spectra with the lowest root mean squared error (RMSE) between the true values and the predicted ones. Since
+the intensity features (input of the machine learning models) are a few orders of magnitudes lower than the temperature values, the
+temperature values were scaled before training the models using the “Min Max” scaler, leading to a fitting process that is more robust and
+accurate. Additional processing were performed using Microsoft® Office Excel.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+2
+nature
+research
+|
+reporting
+summary
+April
+2020
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data that support the findings of this study are included in the SupplementaryInformation. Additional data are available from the corresponding authors upon
+reasonable request.
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Ecological, evolutionary & environmental sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description In this study, we combined Raman spectroscopy and artificial intelligence (AI) to build temperature predictive models that overcome
+the intrinsic variability within flint. We applied this approach to flint blades collected from the late Lower Paleolithic Acheulo-
+Yabrudian Qesem Cave (Israel). We developed machine learning (ML) algorithms using this large data spectroscopic dataset to
+overcome classical data treatment approaches and build temperature-predictive models. The ML-algorithm input includes full Raman
+shift range from 100 to 1800 cm-1 with single point spectral resolution of all UV Raman spectra acquired for all ten different
+geological sources unheated and heated at different temperatures.
+Research sample The research sample includes archaeological material from the Acheulo-Yabrudian site Qesem Cave, and geologic flint collected from
+geologic flint sources spread throughout the state of Israel. We used two types of archeaological artifacts: blades and flakes. the
+archaeological sample chosen is representative to the archaeological assemblage from which it derives, and to the two main
+technological trajectories used at the site; the sampled geologic sources represents the variation in flint available in Israel. The
+archaeological layer chosen, the "Deep Shelf", is the oldest layer found at Qesem Cave, and therefore may provide useful information
+concerning early human behavior with the emergence of the Acheulo-Yabrudian Cultural complex, some 420,000 years ago.
+Sampling strategy In this study, we analyzed artifacts obtained from the “Deep Shelf” Unit I - the oldest assemblage excavated at Qesem Cave so far. It
+is situated at the northernmost part of the cave, under the rock shelf, and includes squares C-E/6-8 at elevations of between 800 and
+1130 cm below datum. The entire lithic assemblage of this unit is composed of 7,287 artifacts (débitage and shaped items: 3,373).
+Artifacts were selected based on potlids or randomly picked using a web-based randomizer (https://www.random.org/lists/). In total
+we sampled 38 blades and 30 flakes. Sample size was driven from previous studies, increasing the numbers usually used in other
+lithics-heating related studies, in order to collect a number of artifacts sufficient to draw statistically valid data.
+In addition, sediment samples were collected from the freshly exposed Qesem “Deep Shelf” cross-section.
+Data collection We used Raman spectroscopy equipped with UV laser (325 nm) to collect flint spectra with reduced autofluorescence and
+background. We collected 25 Raman spectra (laser spot size was approximately one μm in diameter) within a random 200 μm radius
+region from the surface of several arbitrarily chosen pieces obtained from all ten flint sources, unheated and heated at different
+temperatures. Sediment samples were collected from the freshly exposed Qesem “Deep Shelf” cross-section, and then powdered
+and mixed with 5 mg KBr. The mixture was pressed into a 7 mm die using a PikeTM hand press and analyzed with a Thermo Nicolet
+iS5 FT-IR spectrometer. FT-IR spectra were collected by performing 32 scans at a resolution of 4 cm-1 in the 4000–400 cm-1 spectral
+range.
+Timing and spatial scale Data was collected between July 2019 and November 2019, without a break. The archaeological material is taken from a layer which
+is older than 300,000 years.
+Data exclusions No data were excluded from the analyses.
+Reproducibility All data used were documented and fully described in the paper supplementary material. For the experimental heating of geologic
+flint nodules, several nodules from different sources were heated and measured, showing consistency in temperature prediction, and
+success in repeating the experiments.
+Randomization Archaeological artifacts were taken from three different categories: blades, flakes and artifacts with potlids, indicating thermal
+damage. The typo-technological classification was previously conducted at the Tel-Aviv University Prehistory lab. The specific artifacts
+were randomly picked using a web-based randomizer (https://www.random.org/lists/).
+Blinding In order to verify our laboratory findings, we carried out a preliminary blind flint knapping experimental replication using direct hard
+hammer percussion and flint narrow blocks that we either unheated or heated to different temperatures (Fig. 3B). The knapper was
+not informed whether and which flint narrow blocks were heated. Also, the external color of the flint narrow blocks was not modified
+3
+nature
+research
+|
+reporting
+summary
+April
+2020
+by heat treatment making them visually indistinguishable.
+Did the study involve field work? Yes No
+Field work, collection and transport
+Field conditions Fourier Transform Infrared spectroscopic (FT-IR) analysis of the surrounding sediments collected along the Deep Shelf eastern
+stratigraphic section. The sediment samples analyzed were collected from the freshly exposed Qesem “Deep Shelf” cross-section, in a
+3 hours long sampling session. The sampling was conducted in a roofed area, unaffected by rain.
+Location Qesem Cave (QC) is a sediment-filled karst chamber, situated 12 km east of the current Mediterranean coast of Tel Aviv (Israel), on
+the western slopes of the Samaria hills (Cave (32°6'7.30"N, 34°59'11.90"E). For knapping experiment, we collected narrow flint blocks
+(N=20) (Turonian Upper Cretaceous origin, Bi’na Formation) in the Qesem Cave area (“Under the Fort” source) (32°05'15.9"N 34°
+59'36.5"E)
+Access & import/export All sampled geologic materials are easily accessible, with no environmental damages or disturbances. No import/export actions were
+needed for this study.
+Disturbance No disturbance was caused by this study.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology and archaeology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Dual use research of concern
+Palaeontology and Archaeology
+Specimen provenance In this study, we analyzed 72 artifacts obtained from the “Deep Shelf Unit I" - the oldest assemblage excavated at Qesem Cave so far.
+The license to use material from the site is under the names of Prof. Avi Gopher, one of the co-authors of this manuscript, and Prof.
+Ran Barkai, who approved and agreed to the use and publication of this material. The license was issued by the Israel Antiquity
+Authority, (License G/70-2016; exp. date: 31st of December, 2016).
+Specimen deposition The material is deposited in the Archaeology Department at Tel-Aviv University, Israel.
+Dating methods No dating was conducted during this study.
+Tick this box to confirm that the raw and calibrated dates are available in the paper or in Supplementary Information.
+Ethics oversight No ethical approval was required, as no ethical issues were raised during this current study.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

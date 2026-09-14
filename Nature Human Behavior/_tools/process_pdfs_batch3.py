@@ -1,10 +1,57 @@
-import os, re, json
+import os, re, json, csv
 import pdfplumber
 from datetime import date
 
 BASE = r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI\Nature Human Behavior"
 PDFS = os.path.join(BASE, "pdfs")
 AUDIT_DATE = date.today().isoformat()
+
+# ---- auto-map any PDF in pdfs/ not already in MAPPING, using inventory + on-disk folders ----
+def _autoload_mapping():
+    mapping = {}
+    inv = {}
+    inv_path = os.path.join(BASE, "ARTICLE_INVENTORY.csv")
+    if os.path.exists(inv_path):
+        with open(inv_path, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                aid = (r.get("article_id") or "").strip().lower()
+                num, yr, fa = (r.get("num") or ""), (r.get("year") or ""), (r.get("first_author") or "")
+                if aid:
+                    inv[aid] = (num, yr, fa)
+                if fa:
+                    inv.setdefault("name:" + fa.lower().replace(".", " ").strip(), (num, yr, fa))
+    if os.path.isdir(PDFS):
+        for fn in sorted(os.listdir(PDFS)):
+            if not fn.lower().endswith(".pdf"):
+                continue
+            vol = folder = None
+            low = fn.lower()
+            num = yr = None
+            if low.startswith("10.1038_"):
+                aid = fn[len("10.1038_"):].replace(".pdf", "").lower()
+                if aid in inv:
+                    num, yr, fa = inv[aid]
+            else:  # named files like earle2019.pdf
+                stem = fn[:-4].lower()
+                for key, (n, y, fa) in inv.items():
+                    if not key.startswith("name:"):
+                        continue
+                    nm = key[len("name:"):]
+                    if nm and (nm in stem or stem in nm):
+                        num, yr = n, y
+                        break
+            if num and yr:
+                vd = os.path.join(BASE, f"Volume {yr} ({yr})")
+                if os.path.isdir(vd):
+                    for d in os.listdir(vd):
+                        if d.lower().startswith(num.lower() + "_"):
+                            vol, folder = f"Volume {yr} ({yr})", d
+                            break
+            if vol and folder:
+                mapping[fn] = (vol, folder)
+    return mapping
+
+_auto = _autoload_mapping()
 
 # pdf filename -> (volume folder name, paper folder)
 MAPPING = {
@@ -168,6 +215,8 @@ def audit_paper(vol_name, paper_dir_name, pdf_name):
             'osf': av['osf'], 'github': av['github'], 'zenodo': av['zenodo'], 'figshare': av['figshare'], 'other': av['other']}
 
 results = []
+MAPPING.update(_auto)
+MAPPING.setdefault("bensimon2019.pdf", ("Volume 2019 (2019)", "2019-12_BenSimon"))
 for pdf_name, (vol, folder) in MAPPING.items():
     if os.environ.get("BATCH_FILTER"):
         keep = [k.strip() for k in os.environ["BATCH_FILTER"].split(",")]

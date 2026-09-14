@@ -1,14 +1,1148 @@
-# Revealing the multidimensional mental representations of natural objects underlying human similarity judgements
-
-## Abstract
-Objects can be characterized according to a vast number of possible criteria (such as animacy, shape, colour and function), but some dimensions are more useful than others for making sense of the objects around us. To identify these core dimensions of object representations, we developed a data-driven computational model of similarity judgements for real-world images of 1,854 objects. The model captured most explainable variance in similarity judgements and produced 49 highly reproducible and meaningful object dimensions that reflect various conceptual and perceptual properties of those objects. These dimensions predicted external categorization behaviour and reflected typicality judgements of those categories. Furthermore, humans can accurately rate objects along these dimensions, highlighting their interpretability and opening up a way to generate similarity estimates from object dimensions alone. Collectively, these results demonstrate that human similarity judgements can be captured by a fairly low-dimensional, interpretable embedding that generalizes to external behaviour. 
-
- This is a preview of subscription content, access via your institution
-
-## OSF Links
-https://osf.io/z2784
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00951-3/MediaObjects/41562_2020_951_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00951-3/MediaObjects/41562_2020_951_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-00951-3
+Revealing the multidimensional mental
+representations of natural objects underlying
+human similarity judgements
+Martin N. Hebart 1,2 ✉, Charles Y. Zheng 3, Francisco Pereira 3 and Chris I. Baker 1
+Objects can be characterized according to a vast number of possible criteria (such as animacy, shape, colour and function), but
+some dimensions are more useful than others for making sense of the objects around us. To identify these core dimensions of
+object representations, we developed a data-driven computational model of similarity judgements for real-world images of
+1,854 objects. The model captured most explainable variance in similarity judgements and produced 49 highly reproducible
+and meaningful object dimensions that reflect various conceptual and perceptual properties of those objects. These dimensions
+predicted external categorization behaviour and reflected typicality judgements of those categories. Furthermore, humans can
+accurately rate objects along these dimensions, highlighting their interpretability and opening up a way to generate similar-
+ity estimates from object dimensions alone. Collectively, these results demonstrate that human similarity judgements can be
+captured by a fairly low-dimensional, interpretable embedding that generalizes to external behaviour.
+W
+e live in a world full of objects that we can identify, place Here, we present a computational model of mental representa-
+into different categories, communicate and reason about, tions of objects based on a large-scale assessment of human simi-
+and act on in a meaningful manner. These abilities are larity judgements for natural object images. Prior experimental,
+remarkable, given that our ever-changing environment requires neuropsychological and neuroimaging evidence have led to the
+us to constantly map unique sensory information from the things proposal of object dimensions such as animacy, manipulabil-
+around us to our internal representations of objects, categories and ity and real-world size11–13, but these dimensions describe only a
+concepts. To carry out this mapping and make sense of our world, selective and largely incomplete portion of our mental represen-
+we therefore need to determine the similarity between the sensory tational space. In contrast to traditional small-scale experimental
+information emanating from the environment and our internal men- approaches, which often use artificial stimuli or words14, we col-
+tal representations. Not surprisingly, similarity has been suggested lected a large number of similarity judgements for images of 1,854
+to play an important role in elucidating the structure of our mental different objects, capturing both visual and conceptual mental
+representations and can help explain how we recognize objects1,2, representations for a wide, representative range of natural objects.
+form categories3–5, structure our conceptual knowledge6–8 and pre- Rather than relying on explicit verbal reports of what object features
+dict the behaviour of our visual world on the basis of our experience9. are perceived as relevant15,16, the model learns those dimensions
+Moreover, representational similarities offer a useful tool to relate directly from these similarity judgements.
+behaviour, computational models and brain activity patterns10. Using this data-driven approach, we identify 49 dimensions
+Despite the success of similarity and the wide use of similarity underlying similarity judgements that lead to excellent predictions
+judgements for studying mental representations of objects, similari- of both single-trial behaviour and similarity scores between pairs of
+ties alone offer only an indirect and mostly descriptive view of the objects. We demonstrate that the dimensions are meaningful and
+format of our mental representations. They can inform us about the characterize the large-scale structure of our mental representations
+degree to which two or more representations are similar, but they of objects. The model allows for the accurate prediction of catego-
+are agnostic as to what properties (or dimensions) each representa- rization behaviour, while within categories, individual dimensions
+tion is made up of and what dimensions are shared between those reflect object typicality. Finally, we demonstrate that human par-
+representations. For example, most people would agree that a dog ticipants can use these dimensions directly to provide good predic-
+and a cow are more similar than a dog and a car, probably because tions of similarity judgements, underscoring the interpretability of
+dogs and cows share more relevant dimensions, such as being ani- dimensions and offering a first step towards a generative model of
+mate, natural or soft. To understand the structure of our mental rep- the perceived similarity of natural objects.
+resentations of objects, we need to identify those core dimensions
+that form the basis of our similarity judgements. These dimensions Results
+need to fulfil two criteria. First, they should be predictive of behav- To characterize the representational space of natural objects, we had
+iour and thus able to characterize the mental representational space. to overcome several obstacles. First, we needed to identify a set of
+Second, to move beyond description and provide understanding, objects that is representative of the objects encountered in the real
+we need to identify a set of dimensions (from the infinite number world. For that purpose, we chose the 1,854 objects in the THINGS
+possible) that can be interpreted meaningfully. database17, which we developed to provide a comprehensive list of
+1Laboratory of Brain and Cognition, National Institute of Mental Health, National Institutes of Health, Bethesda, MD, USA. 2Vision and Computational
+Cognition Group, Max Planck Institute for Human Cognitive and Brain Sciences, Leipzig, Germany. 3Machine Learning Core, National Institute of Mental
+Health, National Institutes of Health, Bethesda, MD, USA. ✉e-mail: hebart@cbs.mpg.de
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviOur
+a b
+Which is the odd one out?
+Object
+dimensions
+living and non-living things according to their everyday use in the is the most similar among this set. The key benefit of this task is that
+American English language. For each object, we chose a representa- the third object always serves as a context for the other two objects,
+tive image that had been shown to be named consistently during the thus highlighting the relevant dimensions that make two objects
+creation of this database. The advantage of using images rather than most similar. By repeatedly varying the third object for a given pair
+words is that they may provide additional purely perceptual infor- of objects, we are thereby implicitly sampling across a wide range of
+mation that is relevant for judging the similarity of objects and that contexts in which the objects might be encountered. We can then
+might not come to mind immediately when using words. express similarity as an approximation of the probability p(i,j) of
+Second, we needed to identify a task that would allow us to best participants choosing objects i and j together, irrespective of con-
+quantify the similarity between pairs of objects. Ideally, this task text. In addition, since the similarity of objects is determined with
+would highlight all relevant dimensions contributing to the similar- respect to all other objects, this approach naturally constrains the
+ity of pairs of objects and would be independent of the context in number of possible dimensions to those relevant for discriminating
+which these objects appear3,18,19. While pairwise similarity ratings among objects20.
+on a Likert scale are one of the most popular approaches, this task Third, we needed to collect sufficient data with these objects and
+implicitly assumes that all dimensions relevant to judging the simi- this task. While the odd-one-out task provides a principled approach
+larity of pairs of objects are always and immediately available to the for investigating similarity across contexts, for 1,854 objects it would
+observer, even when the objects are very dissimilar and may seem require ~1.06 billion combinations of triplet judgements for a single
+to have nothing in common. Here we chose a different approach, in estimate of the full similarity matrix. This would make conducting
+which we concurrently presented three object images i, j and k in the odd-one-out task at this scale not feasible. However, if similar-
+a triplet odd-one-out task (Fig. 1a). By choosing the odd-one-out ity depends only on a small number of independent dimensions,
+object, participants indicate which pair of objects (i,j), (i,k) or (j,k) it should be possible to approximate the entire similarity matrix
+stcejbo
+458,1
+Representational
+embedding Predicted choice behaviour
+Predicted object similarity
+stcejbo
+458,1
+Broad sampling Large-scale 1,854 objects
+of images online crowdsourcing
+(1,854 objects) (n = 1.46 million trials)
+c
+1. Extract vector 2. Compute proximity 3. Compute choice
+representations for each pair probability for largest
+for object triplet (dot product) dot product (softmax)
+4. Compare
+to odd one out
+5. Update model weights using error backpropagation
+stcejbo
+458,1
+THINGS
+database
+Predicted Chosen
+i
+i • j
+j
+p(j,k)
+i • k
+k j • k
+j • k
+Fig. 1 | task and modelling procedure for the large-scale identification of mental object representations. a, We applied a triplet odd-one-out similarity
+task to images of the 1,854 objects in the THINGS database17 and collected a large number of ratings (1.46 million) using online crowdsourcing. The triplet
+odd-one-out task measures object similarity as the probability of choosing two objects together. This task evokes different minimal contexts as a basis
+for grouping objects together, which in turn emphasizes the relevant dimensions. b, The goal of the modelling procedure was to learn an interpretable
+representational embedding that captures choice behaviour in the odd-one-out task and predicts object similarity across all pairs of objects. Since only
+a subset of all possible triplets had been sampled (0.14% of 1.06 billion possible combinations), this model additionally served to complete the sparsely
+sampled similarity matrix. c, The model reflects the assumed cognitive process underlying the odd-one-out task. The embedding was initialized with
+random weights and would carry out predictions for which object pair was the most similar, on the basis of the dot product. Predicting the most similar
+pair is equivalent to predicting the remaining object as the odd one out. The model predictions were initially at chance (see the example for a prediction
+that deviates from the choice) but learned gradually to predict behavioural choices. To allow for error backpropagation to the weights, the model was
+implemented as a shallow neural network. For this figure, all images were replaced by images with similar appearance from the public domain. Images
+used under a CC0 license, from Pixabay: monika1607, OpenClipart-Vectors; Wikimedia: Vita Vilcina.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviOur Articles
+a b
+Predicted similarity (model) Measured similarity
+1.0
+r = 0.90 0.8
+0.6
+0.4
+0.2
+0
+0 0.2 0.4 0.6 0.8 1.0
+with only a fraction of those judgements. In this study, we sampled predicted choice probability and the actual choice served as a model
+1.46 million unique responses from 5,301 workers using the online prediction error, which allowed us to adapt the model dimensions
+platform Amazon Mechanical Turk (Fig. 1a), pooling all responses in proportion to this error (see Methods for the details on this opti-
+across workers (median number of responses per worker, 60). This mization procedure). The model was trained on 90% of the available
+corresponded to 0.14% of possible unique trials. trials, and the remaining 10% were later used for an independent
+Our goal was to build a computational model that is capable of assessment of model performance (see below).
+predicting behaviour in the odd-one-out task, that captures the sim-
+ilarity between all pairs of objects and that provides interpretable A stable and predictive model of behaviourally measured simi-
+object dimensions. At the centre of this model is a representational larity. As expected, due to the sparsity constraint, many of the 90
+embedding, which is a quantitative characterization of objects as initial dimensions revealed values close to 0 and were discarded,
+vectors in a multidimensional representational space. This embed- leaving us with 49 dimensions. We then sorted the dimensions
+ding can be described as a matrix X, in which each column corre- on the basis of the sum of all dimension values across all objects,
+sponds to a dimension and each row to an object vector across all in descending order. Due to the stochastic nature of the model-
+dimensions (Fig. 1b). In the context of our model, this embedding ling procedure, fitting the model repeatedly may lead to a differ-
+should allow us to (1) predict behaviour for individual trials not ent embedding and a slightly different number of dimensions.
+included in the training data and (2) generate the entire similarity To estimate the stability of the model, we re-ran it 20 times with
+matrix between all pairs of objects. different random initializations (Methods). Across those models,
+To create this embedding, we made two key assumptions. First, we most dimensions exhibited high reproducibility (Pearson’s r > 0.9
+assumed that dimensions are sparse, which is a reasonable assump- in 34/49 dimensions, Pearson’s r > 0.6 in 46/49 dimensions), dem-
+tion, given that not all dimensions are expressed in all objects. For onstrating that the procedure generated a highly stable and repro-
+example, for a putative dimension of animacy, a cardboard box ducible embedding (see Extended Data Fig. 1 for a plot of the
+would probably have a value of 0. Second, we assumed that dimen- reproducibility of all dimensions). There was a strong correlation
+sions are continuous and positive. Accordingly, the numeric value of between the ranks of the dimensions and the dimension reproduc-
+an object for a given dimension could be interpreted as the degree to ibility (Spearman’s ρ = 0.75; P < 0.001; randomization test; 95%
+which the dimension is expressed in the object, which should sup- confidence interval (CI), 0.61–0.85), indicating that the reproduc-
+port interpretability21,22. ibility of individual dimensions was driven mostly by their overall
+The modelling procedure was as follows (Fig. 1c). We initialized importance in the model.
+the model with 90 random dimensions, assuming that after model Having demonstrated the reproducibility of the model dimen-
+fitting, sparsity would reduce the dimensionality of the embedding sions, we next tested the predictive performance of the model. We
+to a smaller number. For a given triplet (i,j,k) for which we had col- first estimated how well we could predict individual choices in the
+lected a behavioural judgement, we then calculated the dot prod- odd-one-out task using trials from the independent test set. To gain
+uct between the embedding vectors of all three pairs of objects (i,j), an understanding of the best possible prediction any model could
+(i,k) and (j,k). Accordingly, when two objects express high values achieve for these 1,854 objects given the variation present in the
+for many dimensions, this measure yields a large number, whereas data (the noise ceiling), we additionally sampled 1,000 randomly
+when one object expresses high values in dimensions for which the chosen triplets 25 times and estimated the consistency of choices for
+other object expresses low values, this measure yields a small num- each triplet across participants. Averaged across those triplets, the
+ber. Next, on the basis of those three dot products, we estimated upper limit in fitting individual-trial behaviour from the data was
+the probability of choosing one of the three pairs of objects in this 67.22% (±1.04%). Overall, the model correctly predicted 64.60%
+context, which is equivalent to the third object being the odd one (±0.23%) of individual trials in the independent test data (Fig. 2a).
+out. To this end, we used the softmax function, which has been This means that the model achieved 92.25% (±1.50%) of the best
+demonstrated to be suitable for relating representational proxim- possible accuracy at predicting behaviour, demonstrating excellent
+ity to similarity in the context of choice models and for estimat- predictive performance at the individual-trial level given the noise
+ing generalization behaviour20,23. Finally, the difference between the in the data.
+ytiralimis
+derusaeM
+Behavioural prediction
+70 Noise ceiling
+65
+60
+55
+50
+45
+40
+35 Chance
+30
+Predicted similarity
+)%(
+ycarucca
+noitciderP
+Model fit
+48 diverse objects 0 1
+Fig. 2 | Predictiveness of the computational model for single-trial behavioural judgements and similarity. a, Model performance was evaluated by
+predicting choice behaviour at the individual-trial level. The noise ceiling denotes the maximal performance any model could achieve given the noise in the
+data and is determined by the consistency in participants’ responses to the same triplet. The performance of the model in predicting independent test data
+approached the noise ceiling, demonstrating excellent predictive performance. The error bars and shaded areas denote 95% CIs. b, To estimate how well
+the model predicted behavioural similarity, a model-generated similarity matrix was compared with a fully sampled behavioural similarity matrix for 48
+diverse objects. The results reveal a close fit (Pearson’s r = 0.90; P < 0.001; randomization test; 95% CI, 0.88–0.91), demonstrating that most explainable
+variance was captured by the model.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviOur
+Dimension 3: animal-related/organic
+Dimension 11: colourful
+Dimension 12: valuable/special-occasion-related
+Dimension 15: disc-shaped/round
+Dimension 17: many small things/coarse pattern
+Dimension 40: fire-related/heat-related
+Fig. 3 | example object dimensions illustrating their interpretability. The images reflect the objects with the highest weights along those dimensions. The
+word clouds illustrate the labels provided by 20 participants to the visual exposure of those dimensions, weighted by their naming frequency. While the
+responses tended to focus more on extreme examples, they generally exhibited a close correspondence to the dimension labels we generated, which are
+shown above each set of images (see Extended Data Fig. 2 for the labels and word clouds of all dimensions). For this figure, all images were replaced by
+images with similar appearance from the public domain. Images used under a CC0 license, from Pixabay: blende12, Beeki, Bernell, PublicDomainPicture,
+Alexas_Fotos, Katya36, creazionpublicidad, VanVangelis, skeez, DEZALB, Artbohemia, alien0417, Pezibear, BRRT, Neutrini, moritz320, arembowski,
+Hans, terimakasih0, LAWJR; Pexels: Clovis Cheminot, Burak K; Wikimedia: Paul de Lamerie; Flickr: monstersforsale, U.S. Navy, Fried Dough;
+PublicDomainPictures: Alex Borland; DVIDSHub: Department of Defense; Peakpx; Pikrepo; PxHere.
+To evaluate how well the model could predict behaviourally mea- data. This result highlights that despite the large number of objects
+sured similarity, we next generated a fully sampled similarity matrix and the complexity of natural stimuli, most of the large-scale repre-
+of 48 diverse objects and compared it with the similarity matrix pre- sentational structure of objects measured through human similarity
+dicted by our model. Since we had sampled only a fraction of the judgements can be captured by a fairly low-dimensional embedding.
+1,854 × 1,854 similarity matrix, the test data were insufficient for
+addressing how well the model could predict behaviourally mea- Are the model’s dimensions interpretable?. The results so far
+sured similarity. We therefore used online crowdsourcing to collect establish that the model dimensions are reproducible, can be used
+two or three behavioural responses for each possible triplet of those to accurately generate similarities between pairs of objects, and pre-
+48 objects (43,200 choices) and calculated the choice probabilities dict individual behaviour close to the noise ceiling. However, they
+for each pair of objects as a measure of their similarity. To estimate leave open the degree to which individual model dimensions can be
+the noise in the fully sampled matrix, we calculated the reliability by interpreted meaningfully. If the dimensions are interpretable, then
+splitting the behavioural data in half and generating two split-half the objects with the highest weight in a given dimension should
+similarity matrices. We then computed a predicted similarity matrix share certain properties that are easy to identify. In Fig. 3, we illus-
+using our computational model and compared it with both the full trate the interpretability for a subset of dimensions by displaying the
+similarity matrix and each split. The predicted and measured simi- object images with the largest weights in those dimensions.
+larity matrices are depicted in Fig. 2b. Both matrices were highly Visual inspection of the dimensions suggests that they are inter-
+correlated (Pearson’s r = 0.90; P < 0.001; randomization test; 95% pretable and reflect conceptual and perceptual properties of those
+CI, 0.88–0.91), with the fit of each half again approaching the noise objects. Some of the model-identified dimensions seem to reflect
+ceiling (first half, r = 0.87; second half, r = 0.88; reliability, r = 0.91), the semantic membership of those objects, such as dimensions
+demonstrating that the model was able to accurately reproduce related to food, animals, furniture, vehicles or tools. In addition, a
+behaviourally measured similarity even with very sparsely sampled number of dimensions seem to reflect other conceptual properties,
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviOur Articles
+such as being metallic or hard, valuable, disgusting, heat related or to the categories of, for example, natural and man-made objects.
+water related. Finally, some dimensions seem to reflect perceptual For example, focusing on the dimension ‘artificial/hard’ (dark-blue,
+properties, such as the roundness of objects, their elongation, flat- rightward-oriented bars), this dimension was most strongly
+ness, colour, shininess or patterned texture. For later use through- expressed on the right of the graph but became weaker when
+out this manuscript, we assigned intuitive labels to each dimension moving to the left, towards animals, food and natural objects.
+(such as ‘animal-related/organic’ and ‘colourful’). In addition to this global structure, many objects formed clus-
+To explicitly test this interpretability in naive observers, we asked ters related to high-level categories (such as animals, tools, vehicles
+20 laboratory participants (15 female, 5 male) to provide labels for and musical instruments). This indicates that categorization behav-
+those dimensions, on the basis of viewing objects sorted by their iour for many categories may be accounted for by the similarity of
+numeric values along each dimension. Since interpretability need objects, a property that has been discussed previously28,29 but had
+not be limited to a single label, we visualized the naming results not been tested on a large set of natural objects. To test how well
+using word clouds, in which more frequently provided labels are natural categories could be predicted by the similarity embedding,
+displayed with a larger font. While participants’ descriptions varied we used 18 unique high-level categories identified in the THINGS
+and tended to focus more on extreme examples of a dimension, they database17 and used a cross-validated nearest-centroid classifier to
+exhibited a remarkably close correspondence to the labels we had predict category membership for each of the 1,112 objects of those
+assigned to the dimensions (see Extended Data Fig. 2 for the nam- categories. The classifier performed at 86.42% (chance performance,
+ing of all 49 dimensions). 5.56%), on par with a recent semantic embedding of object mean-
+Having established the interpretability of object dimensions, we ing30 (85.97%) that had been trained on billions of words, demon-
+can explore what dimensions a given object is composed of. For strating that the dimensions we identified allow the prediction of
+that purpose, in Fig. 4 we visualize a range of different objects using categorization behaviour for a large number of natural categories.
+circular bar plots (rose plots), where the angle and colour of a petal Finally, the visualization reveals that certain combinations of
+reflect the object dimension and the length of the petal reflects dimensions are critical for forming different types of categories.
+the degree to which the dimension is expressed in that object. For Indeed, many subcategories can be explained by defining features:
+example, the image of noodles is characterized mostly by being food objects with large weights in the animal-related and water-related
+related, repetitive and stringy. In contrast, the image of a rocket is dimensions are probably sea creatures, while objects with large
+characterized mostly by being transportation related, flying related, weights in the plant-related and food-related dimensions are proba-
+fire related, artificial and shiny. This visualization demonstrates bly vegetables. For example, an abacus can be explained as a combi-
+that some dimensions indeed reflect perceptual properties, since nation of several dimensions, such as artificial/hard, wood-related,
+they are specific for the chosen object images. They may not show valuable/special and coarse pattern.
+up for a different image of the same object and might have been
+missed completely if words had been chosen instead of images. In How many dimensions for an object? The visualizations in Figs. 4
+addition, the visualization demonstrates that objects are indeed and 5 suggest that some objects are easy to characterize with a rel-
+characterized by a rather small number of dimensions (see below atively small number of dimensions. This indicates that, while all
+for a quantification). 49 dimensions are useful for some objects, individual odd-one-out
+judgements of objects may be predicted accurately with a smaller
+Natural object categories as an emergent property of similarity number of dimensions. Since the model performs close to the
+embedding. To characterize the relative similarity of objects to each noise ceiling at predicting behaviour, we should be able to produce
+other and explore the distribution of dimensions across objects, a lower-bound estimate for the number of relevant object dimen-
+we combined two common visualization tools. First, we projected sions for characterizing individual behaviour and the global simi-
+the 49-dimensional similarity embedding to 2 dimensions using larity structure. To this end, we carried out a dimension-elimination
+t-distributed stochastic neighbourhood embedding (dual perplex- approach. The reasoning behind this approach is that if a dimension
+ity, 5 and 30), initialized using metric multidimensional scaling. does not matter for behaviour, then setting it to 0 should not affect
+This approach has been shown to preserve the global similarity the predictive performance of the model. Therefore, for each object,
+structure while providing a higher degree of interpretability at the we set the dimension with the lowest weight to 0, predicted behav-
+local similarity level than multidimensional scaling alone24. Second, iour in the test set, recomputed the similarity matrix and compared
+in this two-dimensional plot we visualized each object using rose how this affected the predictive performance of the model. We then
+plots (as in Fig. 4). repeated this elimination process until only one dimension was
+The resulting visualization (Fig. 5) reveals several interesting left. Importantly, this procedure does not eliminate entire dimen-
+features of the similarity embedding. The global similarity struc- sions from all objects but eliminates different dimensions for each
+ture seems to highlight the well-known distinctions of animate vs object. If behaviour is driven by a larger number of dimensions than
+inanimate and natural vs man-made, but it also reveals three differ- retained, this would be reflected in reduced model performance.
+ences. First, representations of humans and human body parts are The results of these analyses demonstrate that to achieve 95–99% of
+largely separate from animals and closer to the man-made objects, the performance of the full model in explaining behavioural judge-
+in line with neuropsychological findings11,25 and demonstrating an ments in the odd-one-out task, a total of 6 to 11 dimensions are
+important limitation of simply applying taxonomic relationships required (Fig. 6a), and to explain 95–99% of the variance in the sim-
+for studying mental representations26. Second, processed food was ilarity matrix, a total of 9 to 15 dimensions are required (Fig. 6b).
+found to be more closely related to living and natural objects, acting Thus, while the representational space of objects can be captured by
+as an exception to the universality of naturalness as a critical dimen- a comparably low-dimensional embedding, for judging the similar-
+sion of object representations, again in line with patient data27. ity of objects, on average humans indeed seem to integrate across a
+Third, the weights of dimensions do not reflect binary membership larger number of those dimensions.
+Fig. 4 | Illustration of example objects with their respective dimensions, using rose plots. The length of each petal reflects the degree to which an object
+dimension is expressed for the image of a given object. For display purposes, dimensions with small weights are not labelled. For this figure, all images
+were replaced by images with similar appearance from the public domain. Images used under a CC0 license, from Pixabay: clangs, Svyatoslav, Nuschka66,
+Tabeajaichhalt, auntmasako, GAIMARD; Flickr: JIMMY .C_1991; Peakpx; Pikrepo.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviOur
+Typicality as an emergent property of similarity embedding. properties of the objects (for example, ‘is an animal’, ‘is a tool’ or
+While objects are characterized by several different dimensions, it ‘is a vehicle’) or rather the degree to which they are present in
+is unclear to what degree these dimensions merely reflect binary an object (for example, animacy, manipulability or utility for
+Abacus Bottle Fish Hand
+Paper-related/teC xo ta -rr ese
+la
+p ta et dtern
+Valuable/sp Weci oal
+od-relate Ad/b rr to
+iw fn
+icial/hard
+Fluid-relatedC oarse
+pattern
+FoCol oourf
+dul
+-related
+Water-related/blue Colourful
+Animal-related
+T o ol-relate
+d B
+Aody-
+npa irt-
+mrelat aed
+l-related
+Has
+bea
+ms/support
+S h in
+y/tra
+n
+sp
+a
+re
+n
+t
+Artificial/hard Insects/disgusting ms/legs/skin-related
+Ar
+Laptop Microscope Noodle Peacock
+Paper-
+Brel
+la ate
+cd/ kte /x nt-r oela bte
+led
+ygolonhceT
+Furnitur Ae- rr te il fia ct ie ad
+l/hard
+S
+h in
+y/traygolonhceT
+Medicine-relatedArtificial/hard Repetitive Stringy Food-related
+RepetitiveValuable/special Colourful
+Plant- Ar nel ia
+mte
+ad/ l-g rr ee le an
+ted
+n
+sp
+a
+re
+n
+t
+Piano Rocket Squid Watch
+al
+InstrB ula mc ek n/ tn -ro elb al te
+ed
+T e ch n o lo g y SeaV tal iua nble/s
+gpeci
+-reF lu ar ten di Atu rr tie f- ir ce il aat l S/e h kd a y/r fld
+ying-related
+S
+h in
+y/tra
+n
+sp
+a
+re
+n
+t
+T Ar Fa iren
+r
+-s
+rt
+eip lafo
+ti
+ert cat ii aon l/ /d hy ana rm dic Water-related
+Ins/ eb cts/l diu sge
+usting
+Animal- Fr oel oa dte -rd elatedD isc-sh a p e d
+ygolonhceT
+ClotBod hy i p Anart- gr re -l ta rt ie
+fed
+il ca it ae l/d
+hard
+d
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviOur Articles
+Fig. 5 | two-dimensional visualization of the similarity embedding, combining dimensionality reduction (multidimensional-scaling-initialized
+t-distributed stochastic neighbourhood embedding; dual perplexity, 5 and 30; 1,000 iterations) with rose plots for each object (see Fig. 4). At the global
+structure level, the results confirm the well-known distinctions of animate vs inanimate and man-made vs natural objects, with some exceptions (see the
+main text). In addition, the different clusters seem to reflect broader object categories that emerge naturally from object similarity judgements. However,
+the dimensions are not restricted to those clusters but are expressed to different degrees throughout this representational space. For this figure, all images
+were replaced by images with similar appearance from the public domain. Images used under a CC0 license, from Pixabay: fotoblend, D_Van_Rensburg,
+kropekk_pl, savagexy, cristinamacia, skeeze, HuaHinTown_Snap, mrwrightxx10.
+transportation). While we were able to predict the high-level cat- Human ratings along model dimensions allow the generation of
+egories of objects from the embedding, we did not test whether similarity scores for arbitrary object images. A generative model
+the continuous nature of the dimensions was informative about of object similarity would open the possibility to directly operate
+the degree to which a dimension is expressed in an object. The on the dimensions rather than having to collect similarity judge-
+continuous nature of dimensions may be reflected in the typical- ments. To what degree can the representational embedding identi-
+ity of objects within their corresponding categories. Interestingly, fied from the odd-one-out judgements act as a generative model
+this would demonstrate that not only object categories but also of object similarity? A simple way to test this idea is to ask partici-
+typicality can be described as an emergent property of object pants to provide direct ratings of objects along the dimensions of
+dimensions. To test whether the numeric value of a dimension the embedding31. If it is possible to generate similarity from human
+reflected typicality, we used online crowdsourcing to collect ratings of dimensions, this would also serve as a stricter test of
+typicality ratings for words of the 27 high-level categories in their interpretability.
+the THINGS database. Of those categories, 17 could be related For a set of 20 object images selected at random from the 1,854
+to dimensions of our embedding according to their dimension objects, we asked 20 laboratory participants (15 female, 5 male)
+labels; we therefore tested their correspondence with typicality. to rate those objects along the 49 object dimensions of the repre-
+The results of these analyses are shown in Fig. 7 and Extended sentational embedding (Fig. 8a). Rather than providing them with
+Data Fig. 3. Despite the typicality ratings being based on words semantic labels for the dimensions, we showed the participants
+and the dimensions on images, 14 out of 17 dimensions revealed a example images along a continuous rating scale and asked them
+significant positive relationship with typicality scores (Spearman’s where along that scale they would place those objects. In the next
+ρ, 0.26–0.62; all P < 0.05; one-sided; false discovery rate (FDR) step, the responses for each dimension were averaged across par-
+corrected for multiple comparisons). These results demonstrate ticipants and used in place of the model dimensions to generate a
+that typicality may indeed be an emergent property of the object human-predicted similarity matrix. Importantly, since the focus
+dimensions. However, the results also reveal that some dimen- here was to provide proof of concept for the usefulness of the
+sions with a weaker relationship do not seem to reflect a purely dimensions, the participants had not been trained on this task.
+category-related semantic code but may incorporate other, The comparison of similarity from direct dimension ratings
+perhaps perceptual aspects. and the reference similarity matrix from the model embedding
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviOur
+a b
+70
+60
+50
+40
+30
+20
+10
+0 5 10 15 20 25 30 35 40 45
+(Fig. 8b) revealed a generally close correspondence between the two objects with binary properties, our results demonstrate that it is
+matrices (Pearson’s r = 0.85; P < 0.001; randomization test; 95% CI, possible to achieve high predictive performance using only a small
+0.80–0.89). This result demonstrates that humans are able to judge number of interpretable, continuous dimensions. It may be possible
+dimensions for objects to allow for a good reconstruction of similar- to generate these binary properties from the continuous dimensions
+ity from dimension ratings. Importantly, since this task was carried in our model, which would demonstrate that the implicit judge-
+out with participants that were not trained on the use of the rating ments in the odd-one-out task capture much of the explicit seman-
+scale and were not instructed regarding the interpretation of the tic knowledge of objects, but a general test of this idea would require
+dimensions, this result underscores the interpretability and useful- the creation of feature production norms for the 1,854 objects used
+ness of the dimensions. in the creation of the embedding. However, even if such norms were
+created, there are two reasons that their predictions may be lim-
+Discussion ited. First, the dimensions revealed in this work are focused around
+Identifying the structure of our internal mental representations is the properties most relevant for discriminating among different
+a central goal in the cognitive sciences. For the domain of natural objects, while feature production norms would probably contain
+objects, this may seem particularly challenging given the high com- much more (often idiosyncratic) information than required for
+plexity of our visual world, which contains thousands of objects those distinctions. Second, when using object words and an explicit
+with a seemingly countless number of possible object properties. feature-naming task, participants often omit critical features14,33. By
+Here, using a triplet odd-one-out task on a wide range of object using object images and an implicit, non-verbal task, it is possible
+images, we demonstrated that it is possible to characterize the simi- to capture perceptual dimensions of objects with a representational
+larity structure and individual human behavioural judgements with embedding that might otherwise be missed.
+a low-dimensional representational embedding learned directly In contrast to traditional data-driven approaches that identify
+from human choice behaviour. The model revealed 49 meaning- multidimensional feature spaces using dimensionality reduction
+ful object dimensions, each being interpretable with respect to the techniques such as multidimensional scaling34,35, factor analy-
+perceptual and conceptual properties of those objects, reflecting sis36,37 and additive clustering38, for the present model we made two
+basic perceptual properties of shape, colour and texture as well as assumptions that support the interpretability of dimensions, moti-
+higher-level properties such as taxonomic membership, function vated by the observation of how objects are typically character-
+and value. The embedding allowed the prediction of other forms of ized21,22: (1) dimensions are sparse (that is, each object carries only
+behaviour, including high-level categorization and typicality judge- some dimensions but not others) and (2) dimensions are positive
+ments. By demonstrating that participants can use these dimen- (that is, each object is characterized by a combination of dimen-
+sions to generate object similarity scores, these results open the sions that are present to a certain degree and that add up without
+avenue towards a generative model of object similarity judgements. cancelling each other out). By incorporating these assumptions,
+Importantly, the resulting large-scale similarity matrix based on our model not only yields interpretable dimensions but also reflects
+our representational embedding can act as a basis for testing for- a blend between two common model families used to character-
+mal computational models of categorization and category learning ize objects: dimensional models that assume continuous dimen-
+in the domain of natural objects31. sions, and featural models that assume the presence and absence
+Being able to characterize mental representations of objects with of (mostly binary) object properties9,39. Analyses of category-related
+a low-dimensional embedding is surprising, given the objects’ high typicality judgements demonstrate that the continuous nature
+degree of perceptual variability and our broad semantic knowledge of the dimensions is informative as to the degree to which these
+of them32. Indeed, popular semantic feature production norms15,16 dimensions are expressed in objects, demonstrating that continu-
+have revealed thousands of binary features that participants name ous dimensions allow us to generalize beyond binary categorical
+when asked about their explicit knowledge of objects. Rather than assignment of semantic attributes (for example, ‘is animate’)40. In
+attempting to capture all the details of our semantic knowledge of addition, whereas the traditional pairwise assessment of similarity
+ycaruccA
+100
+90
+80
+70
+60
+50
+40
+30
+20
+10
+0 5 10 15 20 25 30 35 40 45
+Number of dimensions retained
+denialpxe
+ecnairav
+fo
+egatnecreP
+Prediction of odd-one-out judgements Relationship to full similarity matrix
+95–99% of performance 95–99% of variance
+Chance
+49 49
+Number of dimensions retained
+Fig. 6 | How many dimensions are required to capture behavioural judgements and object similarity? a, To explain 95 to 99% of the predictive
+performance in behaviour, between 6 and 11 dimensions are required. b, To explain 95 to 99% of the variance in similarity, between 9 and 15 dimensions
+are required. We estimated the effect of eliminating dimensions from judgements by iteratively setting the dimensions with the smallest numeric value to
+0. A drop in model performance indicates the behavioural relevance of those dimensions.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviOur Articles
+Dimension values versus typicality ratings
+𝝆 = 0.62 𝝆 = 0.62 𝝆 = 0.61 𝝆 = 0.60 𝝆 = 0.58 𝝆 = 0.53
+Weapon/danger-related Transportation/dynamic Furniture-related Electronic/technology Animal-related Sport-related
+𝝆 = 0.52 𝝆 = 0.42 𝝆 = 0.33 𝝆 = 0.46 𝝆 = 0.37 𝝆 = 0.35
+Clothing-related Food-related Child-/toy-related Instrument-related Body-part-related
+𝜌 = 0.32 𝝆 = 0.28 𝝆 = 0.26 𝜌 = 0.18 𝜌 = –0.07
+Medicine-related Tool-related Container-related/hollow Insects/disgusting Plant-related/green Dimension value
+typically neglects the importance of object context3,41, by using a to which these dimensions remain stable or whether further dimen-
+triplet odd-one-out task, this type of embedding in principle allows sions will appear. However, since the model performed close to the
+the generation of object similarity for arbitrary contexts imposed by noise ceiling at predicting similarity judgements and yielded inter-
+focusing on a chosen subset of objects (such as animals). The degree pretable dimensions, this demonstrates that the representational
+to which the embedding carries such fine-grained information will embedding already provides a useful description of behavioural
+need to be tested in future studies. judgements and object similarity.
+Mathematically, there are an infinite number of possible ways Finally, the prediction of similarity from direct ratings of dimen-
+in which object representations can be characterized by a set of sions was based on 20 objects that were part of creating the original
+dimensions. Identifying a broad range of meaningful and predic- embedding, which may slightly overestimate the ability to generate
+tive dimensions with a bottom-up, data-driven model offers a sys- similarity from dimension ratings. However, given the large num-
+tematic approach for the identification of meaningful dimensions, ber of objects used in this study, we believe it to be unlikely that
+complementing traditional top-down, theory-driven approaches. those ~1% of the objects would strongly bias the results, and col-
+Ultimately, however, further studies are required to validate the lecting ratings from a different set of objects would have required
+specificity of different dimensions in this model and link them to generating, characterizing and testing a different model, which was
+representations in the human brain. One intriguing prediction of prohibitive in the context of this study. Future studies with the goal
+our model is that specific deficits in recognizing objects found in of training participants to generate dimension ratings could rely on
+patients with focal lesions may be tied more to specific dimensions a separate set of objects for relating predicted similarity with mea-
+identified in this study or regions in representational space than to sured similarity.
+specific object categories25,27. For example, given the prominence of The approach proposed in this study opens the avenue for
+the dimension ‘shiny/transparent’, one might expect to find specific many related questions. To what degree are the dimensions shared
+deficits associated with surface materials of objects. Likewise, on the between different individuals42,43, and how are they affected by
+basis of the representational proximity of clothing and body parts, gender, age, culture, education, other socio-demographic factors
+one might expect a deficit in one to be associated with a deficit and individual familiarity with the objects? To what extent do the
+with the other. representations depend on the exact task, and can other similar-
+While we demonstrated that most dimensions were highly repro- ity tasks evoke similarly fine-grained representations44,45? What are
+ducible across different random initializations of the model, using the representational dimensions in other domains, such as words,
+a smaller subset of the data for building the embedding revealed a faces, places and actions? Finally, what makes those representations
+smaller number of dimensions (Extended Data Fig. 4). This indi- similar to those found in deep convolutional neural network models
+cated that the dimensionality of the embedding is a function of the of vision46, semantic embeddings learned on word co-occurrence
+amount of data used. Furthermore, while the sparsity constraint is statistics in large text corpora22,30,47 or brain activity in humans48–52?
+an important feature of the model, one limitation is that it may lead Addressing these questions will be important for a comprehensive
+to very similar dimensions being merged (such as plant related and understanding of mental representations of objects across people
+green). Ultimately, additional data will be required to test the degree and different domains.
+nopaeW
+gnihtolC
+elciheV
+knirD
+looT
+erutinruF
+dooF
+reniatnoC
+ecived
+cinortcelE
+yoT
+tcesnI
+laminA
+tnemurtsni
+lacisuM
+tnalP
+tnempiuqe
+stropS
+trap
+ydoB
+gnitar
+ytilacipyT
+Spearman’s ρ tnempiuqe
+lacideM
+Fluid-related/drink-related
+Fig. 7 | the relationships between seemingly categorical dimensions and typicality ratings of those categories. Many of these dimensions exhibited
+a positive relationship between the numeric value of objects along that dimension and the typicality of category membership. This demonstrates that
+even seemingly categorical dimensions reflect the graded nature of the underlying dimensions and that typicality may be an emergent property of those
+dimensions. All results were min–max scaled for better comparability. Significant relationships between both variables are displayed in bold typeface
+(P < 0.05, one-sided, FDR-corrected for multiple comparisons). See Extended Data Fig. 3 for the individual inferential statistical results.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviOur
+a
+Rate object along dimension
+High Low Not at all
+b
+Similarity matrix (dimension ratings) Similarity matrix (reference)
+1.0
+0.8
+0.6
+0.4
+0.2
+0
+20 randomly sampled objects 0 1 0 0.2 0.4 0.6 0.8 1.0
+Methods rating experiment. All laboratory participants provided written informed consent
+Participants. A total of 5,983 workers from the online crowdsourcing platform and were compensated financially for their time. No statistical methods were used
+Amazon Mechanical Turk participated in the triplet odd-one-out experiments, to predetermine the sample sizes. The laboratory experiments were carried out
+which consisted of the creation of the fully sampled matrix of 48 objects (121 following all relevant ethical regulations and rules of the National Institutes of
+workers, 100 after exclusion; 46 female, 54 male), the data for training and testing Health Institutional Review Board (NCT00001360).
+the computational model (5,526 workers, 5,301 after exclusion; 3,159 female, 2,092
+male, 19 other, 31 not reported), and the 1,000 randomly chosen triplets used for Object images and odd-one-out task procedure. The 1,854 images of objects used
+the estimation of a noise ceiling (336 workers, 325 after exclusion; 156 female, 103 in this study were the reference images that had been used previously for validating
+male, 66 not reported). In addition, a total of 337 workers (no exclusions; 198 female, the concepts of the THINGS database17. The images depict objects embedded in a
+131 male, 8 not reported) participated in the creation of the typicality norms. All natural background and were all cropped to square size, except a small number of
+workers were located in the United States, and worker ages were not assessed. For the images that didn’t fit into a square and that were padded with white background on
+odd-one-out task, workers were excluded if they exhibited overly fast responses in both sides. Importantly, the validation task of the THINGS database demonstrated
+at least 5 sets of 20 trials (the speed cut-off was 25% or more responses <800 ms and that the objects in the 1,854 images were generally nameable—that is, it can be
+50% or more responses <1,100 ms) or if they carried out at least 200 trials and showed assumed that most participants were sufficiently familiar with the objects to be able
+overly deterministic responses (>40% of responses in one of the three odd-one-out to name them. The triplet odd-one-out task was carried out in sets of 20 trials, and
+positions; expected value, 33%). All workers provided informed consent. The number the workers could choose how many sets they would like to take part in. On each
+of trials (and consequently the sample size) was determined on the basis of feasibility trial, the workers were shown three object images side by side in a browser window
+and available resources. The online research was approved by the Office of Human and were asked to report the image that was the least similar to the other two. The
+Research Subject Protection and conducted following all relevant ethical regulations, workers were told that they should focus their judgement on the object, but to
+and the workers were compensated financially for their time. minimize bias they were not given additional constraints as to the strategy they
+In addition, 20 laboratory participants (15 female, 5 male; mean age, 26.25; should use. In addition, the workers were instructed that if they did not recognize
+s.d., 6.39; range, 19–41) took part in the dimension labelling and the dimension the object, they should base their judgement on their best guess of what the object
+ledom
+morf
+ytiralimiS
+r = 0.85
+Similarity from ratings
+Fig. 8 | task and results of direct ratings of dimensions. a, Twenty participants were asked to indicate with a mouse click where they believed objects
+would fall along all 49 model dimensions. Rather than providing the participants with dimension labels, the rating scale was spanned by example images
+along the currently rated dimension (in this example, dimension 1, artificial/hard). b, Results for the 20 tested objects revealed a good reconstruction of
+object similarity by dimension ratings when comparing it with the similarity predicted from the embedding that served as a reference (Pearson’s r = 0.85;
+P < 0.001; randomization test; 95% CI, 0.80–0.89). These results further support the idea that dimensions are interpretable and that they can be used
+to directly generate object similarities. For this figure, all images were replaced by images with similar appearance from the public domain. Images from
+PublicDomainPictures: Jean Beaufort; Pixabay: jackmac34, TheDigitalArtist, Svyatoslav, UmerSaud, maime6, kalhh, Bru-nO, AutoPhotography, ingagestroliac,
+ivabalk, endlesswatts, PixelMission, Brett_Hondow, freestocks-photos, MikeGoad, MabelAmber, GuilleNeT; Flickr: craig cannon; Peakpx; Pikrepo.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviOur Articles
+could be. The workers responded with a mouse click on the respective image, object was then predicted by the smallest Euclidean distance to each centroid.
+which initiated the next trial after an intertrial interval of 500 ms. Each object This procedure was repeated for all 1,112 objects, and the prediction accuracy was
+triplet and the order of stimuli were chosen randomly, but such that after data averaged. For the corresponding analysis with a semantic embedding, we used
+collection each cell in the 1,854 × 1,854 similarity matrix had been sampled publicly available 300-dimensional sense vectors30.
+at least once.
+To yield a diverse set of objects for the fully sampled similarity reference Typicality ratings. Typicality ratings were collected for all 27 object categories
+dataset, the 48 objects were chosen by carrying out spectral clustering on publicly in the THINGS database, with the goal of including them as metadata for the
+available 300-dimensional sense vectors of all 1,854 objects30 with 48 clusters and database. However, for the purpose of this study, we focused on the 17 categories
+by choosing one object per cluster randomly. for which the labels indicated a relationship of dimensions with specific object
+categories. Typicality ratings were collected by asking workers to rate the typicality
+Details of the computational modelling procedure. The model and preliminary of an object as belonging to a given category, using a Likert scale from 0 to 10.
+results were presented previously at a conference53. The model was implemented Each rating was collected 40 times. To improve the comparability of the use of the
+as a computational graph in TensorFlow (version 1)54. Each triplet was encoded Likert scale, each worker’s responses were z-scored before they were merged with
+using three one-hot vectors (length, 1,854), and each vector was linked to 90 the other responses.
+latent dimensions, but with weights replicated across all three vectors. The
+1,854 × 90 weights were initialized randomly (range, 0–1). Note that initializing Dimension-naming task and construction of word clouds. In the
+the model with 200 dimensions led to a very similar model performance and dimension-naming task, the laboratory participants were asked to provide labels
+final number of dimensions (prediction accuracy of test set odd-one-out choices, for different dimensions after inspecting them. This was achieved by showing them
+64.70%; dimensions, 50). The dot product was chosen as a basis for proximity for example object images along a continuous scale for a given dimension, comparable
+computational reasons, but using the Euclidean distance led to similar performance to the display in Fig. 8a. The participants could further inspect the dimensions by
+(prediction accuracy of test set odd-one-out choices, 64.69%; dimensions, 57). The clicking on example objects, which would reveal more object images in this range.
+objective of the model optimization consisted of the cross-entropy, which was the The exact object images shown varied between dimensions. The participants
+logarithm of the softmax function, and a regularization term based on the L1 norm were instructed not to focus exclusively on the top of the scale but to take the
+to encourage sparsity: entire distribution of objects into account. After having studied a dimension,
+they were allowed to provide up to three verbal labels for the dimension. Word
+n
+log
+exp ðxixjÞ
+λ
+m
+x
+clouds displaying the participants’ responses according to the frequencies of
+X
+exp xixj þexp ðxixkÞþexp xjxk !þ Xjj jj1 p (Mro av ti hd wed
+o
+ro kb sj )e
+,
+c ut
+s
+l ia nb ge tls
+h
+ew der ee
+fa
+c uo ln
+t
+s pt ar ru ac mte ed
+t
+eu rs si .ng the function wordcloud in MATLAB
+�  � 
+where x corresponds to an object vector; i, j and k to the indices of the current
+triplet; n to the number of triplets; and m to the number of objects. The Object dimension rating task. The object dimension rating task was carried
+regularization parameter λ, which controls the trade-off between sparsity and out after the dimension-naming task. The participants were shown a reference
+model performance, was determined using cross-validation on the training set image on the top and were asked to rate where they would place the object along
+(λ = 0.008). In addition to sparsity, the optimization was constrained by strictly a Likert scale, according to the meanings of the dimensions explored previously
+enforcing weights in the embedding X to be positive. The minimization of this (Fig. 8a). The participants were recommended to take two of the seven shown
+objective was carried out using stochastic gradient descent as implemented in levels (demarcated by the object images) and judge whether the given object was
+the Adam algorithm55 using the default parameters and a minibatch size of 100 better characterized by one or the other level. The rating task was carried out
+triplets. After the optimization was complete, dimensions for which the weights for all 49 dimensions sequentially, on images of the following 20 objects chosen
+of all objects were smaller than 0.1 were removed, leaving us with 49 dimensions. randomly from the set of 1,854 objects: bazooka, bib, crowbar, crumb, flamingo,
+Empirically, the largest maximum weight of all excluded dimensions was 0.03, handbrake, hearse, keyhole, palm tree, scallion, sleeping bag, spider web, splinter,
+while the smallest maximum weight of all included dimensions was 1.38. staple gun, suitcase, syringe, tennis ball, woman, workbench and wreck. Since
+The dimensions were sorted in descending order by the sum of their weights many dimensions were at or close to zero, the scale included a short range with
+across objects. all zero values (“not at all”). Furthermore, to improve the discriminatory power of
+the scale, the dimension values were converted to percentiles, with all percentiles
+Computation of the similarity matrix from embedding. We defined object lower than 20% set to 0.2. After the ratings had been collected, the percentiles were
+similarity in the triplet odd-one-out task as the probability p(i,j) of the participants converted back to their respective continuous values along the dimensions and
+choosing objects i and j to belong together, irrespective of context. Therefore, to averaged across participants. For better comparability to the original dimensions,
+compute similarity from the learned embedding for all 1,854 objects, we created the dimension values were scaled so that their minimum rating corresponded
+all predicted choices for all possible ~1.06 billion triplets and calculated the mean to zero. The object dimensions were then treated as new embedding dimensions
+choice probability for each pair of objects. For the fully sampled similarity matrix for the 20 objects, and object similarity was calculated for them according to the
+of 48 objects used for testing the performance of the model at predicting object procedure described above. Finally, the similarity matrix generated from the object
+similarity (Fig. 2), we created a different similarity matrix that was constrained ratings was compared with the similarity matrix from the full model.
+only by this subset of 48 objects.
+Statistical analyses and CIs. Unless indicated otherwise in the text, the statistical
+Reproducibility of embedding dimensions. Due to the stochasticity of the analyses were conducted using classical parametric statistical tests and, when
+optimization algorithm, each time the model is re-run, we will probably end up required, corrected for multiple comparisons using FDR. The data distribution was
+with a different set of dimensions. To determine the stability of each dimension assumed to be normal, but this was not formally tested. All tests were two-tailed
+in our 49-dimensional embedding, we re-ran the model 20 times, each time unless denoted otherwise. Non-parametric randomization tests on correlations
+with a different random initialization. Next, we correlated each of the 49 original between the predicted and measured similarity matrices were conducted by
+dimensions with all dimensions of one of the 20 reference embeddings and chose creating 100,000 similarity matrices on the basis of randomly shuffling object
+the best-fitting dimension across all correlations as the closest match. We then labels, re-running the correlation with the measured similarity matrix and
+applied a Fisher z-transform to the correlations, averaged them across all 20 calculating P values as the percentage of permutations reaching or exceeding the
+reference embeddings and inverted the Fisher z-transform to get a mean reliability true similarity. The error bars reflect 95% CIs and were created on the basis of the
+for each dimension across all 20 embeddings. While the resulting comparison standard error of the mean or, when no distribution was available, the standard
+may exhibit a slightly positive bias due to choosing the best fit, a split-half deviation of 1,000 bootstrap samples.
+cross-validation between all objects demonstrated nearly indistinguishable results
+(maximum difference r = 0.01). Reporting Summary. Further information on research design is available in the
+Nature Research Reporting Summary linked to this article.
+Category prediction. The categorization performance of the representational
+embedding was tested on 18 of the 27 categories in the THINGS database. Objects Data availability
+that were members of multiple categories were removed. Of the 9 categories that
+The learned embedding, triplet odd-one-out behavioural data for testing model
+were removed, 7 were subcategories of other categories (for example, ‘vegetable’ in
+performance, typicality scores, participant-generated dimension labels and
+‘food’) or had fewer than ten objects after the removal of non-unique objects. The
+dimension ratings are available at https://osf.io/z2784. The behavioural data used
+remaining 18 categories were as follows: animal, body part, clothing, container,
+for training the model are available from the corresponding author upon request.
+electronic device, food, furniture, home decor, medical equipment, musical
+instrument, office supply, part of car, plant, sports equipment, tool, toy, vehicle and
+weapon. These categories comprised 1,112 objects. The classification was carried Code availability
+out using leave-one-object-out cross-validation. For training, centroids for all 18 To reproduce the relevant analyses and figures, the relevant MATLAB scripts and
+categories were computed by averaging the 49-dimensional vectors of all objects functions are available at https://osf.io/z2784. The computational modelling code
+in each category, excluding the left-out object. The membership of this remaining to create an embedding is available from the corresponding author upon request.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviOur
+Received: 18 March 2020; Accepted: 17 August 2020; 33. Keil, F. C. Constraints on knowledge and cognitive development. Psychol. Rev.
+Published: xx xx xxxx 88, 187–227 (1981).
+34. Shepard, R. N. The analysis of proximities: multidimensional scaling with an
+unknown distance function. Psychometrika 27, 125–140 (1962).
+References
+35. Torgerson, W. S. Multidimensional scaling: I. Theory and method.
+1. Biederman, I. Recognition-by-components: a theory of human image Psychometrika 17, 401–419 (1952).
+understanding. Psychol. Rev. 94, 115–147 (1987). 36. Thurstone, L. L. Multiple factor analysis. Psychol. Rev. 38,
+2. Edelman, S. Representation is representation of similarities. Behav. Brain Sci. 406–427 (1931).
+21, 449–467 (1998). 37. Tranel, D., Logan, C. G., Frank, R. J. & Damasio, A. R. Explaining
+3. Nosofsky, R. M. Attention, similarity, and the identification–categorization category-related effects in the retrieval of conceptual and lexical knowledge
+relationship. J. Exp. Psychol. Gen. 115, 39–57 (1986). for concrete entities: operationalization and analysis of factors.
+4. Goldstone, R. L. The role of similarity in categorization: providing a Neuropsychologia 35, 1329–1339 (1997).
+groundwork. Cognition 52, 125–157 (1994). 38. Shepard, R. N. & Arabie, P. Additive clustering: representation of similarities
+5. Rosch, E., Mervis, C. B., Gray, W. D., Johnson, D. M. & Boyes-Braem, P. Basic as combinations of discrete overlapping properties. Psychol. Rev. 86,
+objects in natural categories. Cognit. Psychol. 8, 382–439 (1976). 87–123 (1979).
+6. Hahn, U. & Chater, N. in Knowledge, Concepts and Categories (eds Lamberts, 39. Navarro, D. J. & Lee, M. D. Common and distinctive features in stimulus
+K. & Shanks, D.) 43–92 (Psychology Press, 1997). similarity: a modified version of the contrast model. Psychon. Bull. Rev. 11,
+7. Rips, L. J., Smith, E. E. & Medin, D. L. in The Oxford Handbook of Thinking 961–974 (2004).
+and Reasoning (eds Holyoak, K. J. & Morrison, R. G.) 177–209 (Oxford Univ. 40. Carlson, T. A., Ritchie, J. B., Kriegeskorte, N., Durvasula, S. & Ma, J. Reaction
+Press, 2012). time for object categorization is predicted by representational distance.
+8. Rogers, T. T. & McClelland, J. L. Semantic Cognition: A Parallel Distributed J. Cogn. Neurosci. 26, 132–142 (2013).
+Processing Approach (MIT Press, 2004). 41. Yee, E. & Thompson-Schill, S. L. Putting concepts into context. Psychon. Bull.
+9. Goldstone, R. L. & Son, J. Y. in The Oxford Handbook of Thinking and Rev. 23, 1015–1027 (2016).
+Reasoning (eds Holyoak, K. J. & Morrison, R. G.) 155–176 (Oxford Univ. 42. Charest, I., Kievit, R. A., Schmitz, T. W., Deca, D. & Kriegeskorte, N. Unique
+Press, 2012). semantic space in the brain of each beholder predicts perceived similarity.
+10. Kriegeskorte, N. & Kievit, R. A. Representational geometry: integrating Proc. Natl Acad. Sci. USA 111, 14565–14570 (2014).
+cognition, computation, and the brain. Trends Cogn. Sci. 17, 401–412 (2013). 43. De Haas, B., Iakovidis, A. L., Schwarzkopf, D. S. & Gegenfurtner, K. R.
+11. Caramazza, A. & Shelton, J. R. Domain-specific knowledge systems in the Individual differences in visual salience vary along semantic dimensions.
+brain: the animate–inanimate distinction. J. Cogn. Neurosci. 10, 1–34 (1998). Proc. Natl Acad. Sci. USA 116, 11687–11692 (2019).
+12. Chao, L. L., Haxby, J. V. & Martin, A. Attribute-based neural substrates in 44. Peterson, J. C., Abbott, J. T. & Griffiths, T. L. Evaluating (and improving) the
+temporal cortex for perceiving and knowing about objects. Nat. Neurosci. 2, correspondence between deep neural networks and human representations.
+913–919 (1999). Cogn. Sci. 42, 2648–2669 (2018).
+13. Konkle, T. & Oliva, A. Canonical visual size for real-world objects. 45. Rajalingham, R. et al. Large-scale, high-resolution comparison of
+J. Exp. Psychol. Hum. Percept. Perform. 37, 23–37 (2011). the core visual object recognition behavior of humans, monkeys,
+14. Murphy, G. The Big Book of Concepts (MIT Press, 2004). and state-of-the-art deep artificial neural networks. J. Neurosci. 38,
+15. McRae, K., Cree, G. S., Seidenberg, M. S. & McNorgan, C. Semantic feature 7255–7269 (2018).
+production norms for a large set of living and nonliving things. Behav. Res. 46. Jozwik, K. M., Kriegeskorte, N., Storrs, K. R. & Mur, M. Deep
+Methods 37, 547–559 (2005). convolutional neural networks outperform feature-based but not
+16. Devereux, B. J., Tyler, L. K., Geertzen, J. & Randall, B. The Centre for Speech, categorical models in explaining object similarity judgments.
+Language and the Brain (CSLB) concept property norms. Behav. Res. Methods Front. Psychol. 8, 1726 (2017).
+46, 1119–1127 (2014). 47. Iordan, M. C., Giallanza, T., Ellis, C. T., Beckage, N. & Cohen, J. D. Context
+17. Hebart, M. N. et al. THINGS: a database of 1,854 object concepts and more matters: recovering human semantic structure from machine learning
+than 26,000 naturalistic object images. PLoS ONE 14, e0223792 (2019). analysis of large-scale text corpora. Preprint at arXiv https://arxiv.org/
+18. Tversky, A. Features of similarity. Psychol. Rev. 84, 327–352 (1977). abs/1910.06954 (2019).
+19. Barsalou, L. W. Context-independent and context-dependent information in 48. Bauer, A. J. & Just, M. A. in The Oxford Handbook of Neurolinguistics (eds de
+concepts. Mem. Cognit. 10, 82–93 (1982). Zubicaray, G. I. & Schiller, N. O.) 518–547 (Oxford Univ. Press, 2019).
+20. Maddox, W. T. & Ashby, F. G. Comparing decision bound and exemplar 49. Binder, J. R. et al. Toward a brain-based componential semantic
+models of categorization. Percept. Psychophys. 53, 49–70 (1993). representation. Cogn. Neuropsychol. 33, 130–174 (2016).
+21. Hoyer, P. O. Modeling receptive fields with non-negative sparse coding. 50. Huth, A. G., Nishimoto, S., Vu, A. T. & Gallant, J. L. A continuous
+Neurocomputing 52, 547–552 (2003). semantic space describes the representation of thousands of object
+22. Murphy, B., Talukdar, P. & Mitchell, T. Learning effective and interpretable and action categories across the human brain. Neuron 76,
+semantic models using non-negative sparse embedding. In Proc. of COLING 1210–1224 (2012).
+2012 1933–1950 (2012). 51. Cichy, R. M., Kriegeskorte, N., Jozwik, K. M., van den Bosch, J. J. & Charest,
+23. Shepard, R. N. Stimulus and response generalization: a stochastic model I. The spatiotemporal neural dynamics underlying perceived similarity for
+relating generalization to distance in psychological space. Psychometrika 22, real-world objects. NeuroImage 194, 12–24 (2019).
+325–345 (1957). 52. Bankson, B. B., Hebart, M. N., Groen, I. I. A. & Baker, C. I. The temporal
+24. Kobak, D. & Berens, P. The art of using t-SNE for single-cell transcriptomics. evolution of conceptual object representations revealed through models
+Nat. Commun. 10, 5416 (2019). of behavior, semantics and deep neural networks. NeuroImage 178,
+25. Shelton, J. R., Fouch, E. & Caramazza, A. The selective sparing of body part 172–182 (2018).
+knowledge: a case study. Neurocase 4, 339–351 (1998). 53. Zheng, C. Y., Pereira, F., Baker, C. I. & Hebart, M. N. Revealing interpretable
+26. Pedersen, T., Patwardhan, S. & Michelizzi, J. WordNet::Similarity—measuring object representations from human behavior. Preprint at arXiv https://arxiv.
+the relatedness of concepts. In HLT-NAACL 2004: Demonstration Papers org/abs/1901.02915 (2019).
+(eds Dumais, S. et al.) 38–41 (ACL Press, 2004). 54. Abadi, M. et al. TensorFlow: a system for large-scale machine learning.
+27. Warrington, E. K. & Shallice, T. Category specific semantic impairments. In 12th Symposium on Operating Systems Design and Implementation
+Brain 107, 829–853 (1984). 265–283 (2016).
+28. Rips, L. J. in Similarity and Analogical Reasoning (eds Vosniadou, S. & 55. Kingma, D. P. & Ba, J. Adam: a method for stochastic optimization. Preprint
+Ortony, A.) 21–59 (Cambridge Univ. Press, 1989). at arXiv https://arxiv.org/abs/1412.6980 (2015).
+29. Smith, E. E. & Sloman, S. A. Similarity- versus rule-based categorization.
+Mem. Cognit. 22, 377–386 (1994).
+30. Pilehvar, M. T. & Collier, N. De-conflated semantic representations. In 2016 acknowledgements
+Conference on Empirical Methods in Natural Language Processing (EMNLP) We thank A. Corriveau for help with the data collection in the laboratory experiment,
+1680–1690 (2016). L. Stoinksi and J. Perkuhn for help with finding public-domain images for this
+31. Nosofsky, R. M., Sanders, C. A., Meagher, B. J. & Douglas, B. J. Toward the publication, and I. Charest, B. Love, A. Martin and P. McClure for helpful discussions
+development of a feature-space representation for a complex natural category and/or comments on the manuscript. This research was supported by the Intramural
+domain. Behav. Res. Methods 50, 530–556 (2018). Research Program of the National Institutes of Health (grant nos ZIA-MH-002909 and
+32. Nosofsky, R. M., Sanders, C. A., Meagher, B. J. & Douglas, B. J. Search ZIC-MH002968), under National Institute of Mental Health Clinical Study Protocol
+for the missing dimensions: building a feature-space representation 93-M-1070 (NCT00001360), and by a research group grant awarded to M.N.H. by
+for a natural-science category domain. Comput. Brain Behav. 3, the Max Planck Society. The funders had no role in study design, data collection and
+13–33 (2020). analysis, decision to publish or preparation of the manuscript.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviOur Articles
+author contributions Supplementary information is available for this paper at https://doi.org/10.1038/
+M.N.H. and C.I.B. conceived and designed the study. M.N.H. collected the data. C.Y.Z., s41562-020-00951-3.
+M.N.H. and F.P. designed the computational model. M.N.H., C.Y.Z. and F.P. analysed the Correspondence and requests for materials should be addressed to M.N.H.
+data. M.N.H., C.I.B., F.P. and C.Y.Z. wrote the manuscript and provided critical revisions.
+Peer review information Primary Handling Editor: Marike Schiffer.
+Competing interests Reprints and permissions information is available at www.nature.com/reprints.
+The authors declare no competing interests. Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+published maps and institutional affiliations.
+additional information This is a U.S. government work and not under copyright protection in the U.S.; foreign
+Extended data is available for this paper at https://doi.org/10.1038/s41562-020-00951-3. copyright protection may apply 2020
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavviiOOuurr
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+0 5 10 15 20 25 30 35 40 45 49
+)r
+nosraeP(
+snoisnemid
+fo
+ytilibicudorpeR
+Dimension number
+Extended Data Fig. 1 | Reproducibility of dimensions. Reproducibility of dimensions in the chosen 49-dimensional embedding across 20 random
+initializations (see Extended Data Fig. 2 for a list of all dimension labels). Shaded areas reflect 95% confidence intervals.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavviiOOuurr AArrttiicclleess
+Dimension 1: Dimension 2: Dimension 3: Dimension 4: Dimension 5: Dimension 6: Dimension 7:
+made of metal / food-related / animal-related / clothing-related / furniture-related / plant-related / outdoors-related
+eating-related / organic fabric / covering household-related / green
+kitchen-related artifact
+m mbuildingseilver betm uie ldtal a tools l tme ltallic i a tool cs use with l hands proces fsed oeba dkn oea d it u g br oa ol d lp sr eoduct ms a pd dae sc tdhryiesehsy m asizea funzzymground anim ia als nimm aw mlsil d th t ao ft r h odu mom nca oon tm - fm lpyla ed a xe to lessals land animlals cutilitiesla oc thinc gsb to e wel aru tse s hor si hire tetos ucto hu bc oh d p yers son fuhouseholdh rofuursnei tsuurerfancesho cu los te hhold e vc eo r icm y hdm aa io y rs n hn toe us ss ehold fuilna thouse re veg gevegep tab rlela t egn ra eenn a let tu ar ves eesb natnurat lhlings theat grow from searth bastonyeard naptuucrbecls ioctoa mutu mtde oos no risny kos ube trp dota oo wrp ooa nr crlt si e osn ctr lo ouisnt lmo ec rno eysl dorful man-lam dp niraa dtd av seecm ape en ntr ao tw us ralrscenedry
+metalstoshinyo hbuc akle rl dsgray de plic reio pu as rn ece dos mfs ofoodrting cwc ohoeka reedb ia tr k ce ob d m f eos so fd romnutrie en nst tar se ltes agrawsilsd wernness ili dnama tn ui rm a lals a in zoo na imls amamm lal s clo cc oa wvn ea wt rrimne ga c r bl oo oh tr dh c yea srry or puit onn wth ei an rg as b lyc eoogutt owne calrothing mh ao inu s ce olmivpic noo gnm efumh nro tno u oin ts fu ei rrn oe eb ohsl moa sun esd ne tt iho ao lc sldolorful greepla gnt-glirkeee rnns egreen e p lant ngsr epaennde nhreyrbs elgroaw ssnts quiet woodparkg oub ta dlu oe or or bjecd tse wom on so dtn asu nym d e on nt s tr h oi en ru o i rgn c oha k wt su nre
+Dimension 8: Dimension 9: Dimension 10: Dimension 11: Dimension 12: Dimension 13: Dimension 14:
+transportation / wood-related / body part-related colorful valuable / electronic / technology sport-related /
+motorized / dynamic brown special occasion-related recreation-related
+trspweheede v l aoefd m voevhtr eia cmv lee esl nn we tit th ruckscw h fastph a c gi ae mron
+eau
+fb
+c
+fno ihe cdc
+i
+im
+n e
+me
+me
+no o rocb yv ytri e ol i od rtyl
+ifz
+ters r
+da
+nvl ses pchooicrnt
+tls
+aee
+t tsr iou
+nca tionmc ovetrs aac tnosmpop rrl iteaxti ovne o hviechleicsles n w woodo m -cr oa a on d log e re eo df wo no ad turay l e ro ello snw oa ut ru cr ea bsl rownd bpe oople s b dbody k a pc aoc yrte sssoriesbiod b y od dp in ba ef or sat ds c y pew mith a inh ta eyir nah nub cmho eao adw ny pmaurtc h- ph u ar es m rtlka a oitn nte fo r d bs buh ooco dhdw yeyi dn p g ab tryt sskin s cobright colorscol po acr tlv teib rnra snc oocyo acrt loisll otirc oo varier rtybr ri mgh at nys cf olorsul r rvalueo a hb igle h-o cl ia ms psy otrrtoapj ne htw yhoeiarlsrnyta om r yye fn int gs e l thingsEn oa gs an lb ib sto mir hqott ounl re ni oz tsy aye a rli clt hy ydlv l sh hi ig ngh yta-q ue u da in pli e rty is ss ty ino eldr jewep lsrecious metals te ec leht cedlieegpitha tol ldn eee e tvs tyi nc pe
+c
+insc r
+g
+im
+h
+nt se tdo rr uid a
+n
+mid goi eig to naiht tla
+o
+sa hl r n amd nr deto ld iu i oan cde lr gs ista on ldd o ic t ee clech ctn r ao iclogy lgy ssp ports (ac st si pv oe rb tyall tbooay pslls) toc alo e tm hsr lsep e oce ta irt cceit tai io vtni eron rou rndt ts
+Dimension 15: Dimension 16: Dimension 17: Dimension 18: Dimension 19: Dimension 20: Dimension 21:
+disc-shaped / round tool-related many small things / paper-related / long / thin water-related / blue
+coarse pattern drink-related
+text-related glasses
+circ ci sr hc al upe es latarg rets ts osh cra pp oeja ina ty tr oogp lsog t h eoo use dho old lls sel po on lg eated wedges pgroups of samalmls oy ebm tajemr lso ce tu stnridcal tnutsmany tc ao cs l cellm e uigt c mtral tae cil uol i o nb lp n aly oiat t s ratr so t bos ls f et mhtha oint o ggl to rhso o rk ucg opa rus oli nuk tse pam boa lfe l snlq imua iln at ri t ty h io nf g o sb oj be jc et css t sin photo pbaoprinte od on ks pqur seaafr ledaitnnge smsate cri aa rl edsstacks sc nh o ho t ao e sl - t ta ek xin tg r things that ho lld liquid is qliqvisco hs oit ly ud lu iquid3-dbi imeveend rsa iigoenaldglassvet sh sin eg lss wth i sta ht lf dii qt uin id c so rnta iine nrs ks penslotgro huspkeidnny r necta incgylelisn nders gcs atl nioc enkg- dl iok aseb rh tj seacrpts ns ah ra rop we pawradise m aqus aaa marinr ee lifi en a te efishou ctd ruo io ssr eh inip ws aterr
+rodiscsucylindricalnflat d small instrluomngenh tsa usn e ws ithd hah n dst ao ro pls sawsusttirlaitiyght pgroupingsil smae ll objecb tsu n ind gle rs oups slarge groups papegrrsou sp qs ufo au ren sd in cooffl silce trec ipti eo dns rc epl ca ats pas enr rgo (loo ecfm sofi lc oe rful) work cc oo ntan intedib eale rsin foe r r lo ithe qsr thing us ids ss ty rm aim gs he tt r tp oice a cn tl uc ril vs i edpc en-likk es cy sl taibln re to a bed he ildr gic ha tllol no gn -g s hn aa prr eo dw oc nauotiuctaslide e watera aquatvica can acttiiovinties
+Dimension 22: Dimension 23: Dimension 24: Dimension 25: Dimension 26: Dimension 27: Dimension 28:
+powdery / red feminine bathroom-related / black / noble weapon / musical instrument-
+(stereotypically) / sanitary danger-related /related / noise-related
+decorative violence
+s hn oo mt g oco gl emo nr aef eu nl ie tl gyym raem in nt ssd rgrous gnai rdz oet ui n o ny f d ip g (ar go r ratu ii ncp a dli e sn ers hg dss )mis ah lla pp aet rtn icll esl colo ggapr rr r ao aal ys o ic ir nnt ttk go i -ycoy lrn on allfeoe oe nists t kss ue is l nm o a gf rs s oa bt m jo en e ce ts rcd oee lg or re se cof r oedn les os d rred (bright) fe fbemau ltiful ocf op lol r moi uw tn edw i cok a loc re c seg n se sn ort rle yy efanc by fe en a me u is it ns y irneg p ii tnar elsy mte sslfloral lovee ba sot apw hhi gte ray te ohs ils oee mtrn h iec eti a s r (l i h ne lo svu ie e dys r eye dh hao o oayl md g eit )e nms iin es oelf-gc wa ar ne terem b alha c hir ighca -clasb e sla pc ickb s tne uea rs eudmsta sya tenlyh c oar cd la efs mrasn py tc ei hy laee sso iczb oej pe sk ects weapw onry so md me bq reiu sri ke pa ymewntn ag ie lp self-dir ed fa ea nno o sg t eeru ans war r-likes rb mla n ac e sk g coa urtv n lyi iv ni ao e eml le yen -ant v sti so sl oe cn ic ae ted min um ss ih cetm a mrinu gr au lous rul d ec ci o li rns s ec t ar u o tt il o n ne ioi amin ls ien ni nslis s ts rt uc e mnt i en sr m nga tu sk ieea m n to cis ree unn lts mts ents
+unknown minerals or drugs
+Dimension 29: Dimension 30: Dimension 31: Dimension 32: Dimension 33: Dimension 34: Dimension 35:
+sky-related / spherical / ellipsoid / repetitive white disgusting / bugs
+rounded /
+f ff bly ui on yg la t no l t y noatvia i ar iy ero-na nag uticgtrah i vi eg lh rin a hir flf iea ssirwp lliamn yesavi tation tran lis gp ho tr smt ka o yti vo en v ro sc ko idpl iu rb hc uam l bl eu als lap ri tc istu tir cnesi rlc co in ran ctr uia last ri n acg nf drc u s di cr i htrco os al le opsc refir uc a lusu r lunds s look like sp tr icit c ks ks sp l ntyri ek in ty tg iny g rr opesl ri olin nee ohsl lo oan nyg ga tt he ind g tas nn t mw ga lai c er mg sl o de ho npd eu f e da n t r t t u o io pu f n rd igid egr ne dps se ea sti yn mg mkin n e hoa ti rtn g is c ho a-r ldd e me nr edse s ppii ld ft ih afy nrs e ow tk etr t ei sea rnu r ny n jnd ut ys i ts n tih g na gp s oet usa tcks pp sqpuafla ra et r s rce op vae ea arts i ei nnh gge s e msths ea stp he ts ctt te t teapp as efm r aara e lc il nl t r a gre lsp ne c na a nt rin p lag e y tp s fa l rat es tte pgr er en tis tp ivie eces ldrn ug estextured s whmor we of f io lun nfe fy c to il eor fur rrytwhite an ed fluffy pw tiss sh ue emetus ghlt rei a- a ls tp eh f dua lp pce h ald o tt tth ehi rn n hoco ldn tvp he inn gi teb hsnr f ii l nie cn an geao t skt c as o thbm vg al eta eo ta rt o ih rt n ott e ah gd lr lc se iit sn ho pg i n os e gm saco lbeo laeth n pah pa esr n rtdi -c ll ike k- eleikveeryday in small to lain rgte erac st a w nii mthw a i bl ld su g ths bat sticek o untc boa u n tghg h ia n aur g nd r gs tte s yn oin u cg sda sn mge ar llo au nst imalss
+Dimension 36: Dimension 37: Dimension 38: Dimension 39: Dimension 40: Dimension 41: Dimension 42:
+string-related arms/legs/skin-related shiny / construction-related / head-related / beams-related
+transparent physical work-related heat-related face-related
+ti se tringtr -a likpd eped ww rar irc peirsclesc ow cbrap kp noe hod rta ta inro g ouin ad n lt po ws ph iat d g net es c aw nsr a teip etp h see ind g c da fn a sti tre eoc nauo bernn voo rds is nu ot drn leu ad t nc iget ti eso l son tn eg ns st ir leings bextre omhu ietfm ie xee tsa rt en t mo ih tia en s d d f sos kf ibnodyel yi hmf ho bau b onan ddd ye o sn pe pnople led t gal soswer b fo ind gey es rp rs extrem tities s sins jpe ectingn h watura pli unt r r ea eca slnn he es iaa nl arrru y ot rmc ni tlsu b he et in e -nin i sc dsd aet s eiw urs ratha iy vlsy edn je rc ewgr fey le els mr cit y mca ts ie vl eetn aa llt iru ca prrare il szy im tne s etd hi rrn ii a lce erar pa tels vr ao lu un ad ble consto mo ol rsotclyk sod b rae ut ns ili mgdtn r ei u ang c cgr t ho ir mv iu nep aes treyt rh if aiap n hu rlrr se ogm oo l pmec ete co e-ts lo r is ti kl c oi s l en ofi og otm le sumani cn ndstaetnito goanon lc se ret novatii onon flfammableiflam h wrm aa rb meility aleig tht outdooh ro st f ha gf oeea s oe lne shy sc e aada pc c ptb ceo eio eu ad sc la iy sa nh o gep rssa ie rf stas lce e hadc iu rfaltucered ae cc co era st sio on rw siee esa nr sa eb sle thingm s u thlti apo tl ue gt odc w oy uloi i pr nre ds ert shinsghs ina t dph guaea t rsmst a th nru ia dasn leg mlade cadn oet mr ba m mn otc ue na ln ttg in poeah l i ehdpig ua sh g mr imt i aon in llf a a sc ri irr thcl ie nglc hn seo ia gnmr hcr p lo olw e sutee e rfl eoe lo suc ln at ndr g r tdi gi rc as a eaot o pelr us pdd tt ese ru dir de ces td uta rack ls
+Dimension 43: Dimension 44: Dimension 45: Dimension 46: Dimension 47: Dimension 48: Dimension 49:
+eating-related / container-related / child-related / medicine-related has grating handicraft-related cylindrical / conical
+put things on top hollow toy-related
+w cdestinaatioh nscm ao nb sil nti at ay n bd le o li trg mo cdh a ohrt e g i vo vm pw e ele ld d a oa syvg ofeo s ummn lee ocn nht ea bir ic iycele tt rapth proi ehcn u doag n lrs drd i sw e o m r owit bh oh j te ew ioe ch n l tl see wl ns he setlheidn-gstructures co hn o end clr oud sm li evs de d r os bep jea ci tn tsts oaable t u tcon a h bk pr cn o ctu oso yx t nlew is ntsc an o deo im nen eret sia rt shin i frne cogr arh nn olib i n qlpu l oui uc t wit dk t e st ths ut hs ih bnsa et gop ssre ac is ngo ic ten ooet nva ein rii nn gg gsrs cb hito layy dsou rn ecg hbild ncb ha ib ldy - ltdio koeylslys youth mwelm tl one e gdse oisc moa dl hin es atr ltuh hmeno tds ehhs yi gn ij eu nep ry edai i mt eha del ia ct lc aith l hl - sc uo c pn pc lie er snuinn sh ig acie kalthy n lwatere repep oc asta a trg amo inen etam a rtl lt d co lian ittr nt t e lp e np pa e hate ta oss eet si lrl i eenv n t se eg hr d grour pgs ahn t tte en gt s rnr sma sht a e p(l hs l olespk h )arnr oep astei tlpat heep et idre nt ntea iy ter itn ve desd t pa tttern es rns chomahes o c p u pe s dac e etk wt ts e aor in lr eksw d e da osv te si sn w n rtg i it nc agh ci ln oog tlo or f ap ara tr iste t iec nt r ag aa nh lr rn sa t dognml ted we asp i- ra nm tsdr eea onk -iti tn -- flg yik yo e ar gue rrr nl aa snet le dlfd cm tiracli en st er wic oa o sqc d uy inilt hg ar na dn mdumn ak dan e'sso whonm we oven thingf sla yt o fc ua t g c ry atwl bin ind eey rs jewelrl yci cov sn e ar vos ingy?d l cyo elinaa dpr m ep rei ssahlini r ls gim cci lala nfr d-s l oeh sa up he a acd no dl co sirr -c? owu nU llan rl sure lids shape
+Extended Data Fig. 2 | Labels and word clouds for all 49 model dimensions. Labels for all 49 dimensions, with respective word clouds reflecting the
+naming frequency across 20 participants. The dimensions appear to reflect both perceptual and conceptual properties of objects. A visual comparison
+between labels and word clouds indicates a generally good agreement between participant naming and the labels we provided for the dimensions.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavviiOOuurr
+Number of
+Category Spearman’s ρ p-value p-value
+Dimension name objects in
+name (90% CI) (uncorrected) (FDR-corrected)
+category
+weapon / danger - 0.62
+weapon 48 < 0.001 < 0.001
+related (0.43-0.76)
+transportation / 0.62
+vehicle 70 < 0.001 < 0.001
+dynamic (0.45-0.75)
+0.61
+furniture-related furniture 38 < 0.001 < 0.001
+(0.45-0.74)
+electronic / electronic 0.60
+74 < 0.001 < 0.001
+technology device (0.45-0.71)
+0.58
+animal-related animal 177 < 0.001 < 0.001
+(0.48-0.67)
+sports 0.53
+sport-related 63 < 0.001 < 0.001
+equipment (0.34-0.68)
+0.52
+clothing-related clothing 108 < 0.001 < 0.001
+(0.39-0.62)
+0.46
+drink 19 0.026 0.034
+related (0.04-0.74)
+0.42
+food-related food 294 < 0.001 < 0.001
+(0.33-0.50)
+0.37
+child/toy-related toy 34 0.016 0.024
+(0.04-0.63)
+musical 0.35
+instrument-related 33 0.023 0.033
+instrument (0.08-0.58)
+0.33
+body part-related body part 34 0.030 0.036
+(0.04-0.56)
+medical 0.32
+medicine-related 27 0.052 0.059
+equipment (-0.09-0.64)
+0.28
+tool-related tool 107 0.002 0.004
+(0.14-0.41)
+container-related / 0.26
+container 105 0.004 0.007
+hollow (0.10-0.40)
+0.18
+insects / disgusting insect 17 0.245 0.261
+(-0.25-0.55)
+plant-related / -0.07
+plant 47 0.688 0.688
+green (-0.32-0.19)
+Extended Data Fig. 3 | Category-typicality correlations. Detailed results of inferential statistical analyses correlating category-related dimensions with
+typicality of their category. One-sided p-values were generated using randomization tests and were controlled for false discovery rate (FDR) across
+multiple tests. 90% confidence intervals were used to complement one-sided tests.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavviiOOuurr AArrttiicclleess
+a b
+55
+50
+45
+40
+35
+30
+25
+20
+15
+10
+5
+0
+1 2 3 4 5 6 7 8 9 10 11 12 13
+trainingdatasetsize(in100,000trials) trainingdatasetsize(in100,000trials)
+ledom
+ni
+snoisnemid
+fo
+rebmun
+66%
+65%
+64%
+63%
+62%
+61%
+60%
+59%
+58%
+57%
+56%
+1 2 3 4 5 6 7 89 10 11 12 13
+)ycarucca(
+ecnamrofrep
+ledom
+Extended Data Fig. 4 | Model performance and dimensionality as a function of training data size. Model performance and dimensionality varied as
+a function of the amount of data used for training the model. Models were trained in steps of 100,000 trials. Six models with random initialization and
+random subsets of data were trained per step and all models applied to the same test data as in the main text, making it a total of 78 trained models.
+For each step, computation of up to two models did not complete on the compute server for technical reasons, making the total between 4 and 6 models
+per step. Results for each individual model and the average for each step are shown in the Figure. a. Model performance was already high for 100,000
+trials as training data but increased with more data, saturating around the final model performance. b. Dimensionality increased steadily with the amount
+of training data.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Martin Hebart
+Last updated by author(s): Mar 24, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection Online experiments: custom HTML/CSS/Javascript code
+Laboratory experiments: Matlab code (version R2016b) / Psychophysics toolbox V3
+Data analysis Computational model: TensorFlow Version 1
+Other data analyses: Matlab (versions R2016b and R2019b)
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The learned embedding, triplet odd-one-out behavioral data for testing model performance, typicality scores, participant-generated dimension labels, and
+dimension ratings will be made available on OSF upon acceptance. The behavioral data used for training the model are available upon request and will be submitted
+separately to a large-scale data publication journal for general public availability.
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Quantitative experimental research
+Research sample - Online experiments: 6,063 workers on crowdsourcing platform Amazon Mechanical Turk with location USA
+- Age information not available for online experiments, gender: 3,559 female, 2,380 male, 19 other, 105 not reported
+- Laboratory experiments: 20 volunteers from Laboratory of Brain & Cognition database (15 female, 5 male, mean age: 26.25)
+- Samples are not representative of the general population
+Sampling strategy Sampling strategy:
+- Online experiments: Convenience sampling; workers chose whether to participate in the study but were assigned randomly to different
+trials
+- Laboratory experiments: Convenience sampling; participants were sampled based on availability
+Sample size determination:
+- Large-scale triplet experiment: determined based on available financial resources
+- Triplet validation experiment (48 objects): determined by number of available trials / time per worker
+- Noise ceiling experiment: determined to achieve 25 repeats / 1,000 triplets
+- Typicality experiment: determined to achieve 40 ratings / object
+Justification for sample sizes:
+- Online experiments: Yield excellent predictive performance in independent test data, most comparisons not carried out within-
+participant but pooled across participants (fixed effects), for typicality experiment comparable or larger than existing ratings
+- Laboratory experiments: based on previous studies, for relevant quantitative comparisons also pooled across participants
+Data collection Online experiments: Data collection in web browser using online platform, no interaction between researcher and participant
+Laboratory experiments: Data collection on laptop with large external monitor, researcher was blind as to the goals of the experiments
+(validation of dimension labels / prediction of similarity)
+Timing Triplet validation experiment (48 objects): Start date: Nov 30 2017, Stop date: Dec 02 2017
+Large-scale triplet experiment: Start date: Feb 05 2018, Stop date: Jul 12 2018
+Noise ceiling experiment: Start date: Sep 17 2018, Stop date: Sep 17, 2018
+Laboratory experiments: Start date: Aug 24 2018, Stop date: Oct 19, 2018
+Typicality experiment: Start date: Jun 07 2019, Stop date: Jun 09 2019
+Data exclusions Triplet validation experiment (48 objects): 21 excluded
+Large-scale triplet experiment: 225 excluded
+Noise ceiling experiment: 11 excluded
+Reason for exclusion in triplet experiments: overly fast or repetitive responses (for details, see Methods section)
+Typicality experiment: no exclusions
+Laboratory participants: no exclusions
+Non-participation n.a.
+Randomization n.a.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics see above
+Recruitment Online experiments: Workers from Amazon Mechanical Turk (US-location, 95% acceptance rate) could choose to participate.
+Laboratory experiments: Participants were contacted as members of the Laboratory of Brain and Cognition participant database
+Ethics oversight Online experiments: Office of Human Research Subject Protection (OHSRP)
+Laboratory experiments: National Institutes of Health (NIH) Institutional Review Board (NCT00001360)
+Note that full information on the approval of the study protocol must also be provided in the manuscript.

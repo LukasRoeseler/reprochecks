@@ -1,28 +1,999 @@
-# Gender stereotypes are reflected in the distributional structure of 25 languages
-
-## Abstract
-Cultural stereotypes such as the idea that men are more suited for paid work and women are more suited for taking care of the home and family, may contribute to gender imbalances in science, technology, engineering and mathematics (STEM) fields, among other undesirable gender disparities. Might these stereotypes be learned from language? Here we examine whether gender stereotypes are reflected in the large-scale distributional structure of natural language semantics. We measure gender associations embedded in the statistics of 25 languages and relate these to data on an international dataset of psychological gender associations ( N  = 656,636). People’s implicit gender associations are strongly predicted by gender associations encoded in the statistics of the language they speak. These associations are further related to the extent that languages mark gender in occupation terms (for example, ‘waiter’/‘waitress’). Our pattern of findings is consistent with the possibility that linguistic associations shape people’s implicit judgements. 
-
- This is a preview of subscription content, access via your institution
-
-## OSF Links
-https://osf.io/pcjwf
-
-## GitHub Links
-https://github.com/mllewis/IATLANG
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM2_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM3_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM4_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM5_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM6_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM7_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM8_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM9_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM10_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM11_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM12_ESM.xls
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0918-6/MediaObjects/41562_2020_918_MOESM13_ESM.xls
-
+Articles
+https://doi.org/10.1038/s41562-020-0918-6
+Gender stereotypes are reflected in the
+distributional structure of 25 languages
+Molly Lewis 1,2 ✉ and Gary Lupyan 3
+Cultural stereotypes such as the idea that men are more suited for paid work and women are more suited for taking care of the
+home and family, may contribute to gender imbalances in science, technology, engineering and mathematics (STEM) fields,
+among other undesirable gender disparities. Might these stereotypes be learned from language? Here we examine whether
+gender stereotypes are reflected in the large-scale distributional structure of natural language semantics. We measure gen-
+der associations embedded in the statistics of 25 languages and relate these to data on an international dataset of psycho-
+logical gender associations (N = 656,636). People’s implicit gender associations are strongly predicted by gender associations
+encoded in the statistics of the language they speak. These associations are further related to the extent that languages mark
+gender in occupation terms (for example, ‘waiter’/‘waitress’). Our pattern of findings is consistent with the possibility that
+linguistic associations shape people’s implicit judgements.
+B
+y the time they are two, children have begun to acquire a particular gender9. In some cases, a subtle turn of phrase can
+the gender stereotypes in their culture1. These stereotypes influence children’s gender-based generalization10,11. For example,
+can have undesirable effects. For example, in one study, Cimpian and Markman found that children were more likely to
+six-year-old girls were less likely than boys to choose activities that infer that a novel skill is stereotypical of a gender if the skill is intro-
+were described as being for children ‘who are very, very smart’ and duced with a generic as opposed to a non-generic subject10 (“[Girls
+also less likely to think of themselves as ‘brilliant’2. Such beliefs are/There is a girl who is] really good at a game called ‘gorp’”). Such
+may, over time, translate to the observed lower rates of female par- work shows that in certain experimental settings, language can
+ticipation in STEM fields3–6 and are reflected in large differences influence stereotype formation. In this study, we investigate whether
+in perceived self-efficacy; boys reported having greater ability to a similar correspondence between language associations and stereo-
+understand and explain various scientific findings (independent of types exists in a large corpus of naturalistic text and among an inter-
+actual ability)6. Here we attempt to understand where such beliefs national sample of participants.
+may come from. A widely used method for quantifying cultural stereotypes at an
+We can distinguish between two major sources of information individual level is the Implicit Association Test (IAT)12. Here, we
+that contribute to gender stereotypes. The first is direct experience. use previously administered IATs designed to measure a particular
+For example, one may observe that most nurses are women and type of gender stereotype: a tendency to associate men with careers
+most philosophers are men and conclude that women are better and women with family (N = 657,335)13. These data span 39 coun-
+suited for nursing and men are better suited for philosophy. The sec- tries, allowing us to assess how group-level implicit gender asso-
+ond is language. Even without any direct experience with nurses or ciations14–16 vary as a function of language to which participants
+philosophers, one may learn about their stereotypical gender from are exposed.
+language about nurses and philosophers. Languages encode gender To measure cultural stereotypes in language, we use semantic
+in multiple ways. These include gender-specific titles (‘Mr.’ versus embeddings derived from a distributional semantics model that is
+‘Miss.’), proper names (‘Sam’ versus ‘Ashley’), pronouns (‘he’ versus trained by predicting words from surrounding words as they occur
+‘she’), certain job titles (‘waiter’ versus ‘waitress’), and higher-order in a large corpus. The core assumption of these models is that the
+linguistic associations (otherwise gender-neutral words can become meaning of a word can be described by the words it co-occurs with—
+gendered by being associated with explicitly gendered contexts). words occurring in similar contexts tend to have similar meanings17.
+Another source of linguistic information comes from sex-based The word ‘dog’, for example, is represented as more similar to ‘cat’
+grammatical gender systems found in approximately 30% of lan- than to ‘banana’ because contexts containing ‘dog’ are more similar
+guages7. For example, in Spanish, the gender of a nurse must be to contexts containing ‘cat’ than to contexts containing ‘banana’18–20.
+specified grammatically (‘enfermera’ versus ‘enfermero’). Gender stereotypes can become encoded in the distributional
+To the extent that language is a source of information for form- semantics of language because a word like ‘woman’ may occur in
+ing cultural stereotypes, two people with similar direct experiences more similar contexts to words like ‘home’ and ‘family’, while a word
+but different linguistic experiences may develop different stereo- like ‘man’ may occur in contexts more similar to ‘job’ and ‘money.’
+types. Some past work hints at people’s surprising sensitivity to Previous work has shown stereotypes such as those studied using
+stereotype-relevant information delivered through language. Young IATs can be predicted from the distributional statistics of language
+children perform worse in a game if they are told that someone of (co-occurrences)21–24. This previous work only measured semantic
+the opposite gender performed better than they did on a previous associations in English. Here, we examine gender associations in the
+round8, or if they are merely told that the game is associated with distributional semantics of 25 languages and ask whether languages
+1Department of Psychology, Carnegie Mellon University, Pittsburgh, PA, USA. 2Department of Social and Decision Sciences, Carnegie Mellon University,
+Pittsburgh, PA, USA. 3Psychology Department, University of Wisconsin-Madison, Madison, WI, USA. ✉e-mail: mollylewis@cmu.edu
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+with stronger career–gender associations predict stronger implicit Replicating previous analyses13, participants tended to implic-
+and explicit gender associations in speakers of those languages. itly associate men with career and women with family (D-score
+Discovering that gender associations in language are correlated mean (M) = 0.38 [0.38, 0.38]; t(657,334) = 878.3, P < 0.001).
+with people’s implicit and explicit gender associations can be inter- Older participants showed greater implicit associations between
+preted in several ways22,25. One possibility is that some cultures have women–family and men–career (r(657,333) = 0.06 [0.06, 0.06],
+stronger gender stereotypes and these are reflected in what people P < 0.001). The measured associations were stronger for female par-
+talk about. Language, in this view, simply reflects pre-existing asso- ticipants (M = 0.41, s.d. = 0.35) than male participants (M = 0.32,
+ciations. However, language may not only reflect pre-existing ste- s.d. = 0.37; t(338,217.04) = 96.82, P < 0.001; d = 0.27 [0.26, 0.27])
+reotypes, but may also provide a distinct source of information for and were larger for participants that received the block of trials with
+learning about them, thereby constituting a causal influence on the stereotype-incongruent mappings first than those who received
+associations that people learn26. Another possibility is that a third the stereotype-incongruent mappings second (M = −0.09 [−0.09,
+variable influences both language and psychological associations. −0.09]; t(652,694.18) = −104.03, P < 0.001; d = −0.26 [−0.26,
+The correlational approach of the present work does not allow us −0.25]; Extended Data Fig. 2).
+to distinguish between these possibilities; our goal is to establish Because we did not have language information at the participant
+whether there is in fact a correspondence between psychological level, in the remaining analyses we examine the career–gender asso-
+and linguistic gender associations. Establishing whether such a cor- ciation and its predictors at the country level. To account for the
+respondence exists is a prerequisite to understanding the underly- influences on implicit associations mentioned above, we calculated
+ing causal model. a residual implicit-association score for each participant, controlling
+In study 1, we examine whether gender associations derived for participant age, participant gender and block order. We also cal-
+from the distributional structure of different languages predict culated a residual explicit association score controlling for the same
+responses on the IAT. In study 2, we examine how the psychologi- set of variables. We then averaged across participants to estimate the
+cal associations measured by the IAT and the linguistic associations country-level gender association (implicit: M = −0.01; s.d. = 0.03;
+we measure relate to more structural aspects of language: sex-based explicit: M = 0.00; s.d. = 0.18; Extended Data Fig. 3). Implicit gender
+grammatical gender and the prevalence of gender-specific occupa- associations were correlated with explicit gender associations at the
+tion terms (for example, ‘waiter’/‘waitress’, but ‘teacher’/‘teacher’). level of participants (r(645,072) = 0.16 [0.16, 0.16], P < 0.001); at the
+Our results suggest that languages that encode gender stereotypes level of countries, this relationship was stronger, but not statistically
+more strongly—through either distributional semantics or struc- reliable (r(37) = 0.26 [−0.07, 0.53], P = 0.12). The weak correlation
+tural features—tend to have speakers with stronger stereotypical between implicit and explicit measures is consistent with claims that
+gender associations. these two measures tap into different cognitive constructs28.
+Do the implicit and explicit associations measured by the Project
+results Implicit dataset predict any real-world outcomes? We compared our
+Study 1: relating associations in distributional semantics and residual country-level implicit and explicit gender associations to a
+human behaviour. To quantify gender associations, we used data gender-equality metric reported by the United Nations Educational,
+from a large-scale administration of an IAT12 by Project Implicit13. Scientific and Cultural Organization (UNESCO) for each country:
+The IAT measures the strength of respondents’ implicit associations the percentage of women among STEM graduates in tertiary edu-
+between two pairs of concepts (for example, male–career/female– cation5,6. Consistent with previous research, we found that implicit
+family versus male–family/female–career) accessed via words (for gender association was negatively correlated with percentage of
+example, ‘man’ and ‘business’). The underlying assumption of the women in STEM fields: countries with weaker associations between
+IAT is that words denoting more similar meanings are easier to men and career tended to have more women in STEM fields
+pair together compared to words denoting more dissimilar pairs. (r(31) = −0.54 [−0.75, −0.24], P = 0.001). By contrast, there was no
+Meanings are paired in the task by assigning them to the same relationship between the percentage of women in STEM fields and
+response keys in a two-alternative forced-choice categorization the explicit gender-association measure used by Project Implicit
+task. In the critical blocks, meanings are assigned to keys in a way (r(31) = 0.14 [−0.21, 0.46], P = 0.43). In addition, we found a strong
+that is either stereotype-congruent (that is, Key A = male/career; correlation between the median age of each country’s population29
+Key B = female/family) or stereotype-incongruent (that is, Key and the residual implicit association (in which participant age was
+A = male/family; Key B = female/career). Participants are then pre- held constant): Countries with older populations tended to have
+sented with a word related to one of the four concepts and asked to larger gender associations (r(37) = 0.64 [0.4, 0.79], P < 0.001).
+classify it as quickly as possible (see Methods, ‘Study 1b’ for a list of In sum, we replicate previously reported patterns of gender
+target words). Slower reaction times in the stereotype-incongruent association in the gender–career IAT literature, with roughly com-
+blocks relative to the stereotype-congruent blocks are interpreted parable effect sizes13. We also find that implicit gender associations
+as indicating an implicit association between the corresponding predict an objective measure of gender equality—female enrollment
+concepts (that is, a tendency to associate male with career and in STEM fields. In the Discussion, we comment further on our find-
+female with family). Our final sample included 657,335 participants ings that older participants and participants from countries with
+from 39 countries, with a median of 1,145 participants per country older populations show stronger implicit gender associations.
+(Extended Data Fig. 1). Are participants’ gender associations predictable from the lan-
+To quantify the strength of participants’ implicit association as guage they speak? Showing that such a relationship exists is the first
+assessed by the IAT we adopt the widely used D-score, which mea- step towards investigating the underlying causal relationships. In
+sures the difference between critical blocks for each participant study 1, we estimate linguistic gender associations using distribu-
+while controlling for individual differences in response time27. After tional semantics. By attempting to predict the words that surround
+completing the IAT, participants were asked ‘How strongly do you another word in large corpora, word-embedding models are able to
+associate the following with males and females?’ for both the words learn a vector-based representation for each word that represents its
+‘career’ and ‘family.’ Participants indicated their response on a Likert similarity to other words; that is, a semantic embedding (for exam-
+scale ranging from female (1) to male (7). An explicit gender-career ple, ref. 30). We can then compute the similarity between two words
+association score was defined as their Career response minus their by taking the distance between their vectors (for example, cosine of
+Family response such that greater values indicate a greater tendency angle). We begin by validating word-embedding measures of gen-
+to associate males with career. der association by comparing them with explicit human judgements
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+7 language was dominant (and, we assume, was the native language
+(Female) of most of these individuals). Implicit career–gender association
+6 was positively correlated with estimates of career–gender associa-
+tion in language from both the subtitle- (r(18) = 0.5 [0.08, 0.77],
+5 P = 0.02) and Wikipedia-trained models (r(23) = 0.48 [0.11, 0.74],
+P = 0.01; Fig. 2a; Table 1 shows the language-level correlations
+4 between all variables in studies 1b and 2; Extended Data Figs. 4–6).
+Linguistic career–gender association was not correlated with
+3 explicit career–gender association (subtitle: r(18) = −0.08 [−0.5,
+0.38], P = 0.74; Wikipedia: r(23) = 0.34 [−0.06, 0.65], P = 0.09).
+2 r = 0.63 Estimates of the career–gender association from the subtitle corpus
+were correlated with the objective measure of gender equality and
+1
+(Male) percentage of women in STEM fields (r(16) = −0.55 [−0.81, −0.11],
+−0.15 −0.10 −0.05 0 0.05 0.10 0.15
+P = 0.02). This relationship was not reliable for the Wikipedia cor-
+(Male) Linguistic (Female)
+gender association pus (r(20) = −0.19 [−0.57, 0.25], p = 0.4).
+In study 1c, we conducted a confirmatory, pre-registered analy-
+sis of our hypothesis that associations present in language statistics
+are reflected in the psychological associations of speakers of those
+languages. We leveraged the Attitudes, Identities and Individual
+Differences Study dataset (AIID)34 containing measures of IAT per-
+formance from more than 200,000 participants for a wide range of
+IATs (including, for example, career–family and team–individual).
+All the tests were conducted using English words and most par-
+ticipants were English speakers. The dataset allowed us to compare
+associations between participants who spoke two different dialects
+of word genderness (study 1a). We then apply this method to mod- of English: British and American English. For each of the 31 IATs in
+els trained on text in other languages (studies 1b and 1c). We find the sample, we predicted that the degree to which those associations
+that the implicit gender association of participants in a country is were present in a speaker’s English dialect (British or American)
+correlated with the gender associations embedded in the statistics would predict the magnitude of their psychological association, as
+of the dominant language spoken in that country. measured by the IAT.
+In study 1a, we estimated a gender score for each word by mea- Figure 2b visualizes the critical interaction term. Behavioural
+suring the average cosine distance to a standard set of male ‘anchor’ performance on the different IATs was correlated with language sta-
+words (‘male’, ‘man’, ‘he’, ‘boy’, ‘his’, ‘him’, ‘son’ and ‘brother’)13 and the tistics. When language statistics predicted that American English
+average cosine similarity to a set of female words (‘female’, ‘woman’, had a greater association, US participants showed a stronger asso-
+‘she’, ‘girl’, ‘hers’, ‘her’, ‘daughter’ and ‘sister’). We then obtained a ciation in the IAT. When language statistics predicted that British
+gender score for each word by taking the difference of the similar- English had a stronger association, British participants showed a
+ity estimates (mean female similarity − mean male similarity), such stronger association in the IAT (β = −0.05, s.e. = 0.02, t = −2.88; see
+that larger values indicated a stronger association with females. We Extended Data Fig. 7 for full model results).
+estimated gender scores for each word from models pre-trained on In study 1, we found that a previously reported psychological
+two different corpora of English text: subtitles from movies and TV gender association—the tendency to associate men with career and
+shows31,32, and Wikipedia33. women with family—was correlated with the magnitude of that same
+Estimates of gender association from the subtitle corpus association in the language statistics of 25 languages. Participants
+(M = 0.01; s.d. = 0.03) and the Wikipedia corpus (M = 0; s.d. = 0.03) completing the IAT in countries where the dominant language had
+were highly correlated with each other (r(4,669) = 0.71 [0.70, stronger associations between men and career words, and between
+0.73], P < 0.001). Critically, association estimates from both women and family words, showed stronger associations on the gen-
+word-embedding models were also highly correlated with human der–career IAT. In a pre-registered, confirmatory analysis, we also
+judgements of word gender (the degree to which a word is asso- find that this pattern extends to associations beyond career and
+ciated with females versus males; M = 4.10; s.d. = 0.92; subtitle: gender. In a comparison of 31 different IATs, the magnitude of the
+r(4,669) = 0.63 [0.61, 0.65], P < 0.001; Wikipedia: r(4,669) = 0.59 association in speaker’s dialect of English (American versus British)
+[0.57, 0.60], P < 0.001; Fig. 1). This suggests that the psychologi- predicted their behavioural association, as measured by the IAT.
+cal gender association of a word can be reasonably estimated from These results suggest a close correspondence between psychologi-
+word embeddings. cal and linguistic gender associations. In study 2, we try to better
+Having validated our basic method, we now use it to examine the understand the source of the gender–career association in language
+relationship between psychological and linguistic associations of by investigating whether it is related to two structural features of
+men with career and women with family. In study 1b, we estimated language: grammatical gender and the presence of gendered occu-
+the magnitude of these associations in the dominant language spo- pation terms (for example, waiter/waitress).
+ken in each country represented in the Project Implicit dataset, and
+compare this estimate with estimates of psychological career–gen- Study 2: gender association and lexicalized gender. The simi-
+der associations from the Project Implicit participants. larity between language associations and implicit associations
+Despite the differences in the specific content conveyed by the found in study 1 is consistent with multiple causal pathways. If
+Wikipedia and the subtitle corpora, the estimated career–gender language is causally related to implicit associations, then differ-
+association for each language was similar across the two corpora ences in the structural aspects of language that act to exaggerate
+(mean difference (M ) = 0 [−0.17, 0.16]; t(19) = −0.06, P = 0.95; linguistic gender association should predict greater implicit asso-
+diff
+d = −0.01 [−0.65, 0.63]). We next examined the relationship ciation. This relationship is difficult to explain if language merely
+between these estimates for each language and the mean career– reflects cultural stereotypes, since structural aspects of language
+gender association score for participants from countries where that are relatively fixed.
+fo
+tnemegduj
+namuH
+noitaicossa
+redneg
+Fig. 1 | Human judgements of word gender association as a function of
+gender association from the subtitle-trained embedding model. Each
+point corresponds to a word. Larger numbers indicate stronger association
+with females (note that this differs from the design of the rating task, but
+is changed here for consistency with other plots). Blue line shows linear
+fit and the error band indicates standard error of the linear fit. Study 1a:
+r(4,669) = 0.63 [0.61, 0.65]; P < 0.001; n = 4,671.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+0.050
+(Stronger) Dutch
+Portuguese Danish
+0.025 Italian Japanese Hebrew
+German
+Croatian Romanian
+0 English Finnish French Mandarin
+Korean
+Persian −0.025 Polish TurkishSpanish Norwegian ArabicSwedish
+Malay
+−0.050 Indonesian
+Filipino
+Hindi r = 0.48
+−0.075
+(Weaker)
+−0.25 0 0.25 0.50 0.75 1.00
+(Weaker) (Stronger)
+Language male−career association
+(effect size)
+One such structural difference concerns the grammaticaliza- degree of gender-specific marking on occupation words: languages
+tion of gender. Some languages, such as Spanish, mark gender with more gender-specific forms tended to have speakers with
+distinctions in a grammatically obligatory way, for example, ‘enfer- greater implicit career–gender association (r(23) = 0.57 [0.22, 0.79],
+mero’ (nurse, masculine) versus ‘enfermera’ (nurse, feminine). P = 0.003; Fig. 3a and Table 1). There was no relationship between
+Grammatical gender systems frequently demand gender-based explicit psychological career–gender association and lexical mark-
+agreement, for example, ‘el enfermero alto’ (the tall nurse, mas- ing of occupation words (r(23) = 0.11 [−0.3, 0.48], P = 0.61).
+culine) versus ‘la enfermera alta’ (the tall nurse, feminine), which We next examined whether the existence of gender-specific occu-
+may act to amplify gender associations in the language. Another pation terms was predicted by a greater encoding of gender asso-
+structural difference is the existence of gender-specific terms such ciations (male versus female) in the distributional statistics of the
+as ‘waiter’ versus ‘waitress,’ which are more frequent in some lan- language. We fit a mixed-effects model predicting degree of gender
+guages than others. Languages with grammatical gender do tend to association in language statistics (estimated from word-embedding
+use more such terms, but the two are distinct. French has gram- models) from distinctiveness between male and female forms for
+matical gender, but many occupation terms are gender neutral (for that word, with random intercepts and slopes by language. Having
+example, ‘auteur’, ‘athlète’ and ‘juge’). more distinct occupation terms was associated with greater linguis-
+In study 2, we examined whether grammatical gender and use tic gender association for those occupations. This was true both for
+of gender-specific occupation terms are associated with a greater models trained on the subtitle corpus (β = 0.46; s.e. = 0.08; t = 6.08)
+psychological gender association and whether this relationship is and those trained on the Wikipedia corpus (β = 0.89; s.e. = 0.1;
+further mediated by language statistics. Finding such associations t = 8.93). For example, ‘secretary’ has a greater gender association
+would lend support to the hypothesis that language has a causal role in Italian, which has distinct male and female terms, compared with
+in shaping gender associations because grammatical gender and (to English, which has only a gender-neutral form.
+a lesser degree) lexical gender encoding are relatively stable features This relationship also held at the level of languages: languages
+of language. Although both can change over time, these changes with more gendered occupation terms had stronger career–gender
+are largely independent of the propositional content conveyed by associations in their language statistics (subtitle: r(17) = 0.6 [0.2,
+language. For example, a Finnish document about nursing being 0.83], P = 0.006; Wikipedia: r(23) = 0.77 [0.53, 0.89], P < 0.001).
+unsuitable for men would still use a gender-neutral form of ‘nurse’, Finally, we examined the relationship between gender associa-
+whereas a Spanish document promoting nursing careers to men tion in language statistics for occupation words and psychological
+would be committed to using gender-marked forms. career–gender associations. Unlike in study 1, all the target words
+Speakers of languages with a grammatical gender system (N = 12 in the present study referred to people (occupations) and thus could
+languages) did not differ from those without (N = 13 languages) in potentially be marked for the gender of the referenced person.
+terms of implicit (M = 0.01 [−0.01, 0.03]; t(22.99) = 0.74, P = 0.47; Consequently, if explicit gender marking drives language statistics,
+diff
+d = 0.29 [−0.54, 1.13]) or explicit career–gender associations we should expect to see a strong positive relationship at the level of
+(M = 0.08 [−0.07, 0.23]; t(17.67) = 1.17, P = 0.26; d = 0.48 [−0.36, languages between association in language statistics for occupation
+diff
+1.32]). However, the strength of the women–family and men–career words and psychological associations for speakers of that language.
+associations, as measured by the IAT, were reliably correlated with Consistent with this prediction, gender association in language
+noitaicossa
+reerac–elam
+ticilpmI
+)ezis
+tceffe
+dezilaudiser(
+a
+Implicit and linguistic
+male–career association
+0.3 Cold−hot (UK Winter−summer
+greater)
+0.2
+Tradition−progress
+N (participants)
+1,000 0.1 Athletic−intelligent Stable−flexible Rich−beautiful
+Urban−rural
+1 10 0, 00 ,0 00 00 0 Avoiding−approachin TT g ea P cll hr− o ns t oh e lo i onr g−t yc −a nrP C b au a s tun .re ri Res eh er Im − bnf ene a lon m lic ot− i e ulyf n so c −r eg c−i oLv w ne a fn ib ose o rd ms r o−s m im nganaS gk Jee om Dp c ee kti fn sc e−a t nl n− se etr ru −ds est din ug cationDeterminism−free will PC rih va ao tes −− po urd be licr
+Money−love Security−freedom Lawyers−politicians
+Speed−accuracy
+−0.1 Friends−family Poor−rich
+State−church
+Team−individual
+r = 0.3
+Helpers−leaders
+−0.2
+(US
+greater) −1.5 −1.0 −0.5 0 0.5 1.0
+(US greater) (UK greater)
+Language-association difference
+(effect size)
+ecnereffid
+noitaicossa-ticilpmI
+)ezis
+tceffe
+dezilaudiser(
+b
+Implicit and linguistic associations
+in British and American participants
+Fig. 2 | implicit versus linguistic associations. a, Implicit male–career association (adjusted for participant age, gender and congruent or incongruent
+block order) as a function of the linguistic male–career association derived from word embeddings (r(23) = 0.48 [0.11, 0.74]; P = 0.01; n = 25; study 1b).
+Each point corresponds to a language. The size of the point is proportional to the number of participants from the country in which the language is
+dominant (total N = 656,636 participants). Linguistic associations are estimated from models trained on text in each language from the Wikipedia corpus.
+Larger values indicate a greater tendency to associate men with the concept of career and women with the concept of family. b, Difference (UK minus US)
+in implicit association versus linguistic association for 31 IAT types (study 1c, N = 27,045 participants). Error bands indicate standard error of the linear
+model estimate.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+Table 1 | Correlation (Pearson’s r) for all measures in studies 1b and 2 using language as the unit of analysis
+explicit implicit Percent Lang. male– Lang. male– Prop. gendered Lang. occup. Lang. occup.
+male–career male–career women in career assoc. career assoc. occupation genderness genderness
+assoc. assoc. (iat) SteM (subt.) (Wiki.) terms (subt.) (Wiki.)
+Implicit male– 0.18 [−0.23,
+career assoc. 0.54], 0.39
+(IAT)
+Percent women 0.18 [−0.26, −0.53
+in STEM 0.56], 0.43 [−0.78,
+−0.14], 0.01
+Lang. male– −0.08 0.5 [0.08, −0.55
+career assoc. [−0.5, 0.38], 0.77], 0.02 [−0.81,
+(subt.) 0.74 −0.11], 0.02
+Lang. male– 0.34 0.48 [0.11, −0.19 0.51 [0.09,
+career assoc. [−0.06, 0.74], 0.01 [−0.57, 0.78], 0.02
+(Wiki.) 0.65], 0.09 0.25], 0.4
+Prop. gendered 0.11 [−0.3, 0.57 [0.22, −0.35 0.28 [−0.18, 0.18 [−0.23,
+occupation 0.48], 0.61 0.79], 0.002 [−0.67, 0.64], 0.23 0.54], 0.38
+terms 0.09], 0.12
+Lang. occup. 0.16 [−0.32, 0.49 [0.04, −0.26 0.38 [−0.09 0.51 [0.07, 0.6 [0.2, 0.83],
+genderness 0.57], 0.53 0.77], 0.03 [−0.66, 0.71], 0.11 0.78], 0.03 0.01
+(subt.) 0.25], 0.31
+Lang. occup. 0.18 [−0.23, 0.49 [0.11, −0.53 0.41 [−0.03, 0.53 [0.18, 0.77 [0.53, 0.81 [0.57, 0.93],
+genderness 0.54], 0.39 0.74], 0.01 [−0.78, 0.72], 0.07 0.77], 0.01 0.89], <0.001 <0.001
+(Wiki.) −0.14], 0.01
+Median country −0.07 0.61 [0.28, −0.42 0.31 [−0.15, 0.25 [−0.16, 0.35 [−0.05, 0.44 [−0.02, 0.34 [−0.07,
+age [−0.45, 0.81], 0.001 [−0.72, 0], 0.66], 0.18 0.59], 0.22 0.65], 0.09 0.74], 0.06 0.65], 0.1
+0.33], 0.73 0.05
+Implicit and explicit male–career association measures are residualized for participant age, gender and task order; 95% confidence intervals are given in brackets, followed by the corresponding P-value.
+Assoc., association; lang., language; subt., subtitle corpus; Wiki., Wikipedia corpus; prop. gendered occup. terms., proportion of occupation terms that are gendered; occup. genderness, degree to which
+occupation terms in a language tend to be associated with a particular gender in the language statistics.
+statistics for occupation words was positively correlated with observed in study 1 may be the presence of gender–specific occu-
+implicit career–gender association (subtitle: r(17) = 0.49 [0.04, pation terms.
+0.77], P = 0.034; Wikipedia: r(23) = 0.49 [0.11, 0.74], P = 0.014;
+Fig. 3b). By contrast, explicit psychological career–gender associa- Discussion
+tion was not predicted by gender association in language statistics Where do we get our gender stereotypes? Non-linguistic experiences
+(subtitle: r(17) = 0.16 [−0.32, 0.57], P = 0.57; Wikipedia: r(23) = 0.18 surely play a role, but might we also be learning our associations
+[−0.23, 0.54], P = 0.39). from the language to which we are exposed? We used a large-scale
+To understand the relative predictive power of language statis- dataset of IATs that measure people’s implicit associations of men
+tics and distinct occupation terms, we fit an additive linear model with career and women with family. We related these associations to
+predicting implicit association from language statistics and propor- the linguistic gender associations computed from patterns of word
+tion distinct forms. Because language statistics for occupation terms co-occurrences in the dominant language spoken in the country of
+and the proportion of gendered forms in each language were highly each participant. In study 1, we found that languages with stronger
+correlated (subtitle: r(18) = 0.75 [0.46, 0.9], P < 0.001; Wikipedia: gender associations embedded in their distributional structure tend
+r(23) = 0.70 [0.42, 0.86], P < 0.001), we used a measure of language to have speakers that have stronger implicit associations. In study
+statistics that was more weakly correlated with proportion of gen- 2, we found a positive relationship between a structural language
+dered forms, namely, the degree of gender association in language feature—the prevalence of gender-marked occupation terms—and
+statistics based on the set of IAT words described in study 1b. Both the strength of people’s implicit associations.
+gender association in language statistics (based on IAT words) and Our work characterizes the relationship between cultural ste-
+the proportion of gender–specific occupation words were indepen- reotypes and cross-linguistic differences in language statistics.
+dent predictors of implicit associations as measured by the IAT. The Establishing that this relationship exists is the first step to under-
+two predictors accounted for 41% of variance when using the subti- standing the underlying causal pathways. The positive correlation
+tle corpus and 45% of variance for the Wikipedia corpus (Extended between the strength of the career–gender association in language
+Data Fig. 8). and speakers’ IAT results is consistent both with language play-
+In Study 2, we investigated whether structural features of lan- ing a causal role in the emergence of cultural stereotypes and with
+guage—the presence of a grammatical gender systems and the pro- language merely reflecting existing stereotypes of its speakers22,25.
+pensity to lexicalize gender distinctions—correlated with implicit The correlational approach of our studies does not allow us to fully
+association. Grammatical gender was not reliably correlated with distinguish between these possibilities. Among the findings that
+implicit association. Languages that use more gender-specific could help confirm or disconfirm the hypothesis that language
+occupation terms, however, did predict a greater implicit asso- plays a causal role in shaping psychological associations are (1)
+ciation. This finding suggests that one driver of the relationship longitudinal analyses testing whether changes in language statis-
+between language and psychological career–gender associations tics predict or follow changes in measured implicit associations25;
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+0.050
+(Stronger)
+Portuguese Dutch
+0.025 Italian Hebrew Japanese Danish
+German Croatian
+0 Finnish English Romanian French Mandarin Korean Persian Swedish Polish
+−0.025 Arabic Norwegian Spanish
+Turkish
+Malay
+−0.050 Indonesian
+Filipino
+Hindi r = 0.57
+−0.075
+(Weaker)
+0 0.25 0.50 0.75 1.00
+Proportion of gender−specific occupation terms
+(2) quasi-experimental tests that involve, for example, measuring One (admittedly speculative) possibility is that younger partici-
+implicit associations in bilingual subjects using stimuli in languages pants from countries with older populations are more likely to be
+that embed different linguistic associations; and (3) experimental exposed to stronger career–gender associations from language pro-
+designs that measure the effect of manipulating language statistics duced by older individuals.
+on people’s implicit associations. One limitation of our work is its reliance on the IAT, which has
+Our results speak to several recent attempts to understand been criticized for both its low reliability36 and limited external valid-
+large-scale correlates of gender stereotypes6 and differences in ity37. Issues of reliability are less relevant here because we use the IAT
+gender preferences more broadly35. These studies have argued that to measure group-level differences rather than individual-difference
+increases in institutional gender equality (which are strongly asso- measures, and group-level estimates have been shown to be sta-
+ciated with increases in national gross domestic product (GDP)) ble38. However, concerns about validity are important, particularly
+allow greater personal freedom, unmasking inherent gender differ- because we find that language measures and explicit psychological
+ences and explaining why greater institutional equality is associated measures of gender associations are uncorrelated, although this lack
+with a lower female STEM participation6 and larger gender differ- of a relationship may be due to the explicit association measure
+ences in preferences (for example, women being more risk averse being too coarse. Nevertheless, the strong negative correlation we
+and less patient than men)35. Although our results do not contradict find between the proportion women in STEM and gender–career
+this possibility, they suggest that associations learned from language associations in language statistics (r = −0.55) provides compelling
+may be a part of the fuller picture. The encoding of gender stereo- evidence that language associations are related to real-world con-
+types in different languages is itself correlated with GDP (higher sequences. Understanding the full import of linguistic associations
+GDP correlates with stronger career–gender linguistic associa- on cultural stereotypes will require obtaining measures more closely
+tions, r(31) = 0.58 [0.29, 0.77], P < 0.001) and also with previously related to real-world behaviour. Two additional questions for fur-
+reported individual-level predictors of STEM inequality, such as ther research is how much exposure to the relevant language statis-
+self-efficacy in science (ref. 6; r(28) = 0.59 [0.3, 0.79], P < 0.001) and tics is sufficient to produce differences in beliefs, and how resilient
+general gender preferences (ref. 35; r(25) = 0.48 [0.12, 0.73], P = 0.01; the learned associations are to other sources of information. For
+Extended Data Fig. 9). example, if a bilingual individual is exposed to conflicting gender
+One unexpected finding is the substantial relationship between associations in two languages, is the net effect a combination of the
+median country age (for example, 29.9 in Israel versus 47.1 in two sources of information, or does it vary dynamically with the
+Germany) and the gender–career IAT: countries with older pop- linguistic context of a given interaction (for example, refs. 39,40).
+ulations have stronger career–gender associations (r = 0.61; see Cultural stereotypes are acquired through experience. Here
+Table 1). The direction of this relationship is consistent with the we show that group-level differences in implicit associations
+by-participant analyses (older participants have stronger career–gen- are strongly correlated with the strength of gender associations
+der associations, r = 0.06), and is consistent with older populations encoded in the statistics of different languages. This pattern sug-
+having more traditional gender norms. Importantly, the two effects gests that the statistics of language use could be an important source
+are distinct: participants from countries with an older population of cultural experience: the mere process of listening to and produc-
+show stronger career–gender associations after adjusting for their ing language exposes one to statistics that may lead to the forma-
+own age. This effect holds even after controlling for the percentage tion of cultural stereotypes. Many cultural associations present in
+of women in STEM fields within a country (Extended Data Fig. 2b). the statistics of language may be innocuous—indeed, these statistics
+noitaicossa
+reerac−elam
+ticilpmI
+)ezis
+tceffe dezilaudiser(
+a Implicit male−career association
+and gendered occupation terms
+0.050
+(Stronger)
+Dutch
+Portuguese
+Danish
+0.025 Hebrew Japanese Italian German
+Romanian
+Croatian 0 Finnish English Mandarin Korean French Swedish Polish
+−0.025 Turkish Persian Arabic Spanish Norwegian
+Malay
+−0.050 Indonesian
+Filipino Hindi
+r = 0.49
+−0.075
+(Weaker)
+0 0.025 0.050 0.075 0.100
+(Netural) Genderness of occupation terms (Gendered)
+noitaicossa
+reerac−elam
+ticilpmI
+)ezis
+tceffe dezilaudiser(
+b Implicit male−career association
+and gender associations for occupation terms
+N (participants)
+1,000 10,000
+100,000
+Fig. 3 | implicit male–career association and mean gender association. a, Implicit male–career association (adjusted for participant age, gender and
+congruent or incongruent block order) as a function of the proportion of gender-specific labels for the set of words referring to occupations (r(23) = 0.57
+[0.22, 0.79]; P = 0.003; n = 25). b, Mean gender association of words referring to occupations from word embeddings trained on the Wikipedia corpus
+(r(23) = 0.49 [0.11, 0.74]; P = 0.01). Each point corresponds to a language, with the size of the point corresponding to the number of participants speaking
+that language (total N = 656,636 participants). Error bands indicate standard error of the linear model estimate.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Nature HumaN BeHaviour Articles
+may be an important mechanism through which cultural informa- We calculated gender–career association estimates using the same
+tion is transmitted26. In other cases, such as the gender stereotypes word-embedding models as in study 1a (subtitle and Wikipedia corpora). We
+excluded languages from the analysis for which 20% or more of the target words
+investigated here, language may play a powerful role in their forma-
+were missing from the model or the model did not exist. This led us to exclude one
+tion and ultimately contribute to undesirable structural inequality. language (Zulu) from the analysis of the Wikipedia corpus and six languages from
+Understanding the extent to which language has a causal role in the the analysis of the subtitle corpus (Chinese, Croatian, Hindi, Japanese, Filipino
+formation of these stereotypes is therefore an important first step and Zulu). Our final sample included 25 languages in total (Wikipedia, N = 25;
+towards changing these consequences. subtitle, N = 20), representing 8 language families, and corresponded to 656,636
+participants in the Project Implicit dataset.
+Methods
+Study 1c. The AIID dataset was partitioned into two samples: exploratory
+All reported correlations are Pearson’s r values. Two-sample t-test are calculated (15%) and confirmatory (85%). On the basis of the exploratory sample, we
+using Welch’s test. Effect size measures are classic Cohen’s d. Brackets indicate 95% pre-registered our analysis plan for the confirmatory sample (https://osf.io/3f9ed,
+confidence intervals. All statistical tests are two-sided analyses. Data distributions 8 February 2019) and were given access to the confirmatory dataset only after our
+were assumed to be normal but this was not formally tested. Data analysis was not pre-registration was approved.
+performed blind to the identify of the variables. Of the 95 IATs present in the dataset, we selected 31 based on the following
+criteria: (1) stimuli were words rather than pictures, and (2) 75% of the target
+Description of the IAT dataset. We analysed gender–career IAT scores words for each IAT test were present in both our American and British English
+collected by Project Implicit between 2005 and 2016, restricting our sample corpora. To measure the associations in language, we trained word-embedding
+based on participants’ reaction times and error rates using the same criteria models on equally sized subsets of British National Corpus (BNC)44 and Corpus
+described on page 104 of ref. 13. We only analysed data for countries that of Contemporary American English (COCA)45. The model was trained using the
+had complete demographic information and complete data from the IAT fastText algorithm42, with a vector size of 400 and window size of 10. We then
+for least 400 participants (2% of these respondents did not give responses to calculated an association effect size for each IAT in each English dialect, using the
+the explicit association question). This cut-off was arbitrary, but the pattern same method as in study 1b.
+of findings reported here holds for a range of minimum participant values After data exclusion (using criteria similar to study 1a; see Supplementary
+(Supplementary Fig. 1). Importantly, although the respondents were from largely Methods), our final sample in the confirmatory AIID dataset included data from
+non-English-speaking countries, the IAT was conducted in English. We do not 27,045 administrations of the IAT across the 31 IATs (American: N = 25,523;
+have language-background data from the participants, but we assume that a large British: N = 1,522). Each participant completed an average of 1.23 different IATs
+fraction of the respondents from non-English speaking countries were native (s.d. = 0.80). For each administration of an IAT, we calculated a residual D-score,
+speakers of the dominant language of the country and second language speakers which controlled for participant gender, age, education, task order (whether
+of English. The fact that the test was administered in English make our analyses implicit or explicit measures were completed first) and block order (whether
+conservative, lowering the likelihood of finding language-specific predictors of the congruent or incongruent mappings occurred first).
+kind we report here. We fit a linear mixed-effect model predicting the magnitude of the implicit
+Country-level estimates of female STEM participation were calculated from association for each participant from their location (US versus UK), the linguistic
+2012 to 2017 data; these data were available for 33 out of 39 of the countries association from American English- and British English-trained models, and
+in our sample. the interaction of the two factors. We included participant and IAT test type as
+random intercepts. We fit this and subsequent mixed-effect models with the
+Study 1a. To validate word embeddings as a measure of psychological gender lme4 R package46. This model differs from the pre-registered analysis, which is
+associations we used an existing set of word norms in which participants were also consistent with results of the presented analysis, but does not account for
+asked to rate ‘the gender associated with each word’ on a Likert scale ranging from participant-level variance (see Extended Data Fig. 7 for results of this model and
+very feminine (1) to very masculine (7)41. Both models were trained using the exact pre-registered model).
+fastText algorithm (a variant of word2vec)42. There were 4,671 words in total that
+overlapped between the word-embedding models and human ratings. Study 2. We identified 20 occupation terms that could be translated into all
+25 of our languages, and that were balanced in terms of their perceived gender
+Study 1b. We identified the most frequently spoken language in each country in associations in the workforce47. We then translated these words into each of the
+our analysis using Ethnologue43. After exclusions (see below), our final sample
+25 languages in our sample, distinguishing between male and female variants (for
+included 25 languages (note that while Hindi is identified as the most frequently
+example, ‘waiter’ versus ‘waitress’) where present. The words were translated by
+spoken language in India, India is highly multilingual and so Hindi embeddings
+consulting native speakers and dictionaries.
+may be a poor representation of the linguistic statistics for speakers in India as a
+We coded each language for the presence or absence of a sex-based
+group). For each language, we obtained translations from native speakers for the grammatical gender system using WALS48 and other sources, as necessary. We
+stimuli in the Project Implicit gender–career IAT behavioural task13 with one slight
+quantified lexical encoding of gender as the proportion of the 20 occupations
+modification. In the behavioural task, proper names were used to cue the male and
+within each language for which the male and female forms differed. Larger
+female categories (for example ‘John’ and ‘Amy’), but because there are not direct
+values indicate a preponderance for more gender-specific forms. Languages with
+translation equivalents of proper names, we instead used a set of generic gendered
+grammatical gender systems were more likely to have gender-specific terms for
+words that had been previously used for a different version of the gender IAT (for
+occupations (M = 0.51 [0.28, 0.73]; t(14.89) = 4.85, P < 0.001; d = 2 [0.98, 3.01]).
+example, ‘man’ and ‘woman’)13. Our linguistic stimuli were therefore a set of eight
+We then estimated the extent to which each occupation term was associated
+female and eight male ‘target words’ (identical to study 1a, described in the main
+with a specific gender (‘genderness’) in its language statistics
+text), and the set of eight ‘attribute words’ used in the Project Implicit gender–
+using word-embedding models trained in each language on the subtitle and
+career IAT: eight related to careers (‘career’, ‘executive’, ‘management’, ‘professional’,
+Wikipedia corpora. For each occupation term, we estimated its linguistic
+‘corporation’, ‘salary’, ‘office’ and ‘business’) and eight related to families (‘family’,
+gender association to males and females using the same pairwise similarity
+‘home’, ‘parents’, ‘children’, ‘cousins’, ‘marriage’, ‘wedding’ and ‘relatives’). For one
+metric as in study 1a. A genderness score was calculated for each word as the
+language, Filipino, we were unable to obtain translations from a native speaker, and
+absolute value of the difference in association between males and females.
+so Filipino translations were compiled from dictionaries.
+Larger values indicate greater association with females relative to males or males
+We used these translations to calculate a gender-association effect size from
+relative to females. We averaged across occupations within a language to get a
+word-embedding models trained on text in each language. Our effect size measure
+language-level estimate of occupation genderness. One language was excluded
+is a standardized difference score of the relative similarity of the target words to
+from the subtitle analysis (German) because more than 50% of the words were
+the target attributes (that is, relative similarity of male to career versus relative
+missing from the model, but the results remain the same when this language is
+similarity of female to career). Our effect size measure is identical to that used
+included. We then compared each of the three language measures (grammatical
+in ref. 21 with an exception for grammatically gendered languages. Namely, for
+gender, proportion specific gender forms, and genderness in language statistics
+languages with grammatically gendered attribute words (for example, niñas for
+for occupation words) to the psychological male–career measures described
+female children in Spanish), we calculated the relationship between target words
+in study 1b (implicit and explicit associations, adjusted for age, gender and
+and attribute words of the same gender (that is ‘hombre’ (man) to ‘niños’ (male
+block order).
+children) and ‘mujer’ (woman) to ‘niñas’). In cases where there were multiple
+translations for a word, we averaged across words such that each of our target
+Reporting Summary. Further information on research design is available in the
+words was associated with a single vector in each language. In cases where the
+Nature Research Reporting Summary linked to this article.
+translation contained multiple words, we used the entry for the multiword
+phrase in the model when present, and averaged across words otherwise. Like the
+psychological measures of gender association from the Project Implicit data, larger Data availability
+values indicate larger association between males and career and between females The data that support the findings of this study are available at https://github.com/
+and family. mllewis/IATLANG. Source data are provided with this paper.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+Articles Nature HumaN BeHaviour
+Code availability 28. Forscher, P. S. et al. A meta-analysis of procedures to change implicit measures.
+All code that supports the findings of this study is available at https://github.com/ J. Pers. Soc. Psychol. 117, 522–559 (2019).
+mllewis/IATLANG. 29. CIA. The CIA World Factbook 2017 (2016); https://www.cia.gov/library/
+publications/the-world-factbook/index.html
+Received: 24 June 2019; Accepted: 26 June 2020; 30. Mikolov, T., Chen, K., Corrado, G. & Dean, J. Efficient estimation of word
+representations in vector space. Preprint at arXiv https://arxiv.org/
+Published: xx xx xxxx
+abs/1301.3781 (2013).
+31. van Paridon, J. & Thompson, B. subs2vec: word embeddings from subtitles in
+references 55 languages. Preprint at OSF https://doi.org/10.31234/osf.io/fcrmy (2019).
+1. Gelman, S. A., Taylor, M. G., Nguyen, S. P., Leaper, C. & Bigler, R. S. 32. Lison, P. & Tiedemann, J. OpenSubtitles2016: extracting large parallel corpora
+Mother–child conversations about gender: understanding the acquisition of from movie and TV subtitles. In Proc. 10th International Conference on
+essentialist beliefs. Monogr. Soc. Res. Child Dev. 69, 1–142 (2004). Language Resources and Evaluation (ELRA, 2016).
+2. Bian, L., Leslie, S. J. & Cimpian, A. Gender stereotypes about intellectual ability 33. Bojanowski, P., Grave, E., Joulin, A. & Mikolov, T. Enriching word vectors
+emerge early and influence children’s interests. Science 355, 389–391 (2017). with subword information. Trans. Assoc. Comput. Ling. 5, 135–146 (2017).
+3. Ceci, S. J. & Williams, W. M. Understanding current causes of women’s 34. Hussey, I., et al. The Attitudes, Identities, and Individual differences (AIID)
+underrepresentation in science. Proc. Natl Acad. Sci. USA 108, Study and Dataset https://osf.io/pcjwf/ (2019).
+3157–3162 (2011). 35. Falk, A. & Hermle, J. Relationship of gender differences in preferences to
+4. Leslie, S. J., Cimpian, A., Meyer, M. & Freeland, E. Expectations of brilliance economic development and gender equality. Science 362, eaas9899 (2018).
+underlie gender distributions across academic disciplines. Science 347, 36. Lane, K. A., Banaji, M. R., Nosek, B. A. & Greenwald, A. G. in Implicit
+262–265 (2015). Measures of Attitudes (eds. Wittenbrink, B. & Schwarz, N.) 59–102 (2007).
+5. Miller, D. I., Eagly, A. H. & Linn, M. C. Women’s representation in science 37. Fazio, R. H. & Olson, M. A. Implicit measures in social cognition research:
+predicts national gender–science stereotypes: Evidence from 66 nations. their meaning and use. Annu. Rev. Psychol. 54, 297–327 (2003).
+J. Educ. Psychol. 107, 631 (2015). 38. Payne, B. K., Vuletich, H. A. & Lundberg, K. B. The bias of crowds: how
+6. Stoet, G. & Geary, D. C. The gender-equality paradox in science, technology, implicit bias bridges personal and systemic prejudice. Psychol. Inq. 28,
+engineering, and mathematics education. Psychol. Sci. 29, 581–593 (2018). 233–248 (2017).
+7. Dryer, M. S. & Haspelmath M. eds. WALS Online (Max Planck Institute for 39. Marian, V. & Kaushanskaya, M. Language context guides memory content.
+Evolutionary Anthropology, 2013); https://wals.info/ Psychon. Bull. Rev. 14, 925–933 (2007).
+8. Rhodes, M. & Brickman, D. Preschoolers’ responses to social comparisons 40. Athanasopoulos, P. Cognitive representation of colour in bilinguals: the case
+involving relative failure. Psychol. Sci. 19, 968–972 (2008). of Greek blues. Biling. Lang. Cogn. 12, 83–95 (2009).
+9. Cimpian, A., Mu, Y. & Erickson, L. C. Who is good at this game? Linking an 41. Scott, G. G., Keitel, A., Becirspahic, M., Yao, B. & Sereno, S. C. The Glasgow
+activity to a social category undermines children’s achievement. Psychol. Sci. norms: ratings of 5,500 words on nine scales. Behav. Res. Methods 51,
+23, 533–541 (2012). 1258–1270 (2019).
+10. Cimpian, A. & Markman, E. M. The generic/nongeneric distinction influences 42. Joulin, A., Grave, E., Bojanowski, P. & Mikolov, T. Bag of tricks for efficient
+how children interpret new information about social others. Child Dev. 82, text classification. Preprint at arXiv https://arxiv.org/abs/1607.01759 (2016).
+471–492 (2011). 43. Simons, G. F. & Charles, D. F. (eds) Ethnologue: Languages of the World
+11. Rhodes, M., Leslie, S. J., Yee, K. M. & Saunders, K. Subtle linguistic cues (SIL International, 2018).
+increase girls’ engagement in science. Psychol. Sci. 30, 455–466 (2019). 44. Burnard, L. Users Reference Guide for the British National Corpus
+12. Greenwald, A. G., McGhee, D. E. & Schwartz, J. L. Measuring individual (Oxford Univ. Computing Services, 1995).
+differences in implicit cognition: the implicit association test. J. Pers. Soc. 45. Davies M. The Corpus of Contemporary American English (2008);
+Psychol. 74, 1464–1480 (1998). https://corpus.byu.edu/coca/
+13. Nosek, B. A., Banaji, M. R. & Greenwald, A. G. Harvesting implicit group 46. Bates, D., Mächler, M., Bolker, B. & Walker, S. Fitting linear mixed-effects
+attitudes and beliefs from a demonstration web site. Group Dyn. Theory Res. models using lme4. J. Stat. Softw. 67, 1–48 (2015).
+Pract. 6, 101–115 (2002). 47. Misersky, J. et al. Norms on the gender perception of role nouns in Czech,
+14. Payne, B. K., Vuletich, H. A. & Brown-Iannuzzi, J. L. Historical roots of English, French, German, Italian, Norwegian, and Slovak. Behav. Res. Methods
+implicit bias in slavery. Proc. Natl Acad. Sci. USA 116, 11693–11698 (2019). 46, 841–871 (2014).
+15. Hehman, E., Calanchini, J., Flake, J. K. & Leitner, J. B. Establishing construct 48. Haspelmath, M., Dryer, M. S., Gil, D. & Comrie, B. (eds) The World Atlas of
+validity evidence for regional measures of explicit and implicit racial bias. Language Structures Online (Max Planck Institute for Evolutionary
+J. Exp. Psychol. Gen. 148, 1022–1040 (2019). Anthropology, 2008); http://wals.info
+16. Charlesworth, T. E. & Banaji, M. R. Patterns of implicit and explicit attitudes:
+I. Long-term change and stability from 2007 to 2016. Psychol. Sci. 30, acknowledgements
+174–192 (2019).
+The authors acknowledge National Science Foundation Perception, Action and
+17. Firth, J. R. Studies in Linguistic Analysis (Philological Society, 1957).
+Cognition 1734260 for funding support for this work. The funders had no role in
+18. Landauer, T. K. & Dumais, S. T. A solution to Plato’s problem: The latent
+study design, data collection and analysis, decision to publish or preparation of
+semantic analysis theory of acquisition, induction, and representation of
+the manuscript.
+knowledge. Psychol. Rev. 104, 211–240 (1997).
+19. Lund, K. & Burgess, C. Producing high-dimensional semantic spaces
+author contributions
+from lexical co-occurrence. Behav. Res. Methods Instrum. Comput. 28,
+203–208 (1996). M.L. and G.L. designed the research and wrote the manuscript. M.L. conducted
+20. Lenci, A. Distributional semantics in linguistic and cognitive research. Ital. J. the data analysis.
+Linguist. 20, 1–31 (2008).
+21. Caliskan, A., Bryson, J. J. & Narayanan, A. Semantics derived automatically Competing interests
+from language corpora contain human-like biases. Science 356, 183–186 (2017). The authors declare no competing interests.
+22. Bhatia, S. The semantic representation of prejudice and stereotypes. Cognition
+164, 46–60 (2017).
+23. von der Malsburg, T., Poppels, T. & Levy, R. Implicit gender bias in linguistic additional information
+descriptions for expected events: The cases of the 2016 US and 2017 UK Extended data is available for this paper at https://doi.org/10.1038/s41562-020-0918-6.
+election. Psychol. Sci. 31, 115–128 (2020).
+Supplementary information is available for this paper at https://doi.org/10.1038/
+24. Garg, N., Schiebinger, L., Jurafsky, D. & Zou, J. Word embeddings quantify
+s41562-020-0918-6.
+100 years of gender and ethnic stereotypes. Proc. Natl Acad. Sci. USA 115,
+E3635–E3644 (2018). Correspondence and requests for materials should be addressed to M.L.
+25. Greenwald, A. G. An AI stereotype catcher. Science 356, 133–134 (2017). Peer review information Primary handling editor: Aisha Bradshaw
+26. Lupyan, G. & Lewis, M. From words-as-mappings to words-as-cues: the role of
+Reprints and permissions information is available at www.nature.com/reprints.
+language in semantic knowledge. Lang. Cogn. Neurosci. 34, 1319–1337 (2017).
+27. Greenwald, A. G., Nosek, B. A. & Banaji, M. R. Understanding and using the Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+implicit association test: I. an improved scoring algorithm. J. Pers. Soc. published maps and institutional affiliations.
+Psychol. 85, 197 (2003). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 1 | Sample size and demographic characteristics of Project implicit data. a, Number of participants by country after exclusions (note
+that US participants are excluded from the visualization because of the large sample size; N = 545,673). Our final sample included 657,335 participants
+from 39 countries (see Supplementary Information for exclusion criteria). b, Gender distribution of participants by country after exclusions. Across
+countries, there tended to be more female participants relative to male participants (M = 0.64 proportion females; SD = 0.06). c, Age distribution of
+participants by country after exclusions. Ranges correspond to 95% CIs. Red points show median age by country.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 2 | Models predicting iat effect size at the participant level. Median country age predicts IAT effect size over and above participant
+age at the participant level: Countries with older populations tend to have individuals with stronger implicit career-gender associations, even after
+controlling for participant age. The table presents an additive mixed-effect regression predicting IAT D-score at the participant level with participant age
+and median country age, controlling for participant sex and trial order. The model includes by-country random intercepts. b, The relationship between
+median country age and IAT effect size holds, even after controlling for the percentage women in STEM. The table presents an additive mixed effect
+model predicting IAT D-score at the participant level with participant age, median country age and percentage women in STEM in country, controlling for
+participant sex and trial order. The model includes by-country random intercepts.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 3 | Geographic distribution of iat scores. a, Residualized implicit career-gender association (IAT score) shown by country. IAT
+scores are residualized for participant age, gender, and task order (N = 657,335). Larger values (blue) indicate a larger bias to associate men with the
+concept of career and women with the concept of family. Countries in white correspond to countries for which there was insufficient data to estimate the
+country-level career-gender association. Inset shows IAT scores for European countries only. Note that while Hindi is identified as the most frequently
+spoken language in India, India is highly multilingual and so Hindi embeddings may be a poor representation of the linguistic statistics for speakers in India
+as a group. b, Distribution of raw (unresidualized) implicit career-gender association (IAT D-score) across countries. All countries in our sample showed a
+tendency to associate men with career and women with family.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 4 | replication of Caliskan et al. (2017) with our corpora. We replicate the original set of Caliskan, Bryson, and Narayanan
+(2017; CBN)21 findings using the English-trained versions of the models used in our main analyses (models trained on the Wikipedia and Subtitles
+corpora). For each model, we calculate an effect size for each of the 10 IAT types reported in CBN: flowers/insects-pleasant/unpleasant, instruments/
+weapons-pleasant/unpleasant, European-American/Afro-American-pleasant/unpleasant, males/females-career/family, math/arts-male/female,
+science/arts-male/female, mental-disease/physical-disease-permanent/temporary, and young/old-pleasant/unpleasant (labelled as Word-Embedding
+Association Test (WEAT) 1-10 in CBN). We calculate the bias using the same effect size metric described in CBN, a standardized difference score of the
+relative similarity of the target words to the target attributes (that is relative similarity of male to career vs. relative similarity of female to career). This
+measure is analogous to the behavioural effect size measure where larger values indicate larger bias. The figure shows the effect size measure derived
+from the English Wikipedia corpus (a) and the English Subtitle corpus (b) plotted against effect size estimates reported by CBN from two different models
+(trained on Common Crawl and Google News corpora). Point color corresponds to bias type, and point shape corresponds to the two CBN models. With
+the exception of biases related to race and age, effect sizes from our corpora are comparable to those reported by CBN. In particular, for the gender-career
+IAT-the bias relevant to our current purposes-we estimate the effect size to be 1.78 (Wikipedia)/1.65 (Subtitle), while CBN estimates it to be 1.81
+(Common Crawl)/1.89 (Google News).
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 5 | Pairwise Correlations partialing out the effect of median country age. Partial correlations (Pearson’s r) for all measures in Study
+1b and 2 using language as the unit of analysis, controlling for median country age. 95% CIs are given in brackets followed by the corresponding p-value.
+Implicit and explicit male-career association measures are residualized for participant age, gender, and task order. ‘Assoc.’ = association; ‘Lang.’= language;
+‘Subt.’/ ‘Wiki.’ = Subtitle/Wikipedia corpora; ‘Prop. Gendered Occup. Terms.’ = proportion of occupation terms that are gendered. ‘Occup.
+Genderness’ = degree to which occupation terms in a language tend to be associated with a particular gender in the language statistics.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 6 | replication of Study 1b on Wikipedia corpus excluding translations. Both the Subtitle and Wikipedia corpora likely contain some
+documents that are translated from other languages (for example, the Wikipedia article on ‘Paris’ is written in French and then translated into English).
+The parallel content across languages allows us to estimate the gender bias in language statistics, while holding content constant across languages.
+Nevertheless, content may itself be a driver of gender bias (for example one language may have more articles about male politicians relative to another).
+To understand the contribution of language-specific content on gender bias, we constructed a corpus of Wikipedia articles in each language that were
+originally written in the target language (that is, untranslated), and trained word embedding models on the corpus in each language (see Supplemental
+Methods for details). We then used these models to calculate by-language male-career association scores using the same procedure as in Study 1b.
+Using models trained on the untranslated corpora, we replicate the key finding from Study 1b showing a positive correlation between the bias measured
+behaviorally with the IAT and measured in language (r = .60; p = .002; N participants = 656,636). Notably, the effect size is somewhat larger relative to
+the other two corpora types, presumably because additional bias is introduced by allowing the corpus content to vary across languages.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 7 | Models examining uK-uS bias difference in aiiD dataset (Study 1c). a, The exact pre-registered analysis of Study 1c is presented.
+Pairwise correlations between all variables (language bias, behavioral bias, and UK-US difference measures) are shown, averaging across estimates of
+language bias from the 5 model runs (N participants = 27,045). Error bars are 95% CIs. As stated in the pre-registration, the key test of our hypothesis
+is that the correlation between the UK - US linguistic difference (‘Language Bias Difference’) and the UK - US behavioral difference (‘Behavioral Bias
+Difference’) is greater than 0 (shown in red). That data are consistent with this prediction. The confirmatory dataset is shown on the right, along with the
+smaller exploratory dataset on the left for reference. b, The full results of the mixed-effect model described in the Main Text are presented.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+AArrttiicclleess NNaattuurree HHuummaaNN BBeeHHaavviioouurr
+Extended Data Fig. 8 | Models predicting implicit male-career association with proportion gender distinct labels and language career-gender
+association (Study 2). We predict the magnitude of implicit male-career association by language with an additive linear model. Predictors are proportion
+of occupation terms that are gendered (‘Prop. Gendered Occup. Terms’) and language male-career association as measured by word embeddings of the
+IAT words (‘Male-Career Assoc.’). Model coefficients are shown for two models using estimates of language career-gender association from embedding
+models trained on Subtitle (a) and Wikipedia (b) corpora. The linear models account for 40.63% (Subtitle) and 45.32% (Wikipedia) of the variance in
+implicit male-career association. ‘Subt.’/ ‘Wiki.’ = Subtitle/Wikipedia corpora.
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+NNaattuurree HHuummaaNN BBeeHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 9 | Gender associations in language and other psychological measures. Several recent studies6,35 have presented novel theories to
+account for cases of structural inequality related to gender. Both of these studies argue that psychological differences play a causal role in the emergence
+of structural inequality. Here, we show that degree of gender bias in language is correlated with these psychological differences at the country level,
+consistent with the idea that language experience could be playing a causal role in the emergence of psychological differences. a, Gender differences in
+preferences35 (composite score of ‘six fundamental preferences with regard to social and nonsocial domains: willingness to take risks; patience, which
+captures preferences over the intertemporal timing of rewards; altruism; trust; and positive and negative reciprocity, which capture the costly willingness
+to reward kind actions or to punish unkind actions, respectively.’) as a function of language male-career association measured in the Subtitle corpus.
+These two measures are correlated (r(25) = 0.48 [0.12, 0.73],p= 0.01): Countries with greater differences in gender preferences also have greater gender
+bias present in their languages. We also find that per capita GDP49 is correlated with language gender male-career association measured in both corpora
+(Wikipedia: r(35) = 0.64 [0.4, 0.8],p< .0001; Subtitle: r(31) = 0.58 [0.29, 0.77],p< .001). However, the magnitude of the male-career association in
+the language spoken in a country predicts the magnitude of the male-career association measured via the behavioral IAT, controlling for both national
+GDP and median country age, in an additive mixed-effect model. b, Gender difference in STEM Self Efficacy6 (‘The sex difference in self efficacy (boys -
+girls)’) as a function of male-career association measured in the Subtitle corpus. These two measures are correlated (r(28) = 0.59 [0.3, 0.79], p< .001):
+Countries with greater gender differences in self-efficacy also have greater gender bias present in their languages. Further, self-efficacy mediated the
+effect of language statistics on percentage of women in stem (path-ab = -0.33, p= 0.01), suggesting that language statistics could be critical causal factor
+underlying gender differences in STEM participation.
+49. The World Bank. World Development Indicators (2017); http://data.worldbank.org/indicator/NY.GDP.PCAP.CD
+Nature HuMaN BeHaviour | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Molly Lewis
+Last updated by author(s): 4/21/2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection No new data data were collected.
+Data analysis Data were analyzed with R Version 3.5.1. The following packages were used in statistical reporting:
+lme4 (Bates, Maechler, Bolker, & Walker, 2015) , version 1.1-21
+effsize (Torchiano, 2018), version 0.7.4
+robmed (Alfons, 2018), version 0.3.0
+The full analysis pipeline is available at https://github.com/mllewis/IATLANG.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data and code that support the findings of this study are available in an online repository (https://github.com/mllewis/IATLANG).
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description The study is a quantitative analysis of existing corpora and behavioral data.
+Research sample N/A
+Sampling strategy N/A
+Data collection N/A
+Timing N/A
+Data exclusions In the primary analysis of the Project Implicit data, we analyzed gender-career IAT scores collected by Project Implicit between 2005 and
+2016, restricting our sample based on participants’ reaction times and error rates using the same criteria described in (Nosek, Banaji,
+Greenwald, 2002, pg. 104). We only analyzed data for countries that had complete demographic information and complete data from
+the IAT for least 400 participants (2% of these respondents did not give responses to the explicit bias question). This cutoff was arbitrary,
+but the pattern of findings reported here holds for a range of minimum participant values (see Supplemental Methods and Supplemental
+Figure 1).
+Non-participation N/A
+Randomization N/A.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Antibodies
+Antibodies used Describe all antibodies used in the study; as applicable, provide supplier name, catalog number, clone name, and lot number.
+Validation Describe the validation of each primary antibody for the species and application, noting any validation statements on the
+manufacturer’s website, relevant citations, antibody profiles in online databases, or data provided in the manuscript.
+Eukaryotic cell lines
+Policy information about cell lines
+Cell line source(s) State the source of each cell line used.
+Authentication Describe the authentication procedures for each cell line used OR declare that none of the cell lines used were authenticated.
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Mycoplasma contamination Confirm that all cell lines tested negative for mycoplasma contamination OR describe the results of the testing for
+mycoplasma contamination OR declare that the cell lines were not tested for mycoplasma contamination.
+Commonly misidentified lines Name any commonly misidentified cell lines used in the study and provide a rationale for their use.
+(See ICLAC register)
+Palaeontology
+Specimen provenance Provide provenance information for specimens and describe permits that were obtained for the work (including the name of the
+issuing authority, the date of issue, and any identifying information).
+Specimen deposition Indicate where the specimens have been deposited to permit free access by other researchers.
+Dating methods If new dates are provided, describe how they were obtained (e.g. collection, storage, sample pretreatment and measurement),
+where they were obtained (i.e. lab name), the calibration program and the protocol for quality assurance OR state that no new
+dates are provided.
+Tick this box to confirm that the raw and calibrated dates are available in the paper or in Supplementary Information.
+Animals and other organisms
+Policy information about studies involving animals; ARRIVE guidelines recommended for reporting animal research
+Laboratory animals For laboratory animals, report species, strain, sex and age OR state that the study did not involve laboratory animals.
+Wild animals Provide details on animals observed in or captured in the field; report species, sex and age where possible. Describe how animals
+were caught and transported and what happened to captive animals after the study (if killed, explain why and describe method; if
+released, say where and when) OR state that the study did not involve wild animals.
+Field-collected samples For laboratory work with field-collected samples, describe all relevant parameters such as housing, maintenance, temperature,
+photoperiod and end-of-experiment protocol OR state that the study did not involve samples collected from the field.
+Ethics oversight Identify the organization(s) that approved or provided guidance on the study protocol, OR state that no ethical approval or
+guidance was required and explain why not.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics Describe the covariate-relevant population characteristics of the human research participants (e.g. age, gender, genotypic
+information, past and current diagnosis and treatment categories). If you filled out the behavioural & social sciences study design
+questions and have nothing to add here, write "See above."
+Recruitment Describe how participants were recruited. Outline any potential self-selection bias or other biases that may be present and how
+these are likely to impact results.
+Ethics oversight Identify the organization(s) that approved the study protocol.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Clinical data
+Policy information about clinical studies
+All manuscripts should comply with the ICMJE guidelines for publication of clinical research and a completed CONSORT checklist must be included with all submissions.
+Clinical trial registration Provide the trial registration number from ClinicalTrials.gov or an equivalent agency.
+Study protocol Note where the full trial protocol can be accessed OR if not available, explain why.
+Data collection Describe the settings and locales of data collection, noting the time periods of recruitment and data collection.
+Outcomes Describe how you pre-defined primary and secondary outcome measures and how you assessed these measures.
+4
+nature
+research
+|
+reporting
+summary
+October
+2018
+ChIP-seq
+Data deposition
+Confirm that both raw and final processed data have been deposited in a public database such as GEO.
+Confirm that you have deposited or provided access to graph files (e.g. BED files) for the called peaks.
+Data access links For "Initial submission" or "Revised version" documents, provide reviewer access links. For your "Final submission" document,
+May remain private before publication. provide a link to the deposited data.
+Files in database submission Provide a list of all files available in the database submission.
+Genome browser session Provide a link to an anonymized genome browser session for "Initial submission" and "Revised version" documents only, to
+(e.g. UCSC) enable peer review. Write "no longer applicable" for "Final submission" documents.
+Methodology
+Replicates Describe the experimental replicates, specifying number, type and replicate agreement.
+Sequencing depth Describe the sequencing depth for each experiment, providing the total number of reads, uniquely mapped reads, length of
+reads and whether they were paired- or single-end.
+Antibodies Describe the antibodies used for the ChIP-seq experiments; as applicable, provide supplier name, catalog number, clone
+name, and lot number.
+Peak calling parameters Specify the command line program and parameters used for read mapping and peak calling, including the ChIP, control and
+index files used.
+Data quality Describe the methods used to ensure data quality in full detail, including how many peaks are at FDR 5% and above 5-fold
+enrichment.
+Software Describe the software used to collect and analyze the ChIP-seq data. For custom code that has been deposited into a
+community repository, provide accession details.
+Flow Cytometry
+Plots
+Confirm that:
+The axis labels state the marker and fluorochrome used (e.g. CD4-FITC).
+The axis scales are clearly visible. Include numbers along axes only for bottom left plot of group (a 'group' is an analysis of identical markers).
+All plots are contour plots with outliers or pseudocolor plots.
+A numerical value for number of cells or percentage (with statistics) is provided.
+Methodology
+Sample preparation Describe the sample preparation, detailing the biological source of the cells and any tissue processing steps used.
+Instrument Identify the instrument used for data collection, specifying make and model number.
+Software Describe the software used to collect and analyze the flow cytometry data. For custom code that has been deposited into a
+community repository, provide accession details.
+Cell population abundance Describe the abundance of the relevant cell populations within post-sort fractions, providing details on the purity of the samples
+and how it was determined.
+Gating strategy Describe the gating strategy used for all relevant experiments, specifying the preliminary FSC/SSC gates of the starting cell
+population, indicating where boundaries between "positive" and "negative" staining cell populations are defined.
+Tick this box to confirm that a figure exemplifying the gating strategy is provided in the Supplementary Information.
+Magnetic resonance imaging
+Experimental design
+Design type Indicate task or resting state; event-related or block design.
+5
+nature
+research
+|
+reporting
+summary
+October
+2018
+Design specifications Specify the number of blocks, trials or experimental units per session and/or subject, and specify the length of each trial
+or block (if trials are blocked) and interval between trials.
+Behavioral performance measures State number and/or type of variables recorded (e.g. correct button press, response time) and what statistics were used
+to establish that the subjects were performing the task as expected (e.g. mean, range, and/or standard deviation across
+subjects).
+Acquisition
+Imaging type(s) Specify: functional, structural, diffusion, perfusion.
+Field strength Specify in Tesla
+Sequence & imaging parameters Specify the pulse sequence type (gradient echo, spin echo, etc.), imaging type (EPI, spiral, etc.), field of view, matrix size,
+slice thickness, orientation and TE/TR/flip angle.
+Area of acquisition State whether a whole brain scan was used OR define the area of acquisition, describing how the region was determined.
+Diffusion MRI Used Not used
+Preprocessing
+Preprocessing software Provide detail on software version and revision number and on specific parameters (model/functions, brain extraction,
+segmentation, smoothing kernel size, etc.).
+Normalization If data were normalized/standardized, describe the approach(es): specify linear or non-linear and define image types
+used for transformation OR indicate that data were not normalized and explain rationale for lack of normalization.
+Normalization template Describe the template used for normalization/transformation, specifying subject space or group standardized space (e.g.
+original Talairach, MNI305, ICBM152) OR indicate that the data were not normalized.
+Noise and artifact removal Describe your procedure(s) for artifact and structured noise removal, specifying motion parameters, tissue signals and
+physiological signals (heart rate, respiration).
+Volume censoring Define your software and/or method and criteria for volume censoring, and state the extent of such censoring.
+Statistical modeling & inference
+Model type and settings Specify type (mass univariate, multivariate, RSA, predictive, etc.) and describe essential details of the model at the first
+and second levels (e.g. fixed, random or mixed effects; drift or auto-correlation).
+Effect(s) tested Define precise effect in terms of the task or stimulus conditions instead of psychological concepts and indicate whether
+ANOVA or factorial designs were used.
+Specify type of analysis: Whole brain ROI-based Both
+Statistic type for inference Specify voxel-wise or cluster-wise and report all relevant parameters for cluster-wise methods.
+(See Eklund et al. 2016)
+Correction Describe the type of correction and how it is obtained for multiple comparisons (e.g. FWE, FDR, permutation or Monte
+Carlo).
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis
+Functional and/or effective connectivity Report the measures of dependence used and the model details (e.g. Pearson correlation, partial
+correlation, mutual information).
+Graph analysis Report the dependent variable and connectivity measure, specifying weighted graph or binarized graph,
+subject- or group-level, and the global and/or node summaries used (e.g. clustering coefficient, efficiency,
+etc.).
+Multivariate modeling and predictive analysis Specify independent variables, features extraction and dimension reduction, model, training and evaluation
+metrics.

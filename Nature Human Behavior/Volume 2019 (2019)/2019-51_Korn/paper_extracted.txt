@@ -1,14 +1,1063 @@
-# Minimizing threat via heuristic and optimal policies recruits hippocampus and medial prefrontal cortex
-
-## Abstract
-Jointly minimizing multiple threats over extended time horizons enhances survival. Consequently, many tests of approach–avoidance conflicts incorporate multiple threats for probing corollaries of animal and human anxiety. To facilitate computations necessary for threat minimization, the human brain may concurrently harness multiple decision policies and associated neural controllers, but it is unclear which. We combine a task that mimics foraging under predation with behavioural modelling and functional neuroimaging. Human choices rely on immediate predator probability—a myopic heuristic policy—and on the optimal policy, which integrates all relevant variables. Predator probability relates positively and the associated choice uncertainty relates negatively to activations in the anterior hippocampus, amygdala and dorsolateral prefrontal cortex. The optimal policy is positively associated with dorsomedial prefrontal cortex activity. We thus provide a decision-theoretic outlook on the role of the human hippocampus, amygdala and prefrontal cortex in resolving approach–avoidance conflicts relevant for anxiety and integral for survival. 
-
- This is a preview of subscription content, access via your institution
-
-## GitHub Links
-https://github.com/dnhi-lab/minimizing_threat.git
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0603-9/MediaObjects/41562_2019_603_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0603-9/MediaObjects/41562_2019_603_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-019-0603-9
+Minimizing threat via heuristic and optimal
+policies recruits hippocampus and medial
+prefrontal cortex
+Christoph W. Korn 1,2,3* and Dominik R. Bach 1,2,4
+Jointly minimizing multiple threats over extended time horizons enhances survival. Consequently, many tests of approach–
+avoidance conflicts incorporate multiple threats for probing corollaries of animal and human anxiety. To facilitate computations
+necessary for threat minimization, the human brain may concurrently harness multiple decision policies and associated neural
+controllers, but it is unclear which. We combine a task that mimics foraging under predation with behavioural modelling and
+functional neuroimaging. Human choices rely on immediate predator probability—a myopic heuristic policy—and on the opti-
+mal policy, which integrates all relevant variables. Predator probability relates positively and the associated choice uncertainty
+relates negatively to activations in the anterior hippocampus, amygdala and dorsolateral prefrontal cortex. The optimal policy
+is positively associated with dorsomedial prefrontal cortex activity. We thus provide a decision-theoretic outlook on the role
+of the human hippocampus, amygdala and prefrontal cortex in resolving approach–avoidance conflicts relevant for anxiety and
+integral for survival.
+To survive, animals must minimize threats such as dying from emerging field of lesion and functional imaging studies in hum
+starvation or predation. This often entails conflicts between ans17–22,24,26,27 converge on implicating similar neural structures—
+approaching food and avoiding predators. Thus, decisions in particular, the anterior hippocampus and the amygdala. These
+fundamental for survival necessitate challenging calculations to findings suggest an at least partly homologous neural implementa-
+balance competing goals, such as simultaneously maintaining tion of approach–avoidance conflicts.
+energy homeostasis and physical integrity1. In principle, this can be Despite progress in understanding the neural circuits required
+achieved in a normative manner by jointly minimizing the expected for decision-making in approach–avoidance conflicts10,28,29, the
+impact of different threats such as starvation and predation. To do algorithms used in such scenarios, and their neural implementa-
+so, decision-makers should consider extended sequences of risky tion—especially with respect to the hippocampus—remain elu-
+decisions, in which threat occurrences depend probabilistically on sive. Most paradigms do not separate individual decisions (such as
+both current and future decisions2,3. However, computing the opti- the elevated plus maze, the open field test and their human ana-
+mal policy for such multi-step decision situations requires taxing logues) and several others reduce the task to a single decision with
+evaluations of all possible future states, which might be too com- relatively low complexity (such as operant conflict tests in rodents
+plicated to execute under threat4–7. Therefore, decision-makers and humans). In these tasks, it is thus unclear what goal the agent
+may take advantage of simplifying, heuristic policies that approxi- pursues and whether momentary behaviour is part of an extended
+mate optimal solutions (for example, by minimizing the most action plan. Furthermore, previous research has rarely assessed the
+prominent immediate threat and disregarding future time points). agent’s evaluation of different risky outcomes in approach–avoid-
+Consequently, it has been proposed that the human brain comprises ance conflicts (see the study on macaques by ref. 30 for a notable
+multiple neural controllers that implement a variety of decision exception). This leads to a disconnection between neurobiological
+policies spanning different levels of sophistication and efficacy1,6,7. research on approach–avoidance conflicts, which has implicated the
+Several of these policies and neural controllers may be concur- hippocampus, and decision neuroscience, which has mostly linked
+rently invoked when seeking a solution to a complex situation that (medial) prefrontal regions to flexible action selection31–36.
+threatens survival2,8–10. Here, we apply a decision-theoretic outlook on choice sequences
+A particularly relevant example for such decision problems is in approach–avoidance conflicts by employing a mathematically
+foraging for food under the risk of predation, which involves an specified computer game that mimics foraging under predation.
+approach–avoidance conflict (that is, approaching food while We first address the cognitive strategies by which human decision-
+avoiding predators). Laboratory tasks that mimic this scenario makers resolve approach–avoidance conflicts, and then investi-
+are widely used as animal anxiety tests, in which an animal can gate the neural representation of the associated decision variables
+explore the environment or obtain food amid simultaneous physi- (DVs), specifically of a threat-related DV in the hippocampus and
+cal threat11–16. Some of these paradigms have been successfully the amygdala. This neural hypothesis elaborates our behavioural
+reverse-translated to human computer games17–25. Importantly, hypothesis that humans base their decisions primarily on a threat-
+a long-standing tradition of lesion studies in rodents16 and an related policy. The design of our task was inspired by several recent
+1Computational Psychiatry Research, Department of Psychiatry, Psychotherapy, and Psychosomatics; Psychiatric Hospital, University of Zurich, Zurich,
+Switzerland. 2Neuroscience Center Zurich, University of Zurich, Zurich, Switzerland. 3Institute for Systems Neuroscience, University Medical Center
+Hamburg-Eppendorf, Hamburg, Germany. 4Wellcome Trust Centre for Neuroimaging and Max-Planck UCL Centre for Computational Psychiatry and
+Ageing, University College London, London, UK. *e-mail: c.korn@uke.de
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviour
+Forest phase Choice phase Outcome phase predator’ with known probability, and lose all of their energy points
+on the current day. If they were not attacked, the known ‘probabil-
+New forest/new life *
+50% 50% Forage Wait Forage Wait ity of foraging gain’ determined whether they would gain a vari-
+able number of energy points, or lose a fixed number of two energy
+points. Thus, participants could reach zero energy points due to
+‘predation’ or due to ‘starvation.’ On each day within a forest, one
+of two combinations of probabilities of predator attack and foraging
+gain was randomly presented, called ‘weather type’. Conditions, in
+2 Max. 5 2 0 terms of probabilities of predator attack and foraging gain, appeared
+Gain in randomized order. Participants were fully and explicitly informed
+Day
+Loss
+about all variables of the current forest. They knew that they would
+Forest stay within each forest for a maximum of five days, and that they
+would be rewarded for a full five-day sequence. The number of days
+Fig. 1 | task outline. Participants performed a sequential decision-making past was not depicted on the screen.
+task that was framed as foraging under the dual threats of predation and The task was mathematically specified as a Markov decision pro-
+starvation. Current energy was depicted as an energy bar. Participants were cess (MDP). This allowed us to calculate the a priori optimal policy
+monetarily incentivized to keep their energy above zero and to attain the that maximizes participants’ monetary rewards by jointly minimiz-
+maximum energy state of five as often as possible (intermediate energy ing the threats of dying due to predation and starvation for a fixed
+states did not directly translate into monetary pay-offs). For each mini- time horizon of five days (as well as maximizing the number of times
+block of trials, called ‘forest’, energy was reset and foraging options varied. reaching the maximum energy level). This optimal policy combines
+During the initial forest phase (3.5 s), participants were informed about the probabilities of predator attack and foraging gain as well as fur-
+their initial energy (2, 3 or 4 energy points) and the 2 possible foraging ther task variables in a mostly nonlinear fashion (Supplementary
+options in the current forest over 5 trials, called ‘days’. The number of days Fig. 1). We use the word ‘optimal’ here in the sense of ‘optimal under
+was not depicted and varied according to an exponential distribution (for task instructions’ (that is, an optimal choice implies choosing the
+fMRI design efficiency) but participants knew that their final pay-offs would action that maximizes the weighted sum across the relevant Markov
+depend on a subset of forests for which they would complete exactly 5 branches). The optimal policy per se makes prescriptions for choice
+days. Triangles of 4 different sizes showed the current predator probability on the basis of the value difference between the two choice options
+(0.1, 0.2, 0.3 or 0.4). Green rectangles of 4 different sizes depicted the of foraging and waiting. That is, the optimal policy per se prescribes
+probability of foraging gain (0.2, 0.4, 0.6 or 0.8). The number of blue foraging if the value difference exceeds zero, it prescribes waiting if
+dots within the green rectangles showed gain magnitudes (varying from the value difference falls below zero, and it is indifferent if the differ-
+0 to 4). Dark red dots showed losses, which were set to 1 for the waiting ence is exactly zero. We related participants’ choices, reaction times
+option (with a probability of 1) and set to 2 for the foraging option (with (RTs) and functional magnetic resonance imaging (fMRI) data to
+a probability of 1 − (probability of foraging gain)). After a fixation interval the continuous range of value differences according to the optimal
+(3.5 s), the choice phase started (2.0 s): one of the two foraging options policy. In the following, we therefore use the term ‘optimal policy’
+was presented on the screen (with a probability of 0.5) and participants as shorthand to refer to this continuous range of value differences
+had to make a decision between waiting and this foraging option. Sides between foraging and waiting.
+were counterbalanced. If participants failed to respond, the words
+‘Too slow’ appeared. In the example shown, the participant chose foraging A large set of DVs could potentially explain participants’ behav-
+(indicated by an asterisk). After an interval (1.0 s), the outcome phase iour. To explain participants’ choices, we assessed an extensive set
+started (1.0 s). In the current example, the predator attacked and all energy of potential DVs: (1) the optimal policy and (2–16) 15 possible
+points were lost. After a variable fixation interval (between 0.5 and 3.8 s), DVs that are not optimal and are therefore regarded as heuristics.
+a new day or a new forest was depicted. In general, we considered heuristics for three reasons: because
+they constituted components of our sequential decision-making
+studies using virtual foraging tasks in humans and non-human task, because they were imperfect variants of the optimal policy,
+primates2,3,37–42 and thus links approach–avoidance conflicts to the or because they captured influences of past trials (see Table 1 for
+burgeoning literature on complex decision behaviour in ecological detailed descriptions).
+scenarios1,8–10,43. Specifically, three heuristics were features of the current for-
+aging option: (2) the predator probability, (3) the probability of
+Results foraging gain and (4) the gain magnitude. Four variables took the
+An approach–avoidance task afforded the computation of an current energy state into account: the current energy state as a (5)
+optimal policy. Our approach–avoidance conflict task was framed continuous variable ranging from one to five and as a (6) binary
+as virtual foraging under the dual threats of predation and star- variable distinguishing the energy state one, in which waiting
+vation (see Fig. 1 for a task outline and Table 1 for a list explain- leads to sure death, from higher energy states. The two variables
+ing all relevant variables). In brief, participants made sequential called (7) ‘expected energy’ and (8) ‘expected energy change’ cor-
+decisions on up to 5 trials, called ‘days,’ in 240 mini-blocks, called respond to the expected value of foraging at the current energy
+‘forests’ (resulting in a total of 400 trials (that is, days), per par- state, and the resulting difference in energy state. Another DV
+ticipant). Participants were monetarily incentivized to keep their relied on (9) the number of days past. We refer to the following
+‘energy points’ above zero across the possible maximum number three heuristics as ‘pseudo-optimal policies’ because they would
+of five days within a given forest and to attain as often as possible be optimal in alternative scenarios: (10) one short-sighted policy
+the maximum number of five energy points. Otherwise, the exact would be optimal if participants remained in a forest only for the
+number of energy points accrued in a forest was not translated into current day (that is, if the time horizon was 1 day); two pseudo-
+financial pay-offs. On each day within a forest, participants had optimal policies would be optimal if participants had to solely
+to make a decision between a certain option, called ‘waiting,’ and minimize the threats of either (11) starvation or of (12) preda-
+a risky option, labelled ‘hunting’, which we refer to here as ‘forag- tion. Four further DVs were included to address suggestions
+ing.’ Waiting entailed a sure loss of one energy point. Foraging had by anonymous reviewers. One of these DVs (13) was a pseudo-
+several possible outcomes: first, participants could be ‘attacked by a optimal policy that weighted the time horizon of the optimal policy
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTure HumaN BeHaviour Articles
+Table 1 | List of variables used in behavioural model comparisons, Rt analyses and fMRi analyses
+variable Description
+(1) Optimal policy The optimal DV that takes into account all remaining time points (days), energy states and the transition
+probabilities between them. Therefore, the optimal policy cannot be directly inferred from information on the
+screen but necessitates rather complex computations.
+(2) Predator probability (P(predator)) The probability of the predator attacking when the foraging option is chosen. This probability is depicted by
+the size of a black triangle on the screen and takes a value of 0.1, 0.2, 0.3 or 0.4. A predator attack leads to
+immediate death (that is, an energy state of 0).
+(3) Probability of foraging gain The probability of obtaining the depicted number of gains when the foraging option is chosen. This probability
+(P(foraging gain)) is depicted by the size of a green rectangle on the screen and takes a value of 0.2, 0.4, 0.6 or 0.8.
+(4) Gain magnitude The number of points added to the energy state if foraging is successful and the predator does not attack.
+Gains vary from 0 to 4 and are depicted by the number of blue dots within the green rectangle. Waiting entails
+a sure loss of 1 energy point and unsuccessful foraging always entails a constant loss magnitude of 2 points
+(depicted as dark red dots).
+(5) Continuous energy Energy varies on a continuous scale from 1 to in steps of 1 point. Zero energy corresponds to being dead (and
+thus no choice can be made in a zero-energy state).
+(6) Binary energy An energy state of 1 is special because in that state waiting leads to sure death. The ‘binary energy’ variable
+therefore distinguishes between an energy state of 1 and higher energy states.
+(7) Expected energy The foraging option entails an expected energy state, in the sense of expected value. This metric is thus
+calculated from the predator probability, the probability of foraging gain, the obtainable gain magnitude and the
+continuous energy state (as well as the constant loss magnitude). The expected energy variable takes only one
+time step into account.
+(8) Expected energy change The difference between the current energy state and the expected energy state for foraging (see variable 7).
+(9) Days past The number of days (that is, time steps) already spent in a given forest. The maximum number of days within a
+forest is always 5.
+(10) Pseudo-optimal: horizon-1 This policy is optimal in the final time step (that is, when only 1 day is left within a forest). Otherwise it can be
+regarded as pseudo-optimal because it is too short-sighted.
+(11) Pseudo-optimal: starvation-only This policy would be optimal if no predators were present.
+(12) Pseudo-optimal: predation-only This policy would be optimal if starvation were not possible.
+(13) Pseudo-optimal: horizon-2.5 This policy would be optimal if participants were not rewarded according to a full horizon of 5 days but were
+instead rewarded according to the horizon given by an exponential distribution with a mean of 2.5, which was
+implemented in the main experiment to enhance fMRI design efficiency.
+(14) Past energy change The difference in the energy states between choice and outcome phases of the past trial. Due to the Markov
+property of the task, this past change is irrelevant for the optimal policy. The same metric can be evaluated
+during the outcome phase of each trial and signals how many energy points are gained or lost in the given trial.
+This variable is thus included as a parametric modulator during the outcome phase.
+(15) Win–stay/lose–shift This DV prescribes foraging if the energy state increased with respect to the past trial and waiting if the energy
+state decreased. Win–stay/lose–shift is a binarized version of ‘past energy change’.
+(16) Death in past forest Binary variable indicating whether participants reached zero energy points in the forest immediately before the
+current forest.
+(17) Uncertainty of P(predator) When the prescriptions of the employed heuristic policy (that is, of the predator probability) are closer to 0 (that
+is, waiting) or 1 (that is, foraging), choice uncertainty is lower than when the prescriptions lie in-between. Choice
+uncertainty is indexed by the derivative of the mean of the logistic functions for the predator probability (see Fig. 2c).
+(18) Uncertainty of optimal policy When the absolute value differences according to the optimal policy are large (that is, either clearly prescribing
+waiting or foraging), choice uncertainty is lower than when the absolute value differences are small (that is, the
+optimal policy is more or less indifferent). Choice uncertainty is indexed by the derivative of the mean of the
+logistic functions for the optimal policy (see Fig. 2d).
+(19) Discrepancy in choice probabilities In some cases, the heuristic policy of using the predator probability and the optimal policy make quite distinct
+between P(predator) and optimal policy prescriptions (high discrepancy), whereas in others they make quite similar prescriptions (low discrepancy).
+Discrepancy is indexed by the absolute differences of two logistic functions (see Fig. 2c versus Fig. 2d).
+Variables 1 to 16 were used in models of choice behaviour. On the basis of the two variables in the behavioural model (that is, on the basis of variables 1 and 2), we derived variables 17 to 19 and included
+these in RT and fMRI analyses.
+exactly according to the distribution of the number of days that Participants’ choices relied on predator probability and optimal
+participants actually remained in a forest (that is, according to an policy. We greedily searched for a single DV that best explained
+exponential distribution with an average of 2.5, which was imple- participant’s choices. Bayesian model comparison identified preda-
+mented to enhance fMRI design efficiency). Three DVs addressed tor probability as the best single predictor of participants’ decisions
+the influence of the preceding trial or forest on the current out of the 16 candidate variables in the fMRI sample (final n = 24;
+trial: (14) the energy change from the last to the current trial, (15) see Fig. 2a for the metrics of the Bayesian information criterion
+‘win–stay/lose–shift’ and (16) a DV indicating whether partici- (BIC) and Supplementary Table 1 for BIC and protected exceed-
+pants had died in the preceding forest. ance probabilities). Searching for the predictor that best explained
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviour
+P(predator) (2)
+–500 0 500 1,000 1,500 2,000 2,500 –500 0 500 1,000 1,500 2,000 2,500
+P(predator) and ....
+Optimal policy (1)
+1.0
+0.5
+0
+1.0
+0.5
+0
+eciohc
+gnigarof
+ytilibaborP
+eciohc
+gnigarof
+ytilibaborP
+a Model comparison: one predictor
+fMRI sample Behavioural sample
+Optimal policy (1)
+P(foraging gain) (3)
+Gain magnitude (4)
+Continuous energy (5)
+Binary energy (6)
+Expected energy (7)
+Expected energy change (8)
+Days past (9)
+Pseudo-optimal: horizon-1 (10)
+Pseudo-optimal: starvation-only (11)
+Pseudo-optimal: predation-only (12)
+Pseudo-optimal: horizon-2.5 (13)
+Past energy change (14)
+Win–stay/lose–shift (15)
+Death in past forest (16)
+Relative log-group Bayes factor Relative log-group Bayes factor
+b Model comparison: two predictors
+fMRI sample Behavioural sample
+P(foraging gain) (2)
+Gain magnitude (3)
+Continuous energy (4)
+Binary energy (5)
+Expected energy (6)
+Expected energy change (7)
+Days past (8)
+Pseudo-optimal: horizon-1 (9)
+Pseudo-optimal: starvation-only (10)
+Pseudo-optimal: predation-only (11)
+Pseudo-optimal: horizon-2.5 (12)
+Past energy change (13)
+Win–stay/lose–shift (14)
+Death in past forest (15)
+0 200 400 600 800 0 100 200 300 400 500 600
+Relative log-group Bayes factor Relative log-group Bayes factor
+c Choices and model predictions: P(predator)
+Choices: mean fMRI sample Behavioural sample
+1.0
+number of
+data points:
+100
+75 0.5
+50
+25
+Model
+Predictions:
+P(predator) and 0 0.1 0.2 0.3 0.4 0.5 0 0 0.1 0.2 0.3 0.4 0.5
+optimal policy
+P(predator) P(predator)
+d Choices and model predictions: optimal policy
+Choices: mean fMRI sample Behavioural sample
+1.0
+number of
+data points:
+100
+75 0.5
+50
+25
+Model
+predictions:
+P(predator) and –0.5 0 0.5 1 1.5 0 –0.5 0 0.5 1 1.5
+optimal policy
+Optimal policy (binned) Optimal policy (binned)
+Fig. 2 | Models of choice data in the fMRi sample. a, Bayesian model comparisons show that predator probability was the best single predictor of
+participants’ choices. The plot depicts fixed-effects analyses using relative log-group Bayes factors, based on the BIC relative to the first model in the
+comparison set (here ‘optimal policy’). b, A model that additionally included the optimal policy best explained remaining variance in participants’ choices
+(log-group Bayes factors relative to the model including predator probability and optimal policy). c, The winning model captures the relationship between
+participants’ average choices and the predator probability. d, The winning model captures the relationship between participants’ average choices and the
+optimal policy (binned value differences of foraging versus waiting). Number of participants in the fMRI sample, n = 24. Number of participants in the
+behavioural sample, n = 23. Better fit is indicated by smaller log-group Bayes factors (that is, larger negative values). All error bars represent the s.e.m. Per
+data bin, circles depict mean empirical data points, and lines and crosses depict mean model predictions (averaged for simulated data according to each
+participant’s model fit). See Table 1 for a list that specifies the considered DVs for the task and thus the models tested here. See Supplementary Tables 1–3 for
+detailed model comparisons in the fMRI sample and Supplementary Tables 4–6 for detailed model comparisons in the behavioural sample. Supplementary
+Tables 7–9 present shared variances between the DVs and confusion matrices. See Supplementary Fig. 1 for the relationships among the 16 DVs included in
+the models. See Supplementary Figs. 2 and 3 for plots showing that the winning model captures the data split according to the other 14 DVs and that the
+winning model makes better qualitative predictions than the other models considered. Supplementary Fig. 4 depicts individual variability in the fMRI sample.
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTure HumaN BeHaviour Articles
+the remaining variance revealed that participants additionally relied very good recovery of the respective models (Supplementary
+on the optimal policy (Fig. 2b). The model including both predator Table 9). Less than 5% misclassifications emerged for the initially
+probability and optimal policy outperformed the simpler model that considered DVs (but again misclassifications occurred more often
+included only predator probability and also more complex models for the last 3 DVs in our list that did not explain participants’ behav-
+that additionally included the interactions between different task iour; Supplementary Table 9).
+variables (Supplementary Table 1), as well as all 66 possible com- To explore how participants’ behaviour in the task was related
+binations of two DVs from the set of the 12 DVs motivated a priori to their subjective assessments, we administered a post-experiment
+(the additional 4 DVs suggested in the review process were not questionnaire that assessed how much participants relied on differ-
+included in this comparison because they had already performed ent components of the task (Supplementary Table 10). Numerically,
+quite badly in the initial analysis; Supplementary Table 2). importance ratings were highest for predator probability, which
+Crucially, the winning model robustly predicted empirical may suggest that the heuristic identified in the model comparisons
+choices. This is illustrated in posterior predictive checks splitting corresponded to participants’ consciously accessible decisions.
+data according to the two variables incorporated in the model
+(predator probability, Fig. 2c; optimal policy, Fig. 2d) and in pos- RTs scaled with optimal policy and choice uncertainty of
+terior predictive checks splitting data according to the variables not predator probability. We predicted that participants’ use of preda-
+included in the model (Supplementary Fig. 2). Conversely, mod- tor probability and optimal policy should be reflected in their
+els with the other DVs did not capture the pattern of empirically RTs. Specifically, the two metrics themselves and/or their corre-
+observed choices (Supplementary Fig. 3). Individual differences in sponding choice uncertainties should be associated with RTs. This
+the best-fitting models are illustrated in Supplementary Fig. 4. was indeed the case as shown by analyses of RTs in linear mixed
+We did not find evidence that the best-fitting DVs changed over effects models (see Table 2 for statistics of the fMRI sample and
+the time course of the experiment. Specifically, we fitted models the behavioural sample). In both samples, the optimal policy was
+separately to data from the first and second halves of the experi- directly related to RTs such that higher values for foraging ver-
+ment. In both halves, a combination of predator probability and sus waiting were related to faster decisions (fMRI sample: n = 24,
+optimal policy emerged as the best model (Supplementary Table 3). t(30.67) = −3.04, P = 0.005; log-likelihood difference (LLD) = −4.0,
+All of the above results were replicated in an independent behav- 95% confidence interval, CI = [−0.10, −0.02]; behavioural sam-
+ioural sample acquired during the revision process (n = 23; see ple: n = 23, t(35.64) = −3.03, P = 0.005, LLD = −4.1, CI = [−0.09,
+Fig. 2 and Supplementary Tables 4–6). That is, predator probability −0.02]). Conversely, higher choice uncertainty of the predator
+decisively emerged as the best single predictor. Results according to probability was associated with slower decisions (fMRI sample:
+BIC, which was our primary analysis approach, favoured a model n = 24, t(25.17) = 3.43, P = 0.002, LLD = −4.8, CI = [0.22, 0.87];
+combining predator probability and optimal policy (protected behavioural sample: n = 23, t(28.31) = 2.69, P = 0.012, LLD = −3.2,
+exceedance probability favoured a combination of predator prob- CI = [0.07, 0.54]). Additionally, the discrepancy in choice probabili-
+ability and ‘binary energy’; Supplementary Table 4). ties according to the two metrics scaled with longer RTs (fMRI sam-
+The two samples differed only when searching for a third DV ple: n = 24, t(28.85) = 5.53, P < 0.001, LLD = −10.1, CI = [0.13, 0.27];
+that might explain variance on top of predator probability and opti- behavioural sample: n = 23, t(22.34) = 3.56, P = 0.002, LLD = −4.9,
+mal policy. In the fMRI sample, the comparison of models with CI = [0.05, 0.20]). This discrepancy quantifies how much the pre-
+three DVs suggested that the probability of foraging gain might best scriptions for choice differ between using predator probability and
+capture remaining variance (Supplementary Table 2). In the behav- optimal policy. In sum, RTs corroborate that predator probability
+ioural sample, ‘binary energy’ emerged as the DV capturing most and the optimal policy exert a joint influence on participants’ deci-
+remaining variance (Supplementary Table 4). Owing to the differ- sion process on the same trials.
+ence between the two samples, we refrain from drawing conclusions
+about the identity of a potential third DV. fMRI data could be related to DVs derived from the winning
+model. We aimed at identifying trial-by-trial associations of the
+Behavioural models were distinguishable. The large set of DVs behaviourally relevant variables with fMRI data during the choice
+tested here entailed that some of these DVs were related to each phase. Specifically, we included the following variables as parametric
+other by design. For example, the optimal policy shared on aver- modulators of the choice phase in our primary general linear model
+age variance >50% with two of the pseudo-optimal policies and (GLM): (1) the predator probability, (2) the DV under the optimal
+with ‘expected energy change’ (see Supplementary Table 7 for mean policy, (3 and 4) the associated choice uncertainties of the former
+shared variances). Predator probability shared variance >50% with two metrics, (5) the discrepancy between these two metrics, and (6)
+two of the pseudo-optimal policies and with ‘expected energy’. log-transformed RTs. In our primary GLM, parametric modulators
+Still, we argue that the DVs that emerged as relevant in our com- were not orthogonalized but we obtained the same results (except
+parison were reasonably dissociable or explained variance on top for a few minute differences due to rounding) in separate GLMs
+of one another, as was the case for the optimal policy and predator when varying the order of the respective orthogonalized para-
+probability. To illustrate the features of the optimal policy, we plot- metric modulators such that the relevant parametric modulators
+ted the relations between the 15 heuristics and the optimal policy were entered last (see Supplementary Table 11 for shared variances
+(Supplementary Fig. 1). between the included variables).
+More importantly, confusion analyses with 2,000 simulations per
+model showed that models with 1 of the 16 considered DVs could be fMRI analyses related hippocampus, amygdala and dorsolateral
+almost perfectly recovered from simulated data. This means that it is prefrontal cortex activity positively to predator probability
+unlikely that our winning model would have wrongly been selected and negatively to the associated choice uncertainty. In line with
+if another model were the true model. Among the first 13 DVs of our expectations derived from studies on related types of human
+our list, only 1 simulated model was misclassified (Supplementary approach–avoidance conflict tests18,26,27, predator probability was
+Table 8). Less than 10% misclassifications occurred for the last 3 positively related to blood oxygen level-dependent (BOLD) signals
+DVs of our list that captured the influence of preceding trials or in a cluster in the right anterior hippocampus extending into the
+forests and that performed overall worst in the model comparisons neighbouring amygdala, as well as bilateral clusters in the dorso-
+(Supplementary Table 8). Confusion analyses on the models with lateral prefrontal cortex (DLPFC; Fig. 3a and Table 3). Notably, a
+predator probability plus 1 of the 15 other considered DVs indicated cluster in the anterior hippocampus and neighbouring amygdala
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviour
+Table 2 | Linear mixed-effects models of Rt data
+Predictor estimates Degrees of t values P values LLD 95% confidence interval
+freedom
+Lower limit upper limit
+fMRI sample (n = 24)
+Intercept 6.66 24.45 147.49 <0.001 6.56 6.75
+(1) P(predator) 0.02 27.07 0.27 0.786 −0.1 −0.15 0.20
+(2) Optimal policy −0.06 30.67 −3.04 0.005 −4.0 −0.10 −0.02
+(3) Uncertainty of P(predator) 0.55 25.17 3.43 0.002 −4.8 0.22 0.87
+(4) Uncertainty of optimal policy 0.12 43.17 1.73 0.091 −1.4 −0.02 0.27
+(5) Discrepancy between P(predator) and 0.20 28.85 5.53 <0.001 −10.1 0.13 0.27
+optimal policy
+Behavioural sample (n = 23)
+Intercept 6.69 23.05 130.17 <0.001 6.58 6.80
+(1) P(predator) −0.00 25.00 −0.04 0.970 0.0 −0.17 0.16
+(2) Optimal policy −0.05 35.64 −3.03 0.005 −4.1 −0.09 −0.02
+(3) Uncertainty of P(predator) 0.31 28.31 2.69 0.012 −3.2 0.07 0.54
+(4) Uncertainty of optimal policy −0.07 31.67 −0.85 0.400 −1.1 −0.22 0.09
+(5) Discrepancy between P(predator) and 0.12 22.34 3.56 0.002 −4.9 0.05 0.20
+optimal policy
+Linear mixed-effects models were used to analyse log-transformed RTs, as implemented in the R package lmer. P values and degrees of freedom were derived using the R package lmerTest. Significant
+effects are printed in bold font. LLDs were calculated between the models, including all fixed effects relative to the models without the respective fixed effect (but with the same random-effects structure).
+Better fit is indicated by smaller LLDs (that is, larger negative values).
+showed stronger BOLD responses with lower choice uncertainty of their choice, the change in energy state (that is, energy state at
+of the predator probability (Fig. 3b). This cluster overlapped with outcome minus energy state at choice) was robustly associated
+the cluster identified for predator probability per se (see Fig. 4a for with neural activity in a well-established reward network (that is,
+the overlap of the two functional clusters and for information on the bilateral striatum, ventral medial prefrontal cortex and poste-
+the overlap with anatomical hippocampus and amygdala masks; rior cingulate cortex; Supplementary Fig. 6 and Supplementary
+see Fig. 4b for the relation of parameter estimates to predator prob- Table 12). This activation pattern was expected since participants
+ability). Uncertainty of the predator probability was also negatively were monetarily rewarded for avoiding an energy state of zero and
+associated with BOLD signals in the bilateral DLPFC and in the for reaching the maximal energy state of five points.
+right lateral inferior frontal gyrus (IFG) as well as other regions.
+Similar to the pattern in the hippocampus and amygdala, activity Follow-up and exploratory fMRI analyses strengthened and
+maps showed overlaps between the clusters identified for predator illustrated the relationships between BOLD signal and behav-
+probability per se and the choice uncertainty of the predator prob- ioural variables. To exclude that the above-mentioned fMRI results
+ability (Supplementary Fig. 5). were unduly driven by participants’ choices themselves, we ran a
+Taken together, both the predator probability and its associ- secondary model, in which we additionally included choices as a
+ated choice uncertainty scaled on a trial-by-trial basis with BOLD binary parametric modulator. The clusters obtained with this sec-
+signals in the anterior hippocampus and the amygdala, as well as ondary model generally replicated the results reported above (see
+DLPFC regions. Supplementary Table 13).
+In the same vein, we also obtained similar clusters in a ter-
+fMRI analyses related DMPFC activity positively to both the optimal tiary GLM, in which the choice uncertainties and the discrepancy
+policy and the associated choice uncertainty. The optimal policy were calculated from the independent behavioural sample (see
+was positively related to BOLD signals in the posterior dorsomedial Supplementary Table 14; the main difference was that the cluster in
+prefrontal cortex (DMPFC; Fig. 3c and Table 3), extending into the the left hippocampus and amygdala, which was positively related to
+supplementary motor area (SMA). The same parametric contrast the predator probability, survived small-volume correction for an
+revealed a positive relation of the optimal policy with the anterior anatomical mask of the bilateral hippocampus but failed to reach
+cingulate cortex (ACC), bilateral IFG (extending into the insula) whole-brain family-wise error (FWE) correction at P < 0.05).
+and bilateral thalamus. The choice uncertainty of the optimal pol- To explore inter-individual variability, we included the param-
+icy scaled positively with BOLD signals in DMPFC and DLPFC eter estimates from the behavioural models linking participants’
+regions, as well as in the IFG and insula (Fig. 3d). The same metric choices to predator probability and optimal policy as covariates
+scaled negatively with activity in the posterior cingulate cortex. In into the respective contrasts. Two clusters in the bilateral striatum
+the DMPFC and IFG (extending into the insula), we found over- co-varied negatively with individual parameter estimates capturing
+laps between clusters elicited by the optimal policy per se and by the degree to which predator probability influenced participants’
+the choice uncertainty of the optimal policy (Supplementary Fig. 5). choices (Supplementary Fig. 7 and Supplementary Table 15). No
+Furthermore, BOLD signals in the thalamus showed a positive asso- significant clusters emerged for individual parameter estimates
+ciation with the discrepancy in choice probabilities between preda- related to the optimal policy.
+tor probability and optimal policy. As noted in the previous sections, we observed that in some
+regions activity related to predator probability or optimal policy
+fMRI analyses related activity in striatum and medial regions to overlapped with activity related to the choice uncertainty of the
+outcomes. During the time point when participants saw the outcome respective DV (Supplementary Fig. 5). Following the suggestions
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTure HumaN BeHaviour Articles
+a c
+P(predator) Optimal policy
+(positive relation) (positive relation)
+6
+5 6
+4
+4
+3
+2 2
+1
+0 0
+x = 26 y = 36 x = 8 x = –9
+b d
+Uncertainty of P(predator) Uncertainty of optimal policy
+(negative relation) (positive relation)
+6 6
+5
+4 4
+3
+2 2
+1
+0 0
+x = 21 x = 53 z = 51 x = 6
+Fig. 3 | fMRi results during the choice phase. a, Predator probability showed a positive relation within a cluster spanning the right anterior hippocampus
+and the amygdala, as well as within the bilateral DLPFC. b, The choice uncertainty according to the predator probability showed a negative relation in the
+right anterior hippocampus, extending into the amygdala as well as the bilateral DLPFC and the right lateral IFG. c, The optimal policy showed a positive
+relation within DMPFC, extending into pre-SMA and ACC, as well as into the thalamus and other regions. d, The choice uncertainty according to the
+optimal policy showed a positive relation in the DMPFC extending into the pre-SMA. Number of participants, n = 24. fMRI clusters were overlaid on a
+group average T1-weighted image in MNI space; clusters are whole-brain FWE-corrected for multiple comparisons at P < 0.05, with a cluster-defining
+threshold of P < 0.001. See Table 3 for a list of all clusters. See Supplementary Table 11 for the relationships among the variables included as parametric
+modulators during the choice phase. See Fig. 4 for the overlap of the hippocampus/amygdala clusters depicted in a and b. Supplementary Fig. 5 visualizes
+the overlap of all clusters. See Supplementary Table 12 and Supplementary Fig. 6 for fMRI results during the outcome phase. See Supplementary Table 13
+for the results of a secondary model that additionally included participants’ choices as a parametric modulator. See Supplementary Table 14 for the results
+of a tertiary model in which choice uncertainties were derived from the behavioural sample. Supplementary Table 15 and Supplementary Fig. 8 present the
+results of covariate analyses testing for inter-individual differences. Supplementary Table 16 and Supplementary Figs. 8 and 9 present non-independent
+ROI analyses. See Supplementary Table 17 for contrasts testing for interaction effects. Supplementary Fig. 10 visualizes the overlap between clusters from
+the current study and clusters from a related previous study2.
+of anonymous reviewers, we visualized these relationships using Discussion
+functionally defined regions of interest (ROIs) based on the analy- We demonstrate that humans employ two decision policies of vary-
+ses described for our primary GLM. These analyses are not inde- ing complexity in a virtual approach–avoidance conflict task, which
+pendent and serve illustrative purposes. Visual inspection shows translates the often-evoked biological example of foraging under
+that in several ROIs the relationships were not completely linear predation9,21 into a mathematical framework amenable to decision-
+across the four quartiles of the parametric modulators, which prob- theoretic analyses. Participants primarily based their choices on the
+ably suggests that these regions were influenced by more than one probability of predator attack—a myopic but easy-to-compute heu-
+behavioural variable (Supplementary Figs. 8 and 9). To explore this ristic policy. Beyond that, they relied on the normatively optimal
+pattern further, we conducted non-independent and post hoc tests policy, which entails sophisticated integration of various task com-
+within each of the functionally defined ROIs to assess the speci- ponents as indicated by analyses of choice and RT data. These two
+ficity of these ROIs for the respective parametric modulators (at policies were reflected in macroscopically different brain regions,
+P < 0.001). As could be expected from the overlap maps (Fig. 4 and which corroborates the theoretical notion that multiple neural con-
+Supplementary Fig. 5), the clusters in the hippocampus and the trollers take care of different survival-relevant threats1,8. Crucially,
+amygdala as well as the clusters in the bilateral DLPFC were posi- our results associate the neural controller of the heuristic policy
+tively related to predator probability per se and negatively related with structures often implicated in approach–avoidance conflicts in
+to the associated choice uncertainty (Supplementary Table 16). both rodents and humans11–16,18,21. That is, the anterior hippocampus
+Similarly, the DMPFC and right IFG (extending into the insula) and the amygdala related to predator probability as well as to the
+were positively related to both the optimal policy per se and the uncertainty of using this heuristic policy during choice. The optimal
+choice uncertainty of the optimal policy. We also tested in a simi- policy, and also the choice uncertainty thereof, were associated with
+lar post hoc fashion whether BOLD signals in the identified func- parts of the DMPFC, which dovetails with the general roles of this
+tional ROIs were related to activity elicited when including the region in decision-making33,36.
+three next-best DVs from the behavioural model comparison in Predator probability emerged as the primary policy employed
+separate GLMs (that is, the probability of foraging gain, continuous by participants among a variety of potential alternatives. This result
+energy and expected energy change; see Table 1). Only clusters in resonates with previous demonstrations of the same metric modu-
+the medial occipital cortex showed relationships (Supplementary lating behaviour in approach–avoidance conflict tasks with spatial
+Table 16). Furthermore, supplementary GLMs that included the layouts18,26,27. Notably, participants used the predator probability
+interactions between each policy and its associated choice uncer- as a primary heuristic and not the probability of foraging gain,
+tainty revealed clusters in the occipital lobe for these interaction which constituted the winning policy in an analogous virtual for-
+contrasts (Supplementary Table 17). aging task that did not include predation2. This may indicate that
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviour
+Table 3 | fMRi results during choice phase (primary GLM)
+Side Peak voxel MNi coordinates (mm) Cluster size (voxels) Peak t score
+X Y Z
+(1) P(predator): positive (trial-by-trial relation with higher numbers indicating higher probability of predator attacking)
+DLPFC R 30 36 48 1,325 6.69
+Medial occipital cortex L −14 −74 −9 1,112 6.17
+Anterior hippocampus R 26 −6 −23 340 6.17
+extending into the
+amygdala
+DLPFC L −29 33 50 194 4.75
+(1) P(predator): negative
+Inferior occipital gyrus L −29 −87 −12 462 6.48
+Inferior occipital gyrus R 21 −92 −9 294 6.05
+(2) Optimal policy: positive (trial-by-trial relation with higher numbers indicating higher value of the foraging option versus the waiting option according
+to the optimal policy)
+Thalamus L −8 −21 6 250 7.92
+IFG extending into the R 32 23 5 950 7.58
+insula
+ACC L −9 32 20 260 6.59
+Medial occipital cortex L −23 −72 −9 417 6.25
+Thalamus R 11 −27 −6 408 5.69
+Posterior DMPFC L/R 8 23 53 1,393 5.57
+extending into the SMA
+IFG extending into the L −30 21 −8 152 4.56
+insula
+(2) Optimal policy: negative
+Superior parietal gyrus L −17 −57 69 472 7.41
+(3) Uncertainty of P(predator): positive (trial-by-trial relation, with higher numbers indicating higher choice uncertainty according to the predator
+probability)
+None
+(3) Uncertainty of P(predator): negative
+DLPFC extending into the R 14 38 54 1,977 6.74
+DMPFC
+Posterior middle temporal R 59 −56 −5 197 6.10
+gyrus
+Lateral IFG R 53 39 −6 572 6.06
+Anterior hippocampus R 21 −9 −18 672 5.94
+extending into the
+amygdala
+Medial occipital cortex L −14 −87 32 145 5.00
+DLPFC L −32 29 51 149 4.83
+(4) Uncertainty of optimal policy: positive (trial-by-trial relation, with higher numbers indicating higher choice uncertainty according to
+the optimal policy)
+DLPFC and DMPFC R 17 12 57 2,484 6.96
+Insula R 21 23 −5 707 6.37
+DLPFC R 39 35 41 935 6.16
+DLPFC extending into the R 41 54 12 800 5.36
+lateral IFG
+(4) Uncertainty of optimal policy: negative
+Posterior cingulate cortex L −8 −51 33 149 4.84
+(5) Discrepancy between P(predator) and optimal policy: positive (trial-by-trial relation, with higher numbers indicating larger discrepancies)
+Thalamus L −9 −9 2 164 5.34
+(5) Discrepancy between P(predator) and optimal policy: negative
+None
+Clusters are whole-brain FWE-corrected for multiple comparisons at P < 0.05 with a cluster-defining threshold of P < 0.001. Number of participants, n = 24.
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTure HumaN BeHaviour Articles
+a b
+–2
+–6
+–10
+–14
+x = 26 y = 0 z = –19
+0.1 0.2 0.3 0.4
+Uncertainty of P(predator) (negative relation) P(predator)
+Overlap
+participants are able to select a particularly appropriate heuristic for accords with previous studies on defensive distance in rodents and
+the task at hand (that is, a heuristic that combines computational recent efforts to reverse-translate defensive patterns from rodents
+simplicity with near-optimal approximations). Given several theo- to humans50.
+retical accounts from multiple fields arguing for adaptive heuristic Interestingly, we found that the anterior hippocampus and the
+decision-making43–47, it is an interesting avenue for future research amygdala, in addition to tracking predator probability, also related
+to investigate how participants select and switch between different to the choice uncertainty associated with using predator probabil-
+heuristics under varying biologically inspired decision tasks2,3. ity as a heuristic. Previous research has linked activity in the hip-
+Neurally, different heuristics are likely to be implemented by pocampus to metrics of outcome uncertainty when humans make
+different controllers1. Here, the heuristic of using predator probabil- value-based decisions51 or inferences about abstract variables52
+ity related to the anterior hippocampus and the amygdala, which and sensory stimuli53,54. Here, we were not interested in outcome
+demonstrates that in humans these structures are implicated in uncertainty but rather in choice uncertainty (that is, the uncertainty
+computing a decision policy central for a rather abstract type of associated with using a particular decision strategy). Potentially,
+approach–avoidance conflict without physical threats, in contrast to outcome and choice uncertainty share common neural substrates
+most rodent tasks12–16,48. Our fMRI results cannot delineate subtle- although this is not necessarily the case for conceptually different
+ties in the roles of the hippocampus and amygdala, but we would types of uncertainty33.
+like to highlight that work on rodents has identified dense mono- Although we focused particularly on the hippocampus and
+synaptic connections between the two structures as well as recip- the amygdala given their prominent role in animal studies on
+rocal electrophysiological interactions during approach–avoidance approach–avoidance conflicts, we note that in our task we observed
+conflict15. While these connections appear to be crucial for avoid- similar effects for the DLPFC (particularly in the right hemisphere).
+ance of acquired threat predictors (as in the present study), they DLPFC involvement is consistent with the well-described fMRI
+may be less relevant in avoiding innate threat predictors such as in activity in this region for processing risks during choice32.
+the elevated plus maze49. The optimal policy also guided participants’ decisions as shown
+With respect to work on humans, our findings relating the ante- by behavioural model comparisons that pitted the optimal policy
+rior hippocampus and also the amygdala to predator probability against a number of rather close-by competitors such as metrics
+corroborate recent studies implicating these structures in different related to immediate changes in expected value and policies that
+types of approach–avoidance conflicts17–22,24,26,27. In contrast to sev- would have been optimal in slightly different tasks. We conjecture
+eral of these studies, our task did not entail spatial layouts, direc- that humans may often fail to compute the optimal policy in more
+tional movements or mnemonic demands, which have been argued challenging real-life situations that entail larger action repertoires,
+to possibly impact hippocampal activity21. The relation between stricter time pressure, and the need to learn environmental states
+predator probability and the hippocampus in our rather strategic and contingencies1. Previous research has not been able to address
+task fits particularly well with the recently demonstrated involve- whether humans are capable of using elaborate decision policies
+ment of the hippocampus during strategic decisions to escape from for surmounting approach–avoidance conflicts. We could do so
+a slow-attacking virtual predator24. Overall, the findings linking because our sequential decision-making task was formulated in the
+the hippocampus and amygdala with risk metrics related to virtual precise mathematical framework of an MDP (which specifies crite-
+predators may thus suggest a more generic role of these regions in ria for optimality without committing to particular utility functions
+risky decision-making than usually acknowledged in the field of or risk preferences).
+decision neuroscience. Future studies will be necessary to delineate The optimal policy was related to a part of the DMPFC and
+whether these two structures are specifically involved when risks are the ACC as well as the IFG. The DMPFC and the IFG addition-
+framed in terms of threats to virtual survival. Possibly, participants ally tracked the choice uncertainty of the optimal policy. In gen-
+in our tasks might have interpreted predator probability as some eral, these prefrontal regions are implicated in various types of
+form of ‘defensive distance’ since we visually depicted increasing decision-making tasks31–36. The implication of the DMPFC and the
+predator probability as triangles of increasing sizes. Thus, our work ACC might also point to further converging neural processes across
+).u.a(
+setamitse
+retemaraP
+Overlap of clusters in hippocampus/amygdala Parameter estimates in overlap
+ROI (depicted in a)
+P(predator) (positive relation)
+Fig. 4 | visualization of the clusters in the hippocampus extending into the amygdala. a, Overlap of the functional clusters for predator probability per se
+(red) and for the choice uncertainty of predator probability (yellow; see also the depiction of these clusters in Fig. 3a,b). Comparing these functional
+clusters to anatomical masks of the Automated Anatomical Labeling atlas showed that, of the 340 voxels in the cluster for predator probability per se, 194
+were in the hippocampus and 113 in the amygdala. Of the 672 voxels in the cluster for uncertainty of predator probability, 294 were in the hippocampus
+and 270 in the amygdala. b, Visualization of the relation between the parameter estimates in the overlap ROI depicted in a. Parameter estimates were
+derived from a follow-up GLM in which the four levels of predator probability were modelled as separate onset regressors for the choice phase. Notably,
+the predator probabilities used here cover a different range than that used in a previous study18, which showed a purely linear impact of predator
+probability on threat probability (with threat probabilities: 0.2, 0.5, 0.8). Note that the number of data points was not equally distributed for the four bins.
+Parameter estimates were extracted using the toolbox marsbar. Number of participants, n = 24. Error bars represent the s.e.m.
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviour
+species since medial prefrontal regions are also implicated in rodent years). Due to time constraints, one participant performed only eight out of ten
+approach–avoidance tasks15. A close-up comparison indicates com- sessions. Participants received a show-up fee of EUR12 plus a variable amount.
+The study was conducted in accord with the Declaration of Helsinki and
+monalities and differences in activation patterns with our previous
+approved by the governmental research ethics committees (fMRI sample:
+study that used a foraging task without predation—and thus with- Kantonale Ethikkommission Zürich, KEK-ZH-Nr. 2013-0328; behavioural sample:
+out approach–avoidance conflict2 (Supplementary Fig. 10). In both Ethikkommission der Ärztekammer Hamburg, PV5746). All participants gave
+studies, choice according to the optimal policy was related to activ- written informed consent using a form approved by the ethics committees.
+ity clusters in the ACC (extending into the midcingulate cortex)
+that—although not overlapping—were located in close proximity. Sequential decision-making task. Instructions and task. See Fig. 1 for an overview
+of the task set-up. Participants received detailed written and oral step-by-step
+The choice uncertainty of the optimal policy was related to slightly
+instructions (see Supplementary Note 1: Task instructions), which presented the
+more anterior DMPFC activity in the previous compared with the task as virtual foraging under the dual threats of predation and of starvation. To
+current study. In our view, the biggest difference between the stud- familiarize themselves with the task, participants performed 2 training sessions: a
+ies concerns the role of the DMPFC extending into the dorsal part first short training session of 4 forests with 5 days each (after which participants
+of the ACC: in the previous study, activity in this region robustly could ask questions) and a second longer training session of 24 forests with 5
+days each. The behavioural sample additionally received a questionnaire testing
+scaled with the discrepancy between using the heuristic—in that
+for task understating after the first training session (see Supplementary Note 2:
+case, the probability of foraging gain—and using the optimal pol- Comprehension questionnaire; Supplementary Table 10). In our task, ‘forest’ refers
+icy. In the current study, the same region scaled with the optimal to a mini-block of ‘days’ with each ‘day’ being one trial. For the main behavioural
+policy itself (and its choice uncertainty). This informal comparison task during fMRI scanning, forests always lasted five days, but to maximize
+between our studies may suggest the exciting possibility that the fMRI efficiency these five days could be interrupted (that is, the first few days
+were played in the scanner, and the remaining days afterwards). Participants
+approach–avoidance conflict inherent in the choice options of the
+knew about this feature but did not know at which point a given forest would be
+current task shifted the balance between the metrics encoded in the interrupted. Participants performed ten sessions of the main behavioural task in
+DMPFC—a conjecture to be tested in future experiments. the MR scanner (fMRI sample) or on a desktop computer (behavioural sample).
+From a process perspective, we deem it intriguing that over- The number of days per forest played in the scanner followed an exponential
+distribution with a mean of 2.5 resulting in 40 days in 24 forests per session. After
+lapping regions tracked the DV itself as well as its choice uncer-
+fMRI scanning, participants completed one randomly selected forest per session,
+tainty. This seemed to be the case in the hippocampus, amygdala,
+and were rewarded according to performance in these ten forests. For each forest
+DLPFC, DMPFC and IFG. Choice uncertainties were calculated as in which they survived (regardless of the final energy state) participants received
+the derivatives of the logistic functions linking the DVs to partici- one additional reward point. On top of that, they received one reward point for
+pants’ choices, which implies that choice uncertainties are highest each time within a forest that their energy level reached five points. Each point
+corresponded to CHF1.50 (fMRI sample) or EUR1 (behavioural sample). The
+at the inflection points of the logistic functions and lowest at the
+task was presented using the MATLAB toolbox Cogent (www.vislab.ucl.ac.uk).
+outer ranges when DVs clearly prescribe one of the two actions. We
+After the experiment, all participants received a questionnaire asking for specific
+speculate that overlapping representations of a DV and their choice strategies and for ratings of task components (see Supplementary Note 3: Post-
+uncertainty might aid in adjusting the degree to which these DVs experiment questionnaire; Supplementary Table 10). For exploratory analyses,
+are used for choice, which hints potentially at local and distributed participants in the behavioural sample additionally filled in short forms of the
+State-Trait Anxiety Inventory57 and of the Need for Cognition scale58.
+neural controllers for arbitrating between the heuristic and opti-
+mal policies (similar to what has been shown for model-free versus
+Mathematical framework and optimal policy. We modelled the task as an MDP59.
+model-based learning55,56).
+MDPs are specified by (1) the possible states, (2) the action repertoire, (3) the
+Using an approach–avoidance conflict task with a precise deci- transition matrix between these states, (4) the rewards associated with transitions,
+sion-theoretic framework, we demonstrate that the human DMPFC and (5) the temporal horizon. In the following, we list these components.
+computes a sophisticated optimal policy on top of a predator prob- (1) States. 12 states per forest; that is, 6 energy states (0–5 energy points) × 2
+(weather types).
+ability heuristic that relates to the hippocampus and the amygdala—
+(2) Actions. Foraging or waiting.
+along with the associated choice uncertainty. These findings argue
+(3) Transition matrix. This is constructed from the probabilities of predator
+against a monolithic view of approach–avoidance conflicts and attack, the probabilities of foraging gain, gain and loss magnitudes, and the
+provide evidence for an interplay of two algorithms implemented transition probability between the two weather types (which is always 0.5 and
+by multiple controllers. Our study dovetails both on a conceptual independent of the chosen action). Zero-energy states are absorbing. Waiting
+leads to a sure loss of one point. Foraging can lead to an attack of the predator,
+and on a neural level with work on survival circuits and risk assess-
+which results in a transition to a zero-energy state. If the predator does not attack,
+ment in rodents and humans9,10,28,29,50. In particular, we link mathe-
+transitions depend on whether a foraging gain occurs or not. That is, the energy
+matically defined decision policies of varying complexity to flexible, state is either increased by the gain magnitude (with total energy being capped at
+higher-order cortical regions. Thereby, our study opens new ave- five) or reduced by two points.
+nues for translational research on the role of approach–avoidance (4) Rewards. All transitions to zero-energy states are associated with a reward
+of −1, all transitions to five energy points are associated with a reward of +1, and
+conflicts for anxiety.
+all other transitions with a reward of 0. That is, the rewards in the MDP reflect the
+monetary incentives participants had when performing the task.
+Methods (5) Temporal horizon. Our task imposes a finite time horizon of five steps from
+Participants. fMRI sample in Zurich. We recruited 29 participants via mailing the start of each forest. Time steps are called days.
+lists of local universities. Five participants were excluded: one due to head motion The optimal policy specifies actions that maximize obtained rewards. That
+>4 mm during MRI, one due to an incidental medical finding revealed by MRI, is, the optimal policy depends on the choice at the current time step and the
+and three who behaved almost deterministically (that is, they selected one of the remaining—up to four—time steps. To derive optimal policies in our finite-horizon
+two choice options in more than 0.85 of the retained trials). (We selected 0.85 scenario, we used backward induction. Specifically, we started from the final time
+as the cutoff during the analysis process. The proportion of trials in which the step (that is, day five) and calculated the values of the two choice options (that is,
+foraging option was chosen in the remaining sample was 0.59 ± 0.10, mean ± s.d.; foraging or waiting) for each state. These values depend on the possible transitions
+see the section entitled Analyses and models of choice and RT data.) The final from the respective states. If the value of foraging is higher than the value of
+sample comprised 24 participants (11 female; age = 25.0 ± 3.9 years). Due to waiting, foraging is the deterministically better option in that state and at that time
+equipment malfunction, two participants performed only nine out of ten sessions. step—or vice versa. If both choice options have the same value, the optimal choice
+Participants received a show-up fee of CHF50 plus a variable amount (see the is indifferent between the two options and this value is used to calculate the values
+section entitled Instructions and task). for the second-to-last time step. If the two choice options differ in value, the value
+of the better choice option (that is, the maximum over the values for foraging and
+Behavioural sample in Hamburg. We recruited 26 participants via a local online waiting) is used to determine the optimal choice and to calculate the values for
+platform. Three participants were excluded: one due to equipment malfunction the second-to-last time step. This procedure was repeated until arriving at the first
+and two who selected one of the two choice options in more than 0.85 of the time step (that is, day one).
+retained trials (value in remaining sample: 0.55 ± 0.18, mean ± s.d., for the foraging The optimal policy per se specifies the action to choose and thus does not allow
+option). The final sample comprised 23 participants (15 female; age = 25.9 ± 3.5 for variability in the decision process (that is, in some cases waiting and foraging
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTure HumaN BeHaviour Articles
+entail large value differences whereas in other cases the two choice options have We analysed log-transformed RTs using linear mixed-effects models as
+quite similar values). We therefore used the continuous value differences between implemented in the R package lmer (http://cran.r-project.org/web/packages/
+the two choice options as predictors of participants’ choices, RTs and fMRI data. lme4/index.html)63. Random effects for participants included a random intercept
+For brevity, we often use the term ‘optimal policy’ to refer to the value differences and random slopes for all variables. Since models of choice data did not provide
+between the foraging and waiting under the optimal policy. evidence for the suitability of interaction terms, we did not include any interaction
+The optimal policy applies to the scenario as instructed and incentivized terms as fixed or random effects in the models of RT data. P values and degrees
+in our experiment. It is a possibility that participants may actually have tried of freedom were derived using the R package lmerTest (https://cran.r-project.org/
+to solve different scenarios. We therefore tested four policies that are optimal web/packages/lmerTest/). LLDs were calculated between the models including all
+under different scenarios. We refer to these policies as ‘pseudo-optimal.’ One fixed effects relative to the models without the respective fixed effect (but with the
+pseudo-optimal policy considers just a finite time horizon of one time step. A same random-effects structure).
+second pseudo-optimal policy neglects the transitions according to the predator
+probability (that is, this probability is set to zero for calculating the corresponding fMRI data acquisition. Data were acquired on a 3 T (Philips Achieva) MR
+pseudo-optimal policy). A third pseudo-optimal policy neglects the transitions scanner using a 32-channel head coil. Functional images were recorded using a
+according to the probability of foraging gain. For a fourth pseudo-optimal policy, T2*-weighted echo-planar imaging (EPI) sequence (repetition time (TR) 2.1 s;
+which was added during the revision process, optimal policies were averaged for echo time (TE) 30 ms; flip angle 80°). A total of 37 axial slices were sampled for
+1 to 5 days according to the number of times these horizons actually occurred whole brain coverage (matrix size 96 × 96; in-plane resolution 2.5 × 2.5 mm2; slice
+in the main experiment (that is, the number of days according to an exponential thickness 2.8 mm; 0.5 mm gap between slices; slice tilt 0°). Functional images were
+distribution with a mean of 2.5, which was implemented to enhance fMRI collected in 10 sessions of 170 volumes each. To obtain steady-state longitudinal
+design efficiency). magnetization, the first five volumes of each session were discarded. Field maps
+All calculations were carried out in MATLAB. were acquired with a double-echo gradient echo field map sequence, using 32
+slices covering the whole head (TR 349.11 ms; TE 4.099 and 7.099 ms; matrix size,
+Choice uncertainties and discrepancy. We conjectured that choice uncertainties of 80 × 80; in-plane resolution 3 × 3 mm2; slice thickness 3 mm; 0.5 mm gap between
+the employed DVs and possibly the discrepancy between the DVs may be reflected slices; slice tilt 0°). Anatomical images were acquired using a T1-weighted scan
+in RT and fMRI data. We quantified uncertainties on the basis of the derivative (field of view 255 × 255 × 180 mm; voxel size 1 × 1 × 1 mm3).
+of the mean across participants of the fitted logistic functions (Fig. 2c,d). These
+derivatives capture the intuition that a small deviation in the DV (for example, fMRI data analyses. All fMRI analyses were performed in SPM12. The FieldMap
+due to perceptual or computational error) has a larger impact on the resulting toolbox was used to correct for geometric distortions caused by susceptibility-
+choice at the inflection point of the logistic function (that is, at the point at which induced field inhomogeneities64. Preprocessing of EPI data included rigid-body
+participants are indifferent between the two choice options) than at the ranges realignment to correct for head movement, unwarping and slice time correction.
+of the DV where the values of the logistic function are close to zero (prescribing EPI images were then co-registered to the individual’s T1-weighted image
+waiting) or close to one (prescribing foraging). Additionally, to quantify the using a 12-parameter affine transformation and normalized to the Montreal
+discrepancy in the prescriptions of the two employed DVs, we took the absolute Neurological Institute (MNI) T1 reference brain template using the extended
+differences in the mean of the two fitted logistic functions across participants. unified segmentation algorithm in SPM1265. Normalized images were smoothed
+with an isotropic 8 mm full-width at half-maximum Gaussian kernel. The six
+Analyses and models of choice and RT data. Participants received a total of 400 motion correction parameters estimated from the realignment procedure were
+trials (that is, days; except for 2 participants in the fMRI who received only 360 entered as covariates of no interest. Regressors were convolved with the canonical
+trials due to equipment malfunction and 1 participant in the behavioral sample haemodynamic response function and low-frequency drifts were excluded using a
+who received only 320 trials due to time constraints). On average, participants were high-pass filter with a 128 s cutoff.
+‘alive’—and were thus able to make decisions—in 354.4 ± 16.1 trials, mean ± s.d., In the GLM the three distinct phases of the task (forest, choice and outcome
+(fMRI sample) and 354.4 ± 21.9 trials (behavioural sample). Of these, they failed to phases; see Fig. 1) were entered as events with a duration of 0 s (that is, as stick
+answer in 8.4 ± 8.8 trials (fMRI sample) and 5.4 ± 8.3 trials (behavioural sample), functions). Choice and outcome phases in which participants had starved or for
+which left 346.0 ± 17.6 trials (fMRI sample) and 349.0 ± 27.6 trials (behavioural which they did not reply were not explicitly modelled. We were mostly interested
+sample) for analyses. in the choice phase and ran a primary GLM with a combination of variables that
+To explain participants’ choices, that is, their probability of choosing the emerged in our analyses of behavioural and RT data (see Fig. 3 and Table 3). That
+foraging option, p , we used logistic regression models (implemented in the is, our primary GLM included the six parametric modulators of the choice phase:
+forage
+MATLAB function mnrfit) of the following generic form (where parameter (1) the predator probability, (2) the DV under the optimal policy, (3 and 4) the
+estimates are denoted by β): associated choice uncertainties of the former two metrics, (5) the discrepancy
+between these two metrics and (6) log-transformed RTs. We report analyses
+p forage=1∕(1+exp(−DV)) in which parametric modulators competed for variance (that is, without serial
+orthogonalization). We also ran five separate GLMs with serial orthogonalization
+with the following form of the DV: such that each of the five parametric modulators was entered last in one GLM.
+These GLMs revealed the same clusters and same values as our primary GLM
+DV=β +β ×predictor except for some numerical differences due to rounding. Due to collinearities
+0 1
+between parametric modulators, there may be some BOLD activity that could be
+As predictor, we first considered the 16 variables listed in Table 1. In the same vein, explained by several parametric modulators, which is not reported here, since we
+we tested models including two predictors: were interested in the specific effects of the respective parametric modulators.
+The forest phase was parametrically modulated by the current energy state. The
+DV=β +β ×predictor+β ×predictor outcome phase was parametrically modulated by the change in energy state (that is,
+0 1 1 2 2
+energy state at outcome minus energy state at choice).
+We also tested interaction models: In a secondary GLM, participants’ choices were included as an additional
+parametric modulator (that is, as a binary modulator coding for waiting or
+DV=β +β ×predictor+β ×predictor +β ×predictor×predictor foraging; see Supplementary Table 13). In a tertiary GLM, choice uncertainties
+0 1 1 2 2 3 1 2
+and the discrepancy were calculated from the independent behavioural sample
+For each model we approximated model evidence by calculating the BIC, which (see Supplementary Table 14). For follow-up ROI analyses, we set up a GLM with
+penalizes model complexity: four separate onset regressors for the four levels of predator probability (Fig. 4)
+and three GLMs on the basis of the primary GLM, in which we additionally
+BIC = SDR+k×In(n) entered one of the three next-best DVs from the behavioural model comparison as
+parametric modulators (that is, the probability of foraging gain, continuous energy
+where SDR is the sum of deviance residuals (that is, twice the difference between and expected energy change; see Supplementary Table 16 for the respective results).
+the maximum achievable log likelihood and that attained under the fitted model as In two further GLMs, we added either the interaction of predator probability with
+given by mnrfit), k is the total number of predictors including the intercept and n is the choice uncertainty of predator probability or the interaction of the optimal
+the number of data points per participant. policy with the choice uncertainty of the optimal policy as parametric modulators
+We performed both fixed-effects and random-effects analyses. The latter (Supplementary Table 17).
+assume that different participants may use different models. We used the Bayesian We performed a second-level one-sample t-test (one-sided) on contrast
+model selection procedure implemented in SPM12 (http://www.fil.ion.ucl. images from all participants. All reported clusters are FWE-corrected for multiple
+ac.uk/spm/) to calculate protected exceedance probabilities, which measure the comparisons at P < 0.05 using the SPM random-field theory-based approach. The
+likelihood that any given model is more frequent than all other models in the cluster-defining threshold was P < 0.001. At this voxel-inclusion threshold the
+comparison set60. For the Bayesian model selection procedure, BIC values were random-field theory approach in SPM correctly controls the false-positive rate66.
+multiplied by −0.5 to scale values with respect to the appropriate conventions61,62. ROI analyses were conducted using the toolboxes rfxplot and marsbar.
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+Articles NaTure HumaN BeHaviour
+Reporting Summary. Further information on research design is available in the 24. Qi, S. et al. How cognitive and reactive fear circuits optimize escape decisions
+Nature Research Reporting Summary linked to this article. in humans. Proc. Natl Acad. Sci. USA 115, 3186–3191 (2018).
+25. Bach, D. R. Anxiety-like behavioural inhibition is normative under
+Data availability environmental threat-reward correlations. PLoS Comput. Biol. 11,
+1–20 (2015).
+The behavioural data that support the findings of this study are publicly available
+26. Korn, C. W. et al. Amygdala lesions reduce anxiety-like behavior in a human
+at github (https://github.com/dnhi-lab/minimizing_threat.git) and at figshare
+benzodiazepine-sensitive approach–avoidance conflict test. Biol. Psychiatry 82,
+(https://doi.org/10.6084/m9.figshare.7929914.v1). The neuroimaging data that
+522–531 (2017).
+support the findings of this study are publicly available at neurovault (https://
+27. Khemka, S., Barnes, G., Dolan, R. J. & Bach, D. R. Dissecting the function of
+neurovault.org/collections/5046/).
+hippocampal oscillations in a human anxiety model. J. Neurosci. 37,
+6869–6876 (2017).
+Code availability
+28. McNaughton, N. & Corr, P. J. Survival circuits and risk assessment. Curr.
+The code used for the analyses is available at github (https://github.com/dnhi-lab/ Opin. Behav. Sci. 24, 14–20 (2018).
+minimizing_threat.git). 29. Blanchard, D. C. Risk assessment: at the interface of cognition and emotion.
+Curr. Opin. Behav. Sci. 24, 69–74 (2018).
+Received: 3 July 2018; Accepted: 3 April 2019; 30. Amemori, K. & Graybiel, A. M. Localized microstimulation of primate
+Published: xx xx xxxx pregenual cingulate cortex induces negative decision-making. Nat. Neurosci.
+15, 776–785 (2012).
+31. Symmonds, M., Wright, N. D., Bach, D. R. & Dolan, R. J. Deconstructing
+References risk: separable encoding of variance and skewness in the brain. Neuroimage
+1. Bach, D. R. & Dayan, P. Algorithms for survival: a comparative perspective 58, 1139–1149 (2011).
+on emotions. Nat. Rev. Neurosci. 18, 311–319 (2017). 32. Mohr, P. N. C., Biele, G. & Heekeren, H. R. Neural processing of risk.
+2. Korn, C. W. & Bach, D. R. Heuristic and optimal policy computations J. Neurosci. 30, 6613–6619 (2010).
+in the human brain during sequential decision-making. Nat. Commun. 9, 33. Bach, D. R. & Dolan, R. J. Knowing how much you don’t know: a neural
+325 (2018). organization of uncertainty estimates. Nat. Rev. Neurosci. 13, 572–586 (2012).
+3. Korn, C. W. & Bach, D. R. Maintaining homeostasis by decision-making. 34. Bartra, O., McGuire, J. T. & Kable, J. W. The valuation system: a coordinate-
+PLoS Comput. Biol. 11, e1004301 (2015). based meta-analysis of BOLD fMRI experiments examining neural correlates
+4. Huys, Q. J. M. et al. Interplay of approximate planning strategies. Proc. Natl of subjective value. Neuroimage 76, 412–427 (2013).
+Acad. Sci. USA 112, 3098–3103 (2015). 35. Clithero, J. A. & Rangel, A. Informatic parcellation of the network
+5. Huys, Q. J. M. et al. Bonsai trees in your head: how the Pavlovian system involved in the computation of subjective value. Soc. Cogn. Affect. Neurosci. 9,
+sculpts goal-directed choices by pruning decision trees. PLoS Comput. Biol. 8, 1289–1302 (2014).
+e1002410 (2012). 36. Rushworth, M. F. S., Noonan, M. P., Boorman, E. D., Walton, M. E. &
+6. Keramati, M., Smittenaar, P., Dolan, R. J. & Dayan, P. Adaptive integration of Behrens, T. E. Frontal cortex and reward-guided learning and decision-
+habits into depth-limited planning defines a habitual-goal–directed spectrum. making. Neuron 70, 1054–1069 (2011).
+Proc. Natl Acad. Sci. USA 113, 12868–12873 (2016). 37. Kolling, N., Behrens, T. E. J., Mars, R. B. & Rushworth, M. F. S. Neural
+7. Keramati, M., Dezfouli, A. & Piray, P. Speed/accuracy trade-off between mechanisms of foraging. Science 336, 95–98 (2012).
+the habitual and the goal-directed processes. PLoS Comput. Biol. 7, 38. Kolling, N., Wittmann, M. & Rushworth, M. F. S. Multiple neural
+e1002055 (2011). mechanisms of decision making and their competition under changing risk
+8. LeDoux, J. & Daw, N. D. Surviving threats: neural circuit and computational pressure. Neuron 81, 1190–1202 (2014).
+implications of a new taxonomy of defensive behaviour. Nat. Rev. Neurosci. 39. Hayden, B. Y., Pearson, J. M. & Platt, M. L. Neuronal basis of sequential
+19, 269–282 (2018). foraging decisions in a patchy environment. Nat. Neurosci. 14,
+9. Mobbs, D., Trimmer, P. C., Blumstein, D. T. & Dayan, P. Foraging for 933–939 (2011).
+foundations in decision neuroscience: insights from ethology. Nat. Rev. 40. Mata, R., Wilke, A. & Czienskowski, U. Foraging across the life span: is there
+Neurosci. 19, 419–427 (2018). a reduction in exploration with aging? Front. Neurosci. 7, 53 (2013).
+10. Mobbs, D. The ethological deconstruction of fear(s). Curr. Opin. Behav. Sci. 41. Shenhav, A., Straccia, M. A., Cohen, J. D. & Botvinick, M. M. Anterior
+24, 32–37 (2018). cingulate engagement in a foraging context reflects choice difficulty, not
+11. Griebel, G. & Holmes, A. 50 years of hurdles and hope in anxiolytic drug foraging value. Nat. Neurosci. 17, 1249–1254 (2014).
+discovery. Nat. Rev. Drug Discov. 12, 667–687 (2013). 42. Constantino, S. M. & Daw, N. D. Learning the opportunity cost of time in a
+12. Haller, J., Aliczki, M. & Gyimesine Pelczer, K. Classical and novel approaches patch-foraging task. Cogn. Affect. Behav. Neurosci. 15, 837–853 (2015).
+to the preclinical testing of anxiolytics: a critical evaluation. Neurosci. 43. Pearson, J. M., Watson, K. K. & Platt, M. L. Decision making: the
+Biobehav. Rev. 37, 2318–2330 (2013). neuroethological turn. Neuron 82, 950–965 (2014).
+13. Cryan, J. F. & Sweeney, F. F. The age of anxiety: role of animal models of 44. Gigerenzer, G. & Gaissmaier, W. Heuristic decision making. Annu. Rev.
+anxiolytic action in drug discovery. Br. J. Pharm. 164, 1129–1161 (2011). Psychol. 62, 451–482 (2011).
+14. Kirlic, N., Young, J. & Aupperle, R. L. Animal to human translational 45. Gu, X. & FitzGerald, T. H. B. Interoceptive inference: homeostasis and
+paradigms relevant for approach avoidance conflict decision making. decision-making. Trends Cogn. Sci. 18, 269–270 (2014).
+Behav. Res. Ther. 96, 14–29 (2017). 46. Fawcett, T. W. et al. The evolution of decision rules in complex environments.
+15. Calhoon, G. G. & Tye, K. M. Resolving the neural circuits of anxiety. Trends Cogn. Sci. 18, 153–161 (2014).
+Nat. Neurosci. 18, 1394–1404 (2015). 47. Dayan, P. Rationalizable irrationalities of choice. Top. Cogn. Sci. 6,
+16. Gray, J. A. & McNaughton, N. The Neuropsychology of Anxiety: An Enquiry 204–228 (2014).
+into the Functions of the Septohippocampal System (Oxford Univ. Press, 2000). 48. Tovote, P., Fadok, J. P. & Lüthi, A. Neuronal circuits for fear and anxiety.
+17. Aupperle, R. L., Melrose, A. J., Francisco, A., Paulus, M. P. & Stein, M. B. Nat. Rev. Neurosci. 16, 317–331 (2015).
+Neural substrates of approach–avoidance conflict decision-making. Hum. 49. Jimenez, J. C. et al. Anxiety cells in a hippocampal–hypothalamic circuit.
+Brain Mapp. 36, 449–462 (2015). Neuron 97, 670–683.e6 (2018).
+18. Bach, D. R. et al. Human hippocampus arbitrates approach–avoidance 50. Blanchard, D. C. Translating dynamic defense patterns from rodents to
+conflict. Curr. Biol. 24, 541–547 (2014). people. Neurosci. Biobehav. Rev. 76, 22–28 (2017).
+19. Loh, E. et al. Parsing the role of the hippocampus in approach–avoidance 51. Payzan-LeNestour, E., Dunne, S., Bossaerts, P. & O’Doherty, J. The neural
+conflict. Cereb. Cortex 27, 201–215 (2016). representation of unexpected uncertainty during value-based decision
+20. O’Neil, E. B. et al. Examining the role of the human hippocampus in making. Neuron 79, 191–201 (2013).
+approach–avoidance decision making using a novel conflict paradigm and 52. Rigoli, F., Michely, J., Friston, K. J. & Dolan, R. J. The role of the
+multivariate functional magnetic resonance imaging. J. Neurosci. 35, hippocampus in weighting expectations during inference under uncertainty.
+15039–15049 (2015). Cortex 115, 1–14 (2019).
+21. Ito, R. & Lee, A. C. H. The role of the hippocampus in approach–avoidance 53. Harrison, L. M., Duggins, A. & Friston, K. J. Encoding uncertainty in the
+conflict decision-making: evidence from rodent and human studies. Behav. hippocampus. Neural Netw. 19, 535–546 (2006).
+Brain Res. 313, 345–357 (2016). 54. Strange, B. A., Duggins, A., Penny, W., Dolan, R. J. & Friston, K. J.
+22. Schlund, M. W. et al. The tipping point: value differences and parallel Information theory, novelty and hippocampal responses: unpredicted or
+dorsal–ventral frontal circuits gating human approach–avoidance behavior. unpredictable? Neural Netw. 18, 225–230 (2005).
+Neuroimage 136, 94–105 (2016). 55. Lee, S. W., Shimojo, S. & O’Doherty, J. P. Neural computations underlying
+23. Mobbs, D. et al. When fear is near: threat imminence elicits prefrontal- arbitration between model-based and model-free learning. Neuron 81,
+periaqueductal gray shifts in humans. Science 317, 1079–1083 (2007). 687–699 (2014).
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+NaTure HumaN BeHaviour Articles
+56. Boureau, Y.-L., Sokol-Hessner, P. & Daw, N. D. Deciding how to decide: acknowledgements
+self-control and meta-decision making. Trends Cogn. Sci. 19, 700–710 (2015). We thank G. Castegnetti, S. Khemka, M. Staib, A. Tzovara and C. Ioan for discussions
+57. Laux, L., Glanzmann, P., Schaffner, P. & Spielberger, C. D. STAI—State-Trait- and help with data acquisition. The Wellcome Trust Centre for Neuroimaging is
+Angstinventar. Theoretische Grundlagen und Handanweisung in German (Beltz supported by a strategic grant from the Wellcome Trust (091593/Z/10/Z). C.W.K. was
+Test GmbH, 1981). supported by two grants from the German Research Foundation (DFG) during the final
+58. Bless, H., Wänke, M., Bohner, G., Fellhauer, R. F. & Schwarz, N. Need for stages of manuscript preparation: the collaborative research centre SFB TRR 169 and
+cognition: Eine Skala zur Erfassung von Engagement und Freude bei an Emmy Noether Research Group (392443797). The funders had no role in the study
+Denkaufgaben. Z. Sozialpsychol. 25, 147–154 (1994). design, data collection and analysis, decision to publish or preparation of the manuscript.
+59. Sutton, R. S. & Barto, A. G. Reinforcement Learning: An Introduction (MIT
+Press, 1998). author contributions
+60. Rigoux, L., Stephan, K. E., Friston, K. J. & Daunizeau, J. Bayesian model
+selection for group studies - revisited. Neuroimage 84, 971–985 (2014). C.W.K. and D.R.B. designed the experiment, developed the analysis procedures and
+61. Stephan, K. E., Penny, W. D., Daunizeau, J., Moran, R. J. & Friston, K. J. wrote the paper. C.W.K. collected and analysed the data.
+Bayesian model selection for group studies. Neuroimage 46,
+1004–1017 (2009). Competing interests
+62. Penny, W. D. Comparing dynamic causal models using AIC, BIC and free The authors declare no competing interests.
+energy. Neuroimage 59, 319–330 (2012).
+63. Baayen, R. H., Davidson, D. J. & Bates, D. M. Mixed-effects modeling
+additional information
+with crossed random effects for subjects and items. J. Mem. Lang. 59,
+390–412 (2008). Supplementary information is available for this paper at https://doi.org/10.1038/
+64. Hutton, C. et al. Image distortion correction in fMRI: a quantitative s41562-019-0603-9.
+evaluation. Neuroimage 16, 217–240 (2002). Reprints and permissions information is available at www.nature.com/reprints.
+65. Ashburner, J. & Friston, K. J. Unified segmentation. Neuroimage 26,
+Correspondence and requests for materials should be addressed to C.W.K.
+839–851 (2005).
+66. Eklund, A., Nichols, T. E. & Knutsson, H. Cluster failure: why fMRI Publisher’s note: Springer Nature remains neutral with regard to jurisdictional claims in
+inferences for spatial extent have inflated false-positive rates. Proc. Natl Acad. published maps and institutional affiliations.
+Sci. USA 113, 7900–7905 (2016). © The Author(s), under exclusive licence to Springer Nature Limited 2019
+NatuRe HuMaN BeHaviouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2018
+Corresponding author(s): Christoph W. Korn
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistical parameters
+When statistical analyses are reported, confirm that the following items are present in the relevant location (e.g. figure legend, table legend, main
+text, or Methods section).
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+An indication of whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistics including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient) AND
+variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Clearly defined error bars
+State explicitly what error bars represent (e.g. SD, SE, CI)
+Our web collection on statistics for biologists may be useful.
+Software and code
+Policy information about availability of computer code
+Data collection The behavioral task was presented to human participants using the MATLAB toolbox Cogent (www.vislab.ucl.ac.uk).
+Data analysis Behavioral data was analyzed using custom code in MATLAB and especially using logistic regression models (implemented in the MATLAB
+function mnrfit). We used the log-group Bayes factors based on Bayesian Information Criterion (BIC) and the Bayesian Model Selection
+(BMS) procedure implemented in the MATLAB toolbox SPM12 (http://www.fil.ion.ucl.ac.uk/spm/) to calculate protected exceedance
+probabilities. We analyzed log-transformed RTs using linear mixed effects models as implemented in the R package lmer (http://cran.r-
+project.org/web/packages/lme4/index.html) (Baayen et al., 2008). All MRI analyses were performed in SPM12.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers
+upon request. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+2
+nature
+research
+|
+reporting
+summary
+April
+2018
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The behavioural data that support the findings of this study are publicly available at github (https://github.com/dnhi-lab/minimizing_threat.git) and at figshare
+(https://doi.org/10.6084/m9.figshare.7929914.v1). The neuroimaging data that support the findings of this study are publicly available at neurovault (https://
+neurovault.org/collections/5046/).
+Field-specific reporting
+Please select the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/authors/policies/ReportingSummary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Participants performed a decision-making taks in the MR scanner. Data are quantitative, i.e., chosen options, RTs, BOLD signals. An
+additional sample was tested behaviorally.
+Research sample The study comprised students from local universities who were recruited via mailing lists. The final fMRI sample comprised 24
+participants (11 female; age = 25.0 ± 3.9 years). The research sample is thus comparable to many fMRI studies. Exclusion criteria for
+participation were the standard MR incompatibility criteria. The final sample behavioral comprised 23 participants (15 female; age = 25.9
+± 3.5 years).
+Sampling strategy Sampling was by random order of reply to our recruitment. No explicit sample size calculation was performed. Sample size was based on
+standards in the field and on experience from previous studies.
+Data collection MRI data were acquired on a 3 T (Philips Achieva, Best, The Netherlands) MR scanner. Behavioral data were collected via button boxes.
+Besides participants and researchers no other person was present during data collection. The researchers were not blind to the study
+hypothesis. Conditions did not differ between participants such that all participants received the same instructions and treatment.
+Timing Data were collected from September to November 2015 for the fMRI sample and from November 2018 to January 2019 for the
+behavioral sample.
+Data exclusions FMRI sample: Five participants were excluded: One due to head motion > 4 mm during MRI, one due to an incidental medical finding
+revealed by MRI, and three who behaved almost deterministically, i.e., they selected one of the two choice options in more than 0.85 of
+the retained trials. We selected 0.85 as cut-off during the analysis process. Behavioral sample: Three participants were excluded: One
+due to equipment malfunction and two who selected one of the two choice options in more than 0.85 of the retained trials.
+Non-participation None of the invited participants dropped out or declined participation.
+Randomization Conditions did not differ between participants. Within participants, conditions were randomly ordered.
+Reporting for specific materials, systems and methods
+3
+nature
+research
+|
+reporting
+summary
+April
+2018
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Unique biological materials ChIP-seq
+Antibodies Flow cytometry
+Eukaryotic cell lines MRI-based neuroimaging
+Palaeontology
+Animals and other organisms
+Human research participants
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics The final fMRI sample comprised 24 participants (11 female; age = 25.0 ± 3.9 years). The final behavioral sample comprised 23
+participants (15 female; age = 25.9 ± 3.5 years).
+Recruitment FMRI sample: We recruited 29 participants via mailing lists of local universities. Behavioral sample: We recruited 26 participants
+via a local online platform.
+Magnetic resonance imaging
+Experimental design
+Design type decision-making task, event-related
+Design specifications 10 scanning sessions per participant; 40 trials per scanning session; depending on condition trials were either 11 or 4
+sec long; between trials there was a variable fixation interval (ranging from 0.5 to 3.8 sec).
+Behavioral performance measures button presses and RTs were recorded; we excluded participants who behaved almost deterministically, i.e. selected
+one of the two choice options in more than 0.9 of the retained trials
+Acquisition
+Imaging type(s) functional
+Field strength 3
+Sequence & imaging parameters Data were acquired on a 3 T (Philips Achieva, Best, The Netherlands) MR scanner using a 32-channel head coil.
+Functional images were recorded using a T2*-weighted echo-planar imaging (EPI) sequence (TR 2.1 s; TE 30 ms; flip
+angle 80°). A total of 37 axial slices were sampled for whole brain coverage (matrix size 96 × 96; in-plane resolution 2.5
+× 2.5 mm2; slice thickness 2.8 mm; 0.5 mm gap between slices; slice tilt 0°).
+Area of acquisition whole brain
+Diffusion MRI Used Not used
+Preprocessing
+Preprocessing software SPM12. The FieldMap toolbox was used to correct for geometric distortions caused by susceptibility-induced field
+inhomogeneities. Normalized images were smoothed with an isotropic 8 mm full width at half-maximum Gaussian
+kernel.
+Normalization EPI images were coregistered to the individual’s T1 weighted image using a 12-parameter affine transformation and
+normalized to the Montreal Neurological Institute (MNI) T1 reference brain template using the extended unified
+segmentation algorithm in SPM12 (Ashburner and Friston, 2005).
+Normalization template MNI305
+Noise and artifact removal The six motion correction parameters estimated from the realignment procedure were entered as covariates of no
+interest.
+Volume censoring None
+Statistical modeling & inference
+Model type and settings Mass-univariate. In the general linear model (GLM) the three distinct phases of the task (forest, choice, and outcome
+phases; see Figure 1) were entered as events with a duration of 0 s (i.e., as stick functions). We were mostly interested
+in the choice phase and ran a primary GLM with a combination of variables that emerged in our analyses of behavioral
+and RT data.
+4
+nature
+research
+|
+reporting
+summary
+April
+2018
+Effect(s) tested We performed second-level one-sample t-tests (one-sided) on contrast images from all participants. Our focus was on
+the parametric regressors that were used to model the choice phase.
+Specify type of analysis: Whole brain ROI-based Both
+Statistic type for inference All reported clusters are family-wise error (FWE) corrected for multiple comparisons at p < 0.05 using the SPM random
+(See Eklund et al. 2016) field theory based approach. The cluster-defining threshold was p < 0.001. At this voxel-inclusion threshold the random-
+field theory approach in SPM correctly controls the false positive rate (Eklund et al., 2016).
+Correction FWE correction using the SPM random field theory based approach.
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis

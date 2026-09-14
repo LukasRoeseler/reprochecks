@@ -1,14 +1,1428 @@
-# Multimodal mapping of the face connectome
-
-## Abstract
-Face processing supports our ability to recognize friend from foe, form tribes and understand the emotional implications of changes in facial musculature. This skill relies on a distributed network of brain regions, but how these regions interact is poorly understood. Here we integrate anatomical and functional connectivity measurements with behavioural assays to create a global model of the face connectome. We dissect key features, such as the network topology and fibre composition. We propose a neurocognitive model with three core streams; face processing along these streams occurs in a parallel and reciprocal manner. Although long-range fibre paths are important, the face network is dominated by short-range fibres. Finally, we provide evidence that the well-known right lateralization of face processing arises from imbalanced intra- and interhemispheric connections. In summary, the face network relies on dynamic communication across highly structured fibre tracts, enabling coherent face processing that underpins behaviour and cognition. 
-
- This is a preview of subscription content, access via your institution
-
-## GitHub Links
-https://github.com/mirrorneuronwang/HCP_face_connectome
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0811-3/MediaObjects/41562_2019_811_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0811-3/MediaObjects/41562_2019_811_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-019-0811-3
+Multimodal mapping of the face connectome
+Yin Wang 1,6*, Athanasia Metoki 2,6, David V. Smith 2, John D. Medaglia 3,4, Yinyin Zang5,
+Susan Benear 2, Haroon Popal2, Ying Lin2 and Ingrid R. Olson 2*
+Face processing supports our ability to recognize friend from foe, form tribes and understand the emotional implications of
+changes in facial musculature. This skill relies on a distributed network of brain regions, but how these regions interact is
+poorly understood. Here we integrate anatomical and functional connectivity measurements with behavioural assays to create
+a global model of the face connectome. We dissect key features, such as the network topology and fibre composition. We pro-
+pose a neurocognitive model with three core streams; face processing along these streams occurs in a parallel and reciprocal
+manner. Although long-range fibre paths are important, the face network is dominated by short-range fibres. Finally, we provide
+evidence that the well-known right lateralization of face processing arises from imbalanced intra- and interhemispheric connec-
+tions. In summary, the face network relies on dynamic communication across highly structured fibre tracts, enabling coherent
+face processing that underpins behaviour and cognition.
+F
+ace perception is a highly developed skill in humans owing to there is a unique face processing core system—the OFA, FFA and
+its unique evolutionary and social importance. From a brief STS—that performs the most important aspects of face process-
+glance at a face, we are able to effortlessly glean information ing while the extended system—the ATL, AMG and PCC—gleans
+about a person’s age, gender, identity, social group, emotional other information from faces. More recent models have extended
+state, attentional focus and several other characteristics such as the Haxby model by suggesting that there are two face processing
+trustworthiness1. streams—a dorsal stream and a ventral stream—and that there is
+Early studies on patients with focal brain lesions revealed that some reciprocal processing within each stream1,7,21.
+portions of the inferior temporal cortex in the right hemisphere Initial research into how face-sensitive regions are intercon-
+might be critical for face processing, as damage to this region nected has primarily implicated portions of a large white matter
+often resulted in the clinical syndrome of prosopagnosia1. Lesion tract that runs along the ventral visual stream, the inferior longi-
+work gave way to single-unit recording and functional magnetic tudinal fasciculus (ILF) in face processing22. However, these stud-
+resonance imaging (fMRI) studies that documented a distrib- ies were limited because they relied on small sample sizes and they
+uted set of specialized face patches2–4. Many of these patches run examined partial connectomes; links to behavioural performance
+along the ventral visual stream to the temporal pole, with more are often lacking and they did not investigate structural connectivity
+posterior regions processing fundamental aspects of faces (for (SC) and functional connectivity (FC) or effective connectivity (EC)
+example, the occipital face area (OFA) analyses facial parts and together23–26. It remains unclear how the full set of face-sensitive
+the fusiform face area (FFA) engages in more holistic process- regions is anatomically interconnected, how they functionally inter-
+ing of the face)1,5–7, whereas more anterior regions, such as the act with each other across tasks and contexts and how network-level
+anterior temporal lobe (ATL) and amygdala (AMG), link faces characteristics relate to behaviour.
+to conceptual knowledge and affective states8–11. Other regions Here we tested predictions of prominent neurocognitive mod-
+that appear to have a role in face processing include the posterior els of face processing1,5,6,20 as well as asking several new questions
+superior temporal sulcus (STS), which is involved in processing derived from anatomy studies about the role of short-range versus
+facial movements5,12; the posterior cingulate cortex (PCC), which long-range white matter, and tested an older idea about the possible
+is potentially involved in episodic memory related to faces6; the genesis of hemispheric asymmetries in face processing. We used the
+inferior frontal gyrus (IFG), which mediates emotion and gaze human connectome project (HCP)27 dataset because it provides a
+perception13,14; and the orbitofrontal cortex (OFC), which is large population of individuals and high quality multimodal neu-
+thought to evaluate socially rewarding aspects of faces such as roimaging data. We functionally defined nine face-sensitive regions
+their attractiveness and trustworthiness15–19. in each individual, then used tractography to delineate local, long-
+How these regions are interconnected and how they functionally range and cross-hemisphere white matter connections. We also
+interact to give rise to the detailed perceptual, social, affective and investigated functional and dynamical properties of this network
+mnemonic abilities that constitute face processing is poorly under- using paired resting-state and task-state functional datasets, and
+stood. One highly influential model of face processing—the Haxby we explored the anatomy–function relationship by studying the
+model5,6,20—postulates a serial-hierarchical structure in which correspondence between anatomical and functional connectomes.
+information flows from face patch to face patch in an orderly man- Finally, we used HCP behavioural tests to examine whether indi-
+ner, from posterior brain regions to anterior regions (for example, vidual differences in certain face skills (such as facial emotion rec-
+the OFA to FFA; OFA to STS). Furthermore, this model claims that ognition) can be explained by any connectome characteristics.
+1State Key Laboratory of Cognitive Neuroscience and Learning, and IDG/McGovern Institute for Brain Research, Beijing Normal University, Beijing, China.
+2Department of Psychology, Temple University, Philadelphia, PA, USA. 3Department of Psychology, Drexel University, Philadelphia, PA, USA. 4Department
+of Neurology, Perelman School of Medicine, University of Pennsylvania, Philadelphia, PA, USA. 5School of Psychological and Cognitive Sciences and Beijing
+Key Laboratory of Behavior and Mental Health, Peking University, Beijing, China. 6These authors contributed equally: Yin Wang, Athanasia Metoki.
+*e-mail: mirrorneuronwang@gmail.com; iolson@temple.edu
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+Results fibre reconstruction technique37 to delineate ten major fasciculi for
+Anatomical connectome. Diffusion MRI (dMRI) combined with each individual and compared them with the ROI–ROI tracts at the
+tractography is, at present, the only in vivo method that can be used individual level. By calculating the degree of their overlapped tra-
+to delineate the fibre tracts between brain regions. Tractography jectories, we estimated the involvement of major fasciculi in the face
+obtains diffusion measurements as input and produces the con- connectome. The results revealed that the three core pathways were
+nectome, which is a collection of white matter fascicles, as output28. mainly supported by six major fasciculi, but to a much lesser degree
+Tractography is not without its limitations29,30, but several examples than we expected (Fig. 2). Specifically, less than 30% of the ven-
+to date have demonstrated that the results of tractography correlate tral pathway was mediated by the ILF (28.79 ± 8.11% (mean ± s.d.))
+well with the results from histology31–33. Using five independent but and inferior fronto-occipital fasciculus (IFOF, 20.76 ± 12.27%); only
+complementary tractography analyses, we obtained a detailed and around 12% of the medial pathway overlapped with the cingulum
+comprehensive picture of the face network structural connectome. (CING, 15.03 ± 10.24%) and uncinate fasciculus (UF, 8.96 ± 6.58%);
+First, we mapped the global connectivity pattern for each face less than 30% of the dorsal pathway was found to be merged with
+region of interest (ROI). Axonal projections determine where a the arcuate fasciculus (AF, 29.05 ± 9.15%) and superior longitudinal
+region receives information from and where it can exert effects. fasciculus (SLF, 25.01 ± 7.46%).
+Although the major cortical projections of each face ROI were its As only a small proportion of the anatomical connectome was
+neighbouring areas, they exhibited idiosyncratic distant projections contributed by major fasciculi, we directed our attention to another
+(Supplementary Fig. 1). Posterior areas (OFA and FFA) had large important class of white matter—short-range or U-shaped fibres.
+projections to the temporal pole along the ventral temporal cor- Tracer studies have demonstrated that long-range fasciculi com-
+tex. By contrast, the STS had prominent projections in and around prise only a minority of the whole brain connectome; the major-
+the IFG, and vice versa. Medial ROIs (AMG, OFC and PCC) had ity of the brain connectome consists of short association fibres
+projections only to medial structures. Furthermore, most face that lie immediately beneath the grey matter, connecting adjacent
+ROIs seemed to have direct fibre projections from the early visual gyri38–40. By projecting all 72 ROI–ROI connections over two stan-
+cortex (EVC). dard white matter atlases of long-range41 and short-range fibres42,43,
+The global connectivity patterns also implied that each region we examined the relative contribution of the two white matter sys-
+might have differential cross-hemispheric projections to its coun- tems for the face connectome (Fig. 2). Although more than 57.0%
+terpart in the other hemisphere (different corpus callosum projec- of the ROI–ROI connections can be classified as short-range fibres,
+tions from each face ROI are provided in Supplementary Fig. 1). only 34.3% of the connectome can be labelled by the tracts in the
+To further examine this, we reconstructed interhemispheric con- long-range white matter atlas. We also found a positive relationship
+nections for each pair of bilateral ROIs (for example, Left FFA with between the spatial distance of two ROIs and the contribution of
+right FFA). The results confirmed our speculation by showing that long-range fibres (Pearson’s r = 0.314, P = 0.007, 95% confidence
+72
+bilateral face ROIs were mainly connected through four different interval (CI) = 0.088–0.540), suggesting that greater separation
+midline structures (Extended Data Fig. 1)—the rostrum (OFC), the between two face ROIs (for example, EVC–OFA versus EVC–OFC)
+genu (IFG) and the splenium (OFA, FFA, STS, PCC and ATL) of is associated with increased involvement of long-range fibres in
+the corpus callosum, and the anterior commissure (AMG and ATL). constructing their connections (for example, 4% versus 45%).
+We next delineated inter-regional connections between face
+areas within the same hemisphere. Anatomical connection strength Functional connectome. The anatomical connectome strictly
+is often interpreted as a measure of capacity for information flow allows some neuronal populations to directly interact while exclud-
+and provides insights about key pathways through which neural ing most others. By contrast, the functional connectome is inher-
+signals propagate within the network34. Here we reconstructed 36 ently dynamic and context dependent44. We mapped three different
+pairwise connections between nine face ROIs in each hemisphere classes of functional brain connectivity to reveal the manner in
+and extracted their microstructural properties (such as connectiv- which face ROIs interact; coactivation patterns were identified dur-
+ity probability and streamline counts) to estimate SC. The land- ing rest (resting-state FC (rsFC)) or during the face localizer task
+scape of the connectivity probability map (Fig. 1a) indicated that (task-state FC (taskFC)), and EC was modelled using psychophysi-
+there were three core pathways in the face network: a ventral path- ological interaction (PPI) and dynamic causal modelling (DCM) to
+way (EVC–OFA–FFA–ATL–AMG), a medial pathway (AMG– reveal directional information flow driven by the face stimuli45–47.
+OFC–PCC) and a dorsal pathway (STS–IFG). A similar pattern was We found that the results from the rsFC and taskFC analysis were
+also found in the streamline count map (Supplementary Fig. 2). To highly correlated (mean r = 0.518, t = 80.97, P < 0.001, Cohen’s
+666
+further validate this partition of three core pathways, we examined d = 4.43, 95% CI = 0.505–0.531; Fig. 3f), consistent with recent find-
+another established graph theoretic measure, the communicabil- ings from the connectome at large48,49. Both showed strong coacti-
+ity, between each ROI pair35. In contrast to the connection weight vations among six face ROIs (EVC, OFA, FFA, STS, IFG and PCC;
+between a pair of regions (which only measures the direct path), Fig. 3c,d). This suggests that an intrinsic functional subnetwork exists
+communicability quantifies the ease of communication through all within the face system that is constantly active and synchronized
+of the possible paths between regions by taking into consideration across contexts44,48,50. However, FC only expresses statistical depen-
+both direct and indirect connections. Communicability therefore dencies (correlations) among time courses that do not generally
+encodes additional useful information about the global organiza- represent direct neuronal signalling34. By contrast, EC has been pro-
+tion of a network that mediates inter-regional communication and posed as a more powerful route to capture stimulus-driven patterns
+has been widely used to determine anatomical communities36. Here of directional influence among neural areas51. Here we implemented
+the community detection analysis on the communicability graph PPI to explore network-level dynamics evoked by face stimuli and
+confirmed the existence of three separate communities in the face then used DCM for confirmatory analyses. PPI analyses build simple
+network and they corresponded well with the partitions of three static models of coupling between one or more brain regions and
+core pathways (Fig. 1b). enable researchers to explore directed changes in connectivity by
+How are these core pathways formed? One possibility is that they establishing a significant interaction between the seed region and the
+are constructed from large white matter bundles such as major fas- psychological context51–53, whereas DCM is a framework for testing
+ciculi. Indeed, a small number of long-range tracts has been repeat- alternative hypotheses/models of neural dynamics, fitting them to
+edly reported in the face-perception literature and disruption of data and comparing their evidence using Bayesian model compari-
+these tracts can lead to prosopagnosia22. Here we used an automatic son47,54. Our PPI analyses revealed that face-sensitive brain dynamics
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+a
+Left hemisphere Right hemisphere
+Connectivity probability
+EVC EVC
+OFA 0 0.1 0.2 0.3 0.4 0.5 OFA
+FFA Pathway 1 FFA Pathway 1
+ATL OFC ATL
+AMG AMG
+OFC IFG IFG OFC
+Pathway 2 Pathway 2
+PCC PCC
+STS STS
+Pathway 3 Pathway 3
+IFG ATL AMG AMG ATL IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+STS STS
+PCC PCC
+FFA FFA PCC
+IFG IFG
+STS STS
+OFA OFA
+OFC AMG FFA OFA EVC EVC EVC EVC OFA FFA AMG OFC
+ATL ATL
+b Communicability estimates
+Left hemisphere 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 Right hemisphere
+E OV FC A C o m m u nity O1 FA FFA C o E OV FC A
+m
+FFA Community 1 m FFA Community 1
+u
+ATL
+ATL
+nity
+3
+ATL
+AMG EVC AMG
+IFG
+OFC AMG OFC
+PCC Community 2 PCC Community 2
+S IFT GS Community 3 OFC STS S IFT GS Community 3
+PCC
+EVC OFA FFA ATL AMG OFC PCC STS IFG Community 2 EVC OFA FFA ATL AMG OFC PCC STS IFG
+Fig. 1 | the anatomical connectome of the face network. a, The SC map for each hemisphere. The pairwise connection strength (that is, connectivity
+probability) between nine face ROIs was plotted in weighted matrices and wiring diagrams. The width of each line in the wiring diagrams proportionally
+reflects the mean connectivity probability across all individuals. The three coloured dashed rectangles indicate three core pathways: EVC–OFA–FFA–ATL–
+AMG (pathway 1, red), AMG–OFC–PCC (pathway 2, blue) and STS–IFG (pathway 3, green). b, The communicability map for each hemisphere. On the
+basis of graph theory, we derived the communicability map from the SC matrix of individuals (see Methods). Subsequent community detection analysis
+(middle) indicated three communities within the face network: EVC–OFA–FFA–ATL–AMG (community 1, red), AMG–OFC–PCC (community 2, blue) and
+STS–IFG (community 3, green). We found that AMG was shared by communities 1 and 2. The three communities found in the communicability graph
+resonated well with the partitioning of the three core pathways in the SC graphs.
+primarily occurred to the same functional subnetwork (Fig. 3e) but (99.83% versus 0.17%) than the recurrent model in the left hemi-
+with entirely different patterns between the two hemispheres (Fig. 4). sphere, whereas the recurrent model exhibited higher group log-evi-
+Although information processing within the left hemisphere was dence (65.39 versus 0.84) and exceedance probability (91.21% versus
+organized in a purely feedforward manner (that is, the information 8.79%) than the feedforward model in the right hemisphere. An
+cascade unfolded from posterior to anterior ROIs), the right hemi- analysis of absolute model fit suggests that the feedforward model
+sphere exhibited a predominantly recurrent architecture (that is, can explain 16 ± 8% (mean ± s.d.) of the observed variance in the
+reciprocal connections). For example, multiple bidirectional effec- left hemisphere and the recurrent model accounts for 18 ± 9% of
+tive connections were observed among right core face areas (EVC, the observed variance in the right hemisphere. An additional DCM
+OFA, FFA and STS; Fig. 4), suggesting the coexistence of bottom-up analysis with larger model space was also performed to revalidate
+and top-down interactions and computations during face viewing. this differential pattern of face-evoked information processing across
+Critically, this differential pattern across the two hemispheres was two hemispheres (Extended Data Fig. 2).
+supported by subsequent DCM analyses (Fig. 4b). Results from the
+Bayesian model comparison suggest that the feedforward process- Spatial specificity of the face connectome. It is important to con-
+ing model fits best with the data observed in the left hemisphere, sider whether the brain connectivity patterns that we observed
+whereas the recurrent processing model fits best for data in the right demonstrate spatial specificity (Fig. 5). On the basis of individual-
+hemisphere. For Bayesian model selection (BMS) fixed-effects and specific ROIs defined by the face localizer, we discovered three dis-
+random-effects analysis, the feedforward model exhibited higher tinct pathways in the anatomical connectome and six synchronized
+group log-evidence (619.04 versus 1.12) and exceedance probability areas in the functional connectome (Fig. 3). To further explore how
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+a
+10 30 50 70 90 110 130150
+these connectivity organizations are spread and changed in space, 95% CI = −0.233–0.460; BF = 0.161; for EC: r = −0.191, P = 0.109,
+10 72
+we performed analogous tractography and connectivity analy- 95% CI = −0.425–0.043; BF = 0.334; Fig. 5, bottom row). These
+10
+ses while using two other methods to select the locations of ROIs. findings suggest that the intrinsic architectures of the face network
+When we shuffled individual-specific ROIs across individuals (so (that is, SC, rsFC and taskFC) might follow a more global pattern
+that the OFA coordinates of individual A became the OFA coordi- that is configured as relatively stable across small spatial extent (for
+nates of individual B), we found that the shuffled maps remained example, <15 mm), and face-sensitive voxels and nearby non-face-
+almost the same as the original ones for SC (r = 0.995, P < 0.001, sensitive voxels share similar fibre tracts and, therefore, exhibit
+36
+95% CI = 0.961–1.029), rsFC (r = 0.991, P < 0.001, 95% CI = 0.944– resembled neural signal propagations. By contrast, the dynamic fea-
+36
+1.038) and taskFC (r = 0.987, P < 0.001, 95% CI = 0.930–1.043), tures of the face connectome (that is, EC pattern) seem to be highly
+36
+but the EC pattern was substantially altered after this permutation determined by the voxel-level face selectivity.
+manipulation (that is, the shuffled and original EC maps were no
+longer correlated; r = −0.091, P = 0.445, 95% CI = −0.329–0.146; Individual variance of the face connectome. It is also impor-
+72
+Jeffreys–Zellner–Siow Bayes factor (BF ) = 0.124; Fig. 5, middle tant to consider the similarity of face-network organization
+10
+row). When we moved each ROI farther away from its putative across individuals. As Fig. 3 shows only group-averaged brain
+range (for example, 20 mm apart from its original coordinates), connectivity maps, we would like to validate how representa-
+we found that the topologies of all brain connectivity were com- tive these group-averaged maps were. To reveal the distribution
+pletely changed (that is, the 20 mm shifting maps were no longer of group-to-individual similarity across all of the individuals, we
+correlated with original ones; for SC: r = 0.231, P = 0.175, 95% conducted correlation analyses between group-averaged maps
+36
+CI = −0.108–0.570, BF = 0.323; for rsFC: r = 0.241, P = 0.156, 95% and individual-specific maps for each type of brain connectiv-
+10 36
+CI = −0.097–0.579, BF = 0.351; for taskFC: r = 0.113, P = 0.510, ity measure (Supplementary Fig. 6a). The results suggested that
+10 36
+)%(
+noitroporp
+deifissalC
+JHU long-range white matter atlas LNAO superfical white matter atlas
+(accounts for 34.3% connectome voxels) (accounts for 57.0% connectome voxels)
+r = 0.31 100
+P = 0.007 80
+60
+40
+r = –0.04
+20 P = 0.729, n.s.
+0
+10 30 50 70 90 110 130150
+Euclidean distance between ROIs (mm)
+)%(
+noitroporp
+deifissalC
+b
+Path 1
+50 Path 2 100
+40 80
+30 60
+20 40
+10 20
+0 0
+Path 3
+100
+80
+60
+40
+20
+0
+Euclidean distance between ROIs (mm)
+)%(
+palrevO
+Overlap
+(%)
+Right ILF Right IFOF
+EVC 23 33 40 36 33 15 36 28 EVC 25 32 30 40 47 2033 36
+OFA 23 13 33 34 34 19 26 24 OFA 25 6 13 31 41 1516 24
+FFA 33 13 27 32 31 22 27 20 FFA 32 6 6 21 31 1213 13
+ATL 40 33 27 18 14 18 30 16 ATL 30 13 6 4 12 5 7 4
+AMG 36 34 32 18 1 9 19 1 AMG 40 31 21 4 7 6 11 3
+OFC 33 34 31 14 1 1 20 0 OFC 47 41 31 12 7 6 21 7
+PCC 15 19 22 18 9 1 12 0 PCC 20 15 12 5 6 6 5 2
+STS 36 26 27 30 19 20 12 1 STS 33 16 13 7 11 21 5 2
+IFG 28 24 20 16 1 0 0 1 IFG 36 24 13 4 3 7 2 2
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC 4 74 63 35 45 58 72 63 EVC 100 88 62 39 63 33 85 61
+OFA 4 11 37 27 42 24 32 75 OFA 100 99 55 47 63 80 50 31
+Right CING Right UF
+FFA 74 11 28 27 34 28 43 56 FFA 88 99 32 52 61 76 97 99
+EVC 1 1 6 2 1 12 0 0 EVC 0 0 3 3 14 0 0 1
+OFA 1 0 3 2 1 12 0 0 OFA 0 0 2 4 16 0 0 1 ATL 63 37 28 5 13 16 29 40 ATL 62 55 32 38 69 26 51 57
+FFA 1 0 2 3 2 13 0 0 FFA 0 0 2 5 20 0 0 1 AMG 35 27 27 5 6 3 8 7 AMG 39 47 52 38 63 28 8 9
+ATL 6 3 2 5 6 23 3 3 ATL 3 2 2 12 26 3 3 3
+AMG 2 2 3 5 1 18 1 1 AMG 3 4 5 12 18 3 4 3 OFC 45 42 34 13 6 31 25 33 OFC 63 63 61 69 63 86 81 71 OFC 1 1 2 6 1 26 1 1 OFC 14 16 20 26 18 5 16 8 PCC 58 24 28 16 3 31 7 12 PCC 33 80 76 26 28 86 59 97
+PCC12 12 13 23 18 26 11 20 PCC 0 0 0 3 3 5 0 0 STS 0 0 0 3 1 1 11 0 STS 0 0 0 3 4 16 0 0 STS 72 32 43 29 8 25 7 80 STS 85 50 97 51 8 81 59 99
+IFG 0 0 0 3 1 1 20 0 IFG 1 1 1 3 3 0 0 IFG 63 75 56 40 7 33 12 80 IFG 61 31 99 57 9 71 97 99 EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+Right SLF Right AF
+EVC 0 0 0 0 0 0 2 5 EVC 0 1 1 1 1 0 8 5 OFA 0 0 0 0 0 0 2 8 OFA 0 0 1 1 1 0 7 8
+FFA 0 0 0 0 0 0 2 12 FFA 1 0 1 1 1 1 7 10
+ATL 0 0 0 0 0 0 2 10 ATL 1 1 1 1 0 1 10 11
+AMG 0 0 0 0 0 0 9 6 AMG 1 1 1 1 0 0 11 3
+OFC 0 0 0 0 0 0 5 5 OFC 1 1 1 0 0 0 10 4
+PCC 0 0 0 0 0 0 5 6 PCC 0 0 1 1 0 0 7 3
+STS 2 2 2 2 9 5 5 28 STS 8 7 7 10 11 10 7 23
+IFG 5 8 12 10 6 5 6 28 IFG 5 8 10 11 3 4 3 23
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+Fig. 2 | the relative contribution of long-range and short-range fibres to the face connectome. a, The overlap between six major white matter bundles37
+and the face connectome in the right hemisphere. Each percentage value in the matrices represents the mean overlapped volumes between an ROI–ROI
+connection and a major fasciculi across all individuals. Taking the FFA–ATL connection as an example, 27% voxels of the tract overlapped with the ILF and
+6% overlapped with the IFOF; the tract did not overlap with the SLF (0%) and had a minimal portion of overlap with the CING (2%), UF (2%) and AF (1%).
+After reviewing all of the overlap maps with ten major fasciculi in the right hemisphere, we found that the primary contributors to the ventral pathway (EVC–
+OFA–FFA–ATL–AMG) were the ILF and IFOF, the medial pathway (AMG–OFC–PCC) was mainly constructed with the UF and CING, and the dorsal pathway
+(STS–IFG) was mostly supported by the SLF and AF. Similar results were found in the left hemisphere (Supplementary Fig. 3). b, After overlaying all 72 ROI–
+ROI connections (across two hemispheres) onto two standard white matter atlases, we found that around 57% of the face connectome can be classified
+as short-range fibres, whereas only approximately 34.3% can be labelled as long-range fibres. For each ROI–ROI connection, the values in the matrices
+represent how well the connection can be explained by the tracts in each atlas. In the OFA–FFA connection, for example, 11% of voxels in bilateral OFA–FFA
+connections overlapped with long-range tracts in the JHU atlas41, whereas 99% of voxels in bilateral OFA–FFA connections overlapped with superficial tracts
+in the LNAO atlas43. Results for each hemisphere are provided in Supplementary Fig. 4. Moreover, we found an important relationship between the face
+connectome and the long-range fibres: the farther two face ROIs were spatially separated from each other (for example, EVC–OFA versus EVC–OFC), the
+more contributions long-range fibres made to their connections (for example, 4% versus 45%). No credible evidence of such linear relationship was found
+for short-range fibres (r = −0.042, P = 0.729, BF 10 = 0.098). Top left image adapted from ref. 37; top right image reproduced from ref. 43.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+a b
+SC
+EVC EVC
+OFA OFA
+FFA FFA
+ATL ATL
+AMG AMG
+OFC OFC
+PCC PCC
+STS STS
+IFG IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+c d e
+EVC EVC
+OFA OFA
+FFA FFA
+ATL ATL
+AMG AMG
+OFC OFC
+PCC PCC STS STS
+IFG IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG
+f g h
+Coherence in the entire network
+SC
+M
+i Mediation analysis in core pathways Path a, B = 1.258 (0.006) Path b, B = 0.169 (0.032)
+P < 0.001 P < 0.001
+X Y
+Path c, B = 0.269 (0.015) X Y
+P < 0.001 Path c′ B = 0.047 (0.045)
+SC SC P = 0.299
+group-averaged matrices were strongly correlated with individ- group-averaged EC matrices showed moderate correlation with
+ual-specific matrices for SC, rsFC and taskFC (Supplementary individual-specific EC matrices, and most individuals (>67%)
+Fig. 6a), and most individuals (>75%) exhibited maps that were exhibited small-to-medium correlation (0.1 < r < 0.5) with the
+highly similar (r > 0.5) to the group-averaged maps. However, the group-averaged matrices.
+emotcennoc
+lacimotanA
+emotcennoc
+lanoitcnuF
+noitaler
+noitcnuf-ymotanA
+Communicability
+0.5 0.7
+0.6
+0.4
+0.5
+0.3 0.4
+0.3 0.2
+0.2
+0.1 0.1
+0 0
+rsFC taskFC EC
+0.8 4.0 EVC 0.20
+0.7 3.5 OFA 0.18
+0.16
+0.6 3.0 FFA
+0.14
+0.5 2.5 ATL 0.12
+0.4 2.0 AMG 0.10
+0.3 1.5 OFC 0.08
+PCC 0.06 0.2 1.0 STS 0.04 0.1 0.5 0.02
+IFG
+0 0 0
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+Coherence in core pathways Coherence in non-core pathways
+* * * 1.0 SC * * * 1.0 SC * 1.0
+Comm * * * 0.8 Comm * * * 0.8 Comm * 0.8
+rsFC * * * 0.6 rsFC * * * 0.6 rsFC * 0.6
+0.4 0.4 0.4
+taskFC * * * taskFC * * * taskFC *
+0.2 0.2 0.2
+EC EC EC
+SC Com m rsFC taskFC EC 0 SC Com m rsFC taskFC EC 0 SC Com m rsFC taskFC EC 0
+Comm
+rsFC rsFC
+Fig. 3 | All of the brain connectivity maps of the face network and their correspondence. a,b, The anatomical connectome, consisting of three core
+pathways and communities (highlighted by blue dashed lines). c–e, Functional brain connectivity patterns during rest or during the face localizer task.
+Most co-activations (c and d) and task-modulated brain dynamics (e; from PPI analyses) were observed among six face areas (that is, EVC, OFA, FFA,
+PCC, STS and IFG, which are highlighted by green dashed lines). f–i, The correspondence between different types of brain connectivity, either across the
+entire network or only within the three core pathways. Comm, communicability. For f, g and h, asterisks indicate significant positive correlations between
+two connectivity types. The results in f show that the SC (a) and communicability (b) maps across the entire face network were highly correlated with FC
+maps (rsFC (c) and taskFC (d)), but the EC map (e) was dissimilar to any of them, because it reflects asymmetrical and directional information processing
+during face perception. We further demonstrated that the tight anatomy–function relationship across the entire network was mainly driven by core
+pathways (g) because little evidence of such anatomy–function association was found outside of the core pathways (h; the red dashed boxes represent the
+null anatomy–function correspondence). For simplicity, all of the maps from in a–h were results from the right hemisphere. The left hemisphere yielded a
+very similar pattern of correspondence (Supplementary Fig. 5). i, Mediation analyses revealed the network communicability functions as mediator for the
+association between anatomical connectivity and FC. This mediator role was only found in the core pathways (but no evidence was found for the entire
+face network). The values in brackets indicate the standard error of the coefficient in each mediation model.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+a
+Left hemisphere Right hemisphere
+EVC * * * * * * * *
+OFA * * * * * * * * *
+FFA * * *
+ATL PPI β
+estimates
+AMG * * 0.3
+OFC
+PCC 0.2 * * *
+STS * 0.1 * * * *
+IFG 0 *
+EVC OFA FFA ATL AMG OFC PCC STS IFG
+–0.1
+–0.2
+–0.3
+PCC PCC
+IFG STS STS IFG
+AMG EVC EVC AMG
+OFA OFA
+OFC OFC
+FFA FFA
+ATL ATL
+Next, we used two cross-validation schemes to further study The relationships between SC and FC. To further explore the
+group-to-group and group-to-individual similarity, that is, the anatomy–function relationship within the face network, we exam-
+split-half cross-validation (using matrices of 50% of individu- ined the correspondence between the anatomical and functional
+als to predict matrices for the other 50% of individuals) and the connectome. Across the entire network, FC patterns (rsFC and
+LOOCV (using matrices of n − 1 individuals to predict the matri- taskFC) were highly correlated with SC and communicability pat-
+ces of a new individual; Supplementary Fig. 6b). Again, both terns (Fig. 3f; rsFC and SC: mean r = 0.321, t = 43.72, P < 0.001,
+666
+methods revealed very high train–test correlation for SC, rsFC d = 1.69, 95% CI = 0.306–0.335; rsFC and communicability: mean
+and taskFC and relative moderate train–test correlation for the r = 0.304, t = 47.42, P < 0.001, d = 1.84, 95% CI = 0.291–0.316;
+666
+EC (Supplementary Fig. 6b). In summary, we found that the orga- taskFC and SC: mean r = 0.234, t = 33.73, P < 0.001, d = 1.31, 95%
+666
+nization of the face connectome is highly homogeneous across CI = 0.221–0.248; taskFC and communicability: mean r = 0.199,
+individuals and, in particular, for SC, rsFC and taskFC. Thus, our t = 32.50, P < 0.001, d = 1.26, 95% CI = 0.187–0.211). This sup-
+666
+reported group-averaged matrices indeed reflect the connectivity ports the idea that FC is dictated by the underlying white matter
+patterns of most individuals. architecture and network communicability34,55. However, when we
+sIOR
+deeS
+Target ROIs
+sIOR
+deeS
+PPI
+EVC
+OFA
+FFA
+ATL
+AMG
+OFC
+PCC
+STS
+IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG
+Target ROIs
+Feedforward model Recurrent model
+DCM BMS
+Left hemisphere
+ecnedive
+gol
+evitaleR
+FFX
+Feed
+Recurrent
+forward
+ytilibaborp
+ecnadeecxE
+b
+Right hemisphere
+800 RFX
+1.0
+600 0.8
+400 0.6
+0.4
+200
+0.2
+0 0
+Feed
+Recurrent
+forward
+ecnedive
+gol
+evitaleR
+Feed
+Recurrent
+forward
+ytilibaborp
+ecnadeecxE
+80 FFX RFX
+1.0
+60 0.8
+40 0.6
+0.4
+20
+0.2
+0 0
+Feed
+Recurrent
+forward
+Fig. 4 | the brain dynamics within the face network during the face localizer task. a, PPI results. Top: EC matrices for each hemisphere. The asterisks
+indicate statistically significant EC. Bottom: an illustration of all directional information flow summarized from the two EC matrices. Qualitatively, the
+two hemispheres exhibited entirely different patterns of brain dynamics. Only feedforward information cascades were identified in the left hemisphere,
+whereas both feedforward and feedback processing were found in the right hemisphere. To further validate these PPI findings, we built two DCM models
+(that is, feedforward versus recurrent) and tested their respective fitness to the observed data in each hemisphere. As the most powerful applications of
+DCM used networks with a relatively small number of nodes and a relatively simple model space motivated by a priori knowledge, the two DCM models
+were constructed with four core face areas that interacted in the same way as in the PPI results (the two dashed grey boxes). Further details of model
+specifications as well as additional exploratory analysis of a larger model space are provided in Extended Data Fig. 2. b, DCM BMS results. The fixed-
+effects (FFX) and random-effects (RFX) group analyses consistently indicated that the feedforward model was optimal for the left hemisphere, whereas
+the recurrent model was optimal for the right hemisphere. Overall, the EC analyses using PPI and DCM both suggested a differential pattern of face-
+evoked information processing across two hemispheres.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+SC rsFC taskFC EC
+0 0.1 0.2 0.3 0.4 0.5 0 0.10.20.30.40.50.60.70.8 0 0.51.01.52.02.53.03.54.0 0 0.04 0.08 0.12 0.16 0.20
+EVC EVC EVC EVC
+OFA OFA OFA OFA
+FFA FFA FFA FFA
+Individual-specific ATL ATL ATL ATL
+coordinates AMG AMG AMG AMG
+OFC OFC OFC OFC
+PCC PCC PCC PCC
+STS STS STS STS
+IFG IFG IFG IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+EVC EVC EVC EVC
+OFA OFA OFA OFA
+FFA FFA FFA FFA
+Shuffled ATL ATL ATL ATL
+coordinates AMG AMG AMG AMG
+OFC OFC OFC OFC
+PCC PCC PCC PCC
+STS STS STS STS
+IFG IFG IFG IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+EVC EVC EVC EVC
+OFA OFA OFA OFA
+FFA FFA FFA FFA
+Out-of-range ATL ATL ATL ATL
+coordinates AMG AMG AMG AMG
+OFC OFC OFC OFC
+PCC PCC PCC PCC
+STS STS STS STS
+IFG IFG IFG IFG
+EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG EVC OFA FFA ATL AMG OFC PCC STS IFG
+Fig. 5 | the spatial specificity of face connectome organizations in the right hemisphere. Brain connectivity patterns were measured and compared
+across three different methods of defining ROIs. Top row: we first defined each ROI using individual-specific coordinates from the functional face
+localizer. The major findings in this Article were obtained using this method, such as the three distinct pathways found in the SC (blue dashed line) and
+the six synchronized areas found in the FC and EC (green dashed line). Middle row: we then permuted individual-specific coordinates across individuals
+(for example, the FFA coordinates of individual A now became individual B’s; the ATL coordinates of individual C now became individual D’s). As the
+individual variations in the coordinates of each ROI can be typically circumscribed by a sphere with a radius of 10–15 mm (group coordinate ranges are
+provided in Supplementary Table 1), these new shuffled coordinates were in relatively close proximity to the original individual-specific coordinates. We
+found that the patterns of SC and FC during rest and task remained the same after this permutation manipulation, but the effectivity connectivity was
+changed significantly. Bottom row: finally, we chose new ROIs even farther away in space—with new coordinates just outside the putative range (that is,
+20 mm from its original coordinates, so that the FFA coordinates of individual A could now fall into the inferior temporal gyrus). After this 20-mm shifting
+manipulation, these out-of-range coordinates substantially altered all four brain connectivity patterns, therefore showing that our findings had spatial
+specificity. Similar results of spatial specificity were found in the left hemisphere.
+scrutinized the anatomy–function similarity inside or outside the OFA–STS and FFA–STS showed strong FC but weak SC. All of these
+core pathways, we observed this tight relationship in only core path- observations suggest that rsFC is an imperfect representation of the
+ways (rsFC and SC: mean r = 0.358, t = 26.46, P < 0.001, d = 1.02, underlying SC56,57.
+666
+95% CI = 0.331–0.384; rsFC and communicability: mean r = 0.367, Previous research reported that communicability might be a use-
+t = 30.21, P < 0.001, d = 1.17, 95% CI = 0.343–0.391; taskFC and ful analytical measure to link SC and FC58,59. To test this hypoth-
+666
+SC: mean r = 0.343, t = 25.92, P < 0.001, d = 1.00, 95% CI = 0.317– esis, we applied multilevel mediation analyses to our data, assessing
+666
+0.369; taskFC and communicability: mean r = 0.335, t = 27.56, whether communicability mediated the relationship between SC
+666
+P < 0.001, d = 1.07, 95% CI = 0.312–0.359; Fig. 3g) and did not and rsFC. For the core pathways (Fig. 3i), the results showed that
+observe statistically significant association in the non-core-path- SC significantly predicted rsFC (path c: unstandardized beta
+ways (rsFC and SC: mean r = 0.005, t = 0.72, P = 0.473, d = 0.03, (B) = 0.269, s.e. = 0.015 P < 0.001), which was consistent with our
+666
+95% CI = −0.009–0.020, BF = 0.040; rsFC and communicability: correlation analysis in Fig. 3g; however, after adding communicabil-
+10
+mean r = 0.007, t = 0.72, P = 0.472, d = 0.03, 95% CI = −0.012– ity into the model, we found no statistically significant association
+666
+0.025, BF = 0.040; taskFC and SC: mean r = 0.003, t = 0.36, between SC and rsFC (path c′: B = 0.047, s.e. = 0.045, P = 0.299).
+10 666
+P = 0.722, d = 0.01, 95% CI = −0.012–0.018, BF = 0.033; taskFC Moreover, as assessed using Akaike’s information criterion (AIC)
+10
+and communicability: mean r = 0.004, t = 0.44, P = 0.659, d = 0.02, and Bayesian information criterion (BIC), model fit was greater
+666
+95% CI = −0.015–0.023, BF = 0.034; Fig. 3h). This suggested that with communicability added in as the mediator (AIC = 1,211.84;
+10
+the high anatomical–function coherence across the entire face net- BIC = 1,271.08) compared with the model in which SC indepen-
+work was mainly driven by the core pathways. Furthermore, even dently predicted rsFC (AIC = 1,230.10; BIC = 1,289.33), indicating
+though the general pattern of SC and FC were highly correlated that communicability fully mediated the relationship between SC
+inside the core pathways, strong disagreement was observed in mul- and rsFC. By contrast, no credible evidence suggests that commu-
+tiple connections (Fig. 3a,c). For example, we found that the FFA nicability is a mediator between SC and rsFC for the entire face net-
+and ATL are structurally interconnected but are not functionally work (path c: B = 0.220, s.e. = 0.008, P < 0.001, AIC = −15,981.75,
+interconnected (the same applies to ATL–AMG). By contrast, the BIC = −15,340.85; path c′: B = 0.279, s.e. = 0.022, P < 0.001,
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+Support vector regression
+b Feature selection
+1.0 Feature ranking 0.5
+0.0
+Explore the minimum –0.5
+number of features
+–1.0
+that can predict
+... individual scores –1.5 –2–10 1 2 3 4 5
+True score
+AIC = −15,982.39, BIC = −15,341.50). In summary, we found that used support vector regression (SVR) to examine whether the
+communicability mediated the anatomy–function relationship only global pattern of any groups of brain metrics can predict individual
+in core face pathways and it outperformed the standard SC as a face processing skills (Fig. 6).
+predictor of rsFC. The SVR analyses revealed two groups of brain metrics that
+can successfully predict individual differences in facial emotion
+Brain–behaviour associations. The simplest and most popular recognition accuracy—the neural activity features from all face
+method for establishing brain–behaviour relationships is correla- ROIs (model goodness-of-fit: adjusted R2 = 0.014, F = 10.271,
+1,665
+tion. We first computed simple Pearson correlations between the P = 0.001, 95% CI = 0.048–0.199) and the fractional anisotropy (FA)
+facial emotion recognition performance of individuals and all types profile of all white matter tracts (adjusted R2 = 0.016, F = 12.136,
+1,665
+of brain measurements (such as blood-oxygen-level-dependent P = 0.001, 95% CI = 0.058–0.209). To identify the subsets of ROIs or
+(BOLD) signals from each face area, white matter characteristics, white matter tracts that were essential for prediction, we performed
+FC and EC). We found no statistically significant univariate cor- feature selection to rank the contribution of each feature to the SVR
+relation in this whole-connectome search (all r values < 0.065, all model and implemented the parsimonious model test to reveal the
+P values > 0.092, all BF values < 0.119). minimal subsets that can successfully predict the behaviour. The
+10
+As this simple correlation method is not robust when studying results revealed a subset of six face ROIs (left AMG, right OFA,
+a complex brain–behaviour association60 and can typically incur right EVC, right IFG, right STS and right ATL) and a subgroup of
+serious problems of multiple comparison when searching the whole white matter fibre paths (left EVC–STS, left IFOF, right AF, right
+connectome, we subsequently used a machine learning regression OFA–IFG and right STS–ATL) as the most predictive and essen-
+algorithm. Individualized behavioural prediction using machine tial features for the two successful SVR models (Fig. 6c). Notably,
+learning regression is becoming increasingly popular in neuroim- the white matter parsimonious model (root-mean-square error
+aging, and this approach has been recommended as multivariate (r.m.s.e.) = 0.982) predicted behaviour better than the neural activity
+pattern analysis for exploring the complex relationship between parsimonious model (r.m.s.e. = 1.035). To further rule out the pos-
+behaviour and distributed patterns of brain features61,62. Here we sibility that the function of these brain features are only for general
+erocs
+detciderP
+Final model
+.e.s.m.r
+a c
+Two successful SVR models
+Individual emotion
+White matter reconstruction Microstructural features
+recognition accuracy Neural activation patterns
+in native subject space Participants (such as FA) across 92 tracts score (such as ER40_CR) across 6 face ROIs ER40_CR
+72 ROI–ROI tracts
+Predict
+0.45 0.24 0.62 ... 0.12 0.41 Left AMG
+1
+Right OFA
+0.22 0.52 0.04 ... 0.24 0.28 Right EVC
+2 IFG
+EVC STS Right IFG
+0.38 0.19 0.78 ... 0.62 0.34 OFA AMG Right STS
+3
+20 major tracts Happy ATL Right ATL
+(LOOCV)
+Sad
+Factional anisotropy across
+0.33 0.51 0.09 ... 0.88 0.90 Anger 5 white matter tracts ER40_CR
+667
+FFA–OFA EVX–STS OFA–PCC IFOF AF
+No
+F emea or
+tion
+Left EVC–STS
+Left IFOF
+IFOF
+Right AF STS EVC
+Right OFA–IFG
+Parsimonious Right STS–ATL model test
+AF
+IFG
+OFA STS
+ATL
+Fig. 6 | Schematic overview of the methods and results used in the brain–behaviour association. a, For each group of brain metrics (such as neural
+activity, white matter characteristics, FC or effectivity connectivity), we built a separate model for SVR. For example, for the white matter FA, we extracted
+FA values from 92 white matter tracts (72 ROI–ROI connections + 20 major fasciculi) across all of the individuals and set them as independent features
+in the model. We adopted a leave-one-individual-out cross-validation (LOOCV) scheme to train and test data and examined whether the SVR model of
+a particular brain metric (such as FA) can predict a performance score (such as emotion recognition accuracy, ER40_CR (ref. 101)). If the predicted score
+was significantly associated with the true score, we proceeded to the feature selection step. Image of male’s face reproduced from ref. 101 with permission
+(Elsevier). b, We used a leave-one-feature-out method for feature selection (with a fivefold cross-validation scheme) and ranked the importance of each
+feature on the basis of the incurred r.m.s.e. in the absence of that feature. We next performed the parsimonious model test by sequentially testing a series
+of SVR models with combination of top n important features (for example, top 10 at first, then top 9, 8, 7, and so on) until we had a model with n − 1 features
+that was no longer able to predict the performance of an individual. Again, we adopted the LOOCV scheme to train and test data in the parsimonious
+model test. c, Among all of the groups of brain metrics, we found that only the SVM model with neural activity of all the face ROIs and the model with FA
+value of all tracts can successfully predict the emotion recognition accuracy of an individual. The parsimonious model tests further revealed a subset of six
+face ROIs and a subset of five white matter tracts that were the most predictive features for the two successful SVM models. Note that these two subsets
+of face ROIs and white matter tracts corresponded well with each other, suggesting that critical tracts were also connecting critical ROIs.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+performance (for example, task accuracy and reaction times), we Discussion
+used the two parsimonious models to predict other HCP non-face Here we systematically investigated the anatomical and functional
+behavioural performance. We found no credible evidence that these connectome of a well-defined domain-specific system—face pro-
+features are predictive of the working memory 2-back task accu- cessing. Nodes in the face processing network have been rigorously
+racy and speed (that is, neural activity model for accuracy: adjusted investigated in cognitive neuroscience and neuropsychology for
+R2 < 0.001, F = 0.57, P = 0.450, 95% CI for B = −0.047–0.105, more than 40 years1–5. This literature provides a strong foundation
+BF = 0.041; neural activity model for speed: adjusted R2 = 0.002, for our network-based analyses that were both hypothesis and data
+10
+F = 2.23, P = 0.135, 95% CI for B = −0.018–0.134, BF = 0.093; driven, enabling us to explain the mechanisms that underlie face
+10
+white matter model for accuracy: adjusted R2 < 0.001, F = 0.09, processing at the connectome level.
+P = 0.770, 95% CI for B = −0.065–0.087, BF = 0.032; white mat- Our large-scale multi-modal study revealed several interest-
+10
+ter model for speed: adjusted R2 < 0.001, F = 0.03, P = 0.859, 95% ing findings. First, previous diffusion-imaging studies focused on
+CI for B = −0.083–0.069, BF = 0.031), theory of mind judgement a subset of face-sensitive regions23,24 and proposed the existence of
+10
+speed (that is, neural activity model: adjusted R2 = 0.001, F = 1.89, two face processing streams, a ventral pathway for identity process-
+P = 0.169, 95% CI for B = −0.023–0.129, BF = 0.079; white mat- ing and a dorsal pathway for processing dynamic aspects of faces1,5.
+10
+ter model: adjusted R2 < 0.001, F = 0.01, P = 0.911, 95% CI for We looked at nine functionally and individually defined face-sensi-
+B = −0.072–0.080, BF = 0.031) and delay-discounting ability (neu- tive regions in each hemisphere, stretching from the occipital lobe
+10
+ral activity model: adjusted R2 = 0.001, F = 1.80, P = 0.180, 95% CI to the frontal lobe, and encompassing both core and extended face
+for B = −0.024–0.128, BF = 0.076; white matter model: adjusted processing1,5,20. This enabled us to describe segregated pathways of
+10
+R2 = 0.003, F = 3.17, P = 0.080, 95% CI for B = −0.145–0.007, a precise and comprehensive face connectome. The network com-
+BF = 0.149). This confirms that our predictive brain features are municability analysis indicated that the face network can be ana-
+10
+specific to face processing. There is little credible evidence that sug- tomically divided into three separate pathways: (1) the OFA, FFA
+gests that any FC or EC measures were able to predict accuracy on and ATL constitute a ventral pathway that possibly extracts static
+the facial emotion recognition task (for example, rsFC performance: features from faces; (2) the STS and IFG comprise a dorsal path-
+adjusted R2 = 0.002, F = 2.24, P = 0.135, 95% CI for B = −0.018– way, which is specialized for processing dynamic information from
+0.135, BF = 0.094; EC performance: adjusted R2 < 0.001, F = 0.01, faces; and (3) PCC–AMG–OFC form a medial pathway that might
+10
+P = 0.931, 95% CI for B = −0.079–0.073, BF = 0.031). be responsible for processing the social, motivational and emotional
+10
+importance of faces. Multiple medial areas for value and reward
+Hemisphere lateralization. Although face processing has been processing have been associated with judgements of facial attrac-
+consistently linked to activity in the right hemisphere and uni- tiveness and trustworthiness10,19,63. Finally, the ROI-to-ROI tractog-
+lateral right hemisphere damage can result in prosopagnosia, raphy patterns showed very weak connection strengths in OFA–STS
+the same is not true of damage to the left hemisphere1. Here we and FFA–STS, suggesting that they belong to different face process-
+investigated whether such lateralization exists at the connectome ing subsystems, a finding that is consistent with previous diffusion-
+level. Repeated-measure analysis of variance (ANOVA) revealed imaging work23,24.
+significant hemispheric asymmetry in the neural responses of Second, our results shed light on a disagreement in the litera-
+face ROIs (F = 238.64, P < 0.001, partial η2 = 0.264; mean dif- ture about the serial and hierarchical nature of the face processing
+1,666
+ference = 0.617, 90% CI = 0.551–0.683), white matter connectivity system. An early and prominent model by Haxby et al.5 postulated
+probability (F = 9.25, P = 0.002, partial η2 = 0.014; mean differ- a serial-hierarchical structure, in which the core regions have a
+1,666
+ence = 0.002, 90% CI = 0.001–0.002), rsFC (F = 17.63, P < 0.001, strict serial ordering—the OFA feeds into the FFA and STS. More
+1,666
+partial η2 = 0.026; mean difference = 0.008, 90% CI = 0.005–0.011) recent human imaging research has modified this scheme by pro-
+and EC during the face localizer task (F = 9.17, P = 0.003, par- posing an additional processing node, the ATL, and suggested that
+1,666
+tial η2 = 0.014; mean difference = 0.023, 90% CI = 0.011–0.036). the system is recursive64. Although some of our data indeed sug-
+Post hoc t-tests further indicated the direction of lateralization for gest that the OFA, FFA and STS are the most active parts of the
+each condition (Supplementary Table 2). We found that 7 out of 9 face network because they had the largest neural responses to face
+face areas showed stronger responses in the right hemisphere; this stimuli and were constantly synchronized during rest and tasks, our
+did not include the EVC and OFC, for which we found no cred- overall results challenge these frameworks. The global connectiv-
+ible evidence of hemispheric difference (EVC: t = −0.36, P = 0.716, ity patterns demonstrated that the EVC sends projections to most
+d = 0.01, 95% CI = −0.164–0.113, BF = 0.033; OFC: t = −0.71, of the face sensitive areas, suggesting that there is no gateway (or
+10
+P = 0.477, d = 0.03, 95% CI = −0.183–0.086, BF = 0.028). For the solo entry point) for FFA and STS. This is consistent with previ-
+10
+diffusion-imaging data, mixed results were found in the anatomi- ous research in patients65–67. Moreover, the dynamic patterns of EC
+cal connectome; 9 connections lateralized to the right hemisphere suggest that face processing does not proceed strictly in sequence
+(for example, STS, AMG and OFC fibres) and 7 connections but, rather, in a parallel and reciprocal manner. Our results are more
+lateralized to the left hemisphere (for example, IFG and PCC consistent with research in macaques showing that face patches are
+fibres). We found that 18 connections in the functional connec- densely and bidirectionally interconnected, inconsistent with a
+tome exhibited right-hemispheric predominance (9 connections serial hierarchy3,21. Importantly, and potentially unique to humans,
+in rsFC and 11 connections in EC), whereas only 2 connections the two hemispheres appear to perform distinct schemes of compu-
+had left-hemispheric predominance (2 connections in rsFC). tations and interactions during the face localizer task (the left hemi-
+Importantly, we found a positive correlation between a face area’s sphere is feedforward whereas the right hemisphere is recurrent).
+degree of lateralization and its intra- and interhemispheric con- Similar functional asymmetries have been reported in face magne-
+nection ratio (Fig. 7); face areas with a high ratio of intra- over toencephalography studies68,69.
+interhemispheric connections (for example, STS, OFA, FFA and Our third interesting finding is that local white matter has a dis-
+ATL) exhibited more prominent right hemispheric lateralization proportionate role in the anatomical connectome supporting face
+in their neural responses to face stimuli (r = 0.769, P = 0.015, processing. On the basis of a recent literature review22, two long-
+9
+95% CI = 0.197–1.340). In summary, we found strong evidence of range fibre pathways—the ILF and IFOF—are the most frequently
+hemispheric asymmetry at all levels of the face network and face reported tracts associated with face processing (11 out of 16 stud-
+areas in the right hemisphere generally exhibited enhanced neural ies), whereas the local white matter was rarely mentioned (2 out of
+responses and stronger SC and FC. 16 studies). Moreover, as most face ROIs are spatially far apart (for
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+OFC
+1.4
+IFG IFG STS
+18 1.3
+AMG
+FFA
+15
+ATL ATL
+1.2
+IFG
+12
+STS ATL
+OFA
+PCC
+9 1.1 AMG
+FFA
+6 EVC
+OFC
+1.0
+3 OFA 0 200 400 600 800
+Ratio of Intra/Inter connections
+EVC
+0
+example, 75% of connections had a Euclidian distance >50 mm; areas in the right hemisphere were more anatomically connected,
+Fig. 2b), long-range fibres would be expected to play the primary role more synchronized during rest and more actively communicating
+in the structural connectome. Indeed, our results have shown the with each other during face perception. Furthermore, we found a
+incremental proportion of long-range fibres as the distance between critical association between the ratio of intra- and interhemispheric
+two face ROIs increases (Fig. 2b) and there is solid spatial overlap connection and the degree of lateralization, which lends support to
+between major fasciculi and three face pathways (that is, the ventral an older theory that suggests that hemispheric asymmetry arises
+pathway maps onto the ILF and IFOF; the medial pathway was con- from interhemispheric conduction delay79. According to the theory,
+structed from the UF and CING; and the dorsal pathway consisted brain size expansion during evolution led to the emergence of func-
+of the SLF and AF; Fig. 2a). However, this description of fibre path- tional lateralization to avoid excessive conduction delays between
+ways is incomplete because these long-range fibre bundles account the hemispheres. This theory predicts that, to function efficiently,
+for only ~30% of the face connectome. Instead, most face nodes are functionally lateralized brain regions will have relatively weak cal-
+interconnected by short-range fibres. Our observation is consistent losal connectivity as compared with non-lateralized regions80.
+with older histology studies that reported that the human cerebral Our data support this prediction by showing that face areas with
+white matter is dominated by short-range fibres that connect adja- stronger functional lateralization exhibited less interhemispheric,
+cent gyri38 and complies well with the ‘small-world’ characteristic but more intrahemispheric, connections. It is plausible that the
+of brain networks70. It is believed that abundant short-range fibres connectome-level origin of face network lateralization arises from
+function to adaptively minimize global wiring costs, whereas sparse extremely imbalanced intrahemispheric–interhemispheric connec-
+long-range connections contribute to functional integration71,72. tions, which causes neural signals to spread more easily among face
+Here we found that most ROI–ROI connections were redundantly areas within the same hemisphere than across hemispheres.
+constructed from both types of fibres (Fig. 2b), for example, the STS We also examined the anatomy–function relationship of the
+and IFG can be directly linked through major fasciculi (80%) or face network by systematically examining relationships between
+can be connected indirectly by superficial fibres through multiple- different types of brain connectivity. We found that the topologi-
+hop-relays (99%). This redundant architecture may provide the face cal organization of the anatomical connectome (that is, three core
+network with resiliency in the case of brain injury and disease, pos- pathways) was consistent across measures (for example, connection
+sibly explaining why prosopagnosia is so rare64,73. Future research is probability, communicability and streamline count maps) and the
+needed to explore whether these features (that is, disproportionate FC patterns were highly similar across resting and task states. This
+local connectivity, distance effect on long-range fibres and redun- within-modality coherence is in line with reports on other neural
+dant connections) are specific to the face network or whether they networks36,48. We also explored the spatial specificity of all brain
+exist in other domain-specific systems, or can be generalizable to connectivity patterns and found that those intrinsic network archi-
+the entire cortical ‘neighbourhoods’. tectures (that is, SC, rsFC and taskFC) followed a more global pat-
+Fourth, we provide empirical evidence of the face processing lat- tern that was relatively stable across small spatial scales, whereas the
+eralization at the connectome level. The functional asymmetry of EC pattern seemed to be specific to the face-sensitive sub-regions.
+face processing is often referred to as a fundamental lateralization However, the relationship between SC and FC is not straightfor-
+of the human brain74. Right hemispheric predominance has been ward. Although the SC and rsFC were globally correlated across
+repeatedly found in behavioural performance75, neural activation76, the entire network, this effect was mainly driven by high anatomy–
+electrophysiological responses77, intracranial stimulation effects78 function coherence from the core pathways (Fig. 3g), whereas other
+and prosopagnosia cases1. Compared with the left hemisphere, face parts of the network showed no such correspondence (Fig. 3h).
+noitazilaretal
+fo
+eergeD
+a b
+Fiber
+counts
+21 (×104)
+STS
+FFA
+PCC
+OFA
+Fig. 7 | the association between the degree of lateralization and the ratio of intra- and interhemispheric connection across all face areas. a, The
+interhemispheric and intrahemispheric connection strength for each face ROI. The width and the colour of each line in the diagram proportionally reflect
+mean streamline counts across all of the individuals. b, Across all nine face areas, we found a positive correlation between an area’s degree of lateralization
+to face stimuli (y axis, the ratio of BOLD signal magnitude in the right hemisphere node over the left hemisphere node) and its intrahemispheric/
+interhemispheric connection ratio (x axis; Intra/Inter). Those areas with low ratios of intrahemispheric/interhemispheric connection (such as EVC
+and OFC) exhibited no lateralization in their neural responses to face stimuli, whereas the areas with high ratios of intrahemispheric/interhemispheric
+connection (such as STS and FFA) exhibited strong right hemisphere predominance.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+Interestingly, we found a similar ‘global versus local’ discordant architecture of brain networks. As both techniques develop, we
+pattern in the subsequent mediation analyses in which the com- hope that other researchers will replicate and extend our findings.
+municability fully mediated the prediction from the SC to rsFC in Third, the notion of directionality in PPI is an important topic
+core pathways (Fig. 3i) but not across the entire network. Together, that often causes confusion. The unidirectional or asymmetric pat-
+these findings add to a growing body of literature on the complex terns are not uncommon in the PPI literature52,53,95 and they were
+nature of the anatomy–function relation55,81–87 and shed light on why clearly observed in this study (for example, the left hemisphere
+rsFC is an imperfect representation of the underlying neural archi- had only feedforward directions). In a very strict sense, PPI analy-
+tecture. Our results demonstrated that, even for a domain-specific sis should be interpreted as a simple test for EC because it is based
+system like the face network, the anatomy–function relationship on an explicit (and often linear) model of coupling between one or
+is heterogeneous across different connections and depends highly more brain regions45,51. However, we note that the post hoc inter-
+on the local degree of communicability. Moreover, our data clearly pretation of PPI results can be ambiguous as a significant increase
+showed that the communicability metric is superior to the SC mea- in coupling from one region to another region may be significant
+sure when predicting FC. This is because conventional SC is based when testing for a PPI in the opposite direction52. Further research
+on direct connectivity weight but this is too simplistic to model is needed to determine whether the hemispheric differences in
+distributed neural communications. The communicability metric information processing observed here are true or an inflated arte-
+takes into consideration all of the direct and indirect relationships fact96 or are caused by other experimental confounding factors
+between two nodes and, therefore, provides additional information (such as button press by right hand during the task). Furthermore,
+about the global dynamics of the network36,59. as DCM is computationally expensive for large data, we only tested
+Finally, to explore the brain–behaviour association for individual few simplistic models with four nodes in this study. Future studies
+face skills, we investigated how proficiency of emotion recognition are needed to examine larger model space with other datasets or use
+emerges from patterns of neural activity and connectivity among other EC approaches97–100 to confirm our findings.
+face-sensitive regions. Using multiple SVR analyses, we found that
+the most predictive brain features for individual performance were Conclusions
+distributed across six face-sensitive brain regions and five white Face processing has been investigated in neuroscience research for
+matter connections. The HCP emotion recognition test is a com- more than 40 years. Although much research has addressed the
+plex task that taps into multiple mental constructs and operations functional specialization of single face-selective regions, the connec-
+(such as perceptual, cognitive, affective and semantic processes). tome-level organization and brain-wide mechanisms for functional
+The most predictive brain features corresponded well with the neu- integration of face processing remains poorly understood. New
+ral bases of these operations—facial identification (EVC, OFA and trends in connectomics suggest that the function of any face areas
+IFOF), embodied simulation (STS, IFG and AF), affective process- should be considered within an integrative approach, including not
+ing (AMG) and the retrieval of emotion concepts and labels (ATL only patterns revealed by local properties, but also interactions with
+and STS–ATL)22,73,88. Both hemispheres were probably involved other face areas90. For that, here we used large-scale multimodal
+because the task requires face recognition as well as lexical retrieval. neuroimaging data to investigate the anatomical and functional
+Our results accounted for only a small amount of the behavioural connectome of the face network. Functionally defined white matter
+variance, potentially due to the fact that the behavioural task is very tracts, using probabilistic tractography, delineated a well-organized
+easy for non-clinical cohorts thereby limiting behavioural variance. anatomical architecture with three core pathways for different types
+However, white matter characteristics outperformed other brain of information processing. Fibre composition analyses revealed that
+features in individualized behavioural prediction, which signifies the anatomical connectome is primarily constructed by short-range
+that the anatomical connectome is a useful biomarker for individual fibres, and not major white matter bundles. FC and EC analyses
+variation in high-level cognition62 and social skills73. discovered a subnetwork of face areas that are constantly synchro-
+nized across contexts and they exhibit differential neural dynam-
+Limitations ics across hemispheres during face perception (feedforward versus
+This study has some methodological limitations. First, similar to recurrent interactions). Moreover, we found that the SC and FC are
+other large-scale publicly available datasets, the HCP has certain highly associated in the face network and network communicability
+inherent problems. For example, the psychometric and neuroim- mediates this close correspondence in core pathways. Furthermore,
+aging data may be suboptimally designed for studying ‘pure’ face individual differences in face skills can be predicted by a distributed
+processing (for example, the face localizer is embedded in a work- pattern of connectome characteristics, in particular the white mat-
+ing memory task and there is only one face-related behavioural test, ter integrity. Finally, we demonstrate that an imbalanced pattern of
+which is to name emotional faces); the data may therefore contain intra- and interhemispheric connections might be the connectome-
+substantial noise and confounding factors that could in part drive level basis for the hemispheric asymmetry of the face network.
+the observed effect89,90. Second, some behavioural tasks (such as the Collectively, we discovered a wide range of important features of the
+Penn Emotion Recognition Test) were too easy for healthy indi- face connectome that go beyond the classic as well as more recent
+viduals as they were originally designed for clinical populations, models of face processing. These connectome-level characteristics
+therefore resulting in ceiling effects for brain–behaviour correla- provide new constraints for face-perception theories and offer valu-
+tion. Furthermore, there is an extremely unbalanced number of able empirical evidence for a fine-grained organization and interac-
+right- and left-handed individuals in the HCP dataset (680 versus tive mechanisms of face processing.
+70), which prevented us from comparing the face connectome
+Methods
+between the two handedness groups (especially for the genesis of
+Participants. All data used in this study were obtained from the WU-Minn HCP
+hemispheric asymmetries in face processing).
+Consortium S900 Release. Individuals were included if they had completed all of
+Second, rsFC is prone to methodological and conceptual prob- the brain scans (T1/T2, task fMRI, resting-state fMRI and dMRI) as well as the
+lems91,92; interpretations should therefore be cautious with regard behavioural Penn Emotion Recognition Test101. To reduce variance in the human
+to their cognitive and causality meanings56,81,93. Moreover, dMRI connectome102, we restricted our population to only to right-handed individuals,
+tractography has recently been criticized for high false-positives resulting in 680 healthy young adults in the final sample (381 females, aged 22–36
+years). Only 667 out of 680 individuals were detected with enough robust signals
+and there is an urgent need for methodological innovation in trac-
+in all nine bilateral face ROIs in the face localizer task (Supplementary Table 1);
+tography algorithms to address this issue29,30,94. However, these most of the connectome-level findings were therefore based on 667 individuals.
+tools provide considerable insights on the structural and functional No statistical methods were used to predetermine this sample size, but the sample
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+size is much larger than those reported in previous publications23–26. The study was dimensional image files containing the output connectivity distribution were
+reviewed and approved by Temple University’s Institutional Review Board. standardized using the maximum voxel intensity of each image resulting in a
+standardized three-dimensional image with voxel values that ranged from 0 to 1.
+Data acquisition, preprocessing and analysis. Owing to the complexity of the These standardized path images were then thresholded at the 0.1 level to reduce
+HCP data acquisition and preprocessing pipeline, listing all of the scanning false-positive fibre tracks. Binary connectivity maps were further generated for
+protocols and data analysis procedures is beyond the scope of this paper; however, each individual and added across individuals. For global-connectivity-pattern
+the protocols and procedures were described in full detail previously27,103–106. We and cross-hemisphere projection analyses, fibre projections that existed in
+adopted the ‘minimally pre-processed’ images of tfMRI, rsfMRI and dMRI that more than 10% of the individuals were retained and rendered for visualization
+were provided by the HCP S900 Release. The dMRI data had been processed (Supplementary Fig. 1, Extended Data Fig. 1).
+for EPI distortion, eddy current and motion correction, gradient nonlinearity We used dtifit in FSL to fit a diffusion tensor model at each voxel. For each
+correction and registration of the mean b0 volume to a native T1 volume. The individual, the FA, mean diffusivity, radial diffusivity and axial diffusivity maps
+fMRI data had undergone spatial artefact/distortion correction, cross-modal were created and the mean values for each ROI–ROI connection were extracted.
+registration and spatial normalization to Montreal Neurological Institute (MNI) The number of streamlines for each path was calculated by averaging two waytotal
+space. Moreover, we further processed the dMRI data using FSL’s BEDPOSTX107 numbers produced by tractography. The connectivity probability for an ROI–
+to model white matter fibre orientations and crossing fibres, and denoised the ROI connection (such as FFA–OFA) was defined as the streamline count of that
+rsfMRI data using ICA-FIX and tfMRI data with ICA-AROMA108 to remove connection divided by the sum of streamline counts of all connections passing either
+motion artefacts. All fMRI data were spatially smoothed at 4 mm. Furthermore, to of the ROIs (for example, there were totally 15 paths connecting either FFA or OFA)23.
+precisely localize each face ROI109,110, the face localizer task was processed on the
+‘greyordinate-based’ space (that is, cortical surface vertices + subcortical voxels) Communicability measure and community detection analysis. Communicability
+using MSM-All registration111. was quantified as the weighted sum of direct and indirect SC, in which shorter
+We used the HCP Penn Emotion Recognition Test as a behavioural measure paths (that is, those with fewer steps) were weighted exponentially more heavily35.
+of individual face recognition ability101. Individuals were presented with 40 faces, For each individual (and each hemisphere), we derived a communicability map
+one at a time. They were asked to choose what emotion the face depicted: happy, from their connectivity probability matrix. This communicability map was
+sad, angry, scared or no feeling. Half of the faces were males and half were females. subsequently compared with other brain connectivity maps at the individual level
+The task overall accuracy (ER40_CR) and median reaction time (ER40_CRT) were to reveal the anatomy–function relationship.
+used in the brain–behaviour association analyses. At the group level, we prepared an averaged communicability map for each
+To ensure sensitivity to the connectome within each individual, we not hemisphere for community detection analysis. Modular partitions of this averaged
+only defined individual-specific ROIs on the basis of the face localizer, but also communicability map were obtained using the Louvain community detection
+performed all analyses first at the individual level and then combined them into an method (https://python-louvain.readthedocs.io/en/latest/). The algorithm
+aggregate statistic for group-level inference and significance tests. Unless otherwise computes the partition of the graph nodes that maximizes the modularity using
+stated, all significant results reported in this study were two-tailed tests and were Louvain heuristics. Potential shared nodes between communities were also
+false-discovery-rate corrected for multiple comparisons. Data distribution was checked using the k-clique percolation method114 in the NetworkX toolbox (https://
+assumed to be normal but this was not formally tested. Moreover, all of the null networkx.github.io/).
+results were further evaluated using Bayesian statistics (BF ) in SPSS v.25.
+10
+Analyses of major white matter bundles and superficial white matter systems.
+Functional face localizer and selection of face ROIs. The working memory task For each hemisphere, ten major white matter bundles were identified for each
+in the HCP tfMRI data can be effectively used as a functional face localizer105. individual using AFQ (https://github.com/jyeatman/AFQ)37. We focused our
+Individuals were presented with alternating blocks of four categories of stimuli analysis on six major fibre tracts that were found to be critical for face processing
+(that is, faces, places, tools and body parts) and were instructed to respond in in a recent meta-analysis22: the ILF, IFOF, CING, UF, SLF and AF. We also
+a manner of 2-back and 0-back tasks. As the HCP S900 release had already analysed four additional fasciculi provided by the AFQ algorithm (that is, thalamic
+provided the individual-level (within-individual) tfMRI analysis data that were radiations, corticospinal tracts, anterior and posterior corpus callosum) and found
+fully processed on greyordinate space, we used the connectome workbench no overlap between them and all ROI–ROI connections (not reported here).
+software to manually extract the vertices (which were later transformed to MNI We used the atlasquery tool in FSL to evaluate the relative contribution of
+coordinates) of the peak activation of bilateral nine predefined face ROIs (as well major fasciculi and superficial white matter to the face network22. A binarized
+as its magnitude) from the contrast ‘faces > other categories’ for each individual image for each ROI–ROI connection was created for each individual and then
+separately (Supplementary Table 1). This task paradigm and contrast has been added together across all of the individuals. We also combined all 72 bilateral
+widely used to define human face-sensitive areas112,113 and the processing for face connections together into one binarized image for each individual and added
+and working memory are orthogonal to each other in this contrast (that is, face these images together across individuals to obtain the entire connectome image.
+conditions were collapsed across both 0-back and 2-back trials). To ensure the Only voxels that existed in more than 50% of the individuals were retained (that
+selection of face-sensitive voxels, we also inspected another conjunction contrast is, the skeleton image) and were projected on two white matter atlases: the JHU
+(‘faces > places’ ∩ ‘faces > tools’ ∩ ‘faces > body parts’) and obtained very similar peak white-matter tractography atlas with 48 long-range tract labels41 and the LNAO
+coordinates. These individual-specific cluster peak coordinates were used as input superficial white matter atlas with 79 U-shaped bundles42. Voxelwise analyses
+(spheres, 6 mm radius) for subsequent seed-based brain connectivity analyses at the were then implemented to calculate the probability that the skeleton image was a
+individual level (probabilistic tractography, resting-state analysis, PPI and DCM), member of any labelled tracts within each atlas. Note that human white matter is
+and the cluster peak magnitudes were adopted as the index of neural activity for face idiosyncratic across individuals and the two atlases that we used represent only the
+ROIs in brain–behaviour association and hemispheric asymmetry analysis. skeleton of the most common white matter bundles in standard MNI space; as the
+As we are interested in the broader face network, we selected areas not only atlases were created by different research groups and using different methods, the
+for basic face perception (OFA, FFA and STS), but also for social, emotional and two atlases are not mutually exclusive and their combination does not explain all of
+mnemonic processing of faces (ATL, OFC, AMG, IFG and PCC). A similar set the face connectome voxels (that is, the sum is 92%).
+of areas was included in the Haxby model5,6,20 and these areas were widely used
+in previous face network studies23–26,112. Moreover, for face areas with multiple PPI and FC analysis on HCP task data. The statistical model used to estimate
+clusters (such as OFA, FFA and STS) we simply chose the strongest one to avoid EC and taskFC was a simple general linear regression model (GLM). We used
+excessive interindividual variability24. We note that some regions that were recently two methods to build the generalized PPI115 model (using a non-deconvolution
+identified in a study of non-human primates, which showed strong connectivity method116) for each seed ROI. A simple partial model had 17 separate regressors:
+with face patches (for example, the pulvinar and claustrum; Grimaldi et al. 21), were 8 psychological regressors of task events (for example, face, body, place and tool
+not selected in our study because they were not consistently activated by our face stimuli in either 2-back or 1-back mode), 1 physiological regressor of the time
+localizer task and the relevant human literature on these regions is lacking. series of seed ROIs and 8 corresponding interaction regressors (task events × seed
+ROI’s time series). A more complex full model had 25 regressors, including the
+Probabilistic tractography. Tractography analyses were performed in the identical 17 regressors in the partial model in addition to 8 extra physiological
+native space of individuals and all of the results were transformed to MNI regressors of the time series of non-seed ROIs. In contrast to the partial model,
+standard space. We used both a single-ROI and an ROI-to-ROI approach. the full model was designed to aggressively control for neural responses in
+In the single-ROI approach, each ROI was used as a seed with tractography non-seed regions.
+running in the whole brain to obtain a global connectivity pattern. In the ROI- To estimate the taskFC between the seed ROI and other ROIs, we used the
+to-ROI approach, tractography was implemented between each pair of ROIs contrast between regressors of task events (faces > other categories). To estimate
+for either intrahemispherical connections (such as left AMG to left ATL) or the EC, we used the contrast between interaction regressors (PPI of faces > PPI
+interhemispherical connections (such as left AMG to right AMG). Fibre tracking of other categories). Z-scored β-weights were extracted for each pair of ROIs,
+was initiated in both directions (from seed to target and vice versa) and 25,000 which resulted in one 9 × 9 matrix for each connectivity type (taskFC or EC), each
+streamlines were drawn from each voxel in the ROI. A binarized cerebellum model (full or partial), each hemisphere and each individual. Although the taskFC
+mask was set as an exclusion mask for all of the analyses. The resulting three- matrices were further symmetrized, no symmetrization was applied to EC matrices
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+due to its directional character (that is, PPI effects indicate some information on during the face localizer task. On the behaviour side, we had two metrics from
+directional neural interactions)45,52,53. At the group level of the EC, one-sample the HCP Penn Emotion Recognition Test—task overall accuracy (ER40_CR)
+t-tests were performed across individuals at each pair of ROIs to detect any and median reaction time (ER40_CRT). For each SVR analysis, we built only
+significant effectivity connectivity. Nonparametric permutation tests (10,000 times) one model to test the association between one particular set of brain metrics (as
+were also implemented to revalidate all of the significant results. independent variables) and one behavioural measure (as the dependent variable).
+Note that all of the significant findings reported in this paper were based on For the richness of white matter properties, we tested seven microstructural
+the partial PPI model, as null results were found in the full model. Although a PPI measures separately (that is, FA, mean diffusivity, axial diffusivity, radial diffusivity,
+model would approximate EC better as more controlled ROIs are added to the streamline counts, connectivity probability and tract volume size). More details
+model, this approach is rarely performed in practice due to multicollinearity and about the SVR procedure are provided in the caption of Fig. 6.
+the relative paucity of observations compared to potential regions (that is, degrees To further validate that the final two parsimonious models were specific to
+of freedom)52. Here, the null results in the full model reflect that the EC of two face processing but not predictive of general performance (for example, task
+regions identified in the partial model might be contaminated by the influence of a accuracy and reaction times), we used these models to predict other HCP non-
+third region. This methodological issue requires further exploration. face behavioural performance, such as the working memory 2-back task accuracy
+and speed (that is, WM_Task_2bk_Acc and WM_Task_2bk_RT), theory of mind
+DCM on HCP task data. To validate our PPI findings, we performed DCM judgement speed (that is, Social_Task_TOM_Median_RT_TOM) and delay-
+analyses using DCM10 in SPM8 (ref. 47). As it is common practice in DCM to discounting ability (that is, DDisc_AUC_200).
+restrict the analysis to a small number of nodes54,117, we applied DCM to only four
+core face areas (EVC, OFA, FFA and STS). Motivated by our testing hypotheses Hemisphere lateralization. We used a two-way repeated-measures ANOVA to
+(that is, the left hemisphere is feedforward whereas the right hemisphere is examine hemisphere lateralization at each level of measurements. At the neural
+recurrent), we defined two simple models on the basis of PPI connectivity patterns activation level, we set the ANOVA with factors of ‘hemisphere’ and ‘9 face ROIs’.
+(Fig. 4a) and tested their fitness to the observed data in each hemisphere separately. At the SC (that is, connectivity probability) or rsFC level, we set the ANOVA with
+The feedforward model was derived from PPI left-hemisphere connectivity factors of ‘hemisphere’ and ‘36 ROI–ROI connections’. At the EC level, we set the
+patterns (that is, face stimuli only drive feedforward processing) whereas the ANOVA with factors of ‘hemisphere’ and ‘72 directional ROI–ROI connections’.
+recurrent model was adapted from PPI right hemisphere patterns (that is, face If a main effect of hemisphere was found in the ANOVA analysis, pairwise t-tests
+stimuli mainly drive recurrent processing). For each model, sensory inputs were further implemented to determine the hemisphere that was dominant.
+started from EVC and all four ROIs were intrinsically set to be bidirectionally To prepare for the association analysis, we computed the streamline counts
+connected and self-connected, and their time-courses (that is, first eigenvariate) ratio between intrahemispheric connections and interhemispheric connections
+were extracted individually for each individual. To examine the modulatory effects for each face area and then averaged the ratio across two hemispheres and across
+by extrinsic face stimuli, we built a DCM GLM design matrix with six regressors all of the individuals. To define the degree of lateralization of each face area, we
+(face, place, tool, body, 2-back and 0-back) and tested the two models with the computed the BOLD signal ratio between the right and left area during the face
+face condition. To determine the optimal model, fixed-effects and random-effects localizer and averaged the ratio across individuals.
+group analyses were implemented using BMS118. Fixed-effects BMS assumes that
+the optimal model is identical across the population and uses the group Bayes Reporting Summary. Further information on research design is available in the
+factor (log-evidence) to quantify the relative goodness of models. By contrast, Nature Research Reporting Summary linked to this article.
+random-effects BMS accounts for heterogeneity of model structure across
+individuals and yields posterior model probabilities and exceedance probabilities. Data availability
+All data used in the present study were obtained from the WU-Minn HCP
+Functional connectivity analysis on HCP resting-state data. rsFC between nine
+Consortium S900 Release. They are publicly available at https://www.
+face ROIs was estimated by building nine general linear regression models. Each
+humanconnectome.org.
+model defined the time series of one ROI as the dependent variable and the time
+series of the other eight ROIs as independent variables. For each hemisphere,
+Code availability
+Fisher-transformed correlation coefficients (Z-scored β-weights) were extracted
+for each pair of 9 × 9 ROIs, symmetrized and then averaged across two separate Most analyses were conducted using common software (FSL, SPM) or an open
+resting-state scans. source toolbox that can be downloaded from GitHub (Louvain community
+detection algorithm, NetworkX, or AFQ toolbox). Custom codes can be accessed at
+Comparison between different brain connectivity maps. At the individual https://github.com/mirrorneuronwang/HCP_face_connectome and are available
+level, we performed pairwise correlations among five brain connectivity from the corresponding authors on request.
+matrices by taking all of the elements of each matrix except for the diagonal
+ones (self-connections), applying a Fisher’s Z-transform and then computing Received: 29 January 2019; Accepted: 9 December 2019;
+the Pearson correlation. Conventional one-sample t-tests (against 0) were used Published: xx xx xxxx
+at the group level to determine the statistical significance after controlling for
+multiple comparisons. Nonparametric permutation tests (10,000 times) were also
+implemented to revalidate all of the results. References
+Two different scales were examined when comparing different brain 1. Duchaine, B. & Yovel, G. A revised neural framework for face processing.
+connectivity graphs: (1) at the entire face network level (72 connections in each Annu. Rev. Vis. Sci. 1, 393–416 (2015).
+hemisphere) or (2) at the level of only three core pathways. The core pathways were 2. Ku, S. P., Tolias, A. S., Logothetis, N. K. & Goense, J. FMRI of the
+defined to include 16 core connections in each hemisphere, EVC–OFA, OFA–FFA, face-processing network in the ventral temporal lobe of awake and
+FFA–ATL, ATL–AMG, AMG–PCC, AMG–OFC, PCC–OFC and STS–IFG, given anesthetized macaques. Neuron 70, 352–362 (2011).
+that they had the highest connection probability in Fig. 1a (top 25%). 3. Kravitz, D. J., Saleem, K. S., Baker, C. I., Ungerleider, L. G. & Mishkin, M.
+We conducted multilevel mediation analyses to test whether communicability The ventral visual pathway: an expanded neural framework for the
+mediated the relationship between SC and rsFC. Multilevel mediation analyses processing of object quality. Trends Cogn. Sci. 17, 26–49 (2013).
+were implemented using the ‘Mixed linear model’ function in SPSS v.25 and 4. Freiwald, W., Duchaine, B. & Yovel, G. Face processing systems: from
+the models included random intercepts at the individual level. To examine the neurons to real-world social perception. Annu. Rev. Neurosci. 39,
+mediation at the entire face network level, we first set 72 bilateral rsFC (across 325–346 (2016).
+all individuals) as the dependent variable Y, 72 corresponding communicability 5. Haxby, J. V., Hoffman, E. A. & Gobbini, M. I. The distributed human neural
+measures as the mediator variable M and 72 corresponding fibre connection system for face perception. Trends Cogn. Sci. 4, 223–233 (2000).
+probability as the independent variable X. We next built another model for only 6. Gobbini, M. I. & Haxby, J. V. Neural systems for recognition of familiar
+core pathways, with rsFC of 16 bilateral core connections as the dependent variable faces. Neuropsychologia 45, 32–41 (2007).
+Y, 16 corresponding communicability measures as the mediator variable M and 16 7. Pitcher, D., Walsh, V. & Duchaine, B. The role of the occipital face area in
+corresponding fibre connection probabilities as the independent variable X. the cortical face perception network. Exp. Brain Res. 209, 481–493 (2011).
+8. Collins, J. A. & Olson, I. R. Beyond the FFA: the role of the ventral anterior
+Brain–behaviour associations. Two different statistical analyses were used to temporal lobes in face processing. Neuropsychologia 61, 65–79 (2014).
+examine the brain–behaviour association—simple Pearson correlation and SVR. 9. Wang, Y. et al. A dynamic neural architecture for social knowledge
+Pearson correlation was performed using SPSS v.25.0 and SVR was implemented retrieval. Proc. Natl Acad. Sci. USA 114, E3305–E3314 (2017).
+using Matlab Statistics and Machine Learning Toolbox. 10. Mende-Siedlecki, P., Said, C. P. & Todorov, A. The social evaluation of faces:
+On the brain side, there were four independent sets of metrics: (1) neural a meta-analysis of functional neuroimaging studies. Soc. Cogn. Affect.
+activity profiles from 18 bilateral ROIs (the magnitude of BOLD responses to face Neurosci 8, 285–299 (2013).
+stimuli); (2) white matter characteristics from 72 bilateral ROI–ROI connections 11. Landi, S. M. & Freiwald, W. A. Two areas for familiar face recognition in
+and 20 major fasciculi; (3) 72 bilateral rsFC; and (4) 144 bilateral directional EC the primate brain. Science 357, 591–595 (2017).
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+Articles NATurE HumAN BEHAvIour
+12. Allison, T., Puce, a & McCarthy, G. Social perception from visual cues: role 44. Smith, S. M. et al. Correspondence of the brain’s functional architecture
+of the STS region. Trends Cogn. Sci. 4, 267–278 (2000). during activation and rest. Proc. Natl Acad. Sci. USA 106, 13040–13045
+13. Chan, A. W.-Y. & Downing, P. E. Faces and eyes in human lateral prefrontal (2009).
+cortex. Front. Hum. Neurosci. 5, 51 (2011). 45. Stephan, K. E. On the role of general system theory for functional
+14. O’ Scalaidhe, S. P., Wilson, F. A. & Goldman-Rakic, P. S. Areal segregation of neuroimaging. J. Anat. 205, 443–470 (2004).
+face-processing neurons in prefrontal cortex. Science 278, 1135–1138 (1997). 46. Friston, K. J. et al. Psychophysiological and modulatory interactions in
+15. Troiani, V., Dougherty, C. C., Michael, A. M. & Olson, I. R. neuroimaging. Neuroimage 6, 218–229 (1997).
+Characterization of face-selective patches in orbitofrontal cortex. Front. 47. Friston, K. J., Harrison, L. & Penny, W. Dynamic causal modelling.
+Hum. Neurosci. 10, 279 (2016). Neuroimage 19, 1273–1302 (2003).
+16. Barat, E., Wirth, S. & Duhamel, J.-R. Face cells in orbitofrontal 48. Cole, M. W., Bassett, D. S., Power, J. D., Braver, T. S. & Petersen, S. E.
+cortex represent social categories. Proc. Natl Acad. Sci. USA 115, Intrinsic and task-evoked network architectures of the human brain. Neuron
+E11158–E11167 (2018). 83, 238–251 (2014).
+17. Tsao, D. Y., Schweers, N., Moeller, S. & Freiwald, W. A. Patches of 49. Gratton, C. et al. Functional brain networks are dominated by stable
+face-selective cortex in the macaque frontal lobe. Nat. Neurosci. 11, group and individual factors, not cognitive or daily variation. Neuron 98,
+877–879 (2008). 439–452 (2018).
+18. Tsao, D. Y., Moeller, S. & Freiwald, W. A. Comparing face patch systems in 50. Krienen, F. M., Yeo, B. T. & Buckner, R. L. Reconfigurable task-dependent
+macaques and humans. Proc. Natl Acad. Sci. USA 105, 19514–19519 (2008). functional coupling modes cluster around a core functional architecture.
+19. O’Doherty, J. et al. Beauty in a smile: the role of medial orbitofrontal cortex Proc. R. Soc. B 369, 20130526 (2014).
+in facial attractiveness. Neuropsychologia 41, 147–155 (2003). 51. Friston, K. J. Functional and effective connectivity: a review. Brain Connect.
+20. Haxby, J. V. & Gobbini, M. I. Distributed neural systems for face 1, 13–36 (2011).
+perception. in Oxford Handbook of Face Perception (eds Calder, A. J., 52. Smith, D. V., Gseir, M., Speer, M. E. & Delgado, M. R. Toward a cumulative
+Rhodes, G., Johnson, M. H. & Haxby, J. V.) 93–110 (Oxford Univ. Press, science of functional integration: a meta-analysis of psychophysiological
+2012). interactions. Hum. Brain Mapp. 37, 2904–2917 (2016).
+21. Grimaldi, P., Saleem, K. S. & Tsao, D. Anatomical connections of the 53. Gerchen, M. F., Bernal-Casas, D. & Kirsch, P. Analyzing task-dependent
+functionally defined ‘face patches’ in the macaque monkey. Neuron 90, brain network changes by whole-brain psychophysiological interactions:
+1325–1342 (2016). a comparison to conventional analysis. Hum. Brain Mapp. 35,
+22. Wang, Y., Metoki, A., Alm, K. H. & Olson, I. R. White matter pathways and 5071–5082 (2014).
+social cognition. Neurosci. Biobehav. Rev. 90, 350–370 (2018). 54. Stephan, K. E. et al. Ten simple rules for dynamic causal modeling.
+23. Gschwind, M., Pourtois, G., Schwartz, S., Van De Ville, D. & Vuilleumier, P. Neuroimage 49, 3099–3109 (2010).
+White-matter connectivity between face-responsive regions in the human 55. Honey, C. J. et al. Predicting human resting-state functional connectivity from
+brain. Cereb. Cortex 22, 1564–1576 (2012). structural connectivity. Proc. Natl Acad. Sci. USA 106, 2035–2040 (2009).
+24. Pyles, J. A., Verstynen, T. D., Schneider, W. & Tarr, M. J. Explicating the 56. Warren, D. E. et al. Surgically disconnected temporal pole exhibits resting
+face perception network with white matter connectivity. PLoS One 8, functional connectivity with remote brain regions. Preprint at bioRxiv
+e61611 (2013). https://doi.org/10.1101/127571 (2017).
+25. Fairhall, S. L. & Ishai, A. Effective connectivity within the distributed 57. Tyszka, J. M., Kennedy, D. P., Adolphs, R. & Paul, L. K. Intact bilateral
+cortical network for face perception. Cereb. Cortex 17, 2400–2406 (2007). resting-state networks in the absence of the corpus callosum. J. Neurosci.
+26. Davies-Thompson, J. & Andrews, T. J. Intra- and interhemispheric 31, 15154–15162 (2011).
+connectivity between face-selective regions in the human brain. 58. Goni, J. et al. Resting-brain functional connectivity predicted by analytic
+J. Neurophysiol. 108, 3087–3095 (2012). measures of network communication. Proc. Natl Acad. Sci. USA 111,
+27. Van Essen, D. C. et al. The WU-Minn human connectome project: an 833–838 (2014).
+overview. Neuroimage 80, 62–79 (2013). 59. Grayson, D. S. et al. The rhesus monkey connectome predicts disrupted
+28. Pestilli, F., Yeatman, J. D., Rokem, A., Kay, K. N. & Wandell, B. A. functional networks resulting from pharmacogenetic inactivation of the
+Evaluation and statistical inference for human connectomes. Nat. Methods amygdala. Neuron 91, 453–466 (2016).
+11, 1058–1063 (2014). 60. Rousselet, G. A. & Pernet, C. R. Improving standards in brain-behavior
+29. Maier-Hein, K. H. et al. The challenge of mapping the human connectome correlation analyses. Front. Hum. Neurosci 6, 119 (2012).
+based on diffusion tractography. Nat. Commun. 8, 1349 (2017). 61. Arbabshirani, M. R., Plis, S., Sui, J. & Calhoun, V. D. Single subject
+30. Thomas, C. et al. Anatomical accuracy of brain connections derived from prediction of brain disorders in neuroimaging: promises and pitfalls.
+diffusion MRI tractography is inherently limited. Proc. Natl Acad. Sci. USA Neuroimage 145, 137–165 (2017).
+111, 16574–16579 (2014). 62. Fang, Y. et al. Semantic representation in the white matter pathway.
+31. Gao, Y. et al. Validation of DTI tractography-based measures of primary PLoS Biol. 16, e2003993 (2018).
+motor area connectivity in the squirrel monkey brain. PLoS One 8, 63. Gottfried, J. A., Doherty, J. O. & Dolan, R. J. Encoding predictive
+e75065 (2013). reward value in human amygdala and orbitofrontal cortex. Science 301,
+32. Fillard, P. et al. Quantitative evaluation of 10 tractography algorithms on a 1104–1107 (2003).
+realistic diffusion MR phantom. Neuroimage 56, 220–234 (2011). 64. Grill-Spector, K., Weiner, K. S., Kay, K. & Gomez, J. The functional
+33. Delettre, C. et al. Comparison between diffusion MRI tractography and neuroanatomy of human face perception. Annu. Rev. Vis. Sci. 3,
+histological tract-tracing of cortico-cortical structural connectivity in the 167–196 (2017).
+ferret brain. Netw. Neurosci. 3, 1038–1050 (2019). 65. Rossion, B. Constraining the cortical face network by neuroimaging studies
+34. Avena-Koenigsberger, A., Misic, B. & Sporns, O. Communication dynamics of acquired prosopagnosia. Neuroimage 40, 423–426 (2008).
+in complex brain networks. Nat. Rev. Neurosci. 19, 17–33 (2017). 66. Weiner, K. S. et al. The face-processing network is resilient to focal
+35. Crofts, J. J. & Higham, D. J. A weighted communicability measure applied resection of human visual cortex. J. Neurosci. 36, 8425–8440 (2016).
+to complex brain networks. J. R. Soc. Interface 6, 411–414 (2009). 67. Lohse, M. et al. Effective connectivity from early visual cortex to posterior
+36. Andreotti, J. et al. Validation of network communicability metrics for the occipitotemporal face areas supports face selectivity and predicts
+analysis of brain structural networks. PLoS One 9, e0115503 (2014). developmental prosopagnosia. J. Neurosci. 36, 3821–3828 (2016).
+37. Yeatman, J. D., Dougherty, R. F., Myall, N. J., Wandell, B. A. & Feldman, H. 68. Chen, C. C., Henson, R. N., Stephan, K. E., Kilner, J. M. & Friston, K. J.
+M. Tract profiles of white matter properties: automating fiber-tract NeuroImage forward and backward connections in the brain: a DCM study
+quantification. PLoS One 7, e49790 (2012). of functional asymmetries. Neuroimage 45, 453–462 (2009).
+38. Schuz, A. & Braitenberg, V. in Cortical Areas: Unity and Diversity (eds 69. He, W. & Johnson, B. W. Developmental Cognitive neuroscience
+Shuez, A. & Miller, R.) 377–384 (Taylor & Francis, 2002). development of face recognition: dynamic causal modelling of MEG data.
+39. Jbabdi, S., Sotiropoulos, S. N., Haber, S. N., Van Essen, D. C. & Behrens, T. Dev. Cogn. Neurosci. 30, 13–22 (2018).
+E. Measuring macroscopic brain connections in vivo. Nat. Neurosci. 18, 70. Bassett, D. S. & Bullmore, E. T. Small-world brain networks revisited.
+1546–1555 (2015). Neuroscientist 23, 499–516 (2017).
+40. Wandell, B. A. Clarifying human white matter. Annu. Rev. Neurosci. 39, 71. Betzel, R. F. & Bassett, D. S. Specificity and robustness of long-distance
+103–128 (2016). connections in weighted, interareal connectomes. Proc. Natl Acad. Sci. USA
+41. Mori, S. et al. Stereotaxic white matter atlas based on diffusion tensor 115, E4880–E4889 (2018).
+imaging in an ICBM template. Neuroimage 40, 570–582 (2008). 72. Bullmore, E. & Sporns, O. Complex brain networks: graph theoretical
+42. Guevara, M. et al. Reproducibility of superficial white matter tracts using analysis of structural and functional systems. Nat. Rev. Neurosci. 10,
+diffusion-weighted imaging tractography. Neuroimage 147, 703–725 (2017). 312–312 (2009).
+43. Román, C. et al. Clustering of whole-brain white matter short association 73. Wang, Y., Olson, I. R., Wang, Y. & Olson, I. R. The original social network:
+bundles using HARDI data. Front. Neuroinform. 11, 73 (2017). white matter and social cognition. Trends Cogn. Sci. 22, 504–516 (2018).
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NATurE HumAN BEHAvIour Articles
+74. Willems, R. M., Der Haegen, L. Van, Fisher, S. E. & Francks, C. On the 104. Smith, S. M. et al. Functional connectomics from resting-state fMRI. Trends
+other hand: including left-handers in cognitive neuroscience and Cogn. Sci. 17, 666–682 (2013).
+neurogenetics. Nat. Rev. Neurosci. 15, 193–201 (2014). 105. Barch, D. M. et al. Function in the human connectome: task-fMRI and
+75. Levine, S. C., Banich, M. T. & Koch-Weser, M. P. Face recognition: a general individual differences in behavior. Neuroimage 80, 169–189 (2013).
+or specific right hemisphere capacity? Brain Cogn. 8, 303–325 (1988). 106. Glasser, M. F. et al. The minimal preprocessing pipelines for the human
+76. Bukowski, H., Dricot, L., Hanseeuw, B. & Rossion, B. Cerebral lateralization connectome project. Neuroimage 80, 105–124 (2013).
+of face-sensitive areas in left-handers: only the FFA does not get it right. 107. Behrens, T. E. J., Berg, H. J., Jbabdi, S., Rushworth, M. F. S. & Woolrich, M.
+Cortex 49, 2583–2589 (2013). W. Probabilistic diffusion tractography with multiple fibre orientations:
+77. Eimer, M. The face-Sensitive N170 component of the event-related brain what can we gain? Neuroimage 34, 144–155 (2007).
+potential. in Oxford Handbook of Face Perception (eds Calder, A. J., Rhodes, 108. Griffanti, L. et al. ICA-based artefact removal and accelerated fMRI
+G., Johnson, M. H. & Haxby, J. V.) 329–344 (Oxford Univ. Press, 2012). acquisition for improved resting state network imaging. Neuroimage 95,
+78. Rangarajan, V. et al. Electrical stimulation of the left and right human 232–247 (2014).
+fusiform gyrus causes different effects in conscious face perception. 109. Weiner, K. S. et al. The mid-fusiform sulcus: a landmark identifying both
+J. Neurosci. 34, 12828–12836 (2014). cytoarchitectonic and functional divisions of human ventral temporal
+79. Ringo, J. L., Don, R. W., Demeter, S. & Simard, P. Y. Time is of the essence: cortex. Neuroimage 84, 453–465 (2014).
+a conjecture that hemispheric specialization arises from interhemispheric 110. Coalson, T. S., Van Essen, D. C. & Glasser, M. F. The impact of traditional
+conduction delay. Cereb. Cortex 4, 331–343 (1994). neuroimaging methods on the spatial localization of cortical areas.
+80. Karolis, V., Corbetta, M. & Thiebaut de Schotten, M. Architecture of Proc. Natl Acad. Sci. USA 115, E6356–E6365 (2018).
+functional lateralisation and its relationship to callosal connectivity in the 111. Robinson, E. C. et al. MSM: a new flexible framework for multimodal
+human brain. Nat. Commun. 10, 1417 (2019). surface matching. Neuroimage 100, 414–426 (2014).
+81. Uddin, L. Q. et al. Residual functional connectivity in the split-brain 112. Fox, C. J., Iaria, G. & Barton, J. J. S. Defining the face processing network:
+revealed with resting-state functional MRI. Neuroreport 19, 703–709 (2008). optimization of the functional localizer in fMRI. Hum. Brain Mapp. 30,
+82. Shen, K., Hutchison, R. M., Bezgin, G., Everling, S. & McIntosh, A. R. 1637–1651 (2009).
+Network structure shapes spontaneous functional connectivity dynamics. 113. Stigliani, X. A., Weiner, X. K. S. & Grill-spector, X. K. Temporal processing
+J. Neurosci. 35, 5579–5588 (2015). capacity in high-level visual cortex is domain specific. J. Neurosci. 35,
+83. Chamberland, M. et al. On the origin of individual functional connectivity 12412–12424 (2015).
+variability: the role of white matter architecture. Brain Connect. 7, 114. Palla, G., Derényi, I., Farkas, I. & Vicsek, T. Uncovering the overlapping
+491–503 (2017). community structure of complex networks in nature and society. Nature
+84. Tsang, A. et al. White matter structural connectivity is not correlated to 435, 814–818 (2005).
+cortical resting-state functional connectivity over the healthy adult lifespan. 115. McLaren, D. G., Ries, M. L., Xu, G. & Johnson, S. C. A generalized form of
+Front. Aging Neurosci. 9, 144 (2017). context-dependent psychophysiological interactions (gPPI): a comparison to
+85. Liang, H. & Wang, H. Structure-function network mapping and its standard approaches. Neuroimage 61, 1277–1286 (2012).
+assessment via persistent homology. PLoS Comput. Biol. 13, e1005325 (2017). 116. Di, X. & Biswal, B. B. Psychophysiological interactions in a visual
+86. Medaglia, J. D. et al. Functional alignment with anatomical networks is checkerboard task: reproducibility, reliability, and the effects of
+associated with cognitive flexibility. Nat. Hum. Behav 2, 156–164 (2018). deconvolution. Front. Neurosci. 11, 573 (2017).
+87. Becker, C. O. et al. Spectral mapping of brain functional connectivity from 117. Hillebrandt, H., Friston, K. J. & Blakemore, S.-J. Effective connectivity
+diffusion imaging. Sci. Rep. 8, 1411 (2018). during animacy perception—dynamic causal modelling of human
+88. Philippi, C. L., Mehta, S., Grabowski, T., Adolphs, R. & Rudrauf, D. Damage connectome project data. Sci. Rep. 4, 6240 (2015).
+to association fiber tracts impairs recognition of the facial expression of 118. Stephan, K. E., Penny, W. D., Daunizeau, J., Moran, R. J. & Friston, K. J.
+emotion. J. Neurosci. 29, 15089–15099 (2009). Bayesian model selection for group studies. Neuroimage 46, 1004–1017 (2009).
+89. Westfall, J. & Yarkoni, T. Statistically controlling for confounding constructs
+is harder than you think. PLoS One 11, e0152719 (2016). Acknowledgements
+90. Genon, S., Reid, A., Langner, R., Amunts, K. & Eickhoff, S. B. How to We thank K. Zhang, N. Asadi, S. Zhang, H. Zhang and R. H. Hyon for their advisory
+characterize the function of a brain region. Trends Cogn. Sci. 22, help in data analysis; A. Kohlmeyer for assistance with high-performance cluster
+350–364 (2018). computing; 30 undergraduates from Temple University for their work in generating
+91. Morcom, A. M. & Fletcher, P. C. Does the brain have a baseline? Why we and inspecting all coordinates of face ROIs, especially R. Ho, I. Hanik, P. Coleman and
+should be resisting a rest. Neuroimage 37, 1073–1082 (2007). L. J. Hoffman. The superficial white matter atlas (LNAO-SWM79) was provided by
+92. Buckner, R. L., Krienen, F. M. & Yeo, B. T. T. Opportunities and P. Guevara. This work was supported by a National Institute of Health grant to I.R.O.
+limitations of intrinsic functional connectivity MRI. Nat. Neurosci. 16, (RO1 MH091113). The content is solely the responsibility of the authors and does not
+832–837 (2013). necessarily represent the official views of the National Institutes of Health. The work
+93. Turchi, J. et al. The basal forebrain regulates global resting-state fMRI also used Temple University High Performance Cluster Service (Owlsnest), which was
+fluctuations. Neuron 97, 940–952 (2018). supported by a National Science Foundation grant (no. 1625061). The funders had no
+94. Reveley, C. et al. Superficial white matter fiber systems impede detection of role in study design, data collection and analysis, decision to publish or preparation of
+long-range cortical connections in diffusion MR tractography. Proc. Natl the manuscript. HCP data were provided by the HCP, WU-Minn Consortium (principal
+Acad. Sci. USA 112, E2820–E2828 (2015). investigators: D. Van Essen and K. Ugurbil; 1U54MH091657) funded by the 16 NIH
+95. King, D. R., de Chastelaine, M., Elward, R. L., Wang, T. H. & Rugg, M. D. Institutes and Centers that support the NIH Blueprint for Neuroscience Research; and by
+Recollection-related increases in functional connectivity predict individual the McDonnell Center for Systems Neuroscience at Washington University.
+differences in memory accuracy. J. Neurosci. 35, 1763–1772 (2015).
+96. Cole, M. W. Task activations produce spurious but systematic inflation of Author contributions
+task functional connectivity estimates. Neuroimage 189, 1–18 (2019). Y.W. conceived and designed this research. Y.W., A.M., D.V.S., J.D.M., Y.Z., S.B., H.P. and
+97. Anzellotti, S., Kliemann, D., Jacoby, N. & Saxe, R. Directed network Y.L. performed research and analysed data. Y.W., A.M. and I.R.O. wrote the paper. I.R.O.
+discovery with dynamic network modelling. Neuropsychologia 99, was principal investigator of the laboratory.
+1–11 (2017).
+98. Gates, K. M. & Molenaar, P. C. M. Group search algorithm recovers Competing interests
+effective connectivity maps for individuals in homogeneous and
+The authors declare no competing interests.
+heterogeneous samples. Neuroimage 63, 310–319 (2012).
+99. Gates, K. M., Molenaar, P. C. M., Hillary, F. G. & Slobounov, S. Extended
+unified SEM approach for modeling event-related fMRI data. Neuroimage Additional information
+54, 1151–1158 (2011). Extended data is available for this paper at https://doi.org/10.1038/s41562-019-0811-3.
+100. Smith, S. M. et al. Network modelling methods for FMRI. Neuroimage 54,
+Supplementary information is available for this paper at https://doi.org/10.1038/
+875–891 (2011).
+s41562-019-0811-3.
+101. Gur, R. C. et al. A cognitive neuroscience-based computerized battery for
+efficient measurement of individual differences: standardization and initial Correspondence and requests for materials should be addressed to Y.W. or I.R.O.
+construct validation. J. Neurosci. Methods 187, 254–262 (2010). Peer review information Primary Handling Editor: Marike Schiffer.
+102. McKay, N. S., Iwabuchi, S. J., Häberling, I. S., Corballis, M. C. & Kirk, I. J.
+Reprints and permissions information is available at www.nature.com/reprints.
+Atypical white matter microstructure in left-handed individuals. Laterality
+22, 257–267 (2017). Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+103. Van Essen, D. C. et al. The human connectome project: a data acquisition published maps and institutional affiliations.
+perspective. Neuroimage 62, 2222–2231 (2012). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+AArrttiicclleess NNAATTuurrEE HHuummAANN BBEEHHAAvvIIoouurr
+Extended Data Fig. 1 | the Interhemispheric Fibers Connecting Bilateral Face ROIs. Probabilistic tractography indicated that bilateral posterior ROIs
+(EVC, OFA, FFA, STS and PCC) are connected through the splenium of the corpus callosum whereas bilateral frontal ROIs are connected through the genu
+(IFG) or rostrum (OFC) of the corpus callosum. Bilateral ATLs have two separate interhemispheric connections, either via the splenium of the corpus
+callosum (by climbing up posteriorly along the temploral lobe) or the anterior commissure. Each amygdala is connected to the other by the anterior
+commissure. These findings accord well with previous work on the callosal fiber organization 118, AMG/ATL interhemispheric connections 119, and EVC
+interhemispheric connections which begin at the boundary of V1 and V2 120–122. Upper row: medial views; Lower row: axial views. Abbreviations: EVC:
+early visual cortex; OFA: occipital face area; FFA: fusiform face area; ATL: anterior temporal lobe; STS: superior temporal sulcus; IFG: inferior frontal gyrus;
+AMG: amygdala; OFC: orbitofrontal cortex; PCC: posterior cingulate cortex.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+NNAATTuurrEE HHuummAANN BBEEHHAAvvIIoouurr AArrttiicclleess
+Extended Data Fig. 2 | Additional DCM Analysis With Larger Model Space. For simplicity, we only compared two DCM models in Fig. 4. These two
+models, however, have limitations, given that they were merely built from preceding PPI results. For instance, the EVC→OFA connectivity is theoretically
+important but was not significant in the left hemisphere (LH) of PPI results (that’s why we did not included it in the original feedforward model). In
+addition, one might also be interested in exploring the relative contribution of each recurrent connection to the right hemisphere (RH) face processing.
+To address these questions, we built larger model space with seven competing models (feedforward models in red colour and recurrent ones in blue
+colour). (a) The first two models were the ones we used in Fig. 4. Model 1 was feedforward (based on of PPI results in LH) and Model 2 was recurrent
+(based on of PPI results in RH). Since Model 1 had no direct feedforward connectivity from EVC to OFA, we next built Model 3 with additional EVC→OFA.
+Model 4 to 7 were recurrent models modified from Model 2. As there were four recurrent connections in Model 2, we removed one feedback connection
+each time to examine their respective importance to the recurrent model (that is how much the model performance would suffer in the absence of
+a particular recurrent connection). Model 4 removed EVC←OFA; Model 5 removed EVC←FFA; Model 6 removed EVC←STS; and Model 7 removed
+OFA←STS. (b) Bayesian model selection (both FFX and RFX) indicates the EVC→OFA connection is important for the feedforward model, as Model 3
+performs better than Model 1 in LH. This is consistent with the Haxby model suggesting the critical role of the OFA receiving information from EVC to
+initiate the face processing. In addition, both feedforward models perform better than any recurrent models in LH, whereas the PPI-derived recurrent
+model (Model 2) performed the best in RH. These results accord well with our results in Fig. 4. Moreover, among all four recurrent connections, two
+feedback connections (EVC←OFA, OFA←STS) seem to be particularly important for RH recurrent processing, since removal of either one can lead to
+enormous drop of model performance (that is Model 4 and 7). In sum, this additional DCM analysis supports our claims in Fig. 4: the LH is dominant with
+feedforward face processing whereas the RH is dominant with recurrent processing.
+NAtuRe HuMAN BeHAVIOuR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Yin Wang
+Last updated by author(s): Sep 17, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection All data used in the present study came from the WU-Minn HCP Consortium S900 Release. They are publicly available, accessible at
+https://www.humanconnectome.org
+Data analysis We used preprocessed data provided by the HCP S900 release. Most analyses were conducted by common neuroimaging software (FSL,
+SPM), or open source toolbox that can be downloaded from github (Louvain community detection algorithm, NetworkX, or AFQ toolbox).
+Our homemade codes can be accessed at https://github.com/mirrorneuronwang/HCP_face_connectome
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+All data used in the present study came from the WU-Minn HCP Consortium S900 Release. They are publicly available, accessible at https://
+www.humanconnectome.org.
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Life sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Sample size Sample size was determined by the HCP project release (e.g. S900).
+Data exclusions Subjects were included if they had completed all brain scans (T1/T2, tfMRI, rsfMRI, and dMRI) as well as the behavioral Penn Emotion
+Recognition Test in the HCP S900 release. To reduce individual variance, we restricted our population to only to right-handed subjects,
+resulting in 680 healthy young adults in the final sample
+Replication All key findings were re-examined using only half sample size (n=300). All attempts at replication were successful.
+Randomization The experiments described in this work were not grouped, and thus no group randomization procedures were required.
+Blinding The experiments described in this work were not grouped, and thus no blinding procedures were required.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics Our study has 680 healthy young adults (381 females, 22-36 year-old).
+Recruitment information can be found at https://www.humanconnectome.org/study/hcp-young-adult/project-protocol/recruitment
+Ethics oversight Temple University
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Magnetic resonance imaging
+Experimental design
+Design type Both task-state and resting-state fMRI were collected in two sessions. The task-state face localizer (i.e. HCP TaskMRI--
+WM) was a block design
+Design specifications For the face localizer task, each of the two runs contains 8 task blocks (10 trials of 2.5 s each, for 25 s) and 4 fixation
+blocks (15 s each). On each trial, the stimulus (e.g. faces, places, tools, body parts) is presented for 2 s, followed by a
+500 ms ITI. Each block contains 10 trials.
+rfMRI data were acquired in four runs of approximately 15 minutes each, two runs in one session and two in another
+session, with eyes open with relaxed fixation on a projected bright cross-hair on a dark background (and presented in a
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+darkened room). Within each session, oblique axial acquisitions alternated between phase encoding in a right-to-left
+(RL) direction in one run and phase encoding in a left-to-right (LR) direction in the other run.
+All details can be found in Barch et al., 2013 Neuroimage or https://www.humanconnectome.org/storage/app/media/
+documentation/s900/HCP_S900_Release_Reference_Manual.pdf
+Behavioral performance measures see https://www.humanconnectome.org/study/hcp-young-adult/project-protocol/behavioral-testing
+Acquisition
+Imaging type(s) functional and diffusion images
+Field strength 3-Tesla
+Sequence & imaging parameters Due to complexity, all scanning protocols and parameters can be found via link https://www.humanconnectome.org/
+storage/app/media/documentation/s900/HCP_S900_Release_Reference_Manual.pdf
+Area of acquisition whole brain
+Diffusion MRI Used Not used
+Parameters 90 directions (plus 6 b=0), multishell (b-values 1000, 2000, and 3000 s/mm2)
+Preprocessing
+Preprocessing software Due to complexity, all details about HCP preprocessing pipeline can be found in a dedicated paper (Glasser et al., 2013,
+Neuroimage)
+Normalization nonlinearly registered to MNI space with FNIRT
+Normalization template MNI152
+Noise and artifact removal We denoised the rsfMRI data with ICA-FIX and tfMRI data with ICA-AROMA to remove motion artifacts.
+Volume censoring no motion censoring were performed in the HCP minimal preprocessing pipeline
+Statistical modeling & inference
+Model type and settings GLM, PPI, and DCM
+Effect(s) tested Faces > Other categories
+Specify type of analysis: Whole brain ROI-based Both
+Anatomical location(s) we used functional localizer to define face-selective ROIs
+Statistic type for inference Voxel-wise inference
+(See Eklund et al. 2016)
+Correction false discovery rate (FDR)
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis
+Functional and/or effective connectivity We use partial correlation for functional connectivity, and PPI and DCM for effective connectivity
+Graph analysis communicability calculation and community detection analysis
+Multivariate modeling and predictive analysis Support vector regression was used with a leave-one-subject-out cross-validation scheme to train and test
+data. A leave-one-feature-out method was used for feature selection.

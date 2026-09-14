@@ -1,14 +1,781 @@
-# Auditing local news presence on Google News
-
-## Abstract
-Local news outlets have struggled to stay open in the more competitive market of digital media. Some have noted that this decline may be due to the ways in which digital platforms direct attention to some news outlets and not others. To test this theory, we collected 12.29 million responses to Google News searches within all US counties for a set of keywords. We compared the number of local outlets reported in the results against the number of national outlets. We find that, unless consumers are searching specifically for topics of local interest, national outlets dominate search results. Features correlated with local supply and demand, such as the number of local outlets and demographics associated with local news consumption, are not related to the likelihood of finding a local news outlet. Our findings imply that platforms may be diverting web traffic and desperately needed advertising dollars away from local news. 
-
- This is a preview of subscription content, access via your institution
-
-## OSF Links
-https://osf.io/hwuxf
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00954-0/MediaObjects/41562_2020_954_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00954-0/MediaObjects/41562_2020_954_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-00954-0
+Auditing local news presence on Google News
+Sean Fischer 1, Kokil Jaidka 2 and Yphtach Lelkes 1 ✉
+Local news outlets have struggled to stay open in the more competitive market of digital media. Some have noted that this
+decline may be due to the ways in which digital platforms direct attention to some news outlets and not others. To test this the-
+ory, we collected 12.29 million responses to Google News searches within all US counties for a set of keywords. We compared
+the number of local outlets reported in the results against the number of national outlets. We find that, unless consumers are
+searching specifically for topics of local interest, national outlets dominate search results. Features correlated with local supply
+and demand, such as the number of local outlets and demographics associated with local news consumption, are not related
+to the likelihood of finding a local news outlet. Our findings imply that platforms may be diverting web traffic and desperately
+needed advertising dollars away from local news.
+L
+ocal news in the United States is disappearing, leaving citizens must show that Google News is more likely to feature national news
+with less access to the information necessary to participate in outlets than local news outlets (hypothesis 1). If Google’s selection
+the civic and political life of their communities. From 2003– of news outlets overwhelmingly favours national newspapers, we
+2018, one in five newspapers in America ceased publishing. These have evidence that Google could be reducing the traffic to local
+closures have left about half of the 3,143 counties in the United news sites, and potentially reducing the likelihood that readers
+States with only a single paper and about 200 counties without any would be exposed to local outlets.
+local paper1. However, Google may stratify results by search term, privileging
+The widespread decline of local news has been associated with national outlets for general interest topics and local outlets for
+changes in the advertising business brought about by online news city-specific topics (pages 79–82 of ref. 2), such as accidents and
+consumption2. Almost 90% of Americans obtain some of their local local governance. Hence, we examine whether Google News
+news digitally, with almost half of local news consumption occur- prioritizes national news outlets for topics of general interest and
+ring on mobile devices. Digital consumption has also nearly sur- local news outlets for locally oriented issues (hypothesis 2).
+passed television as the preferred medium for accessing local news We also expect that Google News is sensitive to local supply and
+(37 versus 41%)3. Because the Internet offers a broad set of media demand (hypothesis 3). From a supply perspective, we expect that
+options, individuals rely on curation by search engines and other Google News would offer more local news when there are more
+online platforms, which are now central conduits through which local outlets in an area. From a demand perspective, we expect
+individuals access news on the Internet. Almost one-quarter of that Google News would offer more local news when the popula-
+traffic to online news sites comes from search engines4, and it falls tion is less white, less educated and older: demographic groups that
+on them to rank and prioritize news outlets to help users deter- generally say they follow local news closely15. Greater local news
+mine what content to consume5. By highlighting specific stories and coverage in Google News results is expected to benefit minority and
+outlets over others, these platforms can operate as gatekeepers to under-represented populations. However, empirical findings from a
+advertising dollars. study of local TV news reporting suggest that such generalizations
+Because of rising concerns that automatic algorithms reinforce may be misguided16.
+existing social and economic inequalities that undermine private To prepare for our audit, we selected a set of keywords based
+and public welfare6, researchers have audited specific platforms in on other recent audits8. Depending on their relevance to the local
+order to document platform behaviour and to estimate the relation- governance, we labelled the keywords as either locally oriented or
+ships between information fed to the platforms and the informa- more general. We audited the location-specific news results for these
+tion the platforms present to users7–10. While a few studies indicate keywords in over 3,000 US counties, which were collected using
+that online platforms may over-represent certain news outlets, algo- automatic scripts running on an internet browser’s private-browsing
+rithms appear to be relatively insensitive to the ideological prefer- mode. In this manner, we scraped 12,290,428 research results, and
+ences of consumers11–13. Google does appear to alter its results based classified its 8,740 news sources as either local, regional, national or
+on user location8; however, there has been little work done to assess international outlets.
+the relationship between news aggregators’ algorithmic behaviour To test hypothesis 1, we calculated descriptive statistics about
+and the curation of local news. the outlet frequencies across all of the news search terms. We
+In this paper, we assess whether a major online news aggrega- also measured the Gini Index for the distributions of local and
+tor, Google News, might contribute to the observed declines in local national news outlets. The Gini Index tells us whether a few outlets
+news in the United States. Google News is used by about 15% of dominate search results or whether outlets appear at similar levels.
+Americans, a level of reach similar to that of The Washington Post As a first test of hypothesis 2, we assessed whether our findings were
+but about half the percentage of Americans using Facebook to seek driven by the nature of the search keyword chosen by measuring the
+out news (39%)14. To systematically audit whether (the decline in) Gini Index in the subsets of results from general versus locally
+local news’ online traffic can be attributed to Google News, we oriented keywords.
+1Annenberg School for Communication, University of Pennsylvania, Philadelphia, PA, USA. 2Department of Communications and New Media, National
+University of Singapore, Singapore, Singapore. ✉e-mail: yphtach.lelkes@asc.upenn.edu
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTUre HUmaN BeHaviOUr
+Next, we tested hypothesis 3 about the role of geographic asso- Composition of search results by query. While the level of
+ciations by considering the county-level variation of the propor- inequality in the number of times an outlet is returned may not be
+tion of local or regional to national outlets in news results across substantively different between sets of queries, queries may pro-
+the United States. We further estimated a set of linear models. duce sets of results that vary quite a bit in the volume of local news
+The first pair regressed the presence of local news on its rank in outlets returned, even if the same few national outlets appear across
+the search results, the number of local newspapers in a county all sets of results, producing the observed levels of inequality. Based
+and the county-level demographics we hypothesized to be related on previous audits of Google’s search platform, we expected Google
+to local news demand. The second pair allowed us to test associa- News to return more local media outlets when users search for news
+tions between local demand conditions and the number of times about topics of local interest and more national media outlets when
+Google News returned an outlet, by regressing the number of times users search for news about general interest issues9,17. We show in
+a print-based outlet was returned on its circulation and a similar Supplementary Fig. 2 that this is the case.
+selection of county-level demographics. However, considering the whole set of returned results reflects
+Finally, to understand whether Google News merely responds unrealistic user behaviour. A majority of search engine users do not
+to user disinterest in local news, we compared relative interest in look past the first page of results and about one-third stop looking
+locally oriented terms with interest in general terms. We did this by at results after the first link18–20. Eye-tracking studies have suggested
+collecting and analysing Google Trends data for each term in our that search engine users generally consider only the first ten results
+query list. of a search, with most of their attention reserved for the top results21.
+Our findings suggest that Google News users are exposed to far Therefore, the composition of results may only matter for some sub-
+more national news outlets than local outlets. This relationship is set of those that we collected. To see whether looking at only the top
+driven by the fact that readers who search for general policy issues results changed the composition of our results sets, we iteratively fil-
+are almost exclusively directed to reports by national newspapers. tered each and calculated the relative frequency of local and national
+Only the readers who explicitly search for keywords related to local outlets at every step. These frequencies are reported in Fig. 2.
+governance and public services are directed to local and regional We can see that for locally oriented terms (top 16 panels), the
+newspapers, and only if they look past the first few results—an relative frequency of local outlets declines as we isolate only the top
+unlikely phenomenon. Furthermore, county-level predictors of both results for many terms in the set. Even for topics as contextually
+local news supply and demand, such as the number of newspapers dependent as weather, the share of local news outlets in the first ten
+in a county and their circulation, are not related to the likelihood hits is lower than that for national outlets, and the trend changes
+of receiving a local news outlet as a result nor the number of times only after the tenth result. A similar pattern is observed for the set of
+a local news outlet is returned. These results indicate that there is general terms (bottom 16 panels). Local news is available on Google
+sparse evidence that Google News’ algorithms are sensitive to local News, but users need to scroll through the results to find it.
+supply or demand. However, the analysis of Google Trends data sug- Together, these results provide credible support for our second
+gests that users have more interest in locally oriented terms than prediction that the scope of the query is associated with the com-
+general ones, which indicates that user interests may moderate the position of results. We can see that the composition of results, with
+negative relationships between the platform and local news exposure. regard to the volume of local and national news outlets, changes in
+dramatic and substantive ways with the type of query we searched.
+results
+Distribution of returned outlets. The distribution of the number Modelling supply and demand. While we find little evidence of a
+of times each outlet was returned is particularly long tailed, with geospatial relationship between the composition of search results
+the three most common outlets making up 16.4% of the returned and the location of our searches (Supplementary Fig. 3), we also
+results (Supplementary Fig. 1). While descriptive statistics offer tested whether Google News search results are responsive to local
+some sense of the level of inequality in the distribution, we also con- supply and demand.
+sider a more robust measure of inequality: the Gini Index. The Gini To do so, we estimated a linear model regressing an indicator
+Index is a measure of inequality that ranges between 0 and 1, with for whether a result came from a local or regional outlet (coded 1)
+low levels indicating equal distribution across outlets and high levels or a national outlet (coded 0) on search rank, query type and a set
+indicating more inequality between outlets. In the context of digital of measures that capture local supply and demand. We controlled
+platform audits, high Gini Index values indicate that a few outlets for a set of census measures for each county (population, median
+are returned much more frequently than all others in a set of results. age, poverty level, racial composition, educational composition and
+For the whole set of aggregated results, we find that the Gini internet access), an indicator for whether a county contains a state
+Index signals a very high level of inequality (G = 0.82). This value capital, an estimate of county-level turnout in the relevant state
+is in line with the highest levels of concentration observed in other governor’s race between 2013 and 2016, and the estimated time in
+search audits9. To put this value in context, the Gini Index for income hours since a story was published.
+inequality in the United States was 0.49 in 2018. Importantly, this We include these demographic variables because previous
+level of inequality in the returned results exceeds the inequality in research has linked all three features to interest in local news3,15.
+total circulation for papers captured in University of North Carolina Similarly, we include the indicator for the presence of a state capital
+Center for Innovation and Sustainability in Local Media’s Database because past results have shown that news outlets located in state
+of Newspapers (G = 0.65)1. These results provide evidence in sup- capitals provide increased coverage of state politics, which could
+port of hypothesis 1, that Google News is favouring national outlets lead to more relevant stories being published on broad political
+at the expense of local outlets, as we see a high degree of concentra- topics22. The inclusion of a term for county turnout for a state elec-
+tion in which outlets are commonly returned. tion is a proxy for civic engagement, another predictor of local news
+The variation across terms is minimal (Fig. 1). The set of locally interest. As an indicator of local supply, we include the log of the
+oriented terms appears to produce a lower level of inequality, on number of papers available in a county. This model was estimated
+average, than the set of general terms. This intuition was confirmed with ordinary least squares (OLS) and standard errors clustered at
+via a one-tailed Wilcoxon test (W = 242; P < 0.001). However, it is the county level. The results in Supplementary Table 4 show that
+not obvious from these results whether the levels of concentration OLS results are similar to those for probit models. The decision
+are substantively different between locally oriented and general to use the collapsed measure of local–regional status was made to
+terms, leaving us with inconclusive initial evidence for hypothesis 2. reduce any noise introduced during our classification task.
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTUre HUmaN BeHaviOUr Articles
+a b
+Obituary Politics
+Governor Syria
+Police Shutdown
+Death President
+Weather Immigration
+College Taxes
+Emergency services Election
+University Climate
+Crime Liberal
+Hospital FBI
+Accident Conservative
+High school Abortion
+Traffic Caravan
+School board Corruption
+Mayor Gun
+Transit Scandal
+0 0.25 0.50 0.75 1.00 1.00 0.75 0.50 0.25 0
+Gini index Gini index
+Fig. 1 | Gini index for individual searches. a, Gini index for locally oriented search terms: accident (n=221,830, n outlets=225), college (n=66,047; n outlets=115),
+crime (n=158,239; n outlets=196), death (n=168,537; n outlets=191), emergency services (n=420,541; n outlets=153), governor (n=168,142; N outlets=206), high
+school (n=223,591; n outlets=316), hospital (n=342,145; n outlets=322), mayor (n=118,767; n outlets=192), obituary (n=282,238; n outlets=56), police (n=177,888;
+n outlets=241), school board (n=295,003; n outlets=262), traffic (n=331,774; n outlets=323), transit (n=319,032; n outlets=145), university (n=308,847; n outlets=255)
+and weather (n=315,599; n outlets=228). b, Gini index for general search terms: abortion (n=558,480; n outlets=356), caravan (n=506,905; n outlets=245),
+climate (n=500,082; n outlets=350), conservative (n=547,160; n outlets=270), corruption (n=289,901; n outlets=187), election (n=629,307; N outlets=460), FBI
+(n=532,117; n outlets=339), gun (n=503,604; n outlets=502), immigration (n=640,117; n outlets=354), liberal (n=385,714; n outlets=189), politics (n=664,457;
+n outlets=293), president (n=662,253; n outlets=398), scandal (n=149,270; n outlets=155), shutdown (n=695,655; n outlets=359), Syria (n=578,667; n outlets=166) and
+taxes (n=528,519; n outlets=478). In a and b, the dashed red line marks the mean value.
+As we can see in Fig. 3, most of our features of interest are not results of this specification). The noteworthy findings are that the
+significantly associated with the probability of observing a local or probability of observing a national news outlet is associated with the
+regional outlet versus a national outlet. The only features that are interaction of the type of term with the (higher) rank of the result
+significantly and substantively related to the outcome are the rank (b = 0.00073; P < 0.001; 95% CI = 0.00071 to 0.00074) and with
+of the results and the type of term queried. As expected, search- the (higher) number (logged) of papers in a county (b = 0.00083;
+ing for one of our general queries is negatively associated with the P = 0.041; 95% CI = 0.000035 to 0.0016).
+chance of seeing a local or regional outlet (b = −0.629; P < 0.001; As an alternative test of supply sensitivity, we used local
+95% confidence interval (CI) = −0.629 to −0.628). Alternatively, the newspaper circulation as our operationalization of local demand.
+farther into the results we go and the rank increases, the more likely In this case, we used OLS to fit linear models that regressed the
+we are to observe a local or regional outlet (b = 0.00050; P < 0.001; number of times an outlet was returned in our results on its total
+95% CI = 0.00049 to 0.00051). There is also a significant, but not circulation reported in the University of North Carolina Center
+substantial, negative relationship between a county’s population and for Innovation and Sustainability in Local Media’s Database of
+the likelihood a local or regional outlet is returned (b = −0.00029; Newspapers1, reported as a percentage of the total population of the
+P = 0.014; 95% CI = −0.00053 to −0.000060). However, moving county where it is headquartered. As with our earlier models, we
+from the smallest county to the largest county would only be asso- controlled for the same variety of county demographic features, but
+ciated with a 0.34 percentage-point decrease in the probability of for each paper’s home county. Standard errors were again clustered
+observing a local or regional outlet. Time since publication also has at the county level. Supplementary Table 6 shows that the results
+a significant and negative relationship with the likelihood of observ- we report from these models are similar to those from models
+ing local news, as we would expect (b = −0.00024; P < 0.001; 95% estimated via Poisson regression.
+CI = −0.00024 to −0.00024). As we can see in Fig. 4, while controlling for county demograph-
+Given the importance of search terms, supply and demand rela- ics, state capital status and civic engagement, an increase in newspa-
+tionships may reasonably vary between general and locally oriented per circulation, in both absolute and relative numbers, is associated
+queries. As such, we re-estimated our model including interactions with an increase in the number of times an outlet appeared in our
+between each term and the indicator variable for a query being for a results. The magnitude of the relationship for both measures is
+general interest search term (see Supplementary Table 5 for the full an increase of about 2,800 more appearances per a one-standard
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTUre HUmaN BeHaviOUr
+Accident College Crime Death
+1.00
+0.75
+0.50
+0.25
+0.00
+Emergency services Governor High school Hospital
+1.00
+0.75
+0.50
+0.25
+0.00
+Mayor Obituary Police School board
+1.00
+0.75
+0.50
+0.25
+0.00
+Traffic Transit University Weather
+1.00
+0.75
+0.50
+0.25
+0.00
+Abortion Caravan Climate Conservative
+1.00
+0.75
+0.50
+0.25
+0.00
+Corruption Election FBI Gun
+1.00
+0.75
+0.50
+0.25
+0.00
+Immigration Liberal Politics President
+1.00
+0.75
+0.50
+0.25
+0.00
+Scandal Shutdown Syria Taxes
+1.00
+0.75
+0.50
+0.25
+0.00
+0 25 50 75 100 0 25 50 75 100 0 25 50 75 100 0 25 50 75 100
+Top N results
+deviation increase in circulation (b = 2,876.35; P < 0.001; These models tell us that Google News’ algorithm reinforces
+total circulation
+95% CI = 1,974.18 to 3,778.52; b = 2,833.82; P = 0.0059; existing inequalities in the media marketplace. The platform
+circulation share
+95% CI = 818.43 to 4,849.22). rewards outlets that already have strong consumer bases and, in
+Unlike our earlier models, some county features were turn, makes it more difficult for readers to find news from less
+significantly associated with the number of times an outlet was frequented local outlets. As we see in Supplementary Table 7, these
+returned. These include the median age and educational attain- results are robust to the exclusion of papers from Los Angeles,
+ment of county residents. Older county populations are associ- Washington DC, New York City and Chicago, which could
+ated with lower outlet frequency, with the magnitude of this drop have confounded our findings because of their large papers with
+ranging between about 3,000 occurrences (b = −2,996.64; national circulation.
+total circulation
+P = 0.0045; 95% CI = −5,057.57 to −935.71) and about 4,000 occur- Together, the results from both sets of models present mixed
+rences (b = −4,271.12; P < 0.001; 95% CI = −6,584.86 evidence for and against our hypothesis 3 that Google News is
+circulation share
+to −1,957.37) per a one-standard deviation increase in a county’s responsive to local demand and supply. On the one hand, one’s
+median age. Alternatively, we see that higher levels of education are community features, including the number of local media outlets in
+positively associated with outlet frequency, especially with regard to the area, have only weak relationships with the likelihood that one
+the share of residents with high school degrees or general educational sees local news outlets in Google News search results. At the same
+development (GED) qualifications and higher levels of attainment. time, Google News is sensitive to the existing off-platform reach
+ycneuqerf
+evitaleR
+Outlet type Local National
+Fig. 2 | relative frequency of local and national outlets for the top-n results of each search query. The top 16 purple-labelled terms are locally oriented
+terms. The bottom 16 orange labelled terms are general terms.
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTUre HUmaN BeHaviOUr Articles
+Intercept
+Rank
+General term
+log(total papers)
+log(population)
+Median age
+Percentage white
+Percentage Black
+Percentage Asian
+Percentage American Indian
+Percentage Hispanic (non-white)
+Percentage Native Hawaiian
+Percentage below the poverty level
+Percentage who did not complete grade school
+Percentage who completed grade school
+Percentage who completed high school
+Percentage who completed high school or received a GED qualification
+Percentage who completed college
+Percentage who completed an associate's degree
+Percentage who completed a bachelor's degree
+Percentage who completed a master's degree
+Percentage who completed a professional degree
+Percentage who completed a doctorate degree
+Percentage with a computer and broadband
+State capital
+Estimated turnout
+Time since publication
+–0.5 0 0.5 1.0
+Estimate
+Fig. 3 | estimated coefficients from the model with no interactions and standard errors clustered by county. Bars represent 95% CIs. Filled points
+indicate statistical significance at the α = 0.05 level (n = 12,340,560). GED, general educational development.
+of outlets, returning local newspapers more when they have more United States for more locally oriented terms or more general terms.
+subscribers. The combination, though, reinforces current market Our findings illuminate whether users are more or less likely to be
+inequalities and the strength of outlets that have established audi- exposed to local news outlets.
+ences without supporting interventions to support struggling or To compare user interest, we collected the Google News trends
+fledgling local and regional news outlets. for each term. We depict these trends relative to the trend for “cor-
+ruption”, which was an appropriate baseline value because inter-
+Search interest. The type of query a Google News user searches for est in the topic was consistent across the entire time window, with
+is strongly related to how likely they are to be exposed to local news. weekly unadjusted values ranging from 2–6 on the 100-point scale.
+Accordingly, we compared the frequencies of news queries in the Adjusted values range between 0 (not inclusive) and 100 (inclusive),
+Intercept
+Circulation
+log(population)
+Median age
+Percentage white
+Percentage Black
+Percentage Asian
+Percentage American Indian
+Percentage Hispanic (non-white)
+Percentage Native Hawaiian
+Percentage below the poverty level
+Percentage who did not complete grade school
+Percentage who completed grade school
+Percentage who completed high school
+Percentage who completed high school or received a GED qualification
+Percentage who completed college
+Percentage who completed an associate's degree
+Percentage who completed a bachelor's degree
+Percentage who completed a master's degree
+Percentage who completed a professional degree
+Percentage who completed a doctorate degree
+Percentage with a computer and broadband
+State capital
+Estimated turnout
+0 10,000 20,000
+Estimate
+Circulation share Total circulation
+Fig. 4 | estimated effects on the number of appearances in scraped results with standard errors clustered by county. Bars represent 95% CIs. Filled
+points indicate statistical significance at the α = 0.05 level. Independent variables are standardized (n = 588).
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTUre HUmaN BeHaviOUr
+Accident College Crime Death
+100
+75
+50
+25
+0
+Emergency services Governor High school Hospital
+100
+75
+50
+25
+0
+Mayor Obituary Police School board
+100
+75
+50
+25
+0
+Traffic Transit University Weather
+100
+75
+50
+25
+0
+Abortion Caravan Climate Conservative
+100
+75
+50
+25
+0
+Corruption Election FBI Gun
+100
+75
+50
+25
+0
+Immigration Liberal Politics President
+100
+75
+50
+25
+0
+Scandal Shutdown Syria Taxes
+100
+75
+50
+25
+0
+Jan Apr Jul Jan Apr Jul Jan Apr Jul Jan Apr Jul
+Date Date Date Date
+with values higher than 1 indicating more interest in a given term To provide a more informative estimate of the difference between
+than in corruption in a given week. Values less than 1 indicate less the two groups, taking into account the potential outlier terms “acci-
+interest in a term than in corruption for a given week. dent” and “weather”, we regressed the relative trend value on binary
+Figure 5a visualizes interest in each term (measured in relative indicators for general terms with controls for these two terms. We
+trend units) from December 2018 to August 2019—the time win- find that even when controlling for these potential outliers, the aver-
+dow over which we collected our data. As we can see, interest in age difference is still 8.41 (P < 0.001; 95% CI = 7.09 to 9.72).
+most terms is stable, with only a few cases of any substantial varia- These results indicate that Google News users search for local
+tion from the term average. We can also infer from these time series and general topics at different rates, with locally oriented topics
+that locally oriented terms appear to generate more interest than being slightly more popular searches. The popularity of locally
+general terms, which we see confirmed in Fig. 5b,c. oriented search terms suggests that users are interested in learn-
+In Fig. 5b, we see the time series of the aggregated average and ing about locally relevant information most of the time; interest in
+associated 95% CI for each set of terms, making it evident that national politics spikes when major news events occur, such as the
+locally oriented terms produce more interest than general terms, government shutdown from January 2019 to February 2019.
+but that the dynamics of the two series are similar. In Fig. 5c, we see
+the difference between the two group averages and the associated Discussion
+95% CI plotted over time. Here, we see that in most weeks the two Our findings offer insights into the relationship between Google
+groups are statistically distinct as their difference is distinct from 0. News and local news. There was a large disparity in the number
+Collapsing over the entire time window, we find that this difference of times national versus local outlets appeared in our audit, and it
+is statistically significant (one-tailed Wilcoxon test; W = 290,387; went beyond simply differences in newspaper circulation. Together
+P < 0.001), providing more evidence that individuals are more with our regression analyses, these results support our hypothesis
+interested in local topics than general ones. 1 that Google News skews results in favour of large national
+ycneuqerf
+evitaleR
+a
+60
+40
+20
+0
+Jan Apr Jul
+Date
+dnert
+detsujdA
+Local term Yes No
+60
+40
+20
+0
+Jan Apr Jul
+Date
+)lareneg-detneiro
+yllacol(
+ecnereffid
+dnerT
+Fig. 5 | Google trends for locally oriented and general terms over time. a, Time series of the trend (relative to “corruption”) for each term queried.
+b, Time series of the average trend (relative to corruption) for locally oriented and general search terms. Shaded regions denote 95% CIs. c, Time series
+of the difference in the average Google News trend (relative to corruption) between locally oriented and general terms. Shaded regions denote 95% CIs.
+The observed difference is statistically significant (W=290,387; P<0.001).
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTUre HUmaN BeHaviOUr Articles
+outlets. The local–national outlet disparity was lower in queries forcing them to revert to using less-than-ideal information22,28 or, in
+about locally oriented topics than for general topics. This disparity extreme cases, to dropping out of civic life29–31. For example, Google
+lends credence to our hypothesis 2 that the composition of results News users interested in taxes may not learn about the function of
+would vary depending on the scope of the query. taxes in their community and instead may rely on national party cues
+Our hypothesis 3 that Google News would be sensitive to supply to determine whether or not they support a local policy. Reliance on
+and demand in local media economies had mixed support. The first national party cues may intensify partisan polarization28.
+challenge to this hypothesis came from a lack of spatial autocorrela- The possibility for any positive downstream implications comes
+tion in the relative frequency of local and regional outlets across from evidence about user search behaviour. Our analysis of Google
+counties. Instead, we found that geospatial variation in this mea- News trends indicates that the locally oriented search terms we que-
+sure was low, with all counties falling in a small band. Additionally, ried receive more interest on average than those that are more gen-
+when we modelled the probability of Google News returning a local eral. Therefore, it seems at least plausible that user behaviour and
+or regional news outlet for a given result within the broader set of platform behaviour could interact to increase exposure to local news
+results for a query in a given county, we found that the only substan- outlets. However, these results run against previous findings indi-
+tial association was with the type of term for which we searched. cating that interest in local news is much less than that for general
+Again, topics that are locally oriented generate results that include interest news2. Increased interest in general interest news has been
+more local outlets, while topics that are generally oriented generate identified as a critical factor in declining local news audiences22.
+results that include more national outlets. At the same time, media This discrepancy is substantial because users’ search interests pro-
+supply and audience demand in the county were not significantly vide the frame through which platform gatekeeping is evaluated.
+or substantially related to local news exposure. However, outlets’ When platforms nudge users towards general interest topics (as we
+off-platform reach was associated with the number of times outlets show Google News does in the Supplementary Information), they
+appeared in our results; local news outlets appeared more frequently risk failing to meet the needs of their users and the critical informa-
+when they had more subscribers. Yet, this association has the tion needs of local communities.
+possibility of reinforcing existing inequalities in media industries. One explanation for this difference in interest may be the way
+These results align with those from audits of the core Google we selected our queries. We queried generic terms related to current
+Search platform, which identified the search query as the source events so that we could be sure to avoid generating results through
+of the most variance in the results returned to users7–9,17. However, hyper-specificity. However, users’ actual queries may differ from
+in contrast with the audits assessing how Google promotes echo these generic topical searches. For example, individuals seeking
+chambers7, the outcomes here are not generally normatively posi- out news about the president may search for that figure by name
+tive. There is a great deal of opacity that goes into determining how instead of through a more abstract term. Yet, it should be noted
+stories are selected to be included in search results. Is there a gen- that Google’s Knowledge Graph disambiguates such queries before
+eral platform preference for large national outlets, with local outlets results are retrieved32, so we anticipate that our queries would still
+being included when there are no more national outlet stories to draw from a superset of relevant results. Furthermore, users may
+include? Depending on the answer, Google News may be directing not experience any need to search for generally oriented topics since
+individuals away from crucial local reporting and, as such, reducing Google News already curates these stories and presents them on the
+the viability of these local news operations. home page. If so, Google Trends would not wholly represent the
+The strength of local news markets does not substantially influ- total user interest in these topics.
+ence the likelihood of local news being included in any set of results. Our decision to proxy the strength of a local media market
+If robust local news offerings do not lead to more attention being by the number of papers operating within a geographic unit is
+directed back to local media, the value of such investments—and another potential limitation worth considering. Our data do not
+the algorithms that curate them—may need to be questioned. The take into account the possibility that some papers have become
+greater implication of declining traffic to local news is the potential ghost papers; that is, heavily reduced versions of their former
+exacerbation of America’s news deserts, and the increasing social operations that provide little original content in their communi-
+and economic inequalities between those who are and are not in ties1. As part of this process, some stories published by local outlets
+the news1,6. A recent content analysis of media outlets conducted may be from wire services or only function as summaries of report-
+by researchers at Duke University reported that while local news- ing done by larger outlets. We know that only about 17% of news
+papers accounted for only one-quarter of the total media outlets in stories take place in the community33. That being said, our choice
+a random sample, they produced 50% of all original news stories of covariates in our models, such as the number of papers in a
+reporting local news23. county and a county’s socioeconomic indicators, are similar to
+This finding is different from a strand of media econom- those in recent economic analyses of local news markets2 and are
+ics research leveraging the shutdown of Google News in Spain associated with interest in local news15. By controlling for all of
+in December 2014. Multiple research teams have shown that the these likely covariates of the strength of the local news economy,
+removal of Google News as a pathway to exposure in Spain reduced we take into account both demographic and structural market
+news consumption, with the largest effects for small outlets24,25. In features that could affect the frequency of local news in
+contrast, we focus on the competition between local and national Google News results.
+outlets within the Google News platform. Furthermore, as Google Additionally, we did not audit the effect of user-specific per-
+regularly introduces algorithmic, technological and design changes sonalization on the curation of local news; however, we provide a
+to its platform, such as accelerated mobile pages26,27, it would be dif- different perspective on how filter bubbles limited to national news
+ficult to replicate the same study, even if we could suspend Google outlets may reinforce the existing status quo13,34,35.
+News for a laboratory experiment. It is also not known whether Google News’ algorithms con-
+Looking past the immediate consequences of our findings on sider trending searches, promoted or sponsored posts, social media
+local media economies, the extended implications for behaviour and shares, paywalls and search engine optimization strategies when
+civic life are also not normatively positive. By presenting most stories they determine the rank order of research results. Other scholars
+from national outlets in response to general interest queries, Google have reported that Google has long acknowledged that commercial
+News may be exacerbating local information gaps related to these interests may compromise the quality of Google’s search results36.
+topics. Citizens who are learning about a topic through Google News We recommend that a future audit could consider these and other
+may not learn how a topic affects their state or local community, factors by supplementing our sampling strategy with a web crawl.
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTUre HUmaN BeHaviOUr
+It is worth considering whether having more transparent cura- or the surge in importance of a keyword. First, every query was instituted on a
+tive algorithms for news aggregators could lead to a more informed, new browser window opened in incognito mode, and we repeatedly generated and
+subsequently terminated browser windows with different latitude and longitudinal
+digitally literate and responsible citizenry. Moving forward, we
+coordinates. Second, the query order was randomized for each search term, so
+have four recommendations for future research that we believe are that time-related biases did not confound the local results for each county. Third,
+essential for developing the most accurate understanding of the three full sets of results were collected for each search term over the data collection
+digital platform’s role in the local news economy. First, we recom- period of 6 months, to adjust for any local maxima in news attention, from January
+mend that future work consider synchronous audits of both Google 2019 to June 2019. Fourth, to obtain local search results, we also modified the
+search query for each keyword in our list (that is, “gun near Orange County, CA”).
+News and the major national outlets, such as The New York Times,
+While ensuring that our results were location specific, this query template also
+The Washington Post and CNN, to account for changes in coverage. circumvented Google News’ possible reliance on IP addresses rather than browser
+Second, the content of stories could also be mined to account for presets to serve local results. We found it to be the recommended method for
+local context. Third, researchers could conduct behavioural audits marketers to test their search engine advertising and optimization results42–44.
+Finally, we instituted a sleep timer to stagger our requests over time.
+of Google News users, tracking which stories they choose to read
+Some data were returned with corruptions. This meant that for some terms
+from those presented to them, in order to simulate actual use and
+we ended up with fewer than three usable captures. For the terms accident, crime,
+search traffic to local news outlets. In this pursuit, it is important death, governor, high school, obituary, police, school board and scandal, we
+to consider that, in 2016, the Pew Research Centre reported that only had two usable captures. For the terms college and mayor, we only had one
+44% of American users obtain their news from social media sites37. usable capture. The total numbers of observations for each term are reported in
+Supplementary Table 1.
+Finally, scholars could test whether our findings are replicated in
+how political content is curated in users’ social media newsfeeds on
+Coding outlets. We filtered the collected data to retain the outlets and their
+Facebook and Twitter10,38. position in the search results, which we refer to as the rank of the result. We then
+Even though we can already see future directions for research classified the outlets as being local, regional, national or international media outlets
+into platform effects on local news, we find strong evidence of a by delineating websites by the scope of their reporting. Outlets covering stories in
+small finite areas would be classified as local outlets, while those covering stories in
+query-driven process of supplying local news to users. The data col-
+larger but still finite areas would be classified as regional outlets. National outlets
+lected in our audit clearly show that Google News could perpetuate
+would be those located in the United States and covering news across multiple
+a concerning feedback loop in which attention and resources are areas of the United States.
+diverted away from local news when individuals seek information Many of our outlet classifications came from data provided by the Social Media
+about many essential political topics. This likely diversion away and Political Participation laboratory at New York University45, which is sourced
+from databases maintained by the United States Newspaper Listing and Station
+from local news has the possibility of shrinking the local informa-
+Index. This dataset identified local newspapers, magazines and broadcast television
+tion environment, which in turn can produce normatively undesir- stations across the United States. However, given the variety of outlets observed
+able effects on political and civic behaviour. during our searches, the dataset provided minimal coverage of our outlets.
+To supplement this existing resource, we performed a classification procedure
+methods on Amazon Mechanical Turk for 1,078 additional outlets. As part of our procedure,
+we showed two Amazon Mechanical Turk workers an unclassified outlet, linked
+Selection of geographic units and search terms. For this project, we set our
+them to a general Google search for the outlet and asked them to decide whether
+geographic area of interest to that of the entire United States. To assess geographic
+the outlet was local, regional, national or international media. This classification
+variation, we considered counties as our unit of interest, as was done in previous
+question was split into logical branches so that workers first identified whether the
+research8. For each county in the United States, we identified the county seat and
+given outlet was located in the United States, and then, if so, classified the outlet as
+created a list of latitude–longitude coordinate pairs to be fed to our data collection
+either local, regional or national. If the outlet was located outside the United States,
+algorithm.
+workers identified the country within which the outlet was located. We collected
+We wanted our assessment of the variation of Google News search results
+classifications for each outlet from two workers. The inter-coder agreement was about
+to cover as many news and policy topics as possible and to be the least biased by the
+73% (see Supplementary Table 2). If the two workers agreed, the outlet was added to
+specificity of search terms. To the best of our knowledge, Google does not provide
+the database with that classification. In cases where the workers disagreed, instead of
+a list of the most popular search terms on the news platform for us to build on, and
+forcing hard boundaries, we logged both classifications as a boundary category; for
+there has been no substantial analysis of Google News search behaviour.
+example local–regional or regional–national. Supplementary Table 3 reports the share
+Furthermore, the Federal Communications Commission (FCC) and partnered
+of classifications from the second coder given the classification of the first coder.
+scholars have begun to assess the health of local journalism by evaluating how
+As noted elsewhere46,47, there are many potential ways to define what constitutes
+well a community’s need for information in these areas is met33,39,40. As part of
+a local news outlet, and this decision framework can impact our results. Our
+this initiative, the FCC41 has released a list of critical information needs (that is,
+definition focuses on the scope of coverage in both geographic and content terms.
+emergencies, health, education, transportation, jobs and the local economy, the
+However, these heuristics can disagree with previous classifications; for example,
+environment, civic life and politics, and local government), which offer a way to
+when we deal with major metro papers, such as The Boston Globe, Houston
+study how well Google News is supporting the central goals of local journalism.
+Chronicle and LA Times. In our models, these papers were classified as being local
+In creating our list of keywords, we referred to the search keywords that have
+or regional, but under definitions based on circulation or readership they could
+been used in similar audits of search engines8,9, as well as tallying it with the FCC’s
+be seen as national outlets. Our approach has the advantage that it is based on the
+recommendations to ensure that it was representative of critical information areas.
+actual publishing decisions and intentions of the outlets. This allows us to separate
+Finally, our first list referred to general policy issues, or the words were associated
+the metro papers listed above from The New York Times and The Washington Post,
+with current events of general interest in the United States during the period from
+both of which ostensibly serve as metro papers but devote substantial attention and
+January 2019 to February 2019. This list comprised the terms abortion, caravan,
+resources to covering general political news.
+climate, conservative, corruption, election, FBI, gun, immigration, liberal, politics,
+president, scandal, shutdown, Syria and taxes. The second list was aimed at
+capturing local heterogeneity and was based on the set of locally oriented terms Reporting Summary. Further information on research design is available in the
+used in previous research8. This list comprised the terms accident, college, crime, Nature Research Reporting Summary linked to this article.
+death, emergency services, governor, high school, hospital, mayor, obituary, police,
+school board, traffic, transit, university and weather. These data were collected over Data availability
+the course of June 2019. To make our searches location specific, we paired each The figures and analyses in this paper are based on original data collected by the
+term with the modifier “near <county seat>”. authors. Raw data, as well as processed minimal datasets necessary for reproducing
+the analyses and figures, are available via the associated OSF repository for this
+Data collection. We collected the headline, outlet, URL and time stamp for the project (https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4).
+first 100 results for every query in every county.
+We used the Python package Selenium, which allows users to automate web Code availability
+browser interactions and scrape data from web pages with lower memory overhead
+Original code is available via the associated OSF repository for this project
+compared with previous methods8,17. Selenium can preset the browser’s location
+(https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4).
+through pre-specified geographical coordinates, which enabled us to simulate
+independent search sessions from different counties.
+Received: 15 November 2019; Accepted: 19 August 2020;
+We instituted many checks to account for external confounds, such as biases
+due to temporary cookies, the order of queries, the timing of the search requests Published: xx xx xxxx
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTUre HUmaN BeHaviOUr Articles
+references 29. Shaker, L.Dead newspapers and citizens’ civic engagement. Political Commun.
+1. Abernathy, P. M. The Expanding News Desert (UNC Press, 2018). 31, 131–148 (2014).
+2. Hindman, M. The Internet Trap: How the Digital Economy Builds Monopolies 30. Hayes, D. & Lawless, J. L.As local news goes, so goes citizen engagement:
+and Undermines Democracy (Princeton Univ. Press, 2018). media, knowledge, and participation in US House elections. J. Politics 77,
+3. For Local News, Americans Embrace Digital but Still Want Strong Community 447–462 (2015).
+Connection Technical Report (Pew Research Center, 2019). 31. Hayes, D. & Lawless, J. L.The decline of local news and its effects: new
+4. Diakopoulos, N. Audit suggests Google favors a small number of major evidence from longitudinal data. J. Politics 80, 332–336 (2018).
+outlets. Columbia Journalism Review https://www.cjr.org/tow_center/ 32. Eder, J. S. Knowledge graph based search system. US patent 13/404,109 (2012).
+google-news-algorithm.php (10 May 2019). 33. Napoli, P. M., Weber, M., McCollough, K. & Wang, Q. Assessing Local
+5. Pan, B. et al. In Google we trust: users’ decisions on rank, position, and Journalism: News Deserts, Journalism Divides, and the Determinants
+relevance. J. Comput. Mediat. Commun. 12, 801–823 (2007). of the Robustness of Local News (DeWitt Wallace Center for Media &
+6. Eubanks, V. Automating Inequality: How High-Tech Tools Profile, Police, and Democracy, 2018).
+Punish the Poor (St. Martin’s Press, 2018). 34. Pariser, E. The Filter Bubble: How the New Personalized Web is Changing
+7. Robertson, R. E. et al. Auditing partisan audience bias within Google Search. What We Read and How We Think (Penguin, 2011).
+Proc. ACM Hum. Comput. Interact. 2, 148 (2018). 35. Robertson, R. E., Lazer, D. & Wilson, C. Auditing the personalization and
+8. Kliman-Silver, C., Hannak, A., Lazer, D., Wilson, C. & Mislove, A. Location, composition of politically-related search engine results pages. In Proceedings
+location, location: the impact of geolocation on web search personalization. of the 2018 World Wide Web Conference 955–965 (International World Wide
+in Proceedings of the Internet Measurement Conference 2015 (eds Cho, K., Web Conferences Steering Committee, 2018).
+Fukuda, K., Pai, V. & Spring, N.)121–127 (IMC, 2015). 36. Noble, S. U. in Algorithms of Oppression: How Search Engines Reinforce
+9. Trielli, D. & Diakopoulos, N. Search as news curator: the role of Racism 41 (NYU Press, 2018).
+Google in shaping attention to news information. In Proceedings of 37. Gottfried, J. & Shearer, E. News Use Across Social Media Platforms 2016
+the 2019 CHI Conference on Human Factors in Computing Systems 453 Technical Report (Pew Research Center, 2016).
+(ACM, 2019). 38. Settle, J. E. Frenemies: How Social Media Polarizes America (Cambridge Univ.
+10. Thorson, K., Cotter, K., Medeiros, M. & Pak, C. Algorithmic inference, Press, 2018).
+political interest, and exposure to news and politics on Facebook. Inf. 39. Napoli, P. M., Stonbely, S., McCollough, K. & Renninger, B. Local journalism
+Commun. Soc. https://doi.org/10.1080/1369118X.2019.1642934 (2019). and the information needs of local communities: toward a scalable
+11. Haim, M., Graefe, A. & Brosius, H.-B. Burst of the filter bubble? Effects of assessment approach. Journal. Pract. 11, 373–395 (2017).
+personalization on the diversity of Google News. Digit. Journal. 6, 40. Weber, M., Andringa, P. & Napoli, P. M. Local News on Facebook: Assessing
+330–343 (2018). the Critical Information Need Served through Facebook’s TodayIn Feature News
+12. Nechushtai, E. & Lewis, S. C. What kind of news gatekeepers do we Measures Research Project (Duke University Sanford School of Public Policy
+want machines to be? Filter bubbles, fragmentation, and the normative & Hubbard School of Journalism and Mass Communication, 2019).
+dimensions of algorithmic recommendations. Comput. Hum. Behav. 90, 41. Friedland, L., Napoli, P., Ognyanova, K., Weil, C. & Wilson, E. J. III Review of
+298–307 (2019). the Literature Regarding Critical Information Needs of the American Public
+13. Bakshy, E., Messing, S. & Adamic, L. A. Exposure to ideologically diverse http://transition.fcc.gov/bureaus/ocbo/Final_Literature_Review.pdf
+news and opinion on Facebook. Science 348, 1130–1132 (2015). (FCC, 2012).
+14. Newman, N., Fletcher, R., Kalogeropoulos, A. & Nielsen, R. Reuters Institute 42. Van Mens, J. I Search From (2020); http://isearchfrom.com/
+Digital News Report 2019 Vol. 2019 (Reuters Institute for the Study of 43. Barysevich, A. How you can see Google search results for different locations.
+Journalism, 2019). SEJ https://www.searchenginejournal.com/
+15. Barthel, M., Grieco, E. & Shearer, E. Older Americans, Black Adults and see-google-search-results-different-location/294829 (2019).
+Americans With Less Education More Interested in Local News. Technical 44. Caizer, C. How to localize Google search results. Search Engine Land https://
+Report (Pew Research Center, 2019). searchengineland.com/localize-google-search-results-239768 (2016).
+16. Benjamin, R. Race After Technology: Abolitionist Tools for the New Jim Code 45. Yin, L. yinleon/LocalNewsDataset: initial release. Zenodo https://doi.
+(John Wiley & Sons, 2019). org/10.5281/zenodo.1345145 (2018).
+17. Hannak, A. et al. Measuring personalization of web search. In Proceedings of 46. Hagar, N., Bandy, J., Trielli, D., Wang, Y. & Diakopoulos, N. Defining local
+the 22nd International World Wide Web Conference (WWW 2013) (2013). news: a computational approach. In Computational + Journalism Symposium
+18. Jansen, B. J., Spink, A. & Saracevic, T. Real life, real users, and real needs: a 2020 https://cpb-us-w2.wpmucdn.com/sites.northeastern.edu/dist/d/53/
+study and analysis of user queries on the web. Inf. Process. Manage. 36, files/2020/02/CJ_2020_paper_40.pdf (2020).
+207–227 (2000). 47. Lowrey, W., Brozana, A. & Mackay, J. B. Toward a measure of community
+19. Jansen, B. J. & Spink, A. How are we searching the World Wide Web? A journalism. Mass Commun. Soc. 11, 275–299 (2008).
+comparison of nine search engine transaction logs. Inf. Process. Manage. 42,
+248–263 (2006). Acknowledgements
+20. Epstein, R. & Robertson, R. E. The search engine manipulation effect (SEME) We thank D. Lazer, G. Martin, R. Robertson, D. Trielli, N. Usher and the participants
+and its possible impact on the outcomes of elections. Proc. Natl Acad. Sci. and reviewers at the Politics and Computational Social Science 2019 conference, the
+USA 112, E4512–E4521 (2015). Michigan Symposium on Media and Politics and the International Communication
+21. Granka, L. A., Joachims, T. & Gay, G. Eye-tracking analysis of user behavior Association 2020 conference for helpful comments. The authors received no specific
+in www search. In Proceedings of the 27th Annual International ACM SIGIR funding for this work.
+Conference on Research and Development in Information Retrieval 478–479
+(ACM, 2004). Author contributions
+22. Hopkins, D. J. The Increasingly United States: How and Why American
+S.F., K.J. and Y.L. designed the study, conducted the analysis and drafted and revised the
+Political Behavior Nationalized (Univ. Chicago Press, 2018).
+manuscript.
+23. Mahone, J., Wang, Q., Napoli, P., Weber, M. & McCollough, K. Who’s
+Producing Local Journalism? Technical Report (Duke Univ., 2019).
+Competing interests
+24. Athey, S., Mobius, M. M. & Pál, J. The impact of aggregators on internet news
+consumption. Research Paper No. 17-8 https://ssrn.com/abstract=2897960 The authors declare no competing interests.
+(Stanford University Graduate School of Business, 2017).
+25. Calzada, J. & Gil, R. What do news aggregators do? Evidence from Google Additional information
+news in Spain and Germany. Mark. Sci. https://doi.org/10.1287/ Supplementary information is available for this paper at https://doi.org/10.1038/
+mksc.2019.1150 (2019). s41562-020-00954-0.
+26. Deahl, D. Google News is getting an overhaul and customized news feeds.
+Correspondence and requests for materials should be addressed to Y.L.
+The Verge https://www.theverge.com/2018/5/8/17329074/
+google-news-update-new-features-newsstand-io-2018 (2018). Peer review information Primary Handling Editor: Aisha Bradshaw.
+27. Oberstein, M. AMP in Google News results skyrockets globally. RankRanger Reprints and permissions information is available at www.nature.com/reprints.
+https://www.rankranger.com/blog/amp-google-news-results-spikes
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+(30 January 2017).
+published maps and institutional affiliations.
+28. Darr, J. P., Hitt, M. P. & Dunaway, J. L.Newspaper closures polarize voting
+behavior. J. Commun. 68, 1007–1028 (2018). © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+April
+2020
+Corresponding author(s): Sean Fischer, Yphtach Lelkes
+Last updated by author(s): Jul 24, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see our Editorial Policies and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection Data were collected using the Python package Selenium, as described in our manuscript. Our code for this process is available in our OSF
+repository. (https://osf.io/hwuxf/?view_only=3fa7499661df487689031e11b8ea20b4)
+Data analysis Data analysis was conducted using the R statistical software. In particular, we used the biglm and lfe packages to estimate our models. Code
+for analysis and figure production is also available in our OSF repository. (https://osf.io/hwuxf/?
+view_only=3fa7499661df487689031e11b8ea20b4)
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors and
+reviewers. We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The figures and analyses in this paper are based on original data collected by the authors. Raw data, as well as processed minimal datasets necessary for
+reproducing analyses and figures, are available via the associated OSF repository for this project.
+2
+nature
+research
+|
+reporting
+summary
+April
+2020
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description We present a quantitative analysis of data scraped from Google News in regards to whether the platform is biased in returning local
+or national news outlets to users. Data were scraped directly from the platform with a modified browser location, allowing us to
+assess the importance of variance in local media economies and demographics in determining the composition of search results.
+Research sample Our research sample was all (but one) United States counties.
+Sampling strategy Each county was sampled three times per a query that we scraped for. The order in which counties were drawn was randomized for
+each instance of scraping each query.
+Data collection Data were collected by scraping Google News using the Python Selenium package to fix our browser's location to the county seat for
+each county. Scraped data included the headline, outlet, link, and timestamp provided by Google News.
+Timing General queries were collected from January, 2019 to February 2019. Local queries were collected over the course of June, 2019.
+Data exclusions Some data returned corrupted, leading us to drop one-two of three passes for a given term. These are discussed in the manuscript.
+Non-participation Non-participation was not possible given our design.
+Randomization As stated earlier, we randomly ordered all US counties (but one) three times per query for each query.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology and archaeology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Dual use research of concern

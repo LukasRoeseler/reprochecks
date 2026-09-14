@@ -1,23 +1,1118 @@
-# Inferring latent learning factors in large-scale cognitive training data
-
-## Abstract
-The flexibility to learn diverse tasks is a hallmark of human cognition. To improve our understanding of individual differences and dynamics of learning across tasks, we analyse the latent structure of learning trajectories from 36,297 individuals as they learned 51 different tasks on the Lumosity online cognitive training platform. Through a data-driven modelling approach using probabilistic dimensionality reduction, we investigate covariation across learning trajectories with few assumptions about learning curve form or relationships between tasks. Modelling results show substantial covariation across tasks, such that an entirely unobserved learning trajectory can be predicted by observing trajectories on other tasks. The latent learning factors from the model include a general ability factor that is expressed mostly at later stages of practice and additional task-specific factors that carry information capable of accounting for manually defined task features and task domains such as attention, spatial processing, language and math. 
-
- This is a preview of subscription content, access via your institution
-
-## OSF Links
-https://osf.io/g9zkf
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM2_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM3_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM4_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM5_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM6_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM7_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM8_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM9_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM10_ESM.xlsx
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-00935-3/MediaObjects/41562_2020_935_MOESM11_ESM.xlsx
-
+Articles
+https://doi.org/10.1038/s41562-020-00935-3
+Inferring latent learning factors in large-scale
+cognitive training data
+Mark Steyvers 1 ✉ and Robert J. Schafer 2 ✉
+The flexibility to learn diverse tasks is a hallmark of human cognition. To improve our understanding of individual differences
+and dynamics of learning across tasks, we analyse the latent structure of learning trajectories from 36,297 individuals as they
+learned 51 different tasks on the Lumosity online cognitive training platform. Through a data-driven modelling approach using
+probabilistic dimensionality reduction, we investigate covariation across learning trajectories with few assumptions about
+learning curve form or relationships between tasks. Modelling results show substantial covariation across tasks, such that an
+entirely unobserved learning trajectory can be predicted by observing trajectories on other tasks. The latent learning factors
+from the model include a general ability factor that is expressed mostly at later stages of practice and additional task-specific
+factors that carry information capable of accounting for manually defined task features and task domains such as attention,
+spatial processing, language and math.
+A
+n enduring challenge in psychology is to understand indi- range of demographic characteristics in terms of age, gender and
+vidual differences in intellectual abilities. Early theories of educational background. Second, users practice the cognitive tasks
+intelligence have explained performance on cognitive tests multiple times and performance on tasks typically improves with
+in terms of broad factors such as general intelligence shared among practice10–12. Therefore, the data are not restricted to a single snap-
+all cognitive tests as well as domain-specific factors1,2. Cognitive shot of performance across tasks but instead offer a dynamic view
+theories have been developed to explain covariation across tests of of performance over time. In our data sample, we will analyse per-
+mental ability in terms of shared cognitive resources across tasks formance on the platform during a 6-yr period (the average user in
+such as working memory and executive processes3,4, the speed of this set spends about 2.5 yr on the platform during this time span).
+information processing at various levels of processing5,6, associative The aim of this work is to analyse the latent structure of the learn-
+learning7, as well as developmental models involving mutually inter- ing trajectories across cognitive tasks. We apply a dimensionality
+acting cognitive processes8. Recent research has started to examine reduction approach on the basis of a Bayesian principal component
+neurobiological mechanisms that influence individual differences analysis (PCA)13,14. This approach has proved useful for predictive
+in mental ability9. modelling of human preferences in large-scale datasets15,16. The
+In this research, the goal is to understand individual differences particular Bayesian PCA approach adopted here models time in
+in performance on cognitive tasks when individuals practice over a discrete fashion and makes no assumption about the functional
+an extended period of time, and to understand how learning tra- form of the learning curve. There are several other approaches that
+jectories covary across tasks. To what degree is the learning trajec- could be applied to the data, including continuous-time models17
+tory in one task predictive of the learning trajectory in another task? and various forms of latent growth models to learn the covariance
+Can we predict how well an individual will perform after extended structure of latent parameters governing the changes over time (for
+practice on a task by observing how well this individual performs example, refs. 18–22).
+at the start of practice on the same task, or on others? We scale up We use a predictive evaluation approach to assess the model’s
+the investigation of individual differences in learning trajectories by ability to account for covariation across learning trajectories and
+analysing large-scale data from Lumosity, an online cognitive train- forecast future performance23,24. There are two types of prediction
+ing platform. On this platform, users perform a variety of gamified problems we use for model evaluation, as illustrated in Fig. 1. In
+cognitive tasks that assess a wide range of cognitive abilities in areas the first prediction problem (Fig. 1a), the goal is to predict an entire
+such as memory, attention and reasoning. Some of the games on the learning trajectory for a particular user and a single cognitive task
+platform correspond directly to well-known cognitive paradigms on the basis of the learning trajectories from other cognitive tasks
+(for example, the Erikson flanker task and n-back tasks) whereas the user engaged with. Because the to-be-predicted learning curve
+others involve complex planning and visualization tasks not typi- is missing entirely, the prediction has to be based on the latent struc-
+cally studied in the laboratory. ture that captures covariation across tasks as well as covariation
+The Lumosity platform offers unique advantages to study indi- across different stages of practice. The challenge in this prediction
+vidual differences. First, the platform has a very large and diverse task goes beyond extrapolating learning curves11,23 or predicting
+user base. As of 2018, over 90 million users from 182 countries future errors on the same learning task25. In the second prediction
+signed up to participate. We analyse a sample of the Lumosity problem (Fig. 1b,c), the goal is to predict the user performance on
+data that includes the performance of 36,297 users on 51 differ- a specific task at a later stage of practice based on observations of
+ent cognitive games (see Methods). Unlike most laboratory studies learning trajectories on other tasks, as well as partially observed
+of cognition, the users in our sample are associated with a diverse performance at the initial stages of practice on the target task.
+1Department of Cognitive Sciences, University of California, Irvine, CA, USA. 2Lumos Labs, San Francisco, CA, USA. ✉e-mail: mark.steyvers@uci.edu;
+bschafer@lumoslabs.com
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HuMaN BEHaviour
+a b c
+Lost in migration 2 Train of thought Lost in migration 2 Train of thought
+(attention) (attention) (attention) (attention)
+5 5
+2.5 2.5
+4 4
+2.0 2.0
+3 3
+1.5 1.5
+2 2
+1.0 1.0
+0.5 1 0.5 1
+0 0 0 0
+0 20 40 60 0 20 40 60 0 20 40 60 0 20 40 60
+Speed match 2 Ebb and flow Speed match 2 Ebb and flow
+(memory) (flexibility) (memory) (flexibility)
+4 4
+3 3
+3 3
+2 2
+2 2
+1 1
+1 1
+0 0 0 0
+0 20 40 60 0 20 40 60 0 20 40 60 0 20 40 60
+Practice (gameplay) Practice (gameplay) Practice (gameplay) Practice (gameplay)
+By systematically varying the amount of observed information the model to the three-way data of individuals × tasks × practice
+about early task performance and number of other tasks observed, stages (time).
+we can assess the predictive utility of different sources of informa- Let x be an N × 1 vector that represents the normalized per-
+j
+tion. Overall, these prediction problems are related to real-world formance scores across N tasks for individual j. In probabilistic
+situations involving decisions to invest in costly training of a par- PCA13,14, the individual performances x are modelled as a weighted
+ticular individual on the basis of prior performance on the same, linear combination of orthogonal latent factors (also known as
+or other, tasks. components):
+We also examine whether the latent learning factors correspond
+x Wz μ ε 1
+to interpretable dimensions of performance. To avoid relying on j ¼ j þ þ j ð Þ
+subjective judgement when assessing the interpretability of the The N × K matrix W captures the latent factors where K corresponds
+latent factors, we use a predictive approach to evaluate whether the to the number of latent factors. The K × 1 vector z represents the
+j
+latent structure discovered by the model can be mapped to known user-specific scores on the latent factors that determines how high
+types of cognitive activities associated with a task, as well as the or low the user scores are on the latent factor. The N × 1 vector μ
+types of stimuli used in the task. For this purpose, we characterized is a mean offset term to capture baseline differences in the tasks.
+each Lumosity game in terms of a number of predefined task fea- This term is needed when modelling incomplete data and cannot be
+tures related to the particular cognitive task (for example, memory, removed by subtracting the data mean13. Finally, the N × 1 vector ϵ
+selective attention and logical reasoning) as well as stimulus features represents the noise in the data.
+(for example, words, single digits and objects). These task features A key assumption in probabilistic PCA is that the noise is nor-
+are not mutually exclusive—a particular task can be associated with mally distributed, independent across factors and has the same
+a number of cognitive task features and involve multiple types of standard deviation σ across factors:
+stimulus features. If the latent structure discovered by the model
+carries information about mental activities involved in each task, ε j 0;σ2I 2
+Nð Þ ð Þ
+a model-based mapping between the latent factors and predefined
+task features should lead to accurate predictions of the types of cog- where the symbol I represents the identity matrix. In contrast, fac-
+nitive activities involved in a particular task. tor analysis uses the same model as in equation (1) but has a more
+flexible error term that allows variances to differ across factors:
+applying Bayesian PCa to the learning data ε j 0;ψ . Therefore, probabilistic PCA can be considered a
+Nð Þ
+To explain the Bayesian PCA approach as applied to the learn- tyIpe of factor analysis model but with a restricted error model13,26.
+ing trajectories, we will first ignore the temporal dimension of the Previous commentaries on the differences between PCA and fac-
+data and assume that each individual is associated with a single tor analysis have focused on non-probabilistic PCA, which lacks
+(potentially missing) performance score for each task. We will then an error model27, but these distinctions do not apply to our current
+show how the representation of the data can be extended to apply modelling approach.
+erocS
+×104
+erocs
+emaG
+erocs
+emaG
+erocs
+emaG
+erocs
+emaG
+Ebb and flow
+×104 ×104 ×104 ×104 (flexibility)
+3
+2
+1
+0
+0 20 40 60
+Practice (gameplay)
+×104 ×104 ×104 ×104
+Fig. 1 | Illustration of different learning curve prediction problems for one user. a, For one task (Ebb and flow), the entire learning curve is missing and needs
+to be predicted from the user’s performance on three other tasks (Lost in migration, Train of thought and Speed match). b, The performance on ‘Ebb and flow’
+is partially observed and the goal is to predict the performance at the last stage of practice from the early performance on that task as well as the performance
+on other tasks. c, The performance on ‘Ebb and flow’ is partially observed and the goal is to predict the performance at the last stage of practice without any
+knowledge of performance on other tasks. Dotted lines show the 95% range in scores for each stage of practice.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HuMaN BEHaviour Articles
+0.46
+0.44
+0.42
+0.40
+0.38
+0.36
+0.34
+2 4 6 8 10 12
+Number of factors
+Common scores, different latent factors across stages of practice. factors (K). The prediction problem corresponds to reconstructing
+There are several ways to apply probabilistic PCA to the three-way an entire missing learning curve for a user on the basis of all other
+data of individuals × tasks × practice stages. Here, we make the observed learning curves for the user (Fig. 1a). The prediction error
+assumption that each practice stage t is associated with its own set is assessed on the original untransformed data by the normalized
+of latent factors W allowing for the covariation pattern across tasks mean absolute deviation (see Methods). For the observed learning
+t
+to be dependent on the amount of practice. For example, two tasks curves, increasing the number of latent learning factors leads to bet-
+A and B might not covary at the start of practice but as practice ter reconstructions (lower in-sample prediction errors). However,
+progresses the score in task A might start to covary with the score in for learning curves withheld from the model, increasing the num-
+task B as the two tasks begin to depend on the same latent factors. ber of factors leads to diminishing out-of-sample predictive perfor-
+To constrain the latent factors across stages of practice, we assume mance beyond seven factors. The Supplementary Results show the
+that each individual has a single set of scores z that is shared among predictive performance for three other metrics, each consistent with
+j
+the latent factors associated with each stage of practice. Fig. 2a and suggesting that predictive performance for out-of-sample
+Specifically, let x be the N × 1 vector of task performance scores learning curves reaches a maximal value for solutions in the range
+t,j
+for user j at practice stage t. The model can be written as an exten- of five to eight factors. All our subsequent analyses will focus on the
+sion of equation (1) by stacking the performance scores x and model solution with six latent learning factors, as this solution pro-
+t,j
+latent factors W across stages of practice: vides good predictive performance while not leading to overly com-
+t
+plex visualizations of the factors (see the Supplementary Methods
+x W
+1;j 1;j for additional description of predictive performance metrics and
+2 . .. 3 2 . .. 3z j μ ε j 3 Extended Data Figs. 3 and 4 for inferred solutions with K = 5 and
+¼ þ þ ð Þ K = 7 latent factors). Note the substantial data compression that this
+6 6x T;j7
+7
+6 6W T;j7
+7
+implies: the variations in learning trajectories across all tasks for a
+4 5 4 5 user are captured by only six coefficients in the user scores (z).
+j
+Therefore, the observed performance of a user at practice stage t is
+based on a weighted combination of latent factors specific to t but Predicting performance at the end of practice. Figure 2b shows
+where the scores z are shared across time. Because of the sharing of the prediction error when the model is predicting user performance
+j
+user-specific scores, the latent factors W cannot arbitrarily change at the end of practice (between 51 and 60 gameplays, corresponding
+t
+across stages of practice. Note that the models in equations (3) and to the problem illustrated in Fig. 1b,c). The results show that predic-
+(1) are equivalent but only differ in the representation of the data x tions at the end of practice improve as a larger portion of the learning
+and the interpretation of the latent factors W. curve is observed. In addition, prediction performance increases as
+more performances on other tasks are observed. Of particular inter-
+Results est is that observing user performance on other tasks is as informa-
+Bayesian inference. We first normalize the data such that perfor- tive as observing about the first 10–25 performances on the learning
+mance scores across tasks are on the same scale. In addition, we curve for the target task itself. This shows that covariation between
+truncate the learning curves to the first 60 gameplays and discretize cognitive tasks can be used to form predictions about performance
+the temporal dimension into eight stages of practice (see Methods). on a new task in the absence of any observations on that task.
+We apply a variational Bayesian inference procedure (see Methods) Optimal prediction performance is obtained when observing as
+to infer model parameters. The main results presented here are based much of the learning curve for the target task as possible while not
+on the posterior mean of W which represents the latent factors and observing the performance on any other tasks (that is, the curves
+z which represents the scores on the latent factors for each user j. in Fig. 2b cross over). This result demonstrates that the model is
+j
+not optimized to solve this particular prediction problem—the
+Number of latent learning factors. Figure 2a shows the predic- goal of the model is to reconstruct all observed learning curves as
+tive model performance as a function of number of latent learning best as possible and more observed learning curves can deteriorate
+rorre
+noitciderP
+100
+80
+60
+Withheld
+40
+Observed
+20
+0
+0 10 20 30 40
+Observed practice (gameplays) of the target task
+rorre
+noitciderp
+egatnecreP
+a b
+Other tasks
+observed
+0
+1–3
+4–15
+16+
+Fig. 2 | Predictive model performance. a, Error in predicting learning curves on a task from learning curves on other tasks as a function of the number of
+factors. In the prediction task, the learning curves are either observed (in-sample prediction error) or missing (out-of-sample prediction error). Prediction
+error is assessed by normalized mean absolute deviation. b, Error in predicting performance at the final practice stage of a particular task, depending on
+the amount of practice observed for the task (horizontal axis) and the number of learning curves observed from other tasks (colours and markers). Error
+is expressed in percentage of prediction error for the case where there is no historical performance data available for the user. Shaded areas indicate the
+s.e.m. across partitions of the data.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HuMaN BEHaviour
+1 2 3 4 5 6
+Familiar faces
+Tidal treasures
+Taking root
+Word snatchers
+Word bubbles 3
+Word bubbles
+Word bubbles rising
+Rhyme workout
+Organic order
+Memory serves web
+Word sort
+By the rules
+Fuse clues
+Pet detective
+Pirate passage
+Masterpiece
+Rotation matrix
+Pinball recall
+Memory matrix 2
+Speed pack
+Penguin pursuit
+Memory match
+Birdwatching
+Eagle eye
+Lost in migration 2
+Ebb and flow
+Sp. speed match 2
+Speed match 2
+Brain shift 2
+Speed match ovd.
+Brain shift ovd. 2
+Color match 2
+Disillusion 2
+Memory match 2
+Disillusion
+Star search
+Train of thought
+Highway hazards
+Assist ants
+Moneycomb
+Eagle eye 2
+Follow that frog
+Playing koi
+River ranger
+Trouble brewing
+Splitting seeds
+Observation tower
+Raindrops
+Chalkboard chall. 2
+Raindrops 2
+Speed match web
+Attention Language Memory
+–0.62 0 0.62
+Flexibility Math Reasoning
+Fig. 3 | Inferred latent learning factors as a function of practice. The heatmap visualizes the six latent learning factors (columns) across games (rows).
+Positive (or negative) values are visualized by brown (or blue) colours. Each latent learning factor corresponds to a group of eight columns, where the
+columns within a group correspond to different stages of practice (practice increases from left to right). The hierarchical clustering solution to the left of
+the heatmap visualizes the similarity structure between cognitive tasks on the basis of the latent factors. Cognitive tasks are coloured according to primary
+task domain. Sp, spatial; ovd, overdrive.
+predictive performance on any particular segment of any particular Another potentially relevant factor is the reliability of scores as
+learning curve. a function of practice. An increase in the first learning factor over
+stages of practice could be attributed to an increase in reliability (for
+Inferred latent learning factors. Figure 3 shows the inferred latent example, smaller performance fluctuations over practice). However,
+learning factors broken down by stage of practice. The first latent Fig. 4c shows that the reliability of scores, assessed by the correla-
+learning factor is associated with positive scores across all tasks, tion in task scores of consecutive gameplays, ramps up quickly and
+consistent with a general ability factor often found in factor analysis remains constant after the third stage of practice (that is, after six
+of mental abilities2. While the first latent learning factor is positive gameplays), showing that the changes in factor scores cannot be
+across all tasks, there is also an increase over stages of practice attributed to changes in performance variability (within person)
+(Fig. 4a). This increase in part reflects changes in the correlations in over time.
+performance scores across tasks (Fig. 4b). A user who performs well The tree diagram of Fig. 3 shows the similarity structure between
+in one task tends to perform well in other tasks and this correlation tasks on the basis of the latent learning factors. The tasks cluster
+increases with practice. along the primary task domains: language tasks are similar to other
+Some of the changes in the first factor scores can be attributed language tasks, math tasks are similar to other math tasks, etc. This
+to task differences related to adaptivity. In some tasks the level of suggests that while the domain independent factor (the first factor)
+difficulty adapts between gameplays (see Methods). For these has a large influence on performance, the remaining factors modu-
+between-game adaptive tasks, idiosyncratic effects might influence late the learning curves for particular sets of tasks depending on the
+the performance scores in initial stages of practice, which would primary cognitive processing demands of the tasks. Note that, with
+decrease the dependence on general ability and thus lower the first the exception of the first factor, the values have no natural interpre-
+factor scores at at those stages. For example, a user who has high tation of higher-is-better. It is the sign of the user score along with
+ability might only be able to express this ability once the game has the sign of the latent factor value that is important for interpretation.
+adapted to an appropriate level. However, the first learning factor
+also increases with practice for tasks that maintain the same scoring Interpretation of latent learning factors. We examine whether the
+system and difficulty level across stages of practice (that is, those latent learning factors described by this six-factor solution can be
+with no between-game adaptivity). related to known features of the tasks such as the types of cognitive
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HuMaN BEHaviour Articles
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+1 2 3 4 5 6 7 8
+Stage of practice
+processing demands imposed by the task, the type of stimulus, (see Extended Data Fig. 5 for the resulting factors and factor cor-
+method of input or aspects of game design (for example, the pres- relations). As with the original orthogonal solution, the first fac-
+ence of leveling in difficulty or the presence of time pressure). Table 1 tor retains positive scores across all tasks, consistent with a general
+shows a list of task features we used in our analysis. Each feature ability factor. Though still positive, first factor scores are weakest
+is binary: a task is either associated with the feature or it is not. for tasks involving language. The second factor is also similar to its
+(Extended Data Figs. 1 and 2 show the full task × feature matrix and counterpart before rotation but the signs have been reversed such
+a definition of the task features.) that visuospatial tasks now correspond to negative values. The larg-
+Figure 5 shows the correlations between latent learning factors est positive scores are for language tasks. Positive scores on the third
+and task features corresponding to cognitive processes and stimulus factor are found for tasks involving spatial reasoning, with negative
+types. The hierarchical tree visualizes the similarity structure in the scores relating to tasks demanding response inhibition and other
+pattern of correlations. We use the primary task domains in Fig. 3 and aspects of executive function. The fourth factor has strongest scores
+the task features in Fig. 5 to guide an interpretation of the individual for tasks involving visualization of spatial transformations or spatial
+factors. The first factor, as described above, is associated with higher recall. The fifth factor relates to mathematical ability, similar to the
+performance across all tasks and is consistent with a general ability orthogonal solution. The sixth factor is a hybrid that relates to tasks
+factor. The second factor is related to visuospatial abilities: it is has practicing executive attention and also to reasoning and language.
+highest scores in tasks requiring spatial recall, route planning or the
+integration of visual information from across the visual field. Scores Predicting individual task features from the latent learning fac-
+are correlated with the use of locations and objects as the task stimuli. tors. The previous analysis focused on a qualitative interpretation of
+The third factor is related to executive attention, with highest scores the latent learning factors. We can also perform a more fine-grained,
+in tasks requiring the maintenance of goal-directed information or quantitative analysis that examines whether the pattern of informa-
+the inhibition of inappropriate responses and activation of appropri- tion contained in the latent learning factors is predictive of indi-
+ate ones. An increased score on this factor improves performance on vidual task features. We build a predictive model that has the goal
+tasks requiring selective attention. The fourth factor is primarily asso- of predicting (out-of-sample) the presence or absence of each task
+ciated with comprehension knowledge related to math and language feature for any particular task on the basis of the latent learning fac-
+tasks, that is crystallized intelligence, although it also has high scores tors associated with the task. Table 1 shows the diagnosticity of the
+in several tasks requiring spatial reasoning or visualization. The fifth predictive model expressed by area under the curve (AUC). This
+factor is related to mathematical ability—note the high correlation corresponds to the probability that the model assigns a higher score
+with task features involving numbers and math. The sixth factor is a of ‘feature present’ to a new task where the feature is indeed present
+hybrid factor that combines executive attention and math. than a new task without the feature. For 16 of 28 task features, pre-
+While this interpretation of the factors is consistent with the dictive model performance exceeds the 95% performance interval
+task features and primary task domains, there might be others as associated with chance-level performance. For example, whether
+well. In addition, the interpretation of these factors is constrained a task involves cognitive processes such as selective attention, task
+by the orthogonality of these factors, which tends to lead to tasks switching, word generation, calculation, spatial reasoning and
+being associated with multiple factors. To examine the effect of response inhibition can be determined by the latent learning factors
+orthogonality on the interpretability of the factors, we applied fac- associated with the task. Some of the other cognitive processes can-
+tor rotation methods using the promax method28, which leads to not be reliably identified in part because the feature was only associ-
+non-orthogonal factors where the variance of each task is redistrib- ated with a few tasks (N in Table 1), which makes generalization to
+uted across factors such that tasks are associated with fewer factors new tasks more challenging.
+erocs
+rotcaf
+tsriF
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+Between game adaptivity
+No
+0.2
+Yes
+0.1
+0
+1 2 3 4 5 6 7 8
+Stage of practice
+sksat
+neewteb
+snoitalerroc
+erocs
+emaG
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+1 2 3 4 5 6 7 8
+Stage of practice
+ytilibailer
+yalper–yalP
+a b c
+Fig. 4 | analysis of the first learning factor. a–c, Mean score of the first learning factor (a), game score correlations between tasks (b) and play–replay
+reliability as a function of stage of practice (c). Results are broken down by tasks with and without between-game adaptivity (colours). Shaded areas
+represent 25–75% percentiles. Correlations were first computed for each gameplay before aggregating over gameplays corresponding to a stage of practice.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HuMaN BEHaviour
+Contributions of individual latent factors to the shape of the
+Table 1 | Performance (auC) of predicting task features from
+learning curve. To better understand the contributions of indi-
+the latent learning factors
+vidual latent learning factors to the shape of the learning curve,
+Feature type task feature auC Confidence N Fig. 6 shows the posterior predicted learning curves in the origi-
+interva nal (untransformed) data space for the set of games that maintain
+the same difficulty levels and scoring across all stages of practice
+Process Memory 0.65 (0.26, 0.71) 24
+(Extended Data Fig. 6 shows results across all games). The curves
+Process Memory updating 0.71 (0.21, 0.76) 10
+show the predictions for simulated individuals who have individ-
+Process Multiple object 0.91 (0.08, 0.91) 3 ual scores on a factor that score in the top 10% (red), bottom 10%
+monitoring (blue) or at 50% (black) while scoring at 50% on all other factors.
+Process Selective attention 0.82* (0.18, 0.73) 11 Consistent with Fig. 3, the first factor predicts improved learning
+outcomes across all tasks. The remaining factors primarily shape the
+Process Divided attention 0.71 (0.23, 0.74) 13
+learning curve at later stages of practice and for subsets of tasks. For
+Process Task switching 0.86* (0.15, 0.83) 5
+example, the fifth factor primarily differentiates performance on the
+Process Vocabulary knowledge 0.93 (0.04, 0.97) 2 math tasks and has a relatively small impact on other tasks.
+Process Word generation 0.85* (0.13, 0.80) 6
+Relating individual scores to demographics. Figure 7 shows the
+Process Planning 0.80 (0.12, 0.84) 6
+distribution of individual scores (z) for each latent learning fac-
+Process Calculation 0.98* (0.12, 0.86) 4 j
+tor as a function of age and educational background. The first fac-
+Process Quantitative reasoning 0.52 (0.14, 0.85) 4 tor strongly differentiates between age groups. Older age groups
+Process Spatial reasoning 0.81* (0.22, 0.77) 10 score lower on this factor, predicting lower performance across all
+tasks, consistent with cognitive slowing theories of aging that affect
+Process Logical reasoning 0.77 (0.11, 0.86) 4
+a broad range of tasks30. Note that the general learning factor we
+Process Response inhibition 0.90* (0.24, 0.73) 17 found does not depend on the presence of different age groups. The
+Stimulus Objects 0.78* (0.27, 0.72) 33 same learning factor emerges when the model is applied to indi-
+Stimulus Locations 0.90* (0.26, 0.72) 25 vidual age groups, consistent with previous research that general
+intelligence factors can be found across different subpopulations31.
+Stimulus Single letters 0.79 (0.08, 0.91) 3
+In terms of educational differences, individuals with more advanced
+Stimulus Words 0.90* (0.20, 0.77) 10 education score higher on the general learning factor and lower on
+Stimulus Single digits 0.59 (0.14, 0.83) 6 the second factor, corresponding to higher math and language per-
+formance scores. However, overall there are no strong effects of edu-
+Stimulus Numbers 0.98* (0.10, 0.90) 4
+cational background.
+Input method Cursor keys 0.76* (0.25, 0.72) 17
+Input method Keyboard entry 0.83* (0.20, 0.77) 9 Discussion
+Input method Mouse pointer 0.89* (0.26, 0.70) 27 Large-scale datasets offer unique opportunities to study cognition
+at scale32,33. The Lumosity dataset offers a unique multivariate and
+Game design Within-game adaptivity 0.95* (0.25, 0.71) 29
+longitudinal set for studying learning across a number of cognitive
+Game design Algorithmic leveling 0.73 (0.23, 0.74) 14
+tasks and users. To avoid making strong assumptions about the
+Game design User-selected leveling 0.67 (0.25, 0.72) 17 data, we started this investigation with a data-driven Bayesian PCA
+Game design Response-time pressure 0.89* (0.25, 0.71) 31 approach to discover the statistical patterns of covariation across
+learning trajectories. The model infers a set of latent factors that
+Game design Briefly presented stimuli 0.82* (0.23, 0.74) 11
+can change as a function of the stage of practice, similar to other
+Values denoted with an asterisk show performances outside the 95% confidence interval given approaches that allow for the organization of cognitive abilities to
+between parentheses. AUC, area under the curve; N, number of tasks with the feature present. vary as a function of ability34,35. The modelling results showed that
+the learning trajectories show substantial covariation across tasks.
+Individuals who are good at learning one task typically are also
+good at learning other tasks, analogous to the standard finding of
+The particular Bayesian PCA approach we adopted allows for Spearman’s general intelligence factor1 and a positive manifold in
+different latent factors W to be associated with each stage of prac- tests of cognitive ability where performance across tests tends to be
+t
+tice (t), which raises the question whether the factors assess the positively correlated.
+same construct over time29. Because of the sharing of scores across A key finding is that the general learning factor was expressed
+stages of practice, there are constraints on the latent factors that mostly at later stages of practice. Across tasks, asymptotic perfor-
+prevent them from arbitrary changes across stages of practice. For mance correlates more strongly than baseline performance. The
+example, a user who scores high on a particular factor will upweight increase in the general learning factor over stages of practice was
+the contribution of the corresponding column of all matrices W especially prevalent for tasks with adaptive difficulty, consistent
+t
+regardless of stage of practice t, which constrains model flexibility with the possibility that tasks with adaptive difficulty may take some
+during inference. In model simulations (Supplementary Methods), time to reach an individual’s challenge level. However, the effect was
+we verified that the task feature prediction model retains high per- also found for non-adaptive tasks, which suggests that the type of
+formance when the model is trained on the latent factors associated learning in early stages (that is, learning how to complete the task,
+with a particular stage of practice and validated on other stages of not necessarily how to perform it well) may not map as well to this
+practice. general factor. Overall, the temporal pattern for the general learning
+Overall, these results show that the latent learning factors factor suggests that early performance on these cognitive tasks is in
+carry not only information about general learning ability but also part influenced by idiosyncratic, task-specific factors.
+task-specific information related to the type of cognitive process The finding that general ability is expressed to a higher degree
+involved, the type of stimulus being processed, the input method after extended practice is also consistent with cognitive and devel-
+and additional aspects of game design. opmental theories of intelligence such as mutualism8 and process
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HuMaN BEHaviour Articles
+1 2 3 4 5 6
+Word generation
+Words
+Vocabulary knowledge
+Logical reasoning
+Calculation
+Numbers
+Quantitative reasoning
+Single digits
+Memory
+Spatial reasoning
+Planning
+Divided attention
+Locations
+Multiple object monitoring
+Objects
+Selective attention
+Task switching
+Response inhibition
+Single letters
+Memory updating
+Process Stimulus
+–1.00 0 1.00
+Fig. 5 | Correlations between latent learning factors and manually derived task features. Each group of columns corresponds to the different time slices
+of a single latent factor. Positive (or negative) correlations are illustrated by red (or blue) colours. The hierarchical tree visualizes the similarity between the
+task features on the basis of the pattern of correlations between task features and latent factors. Task features are grouped by process and stimulus type.
+overlap theory4. The mutualism theory of intelligence views the on other cognitive tasks as observing performance at the very early
+cognitive system as a set of basic cognitive abilities and growth stages of practice for that particular task. This result has implica-
+in one ability is partly based on growth in other abilities. During tions for real-world forecasting scenarios where the most promising
+development, initially uncorrelated abilities become correlated individuals need to be selected for expensive and time-consuming
+as a result of the mutually beneficent interactions between these training of a particular task. Some of the future performance can be
+abilities. For example, there is evidence for a coupling between fluid forecasted without engaging in the target task at all.
+and crystallized abilities such that higher starting point in one abil- By making the Lumosity dataset publicly available, we aim to fos-
+ity is associated with greater developmental gains in the other36,37. ter new research on individual differences and the development of
+Process overlap theory, on the other hand, proposes that perfor- new modelling approaches to account for covariation across learn-
+mance on a task depends on interactions between domain-specific ing trajectories. There are several research directions that are likely
+as well as domain-general cognitive processes such as attentional to improve the prediction results and interpretability of the latent
+and executive processes. Task performance is constrained by factors. For example, we can improve the treatment of the temporal
+whichever required process an individual is weakest in. In the dimension of the data by building an explicit continuous-time model
+initial stages, task-specific skills need to be acquired, which lim- for the learning trajectory for each individual17,38 and applying
+its the observed correlations between tasks. During later learning multivariate latent growth models to learn the covariance structure of
+stages, more domain-general abilities may set an upper limit on the latent parameters governing the changes over time (for example,
+learning ability. refs. 18–22,36,37). In addition, future research could focus on a cognitive
+The model also inferred additional latent factors that captured modelling approach to explain observed performance in terms of
+performance variations related to specific types of tasks. In fact, the latent cognitive processes39. One Lumosity task (the task-switching
+latent learning factors encode information related to a number of game ‘Ebb and flow’) has already been modelled to understand
+different cognitive processes, types of stimuli, ways of assessing user the cognitive processes at the level of individual trials as well as the
+responses and general design features of the tasks. Therefore, the cognitive changes across sessions10. Finally, while our approach reveals
+relatively low-dimensional factor structure captures a substantial changes in covariation of performance across tasks as practice pro-
+amount of information about the mental activities in each task. gresses, it does not directly address the question of whether or how
+We also showed that the model can be used to predict task per- cognitive training might transfer between tasks, which has been a topic
+formance from observed performance on other tasks. Specifically, of recent debate40,41. Future modelling could allow for transfer effects
+we found that performance at a later stage of practice on a particu- arising from mutually coupled cognitive processes36,37 to account for
+lar task can be predicted as accurately from observing performance the possibility that performance is impacted by the order in which
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HuMaN BEHaviour
+1
+2
+3
+4
+5
+6
+tasks are practiced in interleaved practice. Ultimately, the predictive cognitive tasks, this dataset only included users if 5% or fewer of their gameplays
+were repetitions of the previous game. This criterion excludes individuals who
+evaluation approach introduced in this research will facilitate com-
+choose to repeat specific games rather than play from the broader game library.
+parison between different modelling approaches.
+In addition, individuals were selected who signed up between 1 August 2013 and
+31 December 2016, with an age at signup between 18 and 90 yr. The country of
+Methods origin was restricted to the United States, Canada or Australia with English as
+The Lumosity platform provides several games that tap memory, attention, the user’s preferred language. Finally, individuals were included if at least 99% of
+flexibility, speeded processing and problem solving. In the Lumosity program, their lifetime Lumosity gameplays were on the web product (as opposed to mobile
+individuals are given a recommended daily training session of five different apps) and only the web data were included in the data sample. In total, the dataset
+cognitive training games. One five-game session takes approximately 15 min to contains the full gameplay history across tasks spanning a period from 1 August
+complete. Outside of the training sessions, Lumosity users can also opt to select and 2013 to 30 June 2019. Most users in this sample (80%) signed up with Lumosity
+play games directly from the entire library of available games. before 1 January 2015. Users in this sample spent a median of 2 yr on the platform.
+Data sample. We performed a retrospective analysis of a sample of gameplay data Demographics of participants. Basic demographic information is available on the
+on the basis of 84 distinct cognitive games. The de-identified data sample provided basis of information provided by users when signing up for Lumosity. In our data
+by Lumosity includes the gameplay event history for 36,297 individuals, 1,442,555 sample, most individuals are female (50%), with 39% males and 11% individuals
+individual learning curves and 50,374,056 gameplay events. No statistical methods who did not provide gender information. We coded the age of individuals in seven
+were used to predetermine sample sizes but our sample sizes are larger than bins leading to the following breakdown of the user sample: 18–30 (5%), 31–40 (5%),
+those typically reported. The data sample was selected from the overall Lumosity 41–50 (12%), 51–60 (25%), 61–70 (32%), 71–80 (17%) and 81+ (4%). Therefore,
+database by focusing on active users who have at least 500 lifetime gameplays. the user sample skews towards an older demographic. Individuals reported their
+In addition, because the focus of our research is on analysing correlations across educational attainment according to the following categories: some high school (2%),
+2 noitargim
+ni
+tsoL
+tiusrup
+niugneP
+sdees
+gnittilpS
+wolf
+dna
+bbE
+2 hctam
+roloC
+2 tfihs
+niarB
+2 .dvo tfihs
+niarB
+gnisir selbbub
+droW
+selbbub
+droW
+2 .llahc draobklahC 2 spordniaR spordniaR 2 hctam
+deepS
+serusaert
+ladiT
+2 hctam deeps
+.pS
+hctam
+yromeM
+gorf taht
+wolloF
+2 hctam
+yromeM
+.dvo hctam
+deepS
+bew hctam
+deepS
+Fig. 6 | Changes in predicted learning curves based on changes in individual scores for individual factors. For each factor (row), the blue, black and red
+lines show the predicted learning curves for 10, 50 and 90% percentile scores on that particular factor and median scores on all other factors. Therefore,
+the red (blue) lines show the predicted learning curves for individuals who score high (low) on that factor while holding constant the contribution of other
+factors. Intercept differences are highlighted with circles at the start of the learning curve. To facilitate comparison, the vertical axis is the same for each
+particular task (column) but is different across tasks. Tasks are ordered by primary domain (colour) consistent with Fig. 3. Only the subset of tasks without
+between-game adaptivity is shown.
+2.5
+2.0 Age group Education
+1.5 18–30 Some high school
+1.0 31–40 High school
+0.5 41–50 Some college
+0 51–60 Associates degree
+Bachelors degree
+–0.5 61–70 Professional degree
+–1.0 71–80 Masters degree
+–1.5 81+ PhD
+erocS
+1 2 3 4 5 6
+1.0
+0.5
+0
+–0.5
+–1.0
+–1.5
+erocS
+a b
+1 2 3 4 5 6
+Fig. 7 | Distribution of individual scores for latent learning factors across demographic categories. a,b, Latent learning factors (columns) across age
+groups (a) and educational levels (b). Boxes represent interquartile ranges (that is, 25–75% percentile scores) and the median (horizontal line).
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HuMaN BEHaviour Articles
+high school (13%), some college (22%), Associates degree (4%), Bachelors degree In this notation, w ik is an element of matrix W with indices i = 1, …, N and
+(31%), Professional degree (6%), Masters degree (19%) and PhD (3%). k = 1, …, K and the variable z ij is the ith element of individual vector z j.
+We use the variational Bayesian inference procedure (VBPCA) described in
+Data filtering. For some of the cognitive tasks in the dataset, the available learning ref. 13 to infer model parameters. The algorithm provides estimates of the posterior
+data were sparse in terms of the number of individuals who performed the task or mean and covariance of W, z and μ as well as estimates of the hyperparameters
+the total number of times individuals performed the task. To ensure that sufficient σ, σw and σ μ. Finally, the algorithm provides estimates of the variance of withheld
+data were available for our analyses, we filtered out any cognitive task that had observations of the x. The VBPCA algorithm was run for 30 iterations.
+j
+fewer than 200 individuals at the twentieth gameplay attempt. At the learning
+curve level, we truncated the learning curve to the first 60 gameplays. The final Predictive tests. We assess model performance on two types of prediction
+dataset created after these filtering steps includes the gameplay event history for problems. In the first prediction problem (illustrated in Fig. 1a), the goal is to
+51 cognitive games, 36,297 individuals, 1,255,175 individual learning curves and predict the entire learning curve for a task for a particular user given the observed
+36,736,286 single gameplay events. learning curves from other tasks that the user engaged in. We created a validation
+set by withholding for each user the performance scores from one cognitive task
+Data sparsity. The observed data are sparse as users do not perform all cognitive chosen at random from all tasks that the user engaged in. Because of the size of the
+tasks. The tasks vary by popularity from 99.8% to as few as 1.5% of users in this data, we only created a single partition of the data into a training and validation set
+sample performing the task. On average, users perform a median of 32 distinct to assess predictive performance.
+tasks. An additional factor that influences sparsity is that learning curves for a In the second prediction problem (illustrated in Fig. 1b,c), the goal is to predict
+particular user and a particular task might not be complete—a user might stop the user performance at the last stage of practice (51–60 gameplays) from some
+playing the game before our cutoff of 60 gameplays. Across tasks, users and first 60 combination of observed performance on earlier stages of practice on the task as
+gameplays, only 33% of the data are observed. Supplementary Fig. 3 illustrates the well as practice on other tasks. We created 36 partitions of the data into validation
+pattern of sparsity across games as well as stages of practice. and training sets. For each partition, we first randomly selected 20% of users and
+selected for each user a single target learning curve without any missing practice
+Performance scores. At the end of each gameplay event, users are given feedback data. The data for the last stage of practice (gameplays 51–60) of the target learning
+on a variety of performance scores depending on the type of game. Some games curves were then placed in the validation set. For each of the target learning curves,
+provide feedback on mean response time per trial and/or mean accuracy. Our the number of observed stages of practice for the training data was randomly
+dataset only includes data on the total score per gameplay, which all games provide. determined, uniformly from the B − 1 = 7 remaining practice stages. For each of the
+This performance score is based on a combination of accuracy, speed of processing, selected users, we selected a random number of learning curves from tasks other
+as well as bonus points accumulated from a variety of factors (for example, streaks than the target tasks, uniformly from the number of other tasks the user engaged
+of correct responses or completing more challenging trials). in. The selected learning curves were placed in the training set. For the remaining
+80% of users, all observed data were placed in the training data. We repeated this
+Adaptivity within and between games. Some of the Lumosity games have a procedure of partitioning data into training and validation data 36 times. The
+level of difficulty that adapts to the user’s performance. For different games, model was applied to each partition and predictions for the last practice stage for
+this adaptivity may occur either within or between gameplays. Between-game the validation learning curves were recorded.
+adaptivity is achieved either through user-selected leveling, in which users unlock
+more challenging levels by reaching certain performance targets, or algorithmic Assessing predictive performance. We use the normalized mean absolute
+leveling, in which the level of difficulty is adjusted algorithmically across gameplays deviation (NMAD) metric to assess the predictive performance of the model. The
+on the basis of performance. For within-game adaptivity, the level of difficulty can mean absolute deviation (MAD) for particular cognitive task i is defined as
+increase or decrease during gameplay depending on user performance but each
+1
+g taa sm kse p arla ey
+a
+b sse og cin ias
+t
+ea dt t wh ie
+t
+hsa em ace
+h
+d ti yff pic eu olt fy
+a
+dle av pe tl i.
+v
+E itx yt .e Fn od re td
+h
+D
+e
+pat ua
+r
+pF oig s.
+e
+1
+o
+s fh oo uw
+r
+s
+a
+w nah li yc sh
+e s,
+MADi¼
+jΩijXðj;t
+Þ2Ωijy ijt�^y
+ijtj
+ð5
+Þ
+we distinguish between tasks that have no between-game adaptivity (20 total),
+which maintain the same level of difficulty and scoring system across gameplays, where y ijt is the withheld performance of user j on task i at time t and ^y ijt is the
+and tasks that have a form of between-game adaptivity (31 total). corresponding model prediction. The variable Ωi denotes the set of wiIthheld data
+pairs j and t for task i and ∣Ωi∣ is the number of withheld data pairs for task i. To
+combine the MAD across tasks, we normalize the scores before averaging:
+Data transformations. We applied several transformation steps to prepare the data
+f po er
+r
+ft oh re
+m
+P aC nA
+ce
+a slg coo rr eit sh am cr, or se sd cu oc ge nth ite
+iv
+c eo tm asp ku s.t a Tt oio in na tl
+r
+oc dom ucp el e nx oi tt ay
+t
+ia on nd
+,
+n wo er dm ea nl oiz te
+e
+t th he
+e
+NMAD ¼N1 N
+j
+MADi=Si ð6
+Þ
+observed performance scores by a three-way array Y with elements y ijt referenced X
+by indices i = 1, …, L (tasks), j = 1, …, M (individuals) and t = 1, …, T (number where S i is the standard deviation of performance scores (across all practice
+of gameplays). We transform the three-way array to a matrix of scores X with trials) for task i. This step normalizes the arbitrary scoring ranges associated with
+elements x ij referenced by i = 1, …, N (combination of task and stage of practice) individual tasks. The Supplementary Methods show three additional predictive
+and j = 1, …, M (individual). It should be noted that the predictive performance performance metrics for model evaluation.
+of the PCA model is assessed on the original untransformed data (Y) to facilitate
+comparison to other models that might use the same data. Determining the number of factors. There are several methods to determine
+In the first data transformation step, we reduced the dimensionality of the K, the number of latent factors in a dimensionality reduction algorithm such as
+temporal component of the data by discretizing time into B temporal bins. We PCA. We use a generalization test where we assessed the model’s performance on
+set B = 8 and defined the following stages of practice by the number of gameplays predicting learning curves that are withheld from the model. We calculated the
+completed: 1 or 2 gameplays, 3–5, 6–10, 11–20, 21–30, 31–40, 41–50 and 51–60. normalized mean absolute deviations (NMAD) for K = 1 up to K = 12 and chose
+All (observed) performance outcomes were averaged within these bins. The bins the number of latent factors such that generalization performance was adequate
+were chosen to be smaller for the early stages of the learning curve as these are the and no substantial gains could be obtained by selecting solutions with a higher
+stages where performance typically changes the most. number of latent factors. In our simulations, about six latent factors were sufficient
+In the second data transformation step, we normalized the performance to maximize predictive performance. Supplementary Figs. 1 and 2 show that
+outcomes across cognitive tasks and temporal bins. For each task, the performance similar results were obtained with three other predictive performance metrics.
+scores were normalized by the standard deviation of the performance scores in
+Determining the primary cognitive domains and task features. The tasks
+the last temporal bin (gameplays 51–60). No correction was applied to the mean.
+included in the dataset span a range of cognitive skills. For the purpose of
+After this transformation step, the data are of size M = 36,297 (individuals) × L = 51
+visualizing and interpreting the results of the probabilistic PCA, we classified the
+(cognitive tasks) × B = 8 (stages of practice).
+games into six primary areas: attention, flexibility, language, math, memory and
+In the final data transformation step, we rearrange the data to a matrix
+reasoning. These classifications closely follow the primary areas that are listed on
+representation. For each individual, we concatenate the L performance scores
+the Lumosity platform with a few exceptions (for example, we dropped the speed
+across tasks and B stages of practice to create a single (column) vector with
+area and reclassified a few games into other areas). Extended Data Fig. 1 shows the
+N = L × B performance scores. By combining the M individual vectors, we create
+primary cognitive areas designated for each task.
+the final N x M matrix X.
+While these primary cognitive domain classifications are broadly useful, it
+is important to note that each game might require multiple types of cognitive
+Priors and model inference. The Bayesian approach to probabilistic PCA
+processes. To more fully capture the set of cognitive activities involved in each
+completes the model by using the following priors on the model parameters:
+task, we enumerated a list of task features shown in Extended Data Fig. 1. The task
+wik Nð0;σ2
+wÞ
+features relate to the type of cognitive process, the type of stimulus, the method of
+zij Nð0;1
+Þ
+ð4
+Þ
+i tn asp ku t
+fe
+a an tud
+r
+o esth we er ra es p ree lc et vs
+a
+o nf
+t
+g aa nm
+d
+e
+f
+od ce us sig en
+d
+.
+m
+Fo ar
+in
+e la yc oh
+n
+t a fes ak t,
+u
+t rh ee
+s
+a tu ht ah
+t
+o wr os uas ldse bss ee ad
+p
+w plh ica at
+b le
+μ 0;σ2
+i Nð μÞ to a range of tasks. For definitions of task features, see Extended Data Fig. 2.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+Articles NaTurE HuMaN BEHaviour
+Linking latent factors to predefined task features. A (lasso) regularized 16. Bell, R. M. & Koren, Y. Scalable collaborative filtering with jointly derived
+logistic regression model was used to predict predefined task features from the neighborhood interpolation weights. In Proc. Seventh IEEE International
+pattern of latent factors. For each task feature, a separate model was trained Conference on Data Mining 43–52 (IEEE Computer Society, 2007).
+using cross-validation. For each fold, the model was trained on all but two 17. Driver, C. C. & Voelkle, M. C. Hierarchical Bayesian continuous time
+tasks and the test set consisted of the two held out tasks with the constraint dynamic modeling. Psychol. Methods 23, 774–799 (2018).
+that the feature was present on one task but not the other. The partitioning into 18. Kievit, R. A. et al. Developmental cognitive neuroscience using latent change
+training and test sets was done over 200 different combinations to create a test score models: a tutorial and applications. Dev. Cogn. Neurosci. 33, 99–117
+set with one feature-present and one feature-absent task. An AUC value was (2018).
+calculated from the proportion of test sets where the held out feature-present 19. Isiordia, M. & Ferrer, E. Curve of factors model: a latent growth modeling
+task was given a higher score by the logistic regression model than the held out approach for educational research. Educ. Psychol. Meas. 78, 203–231 (2018).
+feature-absent task. 20. Ram, N. & Grimm, K. J. in Handbook of Child Psychology and Developmental
+In addition, we derived a distribution of AUC that can be expected from Science (ed. Lerner, R. M.) 1–31 (Wiley, 2015).
+chance-level performance. In this procedure, we randomly permuted the feature 21. McArdle, J. J., Ferrer-Caja, E., Hamagami, F. & Woodcock, R. W. Comparative
+pattern across tasks (losing any connection between the latent learning factors and longitudinal structural analyses of the growth and decline of multiple
+task features but preserving the marginal distribution of variables) and calculated intellectual abilities over the life span. Dev. Psychol. 38, 115–142 (2002).
+an AUC for the logistic regression model as described earlier. This procedure was 22. Preacher, K. J., Wichman, A. L., MacCallum, R. C. & Briggs, N. E. Latent
+repeated 400 times to derive a distribution of AUC values. The 2.5% and 97.5% Growth Curve Modeling (Sage, 2008).
+percentiles of this distribution are reported in Table 1. 23. McNeish, D., Dumas, D. G. & Grimm, K. J. Estimating new quantities from
+For all simulations of the regression model, a coordinate descent algorithm longitudinal test scores to improve forecasts of future performance.
+for model inference was used. Convergence was assessed by the relative change in Multivariate Behav. Res. https://doi.org/10.1080/00273171.2019.1691484
+the size of the estimated coefficients. All model simulations converged when the (2019).
+relative change dropped below 1 × 10–4. 24. Rosenberg, M. D., Casey, B. & Holmes, A. J. Prediction complements
+explanation in understanding the developing brain. Nat. Commun. 9, 589
+Reporting Summary. Further information on research design is available in the (2018).
+Nature Research Reporting Summary linked to this article. 25. Settles B., Brust, C., Gustafson, E., Hagiwara, M. & Madnani, N. Second
+language acquisition modeling. In Proc. Thirteenth Workshop on Innovative
+Data availability Use of NLP for Building Educational Applications (eds Tetreault, J.,
+Burstein, J., Kochmar, E., Leacock, C. & Yannakoudakis, H.) 56–65
+The original and preprocessed versions of the data can be accessed at https://osf.io/
+(ACL, 2018).
+g9zkf. Source data are provided with this paper.
+26. Luttinen, J. & Ilin, A. Transformations in variational Bayesian factor analysis
+to speed up learning. Neurocomputing 73, 1093–1102 (2010).
+Code availability
+27. Fabrigar, L. R., Wegener, D. T., MacCallum, R. C. & Strahan, E. J. Evaluating
+The code used to analyse the data, run the Bayesian PCA model and create figures the use of exploratory factor analysis in psychological research. Psychol.
+and tables can be accessed at https://osf.io/g9zkf. Methods 4, 272–299 (1999).
+28. Abdi, H. in Encyclopedia for Research Methods for the Social Sciences (ed.
+Received: 9 January 2020; Accepted: 15 July 2020; Lewis-Beck, M. S. et al.) 792–795 (Sage, 2004).
+Published: xx xx xxxx 29. Widaman, K. F., Ferrer, E. & Conger, R. D. Factorial invariance within
+longitudinal structural equation models: measuring the same construct across
+time. Child Dev. Perspect. 4, 10–18 (2010).
+30. Salthouse, T. A. The processing-speed theory of adult age differences in
+References
+cognition. Psychol. Rev. 103, 403–428 (1996).
+1. Spearman, C. ‘General intelligence’ objectively determined and measured.
+31. Jensen, A. R. Regularities in Spearman’s law of diminishing returns.
+Am. J. Psychol. 15, 201–293 (1904).
+Intelligence 31, 95–105 (2003).
+2. Carroll, J. B. et al. Human Cognitive Abilities: A Survey of Factor-Analytic
+32. Griffiths, T. L. Manifesto for a new cognitive revolution. Cognition 135,
+Studies (Cambridge Univ. Press, 1993).
+21–23 (2015).
+3. Conway, A. R., Cowan, N., Bunting, M. F., Therriault, D. J. & Minkoff, S. R. A
+33. Goldstone, R. L. & Lupyan, G. Discovering psychological principles
+latent variable analysis of working memory capacity, short-term memory
+by mining naturally occurring data sets. Topics Cogn. Sci. 8,
+capacity, processing speed, and general fluid intelligence. Intelligence 30,
+548–568 (2016).
+163–183 (2002).
+34. Molenaar, D., Dolan, C. V., Wicherts, J. M. & van der Maas,
+4. Kovacs, K. & Conway, A. R. Process overlap theory: a unified account of the
+H. L. Modeling differentiation of cognitive abilities within the higher-
+general factor of intelligence. Psychol. Inq. 27, 151–177 (2016).
+order factor model using moderated factor analysis. Intelligence 38,
+5. Jensen, A. R. Clocking the Mind: Mental Chronometry and Individual
+611–624 (2010).
+Differences (Elsevier, 2006).
+35. Tucker-Drob, E. M. Differentiation of cognitive abilities across the life span.
+6. Schubert, A.-L., Hagemann, D. & Frischkorn, G. T. Is general intelligence
+Dev. Psychol. 45, 1097–1118 (2009).
+little more than the speed of higher-order processing?. J. Exp. Psychol. 146,
+36. Kievit, R. A. et al. Mutualistic coupling between vocabulary and reasoning
+1498–1512 (2017).
+supports cognitive development during late adolescence and early adulthood.
+7. Kaufman, S. B., DeYoung, C. G., Gray, J. R., Brown, J. & Mackintosh, N.
+Psychol. Sci. 28, 1419–1431 (2017).
+Associative learning predicts intelligence above and beyond working memory
+37. Kievit, R. A., Hofman, A. D. & Nation, K. Mutualistic coupling between
+and processing speed. Intelligence 37, 374–382 (2009).
+vocabulary and reasoning in young children: a replication and extension of
+8. Van Der Maas, H. L. et al. A dynamical model of general intelligence:
+the study by Kievit et al.(2017). Psychol. Sci. 30, 1245–1252 (2019).
+the positive manifold of intelligence by mutualism. Psychol. Rev. 113,
+38. Evans, N. J., Brown, S. D., Mewhort, D. J. & Heathcote, A. Refining the law of
+842–861 (2006).
+practice. Psychol. Rev. 125, 592–605 (2018).
+9. Barbey, A. K. Network neuroscience theory of human intelligence.
+39. Frischkorn, G. & Schubert, A.-L. Cognitive models in intelligence
+Trends Cogn. Sci. 22, 8–20 (2018).
+research: advantages and recommendations for their application. J. Intell. 6,
+10. Steyvers, M., Hawkins, G. E., Karayanidis, F. & Brown, S. D. A large-scale
+34 (2018).
+analysis of task switching practice effects across the lifespan. Proc. Natl Acad.
+40. Melby-LervÅg, M., Redick, T. S. & Hulme, C. Working memory training does
+Sci. USA 116, 17735–17740 (2019).
+not improve performance on measures of intelligence or other measures of
+11. Steyvers, M. & Benjamin, A. S. The joint contribution of participation and
+‘far transfer’ evidence from a meta-analytic review. Perspect. Psychol. Sci. 11,
+performance to learning functions: exploring the effects of age in large-scale
+512–534 (2016).
+data sets. Behav. Res. Methods 51, 1531–1543 (2019).
+41. Simons, D. J. et al. Do ‘brain-training’ programs work? Psychol. Sci. Public
+12. Donner, Y. & Hardy, J. L. Piecewise power laws in individual learning curves.
+Interest 17, 103–186 (2016).
+Psychon. Bull. Rev. 22, 1308–1319 (2015).
+13. Ilin, A. & Raiko, T. Practical approaches to principal component analysis in
+acknowledgements
+the presence of missing values. J. Machine Learning Res. 11, 1957–2000
+(2010). Feedback on the task feature categorization framework was provided by A. Kaluszka,
+14. Tipping, M. E. & Bishop, C. M. Probabilistic principal component analysis. O. Claflin, A. Osman and N. Ng. The authors received no specific funding for this work.
+J. R. Stat. Soc. B 61, 611–622 (1999).
+15. Lim, Y.J. & Teh, Y.W. Variational Bayesian approach to movie rating author contributions
+prediction. In Proc. International Conference on Knowledge Discovery and M.S. and R.J.S. planned the research. R.J.S. provided the data. M.S. analysed the data.
+Data Mining 15–21 (ACM, 2007). M.S. and R.J.S. interpreted the results and wrote the paper.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NaTurE HuMaN BEHaviour Articles
+Competing interests Correspondence and requests for materials should be addressed to M.S. or R.J.S.
+R.J.S. is an employee of Lumos Labs and owns stock in the company. M.S. has no Peer review information Primary Handling Editor: Marike Schiffer.
+competing interests.
+Reprints and permissions information is available at www.nature.com/reprints.
+additional information
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+Extended data is available for this paper at https://doi.org/10.1038/s41562-020-00935-3.
+published maps and institutional affiliations.
+Supplementary information is available for this paper at https://doi.org/10.1038/
+© The Author(s), under exclusive licence to Springer Nature Limited 2020
+s41562-020-00935-3.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr
+Extended Data Fig. 1 | task features for cognitive tasks grouped by process, stimulus, input method, and game design. Solid circles indicate the presence
+of the task feature. The primary cognitive area associated with each task is given between parentheses.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 2 | Glossary of task features. Definitions are provided for each process, stimulus, input method and game design feature used to
+describe the cognitive tasks.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr
+Extended Data Fig. 3 | See next page for caption.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 3 | Inferred latent learning factors with five factors. Top panel: the heatmap visualizes the latent learning factors (columns) across
+games (rows). Positive (negative) values are visualized by brown (blue) colours. Each latent learning factor corresponds to a group of 8 columns, where
+the columns within a group correspond to different stages of practice (practice increases from left to right). Cognitive tasks are coloured according to
+primary task domain. Bottom panel: correlations between latent learning factors and manually derived task features. Positive (negative) correlations are
+illustrated by red (blue) colours. The hierarchical tree visualizes the similarity between the task features on the basis of the pattern of correlations between
+task feature and latent factors. Task features are grouped by process, stimulus, and game design features.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr
+Extended Data Fig. 4 | See next page for caption.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 4 | Inferred latent learning factors with seven factors. Top panel: the heatmap visualizes the latent learning factors (columns) across
+games (rows). Positive (negative) values are visualized by brown (blue) colours. Each latent learning factor corresponds to a group of 8 columns, where
+the columns within a group correspond to different stages of practice (practice increases from left to right). Cognitive tasks are coloured according to
+primary task domain. Bottom panel: correlations between latent learning factors and manually derived task features. Positive (negative) correlations are
+illustrated by red (blue) colours. The hierarchical tree visualizes the similarity between the task features on the basis of the pattern of correlations between
+task feature and latent factors. Task features are grouped by process, stimulus, and game design features.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr
+Extended Data Fig. 5 | See next page for caption.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 5 | Inferred latent learning factors after oblique rotation (promax) that results in non-orthogonal factors. Top panel: the heatmap
+visualizes the latent learning factors (columns) across games (rows). Positive (negative) values are visualized by brown (blue) colours. Each latent learning
+factor corresponds to a group of 8 columns, where the columns within a group correspond to different stages of practice (practice increases from left
+to right). Cognitive tasks are coloured according to primary task domain. The matrix shows the correlations between factors. Bottom panel: correlations
+between latent learning factors and manually derived task features. Positive (negative) correlations are illustrated by red (blue) colours. The hierarchical
+tree visualizes the similarity between the task features on the basis of the pattern of correlations between task feature and latent factors. Task features are
+grouped by process and stimulus features.
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuuMMaaNN BBEEHHaavviioouurr
+Extended Data Fig. 6 | Changes in predicted learning curves based on changes in individual scores for individual factors. For each factor (row), the
+blue, black, and red lines show the predicted learning curves for 10, 50, and 90 percentile scores on that particular factor and median scores on all other
+factors. Therefore, the red (blue) lines show the predicted learning curves for individuals who score high (low) on that factor while holding constant the
+contribution of other factors. Intercept differences are highlighted with circles at the start of the learning curve. To facilitate comparison, the vertical axis is
+the same for each particular task (column) but is different across tasks. Tasks are ordered by primary domain (colour).
+NatuRe HuMaN BeHavIouR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Mark Steyvers and Robert J. Schafer
+Last updated by author(s): 6/11/2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection No software was used for data collection.
+Data analysis We used code for Bayesian PCA based on the paper as described by Ilin & Andraiko (2010) in the Journal of Machine Learning Research
+(vol 11, pp. 1957–2000). The code is included in repository we make available at https://osf.io/g9zkf
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The original and preprocessed versions of the data can be accessed at: https://osf.io/g9zkf
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description We analyze the latent structure of learning trajectories from 36,297 individuals as they learned 51 different tasks on the Lumosity online
+cognitive training platform. Our study is a retrospective data analysis of pre-existing data. The data is longitudinal and tracks user
+performance in each task over time. The data is cross-sectional as it allows comparisons of different age groups and educational
+backgrounds. Finally, the data is multivariate in the sense that for each user, the data includes performance scores across 51 different
+cognitive tasks.
+Research sample We performed a retrospective analysis of a sample of gameplay data based on 84 distinct cognitive games. The de-identified data sample
+provided by Lumosity includes the gameplay event history for 36,297 individuals, 1,442,555 individual learning curves, and 50,374,056
+gameplay events.
+Sampling strategy This data sample was selected from the overall Lumosity database by focusing on users who have at least 500 lifetime gameplays. In
+addition, because the focus of our research is on analyzing correlations across cognitive tasks, this data set only included users if 5% or
+fewer of their gameplays were repetitions of the previous game. This criterion excludes individuals who choose to repeat specific games
+rather than play from the broader game library. In addition, individuals were selected who signed up between Aug 1, 2013 and
+December 31st, 2016, with an age at signup between 18 and 90. The country of origin was restricted to the US, Canada, or Australia with
+English as the user's preferred language. Finally, individuals were included if at least 99% of their lifetime Lumosity gameplays were on
+the web product (as opposed to mobile apps) and only the web data was included in the data sample. In total, the data set contains the
+full gameplay history across tasks spanning a period from Aug 1, 2013 and June 30, 2019. The majority of users (80%) signed up with
+Lumosity before Jan 1 2015. Users in this sample spent a median of 2 years on the platform.
+Data collection The Lumosity platform provides a number of games that tap memory, attention, flexibility, speeded processing, and problem solving. In
+the Lumosity program, individuals are given a recommended daily training session of five different cognitive training games. One five-
+game session takes approximately 15 minutes to complete. Outside of the training sessions, Lumosity users can also opt to select and
+play games directly from the entire library of available games. For the purpose of our analysis, we only analyzed the performance score at
+the end of each gameplay and not the raw data of individual decisions/button presses within an individual gameplay.
+Timing The data is based on a sample of user activity between Aug 1, 2013 and June 30, 2019.
+Data exclusions As described in the Method section, for some of the cognitive tasks in the dataset, the available learning data was sparse in terms of the
+number of individuals who performed the task or the total number of times individuals performed the task. To ensure that sufficient data
+was available for our analyses, we filtered out any cognitive task that had fewer than 200 individuals at the 20th gameplay attempt. At
+the learning curve level, we truncated the learning curve to the first 60 gameplays. The final dataset created after these filtering steps
+includes the gameplay event history for 51 cognitive games, 36,297 individuals, 1,255,175 individual learning curves, and 36,736,286
+single gameplay events.
+Non-participation No users declined participation. This study is a retrospective data analysis of pre-existing data.
+Randomization Users were not allocated into experimental groups (this was not a randomized study).
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data

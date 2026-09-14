@@ -1,11 +1,1467 @@
-# Quantum reinforcement learning during human decision-making
-
-## Abstract
-Classical reinforcement learning (CRL) has been widely applied in neuroscience and psychology; however, quantum reinforcement learning (QRL), which shows superior performance in computer simulations, has never been empirically tested on human decision-making. Moreover, all current successful quantum models for human cognition lack connections to neuroscience. Here we studied whether QRL can properly explain value-based decision-making. We compared 2 QRL and 12 CRL models by using behavioural and functional magnetic resonance imaging data from healthy and cigarette-smoking subjects performing the Iowa Gambling Task. In all groups, the QRL models performed well when compared with the best CRL models and further revealed the representation of quantum-like internal-state-related variables in the medial frontal gyrus in both healthy subjects and smokers, suggesting that value-based decision-making can be illustrated by QRL at both the behavioural and neural levels. 
-
- This is a preview of subscription content, access via your institution
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0804-2/MediaObjects/41562_2019_804_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-019-0804-2/MediaObjects/41562_2019_804_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-019-0804-2
+Quantum reinforcement learning during human
+decision-making
+Ji-An Li 1,2, Daoyi Dong 3, Zhengde Wei1,4, Ying Liu5, Yu Pan6, Franco Nori 7,8 and
+Xiaochu Zhang 1,9,10,11*
+Classical reinforcement learning (CRL) has been widely applied in neuroscience and psychology; however, quantum reinforce-
+ment learning (QRL), which shows superior performance in computer simulations, has never been empirically tested on human
+decision-making. Moreover, all current successful quantum models for human cognition lack connections to neuroscience. Here
+we studied whether QRL can properly explain value-based decision-making. We compared 2 QRL and 12 CRL models by using
+behavioural and functional magnetic resonance imaging data from healthy and cigarette-smoking subjects performing the Iowa
+Gambling Task. In all groups, the QRL models performed well when compared with the best CRL models and further revealed the
+representation of quantum-like internal-state-related variables in the medial frontal gyrus in both healthy subjects and smok-
+ers, suggesting that value-based decision-making can be illustrated by QRL at both the behavioural and neural levels.
+O
+riginating from early behavioural psychology, reinforce- explained well by quantum probability theory9–16. For example, one
+ment learning is now a widely used approach in the fields work showed the superiority of a quantum random walk model over
+of machine learning1 and decision psychology2. It typi- classical Markov random walk models for a modified random-dot
+cally formalizes how one agent (a computer or animal) should take motion direction discrimination task and revealed quantum-like
+actions in unknown probabilistic environments to maximize its aspects of perceptual decisions12. Another study proved the superi-
+total reward. The agent selects actions according to value functions ority of one quantum model over the standard prospect model for
+that describe the expectations for alternative decisions (value-based a two-stage gambling task using the Bayesian factor model com-
+decision-making) and are influenced by reward, penalty and its parison11. In these works, the mathematical structure of quantum
+beliefs about the current situation. probability theory was emphasized, rather than the physical expla-
+Recently, quantum computation techniques were successfully nations for quantum mechanics. The assumption of low-level quan-
+applied in the field of machine learning3. Based on the quantum tum physics processes is not necessary in these cases.
+superposition principle and quantum parallelism, quantum rein- Although these quantum models were successful for some kinds
+forcement learning (QRL) was proposed4, combining quantum of human decision-making, value-based decision-making17 (the
+theory and reinforcement learning. This approach was later applied central issue of decision neuroscience and neuroeconomics18–20 and
+to robot navigation5,6 and quantum machine learning7,8. Computer a hallmark of high-level cognition) has not yet been tackled using
+simulations4,5 showed that QRL performs better on a large search quantum frameworks. Over the past decades, neuroscientific and
+space, learns faster and balances better between exploration and psychological research on value-based decision-making has con-
+exploitation compared with classical reinforcement learning (CRL). verged on the standard model of CRL2,21,22, providing highly fruit-
+It was shown theoretically that QRL can achieve quadratic improve- ful explanations and surprisingly accurate predictions. Due to some
+ments in learning efficiency and exponential improvements in per- seemingly quantum-like features of value-based decision-making
+formance for a broad class of learning problems8. This algorithm (in real life, making a choice per se can influence one’s subjective
+was also generalized to better adjust weights on favourable actions6, values for the alternatives) and the theoretical efficiency of quan-
+which further demonstrated the robustness of this framework. tum learning algorithms, we aimed to test whether the QRL frame-
+In a similar way to the introduction of quantum-inspired tech- work could also be useful and insightful for modelling value-based
+niques in machine learning, quantum-inspired frameworks have decision-making.
+also been introduced in psychology. There is evidence supporting Moreover, previous quantum models for human behaviour were
+quantum models for human behaviour: in the last decade, several mainly supported by behavioural data. Only a few of them were
+cognitive scientists found that some behavioural paradoxes and supported by evidence from electroencephalography (EEG) analy-
+effects (for example, the conjunction fallacy and the order effect) sis, lacking spatial resolution and locality information23. We have
+that resist explanations from classical probability theory could be little knowledge about how these quantum-like mechanisms are
+1Eye Center, Dept. of Ophthalmology, the First Affiliated Hospital of USTC, Hefei National Laboratory for Physical Sciences at the Microscale, School of
+Life Sciences, Division of Life Sciences and Medicine, University of Science and Technology of China, Hefei, China. 2Department of Statistics and Finance,
+School of Management, University of Science and Technology of China, Hefei, China. 3School of Engineering and Information Technology, University of New
+South Wales, Canberra, Australian Capital Territory, Australia. 4Shanghai Key Laboratory of Psychotic Disorders, Shanghai Mental Health Centre, Shanghai
+Jiao Tong University School of Medicine, Shanghai, China. 5The First Affiliated Hospital of USTC, Division of Life Sciences and Medicine, University of
+Science and Technology of China, Hefei, China. 6Key Laboratory of Applied Brain and Cognitive Sciences, School of Business and Management, Shanghai
+International Studies University, Shanghai, China. 7Theoretical Quantum Physics Laboratory, RIKEN Cluster for Pioneering Research, Wakoshi, Japan.
+8Department of Physics, The University of Michigan, Ann Arbor, MI, USA. 9Hefei Medical Research Centre on Alcohol Addiction, Anhui Mental Health
+Centre, Hefei, China. 10Academy of Psychology and Behaviour, Tianjin Normal University, Tianjin, China. 11Centres for Biomedical Engineering, University of
+Science and Technology of China, Hefei, China. *e-mail: zxcustc@ustc.edu.cn
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+implemented in the brain (for example, which brain area might par- The QSPP model performed well. After a careful search of the lit-
+ticipate in quantum-like processes). erature, we implemented 12 CRL models designed to break down
+Our goal is to explore quantum-like aspects of processes under- the IGT performance into subcomponents. Roughly speaking, all of
+lying value-based decision-making. To this end, we applied QRL them contained three stages30 (Fig. 2a; see also Supplementary Fig. 2):
+to value-based decision-making and studied how this quantum
+1. Evaluate the outcome (for example, the value plus perseverance
+framework could be implemented at both the behavioural and the
+(VPP) rule).
+neural levels.
+2. Update the expectancy (for example, the Decay learning rule).
+First, we collected behavioural and functional magnetic reso-
+3. Make a choice (for example, the trial-independent choice
+nance imaging (fMRI) data from 58 healthy subjects (control
+(TIC) rule).
+group) and 43 nicotine addicts (smoking group) performing
+the Iowa Gambling Task (IGT)24. This is a value-based decision- Most of these models were developed in past works30–32, some of
+making task that is well known among psychiatrists and neurosci- which were very successful in understanding the mechanisms
+entists, designed to evaluate the degree of decision-making defects. and defects of decision-making32–35.
+Its complexity and high ecological validity endow it with the abil-
+ity to capture important components (motivational, learning and Using the principles of QRL, we developed two additional QRL
+choice processes) underlying real-life decision-making. In previous models (Fig. 2b; see also Supplementary Fig. 2), the QSL model
+works, many CRL models for the IGT were developed25 to break and the QSPP model, by replacing each classical component in the
+down single task performance into these components. Some of CRL models with its quantum counterpart (see also Supplementary
+these models were very successful in illustrating the subprocesses Table 1):
+of value-based decision-making and explaining the behavioural dif-
+1. The CRL models use the set-theoretic representation a, a,
+ferences between healthy people and patients with decision-making 1 2
+a, a to describe four actions (selecting each deck), while the
+defects, such as drug addicts and brain-damaged populations. The 3 4
+QRL models use the geometric representation |a〉, |a〉, |a〉,
+smoking group was chosen based on the following considerations: 1 2 3
+|a〉, with the four eigenvectors spanning an action space
+smokers were reported to show impaired decision-making in the 4
+(Hilbert space).
+IGT26,27; the results from the smoking group could further vali-
+2. The CRL models use the classical probability p(t) to describe
+date the conclusions about the mechanisms of decision-making in j
+the tendency of selecting action a, while the QRL models use
+healthy people; and, by means of behavioural modelling and model- j
+the quantum probability amplitude ψ such that the internal
+based fMRI analysis, the mechanisms of addiction disorders were j
+state can be represented as a superposition state in the action
+better understood25. 4
+Second, we developed two additional QRL models (quantum space, ∣ψ⟩=∑ j=1ψ j ∣a j⟩.
+superposition state learning (QSL) and quantum superposition 3. The CRL models evaluate actions explicitly by value functions,
+state plus perseverance (QSPP)) for the IGT and compared them to while the QRL models evaluate actions implicitly by the prob-
+several well-established CRL models. We found that, in all groups, ability amplitude.
+the QSPP model provided goodness-of-fit and simulation perfor- 4. The CRL models learn value functions from outcomes using
+mance comparable to the best CRL models. We further replicated various learning rules, while the QRL models learn the proba-
+these results in 504 healthy subjects (super group) from an online bility amplitude from experience using an amplitude-updating
+IGT data pool28. algorithm (Grover iteration, Û ).
+G
+Third, we executed fMRI analyses to compare the neural sub- 5. The CRL models generate actions according to various choice
+strates relevant to the learning processes in the QSPP model and the rules, while the QRL models generate actions by superposition
+best-fitting CRL model. Because learning involves the updating of state collapse. Therefore, the QRL models work in a quantum-
+outcome-evaluation-based internal states29, we proposed and ana- like manner different from the CRL models.
+lysed several internal-state-related variables (generalized quantum
+distance and uncertainty-related interaction in the QSPP model) We proposed a geometric and algebraic explanation for the main
+that are important in the QRL models and found that they were rep- operator Û in the QRL framework (Fig. 2c; see also Supplementary
+G
+resented in the medial frontal gyrus (MeFG). Figs. 3 and 4 and the Further explanations of the quantum operator
+Altogether, our findings support the idea of quantum-like pro- Û section in the Supplementary Methods). On the Bloch sphere,
+G
+cesses during value-based decision-making at both the behavioural in each trial, the north pole z ̂ = |a〉 represents the chosen action
+and neural levels and provide the fMRI evidence connecting quan- and the south pole |a 〉 represents the unchosen actions. The vector
+⊥
+tum cognition to neuroscience. z′̂ = |ψ〉 is the internal superposition state, while its closeness to the
+poles reflects the weights on actions. If |ψ〉 moves to the north pole,
+results the agent will choose the same action in the next trial, but if |ψ〉 is
+Task design and subject performance. Healthy (control group) rotated to the south pole, the agent will never choose the same action
+and smoking (smoking group) subjects were recruited to perform in the next trial. During learning, the main operator Û =Q̂ Q̂ takes
+G 2 1
+the IGT24 in an fMRI scanner (Fig. 1a). In this task, the subjects a two-step rotation: Q̂ first rotates |ψ〉 into |ψ′〉 around z ̂= |a〉 (blue
+1
+selected one of four decks in each trial to obtain potential reward circle) and then Q̂ rotates |ψ′〉 into |ψ′′〉 around z′̂ = |ψ〉 (purple
+2
+or penalty points. They were required to learn the goodness of each circle), changing the closeness of the state vector to the two poles.
+deck to maximize their total rewards. Regardless of which group The rotation angles are computed from the outcome (a linear map-
+they were in, subjects chose the good decks significantly more ping from utility to rotation angles).
+often in the last 20 trials than in the first 20 trials (control group For simplicity, the VPP models (models with the VPP rule) and
+(two-tailed paired t test): t(57) = 17.84, P < 0.001, Cohen’s d = 3.52, the QSPP model are considered to be two-term models, while the
+95% confidence interval: 0.54, 0.68; smoking group: t(42) = 10.02, others are considered to be one-term models, based on whether the
+P < 0.001, Cohen’s d = 2.20, 95% confidence interval: 0.39, 0.60), perseverance part is included.
+meaning that most of them gradually learned the task (Fig. 1b,c). These models were fitted using the optimization algorithm to
+In addition to these two groups, we also analysed behavioural data maximize the log likelihood (LL) of each subject’s choice sequence.
+from an online IGT data pool (super group of 504 healthy subjects; To test the feasibility of the QRL models, we performed model
+see also Supplementary Fig. 1). comparisons based on the goodness-of-fit criterion and the
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+a
+b
+10
+5
+0
+Control group
+–5
+Smoking group
+1 3 5 7 9
+simulation method30 (see also Supplementary Results, section II for variable and estimating the distribution over model space38. Based
+statistical test results). on the AICc and BIC, we obtained the expected model likelihood,
+For the goodness-of-fit criterion, the corrected Akaike’s producing consistent results (Fig. 4). The QSPP model also showed
+Information Criterion (AICc)36 and the Bayesian Information an inferred frequency larger than any other CRL models. The two
+Criterion (BIC)37 provide a direct assessment of one-step-ahead QRL models together provided an exceedance probability larger
+predictions. Smaller AICc or BIC values represent better fits. The than 0.99 in all cases.
+mean AICc values for all of the models in each group are presented Unlike the goodness-of-fit criterion, the simulation method30
+in Fig. 3a–c. Here all models outperformed the baseline model, was designed to assess the accuracy of one model generating pre-
+which assumes that the agent chooses each deck at a fixed prob- dictions for entire choice sequences according to model parameters,
+ability. The QSL model provided better fits than all of the one-term without relying on the subjects’ choice history. Based on the simu-
+CRL models (red bars) in the smoking and super groups and was lated sequences, we computed the mean square errors (MSEs) of the
+comparable to the best one-term CRL PVLDecayTDC model in proportion of choice (PoC; Fig. 5a–c) and the MSEs of each deck
+the control group. The QSPP model provided better fits in all three selection (EDS; Fig. 5d–f). Here all the QRL models (orange bars)
+groups than all other CRL models, including the VPPDeltaTIC had a performance comparable to (or even better than) the best
+model, which was reported to be the best-fitting model among CRL CRL models (red or blue bars) in all groups. Additional checks of
+models in former works32. The BIC values for all models provide the above distances between the behaviour of subjects and models
+similar results (Fig. 3d–f). In addition to frequentist model com- are presented in Supplementary Fig. 5.
+parison, we further applied Bayesian model comparison based on In conclusion, all comparison results indicate that the QSPP
+the variational Bayesian method, treating the model as a random model is comparable to (or even better than) the CRL models at
+kced
+dab
+–
+dooG
+snoitceles
+1.0
+0.5
+0
+0 0.5 1.0
+Fraction correct in the first block
+kcolb
+tsal
+eht
+ni
+tcerroc
+noitcarF
+Run I Run II Run III
+Task Task Task Task Task Task Task Task Task
+Rest Rest Rest Rest Rest Rest Rest Rest Rest Rest Rest Rest
+Rest block
+fixation 30 s Task block
+Decision-making 4 s
+Outcome 1 s
+Good deck identification 6 s
+Rest block
+fixation 24 s
+1 trial × 20
+c
+Fig. 1 | task diagram and task performance. a, An IGT diagram and fMRI scan processes. There were three 7-min fMRI scan runs, separated by intervals
+of about 1 min. Each scan consisted of one 30-s rest block and three 106-s task and 24-s rest cycles. The last 6 s of each task block were designed for good
+deck identification, which was not analysed in this study. The first 100 s contained 20 trials and each trial was divided into two events: during the decision-
+making phase, 4 s were provided for card selection, and a random selection was made if no decision had been made during this period; during the outcome
+phase, the reward and penalty were presented on the screen for 1 s. There were no inter-trial intervals. The blue bar above the decks showed the initial
+3,000 points throughout the task and the orange bar showed the current accumulated points. b, The proportion of good minus bad deck selections in the
+20-trial blocks. The shaded regions indicate the standard error. c, Subjects chose the good decks significantly more often in the last 20 trials than in the
+first 20 trials. The markers are slightly jittered to show all subjects (blue circle, control group; orange triangle, smoking group). The dashed diagonal line
+represents the equality line.
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+a Generalized quantum distances were represented at the neural
+Utility Prospect utility level. To illustrate the learning process formalized by the QSPP
+model, we factorized the main unitary operator Û and acquired
+G
+Decay learning rule one of the most important properties of this unitary operator:
+quantum transition amplitudes (see the Quantum transition ampli-
+tudes and probabilities section in the Supplementary Methods).
+Outcome Perseverance Expectancy
+Just as electrons can jump between energy levels when absorbing
+or releasing energy, the agent’s preference can change between the
+Valuation unchosen actions and the chosen action when acquiring informa-
+tion from the environment (learning from outcomes). Another
+TIC rule
+way to depict the learning-induced change is the quantum distance
+Probability
+between superposition states in two adjacent trials. Such distances
+b are pervasive and meaningful in the field of quantum informa-
+Utility tion39, providing an approach to evaluate the distinguishability
+of different states (how close two states are). In our case, this dis-
+Amplitude tance evaluates to what degree the state is influenced by learning
+updating
+through unitary iteration (see the Quantum distances section in
+the Supplementary Methods).
+Superposition
+Outcome Perseverance
+state Although the transition amplitude and the quantum distance
+Choice rule Collapse have different definitions, meanings and concrete values, we
+Probability II Probability I found that there is a mathematical duality between the transition
+amplitude and the quantum distance (see the Relations between
+quantum transition amplitudes and quantum distances section in
+Probability
+the Supplementary Methods), similar to the two sides of a coin.
+Therefore, we defined the generalized quantum distance as the
+c ∣a〉
+geometric average of these two signals, catching the overall effect
+of Û . We computed the generalized quantum distance for each
+∣ψ′〉 G
+Q˄ ∣ψ〉Q˄ trial (Supplementary Fig. 6) and found that, on average, there was
+1 2
+θ ∣ψ′′〉 a downtrend over time, which means that the transition of prefer-
+ences and the change of states induced by outcome learning are
+y˄
+reduced gradually by accumulated knowledge about the task rule.
+φ We then executed model-based fMRI analysis40, which can relate
+x˄
+model predictions to fMRI data to locate hypothesized decision-
+making processes in the brain and discriminate competing hypoth-
+eses. We analysed the generalized quantum distance based on the
+–z˄ = ∣a ⊥〉 blood-oxygen-level dependent (BOLD) data at the outcome period
+in two groups (see generalized linear model (GLM) 3 in the fMRI
+Fig. 2 | Diagrams of model architecture. a, The VPPDecayTIC model. data analyses section in the Methods). All reported voxels sur-
+VPPDecayTIC31 is a CRL model containing three stages: (1) evaluate the vived the family-wise error correction at a cluster level threshold of
+outcome with the VPP rule; (2) update the expectancy with the Decay P < 0.05, with P < 0.001.
+uncorrected
+learning rule; and (3) make a choice with the TIC rule. b, The QSPP In the control group, the generalized quantum distance signifi-
+model. QSPP is a QRL model; the perseverance part is absent in one-term cantly activated the MeFG/anterior cingulate cortex (ACC), the
+CRL models and in the one-term QRL model (QSL). Model details and precentral gyrus, the insula, the precuneus, the left fusiform gyrus,
+comparisons can be found in the main text. c, A geometric explanation of the inferior parietal lobule (IPL), the middle frontal gyrus (MiFG)
+Û G that adjusts the weights of the chosen action and unchosen actions. and the right inferior temporal gyrus (ITG)/fusiform gyrus (Fig. 6;
+The north pole zẑ = |a〉 on the surface of the unit sphere is the chosen see also Supplementary Table 2), showing a unique quantum-like
+action and the south pole |a ⊥〉 is the unchosen one. The vector zẑ′ = |ψ〉 neural mechanism for how the internal state is changed due to
+is the internal state, while its closeness to the poles reflects the weights external information.
+on the actions. The spherical coordinate parameters (polar angle θ and In addition, we did not find activation related to generalized
+azimuthal angle φ) and the rectangular coordinate axes (xx̂ and yŷ) are quantum distances in the smoking group, indicating that their rep-
+determined by the Bloch sphere representation for our QRL models. During resentation might be impaired in smokers.
+learning, the main operator Û G first rotates |ψ〉 into |ψ′〉 around zẑ = |a〉
+(blue circle) and then rotates |ψ′〉 into |ψ′′〉 around zẑ′ = |ψ〉 (purple circle), Neural substrates related to uncertainty revealed by the QSPP
+changing the closeness of the state vector to the two poles (for details, model. Uncertainty might be another useful variable to study to
+see the section “Further explanations of the quantum operator Û G” in the better understand the differences between the learning processes
+Supplementary Methods). reflected by the VPPDecayTIC and QSPP models. Uncertainty
+about internal states, an important task-related variable represented
+at the neural level41,42, reflects the external unstable environment,
+the behavioural level, proving the QRL to be a powerful frame- interacts with outcomes43 and assists learning44,45. We computed the
+work to describe value-based decision-making behaviour. For the uncertainty provided by the two models (see the Uncertainty sec-
+following analyses, we mainly concentrated on our QSPP model tion in the Supplementary Methods). Uncertainty decreased over
+and the best-fitting VPPDecayTIC model as the representatives of time (Supplementary Fig. 7), meaning that the subjects’ uncertainty
+the QRL and CRL models, respectively. We analysed the similar- about the task rule dropped gradually. We then performed another
+ity in their parameters, showing that the VPPDecayTIC model was model-based fMRI analysis, studying uncertainty and the interac-
+a reasonable counterpart of the QSPP model (see Supplementary tion of uncertainty and penalty/reward based on the BOLD data
+Results, section III). (see GLM4–5 in the fMRI data analyses section in the Methods,
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+fMRI results of uncertainty in Supplementary Results, section VI In the control group, the difference (control QSPP − control
+and Supplementary Table 3). Penalty and reward were separated VPPDecayTIC) in the effects of the uncertainty × penalty interac-
+because they were reported to have different roles in IGT process- tion showed significant activation in the right MeFG, the left orbital
+ing and performance46. frontal cortex (OFC), the left MeFG/ACC, the middle temporal
+PPSQ LSQ CDTyaceDPPV CITyaceDPPV CDTatleDPPV CITatleDPPV CITyaceDLVP CITyaceDLVE CDTyaceDLVE CDTyaceDLVP CITatleDLVP CDTatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+200
+100
+0
+PPSQ CDTyaceDPPV CITyaceDPPV CDTatleDPPV CDTyaceDLVP CITatleDPPV CITyaceDLVP CDTyaceDLVE CITyaceDLVE LSQ CITatleDLVP CDTatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+400
+200
+0
+CIB CIB
+PPSQ CDTyaceDPPV CDTyaceDLVP CITyaceDLVP CITyaceDPPV CDTatleDPPV CITatleDPPV CDTyaceDLVE LSQ CITyaceDLVE CDTatleDLVP CITatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+CIB
+400
+200
+0
+PPSQ LSQ CDTyaceDPPV CITyaceDLVP CITyaceDLVE CITyaceDPPV CDTatleDPPV CITatleDPPV CDTyaceDLVE CDTyaceDLVP CITatleDLVP CDTatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+200
+100
+0
+PPSQ CDTyaceDPPV CITyaceDPPV CDTatleDPPV CITatleDPPV CDTyaceDLVP CITyaceDLVP LSQ CDTyaceDLVE CITyaceDLVE CITatleDLVP CDTatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+200
+0
+cCIA cCIA
+PPSQ CDTyaceDPPV CITyaceDPPV CDTatleDPPV CITatleDPPV LSQ CDTyaceDLVP CITyaceDLVP CDTyaceDLVE CITyaceDLVE CDTatleDLVP CITatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+cCIA
+a b c
+400
+200
+0
+d e f
+Fig. 3 | the AiCc and BiC of each model, computed separately for each group. a, The AICc in the control group. b, The AICc in the smoking group.
+c, The AICc in the super group, with a different range from the first two because there were fewer trials for the super group. d–f, The BICs in the control
+(d), smoking (e) and super groups (f). The orange bars represent the QRL models, including the QSL (one-term) and the QSPP (two-term) models.
+The light blue bars represent the two-term CRL models, while the red ones show the one-term CRL models. All panels demonstrate the good performance
+of the QRL models. The error bars indicate the standard error.
+PPSQ CDTyaceDPPV CITyaceDLVP CITyaceDPPV CITatleDLVP LSQ CITatleDPPV CDTyaceDLVP CDTatleDPPV CDTyaceDLVE CITyaceDLVE CITatleDLVE CDTatleDLVP CDTatleDLVE enilesaB
+0.8
+0.4
+0
+PPSQ LSQ CDTyaceDPPV CDTatleDPPV CITyaceDPPV CDTyaceDLVP CITatleDPPV CDTyaceDLVE CITyaceDLVE CITyaceDLVP CITatleDLVP CDTatleDLVP CITatleDLVE CDTatleDLVE enilesaB
+0.8
+0.4
+0
+PPSQ LSQ CDTyaceDPPV CDTyaceDLVP CDTyaceDLVE CITyaceDLVP CDTatleDLVE CITyaceDLVE CITatleDPPV CITyaceDPPV CITatleDLVP CDTatleDPPV CITatleDLVE CDTatleDLVP enilesaB
+0.8
+0.4
+0
+ytilibaborp
+desab-CIB
+PPSQ CITyaceDLVP LSQ CDTyaceDPPV CDTyaceDLVE CDTyaceDLVP CITyaceDPPV CITatleDPPV CDTatleDPPV CITatleDLVP CITyaceDLVE CITatleDLVE CDTatleDLVE CDTatleDLVP enilesaB
+0.8
+0.4
+0
+LSQ PPSQ CITyaceDLVP CITyaceDLVE CDTyaceDLVP CDTyaceDLVE CDTyaceDPPV CDTatleDPPV CDTatleDLVP CITatleDLVE CITatleDPPV CITyaceDPPV CITatleDLVP CDTatleDLVE enilesaB
+0.8
+0.4
+0
+PPSQ CDTyaceDPPV LSQ CITatleDPPV CDTatleDPPV CITyaceDPPV CITatleDLVP CITyaceDLVP CITyaceDLVE CDTatleDLVE CDTatleDLVP CITatleDLVE CDTyaceDLVP CDTyaceDLVE enilesaB
+0.8
+0.4
+0
+ytilibaborp
+desab-cCIA
+ytilibaborp
+desab-cCIA
+ytilibaborp
+desab-CIB
+ytilibaborp
+desab-cCIA
+ytilibaborp
+desab-CIB
+a b c
+d e f
+Fig. 4 | the inferred model probability of each model, computed separately for each group. a–c, The AICc-based inferred probability in the control
+(a), smoking (b) and super groups (c). d–f, The BIC-based inferred probability in the control (d), smoking (e) and super groups (f). The orange bars
+represent the QRL models. The light blue bars represent the two-term CRL models, while the red ones show the one-term CRL models. All panels
+demonstrate the good performance of the QRL models; the dotted line shows the average level.
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+gyrus (MiTG) and the left MiTG/angular gyrus/posterior cingulate MiTG/angular gyrus in the control group (Fig. 7d; see also
+gyrus (PCC)/precuneus (Fig. 7a,b; see also Supplementary Table 4). Supplementary Table 5). No significant difference was found
+These results revealed distinct quantum-like mechanisms for how between the two models related to the interaction of uncertainty
+learning from a penalty is modulated by uncertainty. and reward in the smoking group.
+In the smoking group, we also found the difference (smoking
+QSPP − smoking VPPDecayTIC) of effects of the interaction posi- Discussion
+tively related to the left MeFG, left MiTG and left IPL (Fig. 7a,c). In the present study, we developed two additional QRL models for
+The other areas activated in the control group showed no activation the IGT. We compared these two QRL models with 12 CRL models
+in the smoking group. and found that the QSPP model was comparable to the best CRL
+For the interaction of uncertainty and reward, we found acti- models. We also studied the generalized quantum distances and
+vation in the left MeFG (nearly significant), left MiTG and left the uncertainty × penalty/reward interaction based on fMRI data
+PPSQ LSQ CITatleDPPV CITyaceDPPV CITatleDLVP CDTatleDLVP CDTatleDPPV CDTyaceDPPV CITyaceDLVP CDTyaceDLVP CITatleDLVE CDTatleDLVE CITyaceDLVE CDTyaceDLVE
+0.04
+0.02
+0
+PPSQ LSQ CITatleDPPV CDTatleDPPV CITyaceDPPV CDTatleDLVP CITatleDLVP CDTyaceDPPV CITatleDLVE CDTatleDLVE CITyaceDLVP CDTyaceDLVP CITyaceDLVE CDTyaceDLVE
+0.10
+0.05
+0
+ESM
+CoP
+PPSQ LSQ CITyaceDPPV CITatleDPPV CDTyaceDPPV CITatleDLVP CDTatleDPPV CDTatleDLVP CITatleDLVE CDTatleDLVE CDTyaceDLVP CITyaceDLVP CDTyaceDLVE CITyaceDLVE
+0.05
+0
+PPSQ LSQ CITatleDPPV CITatleDLVP CITyaceDPPV CDTatleDLVP CDTatleDPPV CDTyaceDPPV CITyaceDLVP CDTyaceDLVP CITatleDLVE CDTatleDLVE CDTyaceDLVE CITyaceDLVE
+0.02
+0.01
+0
+PPSQ LSQ CITatleDPPV CDTatleDPPV CDTatleDLVP CITyaceDPPV CITatleDLVP CDTyaceDPPV CITatleDLVE CDTatleDLVE CITyaceDLVP CDTyaceDLVP CITyaceDLVE CDTyaceDLVE
+0.1
+0
+ESM
+SDE
+ESM
+CoP
+ESM
+SDE
+PPSQ CITyaceDPPV LSQ CITatleDPPV CDTyaceDPPV CITatleDLVP CDTatleDLVP CDTatleDPPV CITatleDLVE CDTatleDLVE CITyaceDLVP CDTyaceDLVP CITyaceDLVE CDTyaceDLVE
+ESM
+CoP
+ESM
+SDE
+a b c
+d e f
+0.10
+0.05
+0
+Fig. 5 | the simulation results of each model, computed separately for each group. a–c, The MSEs of the PoC in the control (a), smoking (b) and super
+groups (c). d–f, The MSEs of EDS in the control (d), smoking (e) and super groups (f). All panels demonstrate the good performance of the QRL models.
+All error bars indicate the standard error.
+MeFG/ACC Left and right precentral gyrus
+MeFG/ACC Precuneus
+Left insula Right insula
+x = –1 y = 10 y = –15 y = 66
+ACC
+IPL Left MiFG Right MiFG
+Left fusiform
+Left fusiform Right ITG/fusiform
+y = 70 y = 50 z = 22 y = 55
+Fig. 6 | Generalized quantum distance (computed by the QSPP model)-related activity in the control group. The generalized quantum distance
+significantly activated the MeFG/ACC, the precentral gyrus, the insula, the precuneus, the left fusiform gyrus, the IPL, the MiFG and the right ITG/fusiform
+gyrus. All coordinates (in mm) are plotted in RAI (right–anterior–inferior, also known as radiological coordinates) order (i.e., −right, +left; −anterior,
++posterior; −inferior, +superior).
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+a
+Left MeFG
+Left MeFG
+Left ACC
+Right MiTG
+Left MiTG
+Left MiTG
+x = 11 z = 3 x = 11 z = 3
+b c
+PCC/precuneus
+Left IPL
+Left MiTG/angular gyrus
+Right MeFG
+Left OFC
+x = –19 x = 38 y = 66 x = 31
+d
+Left MiTG/angular gyrus
+Left MiTG
+z = 3 y = 66
+Fig. 7 | fmri results of the uncertainty × penalty/reward interaction. a, The uncertainty × penalty interaction positively related to the left MeFG and
+left MiTG in both the control group (left panel; control QSPP − control VPPDecayTIC) and the smoking group (right panel; smoking QSPP − smoking
+VPPDecayTIC). b, The uncertainty × penalty interaction positively related to the right MeFG, left OFC and left MiTG/angular gyrus/PCC/precuneus in
+the control group. c, The uncertainty × penalty interaction positively related to the left IPL in the smoking group. d, The uncertainty × reward interaction
+positively related to the MiTG and the left MiTG/angular gyrus in the control group (control QSPP − control VPPDecayTIC). All coordinates are plotted
+(in mm) in RAI order (i.e., −right, +left; −anterior, +posterior; −inferior, +superior).
+in healthy subjects and smokers. We found several consistencies weights are implemented by value functions (the expectancy for
+and differences in brain activity between the control and smoking decks), while in the QRL models, the weights are expressed by the
+groups, which reveal the important brain regions for QRL; they are probability amplitude for each action (superposition state overall).
+discussed below. Cognitively, during each trial’s learning period in the CRL mod-
+To compare these models, we used the goodness-of-fit criterion els, the weight on the chosen action is updated (for example, by
+and the simulation method. The goodness-of-fit criterion evalu- prediction errors) and the weights on unchosen actions decay or
+ated the accuracy of the one-step-ahead predictions of the models. remain unchanged, independently of the chosen action. However,
+Using the AICc and BIC, the QSPP model provided a better fit than in the QRL models, the superposition state can be visualized as a
+all CRL models. Unlike one-step-ahead predictions, the simulation point (vector) on the surface of a three-dimensional sphere (Bloch
+method produced whole selection sequences without relying on the sphere) and the adjustment of weights on each action is simulta-
+subjects’ real choices. With two MSE indexes, the QSPP model kept neously reflected in the movement of the point location, which is
+its good performance. More importantly, the QSPP model showed implemented as the rotation of the point (superposition state) on
+superior performance in all three groups, indicating that this can be the sphere surface around an axis. In short, the CRL models we
+generalized for more diverse subjects. used adjust the weights on the chosen action and unchosen actions
+The superiority of the one-term Decay models over the one-term independently, separably and locally during the valuation process,
+Delta models using the goodness-of-fit criterion was reversed with while our QRL models adjust the weights on the chosen action and
+the simulation method (see Supplementary Results, section I). This unchosen actions dependently, inseparably and globally.
+phenomenon was also reported in previous works; this could be In contrast to simple modifications of the CRL models (for
+because the two rules have different reliances on past outcomes and example, adding or deleting components in the CRL models), our
+past choices30,47. The Delta rule provides better long-term (whole QRL models provide us with a different perspective from traditional
+sequence) predictions and the Decay rule makes better short-term ones and point out other possible directions for modelling, such as
+(one-step-ahead) predictions. The QRL models achieved good per- geometric state representation, unitary state evolution and Grover
+formance in both the goodness-of-fit criterion and the simulation iteration updating.
+method, indicating that they make good predictions for both the The QRL models are also different from the original QRL frame-
+long term and short term. work4,6, in which the cumulative value function (such as the expec-
+Generally, the learning process in value-based decision-mak- tancy for decks in the IGT, the state value function V(s) and the
+ing is the adjustment of the weights on each action (for example, state-action value function Q(s, a) in reinforcement learning) was
+the preference/tendency for each deck). In the CRL models, the used for superposition state updating. In practice, we found that the
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+incorporation of cumulative value functions did not significantly undeveloped and have much potential. More importantly, the QRL
+increase model performance. In the field of decision neuroscience, framework reveals a different perspective on human behaviour and
+all reinforcement learning models involve the calculation of cumu- these two frameworks can reap a substantial number of benefits
+lative values, while our QRL models do not assume the use of such from each other.
+a component. It seems to be consistent with our daily life experi- This fMRI study supports the idea of quantum cognition at the
+ences: we sometimes do not feel the existence of such a computa- neural level. For the learning process of unitary iteration in the
+tional process during this kind of decision-making. Although we QSPP model, the quantum transition amplitude describes the tran-
+can explain that this process is automatic, habitual and unconscious, sition between actions due to external information. The quantum
+our QRL models provide a potential different way: cumulative value distance measures the distinguishability between two quantum
+computation could be absent during value-based decision-making. states (that is, how close they are) and thus describes the influ-
+Whether cumulative value functions are profitable in the QRL mod- ence on internal states by learning from outcomes. The generalized
+els is an open question. In future research, it is worth investigating quantum distances take into consideration the duality between the
+whether they can further improve the performance. quantum distance and the transition amplitude and thus catch the
+Although the QRL models did not overwhelmingly outper- overall property of the main operator. The transition amplitude and
+form the CRL models (for example, some behavioural effects can the quantum distance showed activation consistent with the gener-
+be explained by only the QRL models), one should be aware that alized quantum distance, indicating the rationality of the definition
+the QRL framework is still in its infancy and undoubtedly deserves of our generalized quantum distance (see Supplementary Results,
+additional studies. Compared with the classical framework, the section V). The generalized quantum distance can be considered
+QRL framework has several potential theoretical advantages: as the interaction between the internal superposition state and the
+outcome, sharing a similar critical concept with the interaction of
+1. Quantum probability theory, as a generalized probability the-
+uncertainty and outcome (also discussed in the next paragraph). We
+ory, provides a stronger representation for tasks and internal
+found that the generalized quantum distances were represented in
+states (such as allowing the internal states to be in an indefinite
+the MeFG/ACC, the precentral gyrus, the insula, the MiFG, the pre-
+state before an action is taken10).
+cuneus, the IPL and the fusiform gyrus (because the MeFG is also
+2. From the perspective of information processing, there are am-
+activated for the uncertainty × penalty/reward interaction, which
+ple quantum features (such as coherence and entanglement)
+we discuss later). The MiFG, the precuneus and the fusiform gyrus
+not (fully) utilized in the current models that could be benefi-
+were reported to be activated in many decision-making tasks under
+cial in the future.
+uncertainty53–56. The IPL was reported to play a role in decision-
+3. In principle, the Grover algorithm can have a quadratic speed-
+making under uncertainty, updating the evaluation for actions56,57.
+up (i.e., the improvement of time complexity from O(N) to
+The precentral gyrus is related to the preparation and execution of
+O(N1/2)) on learning over classical algorithms48. Recently, sev-
+motor responses in decision-making55. The insula was implicated
+eral theoretical works8,49 showed that quantum enhancement
+in interoception, emotion and risky decision-making, such as risk
+can be achieved in learning efficiency, learning performance
+experience representation and prediction error representation55,56,58.
+and meta-learning using the QRL framework.
+Therefore, the activation in these brain areas reveals quantum-like
+We also discuss the possible limitations of our QRL models, aspects of state representation, learning and other possible down-
+point out areas for improving them and call attention to potential stream processes, such as evaluation and action generation related
+future directions: to internal states.
+Uncertainty is an internal-state attribute that reflects the exter-
+1. The general QRL algorithms consist of two sequential stages:
+nal environment; it is influenced by outcomes (penalty and reward).
+mapping outcomes (reward or penalty) to learning factors and
+Therefore, similar to generalized quantum distance, the uncer-
+mapping learning factors to a parametric transformation (uni-
+tainty × penalty/reward interaction revealed a unique quantum-
+tary operator). In our models, we used the utility function in
+like modulation effect of outcomes on the internal state, involving
+the first stage and a two-step rotation on the Bloch sphere in
+integration and learning. Consistent with previous results, we
+the second stage, while a substantial number of function forms
+found the same brain area (the MeFG) activated again in both the
+remain largely unexplored.
+control and the smoking groups, indicating that the quantum-like
+2. The learning process of our QRL algorithm (and of previous
+mechanisms in the MeFG may be the hub of quantum-like effects
+QRL algorithms) is described by an equivalent two-dimen-
+in valued-based decision-making, affecting well-known cognitive
+sional subspace (spanned by the chosen action vector |a〉 and
+processes (for example, uncertainty influenced by penalty) during
+the unchosen action vector |a 〉) of the full four-dimensional
+⊥ reinforcement learning. Our MeFG is a part of the medial frontal
+space, enabling its visualization on the Bloch sphere. To show
+cortex, which was reported to be involved in decision-making21,59–62,
+more detailed information during high-dimensional learning,
+such as the generation of internal voluntary action selection guided
+new geometric visualization methods are required, such as the
+by memory and endogenous cues. Therefore, the MeFG might par-
+generalization of the Bloch sphere to higher dimensions50.
+ticipate in state representation and collapse (action generation) in a
+3. There are many other advanced techniques in quantum cogni-
+quantum-like manner.
+tion modelling51 (such as mixed state, von Neumann entropy
+We also found that the uncertainty × penalty interaction acti-
+and positive operator valued measures) and developments
+vated the ACC, the OFC, the MiTG, the angular gyrus/MiTG and
+in QRL algorithms (such as reinforcement learning using
+quantum Boltzmann machines52) that may be enlightening the PCC/precuneus and that the uncertainty × reward interaction
+activated the MiTG and the angular gyrus/MiTG. The ACC was
+and useful.
+reported to represent prediction errors and learning rate63 and mon-
+4. We showed the superior performance of our models for only
+itor and integrate outcomes44. The OFC was reported to represent
+the IGT, while more decision-making tasks are worthy of future
+prediction errors, update values64, evaluate the amount of uncer-
+investigation. In addition, new value-based decision-making
+tainty65,66, optimize learning rates under uncertainty54 and repre-
+tasks should be designed to further explore the differences be-
+sent abstract features of external outcomes63. The angular gyrus has
+tween the QRL and CRL models.
+been implicated in risky decision-making requiring visual atten-
+We think it is too early to conclude that we should abandon one tion67. The PCC was reported to have functional connections with
+framework and accept another one because they both remain largely the MeFG, the precuneus, the MiFG, the fusiform gyrus and the
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+precentral gyrus during the IGT56, which were activated by gener- (smoking group: all men; mean age ± s.d.: 24.44 ± 2.34 yr; mean education ± s.d.:
+alized quantum distances. These areas activated by the interaction 16.13 ± 1.92 yr; more than 10 cigarettes per day for at least 1 yr) participated in the
+IGT and were included in the following behavioural modelling analysis. While
+might reflect a role in monitoring learning processes and connect-
+no statistical methods were used to predetermine sample sizes, previous works
+ing relevant brain areas and functions. Altogether, these areas acti- on the IGT using fMRI used sample sizes typically between 15 and 30 (for example,
+vated by internal-state-related variables, including the MeFG hub, see refs. 86–88) and our study had a reasonable number of subjects to produce
+might work as a network in a quantum-like manner, representing stable results.
+internal states, learning from the outcomes and generating actions. All subjects, with no prior knowledge of the task, were recruited by internet
+advertisements. They had normal or corrected-to-normal vision and were
+The MeFG and MiTG were also activated by uncertainty × pen-
+right-handed. They did not have any major medical illnesses, major psychiatric
+alty interaction in the smoking group, supporting the generalization disorders, neurological illnesses or a history of dependence on any drug (except
+of our fMRI results. By contrast, the ACC, the OFC, the angular nicotine in the smoking group), or gross structural abnormalities in their
+gyrus/MiTG and the PCC/precuneus showed quantum-like inter- T1-weighted images. Informed consent was collected from all subjects and the
+study was authorized by the Research Ethics Committee of the University of
+action-related activity in the control group but not in the smoking
+Science and Technology of China and conformed to the tenets of the Declaration
+group, meaning that they are more sensitive to smoking addiction.
+of Helsinki.
+This phenomenon indicates that the decreased decision-making
+ability in smokers might relate to the inability of these regions to Procedure. Subjects were required to make repeated choices from four decks to
+represent the interaction, although further work is warranted to gain or lose a certain number of points and were told that the final payment was
+determine the exact causation. Combining these results and the dis- determined by their final scores. Next, subjects completed the training session for
+the task outside the fMRI scanner; this lasted 5 min without any real payment.
+cussion in the last paragraph indicates that the smokers were still
+The session presented only equal pay-offs across all decks during the training
+able to represent the internal states and generate actions in a quan- session of the IGT to avoid disturbance. All the subjects were told that there were
+tum-like way, but show an injured ability to represent outcomes and ‘good decks’ and ‘bad decks’ that would give rise to a net gain or net loss in the
+learn from experience. long term, respectively. Their purpose was to find out the invariable rule in the
+In addition, the uncertainty × reward interaction showed only IGT through exploration from the beginning of the task and the training was just
+to become familiar with the operational interface. The difference between the
+nearly significant activation in the MeFG between the two models,
+training and experimental sessions was clear to the subjects. After a 10-min break,
+which might be because people are usually more sensitive to pen- the subjects executed three in-scanner runs of the IGT. They had 3,000 initial
+alty than reward68. Moreover, the IPL was activated by the uncer- task points as the ‘start-up capital’ and received a payment corresponding to the
+tainty × penalty interaction in the smoking group but not in the task points they obtained in the scanner. Every 100 points could be exchanged for
+control group; this requires further studies. This activation in the 1 Chinese yuan (about USD 0.15). The 3,000 initial points were not included in
+behavioural analyses.
+IPL also indicates that the reduced activation in other areas in the
+Data collection and analysis were not performed blind to the conditions of the
+smoking group is not due to the number of subjects or our data experiments. There was no randomization in the data collection, the organization
+quality, but reflects the effect of addiction. of the experimental conditions or stimulus presentations.
+Although quantum frameworks are successful in modelling cog-
+nition, how quantum-like mechanisms are feasible in the brain is still Task and stimuli. The IGT is exactly the same as in the previous studies27,56. In
+this task, there were four decks of cards (decks A, B, C and D, presented from left
+unclear69. Of course, unlike other quantum phenomena in biology70,
+to right). On the front of each card there were gain points and possible loss points.
+our fMRI results do not suggest that our brain is quantized. Even a
+The subject would obtain net points (gain − loss) in each trial.
+classical brain can generate quantum-like functions and behaviour Deck A gave 100 (gain) points for each card and −150, −200, −250, −300 and
+following quantum principles. Many scientists believe that quantum −350 (loss) points for five cards, respectively, out of every ten cards. Deck B also
+probability theory is usually more emphasized in quantum cogni- gave 100 (gain) points for each card and −1,250 (loss) points once out of every ten
+tion than its physical counterpart71. Physicists showed that the clas-
+cards. On average, ten choices of deck A or deck B resulted in −250 net points.
+Deck C gave 50 (gain) points for every card and −25, −40, −50, −60 and −75
+sical dynamic system might have quantum-like behaviour under (loss) points for five cards, respectively, out of every ten cards. Deck D also gave
+coarse-grained measurements72–75 and that an artificial neural net- 50 (gain) points for every card but −250 (loss) points once out of every ten cards.
+work can approximate the wave function of a system efficiently76. On average, ten choices of deck C or deck D resulted in 250 net points. Deck A and
+There was also an existence proof that the common quantum prob- deck B were disadvantageous because they resulted in an overall loss, although they
+gave a relatively larger gain in most trials. Deck C and deck D were advantageous
+ability operators can be implemented in classical recurrent neural
+because they resulted in an overall gain, despite giving a relatively smaller gain in
+networks with neural oscillation and synchronization77. Based on most trials. To encourage as many subjects as possible to find the rule, the task was
+these and our work, we could imagine a possible approach bridging extended to 180 trials from the original 100 trials.
+quantum cognition and neural implementation (see Supplementary The 180 trials were separated into three scan runs. Each scan run included
+Discussion, section II). three task blocks separated by a 24-s rest (fixation) block and each task block
+consisted of 20 trials. Each trial contained a 4-s decision period and a 1-s
+In conclusion, we have shown that the QRL framework can be
+outcome period.
+useful in the fields of decision neuroscience and neuroeconomics
+and that it is a potential competitor of CRL. In view of the great Online data pool. There was an online IGT data pool28 of 617 healthy subjects
+success achieved by CRL in studies of emotion78, psychiatric disor- from 10 studies. These subjects completed the IGT with 95–150 trials (95 trials:
+ders such as addiction and depression79,80, social behaviour81, free 15 subjects from 1 study; 100 trials: 504 subjects from 7 studies; 150 trials:
+will82 and many other cognitive functions, we hope that QRL will 98 subjects from 2 studies). We analysed only the data from the 504 subjects,
+because the remaining 113 subjects performed IGT with a different number
+also shed light on them. It is necessary to perform wider and deeper
+of trials and the group of 504 subjects could already represent the whole
+studies on the QRL framework. Since QRL is one type of quantum IGT data pool.
+learning10, we also hope that other methods, including quantum
+Bayesian learning83 and quantum neural network learning84, will be Computational modelling. The baseline model. This model serves as a baseline
+explored in the future. Because of the marriage of QRL and deci- reference89. It assumes that the agent chooses each deck at a fixed probability. There
+are three free parameters here, p , p and p, for the probability of choosing A, B
+sion neuroscience, the possible resulting discipline could be termed A B C
+as quantum neuroeconomics. “Is there a quantum neuroeconom- and C decks, respectively. p D = 1 − (p A + p B + p C) is the remaining probability.
+ics?” asked Piotrowski and Sladkowski85. Now, we are approaching Expectancy valence learning (EVL) and prospect valence learning (PVL) models. The
+the answer. architecture of these two types of model can be found in Supplementary Fig. 2a.
+Utility function. The expectancy utility function simply assumes that the utility is
+methods the weighted difference of current gain and loss90:
+Participants. Fifty-eight healthy subjects (control group: 9 females; mean
+age ± s.d.: 23.42 ± 2.36 yr; mean education ± s.d.: 16.58 ± 1.79 yr) and 43 smokers u(t)=(1−W)×gain(t)−W×∣loss(t)∣ (1)
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+where W (0 < W < 1) measures the weights for loss points against gain points. The choice probability here is also calculated by the SoftMax function but
+The prospect utility function68 is believed to explain the gain–loss frequency with V(t):
+j
+effect91. The prospect utility u(t) is:
+u(t)=  −x( λt ∣) xα
+(t)∣α
+ii ff x x((t t))≥ <00
+(2)
+Pr[δj(t)=1]=
+∑
+k4e =x 1p e{ xθ p(t {θ)V (tj( )t V) k}
+(t)}
+(10)
+By replacing the TIC rule with the TDC rule, we similarly obtain the
+where x(t) = gain(t) − |loss(t)| is the net outcome in trial t, α (0 < α < 2) is a shape
+VPPDecayTDC and the VPPDeltaTDC models.
+parameter of the utility function and λ (0 < λ < 10) is a loss-aversion parameter.
+Raw pay-offs within data are divided by 100 (default scale)92.
+The QSL model. The architecture of this model can be found in Supplementary
+Fig. 2b.
+Learning rules. The Delta learning rule, or the Rescorla–Wagner rule93, is widely
+used in the fields of reinforcement learning and IGT studies89,90:
+State representation and action selection. In the IGT, there are four actions
+E j(t)=E j(t−1)+kδj(t−1)[u(t−1)−E j(t−1)] (3) r ae sp er le es men enti tn sg
+o
+t fh te
+h
+es e al ce tc it oio nn
+s
+eo tf
+.
+e Ta hc uh
+s
+d
+,
+e thc ek .
+p
+I rn
+o
+bth ae
+b
+ic ll ia tis es si c oa fl em aco hd e al cs t,
+i
+t oh ne y
+fo
+a rr me m
+a
+mod ee al sle ud
+re
+on the discrete action set, requiring the sum of all the probabilities to equal 1. If we
+where E j(t) is the expectancy for deck j in trial t (t ≥ 2 and E j(1) = 0) and δj(t) is consider p(t) as the probability of choosing deck j in trial t, then the constraint is:
+1 if deck j is chosen in trial t and 0 otherwise. Here k is the learning rate of the j
+prediction error [u(t − 1) − E j(t − 1)]. 4
+The Decay learning rule94 assumes that the expectancy about each deck will ∑p(t)=1 (11)
+j
+decay with time and the expectancy of the chosen deck in trial t is updated by u(t):
+j=1
+E j(t)=AE j(t−1)+δj(t−1)u(t−1) (4)
+The QSL model allows the agent to be in an indefinite state (action state),
+formally called the superposition state. The superposition state is a vector in a
+where A (0 < A < 1) is a decay parameter describing the strength of D-dimensional Hilbert space (action space) spanned by D orthogonal basis vectors
+expectancy discounting.
+denoted by the symbol |a j〉, j = 1, …, D, if using the Dirac bra-ket notation. For the
+Choice rules. A choice rule can be described as a balance between exploration and
+IGT, D = 4 and these basis vectors, or eigenvectors, |a 1〉, |a 2〉, |a 3〉 and |a 4〉 represent
+the actions of choosing the A, B, C or D deck, respectively. Then the superposition
+exploitation. At first, agents explore the goodness of decks and after several trials
+state of the agent in trial t is:
+they exploit the knowledge acquired before, to maximize their overall pay-off.
+A common choice rule is the Boltzmann exploration or SoftMax selection89: 4
+Pr[δj(t)=1]=
+4exp{θ(t)E j(t)}
+(5)
+∣ψ(t)⟩=∑
+j=1
+ψ j∣a j⟩ (12)
+∑ k=1exp{θ(t)E k(t)}
+where Pr[•] is the probability function. The sensitivity parameter θ(t) can be ψ j= a j|ψ(t) (13)
+determined by a trial-independent choice (TIC) rule:
+θ(t)=3c−1 (6)
+w ach tie or ne ,ψ wj, hth ice
+h
+i n can ne r
+b
+p
+e
+r ao cd ou mct
+p
+o lef x|ψ n( ut) m〉 ban erd
+.
+|a j〉, is the probability amplitude of each
+During the decision period, the superposition state |ψ(t)〉 collapses onto one
+dw eh te er re
+m
+c
+i
+n(0
+is
+<
+ti
+cc <
+ch
+3 o)
+i
+cis
+e
+a
+a
+nco dn as sis mte an llc y
+o
+np ea r sa um gge et se tr s. A
+a r
+l aa nrg de
+o
+c
+m
+v ca hlu oe
+i
+cin e4d 7.icates a co of rt rh ee
+s
+pei og ne dn iv ne gc t ao mrs
+p
+| la itj〉 u,
+d
+w e.i t Th
+h
+t eh e
+c
+op lr lao pb sa eb pil rit oy
+c
+o esf
+s
+t h ise
+t
+s hq eu sa or -e cd
+a
+lm lea dg “n ai ctu tid oe
+n
+o sf
+e
+lt eh ce
+t ion”:
+The sensitivity parameter θ(t) can also be computed from a trial-dependent
+choice (TDC) rule: Pr[δj(t)=1]=∣ψ j∣2 (14)
+θ(t)=(t∕10)c (7)
+Thus we have the corresponding constraint:
+where the consistency parameter c (−5 < c < 5) indicates gradually more
+4
+deterministic choices if c > 0 (for example, because of confidence) and gradually ∑∣ψ∣2=1 (15)
+more random choices if c < 0 (for example, because of boredom). j
+j=1
+Model description. By combining these two utility functions (EVL and PVL), two
+learning rules (Delta and Decay) and two choice rules (TIC and TDC), we obtain This constraint, also called the normalization condition of the wave function,
+the eight models30: EVLDeltaTDC, EVLDeltaTIC, EVLDecayTDC, EVLDecayTIC, keeps the norm of |ψ(t)〉 at unit length.
+PVLDeltaTDC, PVLDeltaTIC, PVLDecayTDC and PVLDecayTIC. At the beginning of the IGT, the agent does not have any preference among the
+four decks. Therefore, we assign an equal amplitude to each action in the first trial,
+VPP models. The VPP model (VPPDeltaTIC) is an improved version of the as with the equal expectancies at the beginning of the CRL models:
+PVLDeltaTIC model, incorporating the influence of perseverance31.
+4
+The VPPDeltaTIC model assumes that the agent will take the perseverative 1
+strategy into consideration (Supplementary Fig. 2c). The perseverance strength
+∣ψ(1)⟩=∑
+2
+∣a j⟩ (16)
+P j(t) on deck j in trial t (t ≥ 2 and P j(1) = 0) is defined as: j=1
+P
+j(t)=    A Ap pe er rs sP Pj j( (t t− −1 1)
+)+ϵp
+i if
+f
+δδj j( (t t−−1 1) )==0
+1 and x(t−1)≥0 (8)
+P ser lo eb cta ib oi nli ,t y
+h
+ea m upp dli at tu ed se
+h
+u isp ed sa tt ii mng at. iA onft e or
+f
+t th he
+e
+a gg oe on dt
+n
+o eb ss se or fv e es
+a
+ct hh e
+d
+o eu cktc
+.
+o Tm hee uof
+p
+t dh ae
+t
+ia nc gt ion
+
+ A persP j(t−1)+ϵn if δj(t−1)=1 and x(t−1)<0 algorithm, also known as the amplitude-amplification algorithm, lies at the core
+of QRL. Amplitude amplification is a technique in quantum computing that
+where A pers (0 < A pers < 1) is a free decay parameter on the perseverance strengths of generalizes the idea behind Grover’s search algorithm95 and gives rise to a family
+aa nll dd e εc
+n
+k (−s. 1A 0l s <o ε, nε <p ( 1− 01 )0
+i
+s<
+t
+ε hp
+e
+<
+in
+1 f0 lu) eis
+n
+t ch ee
+o
+i fn tf hlu
+e
+e nn ec te
+l
+oo sf
+s
+t h one n pe et
+r
+sg ea vin
+er
+o an
+n
+cp ee .rseverance o uf
+s
+eq du 6a an ntu dm
+fu
+a rtlg ho er ri mth om ds i.
+f
+iH eder te o, o acn ce
+o
+s mpe mci of dic
+a
+v tee r os uio
+r
+n
+ta
+o sf
+k
+a .mplitude amplification was
+The value V(t) is the weighted average of the expectancy E(t) and the We have two unitary operators based on the current chosen action |a〉:
+j j
+perseverance strength P(t):
+j Q̂ 1=Î−(1−eiϕ1)∣a⟩⟨a∣ (17)
+V j(t)=wE j(t)+(1−w)P j(t) (9)
+where w is the reinforcement learning weight (0 < w < 1). A high w value indicates Q̂ 2=(1−eiϕ2)∣ψ(t)⟩⟨ψ(t)∣−Î (18)
+that the agent prefers reinforcement learning rather than perseverative strategy
+and vice versa. Note that E j(t) here is updated by the Delta learning rule for the where 〈a| in the dual space represents the complex conjugate (Hermitian
+VPPDeltaTIC model and by the Decay learning rule for the VPPDecayTIC model. conjugate) of |a〉 and Î is the identity operator. The exponents ϕ1 and ϕ2 are the
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+learning factors that control the amount of amplification or attenuation of the Statistical analyses. We used an alpha level of 0.05 for all behavioural statistical
+amplitude in each trial. These matrices are the generalization of the oracle O in tests reported.
+the Grover algorithm4. A unitary operator Û means Û†Û = ÛÛ† = Î. Thus, these
+operators do not change the unit length of any normalized state vector. Maximum likelihood estimation. The parameters in each model were estimated by
+The Grover operator is then the unitary transformation: maximizing the LL of each subject’s one-step-ahead predictions. The LL of subject
+i and model m is defined as:
+Û G=Q̂ 2Q̂
+1
+(19)
+LL im = logPrm[dataforsubjecti]
+After the unitary transformation operates L times, the amplitude vector in the T D
+next trial becomes: = ∑∑δj(t)logPrm[δj(t)=1∣O i(1),⋯ ,O i(t−1)] (29)
+∣ψ(t+1)⟩=Û GL ∣ψ(t)⟩ (20) t=1 j=1
+where T is the number of trials, D is the number of decks and O(t) is the
+i
+The parameters ϕ1, ϕ2, and L are determined by the current utility u(t). actual choice and consequent outcome in trial t. We used an optimization
+We have at least two approaches to deal with this. One is to fix ϕ1 and ϕ2 (usually method called Bayesian Adaptive Direct Search that showed a comparable
+equal to π) and determine L using the current utility4. The other is to fix L = 1 and or even better performance than other common optimization methods for
+calculate ϕ1 and ϕ2 from the current utility6. We chose the latter because the former behavioural modelling96.
+approach has the disadvantage that the amplitude could jump only discretely.
+However, the way we set ϕ1 and ϕ2 is different: Model comparison with the goodness-of-fit criterion. For the goodness-of-fit
+criterion, the corrected AICc36 and the BIC37 provide a direct assessment of the
+u(t)=  λgainx(t)α if x(t)≥0
+(21)
+one-step-ahead predictions. The AICc avoids the disadvantage of the Akaike’s
+ −λloss∣x(t)∣α if x(t)<0 Information Criterion97 when facing a small sample size. The BIC more strongly
+penalizes the number of parameters. For each model i, the AICc is:
+i
+aw fonh rd e
+p
+r λ ae lo
+y
+sx -s ( o(t 0 f)
+f
+< sis
+i
+λ st lh o ase ls
+s
+<n
+o
+e 2 ut )
+s
+o a eu r det c
+h
+to ehm re
+e
+e r
+.
+e,
+T
+wα
+h
+a( er0 nd < - ϕs α 1e ae< nk 1 i dn)
+ϕ
+gis 2a t anh rd ee l ds oh esa fs ip - nae ev dp e a r asr sia :om ne pte ar r, a λ mga ein t e(0 rs < . A λg sai cn a< le 2 ) AICc i=−2logL i+2K i+ T2K −i2 K+ i2 −K 1i (30)
+ϕ 1=π[u(t)cosπη+b 1] (22) and the BIC i is:
+BIC i=−2logL i+K ilogT (31)
+ϕ 2=π[u(t)sinπη+b 2] (23)
+where T is the total number of trials, L is the maximum LL for model i and K is the
+i i
+number of free parameters in the model. A smaller AICc or BIC value represents a
+If we consider (ϕ1, ϕ2) as the vector-valued function of u(t), then (ϕ1, ϕ2)
+better fit to the data. Average values for each model are calculated in each group.
+delineates a line in two-dimensional Euclidean space, passing through the point
+(b 1, b 2) with slope tanπη (−1 < η < 1). We refer to the free parameters η, b 1, and b 2 as Bayesian model comparison with variational Bayes method. We performed the
+the learning parameters.
+Bayesian model comparison using the variational Bayes algorithm38. In the
+Bayesian graph, by treating the model as a random variable, the parameters from
+The QSPP model. Inspired by the hybrid VPP models, we also implemented
+a Dirichlet distribution over models was estimated. Given the parameters, the
+a hybrid QSPP model that combined the QSL model and perseverance
+distribution of a multinomial variable was used to describe the probability that one
+(Supplementary Fig. 2d). The probability of choosing deck j in trial t is defined as:
+specific model generated the data from one specific subject. We entered −AICc/2
+Pr[δj(t)=1]=wPr QSL[δj(t)=1]+(1−w)Pr pers[δj(t)=1] (24) and −BIC/2 as the model log evidence into the estimation iteration process.
+The expected likelihood measures how likely it is that one model will generate a
+randomly selected subject’s behaviour, where the exceedance probability describes
+where w (0 < w < 1) is the QRL weight. Pr QSL is the probability determined how one model is more likely than all other models.
+by the QSL amplitude and Pr is the classical probability using the SoftMax
+pers
+trial-independent rule:
+Simulation method. Unlike the goodness-of-fit criterion, the simulation method30
+exp{P(t)} was designed to assess the accuracy of one model generating predictions for entire
+Pr pers[δj(t)=1]= 4 j (25) choice sequences according to model parameters rather than the subjects’ choice
+∑ k=1exp{P k(t)} history. The computer agent uses the parameters estimated from the subjects’
+behaviour to perform the IGT several times according to the corresponding
+model. Here, for each subject and each model, we used the best 10 combinations
+Here, the perseverance strength P(t) on deck j is defined in a similar way
+j of estimated parameters to run 100 simulations for total trials, producing 1,000
+as above:
+performing sequences. The combination of parameters that generated the best
+P
+j(t)=    A Ap pe er rs sP Pj j( (t t− −1 1)
+)+ϵp
+i if
+f
+δδj j( (t t−−1 1) )==0
+1 and x(t−1)≥0 (26)
+s t ewi rm ro ou rtl sya p wti eo es rn o
+e
+p f
+c
+e M ar lf cSo uEr
+l
+m af to ea r dn t c h ae me w s oea nss i
+g
+mc ah u lo ll s a se utn i bo jf n eo s cr .
+t
+sFth .oe r f ao ll ll to hw ei n Mg S a En sa dly es fe ins. e W d be et lh oe wn , d ste af nin de ad rd
+  A persP j(t−1)+ϵn if δj(t−1)=1 and x(t−1)<0 First, we let B i0
+,j
+denote the frequency of selecting deck j averaging over all T
+trials for subject i and Bm denote the frequency of selecting deck j averaging over
+i,j
+all T trials and 100 simulations for an agent using the parameters of model m
+but here both εp and εn are not free parameters. They are now determined by e p and estimated from subject i. We have the MSE of the PoC for each deck:
+e according to:
+n
+N D
+ϵp=  
+
+−3e 3p −− ep1
++1
+ii ffe ep p≥ <00
+(27)
+MSEm PoC= N1
+D
+∑
+i=1
+∑
+j=1
+(B im ,j−B i0 ,j)2 (32)
+where N is the number of subjects and D is the number of decks.
+ϵn= 
+
+−3e 3n −− en1
++1
+i if fe en n≥ <0
+0
+(28) i es
+s
+tt ih mS ee afc tro ee dn q d u p, e
+a
+P n ri ac0 ,j my,b o eis f
+t
+et s rh e sle e
+f
+f c rr ote i mnq gu
+s
+e d un e bc c jy ek
+c
+o j
+t
+f d
+i
+.s u e Trl ie hnc egt i
+M
+n bg l So Ed c ke oc fbk
+E
+oj
+D
+fo a Sf n s
+c
+u uab g rj e ve n ec tt
+i
+sui dsd i eu n fr g ini n m eg do b d al seo :lc mk b w; iP ti hm ,j ,b
+w pah re ar me ee tp e ( r− c5 i n< t oe p ε<
+p
+5 an) dan εd n. e n (−5 < e n < 5) are designed to absorb the consistency MSEm EDS= ND1
+B
+∑N ∑D ∑B (P im ,j,b−P i0 ,j,b)2 (33)
+i=1 j=1 b=1
+One-term and two-term models. For convenience, the VPP and QSPP models are
+described as two-term models because they have both the reinforcement learning where B is the number of blocks (one block contains 20 trials).
+part and the perseverance part, while the others (EVL, PVL and QSL) are described
+as one-term models. The baseline, the EVL, the PVL, the QSL, the VPP and the fMRI data acquisition. Gradient echo-planar MRI data were acquired during the
+QSPP models have 3, 4, 4, 6, 8 and 10 free parameters, respectively. whole task procedure using a 3 Tesla Siemens Magnetom Trio scanner (Siemens
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+Medical Solutions) in the Anhui Provincial Hospital. A circularly polarized 6. Fakhari, P., Rajagopal, K., Balakrishnan, S. N. & Busemeyer, J. R. Quantum
+head coil was used. The fMRI images were collected using a T2*-weighted echo- inspired reinforcement learning in changing environment. New Math.
+planar imaging sequence (repetition time = 2,000 ms, echo time = 30 ms, field of Nat. Comput. 9, 273–294 (2013).
+view = 240 mm, matrix = 64 × 64, flip angle = 85°) with 33 axial slices (no gaps, 7. Wittek, P. Quantum Machine Learning: What Quantum Computing Means to
+voxel size: 3.75 × 3.75 × 3.70 mm3) covering the whole brain. Before entering Data Mining (Academic Press, 2014).
+the scanner, all subjects were asked to not move their head during all scans. 8. Dunjko, V., Taylor, J. M. & Briegel, H. J. Quantum-enhanced machine
+Three functional scan runs of 420 s occurred during the IGT. Between each scan learning. Phys. Rev. Lett. 117, 130501 (2016).
+run, there was an interval of about 1 min. High-resolution T1-weighted three- 9. Manousakis, E. Quantum formalism to describe binocular rivalry. Biosystems
+dimensional gradient-echo images were also obtained (repetition time = 1,900 ms; 98, 57–66 (2009).
+echo time = 2.26 ms; inversion time = 900 ms; 1-mm isotropic voxel; 250-mm field 10. Busemeyer, J. R. & Bruza, P. D. Quantum Models of Cognition and Decision
+of view) for stereotaxic transformation. (Cambridge Univ. Press, 2012).
+11. Busemeyer, J. R., Wang, Z. & Shiffrin, R. M. Bayesian model comparison
+fMRI data preprocessing. The imaging data were analysed with Analysis of favors quantum over standard decision theory account of dynamic
+Functional Neuroimages (AFNI-17.3.01)98. As in the previous study56,99, each inconsistency. Decision 2, 1–12 (2015).
+subject’s raw data were corrected for temporal shifts between slices and for motion 12. Kvam, P. D., Pleskac, T. J., Yu, S. & Busemeyer, J. R. Interference effects of
+using the midmost sub-brick as the base, spatially smoothed with a Gaussian choice on confidence: quantum characteristics of evidence accumulation.
+kernel (full width at half maximum = 8 mm) and temporally normalized (for each Proc. Natl Acad. Sci. USA 112, 10645–10650 (2015).
+voxel, the signal of each sub-brick was divided by the temporally averaged signal). 13. Ashtiani, M. & Azgomi, M. A. A survey of quantum-like approaches to
+Then images were normalized to the Talairach coordinate. decision making and cognition. Math. Soc. Sci. 75, 49–80 (2015).
+Data from eight subjects in the control group and nine subjects in the smoking 14. Yukalov, V. I. & Sornette, D. Quantum probability and quantum decision-
+group were discarded because of relatively large head movement in the MRI making. Phil. Trans. R. Soc. A 374, 20150100 (2016).
+scanner (more than 2 mm or 2°) or scanning technique issues. Therefore, data from 15. de Barros, J. A. & Oas, G. in The Palgrave Handbook of Quantum Models in
+50 subjects in the control group and 34 in the smoking group were included in the Social Science (eds Haven, E. & Khrennikov, A.) 195–228 (Springer, 2017).
+following fMRI whole-brain analysis. 16. Takahashi, T. Can quantum approaches benefit biology of decision making?
+Prog. Biophys. Mol. Biol. 130, 99–102 (2017).
+fMRI data analyses. We implemented seven GLMs to analyse the fMRI data. In 17. Gold, J. I. & Shadlen, M. N. The neural basis of decision making.
+GLM1, for the QSPP model, we included the regressor of the current quantum Annu. Rev. Neurosci. 30, 535–574 (2007).
+transition amplitude at the outcome period. GLM1 also included two additional 18. Sanfey, A. G., Loewenstein, G., McClure, S. M. & Cohen, J. D.
+regressors corresponding to the stimulus and the outcome display, six additional Neuroeconomics: cross-currents in research on decision-making.
+regressors for head motion, one additional regressor for the reaction time and one Trends Cogn. Sci. 10, 108–116 (2006).
+nuisance regressor for onsets of no-response trials. Standard GLM analysis was 19. Glimcher, P. W. Indeterminacy in brain and behavior. Annu. Rev. Psychol. 56,
+performed using a gamma haemodynamic response function model. In GLM2, 25–56 (2005).
+we included the regressor of quantum distance at the outcome period and also 20. Glimcher, P. W. & Fehr, E. Neuroeconomics: Decision Making and the Brain
+other additional or nuisance regressors. In GLM3, we included the regressor of (Academic Press, 2013).
+generalized quantum distance at the outcome period and also other additional or 21. Lee, D., Seo, H. & Jung, M. W. Neural basis of reinforcement learning and
+nuisance regressors. decision making. Annu. Rev. Neurosci. 35, 287–308 (2012).
+In GLM4, we included the outcome, the loss (penalty), uncertainty, the 22. Daw, N. D. & Tobler, P. N. in Neuroeconomics 2nd edn (eds Glimcher, P. W. &
+interaction of uncertainty and loss (penalty) and the current choice probability Fehr, E.) 283–298 (Academic Press, 2014).
+as the regressors at the outcome period and also other additional or nuisance 23. Kornmeier, J., Friedel, E., Wittmann, M. & Atmanspacher, H. EEG correlates
+regressors. The differences of each regressor between two models in the control of cognitive time scales in the Necker-Zeno model for bistable perception.
+group (control QSPP − control VPPDecayTIC) and the smoking group (smoking Conscious. Cogn. 53, 136–150 (2017).
+QSPP − smoking VPPDecayTIC) were calculated. In GLM5, we included the 24. Bechara, A., Damasio, A. R., Damasio, H. & Anderson, S. W. Insensitivity to
+outcome, the gain (reward), the uncertainty, the interaction of uncertainty future consequences following damage to human prefrontal cortex. Cognition
+and gain (reward), the current choice probability and also other additional or 50, 7–15 (1994).
+nuisance regressors. In GLM6, we included the generalized quantum distance, the
+25. Ahn, W. Y., Dai, J., Vassileva, J., Busemeyer, J. R. & Stout, J. C. in
+uncertainty, the interaction of uncertainty and generalized quantum distance and
+Progress in Brain Research Vol. 224 (eds Ekhtiari, H. & Paulus, M.)
+also other additional or nuisance regressors. In GLM7, we included the reward
+53–65 (Elsevier, 2016).
+prediction error and the current action value provided by the VPPDecayTIC model
+26. Buelow, M. T. & Suhr, J. A. Risky decision making in smoking and nonsmoking
+as the regressors at the outcome period and also other additional or nuisance
+college students: examination of Iowa Gambling Task performance by deck
+regressors. The results of GLM3–5 are reported in the main text while the rest are
+type selections. Appl. Neuropsychol. Child 3, 38–44 (2014).
+in the Supplementary Results. All reported voxels survived the family-wise error
+27. Wei, Z. et al. Chronic nicotine exposure impairs uncertainty modulation on
+correction at a cluster level threshold of P < 0.05, with P uncorrected < 0.001 (two-sided reinforcement learning in anterior cingulate cortex and serotonin system.
+threshold cluster size = 65). NeuroImage 169, 323–333 (2018).
+28. Steingroever, H. et al. Data from 617 healthy participants performing the
+Reporting Summary. Further information on research design is available in the
+Iowa gambling task: a “many labs” collaboration. J. Open Psychol. Data 3,
+Nature Research Reporting Summary linked to this article.
+340–353 (2015).
+29. Rangel, A., Camerer, C. & Montague, P. R. A framework for studying
+Data availability the neurobiology of value-based decision making. Nat. Rev. Neurosci. 9,
+All data are available from the corresponding author on reasonable request. 545–556 (2008).
+30. Ahn, W.-Y., Busemeyer, J. R., Wagenmakers, E.-J. & Stout, J. C. Comparison
+Code availability of decision learning models using the generalization criterion method.
+Cogn. Sci. 32, 1376–1402 (2008).
+All code used to generate the results central to the main claims in this study is
+available from the corresponding author on reasonable request. 31. Worthy, D. A., Pang, B. & Byrne, K. A. Decomposing the roles of
+perseveration and expected value representation in models of the Iowa
+gambling task. Front. Psychol. 4, 640 (2013).
+Received: 19 December 2018; Accepted: 2 December 2019;
+32. Ahn, W. Y. et al. Decision-making in stimulant and opiate addicts in
+Published: xx xx xxxx
+protracted abstinence: evidence from computational modeling with pure
+users. Front. Psychol. 5, 849 (2014).
+references 33. Worthy, D. A. & Maddox, W. T. Age-based differences in strategy use in
+1. Sutton, R. S. & Barto, A. G. Reinforcement Learning: An Introduction, Vol. 1 choice tasks. Front. Neurosci. 5, 145 (2012).
+(MIT Press, 1998). 34. Ahn, W.-Y., Krawitz, A., Kim, W., Busemeyer, J. R. & Brown, J. W. A
+2. Niv, Y. Reinforcement learning in the brain. J. Math. Psychol. 53, model-based fMRI analysis with hierarchical Bayesian parameter estimation.
+139–154 (2009). Decision 1, 8–23 (2013).
+3. Biamonte, J. et al. Quantum machine learning. Nature 549, 195–202 (2017). 35. Byrne, K. A., Norris, D. D. & Worthy, D. A. Dopamine, depressive symptoms,
+4. Dong, D., Chen, C., Li, H. & Tarn, T.-J. Quantum reinforcement learning. and decision-making: the relationship between spontaneous eye blink rate
+IEEE Trans. Syst. Man Cybern. Pt B 38, 1207–1220 (2008). and depressive symptoms predicts Iowa Gambling Task performance.
+5. Dong, D., Chen, C., Chu, J. & Tarn, T.-J. Robust quantum-inspired Cogn. Affect. Behav. Neurosci. 16, 23–36 (2016).
+reinforcement learning for robot navigation. IEEE/ASME Trans. Mechatron. 36. Cavanaugh, J. E. Unifying the derivations for the Akaike and corrected
+17, 86–97 (2012). Akaike information criteria. Stat. Probab. Lett. 33, 201–208 (1997).
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+NaTuRe HuMaN BeHavIouR Articles
+37. Schwarz, G. Estimating the dimension of a model. Ann. Stat. 6, 68. Tversky, A. & Kahneman, D. Advances in prospect theory: cumulative
+461–464 (1978). representation of uncertainty. J. Risk Uncertain. 5, 297–323 (1992).
+38. Stephan, K. E., Penny, W. D., Daunizeau, J., Moran, R. J. & Friston, K. J. 69. De Barros, J. A. & Suppes, P. Quantum mechanics, interference, and the
+Bayesian model selection for group studies. NeuroImage 46, 1004–1017 (2009). brain. J. Math. Psychol. 53, 306–313 (2009).
+39. Dajka, J., Łuczka, J. & Hänggi, P. Distance between quantum states in the 70. Lambert, N. et al. Quantum biology. Nat. Phys. 9, 10–18 (2013).
+presence of initial qubit-environment correlations: a comparative study. 71. Busemeyer, J. R., Pothos, E. M., Franco, R. & Trueblood, J. S. A quantum
+Phys. Rev. A 84, 032120 (2011). theoretical explanation for probability judgment errors. Psychol. Rev. 118,
+40. O’Doherty, J. P., Hampton, A. & Kim, H. Model-based fMRI and its 193–218 (2011).
+application to reward learning and decision making. Ann. N. Y. Acad. Sci. 72. beim Graben, P. & Atmanspacher, H. Complementarity in classical dynamical
+1104, 35–53 (2007). systems. Found. Phys. 36, 291–306 (2006).
+41. Ma, W. J. & Jazayeri, M. Neural coding of uncertainty and probability. 73. beim Graben, P., Filk, T. & Atmanspacher, H. Epistemic entanglement due to
+Annu. Rev. Neurosci. 37, 205–220 (2014). non-generating partitions of classical dynamical systems. Int. J. Theor. Phys.
+42. Bach, D. R., Hulme, O., Penny, W. D. & Dolan, R. J. The known unknowns: 52, 723–734 (2013).
+neural representation of second-order uncertainty, and ambiguity. J. Neurosci. 74. Ivakhnenko, O. V., Shevchenko, S. N. & Nori, F. Simulating quantum
+31, 4811–4820 (2011). dynamical phenomena using classical oscillators: Landau-Zener-Stückelberg-
+43. Payzan-LeNestour, E., Dunne, S., Bossaerts, P. & O’Doherty, J. P. The neural Majorana interferometry, latching modulation, and motional averaging.
+representation of unexpected uncertainty during value-based decision Sci. Rep. 8, 12218 (2018).
+making. Neuron 79, 191–201 (2013). 75. Bliokh, K. Y., Bekshaev, A. Y., Kofman, A. G. & Nori, F. Photon trajectories,
+44. Behrens, T. E. J., Woolrich, M. W., Walton, M. E. & Rushworth, M. F. S. anomalous velocities and weak measurements: a classical interpretation.
+Learning the value of information in an uncertain world. Nat. Neurosci. 10, New J. Phys. 15, 073022 (2013).
+1214–1221 (2007). 76. Carleo, G. & Troyer, M. Solving the quantum many-body problem with
+45. Yu, A. J. & Dayan, P. Uncertainty, neuromodulation, and attention. Neuron artificial neural networks. Science 355, 602–606 (2017).
+46, 681–692 (2005). 77. Busemeyer, J. R., Fakhari, P. & Kvam, P. Neural implementation
+46. Singh, V. A potential role of reward and punishment in the facilitation of the of operations used in quantum cognition. Prog. Biophys. Mol. Biol. 130,
+emotion-cognition dichotomy in the Iowa Gambling Task. Front. Psychol. 4, 53–60 (2017).
+944 (2013). 78. Phelps, E. A., Lempert, K. M. & Sokol-Hessner, P. Emotion and decision
+47. Yechiam, E. & Ert, E. Evaluating the reliance on past choices in adaptive making: multiple modulatory neural circuits. Annu. Rev. Neurosci. 37,
+learning models. J. Math. Psychol. 51, 75–84 (2007). 263–287 (2014).
+48. Chuang, I. L., Gershenfeld, N. & Kubinec, M. Experimental implementation 79. Hu, H. Reward and aversion. Annu. Rev. Neurosci. 39, 297–324 (2016).
+of fast quantum searching. Phys. Rev. Lett. 80, 3408 (1998). 80. Chen, C., Takahashi, T., Nakagawa, S., Inoue, T. & Kusumi, I. Reinforcement
+49. Dunjko, V., Taylor, J. M. & Briegel, H. J. Advances in quantum reinforcement learning in depression: a review of computational research. Neurosci.
+learning. In Proc. 2017 IEEE International Conference on Systems, Man, and Biobehav. Rev. 55, 247–267 (2015).
+Cybernetics 282–287 (IEEE, 2017). 81. Sanfey, A. G. Social decision-making: insights from game theory and
+50. Nielsen, M. A. & Chuang, I. L. Quantum Computation and Quantum neuroscience. Science 318, 598–602 (2007).
+Information (Cambridge Univ. Press, 2010). 82. Roskies, A. L. How does neuroscience affect our conception of volition?
+51. Yearsley, J. M. Advanced tools and concepts for quantum cognition: a tutorial. Annu. Rev. Neurosci. 33, 109–130 (2010).
+J. Math. Psychol. 78, 24–39 (2017). 83. Schack, R., Brun, T. A. & Caves, C. M. Quantum Bayes rule. Phys. Rev. A 64,
+52. Crawford, D., Levit, A., Ghadermarzy, N., Oberoi, J. S. & Ronagh, P. 014305 (2001).
+Reinforcement learning using quantum Boltzmann machines. Quantum Info. 84. Kouda, N., Matsui, N., Nishimura, H. & Peper, F. Qubit neural network and
+Comput. 18, 51–74 (2018). its learning efficiency. Neural Comput. Appl. 14, 114–121 (2005).
+53. Krain, A. L., Wilson, A. M., Arbuckle, R., Castellanos, F. X. & Milham, M. P. 85. Piotrowski, E. W. & Sladkowski, J. The next stage: quantum game theory. in
+Distinct neural mechanisms of risk and ambiguity: a meta-analysis of Mathematical Physics Research at the Cutting Edge (ed. Benton, C. V.)
+decision-making. NeuroImage 32, 477–484 (2006). 247–268 (Nova Science Publishers, 2004).
+54. Hsu, M., Bhatt, M., Adolphs, R., Tranel, D. & Camerer, C. F. Neural systems 86. Ahn, W.-Y., Krawitz, A., Kim, W., Busemeyer, J. R. & Brown, J. W. A
+responding to degrees of uncertainty in human decision-making. Science 310, model-based fMRI analysis with hierarchical Bayesian parameter estimation.
+1680–1683 (2005). J. Neurosci. Psychol. Econ. 4, 95–110 (2011).
+55. Litt, A., Plassmann, H., Shiv, B. & Rangel, A. Dissociating valuation and 87. He, Q. et al. Altered dynamics between neural systems sub-serving decisions
+saliency signals during decision-making. Cereb. Cortex 21, 95–102 (2010). for unhealthy food. Front. Neurosci. 8, 350 (2014).
+56. Wang, Y. et al. Neural substrates of updating the prediction through 88. Brevers, D., Noël, X., He, Q., Melrose, J. A. & Bechara, A. Increased
+prediction error during decision making. NeuroImage 157, 1–12 (2017). ventral-striatal activity during monetary decision making is a marker of
+57. Vickery, T. J. & Jiang, Y. V. Inferior parietal lobule supports decision making problem poker gambling severity. Addict. Biol. 21, 688–699 (2016).
+under uncertainty in humans. Cereb. Cortex 19, 916–925 (2008). 89. Yechiam, E. & Busemeyer, J. R. Comparison of basic assumptions embedded
+58. Xue, G., Lu, Z., Levin, I. P. & Bechara, A. The impact of prior risk in learning models for experience-based decision making. Psychon. Bull. Rev.
+experiences on subsequent risky decision-making: the role of the insula. 12, 387–402 (2005).
+NeuroImage 50, 709–716 (2010). 90. Busemeyer, J. R. & Stout, J. C. A contribution of cognitive decision models to
+59. Haggard, P. Human volition: towards a neuroscience of will. Nat. Rev. clinical assessment: decomposing performance on the Bechara gambling task.
+Neurosci. 9, 934–946 (2008). Psychol. Assess. 14, 253–262 (2002).
+60. Nachev, P., Kennard, C. & Husain, M. Functional role of the 91. Erev, I. & Barron, G. On adaptation, maximization, and reinforcement
+supplementary and pre-supplementary motor areas. Nat. Rev. Neurosci. 9, learning among cognitive strategies. Psychol. Rev. 112, 912–931 (2005).
+856–869 (2008). 92. Ahn, W.-Y., Haines, N. & Zhang, L. Revealing neurocomputational
+61. Tanji, J. & Kurata, K. Contrasting neuronal activity in supplementary mechanisms of reinforcement learning and decision-making with the
+and precentral motor cortex of monkeys. I. Responses to instructions hBayesDM package. Comput. Psychiatr. 1, 24–57 (2017).
+determining motor responses to forthcoming signals of different modalities. 93. Wagner, A. R. & Rescorla, R. A. in Inhibition and Learning (eds Boakes, R. A.
+J. Neurophysiol. 53, 129–141 (1985). & Halliday, M. S.) 301–336 (1972).
+62. Okano, K. & Tanji, J. Neuronal activities in the primate motor fields of the 94. Erev, I. & Roth, A. E. Predicting how people play games: reinforcement
+agranular frontal cortex preceding visually triggered and self-paced learning in experimental games with unique, mixed strategy equilibria.
+movement. Exp. Brain Res. 66, 155–166 (1987). Am. Econ. Rev. 88, 848–881 (1998).
+63. Rushworth, M. F. S. & Behrens, T. E. J. Choice, uncertainty and value in 95. Grover, L. K. A fast quantum mechanical algorithm for database search. In
+prefrontal and cingulate cortex. Nat. Neurosci. 11, 389–397 (2008). Proc. 28th Annual ACM Symposium on Theory of Computing 212–219 (ACM,
+64. Sul, J. H., Kim, H., Huh, N., Lee, D. & Jung, M. W. Distinct roles of rodent 1996).
+orbitofrontal and medial prefrontal cortex in decision making. Neuron 66, 96. Acerbi, L. & Ji, W. Practical Bayesian optimization for model fitting
+449–460 (2010). with Bayesian adaptive direct search. Adv. Neural Inf. Proc. Syst. 30,
+65. Kepecs, A., Uchida, N., Zariwala, H. A. & Mainen, Z. F. Neural correlates, 1836–1846 (2017).
+computation and behavioural impact of decision confidence. Nature 455, 97. Akaike, H. A new look at the statistical model identification. IEEE Trans.
+227–231 (2008). Automat. Contr. 19, 716–723 (1974).
+66. O’Neill, M. & Schultz, W. Coding of reward risk by orbitofrontal neurons is 98. Cox, R. W. AFNI: software for analysis and visualization of functional
+mostly distinct from coding of reward value. Neuron 68, 789–800 (2010). magnetic resonance neuroimages. Comput. Biomed. Res. 29, 162–173 (1996).
+67. Studer, B., Cen, D. & Walsh, V. The angular gyrus and visuospatial attention 99. Li, N. et al. Resting-state functional connectivity predicts impulsivity in
+in decision-making under risk. NeuroImage 103, 75–80 (2014). economic decision-making. J. Neurosci. 33, 4886–4895 (2013).
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+Articles NaTuRe HuMaN BeHavIouR
+Acknowledgements Author contributions
+We thank Y. Yang, R. Zha, J. Besumeyer and N. Ma for their inspirational comments. L.J.-A., Y.P. and X.Z. conceived the study. Y.L. and Z.W. provided the devices and
+We thank L. Acerbi, G. R. Yang, C. Gneiting, A. Miranowicz, X. Li, Z. Jin and X. Li collected the data. L.J.-A. built the models. L.J.-A. and Z.W. analysed the data.
+for their helpful suggestions. This work was supported by grants from the National All authors participated in discussions. L.J.-A., D.D., Y.P., F.N. and X.Z. wrote
+Key Basic Research Programme (grant nos. 2016YFA0400900 and 2018YFC0831101), the paper. X.Z. supervised the project and acquired funding.
+the National Natural Science Foundation of China (grant nos. 31471071, 31771221,
+61773360, 71671115, 71874170 and 71942003), the Fundamental Research Funds for Competing interests
+the Central Universities of China, the MURI Center for Dynamic Magneto-Optics
+The authors declare no competing interests.
+via the Air Force Office of Scientific Research (AFOSR; grant no. FA9550-14-1-0040),
+the Army Research Office (ARO; grant no. W911NF-18-1-0358), the Asian Office of
+Aerospace Research and Development (AOARD; grant no. FA2386-18-1-4045), the Japan Additional information
+Science and Technology Agency (JST; via the Q-LEAP programme and CREST grant no.
+Supplementary information is available for this paper at https://doi.org/10.1038/
+JPMJCR1676), the Japan Society for the Promotion of Science (JSPS; JSPS–RFBR grant
+s41562-019-0804-2.
+no. 17-52-50023 and JSPS–FWO grant no. VS.059.18N), the RIKEN–AIST Challenge
+Research Fund, the Templeton Foundation, the Foundational Questions Institute (FQXi) Correspondence and requests for materials should be addressed to X.Z.
+and the NTT PHI Laboratory, the Australian Research Council’s Discovery Projects Reprints and permissions information is available at www.nature.com/reprints.
+funding scheme under Project DP190101566, the Alexander von Humboldt Foundation
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+and the US Office of Naval Research. The funders had no role in study design, data
+published maps and institutional affiliations.
+collection and analysis, decision to publish or preparation of the manuscript. We thank
+the Bioinformatics Centre of the University of Science and Technology of China, School Primary Handling Editor: Stavroula Kousta.
+of Life Science for providing supercomputing resources for this project. © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NAture HumAN BeHAviour | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Corresponding author(s): Xiaochu Zhang
+Last updated by author(s): Nov 13, 2019
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection The task was programmed in MATLAB-R2008 using Psychtoolbox (version 2.0).
+Data analysis fMRI data were analyzed using AFNI-17.3.01. Behavioral data were analyzed using MATLAB-R2018a.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+All data are available from the corresponding author upon request.
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Life sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Sample size The previous works on the IGT using fMRI used sample sizes typically between fifteen and thirty (Ahn et al., 2011, He et al., 2014, Brevers et
+al., 2016). This study had a reasonable number of subjects (58 for control group and 43 for smoking group) to produce stable results.
+Data exclusions Data from eight subjects in the control group and nine subjects in the smoking group were discarded because of relatively large head
+movement in the MRI scanner (more than 2 mm or 2 degrees) or scanning technique issues.
+Replication The results of model comparison were replicated in all three subject groups.
+Randomization The study does not require randomization.
+Blinding The study does not require blinding.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics Fifty-eight healthy subjects (control group: 9 females; mean age ± SD, 23.42 ± 2.36 years; mean education ± SD, 16.58 ± 1.79
+years) and forty-three smokers (smoking group: all men; mean age ± SD, 24.44 ± 2.34 years; mean education ± SD, 16.13 ± 1.92
+years; >10 cigarettes/d for at least one year) participated the Iowa Gambling Task (IGT) and were included in following
+behavioral modeling analysis. They had normal or corrected-to-normal vision and were right-handed. They did not have any
+major medical illnesses, major psychiatric disorders, neurological illnesses, or a history of dependence on any drug (except
+nicotine in the smoking group), or gross structural abnormalities in their T1-weighted images.
+Recruitment All subjects, with no prior knowledge of the task, were recruited by internet advertisements.
+Ethics oversight The study was authorized by the Research Ethics Committee of the University of Science and Technology of China and
+conformed to the tenets of the Declaration of Helsinki.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
+Magnetic resonance imaging
+Experimental design
+Design type Participants completed a series of task-based fMRI scanning while performing the Iowa Gambling Task.
+Design specifications There were three 7 min fMRI scan runs. Between every two scans, an interval occurred of about 1 min. Each scan
+consisted of one 30 s rest block and three 106s-task-and-24s-rest cycles. The last 6 s part of each task block was
+designed for good deck identification, which was not analyzed in the present study. The former 100 s part contains 20
+trials and each trial was divided into two events: (1) during the decision making phase, 4 s were provided for card
+selection and a random selection would be made if no decision was made during the period, (2) during the outcome
+phase, the gain and penalty were presented on the screen for 1 s. There were no inter-trial intervals.
+Behavioral performance measures The key press and response times was recorded using a MRI compatible response-box. The number of missing response
+was acceptable (mean = 0.97, sd = 1.55). The response time was reasonable (mean = 1.23 seconds, sd = 0.55 seconds).
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Acquisition
+Imaging type(s) functional
+Field strength 3T
+Sequence & imaging parameters T2*-weighted echo-planar imaging sequence (TR (Repetition Time) = 2000 ms, TE (Echo Time) = 30 ms, FOV (Field of
+View) = 240 mm, matrix = 64 * 64, flip angle = 85°) with 33 axial slices (no gaps, voxel size: 3.75 * 3.75 * 3.70 mm3)
+covering the whole brain. High-resolution T1-weighted three-dimensional gradient-echo images were also obtained (TR
+= 1900 ms; TE = 2.26 ms; TI (Inversion Time) = 900 ms; 1 mm isotropic voxel; 250 mm FOV) for stereotaxic
+transformation.
+Area of acquisition a whole brain scan
+Diffusion MRI Used Not used
+Preprocessing
+Preprocessing software AFNI (Version: AFNI_17.3.01)
+Normalization The statistical map was spatially normalized by an affine transformation of the data to the anatomic image followed
+by nonlinear registration of the anatomic data to the N27 template (TT_N27).
+Normalization template AFNI's N27 template.
+Noise and artifact removal head movements in the six directions were entered as covariates.
+Volume censoring No volume censoring was used to ensure each subjects had equal number of volumes.
+Statistical modeling & inference
+Model type and settings In the first level GLM, in addition to regressors of interest, we included two additional regressors corresponding to the
+stimulus and the outcome display, six additional regressors for head motion, one additional regressor for the reaction
+time and one nuisance regressor for onsets of no-response trials. Group analyses were conducted by one-sample t-test
+or two-sample t-test using the 3ttest++ program in the AFNI. A mask of mean anatomical images was used during the
+computation.
+Effect(s) tested Beta values of regressors of interest.
+Specify type of analysis: Whole brain ROI-based Both
+Statistic type for inference All reported voxels survived the family-wise error correction at a cluster level threshold of p < 0.05, with uncorrected p
+(See Eklund et al. 2016) < 0.001 (2-sided threshold cluster size = 65).
+Correction FWE
+Models & analysis
+n/a Involved in the study
+Functional and/or effective connectivity
+Graph analysis
+Multivariate modeling or predictive analysis

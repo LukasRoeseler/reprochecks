@@ -1,12 +1,1044 @@
-# Mapping global variation in human mobility
-
-## Abstract
-The geographic variation of human movement is largely unknown, mainly due to a lack of accurate and scalable data. Here we describe global human mobility patterns, aggregated from over 300 million smartphone users. The data cover nearly all countries and 65% of Earth’s populated surface, including cross-border movements and international migration. This scale and coverage enable us to develop a globally comprehensive human movement typology. We quantify how human movement patterns vary across sociodemographic and environmental contexts and present international movement patterns across national borders. Fitting statistical models, we validate our data and find that human movement laws apply at 10 times shorter distances and movement declines 40% more rapidly in low-income settings. These results and data are made available to further understanding of the role of human movement in response to rapid demographic, economic and environmental changes. 
-
- This is a preview of subscription content, access via your institution
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0875-0/MediaObjects/41562_2020_875_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0875-0/MediaObjects/41562_2020_875_MOESM2_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0875-0/MediaObjects/41562_2020_875_MOESM3_ESM.xls
-
+Articles
+https://doi.org/10.1038/s41562-020-0875-0
+Mapping global variation in human mobility
+Moritz U. G. Kraemer 1,2,3,10,11 ✉, Adam Sadilek 4,10, Qian Zhang 5,10, Nahema A. Marchal6,
+Gaurav Tuli 2, Emily L. Cohn 2, Yulin Hswen 2,7, T. Alex Perkins8, David L. Smith 5,9,
+Robert C. Reiner Jr 5,9,11 ✉ and John S. Brownstein 1,2,11 ✉
+The geographic variation of human movement is largely unknown, mainly due to a lack of accurate and scalable data. Here
+we describe global human mobility patterns, aggregated from over 300 million smartphone users. The data cover nearly all
+countries and 65% of Earth’s populated surface, including cross-border movements and international migration. This scale and
+coverage enable us to develop a globally comprehensive human movement typology. We quantify how human movement pat-
+terns vary across sociodemographic and environmental contexts and present international movement patterns across national
+borders. Fitting statistical models, we validate our data and find that human movement laws apply at 10 times shorter distances
+and movement declines 40% more rapidly in low-income settings. These results and data are made available to further under-
+standing of the role of human movement in response to rapid demographic, economic and environmental changes.
+H uman mobility is an essential component to understand- Results
+ing economic development1–3, traffic demand4, population A global human mobility map. To describe global variation in
+responses to conflict5, natural disasters6,7, infectious disease human movement, we assembled and analysed a large and com-
+transmission8,9, access to healthcare10,11, and education at local and prehensive global dataset comprising de-identified and aggre-
+global scales. To improve sustainability and reduce humans’ carbon gated human movement data. The data come from mobile phones
+footprint, a better global understanding of human mobility will be whose users opted in to Google Location History (https://support.
+paramount. Comparisons across geographies indicate massive dif- google.com/accounts/answer/3118687), capturing human move-
+ferences in the capacity to travel short and long distances11. The ments of over 300 million of the world’s inhabitants in 2016, and
+causes of these differences may include geography (for example, size covering movements from almost all countries of the world, using
+of country or human population density), economic activity (for a unified collection method (Methods). The data were initially col-
+example, gross domestic product, GDP) and sociocultural back- lected at high spatial and temporal resolution at regular time inter-
+ground. Previous attempts to characterize human mobility have vals regardless of cell phone carrier. Our data therefore provide
+been limited by the geographical extent, amount and quality of data. more robust, reliable and extensive information on human move-
+Therefore, basic, globally comprehensive and comparable estimates ment compared with previously used data sources29. Using statis-
+of human movement are lacking, thereby prohibiting accurate and tical machine learning techniques, movements were then mapped
+rapid assessments of the spread of disease or the impact of environ- to location pairs, where locations were identified as places where
+mental and societal disasters12. Further, statistical descriptions of a substantial amount of time was spent (Methods). Before analy-
+human movement are based on a small number of detailed human sis, locations were abstracted and aggregated to a 5 × 5 km grid
+movement surveys in high-income regions13–15. resolution using a unified spatial grid system (http://s2geometry.
+Previous work and data on human movements include migra- io/). Information about flows between all pairs of cells as well as
+tion surveys within countries16–19, Global Positioning System (GPS) intracell flows that meet differential privacy criteria were analysed
+logs (for small groups of individuals in specific regions)20–22 or the (that is, remaining in the same cell, Supplementary Fig. 1). Using
+locations of mobile phones (when subscribers make or receive calls, differential privacy mechanisms, only aggregated measures of flow
+send messages, ‘check-in’ to venues or perform financial transac- among locations with sufficient user numbers were analysed and
+tions)23,24. All these events notably require a manual user action, and individual-level data were never available or inspected (see data
+observations are therefore substantially more sparse. Data from call description for details). Data that did not meet these privacy cri-
+detail records, which are the most extensive in both amount and teria were excluded. The recorded human movement data were
+geographical scope, are typically available for only a single country25 normalized to the maximum recorded value to make them com-
+and vary substantially in spatial and temporal resolution12. However, parable across all geographies. We here present and describe this
+analyses of large global datasets, derived from mobile phones, using dataset of over 70 million unique 5 × 5 km location pairs which we
+unified measurements, have revealed comparable attributes of used to define a global movement typology. The typology is aimed
+global inequalities across all income settings26–28, providing a ratio- at providing basic, comparable descriptions of human movement
+nale for their use to study and compare global phenomena. across the entire world. To do so, this high-resolution information
+1Harvard Medical School, Harvard University, Boston, MA, USA. 2Computational Epidemiology Lab, Boston Children’s Hospital, Boston, MA, USA.
+3Department of Zoology, University of Oxford, Oxford, UK. 4Google Inc., Mountain View, CA, USA. 5Institute for Health Metrics and Evaluation,
+University of Washington, Seattle, WA, USA. 6Oxford Internet Institute, University of Oxford, Oxford, UK. 7Department of Epidemiology and Biostatistics,
+University of California, San Francisco, San Francisco, CA, USA. 8Department of Biological Sciences and Eck Institute for Global Health, University
+of Notre Dame, Notre Dame, IN, USA. 9Department of Health Metrics Sciences, University of Washington, Seattle, WA, USA. 10These authors contributed
+equally: Moritz U. G. Kraemer, Adam Sadilek, Qian Zhang. 11These authors jointly supervised this work: Robert C. Reiner Jr, John S. Brownstein,
+Moritz U. G. Kraemer. ✉e-mail: moritz.kraemer@zoo.ox.ac.uk; bcreiner@uw.edu; john.brownstein@childrens.harvard.edu
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+2.0
+1.0
+–1.0
+0 5 10 15 20 25 30 35 40 45 50
+was aggregated to the country level. We describe and validate this Guyana, Guinea Bissau, Canada and Australia. We provide a full
+rich data resource, correlating it to sociodemographic indicators to list of the data distribution based on urban and rural categories in
+explain patterns and the goodness of fit of human mobility metrics. Supplementary Table 7.
+Cells with sufficient data to be included in the analysis are home
+to 2.9 billion people (~40% of the total population in 2016; Figs. 1a Travel synchrony and periodicity across income groups. The
+and 2a and Supplementary Tables 1 and 4) and cover over 29% of analysis of our global human movement data shows clear tempo-
+all of the world’s land surface (Supplementary Fig. 2). Our mobil- ral variation in human mobility. Across the globe, the frequency
+ity map30 covers 65% of the cells with an estimated human popu- of flows (Methods) varies by a factor of 1.5 within one year while
+lation size over 1,000, and this coverage increases to 78% for cells accounting for differences in smartphone penetration, with the
+whose population is over 10,000 (Table 1). We show that data from largest recorded movements between July and August. Peaks out-
+low-income regions are more concentrated in and around urban side this period mostly coincide with national and/or religious holi-
+areas and along major roads (Supplementary Fig. 2c), while data days such as Easter, the Hajj and Thanksgiving in the United States
+in high-income settings are available in almost all land surface (Fig. 1a). Unsurprisingly, the lowest frequency of movement is
+areas, including rural areas (for example Singapore, Hong Kong, observed in January (Fig. 1a). Surprisingly, however, Northern and
+Germany, Italy, France and Belgium; Supplementary Fig. 2d and Southern hemisphere travel patterns are aligned and peak in July
+Supplementary Table 1). In comparison, there are also data limita- and August. When investigating this trend in more detail, we find
+tions for some low-income countries (for example, Chad, Central that travel between northern and southern latitudes is constant and
+African Republic and Democratic Republic of the Congo), for at most 7%. We therefore conclude that the synchrony between
+which only a relatively small (30%) fraction of the inhabited area hemispheres is independent of cross-hemisphere travel.
+is covered. We quantify the bias in data distribution depending on As expected, global mobility is concentrated primarily between
+whether the cell is rural or urban. Data are more prevalent in urban northern latitudes 30° and 50° (almost 50% of all movements), areas
+areas than in rural areas. We find that data are available in all urban with a high degree of human population, smartphone adoption and
+areas in 83% of all countries while in only 2.6% is the data distribu- usage (Fig. 1b, Supplementary Fig. 3 and Methods). Within those
+tion in urban areas below 10%. Those countries are South Sudan, latitudes, the Thanksgiving weekend sees a 10% increase in travel
+Burundi, Ethiopia and Eritrea. Further, we find that, in rural areas, frequency compared with the weeks before (Fig. 1a). In addition,
+data are biased towards higher-income countries (Supplementary we find that, throughout the year, weather patterns and length of
+Table 7) and the discrepancy between data availability in urban ver- daylight influence human movements. In northern latitudes, people
+sus rural areas is highest in Turkmenistan, Niger, Mongolia, Mali, tend to stay home more during the winter but go outside more in the
+tnemevom
+evitaleR
+a
+b
+60°N 60°N
+50°N 50°N
+40°N 40°N
+30°N 30°N
+20°N 20°N
+10°N 10°N
+0° 0°
+10°S 10°S
+20°S 20°S
+30°S 30°S
+40°S 40°S
+edutitaL
+January February March April May June July August September October November December
+1.5
+The Hajj
+Easter 10–15 September 2016
+27 March 2016 Thanksgiving
+24 November 2016
+1 May 2016
+0
+Week in 2016
+Normalized movement: 0.020 0.015 0.025 0.030
+Oslo
+Prague, Winnipeg
+Boulder, Madrid, Beijing
+New Orleans, Cairo
+Santiago (Cuba)
+Maracaibo, Conakry
+Quito, Entebbe
+Rio Branco, Port Moresby
+Belo Horizonte, Antananarivo
+Córdoba, Perth
+Puerto Montt, Wellington
+0 5 10 15 20 25 30 35 40 45 50
+Week in 2016
+Fig. 1 | Aggregated human movements show strong geographic and temporal variability. a, Global, weekly recorded movements (of ~300 million
+participants) in 2016 peaks in Northern Hemisphere summer between weeks 28 and 36. Weekly data were adjusted by a factor of 0.03% per week to
+reflect changes in the Android phone market share over the study period from 1.8 billion in 2015 to 2.2 billion in 2017. The scale was adjusted so that
+changes reflect the deviance from the mean over the time frame studied. b, Normalized human movements by latitude in 2016. Values are normalized
+by row, so that warmer colours represent less movement and colder colours represent higher movements. Each row sums to one and is independent of
+the other rows, making each of them comparable to itself but not across. Movement patterns by latitude and longitude are available through the online
+repository.
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+summer. For example, across latitudes, the most northerly countries distances than all other income groups. For countries that have over
+(Norway, Canada) more than double (2.25×) their travel frequen- 5,000 location pairs, the probability of short-distance movements
+cies during the summer months compared with the winter (Fig. 1b). decreases along the HAQI (Spearman rank correlation ρ = 0.50,
+We also observe strong environmental effects in longitudes 80° to P value < 0.001, 95% confidence interval (CI): 0.20–0.62) and con-
+120° E between New Delhi, India and Vietnam, where population tinuous SDI (Spearman rank correlation ρ = 0.44, P value < 0.001,
+movements are reduced by up to 25% during the monsoon season 95% CI 0.19–0.61) (Fig. 2a and Supplementary Figs. 7 and 8).
+between June and September (Supplementary Fig. 5b). In a uni- There is variation within each SDI quintile, however: for example,
+variate analysis, we explore the influence of sociodemographic and the probability of staying within a 5 km cell for smartphone users
+environmental variables on the median distance travelled at a pixel in Syria is 0.8 (considering intracountry movements only), mark-
+level. We find that night-time lights alone explain 32% of median edly higher than that observed in most other middle-SDI countries
+distances travelled (Table 2). (0.65). We here show that conflict increases the propensity of stay-
+One critical description of human movement is the distribution ing at short distances. The summary statistics of human travel for all
+of distances travelled. Such measures are a key component in, for countries are shown in Supplementary Table 1.
+example, models describing disease spread31. In our data, the global As a second indicator of human mobility, we use the trip dis-
+mean trip distance is large at 170 km (median 11.97 km) including tribution. When countries are grouped by SDI, we find that dis-
+both local and international movements, which is heavily influ- tributions of trip frequencies differ substantially between groups
+enced by long-distance movements with >700,000 location pairs but show strong consistency within each group (Fig. 2b−h and
+>1,900 km and the maximum distance recorded being 19,000 km Supplementary Fig. 6). The median distance travelled in low- versus
+(Supplementary Table 3). Trips with length over 60 km make up high-income countries varies by a factor of 4, where 50% (median)
+only 10% of all recorded flows (Fig. 2b and Supplementary Table 3). of movements occur at <2.5 km versus <12 km, respectively (Fig. 2b
+However, the distribution of travel distances varies by longitude, and Supplementary Fig. 6), including large distances that are expect-
+latitude and week of the year. For example, mean distances travelled edly more common in high-income countries. In addition, we show
+increase at very high and very low latitudes (Supplementary Fig. 4, that, in countries with substantial armed conflicts in 2016, includ-
+for example, southern Argentina and New Zealand) and are twice ing Afghanistan, Libya, Syria and Yemen, short-distance flows are
+as high (~200 km) in low-population countries irrespective of lon- similar in frequency to those observed in other low-income coun-
+gitude, such as Alaska and eastern Russia, compared with all other tries (up to 5 km) but the frequency of long-distance movements
+latitudes (Supplementary Fig. 4). All countries’ distance kernels are is much smaller, plateauing at 10 times shorter distances (95% of
+available to download via the online repository. movements occur below 10 km) compared with low-income coun-
+Similarly, people’s ability to travel shorter and longer distances tries (95% of movements occur at smaller than 100 km) (Fig. 2f,h).
+may depend on a number of sociodemographic factors including We observe that distances travelled up to 20 km are directly
+infrastructure, wealth and urbanization11. However, it is currently affected by development status (Fig. 2b) but the differences in
+unknown how variation in development changes patterns of human movement profiles collapse at larger distances (over 90% of move-
+movement. We use the sociodemographic index (SDI), a compara- ments) between low–middle and high-income settings (Fig. 2b).
+tive summary metric that is designed to quantify sociodemographic This could be driven by the presence of a wealthy class with simi-
+progress and development in a country by combining estimates of lar travel options and preferences in each county, but this will need
+average per capita income, educational attainment and fertility rate, more work to be fully understood. Low-income settings are an
+to group patterns of human travel32. SDI is highly correlated with exception to this rule, however, with 90% of movements occurring
+other development indicators such as GDP32. We find that, glob- below 20 km versus 100 km in all other income groups, indicating
+ally, 61% of flows occur within a given 5 × 5 km cell and are here systemic differences in these settings. Because of the scale of the
+defined as short-distance or intracell movements (range 23–93%; data, we here provide empirical evidence of this phenomenon con-
+Fig. 2a). In countries with low SDI, the mean probability of mov- sidering movement information in almost all countries in the world.
+ing short distances (within-cell movement) is 0.65, but in countries
+with high SDI, people are 12% more likely to move across cells (the Variation of human mobility across income groups. To under-
+probability of travel within 5 km cell in low SDI, 0.65; low–middle stand the robustness of our data, we fit simple statistical models
+SDI, 0.72; middle SDI, 0.65; high–middle SDI, 0.60; high SDI, 0.53; to the countries’ human movement patterns. As a general rule,
+Fig. 2a and Table 1). The most mobile societies are Singapore, the the frequency of human movement decreases with distance trav-
+Netherlands, Germany and Belgium, where movement patterns are elled14,33–37 and has been characterized to follow a power law.
+dominated by medium-distance movements (Supplementary Fig. 8). However, these analyses of human movements have been criticized
+Interestingly, the probability of short-distance movements has an as they were limited to small sample sizes, heterogeneous sampling
+inverse ‘U’ shape with a higher probability of people staying home in and geographically to a small number of high-income countries13,33
+low–middle than in low-income settings (Supplementary Fig. 8a,c). (Supplementary Table 4), leaving the question of their generalizabil-
+Countries with high SDI and Health Access and Quality Index ity. To understand how variable human movements are across geog-
+(HAQI) have a significantly lower percentage of travel over short raphies and to formalize the differences in human movements, we
+Fig. 2 | Aggregated human movement data from 70,010,784 unique location flows (~300 million participants) covering 65% of Earth’s populated surface
+reveal variability in human movements across the world. a, World map showing variation in connectivity (relative frequency of staying at short distances
+within 5 × 5 km cells) across countries with at least 100 cells containing information about human mobility. Warm colours indicate high frequency of
+moving more than 5 km, whereas cool colours correspond to countries with low frequency of moving more than 5 km. The map is based on CIA World Data
+Bank II data, publicly available through the R package ‘mapdata’ (https://www.r-project.org/). b, Mobility patterns are different between SDIs. The SDI is a
+summary measure of overall development based on average income per capita, educational attainment and total fertility rates. Curves show the cumulative
+probability distribution of human movement normalized by SDI against distance (log). c–h, Representative countries are shown, grouped by high (c), low–
+middle (d), high–middle (e), low (f), and middle (g) SDI; and (h) countries with ongoing war or conflict in 2016. Dashed horizontal grey line indicates 90%
+of movements, and vertical lines represent the maximum travel distance (log scale) within each country. The variance of activity around the population
+mode differs between countries. The data describing countries’ movement patterns are available through an online repository.
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+use the truncated power law with exponential cutoff in the following the power-law pattern holds, and λ is the parameter of the expo-
+form: p x x �αe �λx (ref. 13). α > 1 is called the scaling parameter, nential distribution38,39. Using all data, the human movement kernel
+ð Þ/
+and x I (x > x > 0) represents the smallest value above which shows power-law behaviour with a maximum-likelihood power-law
+min min
+a
+Probability of short-range trips
+0.8 0.7 0.6 0.5 0.4 0.3 0.2
+b
+Low Low–middle Middle High–middle High
+c d
+e f
+g h
+ytisned
+evitalumuC
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+ytisned
+evitalumuC
+1.0
+0.9
+0.8
+0.7
+0.6 0.5
+0.4
+0.3
+0.2
+0.1
+0
+ytisned
+evitalumuC
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+ytisned
+evitalumuC
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+ytisned
+evitalumuC
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+ytisned
+evitalumuC
+1.0
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+ytisned
+evitalumuC
+1 2 5 10 20 50100400 1,000 3,000
+Distance (km)
+High SDI Low–middle SDI
+France USA Australia Japan India Honduras Bangladesh Kenya
+1.0
+0.9
+0.8
+0.7
+0.6 0.5
+0.4
+0.3
+0.2
+0.1
+0
+1 2 5 10 20 50100 4001,000 3,000 1 2 5 10 20 50100 4001,000 3,000
+Distance (km) Distance (km)
+High–middle SDI Low SDI
+Argentina Saudi Arabia Malaysia Portugal Haiti Tanzania Uganda
+1 2 5 10 20 50100 4001,000 3,000 1 2 5 10 20 50100 4001,000 3,000
+Distance (km) Distance (km)
+Middle SDI Countries with ongoing war or conflict in 2016
+Brazil Mexico South Africa Thailand Syria Yemen Afganistan Libya
+1 2 5 10 20 50100 4001,000 3,000 1 2 5 10 20 50100 4001,000 3,000
+Distance (km) Distance (km)
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+Table 1 | Summary statistics of geographic coverage of synthetic human movement information from Google Location History in 2016
+SDi group Proportion Proportion of grid cells containing Proportion of grid cells containing Probability of Mean
+of grid cells data with population >1,000, data with population >10,000, travel within scaling
+containing data weighted by total cells weighted by total cells 5 × 5 km cell coefficient
+Low 0.15 0.30 0.30 0.65 2.54
+Low–middle 0.27 0.45 0.76 0.72 2.22
+Middle 0.40 0.59 0.71 0.65 2.12
+High–middle 0.47 0.84 0.97 0.60 2.17
+High 0.69 0.98 1.00 0.53 1.80
+parameter α = 1.87 (95% CI 1.85–1.89 for median x = 12.04,
+min Table 2 | Predictors of median distances travelled
+95% CI 11.10–12.50; Supplementary Fig. 14). We then estimate the
+power-law exponent in 202 countries for which sufficient data were Predictor Deviance Deviance
+available. We find that human movements decline much faster as a explained explained
+function of distance in low-income settings than in high-income (global model) (country
+settings (power exponent 40% higher in low-income countries ver- (%) model) (%)
+sus high-income countries, α = 2.54, 2.22, 2.12, 2.17 and 1.80 for Night-time lights 24.3 32.1
+countries with low, low–middle, middle, high–middle and high SDI,
+Population count 4.9 12.7
+respectively; Fig. 3a and Table 1). We further note that the observed
+scaling parameter in high-income settings (α = 1.80) is close to Accessibility 4.45 11.2
+those estimated using mobile phone data (α = 1.75)13 and bank note Elevation 1.49 8.71
+dispersal (α = 1.59)14 in the United States. Small countries in par- Temperature 1.19 8.49
+ticular show either very flat dispersal kernels (Malta, Luxembourg
+Model including all the variables above 26.1 33
+and Estonia) or very quick drop-off (La Reunion and Mauritius). To
+our surprise, the scaling parameter in some high-income regions
+such as Germany or the United Kingdom is relatively high (α =
+2.6, for x = 27 km and 54 km, respectively) but consistent with SDI, 30.40 km; middle SDI, 44.85 km; high–middle SD, 44.35 km;
+min
+estimates from GPS records in high-income regions33. Plots of the high SDI, 50.95 km; Supplementary Table 1 and Fig. 3b–f),
+power-law fit and 95% CIs for countries (n = 74) with more than again showing the markedly different human movement profiles
+50,000 location pairs are available through an online repository: between low-income settings and all other settings. Interestingly,
+https://goo.gl/uATMpF. Because the truncated power-law distribu- these differences are also apparent between geographic regions
+tion is a function of movement distributions rather than raw move- as specified by the World Bank, alluding to general differences in
+ments, it is invariant under differences in overall phone penetration human movement behaviour between sociocultural regions (mean
+among countries. x : sub-Saharan Africa, 9.98 km; Southeast Asia, East Asia and
+min
+Distributions of human movement may not follow a power-law Oceania, 22.29 km; South Asia, 26.91 km; Central Europe and
+distribution40. We therefore used state-of-the-art statistical tech- Eastern Europe, 34.22 km; North Africa, 45.62 km; Latin America,
+niques to test whether the countries’ human movement distri- 49.37 km; high-income, 63.67 km). These estimates will have large
+butions are well approximated by the power law compared with implications for modelling disease transmission at large and small
+lognormal or exponential distributions (Methods). We find that, in distances. To identify the best predictor to explain the variations in
+the majority of countries (55%), the power law is the best fitted dis- the distance coefficient by country, we then fit a log-linear regres-
+tribution, followed by the lognormal distribution, which is the best sion (Methods) and find that the HAQI14 and SDI34 alone explain
+fitted distribution in 36% (Supplementary Table 5). In only 2.45% 46% of the variation between countries (Supplementary Table 2),
+of the countries, however, the power law is considered not to be the most consistently for low SDI and more heterogeneously for all
+best or second-best fitted distribution. We decided to continue our other income groups, with notable uncertainty at the extremes of
+analysis with results obtained by fitting the power law. the HAQI distribution (Fig. 3b). The regression used in this study
+The ability to compare estimates between countries is a particu- enables prediction of not only the relevant covariates but also their
+lar strength of our data. We therefore test whether the patterns of associated uncertainty (Fig. 3b and Table 2).
+human movement vary depending on the density of the environ- By extending the model and comparing the minimum distance
+ment, infrastructure and urban characteristics11. It has been shown, at which the power law fits with the country’s movement distribu-
+for example, that in urbanized countries, the distribution of human tions, we reveal that most of the movements remain uncharacter-
+travel follows different statistical distributions than in more rural ized by the power law: in middle- to high-income settings, only the
+societies35. We therefore test at which distances human movements top ~15% of data follow the power law, and ~40% in low-income
+start to follow the power-law model using recently developed meth- settings (Figs. 2b and 3b–f). These data can now be used to further
+ods38,39 and interpret all distances smaller than that at which the data investigate the properties of human mobility at different distances.
+follow a different distribution (Methods). We again test whether these The goodness of fit may also vary by country and along the income
+are correlated with development. We find that the distance at which scales, here assessed using the Kolmogorov−Smirnov distance
+movement remains stable is 10 times shorter in low-income settings (Supplementary Figs. 9 and 10). We find that the statistical fit of
+(mean x = 5.36 km) versus high-income (mean x = 50.95 km) our human movement model depends on geographic constraints
+min min
+(Fig. 3). These results illustrate that, in a radius of about 50 km in of a country (for example, island versus not island), number of
+high-income settings, natural human movement scaling laws do observations and capacity to move (infrastructure) (Supplementary
+not apply, with a sixfold jump already occurring from low-SDI set- Fig. 9). We show that, in high-income settings, mobility patterns
+tings to low–middle SDI (mean x : low SDI, 5.36 km; low–middle can be well described using the power law, confirming previous
+min
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+Low SDI
+200
+150
+100
+50
+0
+20 40 60 80 100
+HAQI
+studies on the nature of human behaviour (Supplementary Fig. 9b). domestic movements or migration data, which are often incom-
+The statistical fit of our model is halved for small and low-income plete17,41. In our data, international movements account for a small frac-
+countries (for example, Tonga, Eritrea, Comoros and Liberia), tion (2.2%) of the total travel volume and the proportion is four times
+and especially for countries smaller than 750 km2 (similar size to lower in countries with low SDI (1.1%, 95% CI 0.16–0.5) compared
+New York City), our fit is reduced further independently of develop- with high-SDI countries (4.4%; Fig. 4a and Supplementary Table 6).
+ment (Supplementary Fig. 9c), pointing towards geographical idio- We noted large international migration flows out of Syria (22% of all
+syncrasies. Extending our model, the heterogeneity in the statistical movements), Ethiopia, Chad and Democratic Republic of the Congo
+fit can be explained well when including the size of the country, the (Fig. 4a), countries experiencing political, social or environmental
+overall counts of movement pairs per country, and SDI in a gen- crises. Interestingly, we could also capture the large outward labour
+eralized additive model (GAM) (adjusted R2 = 0.67, deviance 69%; migration from Uzbekistan41, a country stagnating economically
+Supplementary Fig. 10 and Methods). Interestingly, at the scale at (Fig. 4a). We were further able to differentiate country pairs with high
+which this study is carried out (5 × 5 km), we find that urbaniza- frequency of daily cross-border movements, such as the Netherlands
+tion does not improve the ability to predict human movements and Germany or the United States and Mexico (total inflow versus
+at a country level. However, when splitting the data into low and outflow are almost the same). Using 2,698 country pairs, we show
+low–middle SDI, we can further enhance our understanding of the that people travel predominantly between countries that are in
+variation in goodness of fit (adjusted R2 = 0.82, deviance explained close proximity and have similar GDP (Fig. 4b and Supplementary
+84.8%; Supplementary Fig. 10), which is considerably reduced for Fig. 13). We find that, the smaller the country, the higher the likelihood
+all other income groups (adjusted R2 = 0.57, deviance explained of travelling internationally as a share of all movements (Pearson’s cor-
+59.8%, size of country not significant). We conclude that empirical relation coefficient −0.39, 95% CI −0.51 to −0.26, P value < 0.001).
+models of human mobility can be greatly improved by accounting We confirm that Mexico and the United States have one of the busiest
+for the size of the country, the number of observations and sociode- borders but, importantly, the net migration flows in 2016 are equal to
+mographic status. zero (that is, inflow is equal to outflow, Fig. 4b)42. International travel
+flows to Mexico increase by up to 6% in the weeks around Christmas
+The geography of cross-border movements. Our data are particularly (compared with average weekly flows), and individuals return
+powerful when comparing national versus international movements to the United States at the beginning of the year (Supplementary
+relative to call detail records, which almost exclusively capture Fig. 15). Data on international flows are available through the online
+x
+naeM
+nim
+Low−middle SDI
+200
+150
+100
+50
+0
+20 40 60 80 100
+HAQI
+x
+naeM
+nim
+Middle SDI
+200
+150
+100
+50
+0
+20 40 60 80 100
+HAQI
+x
+naeM
+nim
+High−middle SDI
+200
+150
+100
+50
+0
+20 40 60 80 100
+HAQI
+x
+naeM
+nim
+High SDI
+200
+150
+100
+50
+0
+20 40 60 80 100
+HAQI
+α
+naeM
+x
+naeM
+nim
+a
+b c
+10
+Coefficient
+8
+6
+4
+2
+d e f
+ycneuqerF 3.0
+2.0
+1.0
+0
+1 2 3 4
+DI DI DI DI DI
+S S S S S
+Low middle Middle middle High
+Low− High−
+Fig. 3 | Formalization of geographic variation in human movement patterns explained by sociodemographic indicators. a, Violin plot showing the mean
+(black horizontal bar) decline by distance of human movement, separated by country income groups, 25% and 75% quantiles (thick black line) and
+l9 o5 c%
+at
+id oi ns t pri ab iru st i ro en
+p
+rin
+e
+ss eh na td ee dd
+i
+nc o thlo eu drs a.
+t
+E a.s t Mim ea at ne es sa tr ime d ae teri sv ded
+ec
+f lr io nm
+e b
+t yh e
+S
+Dpo
+I
+w gre or
+u
+l pa w
+fr
+ow mit h
+2
+.e 5x 4p ,o 2n .2e 2nt
+,
+i 2a .l
+1
+c 2u
+,
+2to .1f 7f o af
+n
+t dh e
+1.
+8fo 0r m
+fo
+rp Icð ox uÞ n/ trx ie� sα fe o� rλ x
+lo
+u ws ,i n log
+w
+a –ll
+m
+7 i0
+d
+dm leil ,l i mon
+id dle,
+high–middle and high SDI, respectively. Exponents are shown in Supplementary Table 2. Inset shows power coefficients from previous studies of human
+mobility (n = 8; full details in Supplementary Table 4). b–f, The range of distances travelled at which the power law describes the data differs by country.
+The panels show the relationship between HAQI and the countries’ measure of when the decline of movement by distance follows the power law (linear
+regression with heteroskedastic noise, R2 = 0.46) for countries with low (b), low–middle (c), middle (d), high–middle (e), and high (f) SDI. Lines represent
+fitted relationship, and shaded areas are 95% CI. Uncertainty is naturally highest where there are no observations.
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+a
+b
+c
+2.0
+1.5
+1.0 0.5
+0
+0.5 1.0 1.5 2.0
+repository and can be used to further understand the differences in The most restricted direct borders are those with ongoing politi-
+mobility between countries. cal tensions such as those between Turkey and Armenia (−218%
+By leveraging our spatial data near borders, we show that the compared with within-country movement), Morocco and Algeria
+frequency of international (cross-border) travel increases markedly (−184%), and Israel and Gaza (−225%). We characterize the
+with proximity to the border (Loess fit R2 = 0.59, Fig. 4b, Pearson’s ratios for all adjacent country pairs which are now available for
+correlation coefficient 0.54, 95% CI 0.47–0.59, P value < 0.001 for future analyses. Besides these extreme cases, there is no particular
+all flows at the border (30 km) between France and Switzerland, sociodemographic gradient informing the porosity of a land bor-
+Fig. 4b). Using the same data, residents of the 20 cities closest to der, which markedly differs from analysis of flight networks, where
+the border (Fig. 4c) are thus 83 times more likely to travel inter- travel between countries with similar economic status is generally
+nationally compared with those 30 km away from the border. At a more likely43.
+global scale and for all country borders, when slicing data at dif-
+ferent distances from the border, we show that, on average, the Discussion
+propensity to travel within versus outside the country is 28% This study demonstrates improvements in our empirical charac-
+higher for all movements in a radius of 20 km around the border terization and description of global human mobility patterns. With
+(Fig. 4c). This ratio increases to 39% when considering areas that the amount and quality of the data presented here, we were able to
+are 20–40 km away from the border and stays relatively stable after derive comparable attributes of the variation in mobility patterns
+that (Fig. 4c and Supplementary Fig. 16). Borders where the prob- and how they vary by sociodemographic factors. Our estimates
+ability of crossing is higher than staying within the country in a extend previous notions of human movement power laws and pro-
+radius of 20 km around the border are those between the Vatican vide a comprehensive description of humans’ propensity to travel
+City and Italy (+15% compared with within-country movements), short and long distances as well as across borders. These data are
+Timor-Leste and Indonesia (+4%), and Gibraltar and Spain (+2%). made available for future analysis.
+ytisneD
+Distance from home to
+closest international border:
+30
+25
+20
+15 10 5
+0
+0 10 20 30 40 50 60 70
+Fraction of trips international (%) Domestic trips/international trips
+)mk(
+redrob
+ot ecnatsiD
+United
+States
+adanaCytiC
+nacitaV
+Netherlands
+West
+Bank
+Israel
+0 0.05 0.10 0.15
+Singapore
+Italy Mexico
+Less than 20 km
+20 to 40 km
+40 to 60 km
+Switzerland 60 to 80 km
+Morocco
+Croatia China
+Hon Pg o
+L
+lK aa oo n sn dg
+SB
+paoB
+is
+ne nlg iaium
+United Fr Ara an b
+C
+c zEe ecmi hr Ua R nt O ie te m eps dIa u rbn Kel ili nc a gn dd om Bra Uz ril ugu Sla oy vaki Poa rtugal Austria Gibraltar G
+erm
+any
+PaA rarg gV e ueC n an t yo ie nlM z ao umaT el b lh a aL ia y au sil ix a ae nm dbourg yragnuH
+Trips across borders as share of all trips
+d
+Fig. 4 | Relative frequency of international travel varies by country and is influenced by the proximity to an international border. a, Map depicts the
+probability of travelling internationally by country for locations that have more than 100 location pairs. The estimates are calculated by dividing the
+frequency of international flows by the total number of flows. Colours represent different levels of probabilities, with the highest recorded fraction shown
+in dark purple (Syria 22%) and the lowest in light purple. Areas with no data are shown in grey. b, Recorded bilateral international flows for the country
+pairs with the 10% highest recorded movements. Arrows indicate the directionality of movement. c, Plot shows the relationship between the distance to
+the border and the probability of travelling internationally for populations over 1,000 people and within 30 km of the border between France (outgoing) and
+Switzerland (incoming). d, Density plots of ratios of within-country versus international travel at 0−20 km (dark purple), 20−40 km (purple), 40−60 km
+(green) and 60−80 km (dark purple) away from the border. The data describing international movements across borders and between countries are
+available through an online repository.
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+The accuracy of this work, however, is primarily determined by example, includes stops at airports and other locations on a multistop international
+the volume and fidelity of the sampled population. Despite cellular itinerary. We only consider location readings that are accurate within the given
+geographical area (for example, administrative area). We ‘snap’ each reading
+subscriptions’ exceeding total global population in 2016, they vary
+into a spacetime bucket by discretizing time into longer intervals (for example,
+across geographies and income groups, which may cause our results weeks or years) and each (latitude, longitude) pair into a unique identifier of the
+to be biased44,45 (see Methods for additional detail on limitations), geographical area using publicly available data on district boundaries (https://
+especially in regions where data are sparse, such as Chad, Somalia gadm.org/). Finally, for each pair of geographical areas (a, b) and time interval (t),
+and Democratic Republic of the Congo (Fig. 2a). We hope that our the system computes the relative flow f r from a to b within the interval t, applies
+differential privacy filters, and outputs the global mobility map. The relative flow
+work will inspire the release of other data sources that can be used
+f(a, b, t) is computed as a proportion of a given flow to the maximal flow in the
+to complement this study to further increase the accuracy of global mr ap, that is f r(a, b, t) = f(a,b, t)/max i,j,t′f(i, j, t′).
+human movement patterns. Further, in low-income settings, device The work reported here has been conducted in accordance with the Google
+ownership may be biased towards wealthier individuals who tend Privacy Policy and Terms of Service (https://policies.google.com/technologies/
+to travel more often and across larger distances46. We therefore sug- anonymization). All trips and flows were de-identified and aggregated using
+the differentially private50 Laplace mechanism51 and k-anonymity. For example,
+gest that the observed statistical differences in human displacement
+if n users travelled from location a to location b within time interval t, the
+laws between low- and high-income countries are conservative. To corresponding value f(a, b, t) would be n ± e, where e is noise drawn from a
+alleviate this bias, we made an effort to use aggregated statistics (for Laplacian distribution.
+example, distance kernels) to assess heterogeneity in human move- This process provides strong privacy guarantees by bounding the posterior
+probability—as learned by analysing the dataset—that any particular user’s data
+ment patterns which should be more robust to sampling heteroge-
+were used in producing an output. Furthermore, only flows involving a sufficiently
+neity. Similarly, as data are normalized by the maximum value in the
+large number of devices are processed by the model. This design protects
+dataset, we believe that information can be compared within coun- individuals’ data from being manually inspected, and only heavily aggregated flows
+tries but not across geographies. There is bias towards high-income of populations are fed into statistical models described herein. The underlying
+areas such as Europe and the United States (Fig. 1b), but data cov- data are already used as a vital source of information for estimates of live traffic
+(https://googleblog.blogspot.com/2009/08/bright-side-of-sitting-in-traffic.
+erage markedly exceeds any previous work, now including 65% of
+html) and parking availability (https://ai.googleblog.com/2017/02/
+inhabited land surface and representing 2.9 billion people.
+using-machine-learning-to-predict.html).
+Another potential source of bias is the relatively short time Due to the widespread use of Android (77.32% of all smartphones in
+frame for data collection: we were only able to obtain data for the 2017–2018: http://gs.statcounter.com/os-market-share/mobile/worldwide),
+year 2016, which may not be representative of long-term trends in the dataset covers over 300 million of the world’s population. Users can privately
+view their inferred trips in Google Maps: https://www.google.com/maps/timeline
+human mobility, and some of the statistical results may change. This
+(https://maps.googleblog.com/2015/07/your-timeline-revisiting-world-that.html).
+is especially true for international movements, which can vary sub- Our data analysis is in line with the growing consensus on big data
+stantially in times of conflict or environmental disaster. However, ethics52, but we nevertheless, following the guidelines of the Association of
+previous work has shown remarkable consistency of migration pat- Internet Researchers53, consider the possible downstream consequences of
+terns over long time periods47. our large-scale research.
+We found that universal scaling laws govern human mobility
+Aggregating to obtain the global mobility map. Finally, for each pair of geographical
+but are highly heterogeneous across space and vary by development areas and time interval, the system computes the flow between the areas
+status. Further work will need to be conducted to understand the within the interval, applies differential privacy filters, and outputs the global,
+full power of scaling laws using these data and how local variation de-identified and aggregated mobility map. The resulting mobility map is indexed
+in environmental and sociodemographic drivers influences travel for efficient lookup as used to fuel the modelling described herein. Data are
+comparable between locations as they are relative to the maximum flow in the
+behaviour. Insights into how sociodemographic factors interact
+global mobility dataset.
+with human movements quantitatively will provide an opportu- From the information described above, we constructed a dataset containing
+nity to better measure the importance of human movement as a normalized flows of travel within and between 5 × 5 km grid cells, comprising
+driver of economic and social development and people’s capacity 70,010,784 unique location pairs in 2016 (Supplementary Fig. 2). In 2016,
+cellular subscription exceeded the total global population (95% CI: 99–110) with
+to respond to societal and economic changes. We moreover found
+variation across geographies and income groups (low SDI33 63.1%, 95% CI: 54–72;
+that cross-border movements are predominantly bidirectional and
+low–middle SDI 87.5%, 95% CI: 77–97; middle SDI 118.5%, 95% CI: 108–129;
+between countries with similar economic status, with a few notable high–middle 129.9, 95% CI: 118–142; high 122.14, 95% CI: 116–128; Methods),
+exceptions. International land borders directly result in a reduction making them a powerful resource to study global phenomena26,44; For example,
+of mobility compared with within-country mobility. We anticipate using selected mobile application data could reveal different levels of obesity26 or
+mood rhythms54 across multiple countries.
+that, by measuring these changes in real time, we will substantially
+improve our ability to forecast global phenomena, including infec-
+Privacy guarantees through differential privacy. All trips were de-identified and
+tious disease propagation. In particular, the ability to compare
+aggregated to flows using the differentially private Laplace mechanism together
+movement patterns directly from these data across different coun- with k-anonymity to securely aggregate flows over time. The Laplace mechanism
+tries will enable and enhance the accuracy of future analyses. The adds random noise drawn from the Laplace distribution. The amount of noise is
+results and data presented here should be seen as a complement to designed to protect individuals while not significantly distorting the aggregate
+existing conventional data and be continuously benchmarked and
+statistics. This automated mechanism gives a (ε, 𝛅)-differential privacy guarantee
+with ε = 0.66 and 𝛅 = 2.1 × 1029, which is a very strong guarantee.
+validated as new data with similar geographic and spatial granular-
+ity become available48.
+General description of human movement. The distribution and movement
+patterns can vary by country. We therefore used simple summary statistics to
+Methods compare movement patterns between countries. First, we extracted for each
+Statistical analysis. No statistical methods were used to predetermine sample size country the number of 5 × 5 km grid cells that contain information about human
+by country. Data were passively collected. movements compared with all cells that fall onto land (Table 1). We further
+assessed the percentage of cells with populations >102, >103, >104 and >105 that
+Dataset description. Human movement data description. With the aim of better contain information about human mobility. Human population information
+understanding global variations in human movements, we use de-identified and were extracted using the Gridded Population of the World, version 4 (GPWv4)
+aggregated data from users who opted in to Google Location History. Opted-in estimates30. A full list of these estimates is provided in Supplementary Table 1.
+devices securely send periodic location updates containing timestamped We further assessed the population’s probability of leaving a 5 × 5 km grid cell
+geolocation (latitude, longitude and time). The location is inferred from a variety by dividing the total number of movements within each cell versus outside the
+of signals on the device, including GPS, WiFi and cell tower triangulation49. We cell (Fig. 2a). Finally, to gain insight into how far people move on average, we
+first apply machine learning to location data points to segment them into semantic computed for each country the fraction of movement that occurs between 5 km
+‘trips’49. The system automatically finds trips by taking into account a variety of and the maximum km within each country in 1 km increments away from the
+signals, such as timing of location points, dwell times and other factors. This, for origin location (Fig. 2b–g and Supplementary Fig. 6). We compare how distance
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+kernels differ by sociodemographic group by making pairwise comparisons There is clear correlation between SDI quintile and HAQI, as is evident from
+between the distributions at 1 km increments from 0 to 100 km using Tukey’s test. Fig. 3. As such, care must be taken to avoid overinterpretation of each panel’s fit
+and estimated uncertainty for HAQI values far outside the range of those displayed.
+Fitting the statistical power-law model. To further assess the generalizability For example, all HAQI values for countries in the lowest SDI quintile are below 50.
+and comparability of the data with previous work, we used a simple model, the It would be extremely unlikely that a country in that quintile could achieve a HAQI
+truncated power law, widely applied in human mobility research55. Generally, a of, say, 90 without also naturally moving out of that SDI quintile. Thus, it would
+truncated power law is identified when the probability of measuring a particular be perilous to extrapolate the fit (and uncertainty) for the ‘low SDI panel’ out to a
+value of some quantity varies inversely as a power of that value56. In studies of HAQI of 90.
+human mobility, it has been shown that the probability of travelling to areas
+outside your immediate vicinity decreases with distance, following a truncated Characterizing variation of human movement. The statistical fit of movement,
+power law, but the scaling parameter may vary depending on the underlying measured here as goodness of fit comparing the observed movement data with
+geography23,33,57–59. We fit a truncated power law of the following form to identify the fitted power-law distribution, may be influenced by a number of factors such
+the distance distribution of human mobility: as economic activity, rate of urbanization or overall number of observations
+or geographic factors such as the size of the country (Supplementary Fig. 9).
+p ðx Þ/x�αe�λx To understand which factors explain the variation in goodness of fit, we fit a
+generalized additive model of the form
+where α is a constant parameter of the distribution known as the exponent or
+scaling parameter and x > x min > 0. We use a maximum-likelihood fitting method KS �Distancecountrys ðSDI Þþs ðNobs Þþs ðSize Þþε
+with a goodness-of-fit test based on the Kolmogorov−Smirnov distance and
+likelihood ratios39,60. The Kolmogorov−Smirnov distance is measured as the where Nobs is the number of observations in the country, and Size is the size of the
+maximum distance between the empirical cumulative density function and the country in km2.
+best-fit distribution’s cumulative density function (Supplementary Fig. 11). In
+addition to the parameter α, we also estimate the lower bound x
+min
+from which the Relative frequency to travel internationally. Many studies of human mobility
+data follow a power law. For empirical data of human mobility, the data may only have been restricted to data collected within countries22,65–68. The dataset presented
+follow a power law from a lower bound x , especially in areas with low cost of here provides information about internal versus international movements. To
+min
+travel. Before calculating the scaling parameter α, we therefore first need to discard provide estimates of international movements across borders, we calculate for each
+all samples below this value so that we are left only with the ones for which the country the probability to move within the country versus outside the country by
+power-law model is valid. For any given value of x , we thus estimate the scaling calculating the sum of all movements internally versus externally (Fig. 4a).
+min
+parameter by numerically optimizing the log-likelihood:
+Impact of country borders on human movement. Detailed analysis of human
+α^ 1 n
+n
+log
+xi �1 movement reveals that movement is heterogeneous in space and frequency of
+ þ " Xi ¼1 xmin# t tr ha ev ae vl ad ie lap be ln ed is n fo rn a sd tris ut ca tn uc re e .t r Ha ove wll ee vd e r( ,F ai dg. m 2 ib n– ish t) r aa tn ivd e i us nre its st r mic ate yd a lg se oo hgr aa vp eh ai c sa trl oly n b gy
+effect mediating the movement of people. We therefore analysed human movement
+To quantify the parameter uncertainty of the scaling parameter, we make use of
+data across borders to specifically isolate the border effect between country pairs.
+a non-parametric bootstrap method61. We uniformly drew points at random with
+To do so, we compare international versus internal movements at locations that are
+replacement (1,000 times) and estimate x min and α for each of the datasets. The full within 20, 40, 60 or 80 km of a country border. We then normalize the estimates
+list of the parameters by country and 95% CIs are given in Supplementary Table 1.
+and estimate the cumulative weighted ratio of within-country versus external
+We evaluated the goodness of fit of the truncated power-law distribution using the
+movements that are comparable across all geographies (Fig. 4c).
+Kolmogorov−Smirnov distance (Supplementary Fig. 9).
+Uncertainties and limitations. Global datasets suffer from limitations associated
+Variables explaining variation in human movement. The frequency and distance with the adoption and use of smartphone technology. By the nature of the collection
+travelled vary across geographies. A population’s ability to move may also be an of the data, we relied on passively collected movement information of individuals
+indicator of people’s ability to flexibly adjust to external events such as wars, social using a smartphone. Use and adoption vary widely depending on the countries’
+disruption, climate change and natural disaster62. We here use a summary statistic wealth45 and can vary within each country by income groups. As a result, the spatial
+of human well-being, the SDI. The SDI is a summary measure of a geography’s and temporal data coverage are high in high-income countries but tend to be lower
+(195 countries) sociodemographic development. The SDI is based on average in countries with lower SDI. Whereas such data gaps may result in biases, the global
+income per person, educational attainment and total fertility rate (TFR). The SDI coverage of the data in areas with a population of 1,000 people is >65%, providing
+is developed on an interpretable scale where 0 represents lowest income per capita, a sound baseline for comparison at a global scale (Table 1). Other studies with even
+lowest educational attainment and highest TFR observed across 195 countries, and stronger biases using less distributed Apple/iOS data could show robust differences
+1 represents the highest income per capita, highest educational attainment and between countries26. To alleviate strong spatial biases within countries, that is, urban
+lowest TFR observed in 2016 across all countries32,34,63. Many causes of death are versus rural areas, we aggregated data to country level, thereby providing country
+critically related to the presence of effective healthcare. We use the HAQI, which characteristic movement summaries in the form of the scale-invariant power law.
+is based on 32 causes of death which should not occur in the presence of effective To validate these results, they are compared with reliable indicators of development
+care, such as tuberculosis, upper and lower respiratory infections, diarrhoeal and health access and quality (Fig. 3). Future work may look specifically at countries
+diseases and various cancers64. Both measures are used in tracking and measuring with high spatial coverage to assess differences in movement depending on
+the global burden of disease at local and country scale. underlying features of the landscape such as Germany, Belgium, France and others
+(Supplementary Table 1). To further ensure comparability between countries, we
+Correlation between human mobility and health and development indicators. normalize the recorded frequency of movements within each country (Fig. 2 and
+To investigate potential drivers of the parameters governing the power-law Supplementary Fig. 6) and find remarkable consistency in similarity of movements
+relationships, we constructed a regression between the mean cutoff x min and per SDI (Supplementary Fig. 2). We were unable to access information about the
+several plausible drivers of this quantity. As discussed above, HAQI and SDI are, socioeconomic status of individual users, which we believe varies by country.
+as constructed, summaries of a country’s infrastructure and access to care and, Especially in low-income countries, movements are probably more representative
+as such, were natural covariates for this model. In particular, we were interested of wealthier residents. However, we find that movements still vary substantially
+in the differential variation that HAQI may explain in different SDI quintiles and between low- and high-income countries (Fig. 3 and Supplementary Fig. 12), but
+thus built a model that allowed for a different impact of HAQI for different SDI anticipate that these differences are even larger when comparing the countries’ total
+quintiles. Specifically, we fit the following log-linear model with only an interaction populations. In the future, we anticipate this bias to decline due to higher adoption of
+term between HAQI and SDIq (that is, no main effect terms): mobile phones across the world, with a projected increase of 50% by 2020 with a large
+log HAQI´SDIq ε share of them being Android phones69. Compared with previous work, our data are
+xmin  þ collected at one, high spatial resolution at a global scale using a consistent machine
+where SDIq is the quintile of SDI to which the country for each data point belongs. learning methodology and Android technology, ensuring strong reliability of data
+We observed some evidence of heteroskedasticity in our residual plots against the across geographies.
+covariate HAQI, which was also suggested by a Breusch−Pagan test using the ‘car’
+package65 in R (P = 0.064), so we re-ran our regression as a weighted log-linear Reporting Summary. Further information on research design is available in the
+model with 1/HAQI as a weight. This alteration appeared to remedy much of the Nature Research Reporting Summary linked to this article.
+heteroskedasticity previously observed (Breusch−Pagan test P = 0.917). The final
+model had an R2 = 0.456 (the unweighted version of this regression had an R2 = Data availability
+0.389). Final model parameters are shown in Supplementary Table 2. We note that Human movement summary data for 242 countries and territories presented in
+the uncertainty of parameters for low- and low–middle SDI overlap, consistent with this work are available online at https://bit.ly/2L7FXxc. The aggregated dataset
+other estimates presented in this work (Supplementary Fig. 8). used for this study is available upon reasonable request to the corresponding
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+authors and with permission of Google, LLC. Interested parties should contact the 29. Ruktanonchai, N. W., Ruktanonchai, C. W., Floyd, J. R. & Tatem, A. J. Using
+corresponding authors via email to obtain a request form, which will be reviewed Google Location History data to quantify fine-scale human mobility.
+by Google, LLC, and the corresponding authors. Int. J. Health Geogr. 17, 28 (2018).
+30. Gridded Population of the World, Version 4 (GPWv4): Population count
+Code availability adjusted to match 2015 revision of UN WPP country totals, revision 10 https://
+sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-adjusted-to-
+Standard R-packages were used to produce results for this analysis. No custom code
+2015-unwpp-country-totals-rev11 (CIESIN, Columbia University, 2017).
+was developed.
+31. Viboud, C. et al. Synchrony, waves, and spatial hierarchies in the spread of
+influenza. Science 312, 447–451 (2006).
+Received: 13 April 2019; Accepted: 30 March 2020;
+32. Wang, H. et al. Global, regional, and national life expectancy, all-cause
+Published: xx xx xxxx
+mortality, and cause-specific mortality for 249 causes of death, 1980–2015: a
+systematic analysis for the global burden of disease study 2015. Lancet 388,
+References 1459–1544 (2016).
+33. Barbosa, H. et al. Human mobility: Models and applications. Phys. Rep. 734,
+1. Démurger, S. Infrastructure development and economic growth: an
+1–74 (2018).
+explanation for regional disparities in China? J. Comp. Econ. 29,
+34. Deville, P., Song, C., Eagle, N., Blondel, V. D. & Barabási, A. Scaling identity
+95–117 (2001).
+connects human mobility and social interactions. Proc. Natl Acad. Sci. USA
+2. Steele, J. E. et al. Mapping poverty using mobile phone and satellite data.
+113, 7047–7052 (2016).
+J. R. Soc. Interface 14, 20160690 (2017).
+35. Pappalardo, L., Rinzivillo, S., Qu, Z., Pedreschi, D. & Giannotti, F.
+3. Einav, L. & Levin, J. Economics in the age of big data. Science 346,
+Understanding the patterns of car travel. Eur. Phys. J. Spec. Top. 215,
+1243089 (2014).
+61–73 (2013).
+4. Lima, A., Stanojevic, R., Papagiannaki, D., Rodriguez, P. & Gonzalez, M. C.
+36. Song, C., Koren, T., Wang, P. & Barabási, A.-L. Modelling the scaling
+Understanding individual human routing behaviour. J. R. Soc. Interface 13,
+properties of human mobility. Nat. Phys. 6, 818–823 (2010).
+20160021 (2016).
+37. Yan, X., Zhao, C., Fan, Y., Di, Z. & Wang, W. Universal predictability of
+5. Butler, D. What the numbers say about refugees. Nature 543, 22–23 (2017).
+mobility patterns in cities. J. R. Soc. Interface 11, 20140834 (2014).
+6. Lu, X. et al. Detecting climate adaptation with mobile network data in
+38. Clauset, A. Trends and fluctuations in the severity of interstate wars. Sci. Adv.
+Bangladesh: anomalies in communication, mobility and consumption patterns
+4, eaao3580 (2018).
+during cyclone Mahasen. Climatic Change 138, 505–519 (2016).
+39. Clauset, A. Power-law distributions in empirical data. SIAM Rev. 51,
+7. Lu, X., Bengtsson, L. & Holme, P. Predictability of population
+661–703 (2009).
+displacement after the 2010 Haiti earthquake. Proc. Natl Acad. Sci. USA 109,
+40. Broido, A. D. & Clauset, A. Scale-free networks are rare. Nat. Commun. 10,
+11576–11581 (2012).
+1017 (2019).
+8. Brockmann, D. & Helbing, D. The hidden geometry of complex,
+41. Abel, G. J. Estimating global migration flow tables using place of birth data.
+network-driven contagion phenomena. Science 342, 1337–1342 (2013).
+Demogr. Res. 28, 505–546 (2013).
+9. Kraemer, M. U. G. et al. The effect of human mobility and control measures
+42. More Mexicans Leaving than Coming to the U.S. (Pew Research Center, 2015).
+on the COVID-19 epidemic in China. Science https://doi.org/10.1126/science.
+http://www.pewhispanic.org/2015/11/19/
+abb4218 (2020).
+more-mexicans-leaving-than-coming-to-the-u-s/
+10. Ouma, P. O. et al. Access to emergency hospital care provided by the public
+43. Verma, T., Araújo, N. A. M. & Herrmann, H. J. Revealing the structure of the
+sector in sub-Saharan Africa in 2015: a geocoded inventory and spatial
+analysis. Lancet Glob. Health 6, e342–e350 (2018). world airline network. Sci. Rep. 4, 5638 (2015).
+11. Weiss, D. J. et al. A global map of travel time to cities to assess inequalities in 44. Servick, K. Mind the phone. Science 350, 1306–1309 (2015).
+accessibility in 2015. Nature 553, 333–336 (2018). 45. World Development Indicators (The World Bank, 2018).
+12. Kraemer, M. U. G. et al. Progress and challenges in infectious disease 46. Wesolowski, A., Eagle, N., Noor, A. M., Snow, R. W. & Buckee, C. O.
+cartography. Trends Parasitol. 32, 19–29 (2016). The impact of biases in mobile phone ownership on estimates of human
+13. González, M. C., Hidalgo, C. A. & Barabási, A.-L. Understanding individual mobility. J. R. Soc. Interface 10, 20120986 (2013).
+human mobility patterns. Nature 453, 779–782 (2008). 47. Schich, M. et al. A network framework of cultural history. Science 345,
+14. Brockmann, D., Hufnagel, L. & Geisel, T. The scaling laws of human travel. 558–562 (2014).
+Nature 439, 462–465 (2006). 48. Blumenstock, J. Don’t forget people in the use of big data for development.
+15. Song, C., Qu, Z., Blumm, N. & Barabási, A.-L. Limits of predictability in Nature 561, 170–172 (2018).
+human mobility. Science 327, 1018–1021 (2010). 49. Kirmse, A., Udeshi, T., Bellver, P. & Shuma, J. Extracting patterns from
+16. Abel, G. J. & Sander, N. Quantifying global international migration flows. location history. In Proc. 19th ACM SIGSPATIAL International Conference on
+Science 343, 1520–1522 (2014). Advances in Geographic Information Systems (eds Agrawal, D. & Cruz, I.)
+17. Azose, J. J. & Raftery, A. E. Estimation of emigration, return migration, and 397–400 (Association for Computing Machinery, 2011).
+transit migration between all pairs of countries. Proc. Natl Acad. Sci. USA 50. Dwork, C. in Automata, Languages and Programming (eds Bugliesi, M. et al.)
+116, 116–122 (2019). 1–12 (Springer, 2006).
+18. Ruktanonchai, N. W. et al. Census-derived migration data as a tool for 51. Dwork, C. & Roth, A. The algorithmic foundations of differential privacy.
+informing malaria elimination policy. Malar. J. 15, 273 (2016). Found. Trends Theor. Comput. Sci. 9, 211–407 (2013).
+19. Sorichetta, A. et al. Mapping internal connectivity through human migration 52. Metcalf, J. & Crawford, K. Where are human subjects in big data research?
+in malaria endemic countries. Sci. Data 3, 160066 (2016). The emerging ethics divide. Big Data Soc. 3, 205395171665021 (2016).
+20. Marshall, J. M. et al. Key traveller groups of relevance to spatial malaria 53. Ess, C. & Jones, S. Ethical Decision-Making and Internet Research. Association
+transmission: a survey of movement patterns in four sub-Saharan African of Internet Research Ethics Working Committee (IGI Global, 2004).
+countries. Malar. J. 15, 1–12 (2016). 54. Golder, S. A. & Macy, M. W. Diurnal and seasonal mood vary
+21. Marshall, J. M. et al. Mathematical models of human mobility of relevance to with work, sleep, and daylength across diverse cultures. Science 333,
+malaria transmission in Africa. Sci. Rep. 8, 7713 (2018). 1878–1881 (2012).
+22. Blondel, V. D., Decuyper, A. & Krings, G. A survey of results on mobile 55. Gallotti, R., Bazzani, A., Rambaldi, S. & Barthelemy, M. A stochastic model
+phone datasets analysis. EPJ Data Sci. 4, 1–55 (2015). of randomly accelerated walkers for human mobility. Nat. Commun. 7,
+23. Noulas, A., Scellato, S., Lambiotte, R., Pontil, M. & Mascolo, C. A tale of 12600 (2016).
+many cities: universal patterns in human urban mobility. PLoS ONE 7, 56. Newman, M. E. J. Power laws, Pareto distributions and Zipf’s law. Contemp.
+e37027 (2012). Phys. 46, 323–351 (2005).
+24. Cheng, Z., Caverlee, J., Lee, K. & Sui, D. Z. Exploring millions of footprints 57. Lambiotte, R. et al. Geographical dispersal of mobile communication
+in location sharing services. ICWSM 2010, 81–88 (2011). networks. Phys. A Stat. Mech. Appl. 387, 5317–5325 (2008).
+25. Ruktanonchai, N. W. et al. Identifying malaria transmission foci for 58. Barthélemy, M. Spatial networks. Phys. Rep. 499, 1–101 (2011).
+elimination using human mobility data. PLOS Comput. Biol. 12, 59. Zhao, K., Musolesi, M., Hui, P., Rao, W. & Tarkoma, S. Explaining the
+e1004846 (2016). power-law distribution of human mobility through transportation modality
+26. Althoff, T. et al. Large-scale physical activity data reveal worldwide activity decomposition. Sci. Rep. 5, 9136 (2015).
+inequality. Nature 547, 336–339 (2017). 60. Vuong, Q. H. Likelihood ratio tests for model selection and non-nested
+27. Garcia, D. et al. Analyzing gender inequality through large- hypotheses. Econometrica 57, 307–333 (1989).
+scale Facebook advertising data. Proc. Natl Acad. Sci. USA 115, 61. Efron, B. & Tibshirani, R. J. An Introduction to Boostrap (Chapman and
+6958–6963 (2018). Hall, 1993).
+28. Wood, C. S. et al. Taking connected mobile-health diagnostics of infectious 62. Black, R., Bennett, S. R. G., Thomas, S. M. & Beddington, J. R. Climate
+diseases to the field. Nature 566, 467–474 (2019). change: migration as adaptation. Nature 478, 447–449 (2011).
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+63. Global Burden of Disease Collaborative Network Global Burden of acknowledges funding from a Training Grant from the National Institute of Child Health
+Disease Study 2016 (GBD 2016) Socio-demographic Index (SDI) 1970−2016 and Human Development (T32HD040128) and the Oxford Martin School. J.S.B. and
+(Institute for Health Metrics and Evaluation, 2017); http://ghdx.healthdata. M.U.G.K. acknowledge support from the National Library of Medicine of the National
+org/record/global-burden-disease-study-2016-gbd-2016-socio-demographic- Institutes of Health (R01LM010812, R01LM011965) and a Google Faculty Award (to
+index-sdi-1970–2016 M.U.G.K.). Q.Z., T.A.P. and D.L.S. are supported by a BMGF grant (OPP1110495).
+64. Fullman, N. et al. Measuring performance on the healthcare access and T.A.P. also acknowledges support from the Defense Advanced Research Projects Agency
+quality index for 195 countries and territories and selected subnational (D16AP00114). The funders had no role in study design, data collection and analysis,
+locations: a systematic analysis from the global burden of disease study 2016. decision to publish or preparation of the manuscript.
+Lancet 391, 2236–2271 (2018).
+65. Fox, J. & Weisberg, S. An R Companion to Applied Regression (Sage, 2011). Author contributions
+66. Wesolowski, A. Multinational patterns of seasonal asymmetry in human
+M.U.G.K., A.S., R.C.R. and J.S.B. conceived and planned the study. M.U.G.K.,
+movement influence infectious disease dynamics. Nat. Commun. 8,
+A.S., R.C.R., T.A.P. and Q.Z. analysed the data. M.U.G.K. wrote the first draft of the
+2069 (2017).
+manuscript, and all authors contributed to subsequent revisions. All authors read
+67. Wesolowski, A. et al. Commentary: containing the Ebola outbreak – the
+and approved the final manuscript.
+potential and challenge of mobile network data. PLoS Curr. https://dx.doi.
+org/10.1371%2Fcurrents.outbreaks.0177e7fcf52217b8b634376e2f3efc5e
+Competing interests
+(29 September 2014).
+68. Kraemer, M. U. G. et al. Spread of yellow fever virus outbreak in Angola and The authors declare no competing interests.
+the Democratic Republic of the Congo 2015–16: a modelling study. Lancet
+Infect. Dis. 17, 330–338 (2017). Additional information
+69. Anthes, E. Pecket psychiatry. Nature 532, 4–6 (2016).
+Supplementary information is available for this paper at https://doi.org/10.1038/
+s41562-020-0875-0.
+Acknowledgements Correspondence and requests for materials should be addressed to M.U.G.K., R.C.R.
+We thank A. Bar, C. Black, A. Broder, S. Cadrecha, S. Cason, C. Cattuto, C. Chou, or J.S.B.
+K. Chou, I. Conroy, L. Davidoff, J. Dean, J. Degener, D. Desfontaines, X. Dotiwalla, Peer review information Primary handling editor: Aisha Bradshaw.
+P. Eastham, J. Freidenfelds, E. Gabrilovich, V. Hoang, S. Holland, M. Howell, P.-P. Jiang,
+Reprints and permissions information is available at www.nature.com/reprints.
+A. Lange, B. Mehta, C. Niedermeyer, G. Park, O. Pybus, P. Ramaswami, C. Rigby,
+K. Rough, F. Sekles, C. Seto, A. Stein, C. Thota, M. Tizzoni, A. Vespignani and Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+A. Zlatinov for their insights and guidance. M.U.G.K. is supported by the Society published maps and institutional affiliations.
+in Science, the Branco Weiss Fellowship, administered by the ETH Zurich and © The Author(s), under exclusive licence to Springer Nature Limited 2020
+NATURE HUMAN BEHAVioUR | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Dr. Moritz Kraemer, Prof. John Brownstein,
+Corresponding author(s): Prof. Robert C Reiner
+Last updated by author(s): Mar 9, 2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection NA
+Data analysis Code availability statement: Standard R-packages were used to produce results for this analysis. No custom code was developed.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+Human movement summary data for 242 countries and territories presented in this work are available online at this link: https://bit.ly/2L7FXxc. The aggregated
+dataset used for this study is available upon reasonable request to the corresponding authors and with permission of Google, LLC. Interested parties should contact
+the corresponding authors via email to obtain a request form, which will be reviewed by Google, LLC and the corresponding authors.
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Behavioural & social sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Study description Here, we describe global human mobility patterns, aggregated from over 300 million smartphone users.
+Research sample 300 million smartphone users. Passively collected.
+Sampling strategy Based on users that opted into location sharing.
+Data collection Collection method was via smartphones.
+Timing Weekly in 2016.
+Data exclusions All locations with insufficient number of users (<100) were excluded to preserve privacy.
+Non-participation NA
+Randomization NA
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data

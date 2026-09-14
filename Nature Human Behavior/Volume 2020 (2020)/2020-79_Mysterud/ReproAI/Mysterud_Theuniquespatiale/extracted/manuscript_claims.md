@@ -4,12 +4,10 @@ Paper: 2020-79 Mysterud
 Title: The unique spatial ecology of human hunters
 DOI: 10.1038/s41562-020-0836-7
 Audit date: 2026-09-14
+Audit type: FULL TEXT
 
 ## Claims
 
-- **C1**: Sample size n=9685 (Location: Abstract, Type: sample_size)
-- **C2**: Sample size n=47845 (Location: Abstract, Type: sample_size)
-- **C3**: Sample size n=60365 (Location: Abstract, Type: sample_size)
-- **C4**: Sample size n=42530 (Location: Abstract, Type: sample_size)
+- **C1**: r=0.998 (Location: Full text, Type: correlation)
 
-## Total claims: 4
+## Total claims: 1

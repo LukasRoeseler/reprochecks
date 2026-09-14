@@ -1,11 +1,1194 @@
-# Memorability of words in arbitrary verbal associations modulates memory retrieval in the anterior temporal lobe
-
-## Abstract
-Despite large individual differences in memory performance, people remember certain stimuli with overwhelming consistency. This phenomenon is referred to as the memorability of an individual item. However, it remains unknown whether memorability also affects our ability to retrieve associations between items. Here, using a paired-associates verbal memory task, we combine behavioural data, computational modelling and direct recordings from the human brain to examine how memorability influences associative memory retrieval. We find that certain words are correctly retrieved across participants irrespective of the cues used to initiate memory retrieval. These words, which share greater semantic similarity with other words, are more readily available during retrieval and lead to more intrusions when retrieval fails. Successful retrieval of these memorable items, relative to less memorable ones, results in faster reinstatement of neural activity in the anterior temporal lobe. Collectively, our data reveal how the brain prioritizes certain information to facilitate memory retrieval. 
-
- This is a preview of subscription content, access via your institution
-
-## Supplementary Information
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0901-2/MediaObjects/41562_2020_901_MOESM1_ESM.pdf
-https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41562-020-0901-2/MediaObjects/41562_2020_901_MOESM2_ESM.pdf
-
+Articles
+https://doi.org/10.1038/s41562-020-0901-2
+Memorability of words in arbitrary verbal
+associations modulates memory retrieval
+in the anterior temporal lobe
+Weizhen Xie 1 ✉, Wilma A. Bainbridge 2,3 ✉, Sara K. Inati 4, Chris I. Baker 3 and
+Kareem A. Zaghloul 1 ✉
+Despite large individual differences in memory performance, people remember certain stimuli with overwhelming consistency.
+This phenomenon is referred to as the memorability of an individual item. However, it remains unknown whether memorability
+also affects our ability to retrieve associations between items. Here, using a paired-associates verbal memory task, we combine
+behavioural data, computational modelling and direct recordings from the human brain to examine how memorability influ-
+ences associative memory retrieval. We find that certain words are correctly retrieved across participants irrespective of the
+cues used to initiate memory retrieval. These words, which share greater semantic similarity with other words, are more readily
+available during retrieval and lead to more intrusions when retrieval fails. Successful retrieval of these memorable items, rela-
+tive to less memorable ones, results in faster reinstatement of neural activity in the anterior temporal lobe. Collectively, our
+data reveal how the brain prioritizes certain information to facilitate memory retrieval.
+A
+lthough people’s past experiences and overall memory abil- may affect recall, when the to-be-remembered task content is not
+ity tend to vary1, human observers consistently remember explicitly perceived, is less clear14. As opposed to recognition, recall
+some stimuli better than others2–4. For example, with just a critically relies on our ability to form and remember associations
+single viewing, some face and scene images are found to be easily between items15. Once formed, these associations provide a pow-
+remembered while others are easily forgotten4–6. This attribute of erful cue for recalling items from memory, even when no percep-
+each visual image has been referred to as its memorability, and the tual information is available regarding the to-be-retrieved memory
+memorability of different images can account for as much as half of content16. It remains unclear whether stimulus memorability can
+the overall variance in visual recognition performance across indi- also affect memory retrieval based on this recall process, given that
+viduals4. Notably, the memorability of visual images cannot simply memorability of associative task content has received surprisingly
+be explained by variations in lower-level stimulus features such as little attention in the literature.
+colour or spatial frequency5. Stimulus memorability also does not Here, we use a paired associates verbal memory task to investigate
+appear to depend on an observer’s level of engagement with a mem- the role of stimulus memorability in associative memory retrieval.
+ory task, such as their attention or level of processing7, or on their Our goal is to investigate whether stimulus memorability can suf-
+familiarity with or subjective preference for a particular item4. ficiently influence memory retrieval, even when successful retrieval
+While it is not known why some items are more memorable of an item occurs in the absence of its perceptual representation and
+than others, recent neuroimaging studies have shown that activa- instead is primarily driven by the association formed between the
+tion patterns in the ventral processing stream can reliably differen- item and its retrieval cue. We use verbal stimuli in this study to take
+tiate memorable from forgettable images even in the absence of an advantage of the highly associative nature of verbal content17 and to
+explicit memory task5,8,9. Thus, it is possible that the memorability of additionally ask whether memorability is also a stimulus property of
+visual stimuli may reflect an intrinsic stimulus property that bridges words, and therefore semantic concepts, rather than strictly visual
+both perceptual processing and memory formation7. In this case, images. We examine data captured from 30 participants with tem-
+memorable images can be more efficiently perceived, encoded and poral lobe intracranial electrodes placed for seizure monitoring, and
+recognized5,8,9. This framework suggests that stimulus memorability complement these data with online crowd-sourced findings from
+may play a critical role in mnemonic representations and processes 2,623 participants recruited through the Amazon Mechanical Turk
+beyond other factors that have traditionally been found to affect experimental platform. In both cases, we find that certain words are
+memory performance, such as task context10,11 and an observer’s more successfully recalled across participants—and are therefore
+emotional state12,13. more memorable—even when paired with arbitrary retrieval cues.
+However, despite these recent findings, contemporary studies Next, we construct a computational model to characterize the
+of memorability have largely been limited to investigating the role memorability of each word based on intrinsic semantic properties of
+of memorability in the recognition of single items. This raises the the words themselves. In this model, we hypothesize that semantic
+question of whether memorability is only a phenomenon that arises relationships among words influence how a word is retrieved from
+during perception. The extent to which stimulus memorability memory16,18–20. Because some words tend to be semantically more
+1Surgical Neurology Branch, NINDS, National Institutes of Health, Bethesda, MD, USA. 2Department of Psychology, University of Chicago, Chicago, IL, USA.
+3Laboratory of Brain and Cognition, NIMH, National Institutes of Health, Bethesda, MD, USA. 4Office of the Clinical Director, NINDS, National Institutes of
+Health, Bethesda, MD, USA. ✉e-mail: weizhen.xie@nih.gov; wilma@uchicago.edu; kareem.zaghloul@nih.gov
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+interconnected with others, they may serve as prior locations in the verbal memory task with the same word pairs. On average, they
+semantic network to initiate a more efficient memory search during successfully retrieved the target words on 51.65 ± 0.68% trials. In
+retrieval21. As a result, these words would emerge earlier during the this online sample, we also found that the memorability of the
+memory search process, making them less susceptible to cumula- retrieval target words was consistent across split halves of the par-
+tive mnemonic interference, and hence more memorable. We test ticipants, in that the mean of split-half correlations across 5,000
+several core predictions that emerge from this hypothesis. First, iterations was significantly larger than the correlations observed
+computationally, observed memorability of a word should be pre- using surrogate word ranks (ρ = 0.23; bootstrapped 95% CI: 0.06
+z
+dicted by a memory search model metric that captures how likely it to 0.44; P = 0.011; one tailed; Fig. 1b). Critically, we performed
+is that a word would be searched given any arbitrary retrieval cues. a correlation analysis between the memorability of words in the
+Second, behaviourally, memorable words should be more rapidly two datasets and found that words that were more memorable as
+reported, as they tend to come to mind more easily. However, this retrieval targets in the iEEG sample were also more memorable in
+would also imply that memorable words can lead to more intru- the online sample (ρ = 0.20; 95% CI: 0.09 to 0.31; P = 0.00047; two
+sion errors when retrieval fails. Last, neurally, successful retrieval tailed; n = 300 words). These data suggest that words, when used as
+of memorable words should involve rapid reactivation of initially retrieval targets and paired with arbitrary retrieval cues from the
+encoded memory content recorded by intracranial electrodes in word pool, reliably vary in their levels of memorability. This obser-
+semantically imbued brain regions, such as the anterior temporal vation was not limited by the clinical characteristics of patients
+lobe (ATL)22. Together, by testing these predicted effects of stimulus with epilepsy in the iEEG sample.
+memorability on associative memory retrieval using computational
+modelling, as well as behavioural and electrophysiological data, Modelling memorability of words in arbitrary verbal associations.
+this study adds theoretical and empirical insights to the research To account for the observations above, we modelled the memora-
+of human memory and the emerging literature on memorability7. bility of target words in the paired associates memory task. In our
+model, we assume that associative memory retrieval involves a
+results search process, and that this process follows a sampling rule based
+Memorability of words in arbitrary verbal associations. Thirty on how semantically similar a target word is to a cue word. This
+participants (ten females; 32.73 ± 1.93 years old (mean ± s.e.m.); semantic similarity property between target and cue words was
+Supplementary Table 1) with implanted intracranial electroen- referred to as the matching strength in previous memory search
+cephalogram (iEEG) electrodes studied lists of six arbitrary pairs models16,20. According to these models, the likelihood of search-
+of words in a paired associates verbal memory task. For each par- ing a target word based on a retrieval cue is the ratio of the given
+ticipant, the word pairs in each list were constructed by randomly cue-and-target matching strength relative to the sum of the match-
+sampling words from a pool of 300 common nouns23,24; thus, these ing strengths of the cue with all possible search targets (equation (1);
+word pairs were not identical across participants. Following each see Methods). Building on this likelihood function, the memorabil-
+study list and a distraction period (∼20 s), we presented one word ity of a target word can then be formally defined as the aggregated
+from each pair as a retrieval cue in a random order, and partici- likelihood of retrieving a certain target word given any arbitrary
+pants attempted to recall the paired word (that is, retrieval target; retrieval cues (equation (3)). That is, a more memorable target word
+Fig. 1a). Participants on average completed 216 ± 16 total trials and should have a stronger relative matching strength on average with
+successfully retrieved the correct word on 30.22 ± 4.15% of trials, any other words.
+while vocalizing an incorrect word or intrusion on 17.01 ± 2.89% of We simulated this model by calculating the semantic similarity
+trials (see also Supplementary Tables 2–4). between every two words as a proxy for their matching strength18,28.
+To evaluate whether certain target words were successfully To do so, we represented each word as a feature vector defined
+recalled across participants, we examined the split-half consistency by the Global Vectors (GloVe) for word representation29. Based
+of memorability estimates of the words in the current study using a on aggregated global word–word co-occurrence statistics in large
+resampling procedure4. In brief, in each of 5,000 iterations, we split text corpuses (for example, Wikipedia, newspapers and books),
+the retrieval data across participants into random halves. In each the GloVe uses an unsupervised learning algorithm to estimate
+half, we calculated the probability of successful memory recall for structures of a word’s vector space in the natural linguistic envi-
+each target word across participants. This provided an estimate of ronment29. The cosine similarity between word vectors may then
+memorability for each word when it was the retrieval target. We provide an effective method for measuring the semantic similarity
+calculated the Spearman–Brown25,26 corrected rank-order correla- (equation (2)), and hence matching strength, of the correspond-
+tions (ρ) of the memorability estimates across all words between ing words18. Accordingly, a more memorable target word that has
+the two random halves to quantify the split-half consistency in each a stronger relative matching strength on average with any other
+iteration. If words that were remembered by one half of the partici- words should locate more centrally in a semantic space. Based on
+pants also tended to be remembered by the other half, the split-half these measures, we modelled the predicted memorability of each
+consistency measure across iterations should be a positive value on target word using the cue words that were randomly chosen in the
+average27. Therefore, we used a one-tailed test to evaluate this pre- current study (Fig. 2a).
+diction by comparing the mean of split-half correlation coefficients We found that the predicted memorability estimates from our
+(Fisher’s Z-transformed Spearman correlation) across 5,000 itera- model were significantly correlated with the observed memorabil-
+tions against surrogate correlation coefficients calculated by shuf- ity values of the 300 words in both the iEEG sample (ρ = 0.20; 95%
+fling the word ranks in one of the halves (Fig. 1b). We found that CI: 0.09 to 0.30; P = 0.00057; two tailed) and the online sample
+this mean estimate of split-half correlation coefficients was signifi- (ρ = 0.21; 95% CI: 0.10 to 0.31; P = 0.00029; two tailed; Fig. 2b).
+cantly larger than surrogate correlation coefficients in the 30 iEEG Next, we evaluated several alternative accounts to check whether
+participants (ρ = 0.19; bootstrapped 95% confidence interval (CI): the observed memorability of words could be better explained
+z
+0.01 to 0.40; P = 0.035; one tailed; Fig. 1b). by other lower-level word features, such as concreteness ratings30
+We further confirmed that the memorability of individual and word frequency (ranked in the Corpus of Contemporary
+target words was conserved across participants by performing American English)31. As shown in multiple regression analy-
+the same analysis using data captured from an online Amazon ses that included all predictors simultaneously in a model (see
+Mechanical Turk study. In this study, 2,623 participants (1,556 Table 1 and Supplementary Tables 5 and 6 for additional details),
+female; 36.27 ± 0.30 years old) performed the paired associates the predicted memorability estimates explained a significant
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+a b
+iEEG sample (n = 30) Online sample (n = 2,623)
+4,000 ms 1,000 ms 4,000 ms
+t 0.65
+BEAM BANK
+Encoding CAMEL PIG Group 1
+Group 2 0.55
+Shuffled
+0.45
+Until response Until response
+Distraction
+4 + 2 + 7 9 + 3 + 4
+(~20s)
+0.2 0.2
+4,000 ms 1,000 ms 4,000 ms Groups 1 and 2
+Groups 1
+t 0.1 and 2 shuffled 0.1
+Mean value
+Cued Chance value
+PIG BEAM
+recall
+0 0
+–0.5
+Spearman–Brown split-half coefficient
+(z-transformed)
+amount of variance in the observed memorability scores in both Memorability of words in arbitrary verbal associations modulates
+the iEEG sample (β = 0.19; 95% CI: 0.06 to 0.32; t(296) = 2.97; memory retrieval. Given that relative matching strength appeared
+P = 0.0033; two tailed) and the online sample (β = 0.18; 95% to account for the observed memorability of the retrieved target
+CI: 0.05 to 0.30; t(296) = 2.79; P = 0.0056; two tailed). However, words, we hypothesized that words with higher overall matching
+we did not observe significant evidence that word frequency or strength should be more readily available during the retrieval search
+concreteness could predict observed memorability of words (see process. We therefore tested core behavioural and neural predic-
+Table 1 for details). tions that directly emerged from this hypothesis.
+ytiliaborP
+0.6
+0.4
+0.2
+50
+Word ranked by group 1 accuracy
+llacer
+etarucca
+fo
+%
+Mean ρz = 0.19 Mean ρz = 0.23 from 5,000 iterations from 5,000 iterations
+100150200250300 50 100150200250300
+Word ranked by group 1 accuracy
+0 0.5 –0.5 0 0.5
+Spearman–Brown split-half coefficient
+(z-transformed)
+Fig. 1 | Memorability of words is consistent across participants. a, In the paired associates task, six pairs of words were sequentially presented on the
+screen. After a distraction period of ∼20 s with simple addition mathematics questions, one word from each pair was presented as a retrieval cue in a
+random order. Participants were instructed to vocalize (iEEG sample) or type (online sample) the associated word following the onset of the cue word.
+Each iEEG session consisted of up to 25 lists of this encoding–distractor–recall procedure, while the online experiment consisted of three lists. b, Split-half
+analyses showed that the memorability of each word was consistent in both the iEEG sample and online sample of participants. Top: consistency analysis.
+The blue lines reflect word recall performance, ranked for a random split half (group 1). The orange lines show recall performance of the remaining half
+(group 2), ranked by data from group 1 (both averaged across 5,000 iterations). The grey line shows an estimation of chance, by shuffling the rank orders
+of group 2 (surrogate data). Bottom: the mean of the split-half correlation coefficients across 5,000 iterations was significantly larger than the surrogate
+(null) distributions in both the iEEG sample (mean ρz = 0.19; bootstrapped 95% CI: 0.01 to 0.40; P = 0.035; one tailed) and in the online sample (mean
+ρz = 0.23; bootstrapped 95% CI: 0.06 to 0.44; P = 0.011; one tailed). The red lines indicate the mean of the split-half correlation coefficients across 5,000
+iterations. The black dashed lines indicate the mean of the surrogate data.
+a b
+Arbitrary cues Targets 1.0
+(Q, j to M) (I, i to N)
+Word GloVe Matching GloVe Word
+strength (S)
+BOY TEA
+0.5
+FLAG
+P (I i ∣ Q j) = f (S)
+Mem(I i) ≈ ∑M j P (I i ∣ Q j) P(Q j)
+0
+WOOD 0
+Predicted memorability (×10–4)
+ytilibaromem
+devresbO
+iEEG sample Online sample
+1.0
+0.5
+ρ = 0.20 (0.09 to 0.30) ρ = 0.21 (0.10 to 0.31)
+0
+2 4 6 0 2 4 6
+Predicted memorability(×10–4)
+Fig. 2 | Modelling the memorability of target words in arbitrary verbal associations based on the matching strength of words. a, The likelihood that a
+cue word, Q j (j = 1 to M), leads to the retrieval of a target word, I i (I = 1 to N), is a function of the semantic similarity, or matching strength, between Q j and
+I (see Methods). We modelled the semantic similarity between words using the vectorized word features based on GloVe values29. Memorability of the
+i
+target word I, Mem(I), can thus be approximated by the aggregated likelihood of successful retrieval cued by any arbitrary words in the available semantic
+i i
+space. b, The predicted memorability estimates based on our computational model correlate with the observed memorability in both the iEEG sample
+(left; ρ = 0.20; 95% CI: 0.09 to 0.30; P = 0.00057; two tailed) and the online sample (right; ρ = 0.21; 95% CI: 0.10 to 0.31; P = 0.00029; two tailed).
+Solid lines represent linear fits of the data, and the dashed lines represent 95% CIs of the linear fit.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+Table 1 | Multiple regression analyses on observed memorability scores
+observed memorability of 300 words
+ieeG sample (n = 30) online sample (n = 2,623)
+β (95% CI) P (two tailed) β (95% CI) P (two tailed)
+Predicted memorability 0.19 (0.06 to 0.32) 0.0033 0.18 (0.05 to 0.30) 0.0056
+Word frequencya −0.09 (−0.21 to 0.03) 0.16 −0.03 (−0.15 to 0.10) 0.68
+Concretenessb −0.004 (−0.12 to 0.11) 0.94 0.09 (−0.02 to 0.21) 0.11
+aBased on values ranked in the Corpus of Contemporary American English in ascending order (that is, a smaller value means higher word frequency)31. bBased on values from a large-scale word-rating study.
+Higher values indicate a more concrete meaning30.
+Memorable words are reported faster. First, we tested the prediction word for the online participants (ρ = 0.13; 95% CI: 0.02 to 0.24;
+that if memorable items are more readily available during memory P = 0.026; two tailed).
+search, those items should be retrieved more quickly irrespective of
+recall accuracy. To test this prediction, we correlated participants’ Memorable targets are reinstated earlier during memory retrieval.
+trial-by-trial response times and observed memorability scores of Finally, we were interested in examining whether the memorability
+the vocalized words in the iEEG sample. We limited this analy- of the target words was related to the iEEG data. Previous evidence
+sis to participants who had responded to more than ten words to has shown that successful memory retrieval involves reinstating
+obtain a better estimate of the rank-order correlation (range of trial patterns of neural activity that were present during encoding32,33. If
+counts: 11–265 trials; on average, 115 ± 13 trials per participant; see the memorability of the target words guides memory search, target
+Supplementary Table 2). Using a resampling test at the subject level word memorability should be related to how quickly neural rein-
+(random effect), we found that target word memorability was sig- statement arises during memory retrieval. To examine this predic-
+nificantly correlated with shorter response times across participants tion, we first used patterns of iEEG power distributed across five
+in the iEEG sample (Fisher’s Z-transformed Spearman correlation: frequency bands in all electrodes in the ATL and posterior temporal
+ρ = −0.06; bootstrapped 95% CI: −0.09 to −0.03; P = 0.00040; two lobe (PTL), to compute neural reinstatement between every encod-
+z
+tailed; n = 27; Fig. 3a; see also Extended Data Fig. 1). Similar analy- ing and retrieval time point in every trial (200-ms windows; 20-ms
+ses limited to correct trials only (ρ = −0.03; bootstrapped 95% CI: steps; Fig. 4a,b; see Methods). Similar to previous reports32,33, we
+z
+−0.09 to 0.02; P = 0.23; two tailed) or intrusion trials only (ρ = 0.12; observed greater neural reinstatement during correct compared
+z
+bootstrapped 95% CI: −0.01 to 0.24; P = 0.060; two tailed) did not with incorrect trials in both the ATL and PTL immediately before
+yield statistically significant results. Nonetheless, these results sug- recall vocalization (Fig. 4c,e). Based on group-level comparisons
+gest that the response time of associative memory retrieval is mod- (corrected for the family-wise error rate using permutation tests at
+ulated by the memorability of the vocalized items, and that both the α = 0.05 level; see Methods), we identified an encoding temporal
+correctly and incorrectly vocalized items are critical aspects of the region of interest (tROI) that could reliably differentiate correct ver-
+overall memory search process that reveal this association. sus incorrect recall trials, separately for the ATL (420–2,460 ms after
+cue onset) and PTL (220–3,700 ms after cue onset). We then aver-
+Memorable words can lead to more intrusion errors. Next, we tested aged the measures of neural reinstatement across these group-level
+the potential cost of target word memorability on memory retrieval. encoding tROIs to generate a continuous time measure of neural
+If highly memorable verbal content is indeed more readily available reinstatement across different retrieval time points for each partici-
+during memory search, memorable non-target words should more pant (Fig. 4d,f). Post hoc comparisons confirmed that these neu-
+easily intrude into the mind when the retrieval of a target word fails. ral reinstatement values, averaged across encoding tROIs and the
+We tested this prediction by comparing the average observed mem- retrieval period from the probe onset to the median response time,
+orability of intruded words for each participant with the median were significantly higher in the correct (relative to incorrect) trials
+observed memorability of all words from the word pool. We again in both the ATL (t(18) = 3.39; P = 0.0032; two tailed; r = 0.62
+equivalent
+limited our analysis to only those iEEG participants who had more (0.23 to 0.84)) and PTL (t(17) = 4.23; P = 0.00056; two tailed;
+than ten intrusion trials, to obtain a reasonable estimate of memo- r = 0.72 (0.38 to 0.89)).
+equivalent
+rability for the intruded items (range of trial counts: 13–93 trials; on For correct trials, we then divided all of the target words into
+average, 37 ± 4 trials per participant; see Supplementary Table 3). memorable and forgettable words based on a median split of mem-
+Using a resampling test at the subject level (random effect), we orability values across the entire word pool, and separately calcu-
+found that the average memorability of the intruded words across lated their continuous time measures of neural reinstatement in
+participants (0.366; bootstrapped 95% CI: 0.357 to 0.373; n = 21) the ATL and PTL (Fig. 5a,c). We found that the overall temporal
+was significantly higher than the median memorability of the profile of neural reinstatement for memorable words, compared
+entire word pool (0.353; bootstrapped P = 0.0016; two tailed; com- with forgettable ones, emerged earlier during the retrieval period in
+plementary one-sample t-test: t(20) = 3.25; P = 0.0040; two tailed; the ATL (Fig. 5a). We computed the latency required to reach 50%
+r = 0.59 (0.21 to 0.81); Fig. 3b). We further confirmed that of the area under each time series of neural reinstatement34, and
+equivalent
+higher memorability also led to greater intrusions for the online found that in the ATL memorable items had a 50% fractional area
+participants. To reduce the influence of the shorter online experi- latency that was significantly shorter than that for forgettable items
+ment (three study-and-test lists; ∼5 min in duration; see Methods) (bootstrapped means for 50% fractional area latency: 905 versus
+on a lower likelihood of intrusions, we counted the total number 1,050 ms; n = 19; bootstrapped 95% CI of latency difference: −300
+of intrusions for each word across participants, normalized by to −20 ms; P = 0.040; two tailed; Fig. 5b). Complementing this, we
+the number of times the word was presented in the entire study, found that the time series of reinstatement also exhibited significant
+and correlated this measure with the observed memorability of differences in the peak latency between memorable and forgettable
+each word. We found that the probability of a word intruding on items in the ATL (jack-knife peak latency35: 765 versus 1,264 ms;
+retrieval was significantly correlated with the memorability of the t(18) = 2.26; P = 0.036; two tailed; r = 0.47 (0.02 to 0.76)).
+equivalent
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+a b
+0.4
+0.35
+0.3
+However, we observed no evidence for a statistically significant dif- 95% CI: −0.09 to 0.06; P = 0.89; two tailed) retrieval time windows.
+ference in the temporal profiles of neural reinstatement in the PTL We captured these spatial (ATL versus PTL) and temporal (early
+between memorable and forgettable target words (bootstrapped versus late response time windows) distinctions in the relationship
+means for 50% fractional area latency: 887 versus 897 ms; n = 18; between target word memorability and neural reinstatement using
+bootstrapped 95% CI of latency difference: −80 to 60 ms; P = 0.63; a focal one-tailed contrast analysis36, which allowed us to test only
+two tailed; jack-knife peak latency: 606 versus 558 ms; t(17) = 0.81; one set of outcomes to avoid omnibus arguments and multiple com-
+P = 0.43; two tailed; r = 0.21 (−0.29 to 0.61); Fig. 5c,d). parisons36,37. We found a significantly stronger correlation between
+equivalent
+Critically, among participants who had both ATL and PTL elec- target word memorability and neural reinstatement in the early
+trodes (n = 18), the differences in latency measures between memo- retrieval time window in the ATL compared with all other condi-
+rable and forgettable target words were significantly greater in the tions (see Methods for details; n = 18; bootstrapped P = 0.0016; one
+ATL than in the PTL (bootstrapped 50% fractional area latency: tailed; t contrast: t(17) = 2.88; P = 0.0050; one tailed; r = 0.57
+equivalent
+P = 0.031; one tailed; jack-knife peak latency: t(17) = 2.47; P = 0.012; (0.14 to 0.82); see Fig. 6c and Extended Data Fig. 2). These findings
+one tailed; r = 0.51 (0.06 to 0.79)). provide strong evidence that early neural reinstatement in the ATL
+equivalent
+These data suggest that trials with memorable target words show is related to target word memorability as participants successfully
+earlier reinstatement of neural activity. We therefore further investi- retrieve associative verbal content.
+gated this relationship between target word memorability and neu-
+ral reinstatement by examining trial-by-trial neural reinstatement Discussion
+profiles during an early (between 25 and 50% of the response time Using a paired associates verbal memory task across two different
+on a trial) and a late (between 75 and 100% of the response time samples of participants, we found that certain words are more likely
+on a trial) retrieval time window (Fig. 6a,b). If memorable items to be successfully retrieved, irrespective of the arbitrary cues used
+involve earlier reinstatement, the difference in neural reinstate- to initiate memory retrieval. Our computational model, which is
+ment between memorable and forgettable items should be more grounded in semantic similarity among words, well characterizes
+pronounced in the early retrieval time window. However, the later the memorability of words and makes several core predictions sup-
+retrieval time window may be dominated by other factors, such as ported by behavioural and neural data. That is, more memorable
+those related to searching for alternative items, deciding to stop items are retrieved faster, can lead to more intrusion errors, and
+memory search, or response preparation. All of these factors may exhibit faster dynamics of neural reinstatement in brain regions that
+be unrelated to the memorability of the target words. Indeed, across are closely involved in semantic cognition such as the ATL22. Taken
+participants and trials (range of trial counts: 14–242 trials; on aver- together, these converging findings advance our understanding of
+age, 76 ± 14 trials per participant; Supplementary Table 4), we found stimulus memorability and provide insights into how the human
+that neural reinstatement in the ATL was significantly correlated brain prioritizes certain information to facilitate memory retrieval.
+with target word memorability in the early retrieval time window Memorability as a mnemonic phenomenon has been stud-
+(ρ = 0.07; bootstrapped 95% CI: 0.02 to 0.13; P = 0.0092; two tailed; ied throughout the history of psychology3,38, but only recently has
+z
+n = 19), but not in the late retrieval time window (ρ = −0.03; boot- research leveraged findings from stimulus memorability to under-
+z
+strapped 95% CI: −0.14 to 0.07; P = 0.60; two tailed; n = 19). Across stand the relationship between memory and perception7. Our results
+18 participants who had PTL electrodes, we found no significant advance this line of research in several ways. First, most studies of
+evidence for a correlation between target word memorability and memorability have focused on visual recognition. Here, we show
+neural reinstatement patterns in the PTL (see Fig. 6c and Extended that associative memory recall, which is normally dominated by a
+Data Fig. 2), either in the early (ρ = 0.004; bootstrapped 95% CI: search process based on a retrieval cue, can also be modulated by
+z
+−0.06 to 0.07; P = 0.92; two tailed) or late (ρ = −0.01; bootstrapped the memorability of the target item. Second, moving beyond visual
+z
+ytilibaromem
+devresbO
+0.2
+0
+Median
+of word
+pool
+–0.2
+noitalerroc
+namraepS
+)demrofsnart-z(
+Fig. 3 | Memorable words are retrieved more quickly but lead to more intrusion errors. a, The Spearman correlation values (Fisher’s z-transformed)
+between memorability estimates of responded words and the response times required to vocalize these words are significantly negative on average across
+participants (ρz = −0.06; bootstrapped 95% CI: −0.09 to −0.03; P = 0.00040; two tailed; n = 27). This suggests that it generally takes a shorter time for the
+participants to report a memorable word after cue onset. Each point represents the Spearman correlation (Fisher’s z-transformed) between memorability
+esimates and response times of the responded words from a single subject. b, The average memorability of intruded words across participants in the
+iEEG sample (0.366; bootstrapped 95% CI: 0.357 to 0.373; n = 21) was significantly larger than the median memorability of the entire word pool (0.353;
+bootstrapped P = 0.0016; two tailed; complementary one-sample t-test: t(20) = 3.25; P = 0.0040; two tailed; r equivalent = 0.59 (0.21 to 0.81)). Each dot
+indicates the average memorability value from a single subject. In both panels, the bar and error bar represent the bootstrapped mean and standard error
+across participants (random effect), respectively. Extended Data Fig. 1 summarizes the same data with within-participant variability shown in a forest plot.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+a b
+Neural features Neural features
+at encoding at retrieval
+Cosine
+similarity
+t
+BEAM BANK
+CAMEL PIG
+recognition, the current paired associates verbal memory task offers literature on memorability7, which may subsequently have broader
+a clear separation between perceptual input and retrieved memory implications for developing better materials used for educational39,
+content. Our data suggest that memorability of a target item is rel- commercial40 or clinical41 purposes.
+evant for memory retrieval even in the absence of any perceptual Similar to previous studies in the verbal domain, we approxi-
+information regarding the target. Finally, extending previous obser- mated the extent to which a retrieval target matches a cue using the
+vations in visual memorability, our data suggest that, like images, semantic similarity between them18. Based on this approximation,
+words can also be characterized by their memorability. This memo- our results provide direct evidence that high-dimensional patterns
+rability property of words is governed by their semantic structure, of verbal features that are present in the natural linguistic environ-
+such that memorable words tend to be more centrally located ment29 can give rise to variations in the memorability of words.
+within a semantic space. Collectively, our results add to the growing Consequently, the memorability of a word is related to the semantic
+gnidocnE
+t
+t
+PIG BEAM
+laveirteR
+ATL
+t PTL
+c d
+ATL tROI average
+Z 0.08
+5
+0
+0.04
+–5
+0
+Correct
+Incorrect
+e f
+Cosine
+similarity
+0.12 Z 5
+0.08
+0 0.04
+–5
+0.00
+ytiralimis
+enisoC
+ATL (correct trials) Cluster-corrected Z map
+3,000
+2,000
+1,000 tROI
+0
+Retrieval (ms)
+)sm(
+gnidocnE
+ATL (incorrect trials)
+Cosine
+similarity
+0.06
+0.04
+0.02
+0
+Cluster-corrected z map
+0.08
+tROI 0.04
+0
+ytiralimis
+enisoC
+PTL (correct trials) PTL tROI average
+3,000
+2,000
+1,000
+0
+)sm(
+gnidocnE
+3,000
+2,000
+1,000
+0
+–1,000
+–500 0 1,000 2,000 –500 0 1,000 2,000 –500 0 1,000 2,000 –500 0 1,000 2,000
+Retrieval (ms) Retrieval (ms) Retrieval (ms)
+PTL (incorrect trials)
+–1,000
+–500 0 1,000 2,000 –500 0 1,000 2,000 –500 0 1,000 2,000 –500 0 1,000 2,000
+Retrieval (ms) Retrieval (ms) Retrieval (ms) Retrieval (ms)
+)sm(
+gnidocnE
+3,000
+2,000
+1,000
+0
+)sm(
+gnidocnE
+–1,000
+–1,000
+Fig. 4 | Neural reinstatement during memory retrieval. a, For every temporal window during encoding and retrieval, we constructed a feature vector using
+the pattern of oscillatory power across electrodes. We calculated neural reinstatement as the cosine similarity between every two brain state vectors.
+b, Electrode coverage in the ATL (n = 19) and PTL (n = 18) across participants who met the inclusion criteria. c,e, Reinstatement patterns for the ATL (c)
+and PTL (e), for correct and incorrect recall trials time-locked to cue onset (marked as a solid line at 0 ms). Note the different colour scales used for
+plotting, due to different reinstatement levels across brain regions. Significant differences in reinstatement between correct and incorrect trials in these
+regions were evaluated based on cluster-based permutation tests (see Methods). d,f, Average neural reinstatement during the tROI in the encoding phase
+across different retrieval time points for the ATL (d) and PTL (f). Shading represents s.e.m. estimates across participants. The response time averaged
+from participants’ median response times across trials is plotted as a dashed line. Post hoc comparisons confirmed that the neural reinstatement values
+averaged across encoding tROIs and the retrieval period from the probe onset to the median response time were significantly higher in the correct, relative
+to the incorrect, trials in both the ATL (t(18) = 3.39; P = 0.0032; two tailed; r equivalent = 0.62 (0.23 to 0.84)) and PTL (t(17) = 4.23; P = 0.00056; two tailed;
+r equivalent = 0.72 (0.38 to 0.89)).
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+a
+0.10
+0.05
+0
+Retrieval (ms)
+c
+similarity between that word and all other words, as opposed to and neural evidence that stimulus memorability can influence
+other lower-level verbal features of a single word such as concrete- this search process. Rather than initiating memory search with
+ness or word frequency21,30,42,43. An important theoretical contribu- a random walk as assumed by traditional models45, our findings
+tion of our work, then, is in providing a formal mathematical model suggest that memory search begins in regions of the search space
+that well characterizes the memorability of words that emerges from where memorable items reside. In this manner, memorability may
+the natural linguistic environment. This model may further provide be an important phenomenon for supporting optimum foraging
+a stable base for reaching upward towards a broader understanding during memory retrieval18,46. This may be particularly relevant for
+of memorability for other complex and highly associative natural recall when the to-be-retrieved memory content is not perceptu-
+stimuli, such as content-rich images and videos44. ally available, and for other higher cognitive functions that criti-
+An equally important contribution of our work is in providing cally rely on information sampling, such as fluid intelligence and
+insights into the process of memory search. Models of associa- memory-based decisions47.
+tive memory posit that the retrieval of associative content occurs Behaviourally, our mathematical model describing the memora-
+through a search process that is guided by the similarity between bility of words as their relative matching strength with any arbitrary
+a target item and its retrieval cue, referred to as the matching retrieval cues provides two core predictions. First, if memory search
+strength between them16,18–20. We observed converging behavioural indeed begins with memorable words, it should take a shorter time to
+ytiralimis
+enisoC
+0.10
+0.05
+0
+ytiralimis
+enisoC
+100
+80
+60
+40
+20
+% of response time
+CUA
+fo
+%
+0 1,000 2,000 20 40 60 80 100
+100
+80
+60
+40
+20
+0 1,000 2,000 20 40 60 80 100
+Retrieval (ms) % of response time
+CUA
+fo
+%
+b
+Memorable
+Forgettable
+d
+Fig. 5 | Neural reinstatement is faster for memorable items in the AtL. a, Temporal profiles of ATL neural reinstatement during the tROI in the encoding
+phase across different retrieval time points for correct memorable (red) and forgettable (blue) target words. The peak time points of the average
+reinstatement neural profiles are marked as dot-dashed vertical lines in respective colours, and the response time averaged from participants’ median
+response time across trials is plotted as a black dashed line. The solid line at 0 indicates cue onset. b, Fractional area measured as a function of response
+time (normalized by the average response time of participants) in the ATL, with the 50% fractional area latency marked by the dashed horizontal grey
+line. c, PTL neural reinstatement profiles for correct memorable (red) and forgettable (blue) target words, similar to a. d, Fractional area measured as a
+function of response time for neural reinstatement profiles in the PTL, similar to b. All error bars (shaded areas) indicate bootstrapped standard errors
+across participants across 5,000 iterations. Note that measures of fractional area latency and peak latency are complementary to each other. In general,
+memorable targets tend to be reinstated earlier during the retrieval time window in the ATL (bootstrapped means for 50% fractional area latency: 905
+versus 1,050 ms; n = 19; bootstrapped 95% CI of latency difference: −300 to −20 ms; P = 0.040; two tailed; jack-knife peak latency35: 765 versus 1,264 ms;
+t(18) = 2.26; P = 0.036; two tailed; r equivalent = 0.47 (0.02 to 0.76)). AUC, area under the curve.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+a
+Early
+Late ATL
+0.10
+PTL
+0.05
+0
+100
+% of response time
+recall memorable words compared with forgettable ones48. Considering Alternatively, the ATL may serve a generic role for linking associa-
+that both correctly recalled items and incorrect intrusions reflect the tive task content independent of the modality of a stimulus50. In this
+overall memory search process, this predicted relationship between case, while the PTL may be involved in semantic representation at
+word memorability and response time may exist when correct and the single-item level51,52, the ATL may play a larger role in associa-
+incorrect recall trials are combined. Our behavioural data support this tive representations. Future research can articulate these issues to
+prediction. Second, if memory search begins with memorable items, better understand how the human brain processes memorability of
+memorable items should also more easily intrude into the search pro- relational information from different sensory inputs.
+cess when retrieval fails. Our data showing that intruded items have a Although our data show that stimulus memorability can indeed
+higher level of memorability support this prediction. Therefore, these modulate associative memory retrieval, it should be noted that the
+behavioural observations suggest that memorable and forgettable focus of our analyses has been on the memorability of target words
+words indeed differ in their retrieval profiles. in arbitrary verbal associations. This is fundamentally different
+Neurally, using iEEG, our data further reveal the fine-scale neural from the memorability of the arbitrary verbal associations them-
+dynamics underlying the retrieval search process of memorable words selves. While the former addresses the degree to which certain items
+in the human brain. Successful memory retrieval entails reinstate- can be more successfully remembered in associative memory, the
+ment of neural patterns of activity that were present during encod- latter is directly related to the degree to which pairs of items are
+ing32,33,49. Our model provides a core prediction regarding this process more memorable. Future research utilizing a smaller, exhaustive set
+of neural reinstatement. Namely, if memory search prioritizes memo- of associative pairs may reveal further memorability phenomena in
+rable items, memorable target words should more rapidly trigger associative memory. It should also be noted that the current study
+reinstatement of the original memory experience to support success- has collapsed data across left and right ATLs in the analyses, given
+ful recall. The finding that successful retrieval of memorable, relative that the two ATLs may act as a coupled bilateral system to support
+to forgettable, items shows faster neural reinstatement supports this semantic memory53. However, this does not preclude the possibility
+prediction. Critically, we observed the relationship between target of hemisphere preference in the representation of memorability for
+word memorability and the speed of neural reinstatement in correct certain verbal content. Future research with a larger sample that has
+trials only, thus separating stimulus-driven memorability properties bilateral ATL coverage will be more suitable to address this issue.
+from generic individual differences in overall memory ability5. In conclusion, our data combine converging evidence from
+Furthermore, we also found that the observed relationship laboratory, online crowd-sourced, computational modelling and
+between neural reinstatement and target word memorability was iEEG methods to provide a mechanistic explanation of how stim-
+primarily localized to the ATL but not the PTL. This observation ulus memorability affects associative memory retrieval. We find
+is consistent with the prediction from our model that memorability that memorability of associative verbal content is grounded in the
+of associative verbal content is driven by the structural relationship semantic similarity structure of words, and that memorable words
+among interconnected semantic representations. According to this can modulate the retrieval process in the ATL. By revealing how
+prediction, temporal differences in neural reinstatement between our internal experiences are profoundly shaped by intrinsic prop-
+the retrieval of memorable and forgettable words should be more erties of stimuli from the external world, our results shed light on
+pronounced in semantically imbued brain regions such as the ATL22. how rich relational information in everyday life can be efficiently
+However, this does not necessarily imply that memorability effects remembered in the human brain.
+for all associative task content are specific to the ATL. For example,
+our current observation may simply reflect the dominant role of the
+Methods
+ATL in semantic cognition in general22. Meanwhile, the PTL may
+Participants. Thirty participants (ten females; 32.73 ± 1.93 years old (mean ± s.e.m.);
+be more sensitive to the memorability of associative visual content, Wechsler intelligence quotient: 87.65 ± 2.06; all >70; see Supplementary Table 1)
+given the critical role of the ventral stream in visual processing5. with drug-resistant epilepsy underwent a surgical procedure at the Clinical Center
+)egareva
+IORt(
+ytiralimis
+enisoC
+0.8
+0.6
+0.4
+0.2
+–50 0 50 –0.2 0 0.2
+Cosine similarity (tROI average)
+ytilibaromem
+devresbO
+c
+Early
+Late
+)demrofsnart-z(
+noitalerroc
+namraepS
+b
+Correct Late
+Early trials only 0.5 **
+0
+–0.5
+ATL ATL PTL PTL
+early late early late
+Fig. 6 | target word memorability correlates with neural reinstatement in the AtL during early memory retrieval. a, An example reinstatement temporal
+profile normalized by the trial-specific response time. Early and late time windows are respectively defined by the 25−50% and 75−100% durations of the
+trial-specific response time. b, Trial-level correlation between the neural reinstatement pattern and target word memorability from an example subject. Each
+dot represents trial-level data, and the lines indicate linear fits of the data. c, Across participants, the spatial and temporal profile of the correlation between
+the neural reinstatement pattern and target word memorability on average is captured by a contrast that predicts the strongest correlation in the ATL during
+the early time window compared with other conditions (see Results and Methods for details). Each dot indicates the standardized correlation value from a
+single subject. Participants’ data, along with within-participant variability of the correlation measures, can be seen in Extended Data Fig. 2. The double asterisk
+indicates a bootstrapped P value of 0.0016 (one tailed) in a focal contrast analysis (complementary t contrast: t(17) = 2.88; P = 0.0050; one tailed; r equivalent = 0.57
+(0.14−0.82)) with a set of weights +3, −1, −1 and −1 for ATL early, ATL late, PTL early and PTL late, respectively. Error bars in c represent standard errors.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+of the National Institutes of Health (NIH). In this procedure, platinum recording above. Participants studied a list of six word pairs, performed an arithmetic
+contacts were implanted subdurally on the cortical surface and within the brain distractor task and then underwent a test phase. The timing was identical to the
+parenchyma to localize epileptogenic brain regions. In all cases, the clinical team experiment for the iEEG participants, although the arithmetic distractor task
+determined the placement of the contacts to best localize epileptogenic regions. differed slightly in that it asked for the summation of sets of two numbers and
+All participants completed the English version of a paired associates verbal lasted 16 s. For the test phase, participants saw a cue word and were given as
+memory task. Some of the data from this sample (<30% overlap samples) have much time as needed to type in the associated target word, to accommodate for
+been published in previous studies examining other memory-related phenomena54. individual differences in typing speed. For words they could not recall, participants
+We used the behavioural data from all 30 participants for the group-level analysis were instructed to write ‘pass’ in order to proceed to subsequent trials. Each
+of memorability estimates. Inclusion criteria for the analysis of neural data were participant was tested on three study-and-test lists, resulting in an experiment
+more restrictive: (1) each participant should have a structural magnetic resonance time of approximately 5 min. Before beginning the actual study, they underwent
+imaging scan to allow proper electrode localization55; (2) each participant should training using example word pairs that were not used in the main experiment. All
+have at least three electrode contacts in the brain regions of interest (ATL and word pairs were randomly sampled from the list of word pairs tested with the iEEG
+PTL) after removal of noisy electrodes (see pre-processing steps below); (3) participants, so that there were 200 responses per target word, with approximately
+each participant should complete more than ten correct trials33 of the paired ten different possible matching cue words.
+associates memory task across experimental sessions to ensure reasonable signal
+stability for the neural reinstatement analysis (see Extended Data Fig. 3); and Intracranial EEG recordings and pre-processing. We recorded iEEG signals
+(4) each participant should have no previous resection of brain regions. In the from subdural electrodes (PMT Corporation) sampled at 1,000 Hz using a Nihon
+end, data from 19 participants met these criteria for ATL analyses, among which Kohden or Blackrock Microsystems EEG data acquisition system. These subdural
+18 participants met the criteria for PTL analyses (highlighted by an asterisk in contacts were arranged in both grid and strip configurations with an inter-contact
+Supplementary Table 1). The Institutional Review Board at the NIH approved the spacing of 5 or 10 mm. The raw EEG traces were initially referenced to a common
+current study. All participants and/or their guardians provided informed consent subcutaneous contact or to the system reference. Localization of electrode
+before data collection. Except where otherwise noted, all computational analyses contacts was achieved by co-registering postoperative computed tomography and
+were performed using custom-written MATLAB codes (MathWorks). preoperative magnetic resonance images using established methods55. We then
+For the online replication study, we recruited 3,620 participants (2,074 female; projected the resulting contact locations to the cortical surface of a reconstruction
+35.68 ± 0.25 years old) from the online crowd-sourcing experimental platform of each individual participant’s brain and a normalized cortical surface in the MNI
+Amazon Mechanical Turk, following guidelines set by the NIH Office of Human (Montreal Neurological Institute) space for visualization.
+Subjects Research Protections. Only participants who indicated English as We analysed data from 880 subdural contacts (range: 10–116; on average,
+their native language and who provided responses on at least three trials were 46 ± 6 per participant; see Supplementary Table 4) in the brain regions (ATL and
+included in the analyses, resulting in a final sample size of 2,623 (1,556 females; PTL) applicable to our study (Fig. 4b). We selected electrode contact for inclusion
+36.27 ± 0.30 years old) for further analysis. All participants were compensated for in analysis through a combination of cortical parcellation using FreeSurfer labels
+their time. Note that no statistical methods were used to pre-determine sample and a customized procedure detailed in a previous study57. Specifically, we first
+sizes. That said, our sample size for the iEEG study was larger than previous iEEG identified temporal electrodes using subject-specific FreeSurfer labels generated
+studies using the same behavioural task32,49,54 and our sample size for the online for each electrode location. Next, we identified ATL electrodes based on the
+study was similar to previous online cloud-source studies on memorability4,14. average surgical cut from participants who had received an anterior temporal
+lobectomy for clinical indications. Hence, the ATL was surgically defined as shown
+Paired associates verbal memory task. iEEG participants. Each participant in a previous study57. The remaining temporal lobe contacts were then designated
+performed the paired associates verbal memory task using stimuli randomly as PTL electrodes.
+chosen from a pool of 300 common nouns23,24. This task was divided into a set For each participant, iEEG data were pre-processed separately for each
+of lists, which included a study phase and a test phase each. During the study session in two steps. In the first step, we rejected electrodes exhibiting abnormal
+phase of a list, participants sequentially saw six word pairs and were instructed to signal amplitude or large line noise58,59. Specifically, we divided each session
+remember the arbitrary associations between them. On each trial of the encoding into 1-s epochs, and for each electrode calculated the amplitude and variance of
+period, each word pair was preceded by a short fixation period (250–300 ms) with the continuous time series over each epoch. Any electrode with a voltage trace
+a cross on the screen, followed by a blank inter-stimulus interval (ISI) of between whose average amplitude or variance across epochs was more than three standard
+500 and 750 ms. Word pairs were presented stacked in the centre of the screen deviations away from the mean across all electrodes was flagged for rejection. We
+for 4,000 ms followed by a blank ISI of 1,000 ms. To interrupt participants’ active iteratively repeated this procedure until no electrode was rejected. We then applied
+maintenance of the word pairs before the test phase, participants were probed to a local detrending procedure to remove slow fluctuations from the time series of
+complete an arithmetic distractor task of the form ‘A + B + C = ?’ for about 20 s each electrode and used a regression-based approach to remove line noise at 60
+after the study phase. In the subsequent test phase, participants were cued with and 120 Hz. To approximate a reference-free montage, we subtracted the common
+one word from each pair selected in a random order. They were instructed to say average reference (calculated using the retained electrodes in each participant
+aloud the associated word, with their responses recorded by a microphone. Each within each session) from the voltage trace of each electrode.
+cue word was presented for 4,000 ms followed by a blank ISI of 1,000 ms, making a In the second step, we rejected additional electrodes and trials that exhibited
+total of 5,000 ms as the maximum recall time window. Participants could vocalize excessive signal kurtosis or variance during epochs of individual trials using a
+their response any time during the recall period after cue presentation. They were procedure we adapted from FieldTrip60. For each electrode channel and trial,
+instructed to vocalize ‘pass’ if they could not retrieve the target word. After the we computed the variance of the voltage trace during two 8,000-ms epochs
+study, trained research assistants manually designated each recorded response (−2,000–6,000 ms), time-locked separately to the onset of study pair and the
+as correct, intrusion or pass. A response would be designated as ‘pass’ when no onset of retrieval cue of the same words, with 1,000-ms buffer data included at
+vocalization was made or when the participant vocalized the word ‘pass’. We also the beginning and end of an epoch. This resulted in a two-dimensional matrix of
+recorded participants’ response times as the time lapsed before they made the first variance measures (channels by trials for each epoch), from which we identified
+vocalization following the probe onset. A single experimental session contained the maximum variance for each trial and the maximum variance for each channel.
+60–150 total word pairs, or trials (that is, ten to 25 lists), depending on how many We identified trial outliers by setting a threshold, Q 3 + w × (Q 3 − Q 1), where Q 1 and
+trials a participant was able to complete in a single recording session (no more than Q are the mean voltage boundaries of the first and third quartiles, respectively. We
+3
+1 h per session). We included at most two unique sessions from each participant, empirically determined the weight w to be 2.3 (ref. 54). The aim of these two steps
+to minimize potential practice effects or the influence of over-familiarization of was to remove iEEG signals contaminated by epileptic activity, physical movement
+task content on memorability estimates as the number of tested sessions increased. of the participant, or external sources of transient electrical perturbations.
+Due to the large number of permuted combinations of word pairs, the likelihood We quantified spectral power and phase in each temporal epoch (encoding and
+that a cue–target pairing was exactly the same across at least two trials within a retrieval windows) by convolving the pre-processed iEEG signals with complex
+participant, or the same across at least two participants, was very small. In the valued Morlet wavelets (wavelet number 6)54. Specifically, we calculated spectral
+scenario when there was within-subject repetition, we averaged the participant’s power using 30 logarithmically spaced wavelets between 3 and 150 Hz. We then
+performance in repeated trials for the target word. This only happened in less than squared and log-transformed the continuous time wavelet transform to generate a
+1% of all trials in the current study. continuous measure of instantaneous power. Next, we z-scored the power values
+separately for each frequency and for each session using the mean and standard
+Online participants. We conducted a replication of the verbal paired associates deviation of all respective values between −700 and −500 ms before probe onset from
+memory task online on the Amazon Mechanical Turk experimental platform with that session61. Finally, we removed the 1,000 ms of buffered data at the beginning and
+a large sample of participants in order to examine whether memorability estimates end of each epoch and extracted z-scored power traces for each frequency and each
+are consistent across different populations and experimental settings. Amazon electrode during task-related periods for later analyses (see ‘Data analysis’).
+Mechanical Turk has been shown to be a reliable method for collecting large-scale
+psychological data, usually with broader demographic reach and comparable effect Modelling memorability of associative concepts based on word similarity.
+size relative to in-laboratory samples56. The methods for the current experiment We simulated memory retrieval for associative memory based on principles that
+were nearly identical to the in-laboratory paired associates memory task described are in line with the Search for Associative Memory model16 and the Adaptive
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+Control of Thought—Rational model20. These models posit that memory recall bands: theta (4–8 Hz), alpha (8–16 Hz), beta (16–32 Hz), gamma (32–70 Hz) and
+is achieved by searching associative memory content. Hence, the search process high-frequency broad band (70–150 Hz). For every encoding (E) and retrieval (R)
+i j
+is contingent on the extent to which the search target is similar to the search cue. temporal epoch in each trial, we then constructed feature vectors using the average
+This can be quantified as the similarity, or matching strength, between a cue and z-scored power values from the five frequency bands for every electrode within a
+its target. In the current cued-recall paired associates verbal memory task, each chosen brain region:
+pta rr og be at bit ie lim
+ty,
+I bi y(i a=
+s
+1
+e
+tt o
+o
+fN in) din
+e
+pth ene dm enem
+t
+co ur ey is tee marc s,h
+Q
+sp
+j
+(a jc =e 1m ta oy
+M
+be
+).
+p Hro eb ne cd e,, tw hi et h
+li
+ke eq lu iha ol
+od
+Ei¼ z1;1ði Þ¼z1;Fði Þ¼zK;Fði
+Þ
+of retrieving I i given a cue Q j is related to the matching strength between them, (cid:31) (cid:30)
+tS h(I ei i,
+r
+Q mj) a. tW che
+i
+nd ge f si tn re ed
+n
+gth the wre il ta ht i tv he
+e
+m sua mtch oin
+f
+ag
+l
+ls t mre an tg chth
+in
+b ge stw tre ee nn
+g
+tI hi sa n bd
+et
+Q wj
+e
+b ey
+n
+c thom
+e
+sp aa mri en g Rj¼ z1;1ðj Þ¼z1;Fðj Þ¼zK;Fðj
+Þ
+cue Q and all possible target items in the memory search space16—namely, all of (cid:31) (cid:30)
+possibj le words in the current word pool, k ∈ 1 to N: f = 1W toh Fer ie n z tk e,f( mi) p i os rt ah le e z p- os cc ho r ie . d H p eo nw cee ,r e o af c hel e tec mtro pd oe ra k l = ep 1 o t co h K co a nt tf ar ie nq eu de Knc ×y Fb and
+P �IijQj
+¼
+S
+N
+k�SQj Q;I ji ;Iβ kj
+βj
+ð1
+Þ
+f a ge c ia vrt eou nsr s e
+s
+fs ti u, v w de
+y
+h f -ri aec nqh du r -ee tnp ec sr tye s tbe rian ant
+l
+,dt h Cs e na
+,
+t d
+f
+a ois rst r i eni ab g cu l hete emd
+n
+os cp m oe dec in ntr t ga i l n
+e
+p
+p
+to oimw che e r .
+i
+Ta ac nhr deo rs res
+e
+i ta n rl isl
+e
+te val t ae e lc m etr peo ond cte hfs o ja r cn a ad
+n
+thus be quantified as the cosine similarity between E and R:
+P �  i j
+sw fo trh r
+e
+e a nr l ge l tcβ huj er foe sp ,
+r
+sr rie ems te ri in l eat vrs
+i
+tt noh
+g
+e a
+t
+ns aa rel gi a ee r tn l y Ic
+i
+y m
+u
+( seo im nr ga o t crt y ue n es et Qi ao jr ,n c Sh w
+(
+Ime i,i Qogh d j)t e ,) l
+a
+1o 6 s.f
+t
+Wa
+h
+eg e i ccv oae sln c
+i
+nuc elu a e st i. e mW d ite lh
+a
+s ree
+i
+tmt
+y
+β a
+o
+ta fcs h
+t
+h1 in
+e
+g Cnði;j
+Þ¼
+jjEE iji j* jR jRj
+jjj
+feature vectors that represent the target and cue items:
+Computing reinstatement for every combination of encoding and retrieval
+S ðIi;QjÞ¼ jjIiI ji j* jQ jQj
+jjj
+ð2
+Þ
+e rep io nc sh
+ta
+g tee mne er na tt e ms aa
+p
+r e inin es ata ct he m pae rn tit
+c
+m ipa ap
+n
+tf o sr
+e
+pe aa rc ah
+t
+et lr yia fl o. rW ae
+ll
+t ch oe rn
+re
+c co
+t
+m anp du t ie nd
+c
+oth rre
+e
+a cv
+t
+erage
+trials. We further compared these reinstatement maps across participants at
+where we defined a feature vector to represent each word in the word pool each encoding and retrieval time point to identify temporal regions exhibiting a
+using the GloVe for word representations, trained on Wikipedia 2014 and significant difference in neural reinstatement between correct and incorrect trials
+Gigaword 5 (ref. 29). (see ‘Statistical analyses’).
+As the selection of retrieval cues for each memory target was random within
+session and across participants, the probability of retrieving I i across different Neural reinstatement profile for memorable versus forgettable retrieval targets. To
+retrieval cues can be deemed as independent from one another. Hence, an item’s account for unbalanced counts of correct trials for memorable and forgettable
+simulated memorability can be approximated as the weighted sum of that item’s target words, for each participant, we resampled the data with replacement over
+relative matching strength to all cues: 5,000 iterations from each trial category (memorable and forgettable targets)
+M based on the same trial count that came from the category with a lesser trial
+Mem ðIiÞ j P IijQj P Qj ð3 Þ count. We then took the average neural reinstatement profile across these 5,000
+X �  �  iterations as the representative neural reinstatement of a given participant for a
+We calculated the simulated memorability of each word as a retrieval target certain trial type. To obtain group-level measures of fractional area latency, we
+using the actual cue words in the current study. Because word pairs were randomly resampled the participants’ data, with replacement, over 5,000 iterations. For each
+assigned in each experimental session using the same word pool, each retrieval iteration, we calculated the percentage of area under the neural reinstatement
+target word did not necessarily have the same cue across participants. Hence, waveform across different response time points based on participants’ average
+for each retrieval target word, the number of actual cue words used to estimate response time within that iteration. Because participants had different response
+memorability varied from 7–24 (average: 18 cue words for each target). We also times, we normalized the data as the percentage of average response time along
+calculated the hypothetical memorability of each word as a retrieval target in the the temporal dimension before aggregating the data across participants. We then
+chosen pool, probed by all other possible cue word (M = 299 based on the current quantified the time it took for the average neural reinstatement profile to reach
+word pool). These two estimates were highly correlated (ρ = 0.68 (0.61 to 0.73); 50% of its area under the waveform from the cue onset until the average response
+P < 0.0001; two tailed), suggesting that the identities of randomly chosen cue words time as the 50% fractional area latency. Complementary to this bootstrapping
+may not play a critical role in the memorability estimates of target words. Hence, approach, to measure peak latency for the neural reinstatement profile (Fig. 5),
+the overall matching strength structure among words can be approximated using we used a leave-one-out jack-knife approach with proper statistical correction
+arbitrary cues from the word pool. recommended by previous studies35,62.
+Data analysis. Consistency analysis for observed memorability of associative verbal Statistical analyses. Data collection and analysis were not performed blind to the
+content across participants. We calculated the memorability of each target item conditions of the experiments. For both behavioural and neural data, we primarily
+as the probability of successful retrieval across participants for each word when used non-parametric resampling tests to obtain random-effect P values for effect
+it was used as a target item in the task. To evaluate the reliability of this measure, size measures (for example, correlation or mean difference) that were generalizable
+we conducted a split-half consistency analysis. First, we split data into random across participants. In brief, we resampled participants’ data with replacement for
+halves that included non-overlapping participants. We then separately calculated 5,000 iterations to obtain a sampling distribution of the estimated effect size for
+the memorability of each target word in each random half. Finally, we calculated a certain measure along with its 95% CI and P values. This procedure minimized
+the rank-order Spearman correlation of memorability across words between the the assumptions imposed on statistical tests. In general, the P values reported here
+two different halves, and applied a Spearman–Brown correction to obtain the are two tailed. When appropriate, we used a one-tailed P value to test directional
+split-half correlation coefficient25,26. We repeated this procedure 5,000 times and significance (for example, for split-half consistency analysis27, post hoc tests
+used the mean correlation coefficient of these iterations as the representative and contrast analysis36), and complemented non-parametric test results with
+split-half consistency measure. Before aggregating these bounded correlation parametric test results (for example, t-tests). In these parametric tests, the data
+coefficients across different iterations, we standardized the rank-order correlation distribution was assumed to be normal, but this was not formally tested. Based on
+coefficients using Fisher’s Z-transform function36. In principle, this split-half these parametric test results, we also reported a common scale effect size estimate,
+consistency measure across iterations should be a positive value on average27. To r and its 95% CI36,63,64.
+equivalent
+generate a surrogate distribution for significance testing, for each iteration, we To identify temporal regions exhibiting a significant difference in reinstatement
+calculated an additional rank-order correlation coefficient after randomly shuffling between correct and incorrect trials (Fig. 4), we used a combination of a
+the word memorability ranks from one of the split halves. We then compared permutation test and cluster-wise correction procedure. Specifically, for each pair
+the representative split-half consistency measure (namely, the mean) against this of epochs in the reinstatement analysis, we computed the t-statistic and P value
+surrogate distribution to obtain a one-tailed P value that reflects the probability of across participants between correct and incorrect trials54. We then randomly
+obtaining an average split-half correlation coefficient from the observed data that is permuted the participant-specific averages (correct versus incorrect) 5,000 times,
+greater than the null value if the null hypothesis is true (that is, zero correlation in to generate the empirical distribution for every epoch. We calculated t-statistics for
+the shuffled data). each of the permuted epochs. To correct for multiple comparisons, we identified
+clusters containing epochs that were adjacent in time that exhibited a significant
+Metrics of neural reinstatement. We quantified the extent to which patterns of difference between trial types (in each epoch, P < 0.01). For each cluster of
+neural activity were reinstated between encoding and successful memory retrieval significant epochs identified in the true and permuted cases, we defined a cluster
+using methods established in previous studies32,33,49. Briefly, we binned the statistic as the sum of the t-statistics within that temporal cluster. We retained
+continuous-time z-scored power in each frequency into 200-ms epochs spaced the maximum cluster statistic during each of the 5,000 permutations to create a
+every 20 ms (90% overlap) and averaged the instantaneous power over each epoch. distribution of maximum cluster statistics. We assigned P values to each identified
+For each temporal epoch, we averaged the z-scored power across five frequency cluster of the true data by comparing its cluster statistic with the distribution of
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NaTurE HumaN BEHaviour Articles
+maximum cluster statistics from the permuted cases. Clusters were determined 19. Clark, S. E. & Gronlund, S. D. Global matching models of recognition
+to be significant if the P value calculated at the cluster level was <0.05. memory: how the models match the data. Psychon. Bull. Rev. 3,
+To evaluate specific spatial and temporal patterns of neural reinstatement 37–60 (1996).
+profiles in relation to trial-by-trial memorability scores, we performed a focal 20. Anderson, J. R. Rules of the Mind (Lawrence Erlbaum Associates, 1993).
+contrast analysis36,37. In this analysis, we predicted that the correlation magnitude 21. Griffiths, T. L., Steyvers, M. & Firl, A. Google and the mind: predicting
+between memorability scores and neural reinstatement values in the early fluency with PageRank. Psychol. Sci. 18, 1069–1076 (2007).
+retrieval time window of the ATL should be higher than that in all of the other 22. Ralph, M. A. L., Jefferies, E., Patterson, K. & Rogers, T. T. The neural
+conditions (namely, the late retrieval time window of the ATL and both the and computational bases of semantic cognition. Nat. Rev. Neurosci. 18,
+early and late retrieval time windows of the PTL). We thus assigned the contrast 42–55 (2017).
+weights (+3, −1, −1 and −1, respectively) to these four conditions. This set of 23. Burke, J. F. et al. Synchronous and asynchronous theta and gamma activity
+contrast weights should sum to be 0, reflecting a theoretical null result. However, during episodic memory formation. J. Neurosci. 33, 292–304 (2013).
+if the data follow our prediction, the weighted sum of observed data should on 24. Long, N. M., Burke, J. F. & Kahana, M. J. Subsequent memory effect in
+average yield a positive value across participants, and therefore can be tested using intracranial and scalp EEG. Neuroimage 84, 488–494 (2014).
+a one-tailed test using either a non-parametric bootstrap analysis or a parametric 25. Spearman, C. Correlation calculated from faulty data. Br. J. Psychol. 3,
+one-sample t-test36,37. This focal contrast analysis would thus allow us to draw 271–295 (1910).
+a stronger inference on the particular spatial–temporal neural reinstatement 26. Brown, W. Some experimental results in the correlation of mental abilities.
+pattern predicted by our hypothesis. Br. J. Psychol. 3, 296–322 (1910).
+27. Kuder, G. F. & Richardson, M. W. The theory of the estimation of test
+Reporting Summary. Further information on research design is available in the reliability. Psychometrika 2, 151–160 (1937).
+Nature Research Reporting Summary linked to this article. 28. Lu, H., Chen, D. & Holyoak, K. J. Bayesian analogy with relational
+transformations. Psychol. Rev. 119, 617–648 (2012).
+Data availability 29. Pennington, J., Socher, R. & Manning, C. D. GloVe: global vectors for
+Processed data used in this study can be found at https://neuroscience.nih.gov/ word representation. In Proc. 2014 Conference on Empirical Methods in
+ninds/zaghloul/downloads.html. Natural Language Processing 1532–1543 (Association for Computational
+Linguistics, 2014).
+30. Brysbaert, M., Warriner, A. B. & Kuperman, V. Concreteness ratings for 40
+Code availability
+thousand generally known English word lemmas. Behav. Res. Methods 46,
+Custom code that supports the findings of this study is available from W.X.
+904–911 (2014).
+upon request.
+31. Davies, M. & Gardner, D. A Frequency Dictionary of Contemporary American
+English: Word Sketches, Collocates and Thematic Lists (Routledge, 2013).
+Received: 25 September 2019; Accepted: 27 May 2020;
+32. Yaffe, R. B. et al. Reinstatement of distributed cortical oscillations occurs
+Published: xx xx xxxx with precise spatiotemporal dynamics during successful memory retrieval.
+Proc. Natl Acad. Sci. USA 111, 18727–18732 (2014).
+references 33. Jang, A. I., Wittig, J. H. Jr, Inati, S. K. & Zaghloul, K. A. Human cortical
+neurons in the anterior temporal lobe reinstate spiking activity during verbal
+1. Unsworth, N. Individual differences in long-term memory. Psychol. Bull. 145,
+memory retrieval. Curr. Biol. 27, 1700–1705.e5 (2017).
+79–139 (2019).
+34. Xie, W. & Zhang, W. Familiarity speeds up visual short-term memory
+2. Salthouse, T. A. Item analyses of memory differences. J. Clin. Exp.
+Neuropsychol. 39, 326–335 (2017). consolidation: electrophysiological evidence from contralateral delay
+3. Rubin, D. C. Memorability as a measure of processing: a unit analysis of activities. J. Cogn. Neurosci. 30, 1–13 (2018).
+prose and list learning. J. Exp. Psychol. Gen. 114, 213–238 (1985). 35. Kiesel, A., Miller, J., Jolicoeur, P. & Brisson, B. Measurement of ERP latency
+4. Bainbridge, W. A., Isola, P. & Oliva, A. The intrinsic memorability of face differences: a comparison of single-participant and jackknife-based scoring
+photographs. J. Exp. Psychol. Gen. 142, 1323–1334 (2013). methods. Psychophysiology 45, 250–274 (2008).
+5. Bainbridge, W. A., Dilks, D. D. & Oliva, A. Memorability: a stimulus-driven 36. Rosenthal, R., Rosnow, R. L. & Rubin, D. B. Contrasts and Effect Sizes in
+perceptual neural signature distinctive from memory. Neuroimage 149, Behavioral Research: A Correlational Approach (Cambridge Univ. Press, 2000).
+141–152 (2017). 37. Steiger, J. H. Beyond the F test: effect size confidence intervals and tests of
+6. Bylinskii, Z., Isola, P., Bainbridge, C., Torralba, A. & Oliva, A. Intrinsic close fit in the analysis of variance and contrast analysis. Psychol. Methods 9,
+and extrinsic effects on image memorability. Vision Res. 116, 164–182 (2004).
+165–178 (2015). 38. Bartlett, F. C. Remembering: A Study in Experimental and Social Psychology
+7. Bainbridge, W. A. Memorability: How what we see influences what we (Cambridge Univ. Press, 1932).
+remember. in Psychology of Learning and Motivation: Advances in Research 39. Landrum, R. E. & Gurung, R. A. R. The memorability of introductory
+and Theory (eds Federmeier, K. D. & Beck, D. M.) 70, 1–27 (Elsevier, 2019). psychology revisited. Teach. Psychol. 40, 222–227 (2013).
+8. Bainbridge, W. A. & Rissman, J. Dissociating neural markers of stimulus 40. Lowrey, T. M. The relation between script complexity and commercial
+memorability and subjective recognition during episodic retrieval. Sci. Rep. 8, memorability. J. Advert. 35, 7–15 (2006).
+8679 (2018). 41. Bainbridge, W. A. et al. Memorability of photographs in subjective cognitive
+9. Mohsenzadeh, Y., Mullin, C., Oliva, A. & Pantazis, D. The perceptual neural decline and mild cognitive impairment: implications for cognitive assessment.
+trace of memorable unseen scenes. Sci. Rep. 9, 6033 (2019). Alzheimers Dement. (Amst.) 11, 610–618 (2019).
+10. Smith, S. M. Theoretical principles of context-dependent memory. in 42. Rubin, D. C. & Friendly, M. Predicting which words get recalled: measures of
+Theoretical Aspects of Memory (eds Gruneberg, M. & Morris, P. E.) free recall, availability, goodness, emotionality, and pronunciability for 925
+167–194 (Routledge, 2006). nouns. Mem. Cogn. 14, 79–94 (1986).
+11. Xie, W. & Zhang, W. Mood-dependent retrieval in visual long-term memory: 43. Brown, J., Lewis, V. J. & Monk, A. F. Memorability, word frequency and
+dissociable effects on retrieval probability and mnemonic precision. negative recognition. Q. J. Exp. Psychol. 29, 461–473 (1977).
+Cogn. Emot. 32, 674–690 (2018). 44. Sonkusare, S., Breakspear, M. & Guo, C. Naturalistic stimuli in neuroscience:
+12. Xie, W. & Zhang, W. Negative emotion enhances mnemonic precision and critically acclaimed. Trends Cogn. Sci. 23, 699–714 (2019).
+subjective feelings of remembering in visual long-term memory. Cognition 45. Gillund, G. & Shiffrin, R. M. A retrieval model for both recognition and
+166, 73–83 (2017). recall. Psychol. Rev. 91, 1–67 (1984).
+13. Xie, W. & Zhang, W. Negative emotion boosts quality of visual working 46. Hills, T. T., Todd, P. M. & Jones, M. N. Foraging in semantic fields: how we
+memory representation. Emotion 16, 760–774 (2016). search through memory. Top. Cogn. Sci. 7, 513–534 (2015).
+14. Bainbridge, W. A., Hall, E. H. & Baker, C. I. Drawings of real-world scenes 47. Stewart, N., Chater, N. & Brown, G. D. A. Decision by sampling. Cogn. Psychol.
+during free recall reveal detailed object and spatial information in memory. 53, 1–26 (2006).
+Nat. Commun. 10, 5 (2019). 48. Sternberg, S. High-speed scanning in human memory. Science 153,
+15. Xie, W. & Zhang, W. Dissociations of the number and precision of visual 652–654 (1966).
+short-term memory representations in change detection. Mem. Cogn. 45, 49. Yaffe, R. B., Shaikhouni, A., Arai, J., Inati, S. K. & Zaghloul, K. A. Cued
+1423–1437 (2017). memory retrieval exhibits reinstatement of high gamma power on a faster
+16. Raaijmakers, J. G. & Shiffrin, R. M. Search of associative memory. Psychol. timescale in the left temporal lobe and prefrontal cortex. J. Neurosci. 37,
+Rev. 88, 93–134 (1981). 4472–4480 (2017).
+17. Dehaene, S. et al. Imaging unconscious semantic priming. Nature 395, 50. Machery, E. The amodal brain and the offloading hypothesis. Psychon. Bull.
+597–600 (1998). Rev. 23, 1090–1095 (2016).
+18. Hills, T. T., Jones, M. N. & Todd, P. M. Optimal foraging in semantic 51. Martin, A. The representation of object concepts in the brain. Annu. Rev.
+memory. Psychol. Rev. 119, 431–440 (2012). Psychol. 58, 25–45 (2007).
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+Articles NaTurE HumaN BEHaviour
+52. Martin, A. & Chao, L. L. Semantic memory and the brain: structure and Acknowledgements
+processes. Curr. Opin. Neurobiol. 11, 194–201 (2001). We thank A. Martin, J. H. Wittig Jr, V. Sreekumar, J. I. Chapeton, C. Zawora and
+53. Rice, G. E., Caswell, H., Moore, P., Hoffman, P. & Lambon Ralph, M. A. A. Vaz for insightful comments on the project. This work was supported by Intramural
+The roles of left versus right anterior temporal lobes in semantic memory: Research programmes of the National Institute of Neurological Disorders and Stroke
+a neuropsychological comparison of postsurgical temporal lobe epilepsy (ZIA-NS003144) and the National Institute of Mental Health (ZIA-MH002909). W.X.
+patients. Cereb. Cortex 28, 1487–1501 (2018). was funded by the National Institute of Neurological Disorders and Stroke Competitive
+54. Vaz, A. P., Inati, S. K., Brunel, N. & Zaghloul, K. A. Coupled ripple Postdoctoral Fellowship Award. We are indebted to all of the participants who selflessly
+oscillations between the medial temporal lobe and neocortex retrieve human volunteered their time to participate in this study. The funders had no role in study
+memory. Science 363, 975–978 (2019). design, data collection and analysis, decision to publish or preparation of the manuscript.
+55. Trotta, M. S. et al. Surface based electrode localization and standardized
+regions of interest for intracranial EEG. Hum. Brain Mapp. 39,
+Author contributions
+709–721 (2017).
+56. Buhrmester, M., Kwang, T. & Gosling, S. D. Amazon’s Mechanical Turk: a W.X. conceptualized the study and wrote the paper, with advice from K.A.Z., W.A.B.
+new source of inexpensive, yet high-quality, data? Perspect. Psychol. Sci. 6, and C.I.B. W.X. proposed the computational model and analysed the iEEG data.
+3–5 (2011). W.A.B. collected and analysed the online crowd-sourced data. S.K.I. oversaw iEEG
+57. Wittig, J. H., Jang, A. I., Cocjin, J. B., Inati, S. K. & Zaghloul, K. A. data acquisition and provided clinical assessment of iEEG waveforms and seizure focus
+Attention improves memory by suppressing spiking-neuron activity localization. K.A.Z. performed all of the surgical procedures and supervised the study.
+in the human anterior temporal lobe. Nat. Neurosci. 21, C.I.B. provided additional funding support for the online crowd-sourced study.
+808–810 (2018). All authors provided critical comments.
+58. Chapeton, J. I., Haque, R., Wittig, J. H., Inati, S. K. & Zaghloul, K. A.
+Large-scale communication in the human brain is rhythmically modulated Competing interests
+through alpha coherence. Curr. Biol. 29, 2801–2811.e5 (2019). The authors declare no competing interests.
+59. Bigdely-Shamlo, N., Mullen, T., Kothe, C., Su, K. M. & Robbins, K. A. The
+PREP pipeline: standardized preprocessing for large-scale EEG analysis.
+Front. Neuroinform. 9, 16 (2015). Additional information
+60. Joshua, M., Elias, S., Levine, O. & Bergman, H. Quantifying the isolation Extended data is available for this paper at https://doi.org/10.1038/s41562-020-0901-2.
+quality of extracellularly recorded action potentials. J. Neurosci. Methods 163,
+Supplementary information is available for this paper at https://doi.org/10.1038/
+267–282 (2007).
+s41562-020-0901-2.
+61. Cohen, M. X. Analyzing Neural Time Series Data: Theory and Practice
+(MIT Press, 2014). Correspondence and requests for materials should be addressed to W.X., W.A.B. or K.A.Z.
+62. Miller, J., Ulrich, R. & Schwarz, W. Why jackknifing yields good latency Peer review information Primary Handling Editor: Marike Schiffer.
+estimates. Psychophysiology 46, 300–312 (2009).
+Reprints and permissions information is available at www.nature.com/reprints.
+63. Rosenthal, R. & Rubin, D. B. r equivalent: A simple effect size indicator.
+Psychol. Methods 8, 492–496 (2003). Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+64. Xie, W., Cappiello, M., Meng, M., Rosenthal, R. & Zhang, W. ADRA2B published maps and institutional affiliations.
+deletion variant and enhanced cognitive processing of emotional information: This is a U.S. government work and not under copyright protection in the U.S.; foreign
+a meta-analytical review. Neurosci. Biobehav. Rev. 92, 402–416 (2018). copyright protection may apply 2020
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 1 | Memorable words are retrieved more quickly but lead to more intrusion errors across individuals. a, Participants’ values for
+Spearman correlation (Fisher’s z transformed) of the relationship between target word memorability estimates and the response times of retrieved
+words and b, average memorability of intruded words across participants in the iEEG sample. Each dot indicates a value from a single participant, with
+the whiskers indicating the within-participant standard error across trials. The dot sizes are weighted by the overall within-participant standard error,
+with a larger size indicating smaller variability. The data are sorted by participant-specific estimates separately for (a) and (b). The random-effect mean
+estimates (in red) and their standard errors (in green) between participants are plotted at the bottom, which are identical to the bars shown in Fig. 3.
+Although there is a noisy estimate in (a) due to a low trial count (11 trials), inclusion or exclusion of this participant’s data does not substantially impact
+the mean estimate and significant testing across participants.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+AArrttiicclleess NNaaTTuurrEE HHuummaaNN BBEEHHaavviioouurr
+Extended Data Fig. 2 | Correlation estimates (Fisher’s z transformed) for the association between trial-by-trial memorability of correctly retrieved
+items and neural reinstatement in the AtL and PtL. a, Data across participants in the ALT during the early retrieval time window. b, Data across
+participants in the ALT during the late retrieval time window. c, Data across participants in the PLT during the early retrieval time window. d, Data
+across participants in the PLT during the late retrieval time window. Each dot indicates a value from a single participant, with the whiskers indicating the
+within-participant standard error across trials. The dot sizes are weighted by the overall within-participant standard error, with a larger size indicating
+smaller variability. All data are sorted by participant-specific correlation estimates based on (a). The random-effect mean estimates (in red) and their
+standard errors (in green) across participants are marked at the bottom of each plot, which are identical to the bars shown in Fig. 6c.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+NNaaTTuurrEE HHuummaaNN BBEEHHaavviioouurr AArrttiicclleess
+Extended Data Fig. 3 | AtL neural reinstatement effect stabilizes over around 10 trials. a, Resampling without replacement of the current dataset over
+100 interactions with 2 trials per condition (that is, 2 for correct and 2 for incorrect retrieval) per subject, b, 4 trials per condition per subject, c, 10 trials
+per condition per subject (10 trials), d, and all available trials for included subjects. Intuitively, the more trials were included, the less noisy the data were.
+When the number of resampling trials reached to 10, the amount of variance in the estimate of mean neural reinstatement pattern for correct responses
+was similar to the data from all available trials from all included participants. This resampling analysis provides some analytical support for the trial count
+criterion we have imposed on the analysis.
+NAture HuMAN BeHAvIour | www.nature.com/nathumbehav
+1
+nature
+research
+|
+reporting
+summary
+October
+2018
+Weizhen Xie
+Wilma Bainbridge
+Corresponding author(s): Kareem Zaghloul
+Last updated by author(s): 04/09/2020
+Reporting Summary
+Nature Research wishes to improve the reproducibility of the work that we publish. This form provides structure for consistency and transparency
+in reporting. For further information on Nature Research policies, see Authors & Referees and the Editorial Policy Checklist.
+Statistics
+For all statistical analyses, confirm that the following items are present in the figure legend, table legend, main text, or Methods section.
+n/a Confirmed
+The exact sample size (n) for each experimental group/condition, given as a discrete number and unit of measurement
+A statement on whether measurements were taken from distinct samples or whether the same sample was measured repeatedly
+The statistical test(s) used AND whether they are one- or two-sided
+Only common tests should be described solely by name; describe more complex techniques in the Methods section.
+A description of all covariates tested
+A description of any assumptions or corrections, such as tests of normality and adjustment for multiple comparisons
+A full description of the statistical parameters including central tendency (e.g. means) or other basic estimates (e.g. regression coefficient)
+AND variation (e.g. standard deviation) or associated estimates of uncertainty (e.g. confidence intervals)
+For null hypothesis testing, the test statistic (e.g. F, t, r) with confidence intervals, effect sizes, degrees of freedom and P value noted
+Give P values as exact values whenever suitable.
+For Bayesian analysis, information on the choice of priors and Markov chain Monte Carlo settings
+For hierarchical and complex designs, identification of the appropriate level for tests and full reporting of outcomes
+Estimates of effect sizes (e.g. Cohen's d, Pearson's r), indicating how they were calculated
+Our web collection on statistics for biologists contains articles on many of the points above.
+Software and code
+Policy information about availability of computer code
+Data collection iEEG data were acquired using Nihon Khoden's or Blackrock's EEG data acquisition software. Behavioral data for iEEG participants were
+collected by using Python codes. The online study was done using JAVA scripts through Amazon Mechanical Turk platform.
+Data analysis Electrode localization was fulfilled by using AFNI and FreeSurfer software packages. All visualization and statistical analyses were
+performed using custom code in Matlab (Mathworks, Inc.). Custom code is available from the first author upon request.
+For manuscripts utilizing custom algorithms or software that are central to the research but not yet described in published literature, software must be made available to editors/reviewers.
+We strongly encourage code deposition in a community repository (e.g. GitHub). See the Nature Research guidelines for submitting code & software for further information.
+Data
+Policy information about availability of data
+All manuscripts must include a data availability statement. This statement should provide the following information, where applicable:
+- Accession codes, unique identifiers, or web links for publicly available datasets
+- A list of figures that have associated raw data
+- A description of any restrictions on data availability
+The data that support the findings of this study are available from the corresponding authors upon request and are also available for public download at https://
+neuroscience.nih.gov/ninds/zaghloul/downloads.html.
+2
+nature
+research
+|
+reporting
+summary
+October
+2018
+Field-specific reporting
+Please select the one below that is the best fit for your research. If you are not sure, read the appropriate sections before making your selection.
+Life sciences Behavioural & social sciences Ecological, evolutionary & environmental sciences
+For a reference copy of the document with all sections, see nature.com/documents/nr-reporting-summary-flat.pdf
+Life sciences study design
+All studies must disclose on these points even when the disclosure is negative.
+Sample size Thirty participants (10 females; 32.73 ± 1.93 [mean ± s.e.m.] years old; Wechsler Intelligence Quotient [IQ]: 87.65 ± 2.06 , all > 70; see
+Supplementary Table 1) with drug resistant epilepsy underwent a surgical procedure at the Clinical Center of the National Institutes of Health
+(NIH, Bethesda, Maryland, USA), and participated this study. We used the behavioral data from all 30 participants for the group-level analysis
+of memorability estimates.
+For the online replication study, we recruited 3620 participants (2074 female; 35.68 ± 0.25 years old) from the online crowd-sourcing
+experimental platform Amazon Mechanical Turk, following guidelines set by the NIH Office of Human Subjects Research Protections.
+Data exclusions We used the behavioural data from all 30 participants for the group-level analysis of memorability estimates. Inclusion criteria for the analysis
+of neural data were more restrictive: 1) each participant should have a structural MRI (Magnetic Resonance Imaging) scan to allow proper
+electrode localization, 2) each participant should have at least 3 electrode contacts in the brain regions of interest (anterior and posterior
+temporal lobes; ATL and PTL) after removal of noisy electrodes (see Pre-processing steps below); 3) each participant should complete more
+than 10 correct trials of the paired associates memory task across experimental sessions to ensure reasonable signal stability for the neural
+reinstatement analysis (see Extended Data Fig. 3); and 4) each participant should have no prior resection of brain regions. In the end, data
+from 19 participants met these criteria for ATL analyses, among which 18 participants met the criteria for PTL analyses (highlighted by an
+asterisk in Supplementary Table 1).
+For the online replication study, only participants who indicated English as their native language and who provided responses on at least three
+trials were included in the analyses, resulting in a final sample size of 2623 (1556 female; 36.27 ± 0.30 years old) for further analysis.
+Replication We replicate the behavioral findings from the iEEG sample through an online cohort with 2623 participants. We found that the memorability
+phenomenon estimated from 30 iEEG sample was comparable to that from 2623 online subjects.
+Randomization Randomization of participants was not relevant to this study and participants were therefore not allocated into separate groups.
+Every participant completed an experimental session with task stimuli randomly chosen from a word pool of 300 words. And all experimental
+factors, such as study order and test order, were fully randomized within list.
+Blinding Blinding was not relevant to this study. Data collection and analysis were not performed blind to the conditions of the experiments.
+Reporting for specific materials, systems and methods
+We require information from authors about some types of materials, experimental systems and methods used in many studies. Here, indicate whether each material,
+system or method listed is relevant to your study. If you are not sure if a list item applies to your research, read the appropriate section before selecting a response.
+Materials & experimental systems Methods
+n/a Involved in the study n/a Involved in the study
+Antibodies ChIP-seq
+Eukaryotic cell lines Flow cytometry
+Palaeontology MRI-based neuroimaging
+Animals and other organisms
+Human research participants
+Clinical data
+Human research participants
+Policy information about studies involving human research participants
+Population characteristics The demongraphic informaiton of the iEEG participants is summarized in Supplementary Table 1. In brief, these thirty
+participants (10 females) were on average 32.73 ± 1.93 [mean ± s.e.m.] years old with Wechsler Intelligence Quotient [IQ]: 87.65
+± 2.06 (all > 70).
+The demographic information for the 2623 online participants in the final analysis: 1556 female; 36.27 ± 0.30 years old.
+3
+nature
+research
+|
+reporting
+summary
+October
+2018
+Recruitment iEEG participants were recruited through the clinical trial protocol https://clinicaltrials.gov/ct2/show/NCT01273129. Online
+participants were recruited through Amazon Mechanical Turk platform. All subjects participated this study voluntarily.
+Ethics oversight The Institutional Review Board at the NIH approved the current study. All study procedures follow guidelines set by the NIH
+Office of Human Subjects Research Protections.
+Note that full information on the approval of the study protocol must also be provided in the manuscript.
