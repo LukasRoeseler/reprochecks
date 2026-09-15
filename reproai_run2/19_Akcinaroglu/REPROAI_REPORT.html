@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Audit - Akcinaroglu (2012)</title>
+<style>
+ body{font-family:Segoe UI,Arial,sans-serif;margin:2em auto;max-width:1000px;line-height:1.5;color:#222}
+ h1{color:#0b3d63;border-bottom:3px solid #0b3d63;padding-bottom:6px}
+ h2{color:#0b3d63;margin-top:1.8em}
+ table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92em}
+ th,td{border:1px solid #bbb;padding:6px 9px;text-align:left}
+ th{background:#e8f0f7}
+ .grade{font-size:1.2em;font-weight:bold;color:#8a6d3a}
+ .fail{color:#b33;font-weight:bold}
+ .warn{color:#b33}
+ code{background:#f3f3f3;padding:1px 4px;border-radius:3px}
+ .box{border:1px solid #ccc;background:#fafafa;padding:12px 14px;margin:1em 0;border-radius:5px}
+</style>
+</head>
+<body>
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Akcinaroglu, S. (2012), &ldquo;Rebel Interdependencies and Civil War
+Outcomes,&rdquo; <em>Journal of Conflict Resolution</em> 56(5): 879&ndash;903. DOI
+<code>10.1177/0022002712445741</code>.</p>
+<p><strong>Audit folder:</strong> <code>19_Akcinaroglu</code> &nbsp;|&nbsp;
+<strong>Grade:</strong> <span class="grade">NODATA</span>
+&nbsp;|&nbsp; <strong>Severity:</strong> P0-0 P1-1 P2-1 P3-1
+&nbsp;|&nbsp; <strong>data_status:</strong> none</p>
+
+<h2>1. Data sourcing</h2>
+<div class="box">
+<p>The submitted OSF hint <code>https://osf.io/txv8g</code> was <em>not</em> a project node; it is a
+<strong>file GUID</strong> for a &ldquo;SCORE-RS-202 Push Button Reproduction Report&rdquo; docx.
+Resolved the real reproduction node via the OSF API v2 file relationships:</p>
+<ul>
+<li><strong>Project node:</strong> <code>6wfmz</code> &mdash;
+&ldquo;Akcinaroglu_JournConflictRes_2012_R0ak - Talbert - Reproduction (with author data &amp; code)&rdquo;.</li>
+<li><strong>Root storage files:</strong> only two items exist:
+<code>Akcinaroglu_JournConflictRes_2012_R0ak.do</code> (Stata script, 2.1 KB) and the SCORE report docx.</li>
+<li><strong>Components</strong> &ldquo;Data&rdquo; (<code>48wtq</code>), &ldquo;Methods and Materials&rdquo;
+(<code>b2mkj</code>), &ldquo;Analysis&rdquo; (<code>9mqjs</code>) and &ldquo;IRB&rdquo;
+(<code>3kqhw</code>) all have <strong>empty <code>osfstorage</code></strong>; only provider is
+<code>osfstorage</code> (no GitHub/data provider attached).</li>
+</ul>
+<p><strong>Conclusion:</strong> The author&rsquo;s dataset (referenced in the script as
+<code>import excel using replicationdata</code>, an Excel file expected to contain the covariate
+<code>numberofrebels</code>) is <strong>not archived</strong> anywhere in the OSF reproduction node.
+The paper is closed-access on SAGE (OpenAlex <code>oa_status: closed</code>, no OA PDF). A Harvard
+Dataverse and web search for the original replication data returned <strong>no deposit</strong> for this
+article (only the author&rsquo;s other, unrelated projects surfaced). No usable dataset could be obtained;
+the only materials available are the Stata <code>.do</code> script and the human reproduction report.</p>
+</div>
+
+<h2>2. Claim inventory (headline numerical claims)</h2>
+<p>Headline claim selected for the focal test (per the SCORE reproduction report, Hypothesis 1 from the
+abstract): <em>&ldquo;Rebels have the means to avoid government defeat and continue conflict when the
+number of rebel groups the government has to confront simultaneously is high or when these groups
+cooperate against their common enemy.&rdquo;</em></p>
+<table>
+<tr><th>#</th><th>Claim (as reported in the paper)</th><th>Location</th><th>Status</th></tr>
+<tr><td>1</td><td><strong>H1 focal:</strong> &ldquo;No of rebel groups&rdquo; coefficient in the
+government-victory competing-risks model = <strong>0.64</strong> with robust SE <strong>0.08</strong>,
+p&nbsp;&lt;&nbsp;.01 (higher number of rebel groups makes each group&rsquo;s survival/government-defeat
+less likely, confirming H1)</td><td>Table 2, Model 7 (Government Victory)</td><td class="fail">NOT verified &mdash; data unavailable</td></tr>
+<tr><td>2</td><td>Higher number of simultaneously confronting rebel groups &rarr; rebels avoid government
+defeat and continue conflict</td><td>Abstract (Hypothesis 1)</td><td>NOT independently tested</td></tr>
+<tr><td>3</td><td>Alliances, cumulative ally capabilities, alliance credibility/durability shape outcomes;
+peace agreement termination is unlikely for allied rebels; rebels with access to high levels of ally
+capability and credible alliance ties are likely victors</td><td>Abstract</td><td>NOT independently tested</td></tr>
+</table>
+
+<h2>3. Verification (independent re-computation)</h2>
+<p>Independent re-computation of the headline coefficient required running the competing-risks regression
+(<code>stcrreg</code> in Stata) on the author&rsquo;s dataset with the covariate <code>numberofrebels</code>.
+This was <strong>not possible</strong>: the dataset is absent from the reproduction node and could not be
+located publicly. No regression could be run and <strong>no numbers were computed or fabricated</strong> in
+this audit.</p>
+
+<div class="box">
+<strong>Independent analysis status:</strong> blocked. The reproduced Stata <code>.do</code> script
+(<code>akcinaroglu.do</code>) was inspected: it depends on <code>import excel using replicationdata</code>
+and variable <code>numberofrebels</code> for every model block (peace agreements, rebel victory,
+government victory, attrition). Because the Excel data file <em>and</em> the key variable are absent,
+no model can be estimated. The only available quantified claim (0.64, SE 0.08, p&nbsp;&lt;&nbsp;.01)
+comes from the paper itself as abstracted in the human SCORE report &mdash; it was not independently re-derived.
+</div>
+
+<h2>4. Findings (severity)</h2>
+<table>
+<tr><th>Level</th><th>Count</th><th>Finding</th></tr>
+<tr><td>P0 (critical)</td><td>0</td><td>No headline claim was reproduced-and-contradicted (nothing could be run).</td></tr>
+<tr><td>P1 (major)</td><td>1</td><td>The author&rsquo;s replication dataset and its key variable
+<code>numberofrebels</code> are missing from the SCORE/FLoRA OSF reproduction node (node <code>6wfmz</code>;
+&ldquo;Data&rdquo; component empty) and no public deposit exists (paper closed-access). Any independent
+reproduction is therefore impossible &mdash; this is the root cause of the &ldquo;technical failure&rdquo; flag.</td></tr>
+<tr><td>P2 (minor)</td><td>1</td><td>The archived analysis script references
+<code>import excel using replicationdata</code> but no Excel file is archived with it; additionally the
+script contains a variable-name inconsistency (Government-Victory block&rsquo;s third model uses
+<code>numberofrebel</code> while every other block uses <code>numberofrebels</code>).</td></tr>
+<tr><td>P3 (cosmetic)</td><td>1</td><td>The underlying article is closed-access/paywalled, so the headline
+table values (Table 2, Model 7) are only available via the secondary reproduction report rather than the
+primary source during this audit.</td></tr>
+</table>
+
+<h2>5. Verdict vs human FLoRA code</h2>
+<p>The registry marks this study (<code>flora</code>) as <em>&ldquo;technical failure&rdquo;</em>. The human
+SCORE reproduction report (<code>SCORE-RS-202</code>) states that &ldquo;the reproduction attempt failed:
+the Excel file was missing the key variable <code>numberofrebels</code> which is necessary to run the
+analysis.&rdquo; My independent audit reaches the <strong>same verdict</strong>: the reproduction cannot be
+run because the data/variable are unavailable.</p>
+<p>Because <strong>no dataset could be obtained</strong>, I could not independently re-run or re-derive any
+headline number. Under the ReproAI scale this is <strong>NODATA</strong> (could not obtain data/code to
+independently re-run), which is consistent with &mdash; and confirms &mdash; the human &ldquo;technical
+failure&rdquo; classification.</p>
+
+<p style="margin-top:2em;color:#666;font-size:.85em">
+ReproAI audit &mdash; run2, study 19. No numerical results were fabricated; no regression could be computed
+because the dataset (referenced as <code>replicationdata</code> with variable <code>numberofrebels</code>) is
+not publicly available. Source project: <a href="https://osf.io/6wfmz/">https://osf.io/6wfmz/</a>.</p>
+</body>
+</html>

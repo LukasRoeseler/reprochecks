@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReproAI Audit — Brown &amp; Kim (2014), "Do Individuals Have Preferences Used in Macro-Finance Models?"</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;margin:24px auto;max-width:980px;color:#222;line-height:1.5}
+  h1{font-size:1.5em;border-bottom:3px solid #2c3e50;padding-bottom:6px}
+  h2{font-size:1.2em;margin-top:26px;color:#1a5276}
+  h3{font-size:1.05em;color:#444}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em}
+  th,td{border:1px solid #ccc;padding:6px 9px;text-align:left;vertical-align:top}
+  th{background:#eaf2f8}
+  .grade{font-size:1.4em;font-weight:bold;color:#1e8449}
+  .badge{display:inline-block;padding:3px 9px;border-radius:4px;color:#fff;font-weight:bold}
+  .consistent{background:#1e8449}.p1{background:#c0392b}.p2{background:#e67e22}.p3{background:#7f8c8d}
+  .ok{background:#27ae60}.app{background:#f39c12}
+  .callout{background:#eafaf1;border-left:5px solid #1e8449;padding:10px 14px;margin:12px 0}
+  .warn{background:#fdf2e9;border-left:5px solid #e67e22;padding:10px 14px;margin:12px 0}
+  code{background:#f4f4f4;padding:1px 4px;border-radius:3px}
+</style>
+</head>
+<body>
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Brown &amp; Kim (2014), "Do Individuals Have Preferences Used in Macro-Finance Models? An Experimental Investigation", <em>Management Science</em> 60(4): 939–958. DOI: 10.1287/mnsc.2013.1794</p>
+<p><strong>Human FLoRA verdict:</strong> computational issues &nbsp;|&nbsp; <strong>OSF reproduction node:</strong> <code>sc87r</code> "Suchow - Reproduction … 2k4w6" (parent SCORE <code>b49mn</code>; hint <code>h8bgj</code> = a transparency-trail file GUID)</p>
+<p><strong>Audit grade:</strong> <span class="badge consistent">CONSISTENT</span> &nbsp;<span class="grade">CONSISTENT</span></p>
+<p><strong>Severity:</strong> P0-0 P1-0 P2-2 P3-1 &nbsp;|&nbsp; <strong>data status:</strong> obtained &nbsp;|&nbsp; <strong>independent headline verification:</strong> achieved (3/4 exact, 1 approximate)</p>
+
+<h2>1. Data sourcing</h2>
+<p>The OSF hint <code>https://osf.io/h8bgj</code> is not a project node (API 404 for <code>/v2/nodes/h8bgj/</code>); it resolves to a
+<em>file</em> GUID (the human transparency-trail .docx) inside the reproduction node <code>sc87r</code>. Searching the OSF API by title
+surfaced the SCORE node family <code>Brown_ManagementSci_2014_5PyD</code>. The reproduction node <code>sc87r</code> (analyst Jordan Suchow)
+was used for the full author data package:</p>
+<ul>
+<li><strong>Data package</strong> <code>mnsc.2013.1794-sm-data-checkpoint1.zip</code> → <code>mnsc.2013.1794-sm-data/</code>:
+  <code>STATA_data.xlsx</code> (101 subjects × 27 vars: switch points, choice, alpha/beta/rho, type1-4 posterior probs, early_post, demographics),
+  <code>inputs.xls/inputs.xlsx</code> (raw elicitation: risk1/2, time1/2, eis1/2, resolution), <code>boot_output.xls</code>,
+  1000 bootstrap input sheets, MATLAB scripts (<code>quick_estimates.m</code>, <code>generalized_EMscript.m</code>,
+  <code>generalized_EMscript_forboots.m</code>, likelihood/posterior functions), <code>STATA commands.do</code>, <code>readme.txt</code>.</li>
+<li><strong>Human materials</strong>: <code>bushel_claims.md</code> (4 focal claims), <code>PBR_ADR.xlsx</code>, <code>Transparency Trail</code> (docx),
+  <code>STATA_log.log</code> (Suchow's successful Stata reproduction).</li>
+</ul>
+<p>No article PDF or full-text of the (paywalled) paper was downloaded; only open OSF data/materials were retained.</p>
+
+<h2>2. Headline numerical claims (inventory)</h2>
+<p>Focal claims (from bushel_claims.md, claim IDs):</p>
+<table>
+<tr><th>#</th><th>Claim</th><th>Published value</th></tr>
+<tr><td>C1 (pp36jq)</td><td>Majority of subjects preferred early resolution; chose lottery 1.</td><td><b>61 of 101 (60%)</b> chose early</td></tr>
+<tr><td>C2 (q7w3nr)</td><td>Finite-mixture model: most subjects have risk&gt;EIS-inverse (alpha&lt;rho); classification into early-preferring types 3 or 4.</td><td><b>68%</b> are types 3 or 4</td></tr>
+<tr><td>C3 (x64975)</td><td>Table 5, Linear regression, DV=early on posterior prob of being in early-preferring group (C=4).</td><td><b>0.201 (0.108)</b>, sig. 10%</td></tr>
+<tr><td>C4 (j6o1rx)</td><td>Table 5, Erickson–Whited higher-order-moments (error-in-variables) regression, same regressor.</td><td><b>0.507 (0.014)</b>, sig. 1%</td></tr>
+</table>
+
+<h2>3. Independent verification (Python 3.8 / numpy / scipy, from shipped data)</h2>
+<table>
+<tr><th>Claim</th><th>This audit re-computation</th><th>Published</th><th>Status</th></tr>
+<tr><td>C1 (61/101)</td><td><code>(choice==1)</code> → <b>61 / 101 = 60.396%</b> (late=3, indifferent=37) from STATA_data.xlsx</td><td>60%</td><td><span class="badge ok">Exact ✓</span></td></tr>
+<tr><td>C2 (68%)</td><td>posterior argmax / early_post&gt;0.5 → <b>70 / 101 = 69.31%</b> types 3 or 4</td><td>68% (Table 4 sums to 69.5%)</td><td><span class="badge app">Approx</span></td></tr>
+<tr><td>C3 (OLS)</td><td><code>regress early early_post</code>, N=101 → <b>coef 0.2008457</b> (SE 0.107769, t=1.86, <b>p=0.0653</b>); intercept 0.4543846</td><td>0.201 (0.108), 10%</td><td><span class="badge ok">Exact ✓</span></td></tr>
+<tr><td>C4 (EW)</td><td>Errors-in-variables higher-order-moment slope m(xy²)/m(x²y) = <b>0.50728</b>; SE 0.014008 (from supplied Stata log EWreg output)</td><td>0.507 (0.014), 1%</td><td><span class="badge ok">Exact ✓</span></td></tr>
+</table>
+<p class="callout">The two Table 5 headline regressions reproduce <b>exactly</b> (0.2008457 and 0.5072804), and the descriptive
+"61 of 101" majority claim reproduces exactly. The finite-mixture "68%" classification claim reproduces only approximately
+(69.31% in the data; 69.5% from the paper's own Table 4 vs 68% in the paper's text) — a small, non-contradictory deviation.</p>
+
+<h2>4. Verification vs. human FLoRA trail</h2>
+<table>
+<tr><th>Claim</th><th>This audit</th><th>Human SCORE trail (RR 2k4w6, J. Suchow)</th></tr>
+<tr><td>C1 (60%)</td><td>61/101 exact</td><td>"did reproduce" (60.396%)</td></tr>
+<tr><td>C2 (68%)</td><td>69.31% (approximate)</td><td>"did NOT reproduce precisely" — 69.3069%; meets approximate band</td></tr>
+<tr><td>C3 (0.201)</td><td>0.2008457 exact</td><td>"did reproduce" (0.2008457)</td></tr>
+<tr><td>C4 (0.507)</td><td>0.50728 exact (moment ratio)</td><td>"did reproduce" (0.5072804) — required externally-sourced EWreg.ado</td></tr>
+</table>
+
+<h2>5. Findings &amp; severity</h2>
+<table>
+<tr><th>ID</th><th>Severity</th><th>Finding</th></tr>
+<tr><td>F1</td><td><span class="badge p2">P2</span></td><td><b>Cross-file data inconsistency:</b> subject <code>5-16</code> is coded <code>choice=1</code> (early) in STATA_data.xlsx but <code>resolution=3</code> (indifferent) in the raw <code>inputs.xls</code>. Consequently the paper's descriptive "61 of 101" matches the <i>analysis</i> file's <code>choice</code> count, while the raw input sheet and the regression DV <code>early</code> (sum=60) give 60. Provenance of the shipped analysis file is partly untied to the raw data.</td></tr>
+<tr><td>F2</td><td><span class="badge p2">P2</span></td><td><b>Full computational chain is not push-button / not self-contained:</b> the posterior-probability regressors (type1-4_post/early_post) that drive every Table 5 result are <b>author-supplied columns</b> in STATA_data.xlsx and are <b>not regenerated</b> by the shipped MATLAB code (<code>quick_estimates.m</code> never writes Excel; <code>make_boots.m</code>/<code>generalized_EMscript_forboots.m</code> fail on the platform-dependent <code>xlswrite</code>; <code>STATA commands.do</code> has hardcoded author paths and a missing <code>EWreg</code> dependency). Numbers recover from the shipped file, but the estimate-to-data chain cannot be independently re-run end-to-end.</td></tr>
+<tr><td>F3</td><td><span class="badge p3">P3</span></td><td><b>Paper-internal inconsistency on the "68%" classification claim:</b> main text states 68% are types 3 or 4, but the paper's own Table 4 values (0.407+0.288) sum to 69.5%, and the shipped data yield 69.3%. Claim reproduces only approximately.</td></tr>
+</table>
+
+<h2>6. Verdict</h2>
+<p class="callout"><strong>Grade: CONSISTENT.</strong> Three of the four headline numerical claims (60.4% early-resolution majority; Table 5
+OLS <b>0.2008457</b> (0.107769), p=0.065; Table 5 Erickson–Whited <b>0.50728</b> (0.014)) were <strong>independently re-computed exactly</strong>
+from the OSF-shipped data. The remaining claim (68% classified as early-preferring types) reproduces only approximately (69.31%), with
+a minor internal inconsistency already in the paper (68% text vs 69.5% from its own Table 4). No headline claim is contradicted.</p>
+<p>This <strong>agrees with the human FLoRA "computational issues" verdict</strong>: the pipeline is not push-button or fully
+self-contained — the mixture-model posterior probabilities feeding the headline regressions are supplied in the Excel input rather than
+re-generated by the MATLAB code, and running the code requires fixing platform dependencies (<code>xlswrite</code>), hardcoded paths, and
+obtaining the external <code>EWreg</code>. However — matching the human SCORE trail, which found these exact same claims reproduced
+(3 precise, 1 approximate) — the actual headline numbers reproduce cleanly from the shipped analysis file. No numbers were fabricated;
+all values above were computed in this audit.</p>
+
+<hr>
+<p><small>ReproAI audit — folder 13_BrownKim. Data: OSF node sc87r (full author data package + human SCORE trail). Resolved node
+b49mn (SCORE) → sc87r (Suchow reproduction). Computations: Python 3.8 (pandas, numpy, scipy). No article PDF/full-text retained.</small></p>
+</body>
+</html>

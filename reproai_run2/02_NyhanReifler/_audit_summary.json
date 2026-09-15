@@ -1,0 +1,29 @@
+{
+  "study": "Nyhan & Reifler (2015), Displacing Misinformation about Events: An Experimental Test of Causal Corrections, Journal of Experimental Political Science",
+  "doi": "10.1017/xps.2014.22",
+  "grade": "FULL",
+  "sev": "P0-0 P1-0 P2-1 P3-1",
+  "data_status": "obtained",
+  "headline_verified": true,
+  "data_source": "OSF FLoRA reproduction node 5vx27 (author materials + rebuilt data). Data: component 'Data' (2e9xr) file causal-replication.dta (guid 86zqr), N=1000 raw / 764-987 analytical. Code: nyhan-reifler-causal-corrections.do (guid km2vb). Human-flora reproduction log: PushButtonReproduction.smcl (guid 2czmp). Paper itself is closed-access (no OA full text); headline numbers were taken from the bushel-trace claim file (u3nw4), the PBR_ADR audit template, and the Transparency Trail docx.",
+  "headline_claims": {
+    "Main trace claim4 / Model 5 (resigninvest, aweight)": {"paper": "denial -0.25 (SE 0.07), causal -0.58 (SE 0.07), diff -0.34, p<0.01", "recomputed": {"denial": -0.2461, "causal": -0.5813, "causal_minus_denial": -0.3352, "n": 764}, "match": "exact"},
+    "blw3kn / Model 1 (swensenfav, aweight)": {"paper": "denial vs control -0.39 p<0.01; causal vs innuendo 0.66 p<0.01", "recomputed": {"denial": -0.3895, "causal_minus_innuendo": 0.6593}, "match": "exact"},
+    "m638d7 / Model 2 (swensenfav, survey)": {"paper": "denial vs control -0.41 p<0.01; causal vs innuendo 0.32 p<0.05", "recomputed": {"denial": -0.4098, "causal_minus_innuendo": 0.3246, "p": 0.044}, "match": "exact"},
+    "g3p87v / Model 3 (acceptedbribes, aweight)": {"paper": "causal vs denial -0.48 p<0.01", "recomputed": {"causal_minus_denial": -0.4813}, "match": "exact"},
+    "gwlq2q / Model 4 (acceptedbribes, survey)": {"paper": "causal vs denial -0.36 p<0.05", "recomputed": {"causal_minus_denial": -0.3583, "p": 0.012}, "match": "exact"},
+    "gpjxk5 / Model 5 (resigninvest, aweight)": {"paper": "causal vs denial -0.34 p<0.01", "recomputed": {"causal_minus_denial": -0.3352}, "match": "exact"},
+    "mqnzyy / Model 6 (resigninvest, survey)": {"paper": "causal vs denial -0.16 p<0.12", "recomputed": {"causal_minus_denial": -0.1624, "p": 0.112}, "match": "exact"}
+  },
+  "key_findings": [
+    "All six Table 2 OLS models were independently re-computed from causal-replication.dta (WLS with the 'aw' analytic weight and, for the survey columns, pweight='weight'). Coefficient point estimates match the shared Stata reproduction log (PushButtonReproduction.smcl) and the paper's reported values to the decimal place.",
+    "All six bushel-trace contrast claims verified exactly: -0.39, -0.41, -0.48, -0.36, -0.34, -0.16 (Models 1-6); the focal Model 5 main claim (denial -0.25 SE0.07, causal -0.58 SE0.07, diff -0.34 p<0.01) also reproduced.",
+    "Statistical significance thresholds in the paper hold in the recomputation (Model 2 causal-vs-innuendo p=0.044<0.05; Model 4 p=0.012<0.05; Model 6 p=0.112 reported as <0.12).",
+    "Survey-design (svy) standard errors were approximated with WLS + HC1 robust errors; point estimates are identical to Stata's svy output, SEs agree to ~3 decimals (not byte-identical to Stata's linearized variance).",
+    "No contradicted or failed headline claim."
+  ],
+  "how_verified": "Reran provided Stata do-file logic in Python (statsmodels WLS) and cross-checked in R (statsmodels/lm). All recomputed coefficients equal the human FLoRA Stata log exactly.",
+  "verdict_vs_human": "match",
+  "flora_human": "computationally reproducible",
+  "notes": "Minor documentation gap (P2): the do-file's svy: commands rely on a prior svyset (pweight=weight) not declared inside the file, so the survey regressions are not fully self-contained (the smcl log shows them running). Cosmetic (P3): svy SEs reproduced to ~3 decimals rather than bit-exact via HC1 approximation. These do not affect any headline number. No paywalled article PDF was downloaded; all kept materials are OSF/FLoRA open assets."
+}

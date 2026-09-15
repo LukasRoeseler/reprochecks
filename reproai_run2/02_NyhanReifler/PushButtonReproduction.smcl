@@ -1,0 +1,1709 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\chopikwi\Dropbox\PushButtonReproduction.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}22 Jun 2022, 17:41:09
+
+{com}. do "C:\Users\chopikwi\Downloads\nyhan-reifler-causal-corrections.do"
+{txt}
+{com}. **********************************************
+. *Replication code for                        *
+. *Displacing Misinformation about Events:     *
+. *An Experimental Test of Causal Corrections  *
+. *Brendan Nyhan and Jason Reifler             *
+. *Forthcoming, JEPS                           *
+. **********************************************
+. 
+. clear all
+{txt}
+{com}. 
+. cd "C:\Users\chopikwi\Downloads"
+{res}C:\Users\chopikwi\Downloads
+{txt}
+{com}. 
+. use "causal-replication.dta", clear
+{txt}
+{com}. 
+. /*Table 2 - note lincom results correspond to significance test table in appendix*/
+. reg swensenfav innuendo denial causal [aweight=aw]
+{txt}(sum of wgt is   3.9441e+03)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}     987
+{txt}{hline 13}{char +}{hline 30}           F(  3,   983) ={res}   19.67
+    {txt}   Model {char |} {res} 73.4211912     3  24.4737304           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 1222.83522   983  1.24398293           {txt}R-squared     = {res} 0.0566
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0538
+    {txt}   Total {char |} {res} 1296.25642   986  1.31466168           {txt}Root MSE      = {res} 1.1153
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2}-.5839232{col 26}{space 2}  .100686{col 37}{space 1}   -5.80{col 46}{space 3}0.000{col 54}{space 4}-.7815073{col 67}{space 3}-.3863391
+{txt}{space 6}denial {c |}{col 14}{res}{space 2}-.3894682{col 26}{space 2} .1007865{col 37}{space 1}   -3.86{col 46}{space 3}0.000{col 54}{space 4}-.5872497{col 67}{space 3}-.1916866
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0753454{col 26}{space 2} .1010347{col 37}{space 1}    0.75{col 46}{space 3}0.456{col 54}{space 4}-.1229231{col 67}{space 3} .2736139
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.752434{col 26}{space 2}  .071879{col 37}{space 1}   38.29{col 46}{space 3}0.000{col 54}{space 4}  2.61138{col 67}{space 3} 2.893488
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}  .194455{col 26}{space 2} .0998118{col 37}{space 1}    1.95{col 46}{space 3}0.052{col 54}{space 4}-.0014138{col 67}{space 3} .3903238
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .6592686{col 26}{space 2} .1000624{col 37}{space 1}    6.59{col 46}{space 3}0.000{col 54}{space 4} .4629081{col 67}{space 3} .8556291
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .4648136{col 26}{space 2} .1001636{col 37}{space 1}    4.64{col 46}{space 3}0.000{col 54}{space 4} .2682544{col 67}{space 3} .6613727
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: reg swensenfav innuendo denial causal
+{txt}(running regress on estimation sample)
+{res}
+{txt}Survey: Linear regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      987
+{txt}{col 1}Number of PSUs{col 20}= {res}      987{txt}{col 49}Population size{col 68}={res} 980.27809
+{txt}{col 49}Design df{col 68}= {res}      986
+{txt}{col 49}F({res}   3{txt},{res}    984{txt}){col 68}= {res}     3.98
+{txt}{col 49}Prob > F{col 68}= {res}   0.0078
+{txt}{col 49}R-squared{col 68}= {res}   0.0307
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2}-.5228951{col 26}{space 2} .1731961{col 37}{space 1}   -3.02{col 46}{space 3}0.003{col 54}{space 4}-.8627703{col 67}{space 3}-.1830198
+{txt}{space 6}denial {c |}{col 14}{res}{space 2}-.4097696{col 26}{space 2} .1490654{col 37}{space 1}   -2.75{col 46}{space 3}0.006{col 54}{space 4}-.7022916{col 67}{space 3}-.1172476
+{txt}{space 6}causal {c |}{col 14}{res}{space 2}-.1983303{col 26}{space 2} .1578649{col 37}{space 1}   -1.26{col 46}{space 3}0.209{col 54}{space 4}  -.50812{col 67}{space 3} .1114594
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.855356{col 26}{space 2} .1207248{col 37}{space 1}   23.65{col 46}{space 3}0.000{col 54}{space 4} 2.618449{col 67}{space 3} 3.092263
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .1131255{col 26}{space 2} .1518829{col 37}{space 1}    0.74{col 46}{space 3}0.457{col 54}{space 4}-.1849255{col 67}{space 3} .4111765
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .3245648{col 26}{space 2}  .160528{col 37}{space 1}    2.02{col 46}{space 3}0.043{col 54}{space 4}  .009549{col 67}{space 3} .6395806
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .2114393{col 26}{space 2} .1341375{col 37}{space 1}    1.58{col 46}{space 3}0.115{col 54}{space 4}-.0517885{col 67}{space 3} .4746671
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. reg acceptedbribes innuendo denial causal [aweight=aw]
+{txt}(sum of wgt is   3.9414e+03)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}     986
+{txt}{hline 13}{char +}{hline 30}           F(  3,   982) ={res}   31.72
+    {txt}   Model {char |} {res} 106.101485     3  35.3671616           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 1094.80676   982   1.1148745           {txt}R-squared     = {res} 0.0884
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0856
+    {txt}   Total {char |} {res} 1200.90824   985  1.21919619           {txt}Root MSE      = {res} 1.0559
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2} .7845069{col 26}{space 2}  .095376{col 37}{space 1}    8.23{col 46}{space 3}0.000{col 54}{space 4} .5973426{col 67}{space 3} .9716712
+{txt}{space 6}denial {c |}{col 14}{res}{space 2} .5506573{col 26}{space 2}  .095568{col 37}{space 1}    5.76{col 46}{space 3}0.000{col 54}{space 4} .3631162{col 67}{space 3} .7381984
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0693211{col 26}{space 2} .0954347{col 37}{space 1}    0.73{col 46}{space 3}0.468{col 54}{space 4}-.1179583{col 67}{space 3} .2566005
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  2.86127{col 26}{space 2} .0679831{col 37}{space 1}   42.09{col 46}{space 3}0.000{col 54}{space 4} 2.727861{col 67}{space 3} 2.994679
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.2338497{col 26}{space 2} .0947969{col 37}{space 1}   -2.47{col 46}{space 3}0.014{col 54}{space 4}-.4198774{col 67}{space 3}-.0478219
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.7151858{col 26}{space 2} .0946624{col 37}{space 1}   -7.56{col 46}{space 3}0.000{col 54}{space 4}-.9009497{col 67}{space 3}-.5294219
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.4813362{col 26}{space 2} .0948559{col 37}{space 1}   -5.07{col 46}{space 3}0.000{col 54}{space 4}-.6674797{col 67}{space 3}-.2951926
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: reg acceptedbribes innuendo denial causal  
+{txt}(running regress on estimation sample)
+{res}
+{txt}Survey: Linear regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      986
+{txt}{col 1}Number of PSUs{col 20}= {res}      986{txt}{col 49}Population size{col 68}={res} 985.14713
+{txt}{col 49}Design df{col 68}= {res}      985
+{txt}{col 49}F({res}   3{txt},{res}    983{txt}){col 68}= {res}     8.14
+{txt}{col 49}Prob > F{col 68}= {res}   0.0000
+{txt}{col 49}R-squared{col 68}= {res}   0.0607
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2}  .668764{col 26}{space 2} .1573979{col 37}{space 1}    4.25{col 46}{space 3}0.000{col 54}{space 4} .3598904{col 67}{space 3} .9776377
+{txt}{space 6}denial {c |}{col 14}{res}{space 2} .5179593{col 26}{space 2} .1477819{col 37}{space 1}    3.50{col 46}{space 3}0.000{col 54}{space 4} .2279557{col 67}{space 3} .8079629
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .1596657{col 26}{space 2} .1491155{col 37}{space 1}    1.07{col 46}{space 3}0.285{col 54}{space 4}-.1329549{col 67}{space 3} .4522864
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.942776{col 26}{space 2} .1094129{col 37}{space 1}   26.90{col 46}{space 3}0.000{col 54}{space 4} 2.728067{col 67}{space 3} 3.157485
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.1508047{col 26}{space 2} .1505696{col 37}{space 1}   -1.00{col 46}{space 3}0.317{col 54}{space 4}-.4462788{col 67}{space 3} .1446694
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.5090983{col 26}{space 2} .1518787{col 37}{space 1}   -3.35{col 46}{space 3}0.001{col 54}{space 4}-.8071414{col 67}{space 3}-.2110552
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.3582936{col 26}{space 2} .1418893{col 37}{space 1}   -2.53{col 46}{space 3}0.012{col 54}{space 4}-.6367336{col 67}{space 3}-.0798536
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. reg resigninvest denial causal [aweight=aw]
+{txt}(sum of wgt is   2.9802e+03)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}     764
+{txt}{hline 13}{char +}{hline 30}           F(  2,   761) ={res}   38.95
+    {txt}   Model {char |} {res} 43.3852407     2  21.6926204           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res}   423.8789   761  .557002497           {txt}R-squared     = {res} 0.0928
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0905
+    {txt}   Total {char |} {res} 467.264141   763  .612403854           {txt}Root MSE      = {res} .74633
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2}-.2460515{col 26}{space 2} .0661224{col 37}{space 1}   -3.72{col 46}{space 3}0.000{col 54}{space 4}-.3758555{col 67}{space 3}-.1162475
+{txt}{space 6}causal {c |}{col 14}{res}{space 2}-.5812725{col 26}{space 2} .0661139{col 37}{space 1}   -8.79{col 46}{space 3}0.000{col 54}{space 4}-.7110598{col 67}{space 3}-.4514852
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.455409{col 26}{space 2} .0467082{col 37}{space 1}   73.98{col 46}{space 3}0.000{col 54}{space 4} 3.363717{col 67}{space 3} 3.547101
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} -.335221{col 26}{space 2} .0661809{col 37}{space 1}   -5.07{col 46}{space 3}0.000{col 54}{space 4}-.4651398{col 67}{space 3}-.2053021
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: reg resigninvest denial causal 
+{txt}(running regress on estimation sample)
+{res}
+{txt}Survey: Linear regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      764
+{txt}{col 1}Number of PSUs{col 20}= {res}      764{txt}{col 49}Population size{col 68}={res} 756.43179
+{txt}{col 49}Design df{col 68}= {res}      763
+{txt}{col 49}F({res}   2{txt},{res}    762{txt}){col 68}= {res}     7.18
+{txt}{col 49}Prob > F{col 68}= {res}   0.0008
+{txt}{col 49}R-squared{col 68}= {res}   0.0521
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2}-.2582214{col 26}{space 2} .0976405{col 37}{space 1}   -2.64{col 46}{space 3}0.008{col 54}{space 4}-.4498974{col 67}{space 3}-.0665455
+{txt}{space 6}causal {c |}{col 14}{res}{space 2}-.4205997{col 26}{space 2}  .113207{col 37}{space 1}   -3.72{col 46}{space 3}0.000{col 54}{space 4}-.6428339{col 67}{space 3}-.1983655
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.402598{col 26}{space 2} .0772646{col 37}{space 1}   44.04{col 46}{space 3}0.000{col 54}{space 4} 3.250922{col 67}{space 3} 3.554274
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.1623783{col 26}{space 2} .1020287{col 37}{space 1}   -1.59{col 46}{space 3}0.112{col 54}{space 4}-.3626686{col 67}{space 3} .0379121
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. /*Figures 1-3*/
+. 
+. preserve
+{txt}
+{com}. 
+. collapse (mean) swensenfav resigninvest acceptedbribes (semean) swensenfavse=swensenfav resigninvestse=resigninvest acceptedbribesse=acceptedbribes [aweight=aw],by(swensenrand) 
+{txt}
+{com}. 
+. foreach var of varlist swensenfav resigninvest acceptedbribes {c -(}
+{txt}  2{com}. gen `var'll=`var'-(1.96*`var'se)
+{txt}  3{com}. gen `var'ul=`var'+(1.96*`var'se)
+{txt}  4{com}. {c )-}
+{txt}(1 missing value generated)
+(1 missing value generated)
+
+{com}. 
+. twoway (scatter swensenfav swensenrand, ytitle("") mcolor(black) graphregion(fcolor(white) ifcolor(none)) plotregion(fcolor(none) lcolor(white) ifcolor(none) ilcolor(none)) scheme(s2mono) yscale(r(1 3.25)) xlabel(1 `" "No reason"  "given" "' 2 `" "Innuendo"  "only" "' 3 `" "Innuendo +"  "allegation denial" "' 4 `" "Innuendo +"  "denial + causal" "',labsize(*.8)) ylabel(1 `" "Very"  "unfavorable" "' 2 `" "Somewhat"  "unfavorable" "' 3 `" "Slightly"  "unfavorable" "',nogrid labsize(*.8) angle(0)) yscale(r(1(1)3)) xscale(r(.75 4.25)) xtick(none) xmtick(none) xtitle("Reason for resignation",margin(medsmall) size(*.8))) (rspike swensenfavul swensenfavll swensenrand,lcolor(black) legend(off))
+{res}{txt}
+{com}. graph export "fig1.eps",replace
+{txt}(note: file fig1.eps not found)
+(file fig1.eps written in EPS format)
+
+{com}. 
+. twoway (scatter acceptedbribes swensenrand, ytitle("")  mcolor(black) graphregion(fcolor(white) ifcolor(none)) plotregion(fcolor(none) lcolor(white) ifcolor(none) ilcolor(none)) scheme(s2mono) yscale(r(1 3.25)) xlabel(1 `" "No reason"  "given" "' 2 `" "Innuendo"  "only" "' 3 `" "Innuendo +"  "allegation denial" "' 4 `" "Innuendo +"  "denial + causal" "',labsize(*.8)) ylabel(1 `" "Not at all"  "likely" "' 2 `" "A little"  "likely" "' 3 `" "Moderately"  "likely" "' 4 `" "Very"  "likely" "',nogrid labsize(*.8) angle(0)) yscale(r(1(1)3)) xscale(r(.75 4.25)) xtick(none) xmtick(none) xtitle("Reason for resignation",margin(medsmall) size(*.8))) (rspike acceptedbribesul acceptedbribesll swensenrand,lcolor(black) legend(off))
+{res}{txt}
+{com}. graph export "fig2.eps",replace
+{txt}(note: file fig2.eps not found)
+(file fig2.eps written in EPS format)
+
+{com}. 
+. drop if swensenrand==1
+{txt}(1 observation deleted)
+
+{com}. 
+. twoway (scatter resigninvest swensenrand, ytitle("") mcolor(black) graphregion(fcolor(white) ifcolor(none)) plotregion(fcolor(none) lcolor(white) ifcolor(none) ilcolor(none)) scheme(s2mono) yscale(r(1 3.25)) xlabel(2 `" "Innuendo"  "only" "' 3 `" "Innuendo +"  "allegation denial" "' 4 `" "Innuendo +"  "denial + causal" "',labsize(*.8)) ylabel(1 `" "Not likely"  "at all" "' 2 `" "Not very"  "likely" "' 3 `" "Somewhat"  "likely" "' 4 `" "Very"  "likely" "',nogrid labsize(*.8) angle(0)) yscale(r(1(1)3)) xscale(r(1.75 4.25)) xtick(none) xmtick(none) xtitle("Reason for resignation",margin(medsmall) size(*.8))) (rspike resigninvestul resigninvestll swensenrand,lcolor(black) legend(off))
+{res}{txt}
+{com}. graph export "fig3.eps",replace
+{txt}(note: file fig3.eps not found)
+(file fig3.eps written in EPS format)
+
+{com}. 
+. restore
+{txt}
+{com}. 
+. /*Appendix*/
+. 
+. /*balance tests - unweighted*/
+. /*note the putexcel command requires Stata 13*/
+. putexcel B1=("Control") C1=("Innuendo") D1=("Denial") E1=("Causal") F1=("Total") using jepsbalance, replace
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. gen fakewt=1 /*fake survey weights*/
+{txt}
+{com}. svyset [pweight=fakewt] /*more convenient for output of proportions*/
+
+      {txt}pweight:{col 16}{res}fakewt
+          {txt}VCE:{col 16}{res}linearized
+  {txt}Single unit:{col 16}{res}missing
+     {txt}Strata 1:{col 16}<one>
+         SU 1:{col 16}<observations>
+        FPC 1:{col 16}<zero>
+{p2colreset}{...}
+
+{com}. 
+. /*estimated - don't have exact birthdate*/
+. gen age=2012-pp_birthyr
+{txt}
+{com}. 
+. gen agecat4=.
+{txt}(1000 missing values generated)
+
+{com}. replace agecat4=1 if age>=18 & age<=29
+{txt}(83 real changes made)
+
+{com}. replace agecat4=2 if age>=30 & age<=44
+{txt}(141 real changes made)
+
+{com}. replace agecat4=3 if age>=45 & age<=59
+{txt}(440 real changes made)
+
+{com}. replace agecat4=4 if age>=60 & age!=.
+{txt}(336 real changes made)
+
+{com}. 
+. gen control=(swensenrand==1)
+{txt}
+{com}. 
+. /*age marginals*/
+. putexcel A22=("Age") A23=("18-29") A24=("30-44") A25=("45-59") A26=("60+") using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. tab agecat4 swensenrand, chi
+
+           {txt}{c |}                 swensenrand
+   agecat4 {c |}         1          2          3          4 {c |}     Total
+{hline 11}{c +}{hline 44}{c +}{hline 10}
+         1 {c |}{res}        27         14         21         21 {txt}{c |}{res}        83 
+{txt}         2 {c |}{res}        34         37         27         43 {txt}{c |}{res}       141 
+{txt}         3 {c |}{res}       101         99        114        126 {txt}{c |}{res}       440 
+{txt}         4 {c |}{res}        69         95         84         88 {txt}{c |}{res}       336 
+{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
+     Total {c |}{res}       231        245        246        278 {txt}{c |}{res}     1,000 
+
+{txt}          Pearson chi2({res}9{txt}) = {res} 12.0650  {txt} Pr = {res}0.210
+{txt}
+{com}. svy: tab agecat4 swensenrand
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 34}
+          {c |}            swensenrand           
+  agecat4 {c |}     1      2      3      4  Total
+{hline 10}{c +}{hline 34}
+        1 {c |}  {res}.027   .014   .021   .021   .083
+        {txt}2 {c |}  {res}.034   .037   .027   .043   .141
+        {txt}3 {c |}  {res}.101   .099   .114   .126    .44
+        {txt}4 {c |}  {res}.069   .095   .084   .088   .336
+          {txt}{c |} 
+    Total {c |}  {res}.231   .245   .246   .278      1
+{txt}{hline 10}{c BT}{hline 34}
+  Key:  {col 1}{res}cell proportions
+
+{txt}  Pearson:
+{col 5}Uncorrected{col 19}chi2({res}9{txt}){col 35}= {res}  12.0650
+{txt}{col 5}Design-based{col 19}F({res}9{txt}, {res}8991{txt}){col 35}= {res}   1.3392{col 51}{txt}P = {res}0.2105
+{txt}
+{com}. 
+. svy,subpop(control): tab agecat4 
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       231
+{txt}{col 49}Subpop. size{col 68}={res}       231
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  agecat4 {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.1169
+        {txt}2 {c |}       {res}.1472
+        {txt}3 {c |}       {res}.4372
+        {txt}4 {c |}       {res}.2987
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix AgeControl = e(b)'
+{txt}
+{com}. putexcel B23=matrix(AgeControl) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(innuendo): tab agecat4
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       245
+{txt}{col 49}Subpop. size{col 68}={res}       245
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  agecat4 {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.0571
+        {txt}2 {c |}        {res}.151
+        {txt}3 {c |}       {res}.4041
+        {txt}4 {c |}       {res}.3878
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix AgeDanger = e(b)'
+{txt}
+{com}. putexcel C23=matrix(AgeDanger) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(denial): tab agecat4 
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       246
+{txt}{col 49}Subpop. size{col 68}={res}       246
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  agecat4 {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.0854
+        {txt}2 {c |}       {res}.1098
+        {txt}3 {c |}       {res}.4634
+        {txt}4 {c |}       {res}.3415
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix AgeCorrection = e(b)'
+{txt}
+{com}. putexcel D23=matrix(AgeCorrection) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(causal): tab agecat4 
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       278
+{txt}{col 49}Subpop. size{col 68}={res}       278
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  agecat4 {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.0755
+        {txt}2 {c |}       {res}.1547
+        {txt}3 {c |}       {res}.4532
+        {txt}4 {c |}       {res}.3165
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix AgeCorrection2 = e(b)'
+{txt}
+{com}. putexcel E23=matrix(AgeCorrection2) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy: tab agecat4
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  agecat4 {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}        {res}.083
+        {txt}2 {c |}        {res}.141
+        {txt}3 {c |}         {res}.44
+        {txt}4 {c |}        {res}.336
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix AgeTotal = e(b)'
+{txt}
+{com}. putexcel F23=matrix(AgeTotal) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. /*gender marginals*/
+. putexcel A4=("Gender") A5=("Male") A6=("Female") using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. tab pp_gender swensenrand, chi
+
+ {txt}Profile - {c |}                 swensenrand
+    Gender {c |}         1          2          3          4 {c |}     Total
+{hline 11}{c +}{hline 44}{c +}{hline 10}
+      Male {c |}{res}       119        104        112        131 {txt}{c |}{res}       466 
+{txt}    Female {c |}{res}       112        141        134        147 {txt}{c |}{res}       534 
+{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
+     Total {c |}{res}       231        245        246        278 {txt}{c |}{res}     1,000 
+
+{txt}          Pearson chi2({res}3{txt}) = {res}  4.0831  {txt} Pr = {res}0.253
+{txt}
+{com}. svy: tab pp_gender swensenrand
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 34}
+Profile - {c |}            swensenrand           
+Gender    {c |}     1      2      3      4  Total
+{hline 10}{c +}{hline 34}
+     Male {c |}  {res}.119   .104   .112   .131   .466
+   {txt}Female {c |}  {res}.112   .141   .134   .147   .534
+          {txt}{c |} 
+    Total {c |}  {res}.231   .245   .246   .278      1
+{txt}{hline 10}{c BT}{hline 34}
+  Key:  {col 1}{res}cell proportions
+
+{txt}  Pearson:
+{col 5}Uncorrected{col 19}chi2({res}3{txt}){col 35}= {res}   4.0831
+{txt}{col 5}Design-based{col 19}F({res}3.00{txt}, {res}2997.00{txt}){col 35}= {res}   1.3597{col 51}{txt}P = {res}0.2533
+{txt}
+{com}. 
+. svy,subpop(control): tab pp_gender
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       231
+{txt}{col 49}Subpop. size{col 68}={res}       231
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+Profile - {c |}
+Gender    {c |} proportions
+{hline 10}{c +}{hline 12}
+     Male {c |}       {res}.5152
+   {txt}Female {c |}       {res}.4848
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix GenderControl = e(b)'
+{txt}
+{com}. putexcel B5=matrix(GenderControl) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(innuendo): tab pp_gender 
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       245
+{txt}{col 49}Subpop. size{col 68}={res}       245
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+Profile - {c |}
+Gender    {c |} proportions
+{hline 10}{c +}{hline 12}
+     Male {c |}       {res}.4245
+   {txt}Female {c |}       {res}.5755
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix GenderDanger = e(b)'
+{txt}
+{com}. putexcel C5=matrix(GenderDanger) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(denial): tab pp_gender
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       246
+{txt}{col 49}Subpop. size{col 68}={res}       246
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+Profile - {c |}
+Gender    {c |} proportions
+{hline 10}{c +}{hline 12}
+     Male {c |}       {res}.4553
+   {txt}Female {c |}       {res}.5447
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix GenderCorrection = e(b)'
+{txt}
+{com}. putexcel D5=matrix(GenderCorrection) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(causal): tab pp_gender
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       278
+{txt}{col 49}Subpop. size{col 68}={res}       278
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+Profile - {c |}
+Gender    {c |} proportions
+{hline 10}{c +}{hline 12}
+     Male {c |}       {res}.4712
+   {txt}Female {c |}       {res}.5288
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix GenderCorrection2 = e(b)'
+{txt}
+{com}. putexcel E5=matrix(GenderCorrection2) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy: tab pp_gender
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+Profile - {c |}
+Gender    {c |} proportions
+{hline 10}{c +}{hline 12}
+     Male {c |}        {res}.466
+   {txt}Female {c |}        {res}.534
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix GenderTotal = e(b)'
+{txt}
+{com}. putexcel F5=matrix(GenderTotal) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. /*education marginals*/
+. putexcel A8=("Education") A9=("High School or less") A10=("Some college") A11=("College grad") A12=("Post-grad") using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. gen neweduc=pp_educ
+{txt}
+{com}. recode neweduc (2=1) (3=2) (4=2) (5=3) (6=4)
+{txt}(neweduc: 975 changes made)
+
+{com}. 
+. tab pp_educ swensenrand, chi
+
+                     {txt}{c |}                 swensenrand
+ Profile - Education {c |}         1          2          3          4 {c |}     Total
+{hline 21}{c +}{hline 44}{c +}{hline 10}
+               No HS {c |}{res}         7          6          8          4 {txt}{c |}{res}        25 
+{txt}High school graduate {c |}{res}        68         78         72         78 {txt}{c |}{res}       296 
+{txt}        Some college {c |}{res}        61         56         65         71 {txt}{c |}{res}       253 
+{txt}              2-year {c |}{res}        20         26         20         22 {txt}{c |}{res}        88 
+{txt}              4-year {c |}{res}        53         58         50         60 {txt}{c |}{res}       221 
+{txt}           Post-grad {c |}{res}        22         21         31         43 {txt}{c |}{res}       117 
+{txt}{hline 21}{c +}{hline 44}{c +}{hline 10}
+               Total {c |}{res}       231        245        246        278 {txt}{c |}{res}     1,000 
+
+{txt}         Pearson chi2({res}15{txt}) = {res} 12.0933  {txt} Pr = {res}0.672
+{txt}
+{com}. svy: tab pp_educ swensenrand
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 34}
+Profile - {c |}            swensenrand           
+Education {c |}     1      2      3      4  Total
+{hline 10}{c +}{hline 34}
+    No HS {c |}  {res}.007   .006   .008   .004   .025
+ {txt}High sch {c |}  {res}.068   .078   .072   .078   .296
+ {txt}Some col {c |}  {res}.061   .056   .065   .071   .253
+   {txt}2-year {c |}   {res}.02   .026    .02   .022   .088
+   {txt}4-year {c |}  {res}.053   .058    .05    .06   .221
+ {txt}Post-gra {c |}  {res}.022   .021   .031   .043   .117
+          {txt}{c |} 
+    Total {c |}  {res}.231   .245   .246   .278      1
+{txt}{hline 10}{c BT}{hline 34}
+  Key:  {col 1}{res}cell proportions
+
+{txt}  Pearson:
+{col 5}Uncorrected{col 19}chi2({res}15{txt}){col 35}= {res}  12.0933
+{txt}{col 5}Design-based{col 19}F({res}15.00{txt}, {res}14985.00{txt}){col 35}= {res}   0.8054{col 51}{txt}P = {res}0.6728
+{txt}
+{com}. 
+. tab neweduc swensenrand, chi
+
+           {txt}{c |}                 swensenrand
+   neweduc {c |}         1          2          3          4 {c |}     Total
+{hline 11}{c +}{hline 44}{c +}{hline 10}
+         1 {c |}{res}        75         84         80         82 {txt}{c |}{res}       321 
+{txt}         2 {c |}{res}        81         82         85         93 {txt}{c |}{res}       341 
+{txt}         3 {c |}{res}        53         58         50         60 {txt}{c |}{res}       221 
+{txt}         4 {c |}{res}        22         21         31         43 {txt}{c |}{res}       117 
+{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
+     Total {c |}{res}       231        245        246        278 {txt}{c |}{res}     1,000 
+
+{txt}          Pearson chi2({res}9{txt}) = {res}  8.3770  {txt} Pr = {res}0.497
+{txt}
+{com}. svy: tab neweduc swensenrand
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 34}
+          {c |}            swensenrand           
+  neweduc {c |}     1      2      3      4  Total
+{hline 10}{c +}{hline 34}
+        1 {c |}  {res}.075   .084    .08   .082   .321
+        {txt}2 {c |}  {res}.081   .082   .085   .093   .341
+        {txt}3 {c |}  {res}.053   .058    .05    .06   .221
+        {txt}4 {c |}  {res}.022   .021   .031   .043   .117
+          {txt}{c |} 
+    Total {c |}  {res}.231   .245   .246   .278      1
+{txt}{hline 10}{c BT}{hline 34}
+  Key:  {col 1}{res}cell proportions
+
+{txt}  Pearson:
+{col 5}Uncorrected{col 19}chi2({res}9{txt}){col 35}= {res}   8.3770
+{txt}{col 5}Design-based{col 19}F({res}9{txt}, {res}8991{txt}){col 35}= {res}   0.9299{col 51}{txt}P = {res}0.4975
+{txt}
+{com}. 
+. svy,subpop(control): tab neweduc
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       231
+{txt}{col 49}Subpop. size{col 68}={res}       231
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  neweduc {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.3247
+        {txt}2 {c |}       {res}.3506
+        {txt}3 {c |}       {res}.2294
+        {txt}4 {c |}       {res}.0952
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix EducControl = e(b)'
+{txt}
+{com}. putexcel B9=matrix(EducControl) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(innuendo): tab neweduc
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       245
+{txt}{col 49}Subpop. size{col 68}={res}       245
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  neweduc {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.3429
+        {txt}2 {c |}       {res}.3347
+        {txt}3 {c |}       {res}.2367
+        {txt}4 {c |}       {res}.0857
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix EducDanger = e(b)'
+{txt}
+{com}. putexcel C9=matrix(EducDanger) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(denial): tab neweduc
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       246
+{txt}{col 49}Subpop. size{col 68}={res}       246
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  neweduc {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.3252
+        {txt}2 {c |}       {res}.3455
+        {txt}3 {c |}       {res}.2033
+        {txt}4 {c |}        {res}.126
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix EducCorrection = e(b)'
+{txt}
+{com}. putexcel D9=matrix(EducCorrection) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(causal): tab neweduc
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       278
+{txt}{col 49}Subpop. size{col 68}={res}       278
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  neweduc {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}        {res}.295
+        {txt}2 {c |}       {res}.3345
+        {txt}3 {c |}       {res}.2158
+        {txt}4 {c |}       {res}.1547
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix EducCorrection2 = e(b)'
+{txt}
+{com}. putexcel E9=matrix(EducCorrection2) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy: tab neweduc
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  neweduc {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}        {res}.321
+        {txt}2 {c |}        {res}.341
+        {txt}3 {c |}        {res}.221
+        {txt}4 {c |}        {res}.117
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix EducTotal = e(b)'
+{txt}
+{com}. putexcel F9=matrix(EducTotal) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. /*race marginals*/
+. gen newrace=pp_race
+{txt}
+{com}. recode newrace (5=4) (6=4) (7=4)
+{txt}(newrace: 61 changes made)
+
+{com}. 
+. putexcel A14=("Race/ethnicity") A15=("White") A16=("Black") A17=("Hispanic") A18=("Other") using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. tab pp_race swensenrand, chi
+
+                {txt}{c |}                 swensenrand
+ Profile - Race {c |}         1          2          3          4 {c |}     Total
+{hline 16}{c +}{hline 44}{c +}{hline 10}
+          White {c |}{res}       174        191        180        209 {txt}{c |}{res}       754 
+{txt}          Black {c |}{res}        25         23         23         31 {txt}{c |}{res}       102 
+{txt}       Hispanic {c |}{res}        15         18         20         15 {txt}{c |}{res}        68 
+{txt}          Asian {c |}{res}         3          3          4          5 {txt}{c |}{res}        15 
+{txt}Native American {c |}{res}         2          4          4          3 {txt}{c |}{res}        13 
+{txt}          Mixed {c |}{res}         8          2          5          8 {txt}{c |}{res}        23 
+{txt}          Other {c |}{res}         4          4         10          7 {txt}{c |}{res}        25 
+{txt}{hline 16}{c +}{hline 44}{c +}{hline 10}
+          Total {c |}{res}       231        245        246        278 {txt}{c |}{res}     1,000 
+
+{txt}         Pearson chi2({res}18{txt}) = {res} 11.7337  {txt} Pr = {res}0.861
+{txt}
+{com}. svy: tab pp_race swensenrand
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 34}
+Profile - {c |}            swensenrand           
+Race      {c |}     1      2      3      4  Total
+{hline 10}{c +}{hline 34}
+    White {c |}  {res}.174   .191    .18   .209   .754
+    {txt}Black {c |}  {res}.025   .023   .023   .031   .102
+ {txt}Hispanic {c |}  {res}.015   .018    .02   .015   .068
+    {txt}Asian {c |}  {res}.003   .003   .004   .005   .015
+ {txt}Native A {c |}  {res}.002   .004   .004   .003   .013
+    {txt}Mixed {c |}  {res}.008   .002   .005   .008   .023
+    {txt}Other {c |}  {res}.004   .004    .01   .007   .025
+          {txt}{c |} 
+    Total {c |}  {res}.231   .245   .246   .278      1
+{txt}{hline 10}{c BT}{hline 34}
+  Key:  {col 1}{res}cell proportions
+
+{txt}  Pearson:
+{col 5}Uncorrected{col 19}chi2({res}18{txt}){col 35}= {res}  11.7337
+{txt}{col 5}Design-based{col 19}F({res}18.00{txt}, {res}17982.00{txt}){col 35}= {res}   0.6512{col 51}{txt}P = {res}0.8612
+{txt}
+{com}. 
+. tab newrace swensenrand, chi
+
+           {txt}{c |}                 swensenrand
+   newrace {c |}         1          2          3          4 {c |}     Total
+{hline 11}{c +}{hline 44}{c +}{hline 10}
+         1 {c |}{res}       174        191        180        209 {txt}{c |}{res}       754 
+{txt}         2 {c |}{res}        25         23         23         31 {txt}{c |}{res}       102 
+{txt}         3 {c |}{res}        15         18         20         15 {txt}{c |}{res}        68 
+{txt}         4 {c |}{res}        17         13         23         23 {txt}{c |}{res}        76 
+{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
+     Total {c |}{res}       231        245        246        278 {txt}{c |}{res}     1,000 
+
+{txt}          Pearson chi2({res}9{txt}) = {res}  5.5006  {txt} Pr = {res}0.789
+{txt}
+{com}. svy: tab newrace swensenrand
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 34}
+          {c |}            swensenrand           
+  newrace {c |}     1      2      3      4  Total
+{hline 10}{c +}{hline 34}
+        1 {c |}  {res}.174   .191    .18   .209   .754
+        {txt}2 {c |}  {res}.025   .023   .023   .031   .102
+        {txt}3 {c |}  {res}.015   .018    .02   .015   .068
+        {txt}4 {c |}  {res}.017   .013   .023   .023   .076
+          {txt}{c |} 
+    Total {c |}  {res}.231   .245   .246   .278      1
+{txt}{hline 10}{c BT}{hline 34}
+  Key:  {col 1}{res}cell proportions
+
+{txt}  Pearson:
+{col 5}Uncorrected{col 19}chi2({res}9{txt}){col 35}= {res}   5.5006
+{txt}{col 5}Design-based{col 19}F({res}9.00{txt}, {res}8991.00{txt}){col 35}= {res}   0.6106{col 51}{txt}P = {res}0.7891
+{txt}
+{com}. 
+. svy,subpop(control): tab newrace
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       231
+{txt}{col 49}Subpop. size{col 68}={res}       231
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  newrace {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.7532
+        {txt}2 {c |}       {res}.1082
+        {txt}3 {c |}       {res}.0649
+        {txt}4 {c |}       {res}.0736
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix RaceControl = e(b)'
+{txt}
+{com}. putexcel B15=matrix(RaceControl) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(innuendo): tab newrace
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       245
+{txt}{col 49}Subpop. size{col 68}={res}       245
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  newrace {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.7796
+        {txt}2 {c |}       {res}.0939
+        {txt}3 {c |}       {res}.0735
+        {txt}4 {c |}       {res}.0531
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix RaceDanger = e(b)'
+{txt}
+{com}. putexcel C15=matrix(RaceDanger) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(denial): tab newrace
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       246
+{txt}{col 49}Subpop. size{col 68}={res}       246
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  newrace {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.7317
+        {txt}2 {c |}       {res}.0935
+        {txt}3 {c |}       {res}.0813
+        {txt}4 {c |}       {res}.0935
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix RaceCorrection = e(b)'
+{txt}
+{com}. putexcel D15=matrix(RaceCorrection) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy,subpop(causal): tab newrace
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Subpop. no. of obs{col 68}={res}       278
+{txt}{col 49}Subpop. size{col 68}={res}       278
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  newrace {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}       {res}.7518
+        {txt}2 {c |}       {res}.1115
+        {txt}3 {c |}        {res}.054
+        {txt}4 {c |}       {res}.0827
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix RaceCorrection2 = e(b)'
+{txt}
+{com}. putexcel E15=matrix(RaceCorrection2) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. svy: tab newrace
+{txt}(running tabulate on estimation sample)
+{res}
+{txt}{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}     1000
+{txt}{col 1}Number of PSUs{col 20}= {res}     1000{txt}{col 49}Population size{col 68}={res}      1000
+{txt}{col 49}Design df{col 68}= {res}      999
+
+{txt}{hline 10}{c TT}{hline 12}
+  newrace {c |} proportions
+{hline 10}{c +}{hline 12}
+        1 {c |}        {res}.754
+        {txt}2 {c |}        {res}.102
+        {txt}3 {c |}        {res}.068
+        {txt}4 {c |}        {res}.076
+          {txt}{c |} 
+    Total {c |}           {res}1
+{txt}{hline 10}{c BT}{hline 12}
+  Key:  {col 1}proportions  =  {res}cell proportions
+{txt}
+{com}. matrix RaceTotal = e(b)'
+{txt}
+{com}. putexcel F15=matrix(RaceTotal) using jepsbalance, modify
+{res}{txt}file jepsbalance.xlsx saved
+
+{com}. 
+. /*ordered probit results*/
+. 
+. oprobit swensenfav innuendo denial causal [aweight=aw]
+
+{txt}(sum of wgt is   3.9441e+03)
+{res}{txt}Iteration 0:{space 3}log likelihood = {res:-1474.7046}  
+Iteration 1:{space 3}log likelihood = {res:  -1445.26}  
+Iteration 2:{space 3}log likelihood = {res:-1445.2554}  
+Iteration 3:{space 3}log likelihood = {res:-1445.2554}  
+{res}
+{txt}Ordered probit regression{col 51}Number of obs{col 67}= {res}       987
+{txt}{col 51}LR chi2({res}3{txt}){col 67}= {res}     58.90
+{txt}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log likelihood = {res}-1445.2554{txt}{col 51}Pseudo R2{col 67}= {res}    0.0200
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2} -.574654{col 26}{space 2} .0960842{col 37}{space 1}   -5.98{col 46}{space 3}0.000{col 54}{space 4}-.7629756{col 67}{space 3}-.3863325
+{txt}{space 6}denial {c |}{col 14}{res}{space 2}-.3841301{col 26}{space 2} .0952463{col 37}{space 1}   -4.03{col 46}{space 3}0.000{col 54}{space 4}-.5708094{col 67}{space 3}-.1974507
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0459583{col 26}{space 2}  .094494{col 37}{space 1}    0.49{col 46}{space 3}0.627{col 54}{space 4}-.1392464{col 67}{space 3} .2311631
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+       /cut1 {c |}{col 14}{res}{space 2} -1.06395{col 26}{space 2} .0763423{col 54}{space 4}-1.213578{col 67}{space 3}-.9143214
+{txt}       /cut2 {c |}{col 14}{res}{space 2}-.2181641{col 26}{space 2} .0708799{col 54}{space 4}-.3570862{col 67}{space 3} -.079242
+{txt}       /cut3 {c |}{col 14}{res}{space 2} .7512049{col 26}{space 2} .0733655{col 54}{space 4} .6074111{col 67}{space 3} .8949987
+{txt}       /cut4 {c |}{col 14}{res}{space 2} 1.401776{col 26}{space 2} .0862095{col 54}{space 4} 1.232809{col 67}{space 3} 1.570744
+{txt}       /cut5 {c |}{col 14}{res}{space 2} 2.094072{col 26}{space 2} .1271028{col 54}{space 4} 1.844955{col 67}{space 3} 2.343189
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [swensenfav]innuendo + [swensenfav]denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}  .190524{col 26}{space 2} .0952539{col 37}{space 1}    2.00{col 46}{space 3}0.045{col 54}{space 4} .0038297{col 67}{space 3} .3772182
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [swensenfav]innuendo + [swensenfav]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .6206124{col 26}{space 2}  .095704{col 37}{space 1}    6.48{col 46}{space 3}0.000{col 54}{space 4} .4330359{col 67}{space 3} .8081888
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [swensenfav]denial + [swensenfav]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .4300884{col 26}{space 2}  .094851{col 37}{space 1}    4.53{col 46}{space 3}0.000{col 54}{space 4} .2441838{col 67}{space 3}  .615993
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: oprobit swensenfav innuendo denial causal
+{txt}(running oprobit on estimation sample)
+{res}
+{txt}Survey: Ordered probit regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      987
+{txt}{col 1}Number of PSUs{col 20}= {res}      987{txt}{col 49}Population size{col 68}={res}       987
+{txt}{col 49}Design df{col 68}= {res}      986
+{txt}{col 49}F({res}   3{txt},{res}    984{txt}){col 68}= {res}    18.06
+{txt}{col 49}Prob > F{col 68}= {res}   0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2}-.5711644{col 26}{space 2} .0943605{col 37}{space 1}   -6.05{col 46}{space 3}0.000{col 54}{space 4}-.7563349{col 67}{space 3} -.385994
+{txt}{space 6}denial {c |}{col 14}{res}{space 2}-.3798074{col 26}{space 2} .0932185{col 37}{space 1}   -4.07{col 46}{space 3}0.000{col 54}{space 4} -.562737{col 67}{space 3}-.1968779
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0312641{col 26}{space 2} .0899189{col 37}{space 1}    0.35{col 46}{space 3}0.728{col 54}{space 4}-.1451904{col 67}{space 3} .2077185
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+       /cut1 {c |}{col 14}{res}{space 2}-1.053315{col 26}{space 2} .0725627{col 37}{space 1}  -14.52{col 46}{space 3}0.000{col 54}{space 4} -1.19571{col 67}{space 3}-.9109203
+{txt}       /cut2 {c |}{col 14}{res}{space 2}-.2173536{col 26}{space 2} .0666615{col 37}{space 1}   -3.26{col 46}{space 3}0.001{col 54}{space 4}-.3481684{col 67}{space 3}-.0865388
+{txt}       /cut3 {c |}{col 14}{res}{space 2} .7531182{col 26}{space 2} .0678114{col 37}{space 1}   11.11{col 46}{space 3}0.000{col 54}{space 4} .6200469{col 67}{space 3} .8861896
+{txt}       /cut4 {c |}{col 14}{res}{space 2} 1.396552{col 26}{space 2} .0761784{col 37}{space 1}   18.33{col 46}{space 3}0.000{col 54}{space 4} 1.247061{col 67}{space 3} 1.546042
+{txt}       /cut5 {c |}{col 14}{res}{space 2}  2.07787{col 26}{space 2} .1179546{col 37}{space 1}   17.62{col 46}{space 3}0.000{col 54}{space 4} 1.846399{col 67}{space 3} 2.309341
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [swensenfav]innuendo + [swensenfav]denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}  .191357{col 26}{space 2} .0984453{col 37}{space 1}    1.94{col 46}{space 3}0.052{col 54}{space 4}-.0018294{col 67}{space 3} .3845435
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [swensenfav]innuendo + [swensenfav]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .6024285{col 26}{space 2} .0984385{col 37}{space 1}    6.12{col 46}{space 3}0.000{col 54}{space 4} .4092554{col 67}{space 3} .7956016
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [swensenfav]denial + [swensenfav]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .4110715{col 26}{space 2} .0970218{col 37}{space 1}    4.24{col 46}{space 3}0.000{col 54}{space 4} .2206785{col 67}{space 3} .6014645
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. oprobit acceptedbribes innuendo denial causal [aweight=aw]
+
+{txt}(sum of wgt is   3.9414e+03)
+{res}{txt}Iteration 0:{space 3}log likelihood = {res:-1458.9113}  
+Iteration 1:{space 3}log likelihood = {res:-1414.8777}  
+Iteration 2:{space 3}log likelihood = {res:-1414.8611}  
+Iteration 3:{space 3}log likelihood = {res:-1414.8611}  
+{res}
+{txt}Ordered probit regression{col 51}Number of obs{col 67}= {res}       986
+{txt}{col 51}LR chi2({res}3{txt}){col 67}= {res}     88.10
+{txt}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log likelihood = {res}-1414.8611{txt}{col 51}Pseudo R2{col 67}= {res}    0.0302
+
+{txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbribes{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      z{col 48}   P>|z|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}innuendo {c |}{col 16}{res}{space 2}  .776435{col 28}{space 2} .0964726{col 39}{space 1}    8.05{col 48}{space 3}0.000{col 56}{space 4} .5873521{col 69}{space 3} .9655179
+{txt}{space 8}denial {c |}{col 16}{res}{space 2} .5364651{col 28}{space 2} .0955094{col 39}{space 1}    5.62{col 48}{space 3}0.000{col 56}{space 4} .3492702{col 69}{space 3} .7236601
+{txt}{space 8}causal {c |}{col 16}{res}{space 2} .0836056{col 28}{space 2} .0946095{col 39}{space 1}    0.88{col 48}{space 3}0.377{col 56}{space 4}-.1018256{col 69}{space 3} .2690369
+{txt}{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         /cut1 {c |}{col 16}{res}{space 2} -1.19551{col 28}{space 2} .0825283{col 56}{space 4}-1.357262{col 69}{space 3}-1.033757
+{txt}         /cut2 {c |}{col 16}{res}{space 2}-.2949245{col 28}{space 2} .0715228{col 56}{space 4}-.4351066{col 69}{space 3}-.1547424
+{txt}         /cut3 {c |}{col 16}{res}{space 2} .5082236{col 28}{space 2}  .072069{col 56}{space 4}  .366971{col 69}{space 3} .6494762
+{txt}         /cut4 {c |}{col 16}{res}{space 2} 1.622064{col 28}{space 2} .0835497{col 56}{space 4} 1.458309{col 69}{space 3} 1.785818
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [acceptedbribes]innuendo + [acceptedbribes]denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.2399698{col 26}{space 2} .0946655{col 37}{space 1}   -2.53{col 46}{space 3}0.011{col 54}{space 4}-.4255108{col 67}{space 3}-.0544289
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [acceptedbribes]innuendo + [acceptedbribes]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.6928294{col 26}{space 2} .0956554{col 37}{space 1}   -7.24{col 46}{space 3}0.000{col 54}{space 4}-.8803105{col 67}{space 3}-.5053482
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [acceptedbribes]denial + [acceptedbribes]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.4528595{col 26}{space 2} .0948091{col 37}{space 1}   -4.78{col 46}{space 3}0.000{col 54}{space 4} -.638682{col 67}{space 3}-.2670371
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: oprobit acceptedbribes innuendo denial causal  
+{txt}(running oprobit on estimation sample)
+{res}
+{txt}Survey: Ordered probit regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      986
+{txt}{col 1}Number of PSUs{col 20}= {res}      986{txt}{col 49}Population size{col 68}={res}       986
+{txt}{col 49}Design df{col 68}= {res}      985
+{txt}{col 49}F({res}   3{txt},{res}    983{txt}){col 68}= {res}    28.77
+{txt}{col 49}Prob > F{col 68}= {res}   0.0000
+
+{txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}  Linearized
+{col 1}acceptedbribes{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}innuendo {c |}{col 16}{res}{space 2} .7742062{col 28}{space 2} .0941625{col 39}{space 1}    8.22{col 48}{space 3}0.000{col 56}{space 4}  .589424{col 69}{space 3} .9589883
+{txt}{space 8}denial {c |}{col 16}{res}{space 2} .5339922{col 28}{space 2} .0932866{col 39}{space 1}    5.72{col 48}{space 3}0.000{col 56}{space 4} .3509289{col 69}{space 3} .7170555
+{txt}{space 8}causal {c |}{col 16}{res}{space 2}  .099282{col 28}{space 2} .0974736{col 39}{space 1}    1.02{col 48}{space 3}0.309{col 56}{space 4}-.0919978{col 69}{space 3} .2905617
+{txt}{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         /cut1 {c |}{col 16}{res}{space 2}-1.184781{col 28}{space 2} .0835541{col 39}{space 1}  -14.18{col 48}{space 3}0.000{col 56}{space 4}-1.348745{col 69}{space 3}-1.020817
+{txt}         /cut2 {c |}{col 16}{res}{space 2}-.2872679{col 28}{space 2} .0717806{col 39}{space 1}   -4.00{col 48}{space 3}0.000{col 56}{space 4}-.4281283{col 69}{space 3}-.1464075
+{txt}         /cut3 {c |}{col 16}{res}{space 2}  .512992{col 28}{space 2} .0717101{col 39}{space 1}    7.15{col 48}{space 3}0.000{col 56}{space 4} .3722699{col 69}{space 3} .6537141
+{txt}         /cut4 {c |}{col 16}{res}{space 2}  1.61116{col 28}{space 2} .0836572{col 39}{space 1}   19.26{col 48}{space 3}0.000{col 56}{space 4} 1.446994{col 69}{space 3} 1.775327
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [acceptedbribes]innuendo + [acceptedbribes]denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} -.240214{col 26}{space 2} .0899578{col 37}{space 1}   -2.67{col 46}{space 3}0.008{col 54}{space 4}-.4167449{col 67}{space 3} -.063683
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [acceptedbribes]innuendo + [acceptedbribes]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.6749242{col 26}{space 2} .0974239{col 37}{space 1}   -6.93{col 46}{space 3}0.000{col 54}{space 4}-.8661064{col 67}{space 3} -.483742
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [acceptedbribes]denial + [acceptedbribes]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.4347102{col 26}{space 2} .0960961{col 37}{space 1}   -4.52{col 46}{space 3}0.000{col 54}{space 4}-.6232869{col 67}{space 3}-.2461336
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. oprobit resigninvest denial causal [aweight=aw]
+
+{txt}(sum of wgt is   2.9802e+03)
+{res}{txt}Iteration 0:{space 3}log likelihood = {res:-844.04756}  
+Iteration 1:{space 3}log likelihood = {res:-808.44627}  
+Iteration 2:{space 3}log likelihood = {res:-808.40597}  
+Iteration 3:{space 3}log likelihood = {res:-808.40597}  
+{res}
+{txt}Ordered probit regression{col 51}Number of obs{col 67}= {res}       764
+{txt}{col 51}LR chi2({res}2{txt}){col 67}= {res}     71.28
+{txt}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log likelihood = {res}-808.40597{txt}{col 51}Pseudo R2{col 67}= {res}    0.0422
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2}-.4051632{col 26}{space 2} .1011984{col 37}{space 1}   -4.00{col 46}{space 3}0.000{col 54}{space 4}-.6035084{col 67}{space 3} -.206818
+{txt}{space 6}causal {c |}{col 14}{res}{space 2}-.8529667{col 26}{space 2} .1020236{col 37}{space 1}   -8.36{col 46}{space 3}0.000{col 54}{space 4}-1.052929{col 67}{space 3}-.6530041
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+       /cut1 {c |}{col 14}{res}{space 2}-2.358818{col 26}{space 2} .1158121{col 54}{space 4}-2.585806{col 67}{space 3}-2.131831
+{txt}       /cut2 {c |}{col 14}{res}{space 2}-1.460528{col 26}{space 2} .0872103{col 54}{space 4}-1.631457{col 67}{space 3}-1.289598
+{txt}       /cut3 {c |}{col 14}{res}{space 2}-.0842087{col 26}{space 2} .0742481{col 54}{space 4}-.2297323{col 67}{space 3} .0613149
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [resigninvest]denial + [resigninvest]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.4478035{col 26}{space 2} .0983262{col 37}{space 1}   -4.55{col 46}{space 3}0.000{col 54}{space 4}-.6405192{col 67}{space 3}-.2550877
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: oprobit resigninvest denial causal 
+{txt}(running oprobit on estimation sample)
+{res}
+{txt}Survey: Ordered probit regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      764
+{txt}{col 1}Number of PSUs{col 20}= {res}      764{txt}{col 49}Population size{col 68}={res}       764
+{txt}{col 49}Design df{col 68}= {res}      763
+{txt}{col 49}F({res}   2{txt},{res}    762{txt}){col 68}= {res}    33.76
+{txt}{col 49}Prob > F{col 68}= {res}   0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2}-.4031662{col 26}{space 2} .0980295{col 37}{space 1}   -4.11{col 46}{space 3}0.000{col 54}{space 4}-.5956058{col 67}{space 3}-.2107267
+{txt}{space 6}causal {c |}{col 14}{res}{space 2}-.8420202{col 26}{space 2} .1024705{col 37}{space 1}   -8.22{col 46}{space 3}0.000{col 54}{space 4}-1.043178{col 67}{space 3}-.6408627
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+       /cut1 {c |}{col 14}{res}{space 2}-2.343823{col 26}{space 2} .1128273{col 37}{space 1}  -20.77{col 46}{space 3}0.000{col 54}{space 4}-2.565311{col 67}{space 3}-2.122334
+{txt}       /cut2 {c |}{col 14}{res}{space 2}-1.448461{col 26}{space 2} .0834922{col 37}{space 1}  -17.35{col 46}{space 3}0.000{col 54}{space 4}-1.612363{col 67}{space 3} -1.28456
+{txt}       /cut3 {c |}{col 14}{res}{space 2}-.0864461{col 26}{space 2} .0738371{col 37}{space 1}   -1.17{col 46}{space 3}0.242{col 54}{space 4}-.2313941{col 67}{space 3} .0585019
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- [resigninvest]denial + [resigninvest]causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} -.438854{col 26}{space 2} .0972905{col 37}{space 1}   -4.51{col 46}{space 3}0.000{col 54}{space 4}-.6298429{col 67}{space 3}-.2478651
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. /*unweighted results*/
+. 
+. reg swensenfav innuendo denial causal
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     987
+{txt}{hline 13}{char +}{hline 30}           F(  3,   983) ={res}   18.90
+    {txt}   Model {char |} {res} 71.2144156     3  23.7381385           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 1234.87677   983  1.25623273           {txt}R-squared     = {res} 0.0545
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0516
+    {txt}   Total {char |} {res} 1306.09119   986  1.32463609           {txt}Root MSE      = {res} 1.1208
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2} -.581532{col 26}{space 2} .1037343{col 37}{space 1}   -5.61{col 46}{space 3}0.000{col 54}{space 4}-.7850982{col 67}{space 3}-.3779658
+{txt}{space 6}denial {c |}{col 14}{res}{space 2}-.3856136{col 26}{space 2} .1037343{col 37}{space 1}   -3.72{col 46}{space 3}0.000{col 54}{space 4}-.5891798{col 67}{space 3}-.1820474
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0613401{col 26}{space 2} .1010847{col 37}{space 1}    0.61{col 46}{space 3}0.544{col 54}{space 4}-.1370266{col 67}{space 3} .2597067
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.748879{col 26}{space 2} .0750555{col 37}{space 1}   36.62{col 46}{space 3}0.000{col 54}{space 4} 2.601591{col 67}{space 3} 2.896166
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .1959184{col 26}{space 2} .1012668{col 37}{space 1}    1.93{col 46}{space 3}0.053{col 54}{space 4}-.0028056{col 67}{space 3} .3946423
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}  .642872{col 26}{space 2} .0985509{col 37}{space 1}    6.52{col 46}{space 3}0.000{col 54}{space 4} .4494778{col 67}{space 3} .8362663
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  swensenfav{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2} .4469537{col 26}{space 2} .0985509{col 37}{space 1}    4.54{col 46}{space 3}0.000{col 54}{space 4} .2535594{col 67}{space 3} .6403479
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. reg acceptedbribes innuendo denial causal
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     986
+{txt}{hline 13}{char +}{hline 30}           F(  3,   982) ={res}   30.45
+    {txt}   Model {char |} {res} 102.994993     3  34.3316645           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 1107.12671   982  1.12742028           {txt}R-squared     = {res} 0.0851
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0823
+    {txt}   Total {char |} {res}  1210.1217   985  1.22854995           {txt}Root MSE      = {res} 1.0618
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}innuendo {c |}{col 14}{res}{space 2} .7869404{col 26}{space 2}  .098368{col 37}{space 1}    8.00{col 46}{space 3}0.000{col 54}{space 4} .5939046{col 67}{space 3} .9799761
+{txt}{space 6}denial {c |}{col 14}{res}{space 2} .5509052{col 26}{space 2} .0984646{col 37}{space 1}    5.59{col 46}{space 3}0.000{col 54}{space 4} .3576799{col 67}{space 3} .7441305
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0855267{col 26}{space 2} .0956062{col 37}{space 1}    0.89{col 46}{space 3}0.371{col 54}{space 4}-.1020893{col 67}{space 3} .2731428
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.856502{col 26}{space 2} .0711034{col 37}{space 1}   40.17{col 46}{space 3}0.000{col 54}{space 4}  2.71697{col 67}{space 3} 2.996034
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom denial-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + denial = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.2360352{col 26}{space 2} .0962297{col 37}{space 1}   -2.45{col 46}{space 3}0.014{col 54}{space 4}-.4248748{col 67}{space 3}-.0471956
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-innuendo 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- innuendo + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.7014136{col 26}{space 2} .0933029{col 37}{space 1}   -7.52{col 46}{space 3}0.000{col 54}{space 4}-.8845096{col 67}{space 3}-.5183176
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. lincom causal-denial
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}acceptedbr~s{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.4653784{col 26}{space 2} .0934047{col 37}{space 1}   -4.98{col 46}{space 3}0.000{col 54}{space 4}-.6486743{col 67}{space 3}-.2820826
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. reg resigninvest denial causal
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     764
+{txt}{hline 13}{char +}{hline 30}           F(  2,   761) ={res}   38.61
+    {txt}   Model {char |} {res} 43.8991173     2  21.9495587           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 432.655856   761  .568535948           {txt}R-squared     = {res} 0.0921
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0897
+    {txt}   Total {char |} {res} 476.554974   763  .624580569           {txt}Root MSE      = {res} .75401
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2}-.2459016{col 26}{space 2} .0682652{col 37}{space 1}   -3.60{col 46}{space 3}0.000{col 54}{space 4} -.379912{col 67}{space 3}-.1118913
+{txt}{space 6}causal {c |}{col 14}{res}{space 2}-.5781064{col 26}{space 2} .0662569{col 37}{space 1}   -8.73{col 46}{space 3}0.000{col 54}{space 4}-.7081745{col 67}{space 3}-.4480384
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.454918{col 26}{space 2} .0482708{col 37}{space 1}   71.57{col 46}{space 3}0.000{col 54}{space 4} 3.360158{col 67}{space 3} 3.549678
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom causal-denial 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}resigninvest{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.3322048{col 26}{space 2} .0662569{col 37}{space 1}   -5.01{col 46}{space 3}0.000{col 54}{space 4}-.4622728{col 67}{space 3}-.2021368
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. /*significance tests: see lincom results for Table 2 above*/
+. 
+. /*test for recall diffs*/
+. gen recall=(GSU213==3)+(GSU214==2)+(GSU215==3)
+{txt}
+{com}. 
+. preserve
+{txt}
+{com}. 
+. drop if swensenrand==1
+{txt}(231 observations deleted)
+
+{com}. 
+. reg recall denial causal [aweight=aw]
+{txt}(sum of wgt is   3.0000e+03)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}     769
+{txt}{hline 13}{char +}{hline 30}           F(  2,   766) ={res}    0.99
+    {txt}   Model {char |} {res} 1.44331156     2  .721655779           {txt}Prob > F      = {res} 0.3735
+    {txt}Residual {char |} {res} 560.533629   766   .73176714           {txt}R-squared     = {res} 0.0026
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0000
+    {txt}   Total {char |} {res} 561.976941   768  .731740809           {txt}Root MSE      = {res} .85543
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      recall{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2} .0941114{col 26}{space 2} .0755612{col 37}{space 1}    1.25{col 46}{space 3}0.213{col 54}{space 4}-.0542202{col 67}{space 3}  .242443
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0045917{col 26}{space 2} .0755612{col 37}{space 1}    0.06{col 46}{space 3}0.952{col 54}{space 4}-.1437399{col 67}{space 3} .1529233
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.212666{col 26}{space 2} .0534298{col 37}{space 1}   41.41{col 46}{space 3}0.000{col 54}{space 4}  2.10778{col 67}{space 3} 2.317553
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. lincom causal-denial 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      recall{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.0895197{col 26}{space 2} .0755612{col 37}{space 1}   -1.18{col 46}{space 3}0.236{col 54}{space 4}-.2378513{col 67}{space 3} .0588119
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. svy: reg recall denial causal 
+{txt}(running regress on estimation sample)
+{res}
+{txt}Survey: Linear regression
+
+{col 1}Number of strata{col 20}= {res}        1{txt}{col 49}Number of obs{col 68}= {res}      769
+{txt}{col 1}Number of PSUs{col 20}= {res}      769{txt}{col 49}Population size{col 68}={res}       769
+{txt}{col 49}Design df{col 68}= {res}      768
+{txt}{col 49}F({res}   2{txt},{res}    767{txt}){col 68}= {res}     0.98
+{txt}{col 49}Prob > F{col 68}= {res}   0.3748
+{txt}{col 49}R-squared{col 68}= {res}   0.0024
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Linearized
+{col 1}      recall{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}denial {c |}{col 14}{res}{space 2} .0926332{col 26}{space 2} .0750609{col 37}{space 1}    1.23{col 46}{space 3}0.218{col 54}{space 4}-.0547157{col 67}{space 3}  .239982
+{txt}{space 6}causal {c |}{col 14}{res}{space 2} .0035824{col 26}{space 2} .0761647{col 37}{space 1}    0.05{col 46}{space 3}0.962{col 54}{space 4}-.1459332{col 67}{space 3} .1530981
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.212245{col 26}{space 2} .0537147{col 37}{space 1}   41.19{col 46}{space 3}0.000{col 54}{space 4}   2.1068{col 67}{space 3}  2.31769
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. lincom causal-denial 
+
+{p 0 7}{space 1}{text:( 1)}{space 1}{space 1}{res}- denial + causal = 0{p_end}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      recall{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}(1) {c |}{col 14}{res}{space 2}-.0890507{col 26}{space 2} .0752639{col 37}{space 1}   -1.18{col 46}{space 3}0.237{col 54}{space 4} -.236798{col 67}{space 3} .0586966
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. restore
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. save "causal-replication.dta", replace
+{txt}file causal-replication.dta saved
+
+{com}. exit, clear

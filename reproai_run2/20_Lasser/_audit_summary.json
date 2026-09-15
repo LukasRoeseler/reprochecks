@@ -1,0 +1,15 @@
+{
+  "grade": "FULL",
+  "sev": "P0-0 P1-0 P2-1 P3-1",
+  "data_status": "obtained",
+  "key_findings": [
+    "Tweet-level linear mixed-effects model (the basis of the headline 12.8-point claim) independently reproduced exactly: interaction belief x party[Republican] = -0.128 (paper -0.128; 95% CI [-0.146,-0.111] from model Std.Err. 0.0089), N=504,809 matching the paper.",
+    "Temporal Welch tests of belief-speaking and fact-speaking increases independently reproduced exactly for both parties (all t, Welch df, p, Cohen's d and means match the paper to 3 decimals).",
+    "Article-level OLS regression (N=261,765) independently reproduced exactly: all coefficients match after rescaling from the raw NewsGuard 0-100 scale to the paper's 0-1 scale (e.g. Republican x belief = -0.540, three-way = -0.594).",
+    "The human FLoRA reproduction (Brummernhenrich et al., Lasser et al. NHB 7(12):2140-2151) reported a technical failure for the LME because the files tweets_for_lme_modelling_NG.csv / independent.csv had been removed from OSF. Those files were restored by the authors (2026-02-03), enabling this independent re-run. Verdict therefore differs from the human 'technical failure' only because data availability changed.",
+    "P2 finding: the Figure 2 caption sample counts (2011-2013: 331 D, 514 R; 2019-2022: 295 D, 494 R) are inconsistent with users.csv (early: 331 D, 295 R; late: 514 D, 494 R); the paper's own reproduced Welch df values confirm the users.csv composition. Reporting-only discrepancy; no reproduced statistic is affected.",
+    "P3 finding: the honesty component labelled 'fact speaking' / 'truth seeking' is stored as 'truth' in the data/code (naming inconsistency)."
+  ],
+  "headline_verified": true,
+  "notes": "Reproduced headline numerical claims from authors' open OSF vny8k data (users.csv, tweets_for_lme_modelling_NG.csv, articles.csv.gzip) + GitHub code, in R (lme4/lmerTest) and Python (statsmodels). No article PDF retained; only OA FLoRA reports, open data, and analysis scripts kept. Grade = FULL: all headline statistics reproduced exactly."
+}

@@ -1,0 +1,70 @@
+
+Author Data Reproduction Attempt to Evaluate a Claim from Ohtsubo_EvoHumanBehavior_2014_zlm2
+Reproduction analyst(s): Marcel Martončik
+SCORE RR ID: 675wo
+OSF Project: https://osf.io/y47pr
+Transparency Trail
+Link to analysis script(s): https://osf.io/wavhd/
+Analysis attempt 1
+The claim contains variable of “intimacy” which should be calculated according to the article as sum of 4 items (explained on p. 239, “Intimacy was assessed by…”). This does not correspond with the data, which contains 10 items under the common column called Intimacy questionnaire and 1 item called Intimacy. As the first step, I had to figure out, which 4 items belong to the Intimacy scale and whether the Intimacy variable in the dataset is calculated based on 10 or 4 items. After the translation of all items from Japanese language to English I have identified the 4 items, which should form the Intimacy variable (contained in the claim). After calculating the sum score I have compared the scores from the Intimacy item already provided in the data and Intimacy variable calculated from 4 items identified by me. The items had the same values.
+The article contains only brief information about excluding 1 participant: &quot;after excluding one participant who suspected the use of deceptive procedures&quot; (p. 241). There is no further information, nor in the data, which specific participant was excluded. Therefore my second step was to find out, which one it was. The method section contains the following information: &quot;Participants were 29 Japanese undergraduates (10 males and 19 females&quot;, p. 241).  The original dataset contains information from 11 males and 19 females. This means that one excluded participant should have male gender. Based on the information about the mean and standard deviation of age reported in the article (&quot;10 males and 19 females, Mage ± SD = 19.3 ± 0.89&quot;, p. 241) the one excluded participant should be case n. 3, 12, 13, 22, or 25. Only when excluding one of these participants does mean and SD of age match with the information in the article.
+Based on the original article information provided on p. 241: “Consistent with the hypothesis, intimacy was higher in the attention condition (4.58 ± .82) than in the no attention condition (2.82 ± .79), t27 = 5.91, p = .001, d = 2.20” I have chosen Student t-test for the analysis. Since the article does not mention anything related to equality of variances or Welch t-test, I assumed that the authors have used exactly the Student t-test. P-value is from two-tailed test.
+Completed claim: single-trace
+Analysis attempts 2-5
+Since it was still unclear to me, which one specific participant was excluded, I had to repeat the analysis (Student t-test) 5 times  (each time with the exclusion of different participant, specifically participants n. 3, 12, 13, 22, and 25) and compare the results of t-test with the results reported in the article for a possible match. The data with the exclusion of participants 22 and 25 produced identical results both with each other and with the article.  The data does not contain any useful information to decide whether the excluded participant was participant n. 22 or 25, therefore I have calculated two Student t-tests (once with the exclusion of n. 22 and second time with the exclusion of n. 25).
+Completed claim: single-trace
+Claim evaluation
+To test difference in intimacy between attention and no attention condition I have calculated Student t test for independent samples. Attention group (M = 4.58, SD = .816) had higher intimacy scores than the no attention group (M = 2.82, SD = .787), t(27) = 5.91, p = .000002695, d = 2.20. 
+Single-trace claim
+Coded claim 4 text (original paper): “Consistent with the hypothesis, intimacy was higher in the attention condition (4.58 ± .82) than in the no attention condition (2.82 ± .79), t(27) = 5.91, p &lt; .001, d = 2.20”
+Reproduction data source(s):
+https://osf.io/p9whq/?view_only=68d4ca083252477883e1099573e4474f
+Description of reproduction data:
+Dataset (Ohtsubo_et_al2014Study2a_data.xls) was accessed and downloaded from the OSF project on 15.4.2022 from the Phase 2 Reproduction Materials folder using the following link: https://osf.io/ek3tm/?view_only=68d4ca083252477883e1099573e4474f and uploaded at the same date to: https://osf.io/y47pr/?view_only=39a5ffc3958c4f23add877b356b95b43 The dataset contains data from 30 subjects structured in one ID variable and 40 research variables.
+Primary reproduction criteria
+Criterion
+Original value
+Precise reproduction
+Approximate reproduction
+Non-reproduction
+Reproduction result
+Sample size
+N = 29
+N = 29
+25 - 33
+fewer than 25 or more than 33 participants
+N = 29
+Focal coefficient
+NA
+NA
+NA
+NA
+NA
+Focal test statistic
+t = 5.91
+t = 5.91
+5.02 - 6.80
+t smaller than 5.02 or higher than 6.80
+t = 5.91
+Focal effect size
+d = 2.20
+d = 2.20
+1.87 - 2.53
+d smaller than 1.87 or higher than 2.53
+d = 2.20
+Focal p-value
+p &lt; 0.001
+p &lt; 0.001
+0.001 - 0.051
+&gt;= 0.051
+p &lt; 0.001
+Analyst success criteria: Only if all four outcomes simultaneously (sample size, p-value, test statistic, and effect size) will be within the predicted values (Precise Reproduction Criteria).
+Reproduction outcome: Based on these criteria, the claim did reproduce.
+Discussion:  Reproduction outcome is dependent on the fact, whether I have successfully identified excluded participant. If different participant would be excluded, it would logically change the result. Thus, my analysis proved only the fact, that given the data provided by authors and excluding 1 of the two specific participants (assuming that just one of them was exactly the one excluded in the original study) it is possible to get the same results as provided in the article.  
+Description of materials provided
+All materials on this OSF project may be shared publicly.
+script_Ohtsubo_EvoHumanBehavior_2014_zlm2_675wo.R - the analysis pipeline which reads the raw data as provided by the original authors and all analyses to conduct the focal test.
+Ohtsubo_et_al2014Study2a_data.xls – original raw data
+outputs.pdf – full outputs from analyses
+References
+Ohtsubo, Y., Matsumura, A., Noda, C., Sawa, E., Yagi, A., &amp; Yamaguchi, M. (2014). It’s the attention that counts: interpersonal attention fosters intimacy and social exchange. Evolution and Human Behavior: Official Journal of the Human Behavior and Evolution Society, 35(3), 237–244. https://doi.org/10.1016/j.evolhumbehav.2014.02.004

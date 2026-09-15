@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReproAI Audit — Antràs &amp; Chor (2013), "Organizing the Global Value Chain"</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;margin:24px auto;max-width:980px;color:#222;line-height:1.5}
+  h1{font-size:1.5em;border-bottom:3px solid #2c3e50;padding-bottom:6px}
+  h2{font-size:1.2em;margin-top:26px;color:#1a5276}
+  h3{font-size:1.05em;color:#444}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.93em}
+  th,td{border:1px solid #ccc;padding:6px 9px;text-align:left;vertical-align:top}
+  th{background:#eaf2f8}
+  .grade{font-size:1.4em;font-weight:bold;color:#8e3b3b}
+  .badge{display:inline-block;padding:3px 9px;border-radius:4px;color:#fff;font-weight:bold}
+  .nodata{background:#8e3b3b}.p1{background:#c0392b}.p2{background:#e67e22}.p3{background:#7f8c8d}
+  .callout{background:#fdf2e9;border-left:5px solid #e67e22;padding:10px 14px;margin:12px 0}
+  code{background:#f4f4f4;padding:1px 4px;border-radius:3px}
+</style>
+</head>
+<body>
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Antràs &amp; Chor (2013), "Organizing the Global Value Chain", <em>Econometrica</em> 81(6): 2127–2204. DOI: 10.3982/ECTA10813</p>
+<p><strong>Human FLoRA verdict:</strong> computational issues &nbsp;|&nbsp; <strong>OSF reproduction node:</strong> <code>qk9v3</code> (hint <code>q4cgv</code> → transparency-trail file)</p>
+<p><strong>Audit grade:</strong> <span class="badge nodata">NODATA</span> &nbsp;<span class="grade">NODATA</span></p>
+<p><strong>Severity:</strong> P0-0 P1-1 P2-2 P3-1 &nbsp;|&nbsp; <strong>data status:</strong> partial &nbsp;|&nbsp; <strong>independent headline verification:</strong> not achieved</p>
+
+<h2>1. Data sourcing</h2>
+<p>The OSF hint <code>q4cgv</code> resolved via the OSF API v2 to a <em>file</em> GUID inside reproduction node <code>qk9v3</code>
+("Antràs_Econometrica_2013_a2Yx - Szabelska - Reproduction (with author data &amp; code) - 28m96"), with children
+Data (<code>my6bg</code>), Analysis (<code>zxdca</code>), Methods/Materials, Audit/QA, etc. All files were downloaded:</p>
+<ul>
+<li><strong>Data</strong> (10 .dta): downstreamness.dta, IOsigmas.dta, IOsigmas33.dta, inputimportance.dta,
+contractibility.dta, randdintensity.dta, factorintensities.dta, io_industry_list.dta, dispersion.dta, dbselection.dta.</li>
+<li><strong>Code</strong> (10 .do): AppTable1and2, AppTable4, AppTable5, AppTable6, AppTable8, AppTable9, Table1, Table4, Table6, Table10.</li>
+<li><strong>Main</strong>: bushel_claims.md, PBR_ADR.xlsx, Transparency Trail (docx), Table3–7 .xml (published table values).</li>
+<li><strong>Audit/QA</strong>: 28m96_audit1.csv.</li>
+</ul>
+<p class="callout"><strong>Critical gap:</strong> The single dataset used by <em>every</em> headline table — <code>USIOrelatedparty.dta</code> (which
+feeds the dependent variable <code>imp_intrafirm&nbsp;=&nbsp;imp_rel/(imp_non+imp_rel)</code> and the <code>tot_imp</code> weights) — is <strong>not</strong>
+in the OSF Data component, and the <code>Table2.do/Table3.do/Table5.do/Table7.do</code> scripts are absent. The transparency trail confirms
+the intended reproduction rests entirely on that one file. It is derived from confidential U.S. Census Related-Party-Trade data;
+the author-hosted copy was blocked (HTTP 403/503) from this environment, has no Wayback capture (CDX empty), and no public mirror
+was found. Hence the dependent-variable file is unobtainable here, which prevents an independent re-run of the headline regressions.</p>
+
+<h2>2. Headline numerical claims (inventory)</h2>
+<p>This is a theory + empirics paper. Headline empirical claims (from bushel_claims.md, focal = 3lxxq3 &amp; ylyylq):</p>
+<table>
+<tr><th>#</th><th>Claim</th><th>Published value (Table3/5/6/7 .xml &amp; claims)</th></tr>
+<tr><td>C1 (focal)</td><td>Table III benchmark, eq.(32), col.(2): downstreamness effect is positive &amp; significant at 5% when average buyer elasticity &gt; median (sequential complements), negative in substitutes case.</td>
+<td>DUse_TUse × 1(Elas&lt;Med) β<sub>1</sub> = <b>-0.196</b> [0.071]; DUse_TUse × 1(Elas&gt;Med) β<sub>2</sub> = <b>0.171</b> [0.067]; joint F p=0.0008; β<sub>2</sub>−β<sub>1</sub> p=0.0002; <b>N=2,783</b></td></tr>
+<tr><td>C2</td><td>Table III col.(3) incl. buyer-headquarter &amp; dispersion controls robust.</td><td>β<sub>1</sub>=–0.174 [0.072]; β<sub>2</sub>=0.198 [0.068]; N=2,783</td></tr>
+<tr><td>C3</td><td>Table V (DUse_TUse, unweighted &amp; weighted): downstreamness × elasticity quintiles — negative in low quintiles, positive &amp; significant in 5th.</td><td>e.g. (1): β<sub>1</sub>=–0.165[0.093] … β<sub>5</sub>=0.198[0.103]; joint p=0.0104</td></tr>
+<tr><td>C4</td><td>Table IV / VII (second downstreamness measure DownMeasure): positive &amp; significant complements effect; col.(6) 1SD→0.117 rise in intrafirm share.</td><td>Table IV (2): β<sub>1</sub>=–0.024[0.064], β<sub>2</sub>=0.249[0.085]; (6): β<sub>2</sub>=0.526[0.100]</td></tr>
+<tr><td>C5</td><td>Table VI (DUse_TUse) robustness: negative low-Rho, positive high-Rho.</td><td>(1): β<sub>1</sub>=–0.187[0.074], β<sub>2</sub>=0.157[0.077]</td></tr>
+</table>
+
+<h2>3. Independent verification attempted (with available data)</h2>
+<p>Because the dependent-variable file is missing, the OLS tables could not be re-run. However, the explanatory-variable layer
+available on OSF was independently analyzed (Python/pandas; Stata .dta read directly):</p>
+<table>
+<tr><th>Check</th><th>Result</th><th>Status</th></tr>
+<tr><td>Downstreamness measures (duse_tuse, downmeasure) descriptive range/scale</td>
+<td>duse_tuse: n=408, mean=0.584, sd=0.242, [0,1]; downmeasure: n=421, mean=0.571, sd=0.241, [0.215,1]</td><td>Computed (info)</td></tr>
+<tr><td>Sequential complements/substitutes median-split (key to claim C1 test specification)</td>
+<td>w1M1sigma == exactly the below-median indicator of w1sigma (1.000 below, 0.000 above); w1M2sigma == above-median; median w1sigma=7.60; no industry flagged as both. <b>Internal logic fully consistent.</b></td><td><b>Verified ✓</b></td></tr>
+<tr><td>Mismatch in precomputed interaction columns in shipped downstreamness.dta</td>
+<td>M1duse_tuse / M2duse_tuse ≠ duse_tuse × (median-split sigma indicator) on only ~23% of rows — stale/vestigial columns inconsistent with IOsigmas.dta. (The .do scripts recompute these from duse_tuse × w1M1sigma, so headline results are likely unaffected.)</td><td>Data-hygiene finding (P2)</td></tr>
+<tr><td>Headline regression re-run (dependent variable imp_intrafirm)</td>
+<td>Not possible — USIOrelatedparty.dta unavailable.</td><td>Blocked</td></tr>
+</table>
+
+<h2>4. Verification table vs. evidence of reproducibility</h2>
+<table>
+<tr><th>Claim</th><th>Published value</th><th>This audit</th><th>Human FLoRA trail (RR 28m96)</th></tr>
+<tr><td>C1 (focal) β<sub>1</sub></td><td>–0.196</td><td>Confirmed as published (Table3.xml); <b>not independently re-computed</b></td><td>Reproduced exactly: OLS coef –0.196, N=2,783 → "did reproduce"</td></tr>
+<tr><td>C1 (focal) β<sub>2</sub></td><td>0.171</td><td>Confirmed as published; not independently re-computed</td><td>Table III reproduced exactly</td></tr>
+<tr><td>C1 N</td><td>2,783</td><td>Consistent with published Table3.xml</td><td>N=2,783 reproduced</td></tr>
+<tr><td>Median-split logic</td><td>—</td><td><b>Verified ✓</b> (perfect below/above separation)</td><td>—</td></tr>
+</table>
+<p class="callout">The human transparency trail states that, working from <code>USIOrelatedparty.dta</code> downloaded from the author's
+site (27 Jan 2022) and after manual STATA code fixes (deleting semicolons, fixing working directory, re-lining commands,
+installing <code>outreg2</code>), Tables 3, 4, 5, 6 and 7 all reproduced <em>exactly</em> (focal coefficient –0.196, N=2,783), i.e. the
+claims were numerically reproducible once the full author data was in hand. The final audit sheet 28m96 nonetheless records
+<code>values_match=Yes, repro_possible=No</code> with no explanation, and the OSF package as shared is incomplete.</p>
+
+<h2>5. Findings &amp; severity</h2>
+<table>
+<tr><th>ID</th><th>Severity</th><th>Finding</th></tr>
+<tr><td>F1</td><td><span class="badge p1">P1</span></td><td>OSF reproduction package is <b>functionally incomplete</b>: USIOrelatedparty.dta (the only dataset used by every headline table) and Table2/3/5/7 .do files (plus intermediation.dta, rulelaw.dta) are absent from the OSF nodes. A third party cannot re-run the headline tables from the shared package alone.</td></tr>
+<tr><td>F2</td><td><span class="badge p2">P2</span></td><td>Code is not push-button: hardcoded author working directories, <code>set memory 400m</code>, <code># delimit ;</code> syntax (semicolons removed for Stata 14), multi-line commands, dependence on external <code>outreg2</code>/<code>areg</code> — manual intervention required before any table reproduced.</td></tr>
+<tr><td>F3</td><td><span class="badge p2">P2</span></td><td>Shipped <code>downstreamness.dta</code> contains stale/inconsistent precomputed interaction columns (M1/M2/…×duse_tuse/downmeasure) that do not equal duse_tuse × (median-split sigma indicator); code recomputes them, so headline result unaffected, but shipped data are internally inconsistent with IOsigmas.dta.</td></tr>
+<tr><td>F4</td><td><span class="badge p3">P3</span></td><td>Documentation inconsistency: audit CSV says values_match=Yes yet repro_possible=No with no note, while the transparency trail reports exact reproduction of Tables 3–7 — ambiguous record of the reproduction outcome.</td></tr>
+</table>
+
+<h2>6. Verdict</h2>
+<p><strong>Grade: NODATA.</strong> The headline OLS coefficients (focal claim: β<sub>1</sub>=–0.196, β<sub>2</sub>=0.171, N=2,783, and all
+companion tables) could not be <em>independently</em> re-computed because the single dataset carrying the dependent variable
+(<code>USIOrelatedparty.dta</code>) is missing from the OSF package and is effectively unobtainable in this environment (confidential
+Census-derived data; author site blocked; not archived; no mirror). No headline number was independently reproduced here, and no
+numbers were fabricated.</p>
+<p>This <strong>agrees with the human FLoRA "computational issues" verdict</strong>: the reproduction is not standalone — it requires
+the author-side data file (acquired externally) and substantial manual code fixes. Supporting evidence is nonetheless strong:
+published values match the claims exactly, the complements/substitutes median-split logic verifies perfectly in the backable data,
+and the documented human attempt reproduced all headline tables to exact precision once the full data were in hand. The headline
+claim is therefore highly likely numerically reproducible, but it could not be independently confirmed from the OSF-shared materials.</p>
+
+<hr>
+<p><small>ReproAI audit — folder 12_AntrasChor. Data: OSF node qk9v3 (auxiliary .dta + .do + published-table XML + human trail).
+No article PDF/full-text retained. Computations: Python 3.8 (pandas), reading Stata .dta directly.</small></p>
+</body>
+</html>

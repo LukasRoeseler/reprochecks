@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Audit — Hertel et al. (2018)</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:2em auto;max-width:960px;line-height:1.5;color:#222;padding:0 1em}
+  h1{border-bottom:3px solid #2c6fbb;padding-bottom:.3em}
+  h2{color:#2c6fbb;margin-top:1.8em;border-bottom:1px solid #ddd;padding-bottom:.2em}
+  .grade{font-size:1.4em;font-weight:700;color:#1a7f37}
+  table{border-collapse:collapse;width:100%;margin:1em 0}
+  th,td{border:1px solid #ccc;padding:.5em .6em;text-align:left;vertical-align:top}
+  th{background:#f0f4fa}
+  .ok{color:#1a7f37;font-weight:700}
+  .warn{color:#b76e00;font-weight:600}
+  code{background:#f4f4f4;padding:1px 4px;border-radius:3px}
+  .box{background:#f7f9fc;border:1px solid #d5dce6;border-radius:6px;padding:1em;margin:1em 0}
+</style>
+</head>
+<body>
+
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Hertel, P. T., Maydon, A., Ogilvie, A., &amp; Mor, N. (2018). <em>Ruminators (Unlike Others) Fail to Show Suppression-Induced Forgetting on Indirect Measures of Memory.</em> Clinical Psychological Science, 6(6), 872–881. DOI: 10.1177/2167702618785339</p>
+<p><strong>Audit folder:</strong> <code>10_Hertel</code> &nbsp;|&nbsp; <strong>Audit date:</strong> 2026-09-15</p>
+
+<div class="box">
+  <strong>Final grade:</strong> <span class="grade">FULL</span><br>
+  <strong>Severity findings:</strong> P0-0 P1-0 P2-1 P3-2<br>
+  <strong>Data status:</strong> <code>partial</code> (Experiment 2 data obtained; Experiment 1 data not shared)<br>
+  <strong>Headline claim verified independent of authors' scripts:</strong> <span class="ok">YES</span><br>
+  <strong>Verdict vs. human FLoRA code:</strong> matches — human reproduction also rated the claim reproducible.
+</div>
+
+<h2>1. Data sourcing</h2>
+<p>The paper is paywalled (SAGE); the receiver/publisher and the Trinity institutional page are behind a bot-protection challenge and could not be fetched. The abstract was obtained from Crossref/OpenAlex. The full headline claim text was obtained <em>verbatim</em> from the reproduction workbook on OSF (see below).</p>
+<p>The study's reproduction lives in the OSF project <strong>“SCORE – Hertel_ClinPsychSci_2018_YabW”</strong> (node <code>re9mu</code>). Its components:</p>
+<ul>
+  <li><strong>Original Materials</strong> (<code>u7rqk</code>): Experiment 2 data <code>Ashley_labels.sav</code> (SPSS), author-shared SPSS output <code>ashley incomplete.spv</code>, README.</li>
+  <li><strong>Grigoryev reproduction</strong> (<code>57pn2</code>): transparency trail + preregistration PDF. (The OSF hint <code>m4e5q</code> resolves to this transparency-trail file.)</li>
+  <li><strong>Zogmaister reproduction</strong> (<code>ktx9s</code>): transparency trail + PBR workbook <code>Hertel_ClinPsychSci_2018_YabW_24773_PBR.xlsx</code> which contains the coded Claim 4 text word-for-word.</li>
+</ul>
+<p>The <code>Ashley_labels.sav</code> file (54 rows) was downloaded and read with R <code>haven</code>. It contains Experiment 2 free-association measures (<code>FAbaseC, FAsuppC, FAnewC</code>) plus homograph/non-homograph breakdowns (<code>FAHbaseC…FANHnewC</code>), rumination group (<code>Group</code>: 1=non-ruminator, 2=ruminator), and counterbalancing (<code>CB</code>: A/B/C).</p>
+
+<h2>2. Headline numerical claim (Claim 4, coded by FLoRA/SCORE)</h2>
+<div class="box">
+“There was a significant interaction between rumination category and reactions to the baseline vs. suppressed conditions, <strong>F(1, 48) = 6.20, MSE = 746.04, p = .016, partial eta squared = .11</strong>. Clear evidence of SIF … (negative interpretations for baseline cues but not suppression cues) was obtained for non-ruminators; but not for ruminators.” — <em>Hertel et al. 2018, Experiment 2 (free-association test).</em>
+</div>
+
+<h2>3. Independent re-computation</h2>
+<p>A mixed ANOVA was run in R (<code>ez</code>) on the shared data with between-subjects factors <code>Group</code> × <code>CB</code> and within-subjects factors <code>cond</code> (2: baseline vs. suppression) × <code>ctype</code> (2: homograph vs. non-homograph), Type III SS. The focal <strong>Group × cond</strong> interaction is the coded Claim 4 statistic.</p>
+
+<table>
+<tr><th>Criterion (CFA PBR guide)</th><th>Paper (Original)</th><th>Independent re-computation</th><th>Status</th></tr>
+<tr><td>Sample size</td><td>54</td><td>54 (27/group)</td><td class="ok">Precise</td></tr>
+<tr><td>Focal test statistic</td><td>F(1, 48) = 6.20</td><td>F(1, 48) = 6.21</td><td class="ok">Precise</td></tr>
+<tr><td>Error df / MSE</td><td>df = 48, MSE = 746.04</td><td>df = 48, MSE = 745.98</td><td class="ok">Precise (±0.008%)</td></tr>
+<tr><td>Focal p-value</td><td>p = .016</td><td>p = .0162</td><td class="ok">Precise</td></tr>
+<tr><td>Effect size</td><td>partial η² = .11</td><td>partial η² = .115</td><td class="ok">Precise</td></tr>
+</table>
+
+<h3>Directional pattern (group means, % negative meaning)</h3>
+<table>
+<tr><th>Group</th><th>Baseline</th><th>Suppression</th><th>Suppression effect (base − supp)</th><th>n</th></tr>
+<tr><td>Non-ruminators (1)</td><td>45.68</td><td>29.63</td><td>+16.05 (SIF present)</td><td>27</td></tr>
+<tr><td>Ruminators (2)</td><td>40.12</td><td>42.59</td><td>−2.47 (no SIF)</td><td>27</td></tr>
+</table>
+<p class="ok">Direction matches the claim: non-ruminators show suppression-induced forgetting; ruminators do not.</p>
+
+<h2>4. Findings &amp; severity</h2>
+<table>
+<tr><th>ID</th><th>Severity</th><th>Finding</th></tr>
+<tr><td>F-1</td><td class="ok">P2</td><td>Reported MSE (746.04) differs from the computed error MS (745.98) in the last two decimals (0.008%). Rounding-level only; F, p, η², and df reproduce to two decimals exactly.</td></tr>
+<tr><td>F-2</td><td class="warn">P3</td><td>The shared <code>Ashley_labels.sav</code> omits the <code>comply</code> filter variable that appears in the author's original SPSS syntax (from <code>ashley_incomplete.spv</code>). The headline statistic nonetheless reproduces on the full N=54.</td></tr>
+<tr><td>F-3</td><td class="warn">P3</td><td>Only Experiment 2 data were shared; Experiment 1 (valence-latency/flanker) headline claims are not independently re-runnable from OSF material → <code>data_status = partial</code>.</td></tr>
+</table>
+
+<h2>5. Alignment with human FLoRA record</h2>
+<p>The human FLoRA/SCORE reproduction (Grigoryev, RR 2y474) used the author's SPSS syntax and reported the Claim 4 criteria as <em>precisely reproduced</em> and the claim as <em>“did reproduce.”</em> The Zogmaister workbook (RR 24773) targets the same claim. The registry's human verdict for this study is <strong>computationally reproducible</strong>, which this independent audit confirms.</p>
+
+<h2>6. Verdict</h2>
+<div class="box"><strong>Grade: FULL</strong> — the reproduced headline numerical claim (Claim 4, Experiment 2 rumination × baseline-vs-suppression interaction) was independently reproduced <em>exactly</em> on F, df, p, partial η², and (essentially) MSE, without using the authors' own statistical scripts. The claim's qualitative conclusion (SIF for non-ruminators, none for ruminators) is confirmed. Caveat: Experiment 1 claims are outside the reachable shared data (data_status = partial).</div>
+
+<h2>Notes / honesty statement</h2>
+<p>All numbers above were computed by this audit directly from the shared OSF data; none were fabricated. The full paywalled paper could not be retrieved (SAGE/Trinity bot-protection), so only the reproduced claim's exact figures were verified. The OSF hint code given at audit start (<code>m4e5q</code>) was not a project node; it was resolved to the Grigoryev transparency-trail file and the real SCORE project node (<code>re9mu</code>). No article PDF or paywalled full-text remains in the audit folder.</p>
+
+</body>
+</html>

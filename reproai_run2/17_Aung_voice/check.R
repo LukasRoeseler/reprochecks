@@ -1,0 +1,5 @@
+con <- file("C:/Users/lroesele.IVV5NET/AppData/Local/Temp/opencode/reprochecks/reproai_run2/17_Aung_voice/models/m19.rda","rb")
+b <- readBin(con, what="raw", n=1000)
+close(con)
+cat(as.character(b[1:30]), "\n")
+print(as.character(b))

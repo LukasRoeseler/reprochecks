@@ -1,0 +1,16 @@
+suppressMessages({library(lsr); library(emmeans)})
+d2 <- read.csv("s2_clean.csv")
+names(d2)[names(d2)=="TotalScore"] <- "TS"
+d2$Cond <- factor(d2$Cond, levels=c("No effect","Large effect","SmallEffectNoPrompt","SmallEffectWithPrompt"))
+cat("-- ANCOVA End ~ TS + Cond --\n"); print(anova(lm(End~TS+Cond,data=d2)))
+cat("partial eta-sq:\n"); print(etaSquared(aov(End~TS+Cond,data=d2)))
+m2 <- lm(End~TS+Cond,data=d2)
+emm2 <- emmeans(m2,"Cond"); p2 <- pairs(emm2); print(p2); print(confint(p2))
+mm2 <- tapply(d2$End,d2$Cond,mean)
+cat("No effect - SmallNoPrompt =", mm2["No effect"]-mm2["SmallEffectNoPrompt"], "\n")
+cat("No effect - Large effect  =", mm2["No effect"]-mm2["Large effect"], "\n")
+cat("SmallNoPrompt - Large     =", mm2["SmallEffectNoPrompt"]-mm2["Large effect"], "\n")
+cat("SmallWithPrompt - SmallNoPrompt =", mm2["SmallEffectWithPrompt"]-mm2["SmallEffectNoPrompt"], "\n")
+cat("-- Interaction End ~ TS*Cond --\n"); print(anova(lm(End~TS*Cond,data=d2)))
+cat("-- Correlations End~TS by condition --\n")
+for(lv in levels(d2$Cond)){ct<-cor.test(d2$End[d2$Cond==lv],d2$TS[d2$Cond==lv]); cat(sprintf("%-24s r=%.3f p=%.3f\n",lv,ct$estimate,ct$p.value))}

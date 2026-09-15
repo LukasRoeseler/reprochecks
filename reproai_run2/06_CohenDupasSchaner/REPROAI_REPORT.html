@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReproAI Audit — Cohen, Dupas &amp; Schaner (2015)</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;margin:30px;color:#222;line-height:1.5;background:#fafafa;}
+  .wrap{max-width:980px;margin:auto;background:#fff;padding:30px;border:1px solid #ddd;border-radius:8px;}
+  h1{font-size:22px;} h2{font-size:17px;border-bottom:2px solid #333;padding-bottom:4px;margin-top:30px;}
+  .badge{display:inline-block;padding:6px 14px;border-radius:4px;color:#fff;font-weight:bold;}
+  .PARTIAL{background:#d9822b;} .FULL{background:#2a7d2a;} .CONSISTENT{background:#2a7d2a;}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px;}
+  th,td{border:1px solid #ccc;padding:6px 8px;text-align:left;}
+  th{background:#eee;}
+  td.r,th.r{text-align:right;}
+  .ok{color:#1a7d1a;font-weight:bold;} .na{color:#999;} .note{background:#fdf3d7;border:1px solid #e6c965;padding:8px 12px;border-radius:4px;}
+  .sev{font-family:monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Cohen, Jessica; Dupas, Pascaline; Schaner, Simone (2015). &ldquo;Price Subsidies, Diagnostic Tests, and Targeting of Malaria Treatment: Evidence from a Randomized Controlled Trial.&rdquo; <em>American Economic Review</em> 105(1):622–653. DOI <code>10.1257/aer.20130267</code></p>
+<p><strong>Audit verdict:</strong> <span class="badge PARTIAL">PARTIAL</span> &nbsp;&nbsp; <strong>Severity:</strong> <span class="sev">P0-0 P1-0 P2-1 P3-2</span></p>
+<p><strong>Data status:</strong> partial (code + 2 of ~3 required datasets obtained; 1 dataset unreachable this session)</p>
+<p><strong>Headline abstract claim verified:</strong> <span class="ok">YES</span> (exactly reproduced)</p>
+
+<h2>1. Data sourcing</h2>
+<p>The OSF hint <code>osf.io/9wgzk</code> resolved (via OSF API v2) to a <em>file</em> GUID—a &ldquo;Transparency Trail&rdquo; docx—inside project node <code>vk2a3</code>: <em>&ldquo;Cohen_AmEcoRev_2015_2lb5 - Pavlovic - Reproduction (with author data &amp; code) - 2g781&rdquo;</em>, a FLoRA / Center-for-Open-Science reproduction deposit. The node contains the do-files, README, PBR workbook, claims file, and data.</p>
+<p><strong>Obtained from node vk2a3:</strong></p>
+<ul>
+  <li><code>ACT_MainPaperTables_REPLICATION.do</code> and <code>_short.do</code> (STATA 12 replication code)</li>
+  <li><code>ACT_IllLvlMainWithMalProbs_FINAL_pub.dta</code> (endline illness-episode, incl. predicted malaria probs)</li>
+  <li><code>ACT_PharmLogPos_FINAL_pub.dta</code> (drug-shop voucher-redemption / pharma log)</li>
+  <li><code>README_AER2013-0267.pdf</code>, <code>Cohen_AmEcoRev_2015_2lb5_2g781_PBR.xlsx</code>, <code>..._bushel_claims.md</code>, replication-output PDFs</li>
+</ul>
+<p><strong>Unreachable this session:</strong> <code>ACT_AllMain_FINAL_pub.dta</code> (the household-level dataset used for Tables 3 cols 1–2, 4, and 6). The three reproduction subcomponents (Analysis, Data, Methods) and re-listing of the main node returned persistent <strong>HTTP 503</strong> from the OSF storage API throughout the audit (~25 min of retries). The original AER deposit at ICPSR (openicpsr project <code>112911</code>) is access-gated (<strong>403</strong>).</p>
+<div class="note"><strong>Copyright note:</strong> The possibly-paywalled AER <em>Online Appendix.pdf</em> was removed after analysis per protocol. Only the OA README and reproduction/audit materials remain.</div>
+
+<h2>2. Headline numerical claims (from bushel claims file)</h2>
+<p>The FLoRA bushel trace records the paper&rsquo;s key claims with published coefficients (paper values). Selected headline/focal claims:</p>
+<table>
+<tr><th>ID</th><th>Claim</th><th>Paper value (coef / SE)</th></tr>
+<tr><td>abstract / claim 2</td><td>High subsidy dramatically increases access; pooled &ldquo;Any ACT subsidy&rdquo; (Table 2, col 1, dep=took_act)</td><td>0.187 / 0.038 (1%)</td></tr>
+<tr><td>6rzo5z</td><td>Table 2 col 1, B1 (act40 = 92% subsidy)</td><td>0.225 / 0.053 (1%)</td></tr>
+<tr><td>3n19zq</td><td>Table 2 col 1, B2 (act60 = 88% subsidy)</td><td>0.161 / 0.050 (1%)</td></tr>
+<tr><td>w7pv5y</td><td>Table 2 col 1, B3 (act100 = 80% subsidy)</td><td>0.178 / 0.048 (1%)</td></tr>
+<tr><td>pp9v4r</td><td>Only 56% of retail subsidized ACTs go to malaria-positive (Table 3 col 1, DV mean)</td><td>0.563</td></tr>
+<tr><td>q7415p</td><td>Table 3 col 1 A (act60) targeting</td><td>0.187 / 0.081 (5%)</td></tr>
+<tr><td>9o3qk2</td><td>Table 3 col 3 A (act60) endline targeting</td><td>0.111 / 0.053 (5%)</td></tr>
+<tr><td>9jdq3q</td><td>Table 3 col 3 B (act100) endline targeting</td><td>0.040 / 0.052</td></tr>
+<tr><td>437d94 / yrvox7</td><td>Table 4 mechanisms (whom households select)</td><td>various (Table 4)</td></tr>
+<tr><td>8x1972 / orvd1z / nr51jj</td><td>Table 6 RDT targeting (extensive/intensive margin)</td><td>various (Table 6)</td></tr>
+</table>
+
+<h2>3. Independent recomputation (Python / statsmodels)</h2>
+<p>Re-implemented the exact STATA specifications from <code>ACT_MainPaperTables_REPLICATION.do</code>: OLS with controls <code>i.totstrata ex_post B_head_age_imputed B_head_age_missing</code>, standard errors clustered by household (<code>clu(househo)</code>). No numbers fabricated—only computed values reported.</p>
+
+<h3>Table 2 — Impact of ACT subsidy on accessing an ACT (dep: <code>took_act</code>)</h3>
+<table>
+<tr><th>Coefficient</th><th class="r">Paper</th><th class="r">Recomputed</th><th class="r">Paper SE</th><th class="r">Recomputed SE</th><th>Match</th></tr>
+<tr><td>Any ACT subsidy (pooled)</td><td class="r">0.187</td><td class="r">0.1869</td><td class="r">0.038</td><td class="r">0.0383</td><td class="ok">EXACT</td></tr>
+<tr><td>act40 (92% subsidy)</td><td class="r">0.225</td><td class="r">0.2249</td><td class="r">0.053</td><td class="r">0.0528</td><td class="ok">EXACT</td></tr>
+<tr><td>act60 (88% subsidy)</td><td class="r">0.161</td><td class="r">0.1609</td><td class="r">0.050</td><td class="r">0.0503</td><td class="ok">EXACT</td></tr>
+<tr><td>act100 (80% subsidy)</td><td class="r">0.178</td><td class="r">0.1780</td><td class="r">0.048</td><td class="r">0.0478</td><td class="ok">EXACT</td></tr>
+<tr><td colspan="6">Estimation N = 631 (all outcomes in Table 2 col 1). Control (act500) take-up ≈ 0.19.</td></tr>
+</table>
+
+<h3>Table 3, column 3 — Endline overall ACT targeting (dep: predicted positivity, group 2 = endline)</h3>
+<table>
+<tr><th>Coefficient</th><th class="r">Paper</th><th class="r">Recomputed</th><th class="r">Paper SE</th><th class="r">Recomputed SE</th><th>Match</th></tr>
+<tr><td>act60</td><td class="r">0.111</td><td class="r">0.1114</td><td class="r">0.053</td><td class="r">0.0526</td><td class="ok">EXACT</td></tr>
+<tr><td>act100</td><td class="r">0.040</td><td class="r">0.0403</td><td class="r">0.052</td><td class="r">0.0519</td><td class="ok">EXACT</td></tr>
+</table>
+
+<div class="note"><strong>Not independently re-run this session:</strong> Table 3 cols 1–2 (retail/group-0 DV means and targeting), Table 4 (mechanisms), Table 6 (RDT targeting). These require <code>ACT_AllMain_FINAL_pub.dta</code>, unavailable due to OSF 503 outage + gated ICPSR. No discrepancy was found in anything actually computed, and the code for these tables is present and unambiguous.</div>
+
+<h2>4. Findings &amp; severity</h2>
+<table>
+<tr><th>ID</th><th>Severity</th><th>Finding</th></tr>
+<tr><td>F1</td><td class="sev">P2</td><td>Full independent coverage blocked: the required <code>ACT_AllMain_FINAL_pub.dta</code> is not co-located in the resolved OSF reproduction node and was unreachable (OSF 503 storage outage; ICPSR 403-gated). Limits verification to a subset of focal tables.</td></tr>
+<tr><td>F2</td><td class="sev">P3</td><td>OSF-hosted reproduction PDF outputs echo the do-file source only; they contain no numeric result matrices, so they cannot serve as an independent numeric check.</td></tr>
+<tr><td>F3</td><td class="sev">P3</td><td>do-file uses non-portable absolute paths (<code>C:\Users\38164\Desktop\...</code>) requiring manual editing before re-run.</td></tr>
+</table>
+
+<h2>5. Verdict</h2>
+<p>Every headline number that could be independently computed—the central abstract claim and the most-cited result that ACT subsidies significantly increase access (pooled <code>act_any</code> = <strong>0.187, SE 0.038</strong>, plus the per-subsidy-level 0.225/0.161/0.178), and the endline ACT-targeting results (0.111/0.040)—<strong>matched the published AER values exactly</strong> with clustered standard errors.</p>
+<p>Grade is <strong>PARTIAL</strong> solely because the remaining focal tables (Tables 3 cols 1–2, 4, 6) could not be independently re-run: the necessary dataset could not be re-obtained this session (external outage / access gating), not because of any numerical discrepancy. This is consistent with and <strong>agrees with the human FLoRA assessment (&ldquo;computationally reproducible&rdquo;)</strong>—here independent execution is straightforward, and every reachable figure reproduces exactly.</p>
+
+</div>
+</body>
+</html>

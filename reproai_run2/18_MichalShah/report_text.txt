@@ -1,0 +1,301 @@
+--- PAGE 1 ---
+A comment on "A practical signiﬁcance bias in laypeople’s evaluation of scientiﬁc 
+ﬁndings"
+Jan Philipp Röer, Thomas Ostermann, and Sebastian Appelbaum
+Witten/Herdecke University, Department of Psychology and Psychotherapy, Witten, 
+Germany
+Corresponding Author: Jan Philipp Röer, jan.roeer@uni-wh.de
+--- PAGE 2 ---
+Abstract
+We tested the computational reproducibility of a research claim from Michal and Shah 
+(2024) according to which individuals assume that a scientiﬁc ﬁnding described in a media 
+report is meaningfully large when numerical information about the magnitude of this ﬁnding 
+is missing. This reﬂects the following statement from the paper's abstract: "Participants 
+who viewed interventions with unreported effect magnitudes were more likely to endorse 
+interventions compared with those who viewed interventions with small effects and were 
+just as likely to endorse interventions as those who viewed interventions with large effects, 
+suggesting a practical signiﬁcance bias.". Using the dataset from the original study, we 
+successfully reproduced the focal test of the paper for both studies. We uncovered a 
+couple of errors in the process, which did not change the studies’ main results. This 
+reproduction was conducted during the replication games workshop at the META-REP 
+Conference 2024 in Munich, Germany. 
+--- PAGE 3 ---
+1 Introduction
+The to-be-reproduced paper (Michal & Shah, 2024) deals with the question how people 
+estimate the size of effects they read about in the media and what inﬂuence this has on 
+everyday decisions. Speciﬁcally, the authors investigated whether numerical information 
+about the magnitude of a ﬁnding helps people to arrive at better decisions. Two studies 
+were conducted to test this. In both studies, participants were randomly assigned to one of 
+four different conditions (No effect size information, Large effect, Small effect no prompt, 
+Small effect with prompt). In Study 1, participants read an article describing a new math 
+curriculum to boost elementary students’ math proﬁciency. In Study 2, participants read an 
+article about a new energy bar with beneﬁcial effects on mental alertness.
+1.1 Outcome Measures
+In both studies, participants rated the meaningfulness of the improvement from the 
+intervention in relation to its cost on a scale from 0 (not at all) to 100 (very much). In Study 
+1, participants were asked to what extent they would recommend the new math curriculum 
+on a scale from 0 (do not recommend) to 100 (strongly recommend). In Study 2, 
+participants rated how likely they were to purchase the new energy bar (Study 2) on a 
+scale from 0 (very unlikely) to 100 (very likely). Participants also completed the 
+Abbreviated Numeracy Scale (Weller et al., 2013).
+1.2 Focal Test
+After controlling for numeracy, decision ratings should be higher for participants in the no 
+effect size information condition compared to the small effect no prompt condition and 
+decision ratings should not differ between the no effect size information condition and the 
+large effect condition.
+--- PAGE 4 ---
+1.3 Reproducibility criteria
+The statistical analysis was the same as in the original study. We ran an analysis of 
+variance (ANOVA) using a regression model with decision rating as the dependent 
+variable, numeracy as a continuous covariate, and condition as a between-subjects factor 
+to reproduce the focal test.
+2 Computational Reproducibility Results
+For the computational reproduction, we used the dataset from the original study retrieved 
+from the OSF project page at https://osf.io/4927f/. The raw data were provided, but no 
+cleaning or analysis code.
+2.1 Study 1
+2.1.1 Descriptive statistics
+The reported and calculated mean values were the same in the subgroups “No effect size 
+information“  and “Large effect”, while there were slight differences in the “Small effect no 
+prompt” and “Small effect with prompt” groups (Table 1.1). We highlighted the 
+discrepancies between the calculated values and the values reported in the paper in 
+yellow.
+Table 1.1. Descriptive statistics for Study 1 of Michal & Shah (2024).
+Condition Sample size Reported Mean 
+Values
+Calculated Mean 
+Values
+No effect size information N = 97 M = 80.56 M = 80.56 
+Large effect N = 101 M = 73.93 M = 73.93 
+Small effect no prompt N = 100 M = 45.26 M = 45.18 
+Small effect with prompt N = 100 M = 45.22 M = 45.02 
+--- PAGE 5 ---
+2.1.2 F-values
+The reported and calculated F-values in Table 1.2 were identical for both parameters, 
+while there was a small difference in the η2 of numeracy.
+2.1.3 Mean differences and effect sizes
+Table 1.3 summarizes our reproduction results with respect to the mean differences and to 
+the effect sizes. We found differences to the reported values, due to the fact that the 
+authors did not report the method how to calculate the mean differences. In our 
+computational reproduction, we used Tukey's Honest Signiﬁcant Difference (HSD) and 
+marginal means [Mar. Means] to calculate and compare the mean differences.
+Table 1.2. F-values for Study 1 of Michal & Shah (2024).
+Parameter df F-value p-value η2
+Numeracy
+Reported 1,393 16.58 < .001 .04
+Calculated 1,393 16.58 < .001 .02
+Condition
+Reported 3,393 49.46 < .001 .27
+Calculated 3.393 49.46 < .001 .27
+--- PAGE 6 ---
+2.1.4 Interaction analysis
+We used the model Decision Rating ~ Numeracy + Condition + Numeracy × Condition to 
+test for a statistical interaction between numeracy and condition and found the same 
+results as in the original study (Table 1.4). 
+Table 1.3. Mean differences and effect sizes for Study 1 of Michal & Shah (2024).
+Comparsion
+Mean 
+diffe-
+rence
+95% CI p-value Cohen’
+s d BF
+No effect size 
+information vs. small 
+effect no prompt
+Reported 34.83 [25.18, 44.48] < .001 1.41 7.09 × 
+1015
+HSD 35.38 [25.58, 45.18] < .001
+1.41 7.09 × 
+1015
+Mar. Means 34.89 [25.23, 44.55] < .001
+No effect size 
+information vs. large 
+effect
+Reported 6.00 [-3.63,15.63] .38 0.32 1.62
+HSD 6.63 [-3.15,16.40] .30
+0.32 1.62
+Mar. Means 6.07 [-3.57, 15.70] .37
+Small effect no 
+prompt vs. large 
+effect
+Reported 28.83 [19.27, 38.38] < .001 1.06 3.23 × 
+109
+HSD 28.75 [19.05, 38.45] < .001
+1.06 3.23 × 
+109
+Mar. Means 28.82 [19.26, 38.37] < .001
+Small effect with 
+prompt vs. small 
+effect no prompt
+Reported 0.02 [-9.56, 9.59] 1.00 0.005 0.15
+HSD 0.16 [-9.57, 9.89] 1.00
+0.005 0.15
+Mar. Means 0.004 [-9.58, 9.58] 1.00
+Table 1.4. Interaction analysis for Study 1 of Michal & Shah (2024).
+Parameter df F-value p-value η2
+Numeracy
+Reported 3,390 3.69 = .01 .03
+Calculated 3,390 3.69 = .01 .03
+--- PAGE 7 ---
+2.2 Study 2
+2.2.1 Descriptive statistics
+In Study 2, the reported and calculated mean values were the same (Table 2.1).
+2.2.2 F-values
+The reported and calculated F-values in Table 1.2 were identical for both parameters, 
+while there was a minor difference in the η2 of condition.
+Table 2.1. Descriptive data for Study 2 of Michal & Shah (2024).
+Condition Sample size Reported Mean 
+Values
+Calculated Mean 
+Values
+no effect size information N = 100 M = 50.47 M = 50.47 
+large effect N = 99 M = 58.90 M = 58.90 
+small effect no prompt N = 100 M = 34.98 M = 34.98 
+small effect with prompt N = 101 M = 31.68 M = 31.68
+Table 2.2. F-values for Study 1 of Michal & Shah (2024).
+Parameter df F-value p-value η2
+Numeracy
+Reported 1,395 17.78 < .001 .04
+Calculated 1,395 17.78 < .001 .04
+Condition
+Reported 3,395 19.18 < .001 .13
+Calculated 3,395 19.18 < .001 .12
+--- PAGE 8 ---
+2.2.3 Mean differences and effect sizes
+With respect to the mean differences and effect-sizes, Table 2.3 summarizes our 
+reproduction results. Again, we found differences to the reported values, both due to the 
+fact that the authors did not report the method how to calculate the mean differences and 
+also due to missing signs. We used Tukey's Honest Signiﬁcant Difference (HSD) and 
+marginal means [Mar. Means] to calculate and compare the mean differences in the 
+computational reproduction.
+Table 2.3. Mean differences and effect sizes for Study 2 of Michal & Shah (2024)
+Comparsion
+Mean 
+diffe-
+rence
+95% CI p-value Cohen’
+s d BF
+No effect size 
+information vs. small 
+effect no prompt
+Reported 14.75 [4.13, 25.36] .002 0.54 115.47
+HSD 15.49 [4.67, 26.31] .001
+0.54 115.47
+Mar. Means 14.76 [4.14, 25.39] .002
+No effect size 
+information vs. large 
+effect
+Reported 7.52 [3.12,18.17] .26 0.29 1.08
+HSD 8.43 [-2.42,19.28] .19
+0.29 1.08
+Mar. Means 7.45 [-3.11, 18.20] .26
+Small effect no 
+prompt vs. large 
+effect
+Reported 22.27 [11.63, 32.91] < .001 0.83 49775
+4.3
+HSD 23.92 [13.07, 34.77] < .001
+0.83 49775
+4.3Mar. Means 22.31 [11.62, 33.00] < .001
+Small effect with 
+prompt vs. small 
+effect no prompt
+Reported 5.20 [5.39, 15.79] 0.59 0.11 0.20
+HSD 3.30 [-7.50, 14.09] 0.59
+0.11 0.20
+Mar. Means 5.15 [-5.50: 15,81] 0.60
+--- PAGE 9 ---
+2.2.4 Interaction analysis
+Again, we used the model Decision Rating ~ Numeracy + Condition + Numeracy × 
+Condition to test for a statistical interaction between numeracy and condition and found the 
+same results as in the original study (Table 2.4).
+2.2.5 Correlations
+The reported and calculated correlations were the same with a small difference in the 
+“Small effect with prompt” condition.
+2.3 Discrepancies Between Pre-analysis Plan and Article
+The authors registered the study and published pre-analysis plans for each study which 
+are available on the OSF project page at https://osf.io/4927f/. While we found no deviation 
+from the pre-analysis plan and the article in a strict sense, a second pre-analysis plan was 
+Table 2.4. Interaction analysis for Study 2 of Michal & Shah (2024).
+Parameter df F-value p-value η2
+Numeracy
+Reported 3,392 3.13 = .026 .02
+Calculated 3,392 3.13 = .026 .02
+Table 2.5. Correlations for Study 2 of Michal & Shah (2024).
+Condition Reported correlations 
+(r,95% CI)
+Calculated 
+correlations (r,p)
+No effect size information <.1 <.1
+Large effect <.1 <.1
+Small effect no prompt -.19 [-.37, -.006] -.19 [-.37, -.007]
+Small effect with prompt -.41 [-.57, -.24] -.42 [-.57, -.24] 
+--- PAGE 10 ---
+published for Study 1 that deviates from the ﬁrst pre-analysis plan. We highlighted the 
+discrepancies between the ﬁrst and the second pre-analysis plan in yellow. 
+First pre-analysis plan
+(1) Recommendation ratings will not be statistically different between the Large Effect 
+and No Effect Size conditions (non-directional)
+(2) Recommendation ratings for the Small Effect No Prompt condition will be 
+signiﬁcantly lower than both the Large Effect and No Effect Size conditions 
+(directional)
+(3) Recommendation ratings for the Small Effect With Prompt condition will be 
+signiﬁcantly lower than the Small Effect No Prompt condition (directional)
+Second pre-analysis plan
+(1) Recommendation ratings will not be signiﬁcantly different for participants in the No 
+Effect Size and Large Effect Size conditions, after controlling for numeracy ability 
+(non-directional)
+(2) Recommendation ratings will be signiﬁcantly lower for participants in the Small 
+Effect No Prompt than the No Effect Size condition, after controlling for numeracy 
+ability (directional)
+(3) Recommendation ratings will be signiﬁcantly lower for participants in the Small 
+Effect With Prompt than the Small Effect No Prompt condition, after controlling for 
+numeracy ability (directional).
+--- PAGE 11 ---
+According to the authors, the ﬁrst pre-analysis plan was published prior to the creation of 
+data (March 24 2023) and the second pre-analysis plan was published prior to human 
+observation of the data (April 3 2023). No explanation is given for the changes. 
+3C o n c l u s i o n
+During the replication games workshop at the META-REP Conference 2024, we have 
+dedicated an entire day to computationally reproduce the focal tests for Study 1 and Study 
+2 from Michal and Shah (2024). We are happy to report that the reproduction was largely 
+successful in that we only found minor to moderate errors that do not challenge the 
+authors’ core conclusions. Altogether, the scope and implications of these errors do not 
+seem to necessitate a correction of the article. 
+We believe that some deviations could have been avoided if the authors—unless we have 
+overlooked something—had reported how exactly the mean differences were calculated 
+(2.1.3 and 2.2.3). For the sake of transparency and openness, it would be ideal if this 
+information were available in order to determine whether the results can be reproduced 
+independently using the same method. Other minor errors we have found are missing 
+signs leading to incorrect conﬁdence intervals (2.2.3) and incorrect values in the text 
+("Study 1 no prompt M = 45.26; Study 2 no prompt M = 34.98; Study 2 with prompt M = 
+45.22; Study 2 with prompt M = 31.68“, p. 320).
+Furthermore, when reviewing the OSF registrations, we noticed that two different pre-
+analysis plans were uploaded for Study 1, which deviate in three out of four hypotheses 
+(2.3). A major advantage of preregistration is that it can be made transparent which 
+hypotheses and analyses were determined by the researchers prior to data collection and 
+which were determined by the data (Lakens, 2024; Willroth & Atherton, 2024; see also 
+Nosek, Ebersole, DeHaven & Mellor, 2018). The authors state that the second pre-
+analysis plan was published prior to any human observation of the data. We have no 
+--- PAGE 12 ---
+reason to doubt that the information provided by the authors is correct, but ideally all 
+deviations from the pre-analysis plan should be transparently reported, especially if the 
+changes are somewhat extensive and are published after the data collection has already 
+been completed.  
+--- PAGE 13 ---
+References
+Michal, A. L., & Shah, P. (2024). A practical signiﬁcance bias in laypeople’s evaluation of 
+scientiﬁc ﬁndings. Psychological Science, 35(4), 315–327. https://doi.org/
+10.1177/09567976241231506
+Lakens, D. (2024). When and how to deviate from a preregistration. Collabra: Psychology, 
+10(1), 117094. https://doi.org/10.1525/collabra.117094
+Nosek, B. A., Ebersole, C. R., DeHaven, A. C., & Mellor, D. T. (2018). The preregistration 
+revolution. Proceedings of the National Academy of Sciences of the United States of 
+America, 115(11), 2600–2606. https://doi.org/10.1073/pnas.1708274114
+Weller, J. A., Dieckmann, N. F., Tusler, M., Mertz, C. K., Burns, W. J., & Peters, E. (2013). 
+Development and testing of an abbreviated numeracy scale: A Rasch analysis 
+approach. Journal of Behavioral Decision Making, 26(2), 198–212. https://doi.org/
+10.1002/bdm.1751 
+Willroth, E. C., & Atherton, O. E. (2024). Best laid plans: A guide to reporting 
+preregistration deviations. Advances in Methods and Practices in Psychological 
+Science, 7(1). https://doi.org/10.1177/25152459231213802

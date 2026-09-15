@@ -1,0 +1,51 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\etalbert\Box\OSF\Savani_PsychologSci_2010_88xa.log
+  log type:  text
+ opened on:   9 Nov 2020, 10:47:52
+
+. clear
+
+. import excel using DatabySubjectKS, firstrow
+(10 vars, 128 obs)
+
+. 
+. anova numactions culture##cond
+
+                         Number of obs =        127    R-squared     =  0.1624
+                         Root MSE      =    15.5955    Adj R-squared =  0.1420
+
+                  Source | Partial SS         df         MS        F    Prob>F
+            -------------+----------------------------------------------------
+                   Model |  5801.2156          3   1933.7385      7.95  0.0001
+                         |
+                 culture |  2449.1061          1   2449.1061     10.07  0.0019
+                    cond |  1622.6802          1   1622.6802      6.67  0.0110
+            culture#cond |  1489.5547          1   1489.5547      6.12  0.0147
+                         |
+                Residual |  29916.044        123   243.21987  
+            -------------+----------------------------------------------------
+                   Total |   35717.26        126   283.47032  
+
+. 
+. esize twosample numactions, by(cond)
+
+Effect size based on mean comparison
+
+                               Obs per group:
+                                     cond==0 =         63
+                                     cond==1 =         64
+---------------------------------------------------------
+        Effect Size |   Estimate     [95% Conf. Interval]
+--------------------+------------------------------------
+          Cohen's d |   .4618284     .1084106     .813447
+         Hedges's g |   .4590509     .1077586    .8085549
+---------------------------------------------------------
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\etalbert\Box\OSF\Savani_PsychologSci_2010_88xa.log
+  log type:  text
+ closed on:   9 Nov 2020, 10:47:55
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

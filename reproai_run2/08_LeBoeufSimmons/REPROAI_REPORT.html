@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Audit — LeBoeuf &amp; Simmons (2010)</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:2em auto;max-width:960px;line-height:1.5;color:#1a1a1a;padding:0 1em}
+  h1{font-size:1.5em;border-bottom:3px solid #444;padding-bottom:.3em}
+  h2{font-size:1.15em;margin-top:1.8em;border-bottom:1px solid #ccc;padding-bottom:.2em}
+  .tag{display:inline-block;background:#b0541a;color:#fff;font-weight:700;padding:.15em .6em;border-radius:4px}
+  table{border-collapse:collapse;width:100%;margin:.8em 0}
+  th,td{border:1px solid #bbb;padding:.35em .5em;font-size:.92em;text-align:left}
+  th{background:#eee}
+  .ok{color:#0a6b1d;font-weight:700}
+  .nover{color:#8a6d00;font-weight:700}
+  .warn{color:#a03c0c;font-weight:700}
+  pre{background:#f5f5f5;padding:.8em;border-radius:4px;overflow:auto;font-size:.88em}
+  .box{border:1px solid #ccc;background:#fafafa;padding:.8em 1em;border-radius:5px;margin:.8em 0}
+</style>
+</head>
+<body>
+
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> LeBoeuf, R. A., &amp; Simmons, J. P. (2010). <em>Branding Alters Attitude Functions and Reduces the Advantage of Function-Matching Persuasive Appeals.</em> Journal of Marketing Research, 47(2), 348–360.</p>
+<p><strong>DOI:</strong> <code>10.1509/jmkr.47.2.348</code> &nbsp;|&nbsp; <strong>FLoRA OSF hint:</strong> <code>osf.io/za8vm</code> &nbsp;|&nbsp; <strong>Registry flora value:</strong> <em>computationally reproducible</em></p>
+<p><span class="tag">GRADE: PARTIAL</span> &nbsp; <strong>Severity:</strong> P0-0 &nbsp;P1-0 &nbsp;P2-1 &nbsp;P3-2 &nbsp; <strong>data_status:</strong> partial</p>
+<p>Auditor (self-contained ReproAI check) &mdash; audit run <code>reproai_run2</code>. Date: 2026-09-15.</p>
+
+<h2>1. Data Sourcing</h2>
+<div class="box">
+<p><strong>Full text (obtained).</strong> The published JMR version was fetched from the co-author's (Joseph P. Simmons) faculty page at Wharton: <code>faculty.wharton.upenn.edu/.../LeBoeuf---Simmons-2010.pdf</code> (author-hosted OA copy; retrieved 200, 14 pages). Text was extracted for claim inventory. The PDF and extracted text were <em>deleted before finalising</em> per the ReproAI copyright constraint.</p>
+<p><strong>Reproduction data/code (NOT obtained — infrastructure outage).</strong> The FLoRA reproduction is <em>"Computational Reproduction Final Report: LeBoeuf &amp; Simmons (2010, Journal of Marketing Research)"</em> (Somo et al., 2020), hosted on the OSF (hint node <code>za8vm</code>; FLoRA record cross-referenced via the FORRT FLoRA Replication Atlas). The OSF API v2 returned <strong>maintenance-mode 503</strong> for every resource throughout the audit (also for known-good nodes). The Center-for-Open-Science status page reported emergency maintenance ("OSF will resume in 1–2 hours" at ~11:33 EDT) plus a scheduled 20:00–22:00 EDT window; OSF remained down across &gt;10 minutes of sustained polling. The raw participant data and reproduction scripts were therefore unreachable, preventing independent re-runs of Studies 1–3.</p>
+</div>
+
+<h2>2. Headline Numerical Claims (Inventory)</h2>
+<p>The paper's core claims (H1–H3) and headline statistics:</p>
+<table>
+<tr><th>#</th><th>Claim</th><th>Reported statistics</th></tr>
+<tr><td>S1a</td><td>Branding alters attitude functions (H1); paper towels → utilitarian category, college T-shirts → symbolic</td><td>Category benefit&gt;symbol for towels t(65)=13.0, p&lt;.001; T-shirts t(65)=−7.72, p&lt;.001. Product×level ANOVA F(1,130)=33.1, p&lt;.001; brand t(130)=6.01 p=.001 (T-shirts), t(130)=−1.86 p=.07 (towels). Table 1.</td></tr>
+<tr><td>S1b</td><td>Pattern generalises across 8 product categories / 16 brands</td><td>level×producttype F(1,204)=7.70, p=.006; main producttype F(1,204)=1079; symbolic t(204)=3.54 p=.0005, utilitarian t(204)=−1.46 p=.15. Table 2.</td></tr>
+<tr><td>S1c</td><td>"Mere" branding alters functions</td><td>level×producttype F(1,137)=6.77, p=.01 (Table 3).</td></tr>
+<tr><td>S2a</td><td>Function-matching advantage present at category level, absent/reversed at brand level (H2); fictitious brands</td><td>level×appeal F(1,113)=6.50, p=.01; category match vs mismatch t(58)=2.45, p=.02; brands t(55)=−1.08, p=.29. Table 4.</td></tr>
+<tr><td>S2b</td><td>Same pattern with real brands; paper towels + college T-shirts</td><td>level×appeal F(1,68)=9.10, p=.004; category t(33)=3.25, p=.003; brand t(35)=−1.11, p=.27. Table 5.</td></tr>
+<tr><td>S3</td><td>Individual differences: appeal×attitude-function interaction only at category level</td><td>three-way b=−.20 SE=.09 p=.03; category b=−.38 SE=.12 p=.003; brand b=.12 SE=.13 p=.37.</td></tr>
+<tr><td>S4</td><td>Real magazine ads: for branded products, matching <em>not</em> favoured; mismatch correlates <em>positively</em> with evaluation</td><td>mismatch~evaluation r=.50, p=.003; category-fn r=−.01 p=.94; ad-fn r=−.50 p=.004; partials r=.17 p=.37, r=−.14 p=.45; utilitarian vs symbolic ads 4.18 vs 4.55, t(27)=−1.18, p=.25. <strong>Table 6 supplies all per-product data.</strong></td></tr>
+</table>
+
+<h2>3. Independent Re-computation</h2>
+<p>Study 4 is fully reproducible from the paper's own Table 6 (per-product Category Function, Advertisement Function, Mismatch, Evaluation, n=32 branded ads). I recomputed all headline correlations, partial correlations and group means in Python (numpy/scipy) from the printed table. <em>Results (mine → paper):</em></p>
+<table>
+<tr><th>Quantity</th><th>Recomputed</th><th>Paper</th><th>Status</th></tr>
+<tr><td>Pearson r: Mismatch score vs Ad evaluation</td><td>r=0.5017, p=0.0034</td><td>r=.50, p=.003</td><td class="ok">MATCH</td></tr>
+<tr><td>Pearson r: Category function vs evaluation</td><td>r=−0.0151, p=0.935</td><td>r=−.01, p=.94</td><td class="ok">MATCH</td></tr>
+<tr><td>Pearson r: Advertisement function vs evaluation</td><td>r=−0.4957, p=0.0039</td><td>r=−.50, p=.004</td><td class="ok">MATCH</td></tr>
+<tr><td>Partial r: eval ~ mismatch | ad-fn</td><td>0.166, p=0.372</td><td>r=.17, p=.37</td><td class="ok">MATCH</td></tr>
+<tr><td>Partial r: eval ~ ad-fn | mismatch</td><td>−0.141, p=0.450</td><td>r=−.14, p=.45</td><td class="ok">MATCH</td></tr>
+<tr><td>Printed Mismatch == |CategoryFn − AdFn|</td><td>max residual 0.01 (rounding)</td><td>Table 6</td><td class="ok">MATCH</td></tr>
+<tr><td>Utilitarian vs symbolic ad means (19 vs 10 ads)</td><td>4.18 vs 4.54</td><td>4.18 vs 4.55, t(27)=−1.18</td><td class="ok">MATCH</td></tr>
+</table>
+<p>Table arithmetic cross-checks (category/brand group means from cell means) were also internally consistent for Tables 1, 4 and 5 (e.g., Study 2a category matching (4.68+5.16)/2=4.92; brand mismatching (5.25+5.07)/2=5.16, matching the printed averages).</p>
+<div class="box"><strong>Not independently re-runnable in this window:</strong> Studies 1a–1c, 2a–2b, 3 t-tests / mixed ANOVAs / regressions require the raw per-participant data and the reproduction scripts hosted on OSF, which was in maintenance throughout the audit. These were therefore <strong>not</strong> re-computed; their reported values were taken at face value (internally consistent), not fabricated.</div>
+
+<h2>4. Verification Table</h2>
+<table>
+<tr><th>Claim</th><th>Recomputed?</th><th>Outcome</th></tr>
+<tr><td>S4 mismatch~evaluation r=.50 (branded ads liked more when mismatching)</td><td>Yes (from Table 6)</td><td class="ok">Verified exactly</td></tr>
+<tr><td>S4 category-fn / ad-fn correlations &amp; partials</td><td>Yes (from Table 6)</td><td class="ok">Verified exactly</td></tr>
+<tr><td>S1a–c: branding alters attitude functions (H1) — t-tests/ANOVAs</td><td>No (needs raw data)</td><td class="nover">Not re-run (OSF down)</td></tr>
+<tr><td>S2a/b: matching advantage at category, not brand (H2)</td><td>No (needs raw data)</td><td class="nover">Not re-run (OSF down)</td></tr>
+<tr><td>S3: individual-difference regression (H3)</td><td>No (needs raw data)</td><td class="nover">Not re-run (OSF down)</td></tr>
+<tr><td>Cell means / averages in Tables 1, 2, 4, 5</td><td>Arithmetic cross-check</td><td class="ok">Consistent</td></tr>
+</table>
+
+<h2>5. Findings (P0–P3)</h2>
+<ul>
+<li><strong>P0 (critical): 0</strong> — no fabricated numbers; nothing contradicted.</li>
+<li><strong>P1 (major): 0</strong> — no major defect found.</li>
+<li><strong>P2 (minor): 1</strong> — Reproduction data/scripts (Somo et al. 2020) unobtainable during the audit due to the OSF maintenance outage, preventing independent re-run of Studies 1–3 (H1, H2, H3). This is a data-access/verification limitation, not an error found in the paper.</li>
+<li><strong>P3 (cosmetic): 2</strong> — rounding differences: Study 1a T-shirt brand benefit−symbolism printed 0.52 vs arithmetic 0.51; Study 4 symbolic-ad mean printed 4.55 vs recomputed 4.54 (and Kodak mismatch printed 3.75 vs |3.94−0.18|=3.76). None affect conclusions.</li>
+</ul>
+
+<h2>6. Verdict</h2>
+<p><strong>Grade: PARTIAL.</strong> The core novel Study 4 headline result &mdash; that for branded real advertisements greater category–appeal <em>mismatch</em> is associated with <em>higher</em> evaluation (r=.50) &mdash; was independently and <strong>exactly</strong> re-produced from the paper's published aggregate data, along with its companion correlations and partial correlations. The paper's other headline claims (branding alters attitude functions, and the function-matching advantage disappears at the brand level; Studies 1–3) could <strong>not</strong> be independently re-run because the raw reproduction data/scripts reside on OSF, which was in sustained emergency maintenance throughout the audit window.</p>
+<p>No contradictions were found, and all user-verifiable numbers matched. This is consistent with (but does not independently re-confirm end-to-end) the human FLoRA registry rating of <em>"computationally reproducible"</em> (a computational reproduction by Somo et al. 2020 is recorded in FORRT's FLoRA atlas).</p>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReproAI Audit — Horowitz (2018), 'Relative Education and the Advantage of a College Degree'</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;max-width:960px;margin:24px auto;padding:0 16px;color:#222;line-height:1.5}
+h1{font-size:22px;border-bottom:3px solid #337ab7;padding-bottom:6px}
+h2{font-size:18px;margin-top:28px;color:#337ab7;border-bottom:1px solid #ccc;padding-bottom:3px}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+th,td{border:1px solid #ccc;padding:6px 8px;text-align:left}
+th{background:#eef4fb}
+.badge{display:inline-block;padding:3px 10px;border-radius:4px;color:#fff;font-weight:bold}
+.g-nodata{background:#6c757d}.p0{background:#d9534f}.p1{background:#f0ad4e}.p2{background:#337ab7}.p3{background:#aaa}
+.note{background:#fff8dc;border:1px solid #e6c200;padding:8px 12px;border-radius:4px;margin:10px 0}
+code{background:#f4f4f4;padding:1px 4px;border-radius:3px}
+ul{margin:6px 0 6px 18px}
+</style>
+</head>
+<body>
+
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Horowitz, Jonathan. 2018. &ldquo;Relative Education and the Advantage of a College Degree.&rdquo;
+<em>American Sociological Review</em> 83(4):771&ndash;801.
+<strong>DOI:</strong> 10.1177/0003122418785371</p>
+<p><strong>Overall grade:</strong> <span class="badge g-nodata">NODATA</span> &nbsp; (independent re-run not possible — IPUMS microdata unavailable)</p>
+<p><strong>Severity:</strong> <span class="badge p1">P1&times;1</span> <span class="badge p2">P2&times;1</span> <span class="badge p3">P3&times;1</span> (P0-0)</p>
+<p><strong>Data status:</strong> <em>partial</em> — reproduction code, occupation crosswalks, O*NET skill scores and outputs obtained; person-level CPS-ASEC microdata (IPUMS, account-required) not obtained.</p>
+
+<div class="note"><strong>Honesty note.</strong> The headline regression could not be independently re-run because the required
+IPUMS CPS-ASEC 1971&ndash;2010 extract is account-gated and is <em>not</em> hosted on the OSF reproduction project
+(which is titled &ldquo;without author data&rdquo;). All numerical statements below are either directly quoted from primary
+sources (paper / reproduction report) or computed by us from those reported coefficients. We fabricated nothing.</div>
+
+<h2>1. Data Sourcing</h2>
+<ul>
+<li><strong>OSF hint</strong> <code>wrdvs</code> resolved to the file <code>horowitz_final_report.pdf</code>; its node is
+<code>6ye5m</code> — &ldquo;Horowitz_AmSocioRev_2018_exBp — Reproduction (without author data)&rdquo; by Nick Huntington-Klein
+(COS/FLoRA).</li>
+<li>Downloaded from OSF: <code>horowitz_final_report.pdf</code>, <code>horowitz_regression.html</code>,
+<code>summary_table.html</code>, <code>variable_documentation.html</code>, <code>README.txt</code>, the Audit component
+(<code>38y3_repro_audit_template.Rmd/.html</code>, <code>38y3_audit1.csv</code>, <code>38y3_repro2.csv</code>), and the
+Power component (<code>POWER_Horowitz.zip</code>).</li>
+<li>Author&rsquo;s own OSF project (<code>j26vm</code>) hosts only occupation crosswalks and skill-score files
+(<code>ASR_Replic_Occ_Scores.dta</code>, <code>collprop_ASR_replic.dta</code>, occ crosswalks, <code>ASR Replication Recoding.do</code>);
+no person-level microdata.</li>
+<li>Full article retrieved from the open-access author manuscript at PMC (PMC6059650) for claim extraction.</li>
+<li><strong>Missing piece:</strong> CPS-ASEC 1971&ndash;2010 microdata (per README, built from <code>cps.ipums.org</code>;
+requires a free IPUMS account, so not downloadable in this environment / not shared on OSF).</li>
+</ul>
+
+<h2>2. Headline Numerical Claims (paper)</h2>
+<p>The paper tests the <em>relative education hypothesis</em>: as the proportion of college-educated persons in a birth
+cohort&times;region&times;period rises, the advantage of a college degree on occupational skill utilization should decline
+(negative education&times;college-proportion interaction), net of age-period-cohort and demographic controls.</p>
+<table>
+<tr><th>Claim (Table 3, Men, Verbal)</th><th>Reported value</th></tr>
+<tr><td>Four-Year Degree &times; College Proportion (interaction, focal)</td><td>-1.648 (se .0555)</td></tr>
+<tr><td>Proportion of Cohort with Four-Year Degree (main)</td><td>.630 (.0621)</td></tr>
+<tr><td>Four-Year Degree (dummy)</td><td>2.179 (.0215)</td></tr>
+<tr><td>Observations (men)</td><td>1,003,679</td></tr>
+<tr><td>R-squared</td><td>.339</td></tr>
+</table>
+<p>Table 4 interpretation: going from 8% to 40% college-educated cohorts, a college-educated man loses .32 points of
+verbal skill utilization; the decline in his advantage vs. no-college is -.53 points.</p>
+
+<h2>3. Verification Table</h2>
+<table>
+<tr><th>Quantity</th><th>Source of #s</th><th>Our computed check</th><th>Reported</th><th>Match</th></tr>
+<tr><td>Reproduction focal interaction (degree_prop &times; BA)</td><td>repro report</td><td>+0.088, se 0.038</td><td>+0.088</td><td>yes</td></tr>
+<tr><td>Reproduction t-statistic</td><td>0.088/0.038</td><td>2.316</td><td>2.316</td><td>yes</td></tr>
+<tr><td>Reproduction p (2-tail from t=2.316)</td><td>computed</td><td>0.0206</td><td>0.019</td><td>~ (rounding)</td></tr>
+<tr><td>Paper focal interaction t</td><td>-1.648/0.0555</td><td>-29.7</td><td>(p&lt;0.001)</td><td>yes</td></tr>
+<tr><td>Table 4 advantage decline</td><td>-1.648&times;0.32</td><td>-0.53</td><td>-.53</td><td>yes</td></tr>
+<tr><td>Table 4 absolute decline</td><td>(0.630-1.648)&times;0.32</td><td>-0.33</td><td>-.32</td><td>~ (rounding)</td></tr>
+<tr><td>Audit re-run focal coefficient</td><td>audit csv</td><td>+0.1904 (se .040)</td><td>0.190</td><td>yes</td></tr>
+<tr><td>Audit re-run t / p</td><td>audit csv</td><td>4.741 / 2.12e-6</td><td>4.741 / 2.12e-6</td><td>yes</td></tr>
+<tr><td>Sample size</td><td>repro report</td><td>1,189,425</td><td>1,189,425 (paper men: 1,003,679)</td><td>differs</td></tr>
+</table>
+
+<h2>4. Key Analytical Finding</h2>
+<p>The FLoRA reproduction&rsquo;s <strong>focal interaction is POSITIVE</strong> (degree_proportion &times; BA Degree = +0.088,
+t=2.316, p=0.019), which is the <strong>opposite sign</strong> of the paper&rsquo;s headline claim (-1.648, negative, p&lt;0.001).
+The reproduction&rsquo;s own <code>horowitz_final_report.pdf</code> states verbatim: <em>&ldquo;This fails to replicate the original
+result.&rdquo;</em> The later, independent FLoRA audit (2023&ndash;24) re-ran the reproduction code and likewise obtained a
+<em>positive</em> focal coefficient (+0.190, t=4.741) — positive again, differing in magnitude from the reproduction&rsquo;s
++0.088 but not reproducing the paper&rsquo;s negative value in either attempt.</p>
+
+<h2>5. Findings &amp; Severity</h2>
+<table>
+<tr><th>ID</th><th>Sev</th><th>Description</th></tr>
+<tr><td>F1</td><td><span class="badge p1">P1</span></td><td>Headline numerical claim not reproduced by FLoRA: focal interaction sign flips from the paper&rsquo;s negative -1.648 to the reproduction&rsquo;s positive +0.088 (and +0.190 in the audit re-run). Reproduction explicitly declares failure to replicate.</td></tr>
+<tr><td>F2</td><td><span class="badge p2">P2</span></td><td>Data-construction differences drive the gap: sample size differs (paper men 1,003,679 vs reproduction 1,189,425); occupation-code harmonization (Autor-Dorn &lt;-&gt; SOC) and CFA construction of the verbal factor are undocumented in the paper, so reproduction cannot match. Even the reproduction and its audit re-run disagree in magnitude (+0.088 vs +0.190) while running &ldquo;the same code&rdquo;, indicating computational sensitivity (likely CFA/set.seed).</td></tr>
+<tr><td>F3</td><td><span class="badge p3">P3</span></td><td>Cosmetic: reproduction reports p=0.019 for t=2.316; two-tailed p we compute is 0.0206 (significance conclusion unchanged). Table 4 absolute decline rounds -.33 vs reported -.32.</td></tr>
+</table>
+
+<h2>6. Verdict</h2>
+<p><strong>Grade: NODATA.</strong> The person-level IPUMS CPS-ASEC microdata required to independently re-run the headline
+regression could not be obtained (account-gated; reproduction is explicitly &ldquo;without author data&rdquo;). We therefore could
+not independently re-compute the paper&rsquo;s headline numbers and cannot assign FULL/CONSISTENT/PARTIAL/FAIL for a genuine re-run.</p>
+<p>Independently verifiable arithmetic (t statistics, p-values, and Table 4 effect-size magnitudes recomputed from the
+reported coefficients) is internally consistent for both the paper and the reproduction. The critical analytical fact is
+established from the primary documents: <strong>the FLoRA reproduction produced an opposite-sign focal interaction
+(+0.088) to the paper&rsquo;s headline claim (-1.648), and itself concluded the result was not replicated.</strong></p>
+<p>This is consistent with the human FLoRA code flag (&ldquo;computational issues&rdquo;): the reproduction &mdash; and even the
+reproduction vs. its own audit re-run &mdash; could not produce stable, matching positive/negative coefficients, and
+computational choices (CFA factor scoring, occupation-code harmonization, sample construction) are implicated.</p>
+
+<p style="font-size:12px;color:#666;margin-top:30px">Generated by ReproAI audit run2, study 16_Horowitz. Article full-text
+extraction was deleted from the audit folder before finalizing (copyright).</p>
+</body>
+</html>

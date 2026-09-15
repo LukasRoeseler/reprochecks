@@ -1,0 +1,16 @@
+{
+  "grade": "CONSISTENT",
+  "sev": "P0-0 P1-0 P2-2 P3-1",
+  "data_status": "partial",
+  "key_findings": [
+    "Resolved real FLoRA reproduction node (OSF project 35tgu, 'Barreca_JournPoliEco_2016_J999 - Szabelska - Reproduction (with author data & code)'); the submitted OSF hint sp3z8 was only a file GUID ('Transparency Trail' docx).",
+    "Obtained author Stata code (Analysis component: Table1-9.do, Figure1.do) and the main panel DATA_1900_2004.dta (26 MB, 1900-2004 state-month level). The 566 MB DATA_TABLE9.dta was not downloaded (size) and is required only for Table 2 / Table 9 (welfare/AC-demand).",
+    "Independently re-computed the central temperature-mortality dose-response (Table 3 Panel A, parsimonious <40F/80-89F/>90F bins, cumulative dynamic = lag coefficient) via sparse FWL OLS weighted by population with year-month FE, state-month FE and state-month-specific quadratic trends.",
+    "Cumulative >90F estimates: 1931-2004 = 0.00930 (=0.93%, EXACT match to JPE wording '0.93 percent'), 1931-1959 = 0.02210 (paper 0.0216, ~2% diff), 1960-2004 = 0.00335 (paper 0.0034, ~1%). Decline after 1960 is ~84.8% (paper: 'factor of 6', '>80%'). Central headline CLAIM VERIFIED.",
+    "Descriptive Table 1 also reproduced (mortality rate 1108.7 per 100k 1900-59 vs paper 1111; 80-89F days 23.3 matches exactly; >90F days 0.55/1.14 vs paper 0.5/1.1).",
+    "NOT re-derived within this audit: abstract welfare claims (14,000 fewer fatalities/yr; $83-$186B AC consumer surplus), the AC-mechanism coefficient (Table 6), and Table 9 - these require the large DATA_TABLE9.dta and additional Dubin-McFadden/welfare models.",
+    "Human FLoRA registry flags this study 'computational issues' and the OSF human-audit transparency trail (TransparencyTrail.txt) states each claim 'did reproduce' but that reruns are heavy (Stata 17, maxvar 12000, ~1-2 hr per table). My independent Python reproduction confirms the central dose-response claims reproduce (matching 0.93%/2.2%/0.34%), so the registry flag reflects computational difficulty, not numerical irreproducibility."
+  ],
+  "headline_verified": true,
+  "notes": "Central temperature-mortality dose-response estimates across the century are reproduced from the author's data+code with minor deviations (~1-2%); headline 70%/84% decline and 0.9%/2.2%/0.34% >90F effects hold. Remainder of headline set (fatalities/welfare/AC mechanism) not independently recomputed due to missing large data file and additional models. Grade CONSISTENT rather than FULL for that reason."
+}

@@ -1,0 +1,17 @@
+{
+  "grade": "NODATA",
+  "sev": "P0-0 P1-1 P2-2 P3-1",
+  "data_status": "partial",
+  "key_findings": [
+    "OSF FLoRA reproduction (node qk9v3, DOI 10.3982/ECTA10813) was located and its files downloaded: 10 auxiliary .dta explanatory files, 10 .do scripts, published-table XMLs (Table3-7), bushel claims, transparency trail, and PBR/ADR sheets.",
+    "The central dataset used by EVERY headline table, USIOrelatedparty.dta (containing the dependent variable imp_intrafirm = intrafirm import share and the tot_imp weights), is NOT present in the OSF Data component, and the Table2/3/5/7 .do files are absent from the Analysis component. The core regression therefore cannot be independently re-run from the shared package.",
+    "USIOrelatedparty.dta is derived from confidential U.S. Census Related Party Trade data; the author-hosted copy (scholar.harvard.edu) is unreachable from this environment (HTTP 403/503), it is not archived in the Wayback Machine (CDX: no captures), and no public mirror exists. The dependent variable file is thus unobtainable here, blocking independent re-computation of headline coefficients.",
+    "Published headline values (confirmed in Table3.xml) match the bushel claims exactly for the focal test: Table III benchmark (eq. 32), DUse_TUse x 1(Elas<Median) Beta_1 = -0.196 [0.071]; DUse_TUse x 1(Elas>Median) Beta_2 = 0.171 [0.067]; N = 2,783.",
+    "Verified from the shared auxiliary data that the sequential complements/substitutes median-split indicators are internally consistent: w1M1sigma is exactly the below-median indicator of w1sigma (1.00 below / 0.00 above; median = 7.60) and w1M2sigma the above-median indicator, mutually exclusive with no overlap.",
+    "Found a data-hygiene inconsistency in the shipped downstreamness.dta: the precomputed interaction columns (M1duse_tuse, M2duse_tuse, etc.) do NOT equal duse_tuse x (median-split sigma indicator) (only ~23% of rows match); the .do scripts recompute these interactions on the fly, so headline results are likely unaffected, but the shipped columns are stale.",
+    "The human FLoRA transparency trail (analyst A. Szabelska, RR 28m96) documents that, given USIOrelatedparty.dta downloaded from the author site, tables 3-7 reproduced EXACTLY after manual code fixes (focal OLS coef -0.196, N=2783); final audit CSV records values_match=Yes but repro_possible=No, without explanatory note.",
+    "Code is not push-button: hardcoded author working directories, `set memory 400m`, `# delimit ;` semicolon syntax (removed for Stata 14), multi-line commands, and dependency on external outreg2/areg packages required manual intervention before reproduction."
+  ],
+  "headline_verified": false,
+  "notes": "Grade NODATA: the headline OLS coefficients could not be independently re-computed because USIOrelatedparty.dta (dependent variable + weights) is missing from the OSF package and unobtainable in this environment (confidential Census-derived; author site blocked; no mirror/no wayback capture). This agrees with the human FLoRA verdict of 'computational issues': the shared reproduction is functionally incomplete and not push-button. Corroborating evidence is strong - published numbers match the claims, the median-split logic verifies, and the human trail shows exact reproduction given the full author data - but no headline number was independently re-computed here. No numbers were fabricated. The author-site replication ZIP was also unreachable; only the OSF materials were analyzed."
+}

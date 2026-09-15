@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ReproAI Audit — Savani et al. (2011) "What Counts as a Choice?"</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:2rem auto;max-width:960px;line-height:1.5;color:#1a1a1a;}
+  h1{font-size:1.5rem;} h2{font-size:1.2rem;border-bottom:2px solid #333;padding-bottom:.2rem;margin-top:2rem;}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;}
+  th,td{border:1px solid #ccc;padding:.4rem .6rem;text-align:left;vertical-align:top;}
+  th{background:#f0f0f0;}
+  .badge{display:inline-block;padding:.2rem .6rem;border-radius:4px;color:#fff;font-weight:600;font-size:.8rem;}
+  .b-CONSISTENT{background:#8a8f08;}
+  .ok{color:#0a7d0a;font-weight:600;} .warn{color:#b45309;font-weight:600;} .bad{color:#b00020;font-weight:600;}
+  code{background:#f4f4f4;padding:0 .2rem;}
+</style>
+</head>
+<body>
+
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Savani, K., Markus, H. R., Naidu, N. V. R., Kumar, S., &amp; Berlia, N. (2011). <em>What Counts as a Choice? U.S. Americans Are More Likely Than Indians to Construe Actions as Choices.</em> Psychological Science. DOI: 10.1177/0956797609359908</p>
+<p><strong>Field:</strong> cultural / social psychology &nbsp;|&nbsp; <strong>Audit folder:</strong> <code>15_Savani</code> &nbsp;|&nbsp; <strong>Tools:</strong> Python 3.8 (pandas/scipy/statsmodels) &amp; R 4.6.1 (lm/Anova)</p>
+
+<p><span class="badge b-CONSISTENT">GRADE: CONSISTENT</span> &nbsp; <strong>Severity:</strong> P0-0 &nbsp;P1-0 &nbsp;P2-2 &nbsp;P3-1 &nbsp;|&nbsp; <strong>Data status:</strong> obtained &nbsp;|&nbsp; <strong>Human FLoRA code:</strong> computational issues</p>
+
+<h2>1. Data sourcing</h2>
+<p>The registry OSF hint <a href="https://osf.io/f5vne/">osf.io/f5vne</a> is a <em>file download GUID</em> (the SCORE push-button reproduction report), not a project node. The real FLoRA reproduction project was resolved via the OSF API: the <strong>SCORE project <code>qpemg</code></strong> ("SCORE - Savani_PsychologSci_2010_88xa"). Materials used:</p>
+<ul>
+  <li><em>Author data:</em> <code>Data by Subject KS.xlsx</code> (128 rows; 60 U.S., 68 Indian; columns culture, cond, gender, age, numactions) — author-provided summary of button presses.</li>
+  <li><em>Raw trial data:</em> <code>Data by Trial.xls</code> (DirectRT output, 4291 button-press rows).</li>
+  <li><em>Author analysis code &amp; log:</em> <code>Savani_PsychologSci_2010_88xa.do</code> &amp; <code>.log</code> (Stata <code>anova numactions culture##cond</code> + <code>esize</code>).</li>
+  <li><em>SCORE docs:</em> push-button reproduction report (Talbert), extracted RRP text, bushel-trace claims, author correspondence, reproduction README.</li>
+</ul>
+<p><strong>Data provenance:</strong> The focal reproduction claim (Study 3) was the Culture × Condition interaction. The author's correspondence disclosed <em>unexplained discrepancies</em> between the paper's SPSS F-values and his own Stata re-analysis ("same results in terms of statistical significance but not in terms of the F-values"), and that video data were missing for one Indian participant (excluded; 67 valid Indian).</p>
+
+<h2>2. Headline numerical claims (Study 3, the target)</h2>
+<ol>
+  <li>2×2 ANOVA: main effect of <strong>culture</strong> F(1,120) = 14.79, p &lt; .005, d = 0.55.</li>
+  <li>Main effect of <strong>condition</strong> F(1,120) = 11.56, p = .01, d = 0.47.</li>
+  <li><strong>Culture × Condition interaction</strong> F(1,120) = 5.69, p &lt; .02, p_rep = .96.</li>
+  <li>Simple effects: control condition t &lt; 1 (cultures similar); construal-of-choice condition Indians fewer actions, <strong>t(32) = 4.25</strong>, p &lt; .001, d = 1.03.</li>
+</ol>
+
+<h2>3. Verification (independently re-computed from author data)</h2>
+<table>
+  <tr><th>Paper claim</th><th>Independently computed (Python + R)</th><th>Result</th></tr>
+  <tr><td>Culture × Condition interaction F(1,120) = 5.69, p&lt;.02</td>
+      <td>F(1,123) = 6.12, p = 0.0147 — identical across Type I/II/III SS, Python &amp; R; author Stata log 6.12</td>
+      <td><span class="ok">Direction &amp; significance hold</span>; F and df differ</td></tr>
+  <tr><td>Main effect culture F(1,120) = 14.79, d=0.55</td>
+      <td>F(1,123) = 10.18 (Type II), p = .0018</td>
+      <td><span class="warn">Not exact;</span> still significant</td></tr>
+  <tr><td>Main effect condition F(1,120) = 11.56, d=0.47</td>
+      <td>F(1,123) = 7.42 (Type II), p = .0074</td>
+      <td><span class="warn">Not exact;</span> still significant</td></tr>
+  <tr><td>Control condition: cultures similar, t &lt; 1</td>
+      <td>India vs U.S. control t = −0.87, p = .39 (|t| &lt; 1)</td>
+      <td><span class="ok">Consistent</span></td></tr>
+  <tr><td>Choice condition: Indians fewer, t(32) = 4.25, d = 1.03</td>
+      <td>most consistent with within-India choice-vs-control: t(65) = −4.15, d = −1.014</td>
+      <td><span class="warn">t &amp; d close</span>; reported df=32 ≠ actual df=65</td></tr>
+  <tr><td>Cell means: US 38.6/38.3; India 36.7/22.7</td>
+      <td>US_ct 38.63, US_ch 38.33; IND_ct 36.70, IND_ch 22.68 (n = 30/30/33/34)</td>
+      <td><span class="ok">Match</span></td></tr>
+  <tr><td>numactions = button-press count (data integrity)</td>
+      <td>numactions equals per-subject row count in raw DirectRT file for 127/127 usable participants</td>
+      <td><span class="ok">Preprocessing faithful</span></td></tr>
+</table>
+<p><strong>Independent re-run script:</strong> <code>dl/_anova.R</code>; ANOVA cross-checked in Python (statsmodels) and R (car::Anova). All computations performed from the downloaded author file; no numbers fabricated.</p>
+
+<h2>4. Findings &amp; severity</h2>
+<ul>
+  <li><strong>P2 — Reported ANOVA statistics do not reproduce exactly.</strong> The focal interaction reproduces only approximately (F 5.69 → 6.12 with df 120 → 123); main-effect F's differ more (culture 14.79 vs 10.18; condition 11.56 vs 7.42). All remain significant in the same direction. Author explicitly disclosed the F-value discrepancy between SPSS and Stata; did not affect conclusion.</li>
+  <li><strong>P2 — Degrees-of-freedom mismatches vs the data.</strong> Paper reports F(1,120) but the actual analysis uses df(1,123); the simple-effect t is reported as t(32) vs the actual two-sample df = 65. SCORE text-tagging flagged "DF reported in analysis may disagree with stated sample size."</li>
+  <li><strong>P3 — Minor effect-size/rounding nuances</strong> (paper d = 1.03 vs computed 1.014; d = 0.55/0.47 for un-reproducible main effects).</li>
+</ul>
+<p><span class="badge b-CONSISTENT">P0-0 P1-0 P2-2 P3-1</span></p>
+
+<h2>5. Verdict</h2>
+<p><strong>Grade: CONSISTENT.</strong> The author's data and code were obtained and independently re-run. The qualitative, focal claim of the paper — that U.S. Americans construe more actions as choices than Indians, driven by the choice condition (a significant Culture × Condition interaction in the same direction) — is robustly reproduced. However, the exact headline statistics (F-values, dfs, and the t-test df) do <em>not</em> reproduce from the shared data. This matches the human <strong>FLoRA classification "computational issues"</strong> precisely: significance and direction hold, but the reported numbers are not exact, with an acknowledged historical software discrepancy and df inconsistencies. Not FULL (numbers not exact) and not FAIL (nothing contradicted).</p>
+
+<p><em>ReproAI audit completed in folder <code>15_Savani</code>. No paywalled article PDF retained; only data, code, SCORE reports and a short OA reproduction README.</em></p>
+
+</body>
+</html>

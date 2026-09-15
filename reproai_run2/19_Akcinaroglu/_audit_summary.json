@@ -1,0 +1,32 @@
+{
+  "grade": "NODATA",
+  "sev": "P0-0 P1-1 P2-1 P3-1",
+  "data_status": "none",
+  "key_findings": [
+    "OSF hint txv8g is a file GUID (SCORE reproduction report docx), not a node; resolved real reproduction node to 6wfmz via OSF API file relationships.",
+    "The 6wfmz node archives only a Stata .do script (akcinaroglu.do) and the SCORE report; the 'Data', 'Methods', 'Analysis' and 'IRB' components all have empty osfstorage, and no GitHub/data provider is attached.",
+    "The .do script requires `import excel using replicationdata` and the covariate `numberofrebels`, but that Excel dataset is not archived and could not be located publicly (paper is closed-access on SAGE; no Dataverse/deposit found).",
+    "Headline claim (Hypothesis 1, focal): coefficient for 'No of rebel groups' in government-victory model = 0.64 (SE 0.08, p<.01), per Table 2 Model 7 as abstracted in the SCORE report; this was NOT independently re-derivable because no data could be run.",
+    "P1: missing replication data/key variable `numberofrebels` makes any independent recomputation impossible, matching the human 'technical failure' flag.",
+    "P2: archived script references a non-archived Excel file and contains a variable-name typo (`numberofrebel` vs `numberofrebels` in the government-victory block).",
+    "P3: underlying article is paywalled, so headline table values available only via the secondary reproduction report."
+  ],
+  "headline_verified": false,
+  "notes": "Independent re-computation was impossible: no dataset could be obtained. Verdict (NODATA) is consistent with the human FLoRA 'technical failure' classification (reproduction could not be run because the Excel file was missing the key variable numberofrebels). No numbers were fabricated in this audit.",
+  "research": {
+    "title": "Rebel Interdependencies and Civil War Outcomes",
+    "author": "Seden Akcinaroglu",
+    "year": 2012,
+    "journal": "Journal of Conflict Resolution 56(5):879-903",
+    "doi": "10.1177/0022002712445741",
+    "flora": "technical failure",
+    "osf_root_node": "6wfmz",
+    "osf_hint": "https://osf.io/txv8g",
+    "payload": {
+      "code_file": "Akcinaroglu_JournConflictRes_2012_R0ak.do",
+      "report_file": "SCORE-RS-202 - Push Button Reproduction Report Akcinaroglu_JournConflictRes_2012_R0ak.docx",
+      "data_file": "NOT AVAILABLE (referenced as 'replicationdata' Excel with variable 'numberofrebels')",
+      "human_repro_result": "failed - Excel file missing key variable numberofrebels"
+    }
+  }
+}

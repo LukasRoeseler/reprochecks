@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReproAI Report — Michal &amp; Shah (2024)</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;margin:0;background:#f4f5f7;color:#222;}
+  header{background:#12355b;color:#fff;padding:22px 32px;}
+  header h1{margin:0 0 4px;font-size:24px;}
+  header p{margin:2px 0;opacity:.9;}
+  .badge{display:inline-block;padding:4px 12px;border-radius:4px;font-weight:700;color:#fff;}
+  main{max-width:1000px;margin:24px auto;padding:0 20px;}
+  section{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:20px 24px;margin-bottom:18px;}
+  h2{color:#12355b;border-bottom:2px solid #eee;padding-bottom:8px;margin-top:0;}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:10px 0;}
+  th,td{border:1px solid #ddd;padding:6px 8px;text-align:left;}
+  th{background:#eef2f7;}
+  .ok{color:#1a7f37;font-weight:600;}
+  .warn{color:#b45309;font-weight:600;}
+  .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;color:#fff;}
+  .tag-P0{background:#b91c1c;}.tag-P1{background:#ea580c;}.tag-P2{background:#f59e0b;}.tag-P3{background:#0ea5e9;}
+  .summarybox{background:#eef7ee;border:1px solid #b7e0b7;padding:14px 18px;border-radius:6px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>ReproAI Numerical-Reproducibility Audit</h1>
+  <p>Study: Michal &amp; Shah (2024) — <em>A Practical Significance Bias in Laypeople&rsquo;s Evaluation of Scientific Findings</em>, Psychological Science 35(4):315&ndash;327</p>
+  <p>DOI: 10.1177/09567976241231506 &nbsp;·&nbsp; OSF reproduction: osf.io/s4et7 &nbsp;·&nbsp; Authors&rsquo; data: osf.io/4927f &nbsp;·&nbsp; Audit folder: 18_MichalShah</p>
+  <p><span class="badge" style="background:#1a7f37;">GRADE: FULL</span></p>
+</header>
+<main>
+
+<section>
+  <h2>1. Data Sourcing</h2>
+  <p>The OSF hint <code>s4et7</code> is the official FLoRA reproduction node by Röer, Ostermann &amp; Appelbaum (META-REP 2024). It contains a reproducibility report (PDF) and an R script, but <strong>no data files</strong> — the script reads <code>D:/Meta_Rep_Games/Data Study1.sav</code> and <code>Data Study 2.sav</code> (hardcoded local paths, absent from the node).</p>
+  <p>The raw data were therefore obtained from the <strong>authors&rsquo;</strong> OSF project <code>osf.io/4927f</code>, which the report itself cites as the source of the reproduction dataset:</p>
+  <ul>
+    <li><em>Study 1</em> (math curriculum): <code>EffectSize_MathCurriculum2_Prolific.xlsx</code> → analysis sheet <code>RecommendData</code> (Subject, Recommendation, Condition, TotalScore), N=398 valid.</li>
+    <li><em>Study 2</em> (energy/snack bar): <code>EffectSize_SnackBar_Prolific.xlsx</code> → analysis sheet <code>EndorseData</code> + <code>Numeracy</code> sheet, N=400 valid.</li>
+  </ul>
+  <p><strong>data_status: obtained.</strong> The article full text is paywalled (closed access; no OA PDF) and was <em>not</em> downloaded. Only the openly licensed OSF reproduction report and raw data were used.</p>
+</section>
+
+<section>
+  <h2>2. Headline-Verified Claim Inventory &amp; Verification</h2>
+  <p>Headline claim (abstract): <em>&ldquo;Participants who viewed interventions with unreported effect magnitudes were more likely to endorse interventions compared with those who viewed interventions with small effects and were just as likely to endorse interventions as those who viewed interventions with large effects, suggesting a practical significance bias.&rdquo;</em></p>
+  <p>Focal test (per FLoRA): decision rating <code>~ Numeracy + Condition</code> (ANCOVA). We re-ran this in R 4.6.1 (mirroring the FLoRA R script) on the cleaned authors&rsquo; data.</p>
+
+  <h3>Study 1 (N=398)</h3>
+  <table>
+    <tr><th>Claim</th><th>Paper</th><th>Our recompute</th><th>Status</th></tr>
+    <tr><td>Numeracy F</td><td>F(1,393)=16.58</td><td>F(1,393)=16.58</td><td class="ok">EXACT</td></tr>
+    <tr><td>Condition F</td><td>F(3,393)=49.46</td><td>F(3,393)=49.46</td><td class="ok">EXACT</td></tr>
+    <tr><td>Numeracy η²</td><td>.04</td><td>partial .033 (η² .024)</td><td class="warn">minor</td></tr>
+    <tr><td>Condition η²</td><td>.27</td><td>partial .274</td><td class="ok">match</td></tr>
+    <tr><td>Means (No eff / Large / SmNoP / SmWP)</td><td>80.56 / 73.93 / 45.26 / 45.22</td><td>80.56 / 73.93 / 45.18 / 45.02</td><td class="warn">small groups differ slightly</td></tr>
+    <tr><td>No effect vs SmallNoPrompt</td><td rowspan="3">diff ≈ 34.83, p&lt;.001</td><td>marginal 34.89, p&lt;.0001</td><td class="ok">match</td></tr>
+    <tr><td>No effect vs Large</td><td>+6.07, ns</td><td class="ok">match</td></tr>
+    <tr><td>Interaction F</td><td>F(3,390)=3.69, p=.01</td><td>F(3,390)=3.69, p=.012</td><td class="ok">match</td></tr>
+  </table>
+
+  <h3>Study 2 (N=400)</h3>
+  <table>
+    <tr><th>Claim</th><th>Paper</th><th>Our recompute</th><th>Status</th></tr>
+    <tr><td>Numeracy F</td><td>F(1,395)=17.78</td><td>F(1,395)=17.78</td><td class="ok">EXACT</td></tr>
+    <tr><td>Condition F</td><td>F(3,395)=19.18</td><td>F(3,395)=19.18</td><td class="ok">EXACT</td></tr>
+    <tr><td>Condition η²</td><td>.13</td><td>partial .127</td><td class="ok">match</td></tr>
+    <tr><td>Means (No eff / Large / SmNoP / SmWP)</td><td>50.47 / 58.90 / 34.98 / 31.68</td><td>50.47 / 58.90 / 34.98 / 31.68</td><td class="ok">EXACT</td></tr>
+    <tr><td>No effect vs SmallNoPrompt</td><td>14.75, p=.002</td><td>marginal 14.76, p=.002</td><td class="ok">match</td></tr>
+    <tr><td>No effect vs Large</td><td>7.52, ns</td><td>−7.54, ns</td><td class="ok">match (sign convention)</td></tr>
+    <tr><td>Interaction F</td><td>F(3,392)=3.13, p=.026</td><td>F(3,392)=3.13, p=.026</td><td class="ok">EXACT</td></tr>
+    <tr><td>Corr SmNoP / SmWP</td><td>−.19 / −.41</td><td>−.190 / −.418</td><td class="ok">match</td></tr>
+  </table>
+
+  <p>Conclusions hold in both studies: the no-effect-size group endorsed the interventions more than the small-effect group and comparably to the large-effect group after controlling for numeracy &mdash; the practical-significance-bias effect is reproduced.</p>
+</section>
+
+<section>
+  <h2>3. Findings (Severity)</h2>
+  <table>
+    <tr><th>ID</th><th>Sev</th><th>Finding</th></tr>
+    <tr><td>F1</td><td><span class="tag tag-P2">P2</span></td><td>FLoRA reproduction node lacks the data &amp; analysis code; R script has hardcoded local path (<code>D:/Meta_Rep_Games/…</code>), and the authors provided raw data with <em>no cleaning or analysis code</em>. Data had to be obtained separately from the authors&rsquo; project.</td></tr>
+    <tr><td>F2</td><td><span class="tag tag-P2">P2</span></td><td>The paper does not state how mean differences were computed; different defensible methods (Tukey HSD vs. covariate-adjusted marginal means) yield slightly different point estimates/CIs — reproduced exactly as reported in the human FLoRA report.</td></tr>
+    <tr><td>F3</td><td><span class="tag tag-P2">P2</span></td><td>Minor reporting/descriptive discrepancies: small-group Study 1 means in the printed text (45.26 / 45.22) differ slightly from computed values (45.18 / 45.02); minor η² differences (Numeracy .04 vs .02–.03); a few missing CI signs in Study 2; typo of "Study 2 with prompt" values in the text (as the human report noted).</td></tr>
+    <tr><td>F4</td><td><span class="tag tag-P3">P3</span></td><td>Two different pre-analysis plans were uploaded for Study 1 (deviating in 3 of 4 hypotheses); authors state the second was posted before data viewing. Not a numerical-reproducibility failure but a transparency concern raised by the human report.</td></tr>
+  </table>
+  <p><strong>Severity total: P0-0 P1-0 P2-3 P3-1.</strong></p>
+</section>
+
+<section>
+  <h2>4. Verdict</h2>
+  <div class="summarybox">
+    <p><strong>Grade: FULL.</strong> The headline focal statistics were independently re-computed <em>exactly</em> for both studies, and all substantive conclusions (practical-significance bias, mean pattern, focal differences, interactions, Study 2 correlations) were reproduced from the openly available authors&rsquo; data.</p>
+    <p>Consistency with human FLoRA code: the registry flags <code>flora = "computational issues"</code>, and the human report (Röer, Ostermann &amp; Appelbaum) judged reproduction &ldquo;largely successful&rdquo; with only <em>minor-to-moderate errors that do not challenge the authors&rsquo; core conclusions.</em> Our independent recomputation agrees: the claimed results reproduce, with the noted analytic/reporting issues (missing analysis code, ambiguous mean-difference method, minor η²/text discrepancies, double preregistration). The &ldquo;computational issues&rdquo; label reflects these obstacles, <strong>not</strong> a failure to reproduce headline numbers — consistent with a FULL but imperfectly documented reproduction.</p>
+    <p>Data status: <strong>obtained</strong> (authors&rsquo; OSF project osf.io/4927f used because the FLoRA node lacked data).</p>
+  </div>
+</section>
+
+</main>
+</body>
+</html>

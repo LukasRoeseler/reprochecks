@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Audit - Smith et al. (2016), AJS</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 2rem auto; max-width: 960px; line-height: 1.55; color: #1c2733; padding: 0 1rem; }
+  h1 { font-size: 1.55rem; border-bottom: 3px solid #2c5f8a; padding-bottom: .4rem; }
+  h2 { font-size: 1.2rem; margin-top: 2rem; color: #2c5f8a; }
+  code { background: #f0f2f5; padding: 1px 5px; border-radius: 3px; }
+  table { border-collapse: collapse; width: 100%; margin: .7rem 0; font-size: .92rem; }
+  th, td { border: 1px solid #cfd6dd; padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: #eef2f6; }
+  .grade { font-size: 1.15rem; font-weight: 700; color: #a15c00; }
+  .badge { display:inline-block; padding: 2px 8px; border-radius: 10px; font-size: .8rem; color:#fff; }
+  .P0{background:#b00020}.P1{background:#d24a00}.P2{background:#c79200}.P3{background:#7a8ba0}
+  .meta { background:#f6f8fa; border:1px solid #dde3e8; padding:.7rem 1rem; border-radius:6px; }
+</style>
+</head>
+<body>
+
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p>Study (per audit brief): <em>&quot;The Social Structure of Mobility: Does Even a Large Sample Provide Reliable Estimates?&quot;</em> &mdash; Smith, McFarland, Van Tubergen &amp; Maas, American Journal of Sociology. <br>
+DOI supplied: <code>10.1086/684032</code>. OSF hint: <code>b5cag</code>.</p>
+
+<div class="meta">
+<p><strong>Note on study identity.</strong> The DOI <code>10.1086/684032</code> resolves unambiguously (Crossref, OpenAlex) to a <em>different</em> paper by the same four authors:</p>
+<p><strong>Smith, S., McFarland, D. A., Van Tubergen, F., &amp; Maas, I. (2016). &quot;Ethnic Composition and Friendship Segregation: Differential Effects for Adolescent Natives and Immigrants.&quot; <em>American Journal of Sociology</em>, 121(4), 1223&ndash;1272.</strong></p>
+<p>No published article under the title &quot;The Social Structure of Mobility: Does Even a Large Sample Provide Reliable Estimates?&quot; exists in Crossref, OpenAlex, or web search. All reproduction artifacts under the OSF hint's FLoRA entry (OSF project <code>nekdp</code>, Gereke et al. 2019) correspond to the <em>Ethnic Composition and Friendship Segregation</em> paper. <strong>This audit therefore covers the paper that actually matches the supplied DOI and the OSF reproduction (Smith et al. 2016, AJS 121(4)).</strong></p>
+</div>
+
+<h2>Grade</h2>
+<p class="grade">NODATA</p>
+<p>The reproduction <strong>code</strong> was obtained from the OSF FLoRA reproduction project, but the underlying <strong>data are gated</strong>: the paper's analyses use the CILS4EU wave-1 dataset (licensed "full version"), whose detail (including country of origin) can only be accessed through the GESIS Secure Data Center and cannot be shared. The reproduction team states explicitly that the raw data and the network-level meta-analysis inputs "cannot be shared." Without that dataset I cannot independently re-run the ERGMs and meta-regressions, so I record <strong>NODATA</strong> for independent recomputation rather than fabricating any derived number.</p>
+
+<h2>Data sourcing &amp; materials</h2>
+<table>
+<tr><th>Item</th><th>Status</th><th>Detail</th></tr>
+<tr><td>OSF hint <code>b5cag</code></td><td>Unresolved</td><td>The <code>api.osf.io</code> v2 API returned HTTP 503 for the entire audit window; the http://osf.io page is a JS shell and returned no content. The id could not be resolved to a node.</td></tr>
+<tr><td>Actual reproduction project</td><td>Located</td><td>FLoRA index (Forrt Replication Atlas, DOI <code>10.17605/osf.io/nekdp</code>) identifies the human reproduction: <strong>Gereke, Kretschmer, Winter &amp; Zhang (2019), &quot;Reproduction (without author data): Smith et al. (2016, AJS)&quot;</strong>, OSF <code>nekdp</code>.</td></tr>
+<tr><td>Reproduction files</td><td>Downloaded</td><td><code>DataAnalysisScript.zip</code> (R scripts), <code>Preregistration.pdf</code>, <code>Codebook.pdf</code>, <code>SCORE_REPORT_...docx</code> (via waterbutler v1 API, <code>files.osf.io</code>).</td></tr>
+<tr><td>Analysis data (CILS4EU v1.2.0 "full" / licensed)</td><td><strong>Not obtainable</strong></td><td>Gated. Only via GESIS Secure Data Center under data-use agreement; cannot be redistributed.</td></tr>
+<tr><td>Article full text</td><td>Not retained</td><td>Under the University of Chicago Press paywall; not downloaded (to respect the copyright constraint). Abstract retrieved via OpenAlex.</td></tr>
+</table>
+
+<h2>Headline numerical claim (inventory)</h2>
+<p>Per the reproduction team's SCORE report and the abstract:</p>
+<table>
+<tr><th>#</th><th>Claim</th><th>Paper value</th><th>Human reproduction value</th></tr>
+<tr><td>1</td><td>Classrooms with a <em>larger share of natives</em> show <em>less ethnic homophily</em> (focal estimate, Table 3 Model 2: coefficient on "Proportion natives").</td><td><code>b = -0.51, SE = 0.06, p &lt; .001</code></td><td><code>b = -0.47, SE = 0.07, p &lt; .001</code> (successful)</td></tr>
+<tr><td>2</td><td>Immigrant homophily increases disproportionately with the co-ethnic share in class.</td><td>Qualitative (Abstract)</td><td>Directionally confirmed in meta-analyses</td></tr>
+<tr><td>3</td><td>Network density among natives has no effect on native homophily; native homophily stays low until immigrant groups are dense.</td><td>Qualitative (Abstract)</td><td>Not separately recomputed here</td></tr>
+<tr><td>4</td><td>Sample scope: 529 adolescent networks in English, German, Dutch, Swedish schools.</td><td>529 networks</td><td>&mdash;</td></tr>
+</table>
+<p>Method: for each school class, an ERGM of friendship ties (edges + mutual + gwesp(.25) + nodematch(eth) + nodematch(girl) + absdiff(rel_pop_std) + absdiff(max_isei_std)) is estimated; ethnic-homophily coefficients are then pooled across classes via meta-analysis / meta-regression. This mirrors Table 3 / the two-step procedure of the paper.</p>
+
+<h2>Independent verification</h2>
+<p><strong>No independent numbers were produced.</strong> Running the provided R pipeline requires the licensed CILS4EU full dataset (and the ERGM/metafor stack), which is not openly downloadable. Consequently no claim could be re-computed end-to-end. Figures below are from the <em>human</em> reproduction report (Gereke et al.) for transparency and are <em>not</em> independently generated here.</p>
+
+<h2>Findings (P0&ndash;P3)</h2>
+<table>
+<tr><th>Sev</th><th>ID</th><th>Finding</th></tr>
+<tr><td><span class="badge P1">P1</span></td><td>F1</td><td><strong>Identifiers described in the audit brief are inconsistent with the literature.</strong> The supplied title does not exist for these authors; the DOI <code>10.1086/684032</code> and the FLoRA reproduction both correspond to the 2016 &quot;Ethnic Composition and Friendship Segregation&quot; paper. The OSF hint <code>b5cag</code> could not be resolved (OSF API down).</td></tr>
+<tr><td><span class="badge P1">P1</span></td><td>F2</td><td><strong>Data are gated</strong> (CILS4EU licensed; GESIS SDC). Full independent re-running is not possible without a data-use agreement, so exact end-to-end reproducibility is not open.</td></tr>
+<tr><td><span class="badge P1">P1</span></td><td>F3</td><td><strong>Bugs in the original Smith et al. code</strong> documented by the reproduction team: (a) missing country-of-origin recoded to "native" and missing gender to "female"; (b) an ERGM loop misassignment that overwrites a failed run with the previous model's results (double counting); (c) code inclusion criteria differing from the paper (no participant-share filter; min 3 vs 2 per group).</td></tr>
+<tr><td><span class="badge P2">P2</span></td><td>F4</td><td><strong>Version drift:</strong> reproduction used CILS4EU v1.2.0 vs v1.1.0 in the paper (ISEI operationalization changed), and <code>ergm</code> 3.10.4 vs 3.1-0.</td></tr>
+<tr><td><span class="badge P2">P2</span></td><td>F5</td><td><strong>Missing-data handling differed</strong> (kept NAs vs recoding to native/female), changing effective native/homophily counts across robustness tables.</td></tr>
+<tr><td><span class="badge P3">P3</span></td><td>F6</td><td>Preregistration/analysis-script discrepancies and re-centered covariates corrections; minor and disclosed.</td></tr>
+</table>
+
+<h2>Verdict vs human "computationally reproducible"</h2>
+<p>The FLoRA registry records one reproduction (Gereke et al. 2019, "without author data"); the recorded outcome is <em>no outcome recorded</em> in the atlas, but the authored SCORE report documents a <strong>successful</strong> reproduction: the focal "Proportion natives" coefficient was reproduced as <code>-0.47 (SE 0.07)</code> against the paper's <code>-0.51 (SE 0.06)</code>, statistically significant and same-sign across all six robustness specifications. The substantive conclusion (more natives &rArr; less ethnic homophily) consistently reproduces in the human attempt.</p>
+<p>My automated verdict here is <strong>NODATA for independent recomputation</strong>, because of the gated dataset. This is an <em>environmental/data-access</em> limit, not evidence against the paper: the human reproduction's numbers support the headline claim, and the paper's core directional result is robust across the reproduction's robustness checks despite the disclosed code bugs.</p>
+
+<h2>Methods note</h2>
+<p>Tooling available and verified: R 4.6.1, Python 3.8.10. Web fetch via Crossref, OpenAlex; OSF download via waterbutler v1 API (<code>files.osf.io</code>) after the primary OSF API issued persistent 503s. No git commands were used. The paywalled article PDF was not obtained; only OA reproduction materials, scripts, and the reproduction report are retained in the audit folder.</p>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Audit — Ohtsubo et al. (2014)</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:2rem auto;max-width:1000px;line-height:1.5;color:#1c2733;padding:0 1rem;}
+  h1{font-size:1.6rem;} h2{font-size:1.25rem;border-bottom:2px solid #e3e8ee;padding-bottom:.3rem;margin-top:2rem;}
+  .grade{display:inline-block;padding:.2rem .8rem;border-radius:6px;font-weight:700;color:#fff;background:#2e9e5b;}
+  .badge{font-size:.8rem;padding:.15rem .6rem;border-radius:4px;margin-right:.3rem;}
+  .b-yes{background:#e6f5ec;color:#1c7a3d;} .b-part{background:#fff4e0;color:#a86b00;} .b-no{background:#fde8e8;color:#b32727;}
+  table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.9rem;}
+  th,td{border:1px solid #d5dce3;padding:.45rem .6rem;text-align:left;vertical-align:top;}
+  th{background:#f2f5f8;}
+  .ok{color:#1c7a3d;font-weight:600;} .warn{color:#a86b00;font-weight:600;}
+  pre{background:#f6f8fa;padding:.8rem;border-radius:6px;overflow:auto;font-size:.85rem;}
+  .meta{color:#5a6b7c;}
+</style>
+</head>
+<body>
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p><strong>Study:</strong> Ohtsubo, Matsumura, Noda, Sawa, Yagi &amp; Yamaguchi (2014), <em>Evolution and Human Behavior</em> 35(3), 237–244.<br>
+<strong>DOI:</strong> 10.1016/j.evolhumbehav.2014.02.004 &nbsp;·&nbsp;
+<strong>Title (resolved):</strong> <em>“It’s the attention that counts: interpersonal attention fosters intimacy and social exchange”</em><br>
+<span class="meta">Audit folder: 09_Ohtsubo · Batch: reproai_run2 · Grade:</span> <span class="grade">FULL</span><br>
+<span class="meta">Severity profile:</span> P0-0 &nbsp;P1-0 &nbsp;P2-2 &nbsp;P3-1</p>
+
+<p class="note"><strong>Important scoping note:</strong> The task brief described this as a “cross-cultural apology/trust” study. That description does not match the DOI. The DOI resolves unambiguously (OpenAlex + Kobe University repository + the paper itself) to the <strong>interpersonal-attention / intimacy</strong> study above. All authors, journal, volume, pages, and year match. The audit was carried out against the paper that actually corresponds to the DOI.</p>
+
+<h2>1. Data sourcing</h2>
+<p>The registry hint <code>https://osf.io/ga35z</code> is <em>not</em> a project node — it is the file GUID of the FLoRA “Transparency Trail” document. The real reproduction node (resolved via the FORRT FLoRA Replication Atlas and OSF API v2) is:</p>
+<ul>
+  <li><strong>FLoRA reproduction:</strong> Loomas, Miske, Luis, Fox, Tyner, Hahn &amp; Martončik (2022), “Reproduction (with author data): Ohtsubo et al. (2014)”, OSF <code>https://osf.io/y47pr/</code>, DOI 10.17605/OSF.IO/Y47PR.</li>
+  <li><strong>Files retrieved</strong> (via <code>api.osf.io/v2/nodes/y47pr/files/osfstorage/</code> and <code>osf.io/download/…</code>):
+    <ul>
+      <li>Transparency Trail — Ohtsubo_EvoHumanBehavior_2014_zlm2 (docx) — narrative of the reproduction</li>
+      <li>Ohtsubo_EvoHumanBehavior_2014_zlm2_675wo_PBR.xlsx — reproduction workbook (metadata/criteria; no raw data)</li>
+      <li>script_Ohtsubo_EvoHumanBehavior_2014_zlm2_675wo.R — analysis pipeline (also at osf.io/wavhd)</li>
+      <li>Ohtsubo_et_al2014Study2a_data.xls — original raw data, 30 subjects × 41 variables (source osf.io/p9whq / ek3tm)</li>
+    </ul>
+  </li>
+</ul>
+<p class="meta">At audit time OSF was in emergency maintenance (HTTP 503) for ~2.5 hours; after resolution the node/files were reachable. The reproduction is a <strong>claim-level (“single-trace”)</strong> reproduction: it targets one canonical statistic from the paper (Study 2a t-test), not the full paper.</p>
+
+<h2>2. Claim inventory (headline numerical claims)</h2>
+<table>
+<tr><th>#</th><th>Claim / location</th><th>Reported value</th><th>Verifiable from shared repro data?</th></tr>
+<tr><td>C4*</td><td>Study 2a: intimacy, attention vs no-attention (t-test)</td><td>attention M=4.58 (SD=.82) vs no-attn M=2.82 (SD=.79); t(27)=5.91, p&lt;.001, d=2.20; N=29</td><td><b>Yes — raw data shared</b></td></tr>
+<tr><td>1a</td><td>Study 1a: attention main effect on intimacy (ANOVA)</td><td>F(1,285)=35.36, p&lt;.001, η²=.099</td><td>No (Study 1 data not shared)</td></tr>
+<tr><td>1b</td><td>Study 1b: attention main effect (ANOVA)</td><td>F(1,81)=45.76, p&lt;.001, η²=.319</td><td>No</td></tr>
+<tr><td>2b</td><td>Study 2b: intimacy attention vs no-intention</td><td>4.67±.67 vs 3.63±1.00; t(42)=4.10, p&lt;.001, d=1.27; interest t(42)=1.96, p=.057, d=0.59; r=.68</td><td>Summary stats only (data not shared)</td></tr>
+<tr><td>2c</td><td>Study 2c: amount-of-attention effect</td><td>F(2,33)=3.97, p=.028, η²=.194; Tukey high-vs-low p=.048; actual-freq–intimacy r=.45, p=.006</td><td>Summary stats only</td></tr>
+</table>
+<p class="meta">*C4 is the focal headline claim targeted by the FLoRA reproduction (Claim 4, the paper’s signature Study-2a result highlighted in abstract/Results).</p>
+
+<h2>3. Independent recomputation (focal claim, C4)</h2>
+<p>I re-ran the analysis <em>from the raw author data</em> in R 4.6.1, independently reconstructing the pipeline: read <code>Sheet3</code> (skip=1) of the .xls, reverse-recode item r4 (1↔7), compute the 4-item intimacy scale <code>(r1+r4rec+r6+r7)/4</code>, and run a Student independent-samples t-test of <code>Intimacy ~ cnd</code>. The reconstructed scale matched the dataset’s <code>Intimacy</code> column with zero mismatches.</p>
+<p><strong>Excluded-participant resolution.</strong> The raw data contain 30 subjects (11 male, cnd 1: n=15, cnd 2: n=15), but the paper reports N=29 with 10 males; one male must be dropped. Following the FLoRA analysis, five candidate rows (3, 12, 13, 22, 25) were tested. Only excluding row <strong>22</strong> or <strong>25</strong> reproduces the article; both give identical statistics.</p>
+<table>
+<tr><th>Meta</th><th>Article (Study 2a)</th><th>Recomputed (R, this audit)</th><th>Status</th></tr>
+<tr><td>N</td><td>29</td><td>29 (via rows 22 or 25)</td><td class="ok">Exact</td></tr>
+<tr><td>t (Student, var.equal)</td><td>t(27) = 5.91</td><td>t(27) = 5.908</td><td class="ok">Exact</td></tr>
+<tr><td>p (two-tailed)</td><td>&lt; .001</td><td>0.000002695 (&lt;.001)</td><td class="ok">Exact</td></tr>
+<tr><td>Cohen’s d</td><td>2.20</td><td>2.196 (rstatix, var.equal)</td><td class="ok">Exact</td></tr>
+<tr><td>Attention M (SD)</td><td>4.58 (.82), n=15</td><td>4.583 (.816)</td><td class="ok">Exact</td></tr>
+<tr><td>No-attention M (SD)</td><td>2.82 (.79), n=14</td><td>2.821 (.787)</td><td class="ok">Exact</td></tr>
+</table>
+<p class="ok"><strong>Result:</strong> the headline Study 2a claim reproduces exactly at reported precision. Excluding candidate rows 3/12/13 yields t = 6.01/6.19/5.92 (no match); rows 22 and 25 both yield t=5.908, d=2.196, p=2.70e-6, N=29 — matching the paper.</p>
+
+<h2>4. Secondary / supplemental checks</h2>
+<p>Internal-consistency checks on paper-reported summary statistics (means/SDs present in the article), computed independently in R/Python:</p>
+<ul>
+  <li>Study 2a attention–midpoint t ≈ 2.74 (reported 2.77, df 14); no-attn–midpoint t ≈ 5.59 (reported 5.60, df 13).</li>
+  <li>Study 2b intimacy t ≈ 4.11 (reported 4.10), d ≈ 1.25 (reported 1.27); interest-in-friendship t ≈ 1.94 (reported 1.96), d ≈ 0.59 (reported 0.59).</li>
+</ul>
+<p class="meta">These confirm the reported tests are arithmetically consistent with the reported group means/SDs, but are not raw-data re-runs (Study 2b/2c and Study 1 data were not shared in the reproduction).</p>
+
+<h2>5. Findings (severity)</h2>
+<table>
+<tr><th>ID</th><th>Severity</th><th>Finding</th></tr>
+<tr><td>F1</td><td><span class="badge b-part">P2</span></td><td><b>Limited data coverage.</b> The reproduction shares raw data only for Study 2a. The paper’s other headline effects (Study 1a/1b ANOVA, Studies 2b/2c) could not be independently re-run from reproduction data; only their summary statistics were verified arithmetically.</td></tr>
+<tr><td>F2</td><td><span class="badge b-part">P2</span></td><td><b>Excluded-participant ambiguity.</b> The raw data do not identify which male subject was excluded; two candidates (rows 22, 25) both reproduce the result. The reproduction is therefore not uniquely determined by the data alone (depends on an analyst decision), though the outcome is robust across both candidates.</td></tr>
+<tr><td>F3</td><td><span class="badge b-part">P3</span></td><td><b>Analyst judgment in scale construction.</b> Reproducing the 4-item intimacy scale required translation/selection of items (r1, r4-reversed, r6, r7) from the 10-item Japanese questionnaire; the trail documents this but it is not fully automated from the data.</td></tr>
+<tr><td>F4</td><td><span class="badge b-yes">P3–</span></td><td><b>OSF hint mislabeled.</b> Registry OSF id <code>ga35z</code> is a file GUID, not a project node; the real node is <code>y47pr</code>.</td></tr>
+</table>
+
+<h2>6. Verdict</h2>
+<p><strong>Grade: <span class="grade">FULL</span></strong> for the focal headline claim — the canonical Study 2a statistic (t(27)=5.91, p&lt;.001, d=2.20, N=29, 4.58±.82 vs 2.82±.79) was independently re-computed from the shared raw author data and matches the article exactly at the reported precision.</p>
+<p><strong>Headline verified:</strong> YES (focal claim). <strong>data_status:</strong> partial (Study-2a raw data only; rest of paper not shareable for re-run).</p>
+<p><strong>Consistency with human FLoRA verdict:</strong> The human FLoRA classification is <em>“computationally reproducible”</em>. My independent verdict <strong>confirms</strong> this for the focal claim, with the caveats in F1–F3 that the reproduction is claim-level and involves a small excluded-participant judgment call that does not change the outcome.</p>
+
+<h2>7. Honesty / limitations statement</h2>
+<p>All numbers in this report were obtained by actually downloading the reproduction files and recomputing them (R 4.6.1, Python 3.8). No values were estimated or fabricated. Claims that could not be re-run from shared data are explicitly labelled as not data-verified (Studies 1a/1b, 2b/2c). The article PDF and its full-text extraction were deleted from this folder after analysis per protocol (copyright); only open reproduction materials, raw data, the analysis script, and this audit’s own scripts/outputs are retained.</p>
+</body>
+</html>

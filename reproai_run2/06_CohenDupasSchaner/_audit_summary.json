@@ -1,0 +1,16 @@
+{
+  "grade": "PARTIAL",
+  "sev": "P0-0 P1-0 P2-1 P3-2",
+  "data_status": "partial",
+  "headline_verified": true,
+  "key_findings": [
+    "Reproduction project resolved. OSF GUID 9wgzk is a file (Transparency Trail) inside node vk2a3, the FLoRA/BERD reproduction 'with author data & code'. Downloaded replication .do files, README, PBR workbook, and 2 of the required datasets (ACT_IllLvlMainWithMalProbs_FINAL_pub, ACT_PharmLogPos_FINAL_pub).",
+    "Independently re-computed (Python/statsmodels, clustered OLS by householdid, matching Stata 'clu(househo)' spec) the headline Table 2 results EXACTLY: pooled 'Any ACT subsidy' on took_act = 0.1869 (SE 0.0383) vs paper 0.187 (SE 0.038), N=631.",
+    "Table 2 per-subsidy-level coefficients reproduced EXACTLY: act40(92% subsid)=0.2249/0.0528 vs 0.225/0.053; act60(88%)=0.1609/0.0503 vs 0.161/0.050; act100(80%)=0.1780/0.0478 vs 0.178/0.048.",
+    "Table 3 column 3 (endline overall ACT targeting from predicted positivity) reproduced EXACTLY: act60=0.1114/0.0526 vs 0.111/0.053; act100=0.0403/0.0519 vs 0.040/0.052.",
+    "Central abstract/headline claim (very high subsidy dramatically increases ACT access; pooled act_any=0.187, SE 0.038, 1% sig) is INDEPENDENTLY CONFIRMED.",
+    "Remaining focal claims (Table 3 cols 1-2 DV means/coefficients, Table 4 mechanisms, Table 6 RDT targeting) require the ACT_AllMain_FINAL_pub dataset, which could not be re-obtained this session: OSF storage API returned persistent HTTP 503 on every node/components across ~25 minutes, and the source ICPSR deposit (openicpsr #112911) is access-gated (403). No contradiction found.",
+    "Verdict agrees with the human FLoRA assessment ('computationally reproducible'): every headline number that could be independently run matched the published values exactly; the partial grade reflects data-access blockage (missing AllMain dataset), not any numerical discrepancy."
+  ],
+  "notes": "Data/code obtained: partial (code + 2 of ~3 datasets needed for the focal tables). Independently verified exactly: Table 2 (all sampled outcomes incl. focal took_act, act_any 0.187/0.038; per-level 0.225/0.161/0.178) and Table 3 col 3 (0.111/0.053, 0.040/0.052). Tables 3 cols1-2, 4, 6 could not be independently re-run because ACT_AllMain_FINAL_pub.dta was unreachable (OSF 503 outage + gated ICPSR). All focal claims computed matched published values exactly with no deviations. P2: required dataset not co-located/obtainable, limiting full independent coverage. P3: OSF reproduction PDFs echo code with no numeric output matrices; do-file uses non-portable absolute paths. Paywalled AER online-appendix PDF removed per protocol; only OA README/reproduction materials kept."
+}

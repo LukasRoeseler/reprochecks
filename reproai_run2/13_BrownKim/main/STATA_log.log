@@ -1,0 +1,470 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      17.0
+___/   /   /___/   /   /___/       BE—Basic Edition
+
+ Statistics and Data Science       Copyright 1985-2021 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user , expiring 16 Sep 2022
+Serial number: 501709358890
+  Licensed to: Jordan Suchow
+               Stevens Institute of Technology
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+
+Checking for updates...
+(contacting http://www.stata.com)
+
+Update status
+    Last check for updates:  09 Mar 2022
+    New update available:    none         (as of 09 Mar 2022)
+    Current update level:    15 Feb 2022  (what's new)
+
+Possible actions
+
+    Do nothing; all files are up to date.
+
+Click to edit automatic update checking preferences
+
+. do "/Users/jordansuchow/Dropbox/Projects/SCORE PBR/mnsc.2013.1794-sm-data/STATA commands.do"
+
+. log using "C:\Users\abrown\Dropbox\Hagen-Alex\R2\data\STATA_log.log", replace
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Dropbox\Hagen-Alex\R2\data\STATA_log.log
+  log type:  text
+ opened on:   9 Mar 2022, 13:08:50
+
+. clear all
+
+. import excel using "STATA_data.xlsx", firstrow
+(27 vars, 101 obs)
+
+. label var rswitch1 "switch point, risk-preference task"
+
+. label var tswitch1 "switch point, time-preference task"
+
+. label var eswitch1 "switch point, intertemporal-substitutability-preference task"
+
+. label var rswitch2 "switch point, risk-preference task, second set"
+
+. label var tswitch2 "switch point, time-preference task, second set"
+
+. label var eswitch2 "switch point, intertemporal-substitutability-preference task, second set"
+
+. label var type1_post "posterior probability of type 1, finite mixture model (C=4)"
+
+. label var type2_post "posterior probability of type 2, finite mixture model (C=4)"
+
+. label var type3_post "posterior probability of type 3, finite mixture model (C=4)"
+
+. label var type4_post "posterior probability of type 4, finite mixture model (C=4)"
+
+. label var alpha "{&alpha}"
+
+. label var beta "{&beta}"
+
+. label var rho "{&rho}"
+
+. label var choice "uncertainty resolution preference"
+
+.
+. //Generates figures 5a-5b
+. twoway histogram rswitch1, xlabel(1(2)11) ylabel(0(10)30) discrete frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\risk_switch1.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\risk_switch1.pdf saved as PDF format
+
+.
+. twoway histogram rswitch2, xlabel(1(2)11) ylabel(0(10)30) discrete frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\risk_switch2.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\risk_switch2.pdf saved as PDF format
+
+.
+. //Generates figures 6a-6b
+. twoway histogram tswitch1, xlabel(1(2)11) ylabel(0(10)60) discrete frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\time_switch1.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\time_switch1.pdf saved as PDF format
+
+.
+. twoway histogram tswitch2, xlabel(1(2)11) ylabel(0(10)60) discrete frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\time_switch2.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\time_switch2.pdf saved as PDF format
+
+.
+. //Generates figures 7a-7b
+. twoway histogram eswitch1, xlabel(1(2)11) ylabel(0(10)65) discrete frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\eis_switch1.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\eis_switch1.pdf saved as PDF format
+
+.
+. twoway histogram eswitch2, xlabel(1(2)11) ylabel(0(10)65) discrete frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\eis_switch2.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\eis_switch2.pdf saved as PDF format
+
+.
+. //Generates figures 8a-c
+. label var alpha "{&alpha} (determined by second switch point)"
+
+. twoway histogram alpha, ylabel(0(20)80) frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\hist_alpha.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\hist_alpha.pdf saved as PDF format
+
+.
+. label var alpha "{&alpha}"
+
+.
+. twoway histogram beta, ylabel(0(20)80) frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\hist_beta.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\hist_beta.pdf saved as PDF format
+
+.
+. twoway histogram rho, ylabel(0(20)80) frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\hist_rho.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\hist_rho.pdf saved as PDF format
+
+.
+. //Generates figures 9a-c
+. twoway scatter alpha beta if choice==1, jitter(10) msymbol(O) || scatter alpha beta if choice==2, jitter(15) msymbol(Oh) || scatter alpha beta if choice==3, jitte
+> r(10) msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4 "trend line")) || lf
+> it alpha beta , xtitle("{&beta} (determined by second switch points)") ytitle("{&alpha} (determined by second switch point)")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\alpha_v_beta.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\alpha_v_beta.pdf saved as PDF format
+
+.
+. twoway scatter beta rho if choice==1, jitter(10) msymbol(O) || scatter beta rho if choice==2, jitter(15) msymbol(Oh) || scatter beta rho if choice==3, jitter(10)
+> msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4 "trend line")) || lfit bet
+> a rho, ytitle("{&beta}")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\beta_v_rho.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\beta_v_rho.pdf saved as PDF format
+
+.
+. twoway scatter alpha rho if choice==1, jitter(10) msymbol(O) || scatter alpha rho if choice==2, jitter(15) msymbol(Oh) || scatter alpha rho if choice==3, jitter(1
+> 0) msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4 "trend line")) || lfit
+> alpha rho, ytitle("{&alpha}")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\alpha_v_rho.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\alpha_v_rho.pdf saved as PDF format
+
+.
+. //Generates figure 10
+. twoway scatter alpha rho if choice==1, jitter(10) msymbol(O) || scatter alpha rho if choice==2, jitter(15) msymbol(Oh) || scatter alpha rho if choice==3, jitter(1
+> 0) msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4 "trend line")) || line
+> alpha alpha, xtitle("{&rho}") ytitle("{&alpha}")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\alpha_v_rho_pred.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\alpha_v_rho_pred.pdf saved as PDF format
+
+.
+. //Generates figures A.1(a-c)
+. twoway scatter rswitch1 tswitch1 if choice==1, jitter(10) msymbol(O) || scatter rswitch1 tswitch1 if choice==2, jitter(15) msymbol(Oh) || scatter rswitch1 tswitch
+> 1 if choice==3, jitter(10) msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4
+>  "trend line")) || lfit rswitch1 tswitch1, ytitle("switch point, risk-preference task")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\srisk_v_stime.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\srisk_v_stime.pdf saved as PDF format
+
+.
+. twoway scatter rswitch1 eswitch1 if choice==1, jitter(10) msymbol(O) || scatter rswitch1 eswitch1 if choice==2, jitter(15) msymbol(Oh) || scatter rswitch1 eswitch
+> 1 if choice==3, jitter(10) msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4
+>  "trend line")) || lfit rswitch1 eswitch1, ytitle("switch point, risk-preference task")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\srisk_v_seis.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\srisk_v_seis.pdf saved as PDF format
+
+.
+. twoway scatter tswitch1 eswitch1 if choice==1, jitter(10) msymbol(O) || scatter tswitch1 eswitch1 if choice==2, jitter(15) msymbol(Oh) || scatter tswitch1 eswitch
+> 1 if choice==3, jitter(10) msymbol(X) legend(label(1 "early resolution chosen") label(2 "late resolution chosen") label(3 "neither chosen (indifferent)") label (4
+>  "trend line")) || lfit tswitch1 eswitch1, ytitle("switch point, time-preference task")
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\stime_v_seis.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\stime_v_seis.pdf saved as PDF format
+
+.
+. //Generates figures A.2(a-d)
+. twoway histogram type1_post, frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type1_hist.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type1_hist.pdf saved as PDF format
+
+. twoway histogram type2_post, frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type2_hist.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type2_hist.pdf saved as PDF format
+
+. twoway histogram type3_post, frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type3_hist.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type3_hist.pdf saved as PDF format
+
+. twoway histogram type4_post, frequency
+
+. graph export "C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type4_hist.pdf", as(pdf) replace
+file /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Documents\Epstein-Zin\revision\results\stata graphs\type4_hist.pdf saved as PDF format
+
+.
+. //Generates data for table 1
+. tabulate rswitch1
+
+     switch |
+     point, |
+risk-prefer |
+  ence task |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |          2        1.98        1.98
+          4 |          6        5.94        7.92
+          5 |         19       18.81       26.73
+          6 |         23       22.77       49.50
+          7 |         30       29.70       79.21
+          8 |         16       15.84       95.05
+          9 |          5        4.95      100.00
+------------+-----------------------------------
+      Total |        101      100.00
+
+.
+. //Generates data for table 2
+. tabulate tswitch1
+
+     switch |
+     point, |
+time-prefer |
+  ence task |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |          3        2.97        2.97
+          2 |         56       55.45       58.42
+          3 |         17       16.83       75.25
+          4 |          8        7.92       83.17
+          5 |          4        3.96       87.13
+          6 |          6        5.94       93.07
+          7 |          1        0.99       94.06
+          8 |          5        4.95       99.01
+          9 |          1        0.99      100.00
+------------+-----------------------------------
+      Total |        101      100.00
+
+.
+. //Generates data for table 3
+. tabulate eswitch1
+
+     switch |
+     point, |
+intertempor |
+al-substitu |
+tability-pr |
+   eference |
+       task |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |         20       19.80       19.80
+          2 |          4        3.96       23.76
+          3 |          4        3.96       27.72
+          4 |          1        0.99       28.71
+          5 |          5        4.95       33.66
+          6 |          6        5.94       39.60
+          7 |          3        2.97       42.57
+          8 |          1        0.99       43.56
+          9 |          4        3.96       47.52
+         10 |          5        4.95       52.48
+         11 |         48       47.52      100.00
+------------+-----------------------------------
+      Total |        101      100.00
+
+.
+. //Generates table 5
+. regress early early_post
+
+      Source |       SS           df       MS      Number of obs   =       101
+-------------+----------------------------------   F(1, 99)        =      3.47
+       Model |  .825538678         1  .825538678   Prob > F        =    0.0653
+    Residual |   23.530897        99  .237685828   R-squared       =    0.0339
+-------------+----------------------------------   Adj R-squared   =    0.0241
+       Total |  24.3564356       100  .243564356   Root MSE        =    .48753
+
+------------------------------------------------------------------------------
+       early | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  early_post |   .2008457   .1077694     1.86   0.065    -.0129922    .4146835
+       _cons |   .4543846   .0892765     5.09   0.000     .2772406    .6315285
+------------------------------------------------------------------------------
+
+. EWreg early early_post
+
+ Errors-In-Variables results                               Number of obs = 101
+------------------------------------------------------------------------------
+       early | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  early_post |   .5072804    .014008    36.21   0.000     .4798251    .5347357
+       _cons |   .2412796   .0504052     4.79   0.000     .1424872     .340072
+------------------------------------------------------------------------------
+
+.
+.
+. //Generates table A.1
+. tobit rswitch1 male age white hh econ height texan barratt ztotal, ll(0) ul(11)
+
+Refining starting values:
+
+Grid node 0:   log likelihood =  -158.1467
+
+Fitting full model:
+
+Iteration 0:   log likelihood =  -158.1467
+Iteration 1:   log likelihood =  -158.1467
+
+Tobit regression                                    Number of obs     =     91
+                                                           Uncensored =     91
+Limits: Lower =  0                                      Left-censored =      0
+        Upper = 11                                     Right-censored =      0
+
+                                                    LR chi2(9)        =  16.20
+                                                    Prob > chi2       = 0.0629
+Log likelihood = -158.1467                          Pseudo R2         = 0.0487
+
+---------------------------------------------------------------------------------
+       rswitch1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+           male |  -.8491591   .3413295    -2.49   0.015    -1.528172    -.170146
+            age |    -.03167   .1207134    -0.26   0.794    -.2718075    .2084675
+          white |   .2720834   .3718854     0.73   0.466    -.4677152    1.011882
+  hhincomelevel |  -.0362425   .0507595    -0.71   0.477    -.1372194    .0647344
+      econmajor |   .5223431   .5229623     1.00   0.321    -.5179955    1.562682
+         height |   .0655858   .0571016     1.15   0.254    -.0480075     .179179
+          texan |  -.5695895   .3775811    -1.51   0.135    -1.320719    .1815396
+        barratt |  -.0396272   .0155381    -2.55   0.013    -.0705373   -.0087171
+         ztotal |   .0178167   .0176434     1.01   0.316    -.0172816     .052915
+          _cons |    10.1423   2.911224     3.48   0.001     4.350946    15.93365
+----------------+----------------------------------------------------------------
+ var(e.rswitch1)|   1.892455   .2805561                       1.40911    2.541593
+---------------------------------------------------------------------------------
+
+. tobit tswitch1 male age white hh econ height texan barratt ztotal, ll(0) ul(11)
+
+Refining starting values:
+
+Grid node 0:   log likelihood = -168.51854
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -168.51854
+Iteration 1:   log likelihood = -168.51854
+
+Tobit regression                                    Number of obs     =     91
+                                                           Uncensored =     91
+Limits: Lower =  0                                      Left-censored =      0
+        Upper = 11                                     Right-censored =      0
+
+                                                    LR chi2(9)        =  15.68
+                                                    Prob > chi2       = 0.0738
+Log likelihood = -168.51854                         Pseudo R2         = 0.0445
+
+---------------------------------------------------------------------------------
+       tswitch1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+           male |   .6021856   .3825366     1.57   0.119    -.1588016    1.363173
+            age |  -.1206115   .1352866    -0.89   0.375    -.3897397    .1485168
+          white |  -.2986099   .4167815    -0.72   0.476    -1.127721    .5305013
+  hhincomelevel |  -.0551956   .0568875    -0.97   0.335     -.168363    .0579718
+      econmajor |    1.47143   .5860971     2.51   0.014     .3054957    2.637363
+         height |  -.0346955   .0639952    -0.54   0.589    -.1620023    .0926114
+          texan |   .7384793   .4231647     1.75   0.085    -.1033302    1.580289
+        barratt |   .0228535   .0174139     1.31   0.193    -.0117883    .0574952
+         ztotal |   .0020716   .0197734     0.10   0.917    -.0372639    .0414072
+          _cons |   3.487832   3.262683     1.07   0.288    -3.002684    9.978348
+----------------+----------------------------------------------------------------
+ var(e.tswitch1)|   2.376971   .3523857                      1.769879    3.192305
+---------------------------------------------------------------------------------
+
+. tobit eswitch1 male age white hh econ height texan barratt ztotal, ll(0) ul(11)
+
+Refining starting values:
+
+Grid node 0:   log likelihood = -210.93513
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -210.93513
+Iteration 1:   log likelihood = -195.34656
+Iteration 2:   log likelihood =  -193.0078
+Iteration 3:   log likelihood = -192.84148
+Iteration 4:   log likelihood = -192.84043
+Iteration 5:   log likelihood = -192.84043
+
+Tobit regression                                    Number of obs     =     91
+                                                           Uncensored =     49
+Limits: Lower =  0                                      Left-censored =      0
+        Upper = 11                                     Right-censored =     42
+
+                                                    LR chi2(9)        =   9.56
+                                                    Prob > chi2       = 0.3868
+Log likelihood = -192.84043                         Pseudo R2         = 0.0242
+
+---------------------------------------------------------------------------------
+       eswitch1 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+           male |    .260976   1.797616     0.15   0.885    -3.315054    3.837006
+            age |   .9207471   .6238859     1.48   0.144    -.3203607    2.161855
+          white |  -1.282954   1.986104    -0.65   0.520    -5.233948    2.668041
+  hhincomelevel |   .2968701   .2634227     1.13   0.263    -.2271616    .8209017
+      econmajor |  -3.206486   2.621751    -1.22   0.225    -8.421984    2.009013
+         height |   .0495578   .3065037     0.16   0.872    -.5601757    .6592912
+          texan |  -2.767971   2.074889    -1.33   0.186    -6.895587    1.359644
+        barratt |  -.1319948   .0822847    -1.60   0.113    -.2956852    .0316956
+         ztotal |   .0357841   .0930037     0.38   0.701    -.1492298    .2207981
+          _cons |  -.4437197   15.05343    -0.03   0.977    -30.38978    29.50234
+----------------+----------------------------------------------------------------
+ var(e.eswitch1)|   43.54485   9.894237                      27.70962    68.42945
+---------------------------------------------------------------------------------
+
+. logit early male age white hh econ height texan barratt ztotal
+
+Iteration 0:   log likelihood = -61.078208
+Iteration 1:   log likelihood = -57.052052
+Iteration 2:   log likelihood = -57.024388
+Iteration 3:   log likelihood = -57.024387
+
+Logistic regression                                     Number of obs =     91
+                                                        LR chi2(9)    =   8.11
+                                                        Prob > chi2   = 0.5233
+Log likelihood = -57.024387                             Pseudo R2     = 0.0664
+
+-------------------------------------------------------------------------------
+        early | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+         male |  -1.355458   .5687802    -2.38   0.017    -2.470246    -.240669
+          age |  -.0791043   .1921469    -0.41   0.681    -.4557052    .2974967
+        white |     .13907   .5640051     0.25   0.805    -.9663598      1.2445
+hhincomelevel |  -.0689427    .080913    -0.85   0.394    -.2275293    .0896438
+    econmajor |   .4420389   .8364521     0.53   0.597    -1.197377    2.081455
+       height |   .1183284   .0906216     1.31   0.192    -.0592867    .2959435
+        texan |   .2305986   .5774767     0.40   0.690     -.901235    1.362432
+      barratt |  -.0006572   .0244193    -0.03   0.979    -.0485182    .0472038
+       ztotal |  -.0125034   .0271796    -0.46   0.645    -.0657745    .0407677
+        _cons |   3.238159   4.536827     0.71   0.475    -5.653859    12.13018
+-------------------------------------------------------------------------------
+
+. log close
+      name:  <unnamed>
+       log:  /Users/jordansuchow/Documents/Stata/C:\Users\abrown\Dropbox\Hagen-Alex\R2\data\STATA_log.log
+  log type:  text
+ closed on:   9 Mar 2022, 13:09:19
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.
+end of do-file
+
+.

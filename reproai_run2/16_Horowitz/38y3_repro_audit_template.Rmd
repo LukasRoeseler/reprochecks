@@ -1,0 +1,336 @@
+---
+title: "<span style='font-size: 20px'>RR Audit: Horowitz_AmSocioRev_2018_exBp - Source Data Reproduction - 38y3</style>"
+output: html_document
+editor_options:
+  chunk_output_type: console
+---
+```{r setup, include=F}
+# These settings are recommended but you are free to change them
+# at your discretion
+knitr::opts_chunk$set(echo=T, warning=F, message=F)
+```
+
+##### Load packages, functions, and data
+
+```{r load packages and data}
+# Please be sure all packages used below are loaded here
+library(tidyr)
+library(dplyr)
+library(readr)
+library(data.table)
+library(haven)
+library(sjlabelled)
+library(purrr)
+library(stringr)
+library(sem)
+options(scipen = 999)
+
+# load the data.
+# Please document in the comments:
+# (1) data files:
+ # cps_00002.csv/cps_00002.csv # Current Population Survey downloads from IPUMS website as per instructions in the README file (https://osf.io/wupht)
+ # occ1970_occ1990dd.dta
+ # occ1980_occ1990dd.dta
+ # occ1990_occ1990dd.dta
+ # occ2000_occ1990dd.dta
+ # census-2000-1990dd-weights.dta
+ # soc-census-weights.dta
+ # Ability.txt
+# (2) accessed: 09 February 2023, 
+# (3) separate links for each dataset: 
+ # cps.ipums.org
+ # https://osf.io/2rhkq, Version ID 1
+ # https://osf.io/x2v6s, Version ID 1
+ # https://osf.io/943sw, Version ID 1
+ # https://osf.io/bdr82, Version ID 1
+ # https://osf.io/zf7x5, Version ID 1
+ # https://osf.io/uq23r, Version ID 1
+ # https://www.onetcenter.org/dl_files/db_51.zip
+
+d <- read_csv("cps_00002.csv/cps_00002.csv")
+occ1970 <- read_dta("occ1970_occ1990dd.dta")
+occ1980 <- read_dta("occ1980_occ1990dd.dta")
+occ1990 <- read_dta("occ1990_occ1990dd.dta")
+occ2000 <- read_dta("occ2000_occ1990dd.dta")
+linkfile1 <- read_dta("census-2000-1990dd-weights.dta")
+link21 <- read_dta("soc-census-weights.dta")
+onet1 <- fread("Ability.txt")
+
+```
+
+##### Clean data: create or transform variables and prune observations for analysis
+
+```{r clean}
+# prepare the dataset as per the original code, https://osf.io/sgv2y
+d = d %>% 
+  filter(WHYPTLWK != 70) %>% 
+  mutate(EDUC_RECODE = case_when( 
+    EDUC <= 73 ~ 'No College',
+    EDUC %in% c(80, 81, 90, 91, 92, 100) ~ 'Some College, No Degree',
+    EDUC %in% c(110, 111, 121) ~ 'BA Degree',
+    EDUC %in% 122:125 ~ 'More than 4-year Degree'),
+    EDUC_RECODE = as.factor(EDUC_RECODE),
+    RACE_RECODE = case_when( 
+      RACE == 100 ~ 'White',
+      RACE == 200 ~ 'Black',
+      HISPAN > 0 & HISPAN <= 902 ~ 'Hispanic',
+      TRUE ~ 'Other'),
+    RACE_RECODE = as.factor(RACE_RECODE),
+    MARST_RECODE = case_when(
+      MARST %in% 1:2 ~ 'Married',
+      MARST == 6 ~ 'Never Married',
+      MARST %in% 3:5 ~ 'Widowed / Divorced / Separated'),
+    MARST_RECODE = as.factor(MARST_RECODE),
+    year5 = floor((YEAR-1971)/5),
+    birthyr = YEAR - AGE,
+    cohort5 = floor((birthyr - 1910)/5),
+    cohort5 = case_when(
+      cohort5 == 15 ~ 14,
+      TRUE ~ cohort5),
+    fouryear = EDUC_RECODE %in% c('BA Degree','More than 4-year Degree')) %>%
+  group_by(year5, cohort5) %>% 
+  mutate(degree_proportion = mean(fouryear),
+         number_in_slice = n()) %>% 
+  ungroup() %>% 
+  filter(cohort5 >= 0 & SEX == 1) %>% 
+  group_by(year5, cohort5) %>% 
+  mutate(men_in_slice = sum(SEX == SEX)) %>% 
+  ungroup() %>% 
+  drop_na(EDUC_RECODE) %>% 
+  mutate(OCC = case_when(
+    YEAR >= 2003 ~ floor(OCC/10),
+    TRUE ~ OCC)) %>% 
+  filter(OCC != 0 &
+           (!(YEAR <= 1982 & OCC >= 990)) & 
+           !(YEAR > 1982 & YEAR <= 2002 & OCC == 905)) %>% 
+  mutate(OCC = case_when(
+    YEAR %in% 2003:2010 & OCC %in% c(121,123) ~ 124,
+    YEAR %in% 2003:2010 & OCC == 133 ~ 134,
+    YEAR %in% 2003:2010 & OCC == 150 ~ 152,
+    YEAR %in% 2003:2010 & OCC == 151 ~ 153,
+    YEAR %in% 2003:2010 & OCC == 181 ~ 186,
+    YEAR %in% 2003:2010 & OCC == 183 ~ 186,
+    YEAR %in% 2003:2010 & OCC == 194 ~ 193,
+    YEAR %in% 2003:2010 & OCC == 296 ~ 290,
+    YEAR %in% 2003:2010 & OCC == 383 ~ 384,
+    YEAR %in% 2003:2010 & OCC == 386 ~ 385,
+    YEAR %in% 2003:2010 & OCC == 416 ~ 413,
+    YEAR %in% 2003:2010 & OCC == 521 ~ 535,
+    YEAR %in% 2003:2010 & OCC == 583 ~ 593,
+    YEAR %in% 2003:2010 & OCC == 602 ~ 605,
+    YEAR %in% 2003:2010 & OCC == 611 ~ 610,
+    YEAR %in% 2003:2010 & OCC == 631 ~ 632,
+    YEAR %in% 2003:2010 & OCC == 675 ~ 676,
+    YEAR %in% 2003:2010 & OCC == 691 ~ 694,
+    YEAR %in% 2003:2010 & OCC == 692 ~ 680,
+    YEAR %in% 2003:2010 & OCC == 693 ~ 694,
+    YEAR %in% 2003:2010 & OCC == 705 ~ 710,
+    YEAR %in% 2003:2010 & OCC == 752 ~ 762,
+    YEAR %in% 2003:2010 & OCC == 760 ~ 762,
+    YEAR %in% 2003:2010 & OCC == 896 ~ 785,
+    YEAR %in% 2003:2010 & OCC == 802 ~ 822,
+    YEAR %in% 2003:2010 & OCC == 812 ~ 822,
+    YEAR %in% 2003:2010 & OCC == 836 ~ 840,
+    YEAR %in% 2003:2010 & OCC == 843 ~ 846,
+    YEAR %in% 2003:2010 & OCC == 844 ~ 846,
+    YEAR %in% 2003:2010 & OCC == 852 ~ 855,
+    YEAR %in% 2003:2010 & OCC == 884 ~ 896,
+    YEAR %in% 2003:2010 & OCC == 890 ~ 896,
+    YEAR %in% 2003:2010 & OCC == 933 ~ 930,
+    YEAR %in% 2003:2010 & OCC == 933 ~ 942,
+    YEAR %in% 2003:2010 & OCC == 950 ~ 956,
+    YEAR %in% 2003:2010 & OCC == 973 ~ 975,
+    YEAR %in% 2003:2010 & OCC == 974 ~ 975,
+    TRUE ~ OCC)) %>% 
+  select(-c(EDUC, RACE, HISPAN, MONTH, ASECFLAG, MARST, WHYPTLWK, fouryear, SEX)) 
+
+names(occ1970) = toupper(names(occ1970))
+names(occ1980) = toupper(names(occ1980))
+names(occ1990) = toupper(names(occ1990))
+names(occ2000) = toupper(names(occ2000))
+d1 = d %>% 
+  filter(YEAR %in% 1971:1982) %>% 
+  remove_all_labels() %>% 
+  merge(occ1970, all = TRUE, by = 'OCC') 
+
+d2 = d %>% 
+  filter(YEAR %in% 1983:1991) %>% 
+  remove_all_labels() %>% 
+  merge(occ1980, all = TRUE, by = 'OCC')
+
+d3 = d %>% 
+  filter(YEAR %in% 1992:2002) %>%
+  remove_all_labels() %>% 
+  merge(occ1990, all = TRUE, by = 'OCC')
+
+d4 = d %>% 
+  filter(YEAR %in% 2003:2010) %>%
+  remove_all_labels() %>% 
+  merge(occ2000, all = TRUE, by = 'OCC')
+
+d = rbind(d1, d2, d3, d4) %>% 
+  rename(occ1990dd = OCC1990DD) %>% 
+  drop_na(occ1990dd) %>% 
+  filter(occ1990dd <= 890)
+
+linkfile1 = linkfile1 %>% 
+  select(occ1990dd, occ2000) %>% 
+  merge(link21) %>% 
+  mutate(occsoc = soc2000) %>% 
+  select(-c(occ2000, soc2000))
+
+
+onet1 = onet1 %>% 
+  select(occsoc = "O*NET-SOC Code", 
+         RatingName = "Element Name", 
+         RatingValue = "Data Value") %>% 
+  filter(RatingName == "Oral Comprehension" |
+           RatingName == "Written Comprehension" |
+           RatingName == "Oral Expression") %>% 
+  as.data.frame() 
+  
+onet1$occsoc = gsub("\\..*","", onet1$occsoc)
+onet1$occsoc = as.numeric(gsub("[[:punct:]]", "", onet1$occsoc))
+  
+onet1 = onet1 %>% 
+  group_by(occsoc, RatingName) %>% 
+  summarise_at(vars(RatingValue), list(RatingValue = mean))
+
+onet1$RatingName = gsub(" ","", onet1$RatingName)
+
+onet1 = onet1 %>% 
+  pivot_wider(names_from = RatingName, values_from = c(RatingValue))
+
+onet1 = merge(onet1, linkfile1) %>% 
+  select(-occsoc) %>% 
+  group_by(occ1990dd) %>% 
+  summarise_at(vars(socwt, OralComprehension, OralExpression, WrittenComprehension), 
+               list(weighted.mean)) %>% 
+  select(-socwt)
+
+d = as.data.table(d)
+onet1 = as.data.table(onet1)
+gc()
+d = merge(d, onet1)
+
+d = d %>% 
+  drop_na()
+
+rm(list=(ls()[ls()!="d"]))
+
+occs = d %>% 
+  select(occ1990dd, 
+         OralComprehension, 
+         OralExpression, 
+         WrittenComprehension) %>%
+  unique() %>% 
+  as.data.table()
+
+
+set.seed(1176)
+cfa_est = sem(cfa(text='verbal: OralComprehension, OralExpression, WrittenComprehension'), 
+               data = occs[, .(OralComprehension, OralExpression, WrittenComprehension)])
+
+occs[, verbal := (cfa_est$coeff[1]*OralExpression + 
+                    cfa_est$coeff[2]*occs$WrittenComprehension + 
+                    OralComprehension)/(cfa_est$coeff[1] + cfa_est$coeff[2] + 1)]
+
+d = merge(d, occs[, .(occ1990dd, verbal)], by = 'occ1990dd')
+
+d = d %>% 
+  mutate(cohort5 = as.factor(cohort5),
+         EDUC_RECODE = factor(EDUC_RECODE, 
+                              levels = c('No College',
+                                         'Some College, No Degree',
+                                         'BA Degree',
+                                         'More than 4-year Degree')))
+
+```
+
+##### Analysis of focal claim(s)
+
+```{r analysis}
+
+model_1 = lm(verbal ~ 
+          degree_proportion +
+          EDUC_RECODE +
+          degree_proportion:EDUC_RECODE +
+          AGE + I(AGE^2) + I(AGE^3) +
+          cohort5 +
+          YEAR +
+          MARST_RECODE +
+          RACE_RECODE +
+          METRO +
+          REGION +
+          RACE_RECODE:cohort5 +
+          MARST_RECODE:cohort5 +
+          REGION:EDUC_RECODE +
+          REGION:YEAR,
+        data = d)
+
+
+```
+
+##### Summarize results
+
+```{r outcomes}
+
+print(c("sample size", nobs(model_1)))
+print(c("test statistic", summary(model_1)$coefficients[32,3]))
+print(c("p-value", summary(model_1)$coefficients[32,4]))
+print(paste(c("focal coefficient"), summary(model_1)$coefficients[32,1]))
+```
+
+##### Reported RR outcomes
+These values reflect what is currently in the dataset of RR outcomes.
+
+* Report: https://osf.io/wrdvs
+* Analytic sample size: 1189425.0
+* Cell count: NA
+* Test statistic: t = 2.316
+* p-value: 0.019
+* Effect size: NA
+* Focal coefficient: 0.088
+* Other key outcomes: NA
+
+
+
+##### Audit outcomes
+* Analytic sample size: sample size: 1189425.0
+* Cell count: NA 
+* Test statistic: t = 4.741
+* p-value: 0.000
+* Effect size: NA 
+* Focal coefficient: 0.190
+* Other key outcomes: NA
+
+##### Assessment
+
+1. Were you able to precisely reproduce all of the RR project’s key statistical 
+results? For the effect size field, a result within 5% of the RR outcome 
+can be considered precisely reproduced. No
+
+
+2. [Optional, pending response to (1)] Did precisely reproducing the RR project’s key statistical results require 
+reproducing any statistical or programming errors in the original attempt’s analysis? NA
+
+
+3. [Optional, pending response to (1)] If you were not able to precisely reproduce the RR project’s key statistical 
+results, are the results you did obtain substantively similar to the RR project?
+As a heuristic, consider if an independent researcher’s conclusions about the 
+RR project would be changed by your results: Yes
+
+
+4. [Optional, pending response to (3)] If the answer to the preceding question is no, please describe the substantive 
+differences between your verification attempt and the reported results: NA
+
+
+5. Are there any other notes about this verification attempt you’d like to share? It's hard to guess the reason for differences but the data run with the original code (also in R) doesn't reproduce the original results either. Maybe the set.seed was different at some point or one of the simulations produced different results. However, as in the original project, the proportion of individuals with a college degree on use of verbal skills is positive and significant so the results are substantively similar. 
+ 
+##### Session info
+
+```{r session info}
+
+sessionInfo()
+
+```

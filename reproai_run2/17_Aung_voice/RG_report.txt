@@ -1,0 +1,547 @@
+=====PAGE 1=====
+A comment on “Effects of Voice Pitch on Social Perceptions Vary With Relational 
+Mobility and Homicide Rate” 
+ 
+Abstract 
+The study by Aung et al. (2024) analysed the influence of voice’s fundamental frequency 
+(fo) on perceptions of individual traits such as attractiveness, prestige and formidability. 
+Authors highlight the influence of the socioecological factors of relational mobility and 
+violence. Using data from 22 countries and Bayesian mixed effect models, authors report 
+that low male fo are associated with higher perceptions of formidability and prestige in 
+contexts of high mobility and homicide rates. The study  shows that high female fo is 
+related to women’s perceptions of flirtatiousness in contexts of lower relational mobility 
+where competition for mates is larger. We successfully reproduced the main findings of 
+the study and performed an analysis using an alternative frequentist approach.  
+ 
+1. Introduction 
+Data were obtained from 3173 participants in 44 locations across 22 nations. Participants 
+listened to pairs of voices and were asked to choose one voice from each pair (first or 
+second) in response to specific questions. Men were asked to indicate which male voice 
+in each pair sounded more respected, admired, talented, and successful (“prestige”) and 
+which male voice in each pair sounded more likely to win a physical fight (“formidability”). 
+Men were also asked to indicate which female voice in each pair sounded more attractive 
+for a short-term, uncommitted romantic relationship (“short term”) and which female voice 
+in each pair was more attractive for a long -term, committed relationship such as steady 
+dating or marriage (“long term”). Women were asked to in dicate which female voice in 
+each pair would be more attractive to men (“attractive”) and which female voice in each 
+pair sounded more interested in attracting men (“flirtatious”). Women were also asked to 
+indicate which male voice in each pair sounded mor e attractive for a short -term, 
+uncommitted romantic relationship (“short term”) and which male voice in each pair was 
+more attractive for a long-term, committed relationship such as steady dating or marriage 
+(“long term”). For the data analysis, binary logistic Bayesian mixed -effects models were 
+fit to the data using RStan via the brms package. 
+=====PAGE 2=====
+In the present report , we test whether the main results and claims made by the 
+authors are computationally reproducible. We focus on the analysis of the impact of the 
+fundamental frequency ( fo) on several indicators of perceptions of female and male 
+voices, as reported in the text (pp. 255-257).  
+ 
+2. Computational Reproducibility: 
+We used the replication package provided by the authors here: https://osf.io/tnygr/. The 
+replication package lacked a README file to guide readers. The authors provide raw 
+data and distance matrices, as well as analysis data that results from running the 
+Bayesian models. Very minimal cleaning code is used , but this can be explained by the 
+experimental nature of this study and cannot be deemed a limitation.   
+Authors specify in the text particular versions of R packages used for analysis . We 
+tried using the same versions; some of them were hard to access and install. Running the 
+models was ultimately successful, but a lot of set-up and troubleshooting was necessary 
+on some of our machines (we used both Windows and macOS devices).  
+We noticed a minor error when checking the code. At the start of the main code file 
+(“PsychSci.R”), data is imported as a data.frame object called “data”; however, the 
+subsequent model uses an object called “newdata”, which is never defined anywhere 
+else. We believe that “newdata” was actually supposed to be “data”, and making this 
+change solved the issue.  
+The authors provided code for over 70 models that they ran . We chose to focus on 
+models M1, M17, M18, M19, M20, M23, M57, M58, and M62 , since they seemed to 
+constitute the most significant part of the authors’ claims . We selected these models as 
+opposed to reproducing all models due to computational and time constraints. We 
+compared models that resulted from the code and analysis data provided to find whether 
+they were equal. Despite some factors  that made our reproduction more cumbersome,  
+we ultimately consider that the authors fulfilled all the reproducibility criteria (see Table 
+1).  
+ 
+ 
+ 
+=====PAGE 3=====
+ Table 1. Reproducibility criteria 
+  Fully Partial No 
+Raw data provided x     
+Cleaning code provided x    
+Analysis data provided x     
+Analysis code provided x    
+Reproducible from raw 
+data 
+x 
+    
+Reproducible from 
+analysis data 
+x 
+    
+  
+Authors reported coefficients, estimated marginal means and post-hoc comparisons. 
+Results reported in text are a mix of beta (b) coefficients and odds ratios (OR); however, 
+the labels were often incorrect. This made the comparison of results in text and those 
+obtained when running the models confusing and time -consuming. Part of the  b 
+coefficients reported in the text are actually odds ratios. This has been checked by  
+exponentiating the coefficients from the model output (eb) and comparing them to those 
+reported in the article (see Table 2). While in those instances the coefficients match after 
+exponentiating, many of the credible intervals (CrI) still don’t match – we are not sure why 
+that is. The differences are small and don’t affect the claims made by the authors, but 
+they go beyond what could be explained by rounding error. We also noticed some very 
+minor inconsistencies that we suspect come from at times truncating and at times 
+rounding up results to three or two decimals. 
+ 
+3. Discrepancies between pre-registered report and article:  
+While we appreciate the authors' commitment to pre -registration and open -science 
+practices, we observed a possible shift in emphasis between the pre-registration form and 
+the final manuscript. For instance, the pre -registered report included health, inequa lity, 
+and food security as key factors, whereas the final manuscript focuses primarily on the 
+=====PAGE 4=====
+role of relational mobility and male rivalry without linking the two to the key factors 
+highlighted in the pre-registered report.  
+  
+4. Findings on the moderating role of relational mobility  
+The authors did not report findings related to the moderating roles of male rivalry or 
+relational mobility. Our analysis indicates that relational mobility does not moderate 
+women's preference for lower male voice pitch. Instead, women generally prefer a higher 
+male pitch across varying degrees of male rivalry and relational mobility.  A higher male 
+voice pitch (fo) slightly increased the probability of short-term or long-term partner choice 
+judgments across nations, contrary to theoretical expectations. 
+All in all, the reported results show a slight increase in the probability of short -term 
+partner choice judgments for higher male voice pitch, contrary to theoretical expectations. 
+No strong evidence was found linking pitch to long-term mate preferences, suggesting a 
+minimal role for pitch in shaping preferences across diverse cultures. 
+5. Robustness reproduction: 
+As a robustness check, we tried to reproduce the main findings of this paper using a 
+frequentist modelling approach. We used logistic regression mixed models and included 
+all the variables used by the authors, except for geographic relatedness.  Results can be 
+found in the replication table . Overall, the results from the frequentist models are very 
+similar to the results from the Bayesian models and  do not change  the interpretation 
+advanced by the authors (see Table 2). 
+6. Conclusions:  
+In this brief report, we presented our findings after attempting to replicate the results of 
+the original authors and implementing an additional robustness check. We find that the 
+main findings could be reproduced successfully and that they hold even when using a 
+modelling approach based on the frequentist framework. While we did find some issues 
+related to the code provided, the reporting of the coefficients, and some inconsistencies 
+between the preregistration and the article, they were minor  and did not clash with th e 
+overall narrative of the paper.  
+=====PAGE 5=====
+ 
+Table 2. Replication results 
+ 
+Indicator 
+Coefficients 
+reported in 
+text 
+Coefficients 
+from model 
+output 
+Coefficients 
+from model 
+output in 
+odds ratios 
+Frequentist 
+model 
+coefficients 
+Model 
+source 
+Men’s 
+perception 
+of male 
+voices 
+Formidability 
+b = 2.03, 
+89% CrI: 
+[1.55, 2.66] 
+b = 0.711, 
+89% CrI: 
+[0.278,  
+1.031] 
+OR = 2.030, 
+89% CrI: 
+[1.321,  
+2.804] 
+b = 0.785, 
+95% CI: 
+[0.666,  
+0.905] 
+M1 
+Prestige 
+b = 1.93, 
+89% CrI: 
+[1.48, 2.56] 
+b = 0.662, 
+89% CrI: 
+[0.223,  
+0.977] 
+OR = 1.939, 
+89% CrI: 
+[1.249,  
+2.657] 
+b = 0.735, 
+95% CI:  
+[0.615, 
+0.854] 
+M1 
+Formidability 
+vs prestige 
+contrast 
+OR = 0.95, 
+89% CrI: 
+[0.89, 1.01] 
+OR = 0.957, 
+89% CrI: 
+[0.881, 1.035] 
+- 
+OR = 0.955, 
+95% CI: 
+[0.841, 
+1.086] 
+M1 
+Formidability 
+vs short term 
+attractiveness 
+OR = 0.77, 
+89% CrI: 
+[0.71, 0.83] 
+OR = 0.771, 
+89% CrI: 
+[0.702, 0.842] 
+- 
+OR = 0.769, 
+95% CI:  
+[0.677, 
+0.874] 
+M1 
+Formidability 
+vs long term 
+attractiveness 
+OR = 0.91, 
+89% CrI: 
+[0.84, 0.98] 
+OR = 0.909, 
+89% CrI: 
+[0.825, 0.991] 
+- 
+OR = 0.908, 
+95% CI: 
+[0.799, 
+1.033] 
+M1 
+Formidability * 
+RM 
+b = 1.57, 
+89% CrI: 
+[1.11, 2.29] 
+b = 0.450, 
+89% CrI: 
+[0.098, 0.831] 
+OR = 1.568, 
+89% CrI: 
+[1.103, 2.294] 
+b = 0.394, 
+95% CI: 
+[0.072, 
+0.715] 
+M19 
+Prestige * RM 
+b = 1.49, 
+89% CrI: 
+b = 0.400, 
+89% CrI: 
+OR = 1.492, 
+89% CrI: 
+b = 0.321, 
+95% CI: 
+M20 
+=====PAGE 6=====
+[1.20, 1.88] [0.181, 0.632] [1.198, 1.881] [0.097, 
+0.545] 
+Formidability * 
+RM (homicide 
+rates high) 
+b = 1.49, 
+89% CrI: 
+[1.12, 1.97] 
+b = 0.400, 
+89% CrI: 
+[0.111, 0.683] 
+OR = 1.492, 
+89% CrI: 
+[1.118, 1.980] 
+b = 0.410, 
+95% CI:  
+[0.141, 
+0.680] 
+M57 
+Prestige * RM 
+(homicide rates 
+high) 
+b = 1.35 89% 
+CrI: [1.07, 
+1.68] 
+b = 0.300, 
+89% CrI: 
+[0.066, 0.518] 
+OR = 1.350, 
+89% CrI: 
+[1.068, 1.678] 
+b = 0.279, 
+95% CI:  
+[0.084, 
+0.473] 
+M58 
+Women’s 
+perception 
+of male 
+voices 
+Long term 
+attractiveness 
+b = 1.86, 
+89% CrI: 
+[1.39, 2.39] 
+b = 0.616, 
+89% CrI: [ 
+0.190, 0.946] 
+OR = 1.852, 
+89% CrI: 
+[1.209,  
+2.576] 
+b = 0.689, 
+95% CI:  
+[0.570, 
+0.808] 
+M1 
+Short term 
+attractiveness 
+b = 1.57, 
+89% CrI: 
+[1.17, 2.03] 
+b = 0.450, 
+89% CrI: 
+[0.021, 0.773] 
+OR = 1.568, 
+89% CrI: 
+[1.021, 2.167] 
+b = 0.523, 
+95% CI:  
+[0.404, 
+0.642] 
+M1 
+Long term vs 
+short term 
+OR = 1.18, 
+89% CrI: 
+[1.10, 1.26] 
+OR = 1.189, 
+89% CrI: 
+[1.089, 1.272] 
+- 
+OR = 1.181, 
+95% CI:  
+[1.057, 
+1.319] 
+M1 
+Short term * 
+homicide rates 
+b = 1.23, 
+89% CrI: 
+[1.04, 1.21] 
+b = 0.120, 
+89% CrI: 
+[0.043, 0.191] 
+OR = 1.127, 
+89% CrI: 
+[1.043, 1.210] 
+b = 0.116, 
+95% CI:  
+[0.024, 
+0.209] 
+M62 
+Long term 
+attractiveness * 
+homicide rates 
+b = 0.95, 
+89% CrI: 
+[0.81, 1.12] 
+b = -0.049, 
+89% CrI: [-
+0.210,     
+0.107] 
+OR = 0.952, 
+89% CrI: 
+[0.810, 1.113] 
+b = -0.058, 
+95% CI:  [-
+0.256, 0.140] 
+M62 
+Short term 
+attractiveness * 
+b = 1.07, 
+89% CrI: 
+b = 0.066, 
+89% CrI: [-
+OR = 1.068, 
+89% CrI: [ 
+b = 0.058, 
+95% CI:  [-
+M62 
+=====PAGE 7=====
+homicide rates [0.90, 1.26] 0.097,     
+0.225] 
+0.908, 1.252] 0.140, 0.257] 
+Slope 
+differences: 
+short term vs 
+long term 
+b = 0.89, 
+89% CrI: 
+[0.83, 0.96] 
+b = -0.115, 
+89% CrI: [-
+0.191, -
+0.043] 
+OR = 0.891, 
+89% CrI: 
+[0.826, 0.958] 
+b = -0.116, 
+95% CI: [-
+0.209, -
+0.024] 
+M62 
+Men’s 
+perception 
+of female 
+voices 
+Short term 
+attractiveness 
+b = 0.78, 89% 
+CrI: [0.59, 
+1.03] 
+b = -0.252, 
+89% CrI: [-
+0.589, 0.164] 
+OR = 0.777, 
+89% CrI: 
+[0.556, 1.178] 
+b = -0.263, 
+95% CI:  [-
+0.382, -
+0.145] 
+M1 
+Long term 
+attractiveness 
+b = 1.51, 89% 
+CrI: [1.16, 
+2.01] 
+b = 0.409, 89% 
+CrI: [0.051, 
+0.808] 
+OR = 1.505, 
+89% CrI: 
+[1.052, 2.244] 
+b = 0.404, 
+95% CI:  
+[0.285, 
+0.523] 
+M1 
+Short term vs 
+long term 
+OR = 1.94, 
+89% CrI: [1.83, 
+2.06] 
+OR = 1.937, 
+89% CrI: 
+[1.794, 2.087] 
+- 
+OR = 1.949, 
+95% CI:  
+[1.751, 
+2.169] 
+M1 
+Short term * 
+RM 
+No effect in 
+text 
+b = 0.090, 89% 
+CrI: [-0.120, 
+0.298] 
+OR = 1.094, 
+89% CrI: 
+[0.887, 1.347] 
+b = 0.105, 
+95% CI:  [-
+0.037, 0.246] 
+M18 
+Long term * 
+RM 
+No effect in 
+text 
+b = 0.240, 89% 
+CrI: [-0.036, 
+0.526] 
+OR = 1.271, 
+89% CrI: 
+[0.964, 1.691] 
+b = 0.178, 
+95% CI:  [-
+0.036, 0.392] 
+M17 
+Women’s 
+perception 
+of female 
+voices 
+Flirtatiousness 
+b = 0.73, 89% 
+CrI: [0.57, 
+0.98] 
+b = -0.305, 
+89% CrI: [-
+0.658, 0.098] 
+OR = 0.737, 
+89% CrI: 
+[0.518, 1.102] 
+b = -0.317, 
+95% CI:  [-
+0.435, -
+0.199] 
+M1 
+Attractiveness 
+to men 
+b = 0.90, 89% 
+CrI: [0.69, 
+1.20] 
+b = -0.110, 
+89% CrI: [-
+0.439, 0.327] 
+OR = 0.896, 
+89% CrI: 
+[0.645, 1.386] 
+b = -0.121, 
+95% CI:  [-
+0.239, -
+0.003] 
+M1 
+=====PAGE 8=====
+Flirtatiousness 
+* RM 
+b = 1.55, 89% 
+CrI: [1.16, 
+2.03] 
+b = 0.44, 89% 
+CrI: [0.149,  
+0.710] 
+OR = 1.553, 
+89% CrI: 
+[1.161, 2.033] 
+b = 0.470, 
+95% CI:  
+[0.269, 
+0.671] 
+M23 
+Note: RM stands for relational mobility; CrI stands for credible interval. 
+ 
+ 
+ 
+ 

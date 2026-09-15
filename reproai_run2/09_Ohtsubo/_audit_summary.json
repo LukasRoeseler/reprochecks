@@ -1,0 +1,18 @@
+{
+  "grade": "FULL",
+  "sev": "P0-0 P1-0 P2-2 P3-1",
+  "data_status": "partial",
+  "key_findings": [
+    "Resolved the reproduction node: the registry's OSF hint (osf.io/ga35z) was actually a single file GUID (the 'Transparency Trail' docx); the real FLoRA reproduction node for Ohtsubo et al. (2014) is osf.io/y47pr (Loomas et al. 2022, 'Reproduction (with author data)', DOI 10.17605/osf.io/y47pr).",
+    "Study itself is NOT a cross-cultural apology/trust study: the DOI (10.1016/j.evolhumbehav.2014.02.004) resolves to Ohtsubo, Matsumura, Noda, Sawa, Yagi & Yamaguchi (2014) 'It's the attention that counts: interpersonal attention fosters intimacy and social exchange', Evol Hum Behav 35(3):237-244.",
+    "FLoRA reproduction is claim-level ('single-trace'), targeting Claim 4: Study 2a t-test of intimacy (attention vs no-attention): t(27)=5.91, p<.001, d=2.20, N=29, attention M=4.58 (SD=.82) vs no-attention M=2.82 (SD=.79).",
+    "Independently re-ran the reproduction from the raw author data (Ohtsubo_et_al2014Study2a_data.xls, 30 subjects, sheet 'Sheet3'): reconstructed the 4-item intimacy scale (r1+r4rec+r6+r7)/4 and verified it equals the dataset 'Intimacy' column exactly.",
+    "Confirmed the FLoRA excluded-participant analysis: the paper reports N=29 male=10 but data has 30 subjects (male=11); one male must be excluded; of the 5 candidates (rows 3,12,13,22,25), only excluding row 22 OR 25 reproduces the article statistics, and both give identical results.",
+    "Computed (R, Student t-test, var.equal=TRUE): excluding row 22 or 25 -> N=29, t(27)=5.908 (reported 5.91), p=0.000002695 (<.001), Cohen's d=2.196 (reported 2.20), attention M=4.583/SD=.816, no-attention M=2.821/SD=.787 (reported 4.58/.82 and 2.82/.79). EXACT match at reported precision.",
+    "Also confirmed internal arithmetic from paper-reported means/SDs for Studies 2a/2b (e.g., Study 2b intimacy t computed 4.11 vs reported 4.10; interest t 1.94 vs 1.96, d=0.59), consistent with the reported tests.",
+    "Data-sharing is limited to Study 2a: the paper's other headline results (Study 1a/1b ANOVA attention main effects, Study 2b/2c) could not be independently re-run from shared reproduction data; only summary statistics were present.",
+    "Human FLoRA classification 'computationally reproducible' is CONFIRMED for the focal (Study 2a) claim; my independent verdict matches."
+  ],
+  "headline_verified": true,
+  "notes": "Verdict matches human FLoRA 'computationally reproducible'. OSF was in emergency maintenance for ~2.5h at audit time (503), which initially blocked access; after resolution, node y47pr files, the Transparency Trail docx, the R script, and the raw Study2a .xls were fetched via the OSF API/download endpoints. Grade FULL for the focal headline claim (exact reproduction). Caveats: (1) the reproduction covers a single claim (Study 2a t-test) rather than the entire paper, so not all headline numbers could be re-run (P2); (2) genuine analytic ambiguity in identifying the excluded participant - two candidates (rows 22 or 25) both reproduce the results, so the reproduction is not fully deterministic from the data alone (P2); (3) the reproducibility trail depends on analyst judgment/translation of the intimacy item set (P3). No fabricated numbers; all figures computed here were produced by re-running the analysis on the downloaded raw data."
+}

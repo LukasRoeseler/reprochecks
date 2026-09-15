@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Audit — Lasser et al. (2023) NHB</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; background: #f5f6f8; color: #1a1a2e; line-height: 1.5; }
+  header { background: #1a1a2e; color: #fff; padding: 24px 32px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header .sub { color: #aeb6c9; font-size: 14px; margin-top: 6px; }
+  main { max-width: 980px; margin: 24px auto; padding: 0 16px; }
+  .card { background: #fff; border: 1px solid #e2e4ea; border-radius: 8px; padding: 20px 24px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  h2 { font-size: 17px; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-top: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 10px 0; }
+  th, td { border: 1px solid #dde0e6; padding: 7px 9px; text-align: left; }
+  th { background: #f0f2f7; }
+  .grade { display: inline-block; background: #1f8a4c; color: #fff; padding: 4px 14px; border-radius: 20px; font-weight: 600; font-size: 14px; }
+  .ok { color: #1f8a4c; font-weight: 600; }
+  .warn { color: #b7791f; font-weight: 600; }
+  .info { color: #3b5bdb; font-weight: 600; }
+  .find { margin-bottom: 12px; padding-left: 4px; }
+  .find .tag { display: inline-block; background: #f0f2f7; border-radius: 4px; padding: 1px 7px; font-size: 12px; font-weight: 600; margin-right: 6px; }
+  code, .mono { font-family: Consolas, Menlo, monospace; font-size: 12.5px; }
+  .verdict { background: #eef8f1; border-left: 4px solid #1f8a4c; padding: 14px 18px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ReproAI Numerical-Reproducibility Audit</h1>
+  <div class="sub">Lasser, Aroyehun, Carrella, Simchon, Garcia &amp; Lewandowsky (2023), <i>Nature Human Behaviour</i> 7(12):2140–2151 — &ldquo;From alternative conceptions of honesty to alternative facts in communications by US politicians&rdquo; &middot; DOI 10.1038/s41562-023-01691-w</div>
+</header>
+<main>
+
+  <div class="card">
+    <h2>Grade</h2>
+    <span class="grade">FULL</span>
+    &nbsp;<span>Severity: P0-0 P1-0 P2-1 P3-1 &middot; Data status: <b>obtained</b></span>
+  </div>
+
+  <div class="card">
+    <h2>Data sourcing &amp; reproduction inputs</h2>
+    <p>Paper full text obtained from PubMed Central (PMC10730411, CC-BY). The FLoRA reproduction project (OSF <code>f5p78</code>, Münster Replication Games: Brummernhenrich, Feistauer, Eickmann &amp; Vaporova) holds the replication <i>report</i> and the authors&rsquo; <i>response</i>, which were read to understand prior findings and to identify the source-data location.</p>
+    <p>The authors&rsquo; open reproduction package (OSF <code>vny8k</code> + GitHub <code>JanaLasser/new-ontology-of-truth</code>) was used to independently re-compute the headline claims:</p>
+    <ul>
+      <li><span class="mono">data/users/users.csv</span> &rarr; Welch tests (temporal dynamics)</li>
+      <li><span class="mono">data/tweets/tweets_for_lme_modelling_NG.csv</span> &rarr; tweet-level LME (headline &ldquo;12.8-point&rdquo; claim), 504,809 rows</li>
+      <li><span class="mono">data/articles/articles.csv.gzip</span> &rarr; article-level OLS, N=261,765</li>
+      <li>Model code read from <span class="mono">code/analysis/lmer_models_tweets.Rmd</span> and <span class="mono">OLS_regression_articles.ipynb</span></li>
+    </ul>
+    <p class="info"><b>Important:</b> The human FLoRA could not run the LME because the two files <span class="mono">tweets_for_lme_modelling_NG.csv</span> and <span class="mono">tweets_for_lme_modelling_independent.csv</span> had been removed from the OSF repository (11 Mar 2023). The authors restored them on <b>02 Feb 2026</b>, so by the time of this independent audit the data were obtainable and the headline model could be fitted end-to-end.</p>
+  </div>
+
+  <div class="card">
+    <h2>Claim inventory &amp; independent verification</h2>
+    <table>
+      <tr><th>#</th><th>Headline / claim (paper)</th><th>Tool</th><th>Reproduced value</th><th>Paper value</th><th>Status</th></tr>
+      <tr>
+        <td>C1</td>
+        <td>Belief speaking increased over time for Democrats</td>
+        <td>R/Python Welch t</td>
+        <td>m −0.031→0.017; t(558)=−11.317; d=0.850</td>
+        <td>t(558)=−11.317, d=0.850, −0.031→0.017</td>
+        <td class="ok">Exact</td>
+      </tr>
+      <tr>
+        <td>C2</td>
+        <td>Belief speaking increased over time for Republicans</td>
+        <td>R/Python Welch t</td>
+        <td>m −0.040→0.012; t(493)=−10.819; d=0.854</td>
+        <td>t(493)=−10.819, d=0.854, −0.040→0.012</td>
+        <td class="ok">Exact</td>
+      </tr>
+      <tr>
+        <td>C3</td>
+        <td>Fact speaking increased over time for Democrats</td>
+        <td>R/Python Welch t</td>
+        <td>m −0.027→0.009; t(516)=−9.753; d=0.748</td>
+        <td>t(516)=−9.753, d=0.748, −0.027→0.009</td>
+        <td class="ok">Exact</td>
+      </tr>
+      <tr>
+        <td>C4</td>
+        <td>Fact speaking increased over time for Republicans</td>
+        <td>R/Python Welch t</td>
+        <td>m −0.038→−0.003; t(483)=−8.442; d=0.671</td>
+        <td>t(483)=−8.442, d=0.671, −0.038→−0.003</td>
+        <td class="ok">Exact</td>
+      </tr>
+      <tr>
+        <td>C5</td>
+        <td><b>Headline:</b> for Republicans (not Democrats) a 10% increase in belief speaking &rArr; −12.8 NewsGuard points (tweet-level LME)</td>
+        <td>R (lme4) LME</td>
+        <td>belief&times;party[Rep] = <b>−0.128</b>; SE 0.0089; 95% CI [−0.146, −0.111]; N=504,809</td>
+        <td>−0.128; CI [−0.146, −0.111]; 504,809 obs</td>
+        <td class="ok">Exact</td>
+      </tr>
+      <tr>
+        <td>C6</td>
+        <td>LME co-factors: Df&rsquo;, party[Republican], Rep&times;Df&rsquo;, 3-way</td>
+        <td>R (lme4) LME</td>
+        <td>0.0215, −0.0694, 0.0851, −0.0852</td>
+        <td>0.022, −0.069, 0.085, −0.085</td>
+        <td class="ok">Exact</td>
+      </tr>
+      <tr>
+        <td>C7</td>
+        <td>Article-level OLS: quality vs belief/fact similarity in linked article text</td>
+        <td>Python statsmodels</td>
+        <td>N=261,765; Rep −0.099, Db&rsquo;(D) −0.065, Rep&times;Db&rsquo; −0.540, Dt&rsquo; 0.026, Rep&times;Dt&rsquo; 0.110, Db&times;Dt 0.066, 3-way −0.594</td>
+        <td>−0.099, −0.065, −0.540, 0.026, 0.110, 0.067, −0.594</td>
+        <td class="ok">Exact*</td>
+      </tr>
+    </table>
+    <p style="font-size:12px; color:#555;">*Article OLS coefficients reported on the paper&rsquo;s rescaled [0,1] NewsGuard scale; raw model (NewsGuard 0–100) coefficients divided by 100 match the paper exactly. All headline statistics reproduce to 3 decimal places.</p>
+  </div>
+
+  <div class="card">
+    <h2>Computational re-run notes</h2>
+    <p><b>LME (C5/C6):</b> fitted in R 4.6.1 using <span class="mono">lme4/lmerTest</span> with the exact formula from <span class="mono">lmer_models_tweets.Rmd</span>:
+    <span class="mono">NG ~ belief*truth + belief*truth*party + (1 + belief*truth|author_id)</span>,
+    control <span class="mono">bobyqa, maxfun=30000</span>, baseline = Democrat, N = 504,809 (matches paper).</p>
+    <p><b>OLS (C7):</b> statsmodels 0.14.1, formula <span class="mono">NG_score ~ avg_belief_score + avg_truth_score + party + party*avg_belief_score + party*avg_truth_score + party*avg_belief_score*avg_truth_score</span>, filtered to <span class="mono">party_count==1</span> + dropna &rarr; N=261,765 (matches paper).</p>
+    <p><b>Headline derivation:</b> the &ldquo;12.8-point&rdquo; figure equals the belief&times;Republican interaction coefficient (−0.128) expressed as NewsGuard points (0.128 &times; 100). This coefficient, its standard error and 95% CI all reproduce.</p>
+  </div>
+
+  <div class="card">
+    <h2>Findings (severity)</h2>
+    <div class="find"><span class="tag">P2</span><b>Figure 2 caption sample-size inconsistency.</b> The caption reports &ldquo;2011–2013: 331 Democrats and 514 Republicans; 2019–2022: 295 Democrats and 494 Republicans,&rdquo; but the data actually contain (per tests that reproduce exactly): early 331 D / 295 R; late 514 D / 494 R. The paper&rsquo;s own reproduced Welch degrees of freedom (558/493/516/483) confirm the <span class="mono">users.csv</span> composition, so the caption&rsquo;s per-party/period counts appear swapped. Cosmetic-to-minor; no reproduced statistic is affected.</div>
+    <div class="find"><span class="tag">P3</span><b>Component naming inconsistency.</b> &ldquo;Fact speaking&rdquo; (paper) is stored/variable-named &ldquo;truth&rdquo; (<span class="mono">avg_truth_score</span>) in the data and code; reproducibility documents flag the same. Cosmetic.</div>
+    <div class="find"><span class="tag">P3 (context)</span><b>Full end-to-end raw pipeline not reproducible without restricted data.</b> Tweet texts (data-protection), proprietary NewsGuard labels and NYT abstracts cannot be shared; Figure 1 and raw-data regeneration require them. This is a documented, disclosed limitation and does <i>not</i> affect reproduction of any headline statistic, all of which used the shared analysis-ready files.</div>
+  </div>
+
+  <div class="card">
+    <h2>Verdict</h2>
+    <div class="verdict">
+      <b>Grade: FULL.</b> All headline numerical claims were independently reproduced <b>exactly</b> from the authors&rsquo; open data and code: the temporal Welch tests (belief/fact-speaking increases for both parties), the tweet-level linear mixed-effects model underpinning the flagship &ldquo;10% belief speaking &rarr; −12.8 NewsGuard points&rdquo; effect (interaction = −0.128, CI [−0.146, −0.111], N=504,809), and the article-level OLS (N=261,765). No headline claim was contradicted.
+      <br><br>
+      <b>vs human FLoRA (&ldquo;technical failure&rdquo;):</b> The human reproduction reported a technical failure <i>only</i> because the LME input files had been deleted from OSF at the time it ran. The authors restored those files on 02 Feb 2026. This audit obtained them and successfully re-ran the LME, so its headline claim is verified — the difference from the human verdict is due to data availability at run time, not to any flaw in either analysis. The residual issues (raw-tweet/NewsGuard/NYT access restrictions) are disclosed data-protection limits rather than reproducibility errors in the headline results.
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

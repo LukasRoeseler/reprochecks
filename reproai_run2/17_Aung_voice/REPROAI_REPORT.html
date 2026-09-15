@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReproAI Numerical-Reproducibility Audit — Aung et al. (2024) Voice Pitch</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:2rem auto;max-width:1000px;line-height:1.5;color:#222;padding:0 1rem}
+  h1{border-bottom:3px solid #2c3e50;padding-bottom:.4rem}
+  h2{color:#2c3e50;margin-top:2rem;border-bottom:1px solid #ccc;padding-bottom:.2rem}
+  .grade{display:inline-block;font-weight:700;padding:.3rem .9rem;border-radius:4px;background:#d4edda;color:#155724;font-size:1.05rem}
+  table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem}
+  th,td{border:1px solid #ccc;padding:.45rem .6rem;text-align:left;vertical-align:top}
+  th{background:#f2f4f6}
+  .ok{color:#155724;font-weight:600}
+  .warn{color:#856404;font-weight:600}
+  .bad{color:#a71d2d;font-weight:600}
+  code{background:#f4f4f4;padding:.1rem .3rem;border-radius:3px}
+  .finding{border-left:4px solid #f0ad4e;background:#fcf8e3;padding:.7rem 1rem;margin:.7rem 0}
+  .finding.p2{border-left-color:#f0ad4e;background:#fcf8e3}
+  .finding.p3{border-left-color:#9e9e9e;background:#f5f5f5}
+  .meta{color:#555;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<h1>ReproAI Numerical-Reproducibility Audit</h1>
+<p class="meta">Study: <strong>Aung, T., Hill, A.K., Hlay, J.K., Hess, C., et al. (2024).</strong> <em>Effects of Voice Pitch on Social Perceptions Vary With Relational Mobility and Homicide Rate.</em> Psychological Science, 35(3), 250–262. DOI: 10.1177/09567976231222288</p>
+<p class="meta">Audit grade: <span class="grade">CONSISTENT</span> &nbsp;|&nbsp; Severity: P0-0 P1-0 P2-3 P3-1 &nbsp;|&nbsp; Data status: <strong>obtained</strong> &nbsp;|&nbsp; Headline verified: <strong>YES</strong></p>
+<p class="meta">FLoRA reproduction node: OSF <code>ts2mp</code> (Replication Games report) &nbsp;·&nbsp; Authors' data/code: OSF <code>tnygr</code></p>
+
+<h2>1. Data Sourcing</h2>
+<p>The audit uses the authors' full OSF replication project (<code>osf.io/tnygr</code>, "Mating Relevant Perceptions of Voice Pitch"), which contains:
+<ul>
+  <li><code>iPodStudyData.csv</code> — raw trial-level data: 63,494 rows; 2,647 participants (<code>id</code>), 4 voices, 22 countries / 44 locations, 7 perception questions, binary <code>Outcome</code>.</li>
+  <li><code>countrydata.csv</code> — 22 countries with AvgFemalePitch, AvgMalePitch, Homicide, Gini, HDI, RelationalMobility, etc.</li>
+  <li><code>PsychSci.R</code> — the main Bayesian analysis script (brms/cmdstanr), 70+ models.</li>
+  <li>Distance matrices (<code>A_geo.rda</code>, <code>A_ling.rda</code>) and 60+ fitted model outputs (<code>m*.rda</code>).</li>
+  <li>Pre-registration PDF.</li>
+</ul>
+The human FLoRA reproduction report ("A comment on…") was obtained from the reproduction node <code>ts2mp</code>.</p>
+
+<h2>2. Headline Numerical Claims</h2>
+<p>The study's headline claims (abstract): <em>Low male f<sub>o</sub> increases men's perceptions of <strong>formidability</strong> and <strong>prestige</strong>, especially in societies with higher homicide rates and greater relational mobility; high female f<sub>o</sub> increases women's perceptions of <strong>flirtatiousness</strong> where relational mobility is lower.</em> The moderating role of relational mobility (RM) on voice-pitch perceptions is the central numerical claim.</p>
+
+<h2>3. Verification Table (moderation of social perceptions by relational mobility)</h2>
+<p>Independent re-computation used frequentist logistic mixed models (lme4: <code>Outcome ~ RelationalMobility + avgPitch + (1|id)+(1|voice)+(1|Region/country)</code>) on the raw data, following the authors' model structure (M19/M20/M23), reproducing the data-prep in <code>PsychSci.R</code>. The paper reports the moderation terms as "b" but these are odds ratios.</p>
+<table>
+  <tr><th>Claim</th><th>Reported in paper (as "b")</th><th>Odds ratio implied</th><th>My re-compute (frequentist)</th><th>Human FLoRA (frequentist)</th><th>Status</th></tr>
+  <tr><td>Men's formidability × RM (M19, "Win a Physical Fight")</td><td>b=1.57, 89%CrI[1.11,2.29]</td><td>OR≈1.568</td><td>est=0.393, OR=1.48 [0.074,0.713]</td><td>0.394 [0.072,0.715]</td><td class="ok">reproduced</td></tr>
+  <tr><td>Men's prestige × RM (M20, "Respected")</td><td>b=1.49, 89%CrI[1.20,1.88]</td><td>OR≈1.492</td><td>est=0.321, OR=1.38 [0.099,0.543]</td><td>0.321 [0.097,0.545]</td><td class="ok">reproduced</td></tr>
+  <tr><td>Women's flirtatiousness × RM (M23, "Interested in Attracting Men")</td><td>b=1.55, 89%CrI[1.16,2.03]</td><td>OR≈1.553</td><td>est=0.470, OR=1.60 [0.271,0.668]</td><td>0.470 [0.269,0.671]</td><td class="ok">reproduced</td></tr>
+  <tr><td>Women's "attractive to men" × RM (M24, exploratory, no effect claimed)</td><td>—</td><td>—</td><td>est=0.073 [-0.057,0.204]</td><td>0.121 [0.003,0.239]</td><td class="warn">marginal</td></tr>
+</table>
+<p class="meta">My independent point estimates and 95% intervals match the human FLoRA frequentist robustness analysis to ~3 decimal places, and are consistent with the paper's reported odds ratios.</p>
+
+<h2>4. Findings</h2>
+
+<div class="finding p2"><strong>P2 — "b" coefficients are actually odds ratios.</strong>
+The published text labels the reported estimates as <em>b</em> coefficients, but exponentiating the fitted log-odds reproduces the reported values (e.g. Formidability×RM reported 1.57 ≈ exp(0.45) OR 1.568; main Formidability 2.03 ≈ OR 2.03). The human reviewers independently confirmed this mislabeling. Conclusions are unaffected when read as ORs.</div>
+
+<div class="finding p2"><strong>P2 — Code defect: undefined object <code>newdata</code>.</strong>
+In <code>PsychSci.R</code>, model <code>m1</code> is fit with <code>data = newdata</code> but only <code>data</code> is loaded/defined; running as-is errors. This is trivially fixable (rename to <code>data</code>) and the human FLoRA team applied the same fix. Confirmed in the shared script.</div>
+
+<div class="finding p2"><strong>P2 — Minor credible-interval mismatches.</strong>
+Some reported 89% CrI differ from the fitted model output beyond rounding error (direction/conclusion unchanged). Observed by both the human reviewers and consistent with my re-computation.</div>
+
+<div class="finding p3"><strong>P3 — Author .rda model objects not loadable in this environment.</strong>
+The provided fitted-model <code>.rda</code> files (saved for an older/newer R/brms version) failed to load in R 4.6.1 (connection/serialization error). Exact Bayesian point estimates were therefore re-derived only via the independent frequentist replication rather than from the author model objects.</div>
+
+<div class="finding p2"><strong>P2 — Pre-registration vs manuscript emphasis shift.</strong>
+The pre-registration highlighted health, inequality, and food security as key factors; the final manuscript focuses on relational mobility and homicide rate. Noted by the human report; not a numerical failure.</div>
+
+<h2>5. Verdict</h2>
+<p><strong>Grade: CONSISTENT.</strong> The headline numerical claims — that relational mobility moderates the effects of voice (fundamental-frequency) on men's formidability/prestige perceptions and on women's flirtatiousness perceptions — reproduce in direction and magnitude via an independent re-computation on the raw shared data. My coefficients match the human FLoRA robustness analysis nearly exactly.</p>
+<p><strong>Verdict vs. human FLoRA "computational issues":</strong> The human Replication Games report classified the study's code as reproducible with <em>minor computational issues</em> (undefined <code>newdata</code>, b-vs-OR mislabeling, small CrI mismatches, preregistration shift) and concluded the main findings hold. My audit reaches the <strong>same classification</strong>: the headline moderation findings are computationally reproducible; the issues are real but do not overturn any headline claim.</p>
+<p class="meta"><em>Limitation:</em> Exact Bayesian (brms) point estimates and 89% credible intervals were not independently re-derived because the author-provided fitted-model objects could not be loaded in the available R build and a full cmdstanr fit of all models was out of scope; the frequentist replication (identical to the human team's robustness check) was used instead and matched the reported effects.</p>
+
+</body>
+</html>

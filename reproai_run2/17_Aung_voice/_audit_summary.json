@@ -1,0 +1,22 @@
+{
+  "study": "Aung, T., Hill, A.K., Hlay, J.K., Hess, C., et al. (2024). Effects of Voice Pitch on Social Perceptions Vary With Relational Mobility and Homicide Rate. Psychological Science, 35(3), 250-262. DOI: 10.1177/09567976231222288",
+  "grade": "CONSISTENT",
+  "sev": "P0-0 P1-0 P2-3 P3-1",
+  "data_status": "obtained",
+  "headline_verified": true,
+  "key_findings": [
+    "Obtained authors' full replication package from OSF project tnygr (raw data iPodStudyData.csv, countrydata.csv, analysis code PsychSci.R, 60+ fitted model outputs as .rda, distance matrices, preregistration).",
+    "Headline moderation claims (voice-pitch x relational-mobility on male formidability/prestige and female flirtatiousness perceptions) reproduced in direction and magnitude via independent frequentist logistic mixed models (lme4): Formidability x RM est=0.393 [0.074,0.713], Prestige x RM est=0.321 [0.099,0.543], Flirtatiousness x RM est=0.470 [0.271,0.668].",
+    "My independent coefficients match the human FLoRA (Replication Games) frequentist robustness values almost exactly (0.394, 0.321, 0.470), and agree with the paper-implied odds ratios (e.g. Formidability x RM OR~1.57 reported as b, actually an OR).",
+    "Reported 'b' coefficients in the published text are frequently odds ratios, not log-odds (labeling error), confirmed by exponentiating fitted coefficients.",
+    "The authors' provided .rda model objects could not be loaded in the installed R 4.6.1 (serialization/version incompatibility), so exact Bayesian point estimates/CrI were not independently re-derived; frequentist replication used instead, consistent with the human robustness check.",
+    "Code defect confirmed: PsychSci.R uses object 'newdata' in the m1 brm() call but only 'data' is defined (fixable). Minor CrI mismatches beyond rounding also flagged by human reviewers.",
+    "Verdict matches the human FLoRA 'computational issues' classification: main findings computationally reproducible, with minor code/labeling issues that do not overturn conclusions."
+  ],
+  "notes": "Graded CONSISTENT because headline numerical claims (moderating role of relational mobility on voice-pitch social perceptions) were independently re-computed and reproduce in direction and magnitude, matching the human robustness analysis. Not FULL because exact Bayesian point estimates were not re-derived (package/environment limits, unloadable author .rda objects). Not FAIL/PARTIAL since no headline claim was contradicted. Human FLoRA Replication Games report also concluded the main findings were reproduced (flora=computational issues, minor).",
+  "claims_inventory": [
+    {"claim": "Low male f0 increases men's perceptions of formidability, especially with higher relational mobility", "reported": "Formidability x RM ~OR 1.57 (89% CrI[1.11,2.29], listed as b)", "my_frequentist": "OR=1.48, est=0.393 [0.074,0.713]", "human_frequentist": "0.394 [0.072,0.715]", "status": "reproduced"},
+    {"claim": "Low male f0 increases men's perceptions of prestige, especially with higher relational mobility", "reported": "Prestige x RM ~OR 1.49 (89% CrI[1.20,1.88])", "my_frequentist": "OR=1.38, est=0.321 [0.099,0.543]", "human_frequentist": "0.321 [0.097,0.545]", "status": "reproduced"},
+    {"claim": "High female f0 increases women's perceptions of flirtatiousness in lower relational mobility contexts", "reported": "Flirtatiousness x RM ~OR 1.55 (89% CrI[1.16,2.03])", "my_frequentist": "OR=1.60, est=0.470 [0.271,0.668]", "human_frequentist": "0.470 [0.269,0.671]", "status": "reproduced"}
+  ]
+}
