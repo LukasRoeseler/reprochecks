@@ -5,6 +5,60 @@ BASE = r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI"
 OUT = os.path.join(BASE, "Meta Psych vs NHB")
 studies = json.load(open(os.path.join(OUT,"studies_dashboard.json"), encoding="utf-8"))
 
+_study_refs = []
+try:
+    _study_refs = json.load(open(os.path.join(OUT,"study_references.json"), encoding="utf-8"))
+except Exception:
+    pass
+_study_refs = [r["ref"] for r in _study_refs]
+
+def _esc_ref(t):
+    return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+_FLORA_AUTHORS = ["Wallrich, L.", "Röseler, L.", "Hartmann, H.", "Ashcroft-Jones, S.",
+"Doetsch, C.", "Kaiser, L.", "Schüller, S. M.", "Aldoh, A.", "Behbood, H.", "Elsherif, M. M.",
+"Klett, N.", "Krapp, J.", "Liu, M.", "Pavlović, Z.", "Pennington, C. R.", "Schütz, A.", "Seida, C.",
+"Siziva, K.", "Skvortsova, A.", "Aczel, B.", "Adelina, N.", "Agostini, V.", "Al-Hoorie, A. H.",
+"Alarie, S.", "Albayrak-Aydemir, N.", "Alzahawi, S.", "Anvari, F.", "Arriaga, P.", "Baker, B. J.",
+"Barth, C. L.", "Bauer, D. J.", "Becker, R.", "Beitner, J.", "Belaus, A.", "Bhatt, H.",
+"Bhogal, J.", "Boyce, V.", "Breemer, L.", "Brick, C.", "Brohmer, H.", "Brummernhenrich, B.",
+"Budd, E.", "Butler, A.", "Casula, A.", "Chandrashekar, S. P.", "Chen, S.", "Chung, K. L.",
+"Cockcroft, J. P.", "Crowe, P.", "Cummins, J.", "Daniel, A.", "Deane, O.", "Deressa, T. K.",
+"Dienlin, T.", "Diveica, V.", "Draguns, A.", "Dumbalska, T.", "Efendic, E.", "El Halabi, M.",
+"Enright, S.", "Evans, T. R.", "Exner, A.", "Farrar, B. G.", "Feldman, G.", "Fillon, A.",
+"Floyd, J.", "Fontana Vieira, F.", "Frese, J.", "Förster, N.", "Gattie, M. C.", "Gemmecke, C.",
+"Genschow, O.", "Giannouli, V.", "Gjoneska, B.", "Gnambs, T.", "Gourdon-Kanhukamwe, A.",
+"Graham, C. J.", "Greshake Tzovaras, B.", "Guay, S.", "Hausenloy, J.", "Haviva, C.",
+"Henderson, E. L.", "Herderich, A.", "Hilbert, L.", "Holgado, D.", "Hussey, I.", "Höfer, L.",
+"Ilchovska, Z. G.", "Imada, H.", "Imwene, P.", "Izydorczak, K.", "Jaubert, S.", "Jeftić, A.",
+"Kalandadze, T.", "Kamermans, K.", "Karhulahti, V.", "Kasseckert, L.", "Kastrinogiannis, A.",
+"Klingelhöfer-Jens, M.", "Kocalar, H. E.", "Koppel, L.", "Koppold, A.", "Korbmacher, M.",
+"Kujawa, Z.", "Kulke, L.", "Kumar, P.", "Kuper, N.", "LaPlume, A. A.", "Lach, R.",
+"Lecuona, O.", "Lee, J.", "Leech, G.", "Leksina, E.", "Lin, C.", "Liu, Y.", "Lohkamp, F.",
+"Lou, N. M.", "Lynott, D.", "Mackinnon, S.", "Maier, M.", "Maiya, S.", "Makel, M. C.",
+"Manrique-Castano, D.", "Manríquez-Robles, D.", "Mathes, L.", "McSharry, D.",
+"Meidenbauer, K. L.", "Meier, M.", "Micheli, L.", "Miller, T.", "Montefinese, M.", "Moreau, D.",
+"Moser, N.", "Mrkva, K.", "Murphy, J.", "Muthu, J.", "Narkar, N.", "Nemcova, M.",
+"Nádvorník, J.", "O'Mahoney, R.", "O'Mahony, A.", "Oberholzer, Y.", "Oomen, D.", "Osano, M.",
+"Otstavnov, N.", "Packheiser, J.", "Pandey, S.", "Panton, H.", "Papenmeier, F.", "Parsons, S.",
+"Paruzel-Czachura, M.", "Pavlov, Y. G.", "Pittelkow, M.", "Plomp, W.", "Plonski, P. E.",
+"Pravednikov, A.", "Pronizius, E.", "Pua, A.", "Pypno-Blajda, K.", "Rausch, M.", "Raza, H.",
+"Reason, R.", "Rebholz, T. R.", "Resulbegoviq, H.", "Richert, E.", "Ross, R. M.", "Russo, S.",
+"Röer, J. P.", "Sandkühler, J. F.", "Schmidt, K.", "Sempere, N.", "Sobolak, R.",
+"Sperl, M. F.", "Stevens, J. R.", "Stogianni, M.", "Szekely, R.", "Tan, A. W.",
+"Thürmer, J. L.", "Tiulpakova, M.", "Tomczak, J.", "Tołopiło, A.", "Tunca, B.",
+"Vanpaemel, W.", "Vaughn, L. A.", "Verheyen, S.", "Vineyard, G. H.", "Weber, L.",
+"Weinberg, A.", "Wingen, S.", "Wolska, J.", "Yeung, S. K.", "Younssi, M.", "Zaneva, M.",
+"Zimmermann, D.", "Azevedo, F."]
+
+_flora_authors = ", ".join(_FLORA_AUTHORS[:-1]) + ", & " + _FLORA_AUTHORS[-1]
+_extra_refs = [
+    '<p class="ref">Xu, Y., &amp; Yang, L. Y. (2026). Scaling Reproducibility: An AI-Assisted Workflow for Large-Scale Replication and Reanalysis. <i>arXiv preprint arXiv:2602.16733</i>. https://arxiv.org/abs/2602.16733</p>',
+    '<p class="ref">' + _esc_ref(_flora_authors) + ' (2026). FORRT Library of Replication Attempts (FLoRA) [Data set]. OSF. https://doi.org/10.17605/OSF.IO/9R62X (<em>*Wallrich, L., &amp; R\u00f6seler, L. contributed equally to this work.</em>)</p>',
+]
+_study_html = [f'<p class="ref">{_esc_ref(r)}</p>' for r in _study_refs]
+_extra_refs_html = "\n".join(_extra_refs) + "\n" + "\n".join(_study_html)
+
 mp = [s for s in studies if s["journal"]=="Meta-Psychology"]
 nhb = [s for s in studies if s["journal"]=="Nature Human Behavior"]
 mp_aud = [s for s in mp if s["full_text_audited"]]
@@ -138,7 +192,7 @@ a { color:#0645ad; }
 <div class="dcount" id="dcount"></div>
 <div style="overflow:auto; max-height:520px;">
 <table id="dashTable">
-<thead><tr><th>Study</th><th>Title</th><th>DOI</th><th>Severity</th><th>Full-text PDF</th><th>Claims</th><th>Outcome</th></tr></thead>
+<thead><tr><th>Study</th><th>Title</th><th>DOI</th><th>Severity</th><th>Full-text PDF</th><th>Open data</th><th>Open materials</th><th>Open/repro</th><th>Checking AI/model</th><th>Claims</th><th>Outcome</th><th>Key caveat</th></tr></thead>
 <tbody></tbody>
 </table>
 </div>
@@ -203,25 +257,7 @@ a { color:#0645ad; }
 <div class="figure"><img src="fig4_outcomes.png" alt="Outcomes by journal">
 <p class="figcap"><b>Figure 4.</b> Outcomes of the audit for each journal, shown as the share (percentage) of audited studies within each journal with the exact count at each bar tip: for <i>Meta-Psychology</i>, how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, how many articles gave a direct working link, a statement only, or no availability. Because the <i>Meta-Psychology</i> corpus is small (n&nbsp;=&nbsp;14), percentages are reported alongside exact counts so the two are not misleadingly compared.</p></div>
 
-<h2>All Studies and Outcomes</h2>
-<p>Table&nbsp;1 lists every included study with a clickable ReproAI report (study ID) and DOI, the claims audited, and a traffic-light-coded outcome (green = reproduced/direct link; amber = partial/statement-only; red = not reproduced/no availability; orange = technical failure). Use the controls to filter Table&nbsp;1.</p>
-<strong>Table 1.</strong> <em>Studies, Reports, DOIs, and Outcomes (filterable)</em>
-<div class="filters">
-  <div class="filter"><label>Journal</label><select id="t1Journal"><option value="">All</option><option>Meta-Psychology</option><option>Nature Human Behavior</option></select></div>
-  <div class="filter"><label>Year</label><select id="t1Year"><option value="">All</option><option>2019</option><option>2020</option></select></div>
-  <div class="filter"><label>Outcome</label><select id="t1Status"><option value="">All</option><option>Reproduced</option><option>Partially reproduced</option><option>Not reproduced</option><option>Technical failure</option><option>Not checked</option></select></div>
-  <div class="filter"><label>Full text (PDF)?</label><select id="t1Ft"><option value="">All</option><option>Yes</option><option>No</option></select></div>
-  <div class="filter"><label>Search</label><input id="t1Search" type="text" placeholder="title, ID, DOI..."></div>
-  <button class="fbtn" id="t1Reset" type="button">Reset</button>
-</div>
-<div class="dcount" id="t1count"></div>
-<div style="overflow:auto; max-height:560px;">
-<table id="t1Table">
-<thead><tr><th>Study</th><th>Title</th><th>DOI</th><th>Open data</th><th>Open materials</th><th>Open/repro analysis</th><th>Full-text (PDF)</th><th>Claims</th><th>Outcome</th><th>Key caveat</th></tr></thead>
-<tbody></tbody>
-</table>
-</div>
-<p class="tabnote"><em>Note.</em> Study links open the individual ReproAI report for that article (available for studies that were audited). DOI links open the publisher page. Open data/materials/repro apply to Meta-Psychology badges; for NHB, &ldquo;Open data&rdquo; reflects the availability outcome (Direct link / Statement only / None). Traffic-light colour: green&nbsp;=&nbsp;reproduced (MP) or direct data/code link (NHB); amber&nbsp;=&nbsp;partially reproduced (MP) or statement-only (NHB); red&nbsp;=&nbsp;not reproduced (MP) or no availability (NHB); orange&nbsp;=&nbsp;technical failure (MP).</p>
+<p>Traffic-light colour: green&nbsp;=&nbsp;reproduced (MP) or direct data/code link (NHB); amber&nbsp;=&nbsp;partially reproduced (MP) or statement-only (NHB); red&nbsp;=&nbsp;not reproduced (MP) or no availability (NHB); orange&nbsp;=&nbsp;technical failure (MP). The full list of all included studies, with every field and these colour codes, is available interactively in the dashboard at the top of this report.</p>
 
 <h2>Discussion</h2>
 <p>The scholar-led journal in our sample (<i>Meta-Psychology</i>) performs well on every transparency metric we measured. Its editorial policies couple publication to the deposition of data, materials, and code, and its reproducibility reviews&mdash;which we re-performed here with independent code re-execution&mdash;publicly certify what does and does not reproduce. Of the fourteen re-audited articles, twelve reproduced near-exactly and two reproduced only partially, underscoring that the mandated openness plus expert (here: deep LLM) re-execution makes verification concrete, while confirming that genuinely independent re-execution remains the gold standard.</p>
@@ -234,9 +270,9 @@ a { color:#0645ad; }
 <h2>References</h2>
 <p class="ref">Munaf&#242;, M. R., Nosek, B. A., Bishop, D. V. M., Button, K. S., Chambers, C. D., Percie du Sert, N., Simnson, U., Wagenmakers, E.-J., Ware, J. J., &amp; Ioannidis, J. P. A. (2017). A manifesto for reproducible science. <i>Nature Human Behaviour, 1</i>, 0021. https://doi.org/10.1038/s41562-016-0021</p>
 <p class="ref">Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. <i>Science, 349</i>(6251), aac4716. https://doi.org/10.1126/science.aac4716</p>
-<p class="ref">ReproAI. (2026). <i>ReproAI audit of Meta-Psychology and Nature Human Behavior (2019&ndash;2020)</i> [Data set and audit records]. anomalyco/opencode.</p>
 <p class="ref">Sassenberg, K., &amp; Ditrich, L. (2019). Research in social psychology changed between 2011 and 2016: Larger sample sizes, stronger biasing influences. <i>Frontiers in Psychology, 10</i>, 2708. https://doi.org/10.3389/fpsyg.2019.02708</p>
 <p class="ref">Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform&mdash;Two years of on-premises LLM operations. In L. Desnos, C. Diaz, J. Mincer-Daszkiewicz, L. Merakos, R. Vogl, S. McLellan, &amp; U. Lucke (Eds.), <i>Proceedings of EUNIS 2026 Annual Congress</i> (EPiC Series in Computing, Vol. 109, pp. 96&ndash;107). EasyChair. https://doi.org/10.29007/4rq8</p>
+@@EXTRA_REFS@@
 
 </div>
 <script>
@@ -294,6 +330,7 @@ function renderChart(rows){
     lg.appendChild(it);
   });
 }
+function dashCond(v){ var x=String(v==null?"":v); if(x.toLowerCase()==="yes")return"Yes"; if(x.toLowerCase()==="no"||x.replace(/\s/g,"")==="")return"No"; return x; }
 function renderTable(rows){
   var tb=document.querySelector("#dashTable tbody"); tb.innerHTML="";
   rows.forEach(function(s){
@@ -301,7 +338,10 @@ function renderTable(rows){
     var idcell=s.report?'<a href="'+escHtml(s.report)+'" target="_blank" title="Open ReproAI report">'+escHtml(s.id)+'</a>':escHtml(s.id);
     var doic=s.doi?'<a href="https://doi.org/'+escHtml(s.doi)+'" target="_blank">'+escHtml(s.doi)+'</a>':'&mdash;';
     var tr=document.createElement("tr");
-    tr.innerHTML='<td>'+idcell+'</td><td>'+escHtml(s.title)+'</td><td>'+doic+'</td><td><span class="badge b-'+sevCls(s)+'">'+escHtml(fmtSev(s))+'</span></td><td>'+(s.full_text_audited?"Yes":"No")+'</td><td>'+s.claims+'</td><td><span class="tl tl-'+c+'">'+escHtml(STATUS_LABEL[s.status])+'</span></td>';
+    tr.innerHTML='<td>'+idcell+'</td><td>'+escHtml(s.title)+'</td><td>'+doic+'</td><td><span class="badge b-'+sevCls(s)+'">'+escHtml(fmtSev(s))+'</span></td><td>'+(s.full_text_audited?"Yes":"No")+'</td>'
+      +'<td>'+escHtml(dashCond(s.open_data))+'</td><td>'+escHtml(dashCond(s.open_materials))+'</td><td>'+escHtml(dashCond(s.open_repro))+'</td>'
+      +'<td>'+escHtml(s.agent||"")+'</td><td>'+s.claims+'</td>'
+      +'<td><span class="tl tl-'+c+'">'+escHtml(STATUS_LABEL[s.status])+'</span></td><td class="cav">'+escHtml(s.caveat)+'</td>';
     tb.appendChild(tr);
   });
   document.getElementById("dcount").textContent="Showing "+rows.length+" of "+STUDIES.length+" studies"+(rows.length?"":" (no matches).");
@@ -325,52 +365,6 @@ document.getElementById("resetBtn").addEventListener("click",function(){
 });
 document.getElementById("dlBtn").addEventListener("click",function(){ downloadCSV(visibleRows()); });
 render();
-
-var t1Lib=document.getElementById("t1Table").getElementsByTagName("tbody")[0];
-function yesNo(v){ return String(v==null?"":v); }
-function cond(v){ if(String(v).toLowerCase()==="yes") return "Yes"; if(String(v).toLowerCase()==="no"||String(v).replace(/\s/g,"")==="") return "No"; return String(v); }
-function sevClsT(s){ var v=s.severity; return (v==="P1")?"r":(v==="P2")?"a":(v==="P3")?"g":"z"; }
-function t1Rows(){
-  var j=document.getElementById("t1Journal").value;
-  var y=document.getElementById("t1Year").value;
-  var st=document.getElementById("t1Status").value;
-  var ft=document.getElementById("t1Ft").value;
-  var q=document.getElementById("t1Search").value.trim().toLowerCase();
-  return STUDIES.filter(function(s){
-    if(j && s.journal!==j) return false;
-    if(y && String(s.year)!==y) return false;
-    var lab=STATUS_LABEL[s.status];
-    if(st && lab!==st) return false;
-    if(ft && (ft==="Yes")!==!!s.full_text_audited) return false;
-    if(q){ var hay=(s.title+" "+s.id+" "+s.doi+" "+(s.authors||"")).toLowerCase(); if(hay.indexOf(q)<0) return false; }
-    return true;
-  });
-}
-function renderTable1(){
-  var rows=t1Rows();
-  t1Lib.innerHTML="";
-  rows.forEach(function(s){
-    var c=s.status;
-    var idcell=s.report?'<a href="'+escHtml(s.report)+'" target="_blank" title="Open ReproAI report">'+escHtml(s.id)+'</a>':escHtml(s.id);
-    var doic=s.doi?'<a href="https://doi.org/'+escHtml(s.doi)+'" target="_blank">'+escHtml(s.doi)+'</a>':'&mdash;';
-    var tr=document.createElement("tr");
-    tr.innerHTML='<td>'+idcell+'</td><td>'+escHtml(s.title)+'</td><td>'+doic+'</td>'
-      +'<td>'+escHtml(cond(s.open_data))+'</td><td>'+escHtml(cond(s.open_materials))+'</td><td>'+escHtml(cond(s.open_repro))+'</td>'
-      +'<td>'+(s.full_text_audited?"Yes":"No")+'</td><td>'+s.claims+'</td>'
-      +'<td><span class="tl tl-'+c+'">'+escHtml(STATUS_LABEL[s.status])+'</span></td>'
-      +'<td>'+escHtml(s.caveat)+'</td>';
-    t1Lib.appendChild(tr);
-  });
-  document.getElementById("t1count").textContent="Showing "+rows.length+" of "+STUDIES.length+" studies"+(rows.length?"":" (no matches).");
-}
-function renderT1(){ renderTable1(); }
-["t1Journal","t1Year","t1Status","t1Ft"].forEach(function(id){ document.getElementById(id).addEventListener("change",renderT1); });
-document.getElementById("t1Search").addEventListener("input",renderT1);
-document.getElementById("t1Reset").addEventListener("click",function(){
-  ["t1Journal","t1Year","t1Status","t1Ft"].forEach(function(id){ document.getElementById(id).value=""; });
-  document.getElementById("t1Search").value=""; renderT1();
-});
-renderT1();
 </script>
 
 </body></html>"""
@@ -394,6 +388,7 @@ repl = {
     "@@NHBP3PCT@@": str(nhb_p3pct),
     "@@NHBP2PCT@@": str(nhb_p2pct),
     "@@NHBFTPCT@@": str(nhb_ftpct),
+    "@@EXTRA_REFS@@": _extra_refs_html,
 }
 # also replace single-@ variants (@X@)
 single = {}
