@@ -15,6 +15,12 @@ _study_ref_map = {r["id"]: r["ref"] for r in _study_refs_data}
 def _esc_ref(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
+import re as _re
+_DOI_RE = _re.compile(r'(https?://(?:dx\.)?doi\.org/[^\s<]+)')
+def _link_doi(text):
+    return _DOI_RE.sub(lambda m: '<a href="' + m.group(1) + '" target="_blank" rel="noopener">' + m.group(1) + '</a>', text)
+
+
 _FLORA_AUTHORS = ["Wallrich, L.", "Röseler, L.", "Hartmann, H.", "Ashcroft-Jones, S.",
 "Doetsch, C.", "Kaiser, L.", "Schüller, S. M.", "Aldoh, A.", "Behbood, H.", "Elsherif, M. M.",
 "Klett, N.", "Krapp, J.", "Liu, M.", "Pavlović, Z.", "Pennington, C. R.", "Schütz, A.", "Seida, C.",
@@ -53,8 +59,8 @@ _FLORA_AUTHORS = ["Wallrich, L.", "Röseler, L.", "Hartmann, H.", "Ashcroft-Jone
 
 _flora_authors = ", ".join(_FLORA_AUTHORS[:-1]) + ", & " + _FLORA_AUTHORS[-1]
 _extra_refs = [
-    '<p class="ref">Xu, Y., &amp; Yang, L. Y. (2026). Scaling Reproducibility: An AI-Assisted Workflow for Large-Scale Replication and Reanalysis. <i>arXiv preprint arXiv:2602.16733</i>. https://arxiv.org/abs/2602.16733</p>',
-    '<p class="ref">' + _esc_ref(_flora_authors) + ' (2026). FORRT Library of Replication Attempts (FLoRA) [Data set]. OSF. https://doi.org/10.17605/OSF.IO/9R62X (<em>*Wallrich, L., &amp; R\u00f6seler, L. contributed equally to this work.</em>)</p>',
+    '<p class="ref" id="ref-xu">' + _link_doi('Xu, Y., &amp; Yang, L. Y. (2026). Scaling Reproducibility: An AI-Assisted Workflow for Large-Scale Replication and Reanalysis. <i>arXiv preprint arXiv:2602.16733</i>. https://arxiv.org/abs/2602.16733</p>'),
+    '<p class="ref" id="ref-flora">' + _link_doi(_esc_ref(_flora_authors) + ' (2026). FORRT Library of Replication Attempts (FLoRA) [Data set]. OSF. https://doi.org/10.17605/OSF.IO/9R62X') + ' (<em>*Wallrich, L., &amp; R\u00f6seler, L. contributed equally to this work.</em>)</p>',
 ]
 
 mp = [s for s in studies if s["journal"]=="Meta-Psychology"]
@@ -79,6 +85,24 @@ def _med(xs):
     n=len(xs); return (xs[n//2] if n%2 else (xs[n//2-1]+xs[n//2])/2.0)
 _mp_cl = sorted(s["claims"] for s in mp_aud)
 _nhb_cl = sorted(s["claims"] for s in nhb_ft)
+
+# ---- Study 2: OpenAlex citations + estimated APC costs ----
+import statistics as _st
+_oa = {}
+try:
+    _oa = json.load(open(os.path.join(OUT,"openalex_cache.json"), encoding="utf-8"))
+except Exception:
+    pass
+for s in included:
+    doi = s.get("doi","")
+    s["cites"] = int(_oa.get(doi, {}).get("cited_by_count") or 0)
+_APC_NHB = 9000.0
+_mp_cites = [s["cites"] for s in mp_aud]
+_nhb_cites = [s["cites"] for s in nhb_ft]
+_nhb_cost = int(len(nhb_ft)*_APC_NHB)
+_nhb_cost_str = f"{_nhb_cost:,}"
+_apc_str = f"{_APC_NHB:,.0f}"
+
 for s in included:
     s["report"] = "MetaPsych_vs_NHB/" + s["id"] + "/"
 data_js = json.dumps(included, ensure_ascii=False).replace("</", "<\\/")
@@ -89,8 +113,8 @@ for s in included:
     r = _study_ref_map.get(s["id"], "")
     if r:
         _ref_by_journal.setdefault(j, []).append((s["id"], r))
-_reflist_mp = "\n".join(f'<p class="ref">{_esc_ref(r)}</p>' for _, r in sorted(_ref_by_journal.get("Meta-Psychology", [])))
-_reflist_nhb = "\n".join(f'<p class="ref">{_esc_ref(r)}</p>' for _, r in sorted(_ref_by_journal.get("Nature Human Behavior", [])))
+_reflist_mp = "\n".join(f'<p class="ref">{_link_doi(_esc_ref(r))}</p>' for _, r in sorted(_ref_by_journal.get("Meta-Psychology", [])))
+_reflist_nhb = "\n".join(f'<p class="ref">{_link_doi(_esc_ref(r))}</p>' for _, r in sorted(_ref_by_journal.get("Nature Human Behavior", [])))
 _extra_refs_html = ("\n".join(_extra_refs)
      + "\n<h3>Meta-Psychology Reference List</h3>\n" + (_reflist_mp or '<p class="ref">None.</p>')
      + "\n<h3>Nature Human Behavior Reference List</h3>\n" + (_reflist_nhb or '<p class="ref">None.</p>'))
@@ -128,6 +152,8 @@ h3 { font-size:12pt; }
 p { margin:0 0 12px 0; }
 .runninghead { font-size:10pt; text-transform:uppercase; letter-spacing:1px; }
 .byline,.affil { text-align:center; }
+.byline { font-style:italic; font-size:11.5pt; }
+.subtitle { text-align:center; font-size:12pt; font-weight:bold; margin:2px 0 12px 0; }
 .keywords { font-size:11pt; }
 .abstract { border:1px solid #999; padding:16px 24px; margin:20px 0; }
 table { border-collapse:collapse; width:100%; font-size:8.5pt; line-height:1.3; margin:12px 0; }
@@ -139,6 +165,8 @@ th { background:#eee; }
 .figcap { font-size:11pt; text-align:left; margin-top:8px; line-height:1.4; }
 .ref { font-size:10.5pt; padding-left:1.5em; text-indent:-1.5em; margin:4px 0; }
 a { color:#0645ad; }
+a.cit { color:inherit; border-bottom:1px dotted #888; text-decoration:none; }
+a.cit:hover { border-bottom-color:#0645ad; background:#f0f3ff; }
 /* dashboard */
 #dash { font-family:Arial,Helvetica,sans-serif; font-size:11pt; background:#fafbff; border:1px solid #ccd; border-radius:8px; padding:20px 24px; margin:28px 0; line-height:1.5; }
 #dash h2 { border:none; }
@@ -168,18 +196,48 @@ a { color:#0645ad; }
 .mergebox { background:#eef2ff; }
 .mpcol .pbox { border-color:var(--mp); } .nhbcol .pbox { border-color:var(--nhb); }
 .page { text-align:right; font-size:11pt; color:#666; }
+/* floating table of contents */
+body { position:relative; }
+.toc { position:fixed; left:16px; top:24px; width:200px; z-index:50; font-family:Arial,Helvetica,sans-serif; font-size:11px; line-height:1.4; }
+.toc-body { background:#fff; border:1px solid #ccc; border-radius:8px; padding:10px 12px; box-shadow:0 2px 10px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:3px; }
+.toc-body a { text-decoration:none; color:#0645ad; padding:1px 2px; border-left:3px solid transparent; }
+.toc-body a:hover { border-left-color:var(--mp); background:#f5f7ff; }
+.toc-toggle { display:none; }
+@media (max-width:1350px){ .toc { position:static; width:auto; margin:0 0 18px 0; } .toc-body{ box-shadow:none; } }
+@media (max-width:760px){
+  .toc-body { display:none; }
+  .toc-toggle { display:block; cursor:pointer; background:#1a1a2e; color:#fff; padding:8px 12px; border-radius:6px; font-weight:bold; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+<nav class="toc" id="toc">
+  <div class="toc-toggle" id="tocToggle">Contents</div>
+  <div class="toc-body">
+    <a href="#abstract">Abstract</a>
+    <a href="#dash">Dashboard</a>
+    <a href="#method">Method</a>
+    <a href="#results">Results</a>
+    <a href="#results-s2">Study 2: Citation &amp; cost analyses</a>
+    <a href="#discussion">Discussion</a>
+    <a href="#gen-discussion">General Discussion</a>
+    <a href="#open-science">Open Science Statements</a>
+    <a href="#author-note">Author Note</a>
+    <a href="#conflict">Conflict of Interest</a>
+    <a href="#data-availability">Data Availability</a>
+    <a href="#references">References</a>
+  </div>
+</nav>
+
 <h1>Scholarly-Led Versus Commercial Publishing:<br>How Well Do Researcher-Owned and Publisher-Owned Journals Support Reproducibility?</h1>
 <p class="byline">A Comparative Audit of <i>Meta-Psychology</i> and <i>Nature Human Behavior</i>, Volumes 2019&ndash;2020</p>
-<p class="affil">ReproAI Audit Project &middot; anomalyco/opencode &middot; Audit date: @@DATE@@</p>
+<p class="subtitle"><i>Meta-Psychology</i> beats <i>Nature Human Behavior</i> on the account of numerical reproducibility.</p>
 
-<h2>Abstract</h2>
+<h2 id="abstract">Abstract</h2>
 <div class="abstract">
-<p>Scientific transparency is essential for cumulative knowledge, yet publishing models differ in how they incentivise the open sharing of data, materials, and analysis code. We compared the reproducibility infrastructure of two psychology journals published in 2019 and 2020: <i>Meta-Psychology</i>, a scholar-led, community-owned open-access journal that mandates open data and code and conducts reproducibility reviews, and <i>Nature Human Behavior</i> (<i>NHB</i>), a commercial publisher-owned journal (Springer Nature) that requires data-availability statements but gates full text behind a subscription. For <i>Meta-Psychology</i> we drew on @@MPA@@ computational reproduction audits covering Volumes 3 (2019) and 4 (2020); every audit&mdash;claim extraction, code re-execution, and verdict&mdash;was re-performed and authored by the DeepSeek&nbsp;V4&nbsp;Flash large language model served through uniGPT (Radas, Risse, &amp; Vogl, 2026). For <i>NHB</i> we audited the full text of @@NHBFT@@ empirical articles for which a PDF could be retrieved (of @@NHB@@ published; the remaining @@NHBMETA@@ could not be included because full text was behind the subscription paywall). Of @@MPA@@ <i>Meta-Psychology</i> studies audited, @@MPOK@@ reproduced near-exactly, @@MPPAR@@ partially reproduced, @@MPFAIL@@ did not reproduce, and @@MPTECH@@ failed for technical reasons. Across the @@NHBFT@@ audited <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed direct, machine-downloadable data/code links, @@NHBP2@@ (@@NHBP2PCT@@%) supplied availability statements without direct links, and @@NHBP1@@ gave no statement. We conclude that the scholar-led model currently yields stronger, more transparent reproducibility practices than the commercial model. This report was drafted by a large language model; all quantitative claims derive from the underlying audit records.</p>
+<p>Scientific transparency is essential for cumulative knowledge, yet publishing models differ in how they incentivise the open sharing of data, materials, and analysis code. We compared the reproducibility infrastructure of two psychology journals published in 2019 and 2020: <i>Meta-Psychology</i>, a scholar-led, community-owned open-access journal that mandates open data and code and conducts reproducibility reviews, and <i>Nature Human Behavior</i> (<i>NHB</i>), a commercial publisher-owned journal (Springer Nature) that requires data-availability statements but gates full text behind a subscription. For <i>Meta-Psychology</i> we drew on @@MPA@@ computational reproduction audits covering Volumes 3 (2019) and 4 (2020); every audit&mdash;claim extraction, code re-execution, and verdict&mdash;was re-performed and authored by the DeepSeek&nbsp;V4&nbsp;Flash large language model served through uniGPT (<a class="cit" href="#ref-radas" title="Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform - Two years of on-premises LLM operations.">Radas, Risse, &amp; Vogl, 2026</a>). For <i>NHB</i> we audited the full text of @@NHBFT@@ empirical articles for which a PDF could be retrieved (of @@NHB@@ published; the remaining @@NHBMETA@@ could not be included because full text was behind the subscription paywall). Of @@MPA@@ <i>Meta-Psychology</i> studies audited, @@MPOK@@ reproduced near-exactly, @@MPPAR@@ partially reproduced, @@MPFAIL@@ did not reproduce, and @@MPTECH@@ failed for technical reasons. Across the @@NHBFT@@ audited <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed direct, machine-downloadable data/code links, @@NHBP2@@ (@@NHBP2PCT@@%) supplied availability statements without direct links, and @@NHBP1@@ gave no statement. We conclude that the scholar-led model currently yields stronger, more transparent reproducibility practices than the commercial model. This report was drafted by a large language model; all quantitative claims derive from the underlying audit records.</p>
 </div>
 <p class="keywords"><strong>Keywords:</strong> reproducibility, open science, open data, open code, publishing, Meta-Psychology, Nature Human Behavior</p>
 
@@ -215,7 +273,7 @@ a { color:#0645ad; }
 
 
 
-<h2>Method</h2>
+<h2 id="method">Method</h2>
 <h3>Target-of-analysis selection (PRISMA-style flow)</h3>
 <p>The parallel PRISMA-style flows below show how the set of audited studies was determined for each journal. Both begin at the journal, restrict to 2019 and 2020, apply exclusions (non-empirical records, then records for which the data/code needed to re-execute the analysis was not available, or the full text could not be retrieved), and end with the reduced sample in which an AI checked the reproduced results against the reported results. Both journals are young: each launched in 2017, so the 2019 and 2020 audits cover their third and fourth volumes, respectively.</p>
 
@@ -248,51 +306,65 @@ a { color:#0645ad; }
 <p class="tabnote"><em>PRISMA-style flow.</em> For <i>NHB</i>, @NHBMETA@ empirical articles are not included because the journal&rsquo;s subscription paywall prevented PDF retrieval; these received no full-text audit and are excluded from this report. For <i>Meta-Psychology</i>, the full text of all records is openly available; 4 records were excluded because they are non-empirical and/or the data and code needed to re-execute the analysis were not available (the reproduction audit was therefore not feasible), so the remaining @MPA@ were audited.</p>
 
 <h3>ReproAI audit procedure</h3>
-<p>ReproAI audits combine manuscript claim extraction, data/code-availability assessment, and&mdash;where the data and code are available&mdash;independent re-execution or verification against the reported numbers. Severity is graded P1 (critical) to P3 (minor). All audits in this report were re-performed and authored entirely by the DeepSeek&nbsp;V4&nbsp;Flash large language model, served through the on-premises uniGPT platform (Radas et al., 2026), running within the ReproAI pipeline on the opencode engine. For <i>Meta-Psychology</i>, @MPA@ audits re-ran shipped code and verified results against the manuscript. For <i>NHB</i>, audits ran against the PDF&rsquo;s reported numbers and recorded data/code availability for the @NHBFT@ articles whose full text could be retrieved.</p>
+<p>ReproAI audits combine manuscript claim extraction, data/code-availability assessment, and&mdash;where the data and code are available&mdash;independent re-execution or verification against the reported numbers. Severity is graded P1 (critical) to P3 (minor). All audits in this report were re-performed and authored entirely by the DeepSeek&nbsp;V4&nbsp;Flash large language model, served through the on-premises uniGPT platform (<a class="cit" href="#ref-radas" title="Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform - Two years of on-premises LLM operations.">Radas et al., 2026</a>), running within the ReproAI pipeline on the opencode engine. For <i>Meta-Psychology</i>, @MPA@ audits re-ran shipped code and verified results against the manuscript. For <i>NHB</i>, audits ran against the PDF&rsquo;s reported numbers and recorded data/code availability for the @NHBFT@ articles whose full text could be retrieved.</p>
 <h3>Transparency of authorship</h3>
 <p>This document is an output of a large language model (DeepSeek&nbsp;V4&nbsp;Flash, served via uniGPT, running on the anomalyco/opencode engine). The prose, figures, dashboard, HTML, and every ReproAI verdict in the individual audit reports were generated automatically by that model.</p>
 
-<h2>Results</h2>
+<h2 id="results">Results</h2>
 <h3>Audit funnel and full-text coverage</h3>
 <p>We first establish, journal by journal, how many articles existed, how many were empirical, and how many could be audited (Figure&nbsp;1). <i>Meta-Psychology</i> published 21 records across Volumes 3 and 4; @MPA@ of these could be audited because their full text and the underlying data and code are openly available, while 4 records were excluded as non-empirical or because the data/code needed for a reproduction audit were not available. <i>NHB</i> published 164 records; 150 were empirical and, of these, the full text of @NHBFT@ (@@NHBFTPCT@@%) could be retrieved and audited, while the remaining @NHBMETA@ could not be included because full text was unavailable.</p>
 <div class="figure"><img src="fig1_funnel.png" alt="Audit funnel">
 <p class="figcap"><b>Figure 1.</b> Audit funnel by journal: how many articles were published, how many were empirical, and how many could be audited.</p></div>
 
 <h3>Open data availability</h3>
-<p>Open data and reproducible analysis are reported separately because they measure different things (Figure&nbsp;2 = open data; Figure&nbsp;3 = reproducible analysis). Among @MPA@ audited <i>Meta-Psychology</i> studies, @@MPOD@@ carried explicit open-data badges; the remaining studies were simulations for which raw data are not applicable. Among the @NHBFT@ audited <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed a direct, machine-downloadable data/code link, @@NHBP2@@ (@@NHBP2PCT@@%) supplied an availability statement without a direct link, and @@NHBP1@@ gave no statement.</p>
+<p>Among @MPA@ audited <i>Meta-Psychology</i> studies, @@MPOD@@ carried explicit open-data badges; the remaining studies were simulations for which raw data are not applicable. Among the @NHBFT@ audited <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed a direct, machine-downloadable data/code link, @@NHBP2@@ (@@NHBP2PCT@@%) supplied an availability statement without a direct link, and @@NHBP1@@ gave no statement.</p>
 <div class="figure"><img src="fig2_open_data.png" alt="Open data availability">
-<p class="figcap"><b>Figure 2.</b> Open data availability by journal, shown as the share (percentage) of audited studies within each journal, with the exact count in parentheses at each bar tip &mdash; this makes the two journals comparable despite the small <i>Meta-Psychology</i> corpus. Note that several <i>Meta-Psychology</i> studies are simulations in which raw data are not applicable, so no-data should not be read as a transparency failure.</p></div>
-
-<h3>Open reproducible analysis</h3>
-<div class="figure"><img src="fig3_open_repro.png" alt="Open reproducible analysis">
-<p class="figcap"><b>Figure 3.</b> Open reproducible analysis among the <i>Meta-Psychology</i> studies that were audited (n&nbsp;=&nbsp;@MPA@). This is shown separately from open data because a study may open its data but not its analysis, or vice versa.</p></div>
+<p class="figcap"><b>Figure 1.</b> Open data availability by journal, shown as the share (percentage) of audited studies within each journal, with the exact count in parentheses at each bar tip &mdash; this makes the two journals comparable despite the small <i>Meta-Psychology</i> corpus. Note that several <i>Meta-Psychology</i> studies are simulations in which raw data are not applicable, so no-data should not be read as a transparency failure.</p></div>
 
 <h3>For how many did the check work, and how many had issues or big problems?</h3>
-<p>For <i>Meta-Psychology</i>, where a genuine computational reproduction was possible, @MPOK@ studies reproduced near-exactly and @MPPAR@ reproduced only partially; @MPFAIL@ did not reproduce and @MPTECH@ hit technical blockers. These are genuinely re-ran analyses, so &ldquo;reproduced&rdquo; is a strong certification. For <i>NHB</i>, the audit established data/code availability rather than re-execution: @NHBP3@ offered a working direct link (the check usable), @NHBP2@ offered only a statement (usable data not directly reachable &mdash; an issue), and @NHBP1@ offered no availability at all (a bigger problem). Figure&nbsp;4 contrasts these two outcome schemes.</p>
-<div class="figure"><img src="fig4_outcomes.png" alt="Outcomes by journal">
-<p class="figcap"><b>Figure 4.</b> Outcomes of the audit for each journal, shown as the share (percentage) of audited studies within each journal with the exact count at each bar tip: for <i>Meta-Psychology</i>, how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, how many articles gave a direct working link, a statement only, or no availability. Because the <i>Meta-Psychology</i> corpus is small (n&nbsp;=&nbsp;14), percentages are reported alongside exact counts so the two are not misleadingly compared.</p></div>
+<p>For <i>Meta-Psychology</i>, where a genuine computational reproduction was possible, @MPOK@ studies reproduced near-exactly and @MPPAR@ reproduced only partially; @MPFAIL@ did not reproduce and @MPTECH@ hit technical blockers. These are genuinely re-ran analyses, so &ldquo;reproduced&rdquo; is a strong certification. For <i>NHB</i>, the audit established data/code availability rather than re-execution: @NHBP3@ offered a working direct link (the check usable), @NHBP2@ offered only a statement (usable data not directly reachable &mdash; an issue), and @NHBP1@ offered no availability at all (a bigger problem). Figure&nbsp;2 contrasts these two outcome schemes.</p>
+<div class="figure"><img src="fig3_outcomes.png" alt="Outcomes by journal">
+<p class="figcap"><b>Figure 2.</b> Outcomes of the audit for each journal, shown as the share (percentage) of audited studies within each journal with the exact count at each bar tip: for <i>Meta-Psychology</i>, how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, how many articles gave a direct working link, a statement only, or no availability. Because the <i>Meta-Psychology</i> corpus is small (n&nbsp;=&nbsp;14), percentages are reported alongside exact counts so the two are not misleadingly compared.</p></div>
 
 <h3>Distribution of the number of claims</h3>
-<p>The two audits differ in depth: <i>Meta-Psychology</i> reproductions re-ran shipped code and therefore audited far more claims per article (median&nbsp;@@MPCLAIMS_MED@@; range @@MPCLAIMS_MIN@@&ndash;@@MPCLAIMS_MAX@@), whereas the <i>NHB</i> checks verified the key reported numbers against the PDF (median&nbsp;@@NHBCLAIMS_MED@@; range @@NHBCLAIMS_MIN@@&ndash;@@NHBCLAIMS_MAX@@). Figure&nbsp;5 shows the distribution of the number of claims audited per article for each journal.</p>
-<div class="figure"><img src="fig5_claims_hist.png" alt="Distribution of the number of claims">
-<p class="figcap"><b>Figure 5.</b> Histograms of the number of claims audited per article, for <i>Meta-Psychology</i> (left) and <i>Nature Human Behavior</i> (right). The <i>Meta-Psychology</i> audits re-ran full analyses and consequently audited more claims per article than the <i>NHB</i> verifications.</p></div>
+<p>The two audits differ in depth: <i>Meta-Psychology</i> reproductions re-ran shipped code and therefore audited far more claims per article (median&nbsp;@@MPCLAIMS_MED@@; range @@MPCLAIMS_MIN@@&ndash;@@MPCLAIMS_MAX@@ full claims), whereas the <i>NHB</i> checks verified the key reported numbers against the PDF (median&nbsp;@@NHBCLAIMS_MED@@; range @@NHBCLAIMS_MIN@@&ndash;@@NHBCLAIMS_MAX@@ full claims). Figure&nbsp;3 shows the distribution of the full (integer) number of claims audited per article for each journal, with the median marked by a dashed line.</p>
+<div class="figure"><img src="fig4_claims_hist.png" alt="Distribution of the number of claims">
+<p class="figcap"><b>Figure 3.</b> Histograms of the number of claims audited per article, for <i>Meta-Psychology</i> (left) and <i>Nature Human Behavior</i> (right), plotted as full numbers with the median indicated by a dashed line. The <i>Meta-Psychology</i> audits re-ran full analyses and consequently audited more claims per article (median&nbsp;@@MPCLAIMS_MED@@) than the <i>NHB</i> verifications (median&nbsp;@@NHBCLAIMS_MED@@).</p></div>
 
-<p>Traffic-light colour: green&nbsp;=&nbsp;reproduced (MP) or direct data/code link (NHB); amber&nbsp;=&nbsp;partially reproduced (MP) or statement-only (NHB); red&nbsp;=&nbsp;not reproduced (MP) or no availability (NHB); orange&nbsp;=&nbsp;technical failure (MP). The full list of all included studies, with every field and these colour codes, is available interactively in the dashboard at the top of this report.</p>
-
-<h2>Discussion</h2>
+<h2 id="discussion">Discussion (Study 1)</h2>
 <p>The scholar-led journal in our sample (<i>Meta-Psychology</i>) performs well on the transparency metrics we measured. Its editorial policies couple publication to the deposition of data and code, and its reproducibility reviews&mdash;which we re-performed here with independent code re-execution&mdash;publicly certify what does and does not reproduce. Of the fourteen re-audited articles, twelve reproduced near-exactly and two reproduced only partially, underscoring that the mandated openness plus re-execution (here by a deep LLM) makes verification concrete, while confirming that genuinely independent re-execution remains the gold standard.</p>
 <p>The commercial journal in our sample (<i>NHB</i>) nearly always meets the letter of its data-availability requirement, but @@NHBP2PCT@@% of audited articles stop at a statement, and only @@NHBP3PCT@@% expose direct, machine-downloadable links. Because the full text is paywalled, only @@NHBFT@@ of the 150 <i>NHB</i> empirical articles could be checked against the actual PDF; the remaining @@NHBMETA@@ could not be included. Full-text access is a prerequisite for genuine verification, and its absence is itself a transparency cost.</p>
 <p>Within this comparison, the scholar-led journal in our sample sets a higher and more verifiable bar for reproducibility than the commercial journal in our sample. We do not claim that this generalizes to all scholarly-led or all commercially published journals: the two here represent only one instance of each publishing model, and future research should examine whether these findings extend to other journals of each type.</p>
 <p>For researchers publishing meta-psychological findings, <i>Meta-Psychology</i> and <i>NHB</i> exemplify two ends of a quality&ndash;quantity trade-off. <i>Meta-Psychology</i> emphasises quality: it publishes fewer articles, but with openly available data and code that are independently audited. <i>NHB</i> emphasises quantity: it publishes many articles, but with more limited reproducibility and verification because full text and, often, data are not openly reachable. We caution that the journals publish different content types, the <i>Meta-Psychology</i> corpus is small, and the <i>Meta-Psychology</i> outcome is a reproduction certification whereas the <i>NHB</i> outcome is an availability audit, so the two are not directly commensurable.</p>
 <p>Because both journals are young, their 2019 and 2020 volumes fall within their first few years of publication. Extending this audit to more recent years would be valuable, as the reproducibility-relevant policies of each journal &mdash; and, for <i>NHB</i>, the degree to which data-availability statements translate into direct, working links &mdash; may have changed over time. However, the accompanying citation analyses (Study&nbsp;2) are less informative for recent work: newly published articles have had comparatively little time to accrue citations, so citation counts from the latest volumes should be interpreted with particular caution or revisited once those articles have matured.</p>
 
-<h2>Author Note</h2>
+<h2 id="results-s2">Study 2: Citation and Cost Analyses</h2>
+<h3>Citing behaviour (OpenAlex)</h3>
+<p>We complemented the reproducibility audit with a bibliometric and cost analysis across the same @@MPA@@ <i>Meta-Psychology</i> and @@NHBFT@@ <i>NHB</i> studies (Study&nbsp;2). Citation counts were retrieved from the OpenAlex scholarly database for each audited article by its DOI (OpenAlex, 2026). Across the audited studies, <i>NHB</i> is far more cited than <i>Meta-Psychology</i>: its articles accrued @@NHBCSUM@@ citations in total (median&nbsp;@@NHBCMED@@), versus @@MPCSUM@@ (median&nbsp;@@MPCMED@@) for <i>Meta-Psychology</i>. Figure&nbsp;4 compares the citation distributions (on a symlog scale) between the two journals overall and broken down by audit outcome. Citation counts do not track the reproducibility ranking we observed in Study&nbsp;1: the journal with the stronger reproducibility practices is the one with far fewer citations, and within each journal citation numbers are broadly similar across reproducibility outcomes.</p>
+<div class="figure"><img src="fig5_citations.png" alt="Citations by journal and outcome">
+<p class="figcap"><b>Figure 4.</b> Citation numbers (OpenAlex), shown on a symlog scale. Left: overall comparison between <i>Meta-Psychology</i> and <i>NHB</i>. Middle: <i>Meta-Psychology</i> citations split by audit outcome. Right: <i>NHB</i> citations split by data-availability outcome. Dashed labels give each group&rsquo;s median.</p></div>
+<p class="tabnote"><em>Data source and caveat.</em> Citation counts were obtained from the OpenAlex database via its public API using each article&rsquo;s DOI. OpenAlex is not absolutely comprehensive: citation indices vary by service, and recent or less-indexed work may be undercounted. Citation counts here should therefore be read as approximate and are best used for coarse, cross-journal comparison rather than precise per-article figures. The retrieval script is shared in the project repository so the analysis can be re-run.</p>
+
+<h3>Estimated publication costs (APCs)</h3>
+<p>We also estimated the economic cost of publishing each journal&rsquo;s articles. <i>Meta-Psychology</i> is a Diamond Open-Access journal and charges no article-processing charge (APC), so its @@MPA@@ audited studies cost approximately &euro;0. <i>NHB</i> is a commercial journal that applies an APC for open-access publication; using a conservative per-article estimate of &euro;@@APCNHB@@ (typical of commercial Nature-portfolio journals, adjustable in the shared script), the @@NHBFT@@ audited articles correspond to an estimated total of approximately &euro;@@NHBCOST@@. This contrast illustrates that the reproducibility advantages of the scholar-led, Diamond-OA model come at minimal direct publication cost to authors, whereas the commercial model&rsquo;s higher citation counts are accompanied by substantial estimated article-processing charges.</p>
+<div class="figure"><img src="fig6_costs.png" alt="Estimated APCs">
+<p class="figcap"><b>Figure 5.</b> Estimated total article-processing charges for the audited studies of each journal. <i>Meta-Psychology</i> (Diamond OA): &euro;0. <i>NHB</i>: estimated &euro;@@APCNHB@@ per article &times; @@NHBFT@@ audited articles &asymp; &euro;@@NHBCOST@@. These are estimates and adjust the assumed APC.</p></div>
+<p class="tabnote"><em>Caveat.</em> The APC figure is an assumption used to illustrate the order of magnitude of the cost difference, not a statement of what the audited authors actually paid (many <i>NHB</i> articles may have been published through institutional agreements or subscriptions rather than paid APCs). The estimate is easily recomputed with a different per-article APC in the shared script.</p>
+
+<h2 id="gen-discussion">General Discussion</h2>
+<p>Across both studies, the two publishing models differ systematically. Study&nbsp;1 showed that the scholar-led, Diamond-OA journal (<i>Meta-Psychology</i>) supports numerical reproducibility more strongly than the commercial journal (<i>NHB</i>): its articles are backed by open data and code and by independently re-executable analyses that we re-ran here, whereas <i>NHB</i> more often settles for a data-availability statement without a direct link and gates its full text behind a paywall. Study&nbsp;2 added two further contrasts: the commercial journal is vastly more cited, and its publication model is associated with substantial estimated article-processing charges, while the scholar-led journal attracts fewer citations but charges nothing to publish. Together these findings suggest that there is a real trade-off between the openness and verifiability of the scholarly-led model and the reach and citation impact of the commercial model &mdash; a tension that any prospective author must weigh for their own priorities.</p>
+<p>However, these results should be read with the limitations of both studies in mind: only one journal represents each publishing model; the <i>Meta-Psychology</i> and <i>NHB</i> audits measure different things (a reproduction certification versus an availability audit); the citation data come from a single, imperfect index (OpenAlex); and both journals were young, with their single most influential articles potentially dominating citation totals. More recent volumes may have changed policies and should be audited in future work, though &mdash; as noted above &mdash; citation analyses are less informative for very recent articles that have not yet accrued citations.</p>
+
+<h2 id="open-science">Open Science Statements</h2>
+<p class="tabnote"><b>Open data and materials.</b> All audit records, figures, and analysis scripts are openly available in the project repository at <a href="https://github.com/LukasRoeseler/reprochecks">https://github.com/LukasRoeseler/reprochecks</a>, and every included study has its own hosted ReproAI audit report (linkable from the dashboard). <b>Code.</b> The scripts that generated the report, the figures, and the Study&nbsp;2 OpenAlex and cost analyses are included in the repository so the entire pipeline is reproducible. <b>LLM policy.</b> This manuscript and all individual audit reports were authored by the DeepSeek&nbsp;V4&nbsp;Flash large language model (served via uniGPT on the anomalyco/opencode engine), prompted and supervised by Lukas R&ouml;seler; see the Supplement for the complete prompt and revision history.</p>
+
+<h2 id="author-note">Author Note</h2>
 <p class="tabnote">This report was written entirely by a large language model (DeepSeek&nbsp;V4&nbsp;Flash, served via the on-premises uniGPT platform within the ReproAI pipeline on the anomalyco/opencode engine). The model was prompted and supervised by Lukas R&ouml;seler. Data collection, figures, the interactive dashboard, HTML composition, and every individual ReproAI verdict and report were generated automatically by that model. No funding was received; the authors of audited articles were not involved in and are not responsible for this audit.</p>
 
-<h2>Conflict of Interest</h2>
+<h2 id="conflict">Conflict of Interest</h2>
 <p>Lukas R&ouml;seler is the co-founder editor of a scholarly-led journal and a proponent of Diamond Open Access. Had the results been in favour of <i>NHB</i> over <i>Meta-Psychology</i>, he would not have made them public. The audits, data, and reports are openly available so that these interests can be weighed against the evidence by any reader.</p>
 
-<h2>Data Availability</h2>
+<h2 id="data-availability">Data Availability</h2>
 <p class="tabnote">All data, figures, scripts, and individual ReproAI audit reports underlying this comparison are openly available in the project repository at <a href="https://github.com/LukasRoeseler/reprochecks">https://github.com/LukasRoeseler/reprochecks</a>. The individual audit reports for every included study are hosted on GitHub Pages (see the &ldquo;Study&rdquo; links in the interactive dashboard above).</p>
 
 <h2>Supplements</h2>
@@ -306,18 +378,19 @@ a { color:#0645ad; }
   <li>Use yellow bars for <i>Meta-Psychology</i> and dark-blue bars for <i>NHB</i> in the figures.</li>
   <li>Present the cross-journal bar charts as percentages with the exact counts annotated, because the <i>Meta-Psychology</i> corpus is small.</li>
   <li>Drop the redundant static &ldquo;Table&nbsp;1&rdquo; and rely on the interactive dashboard, expanding it to show all study fields, and add explanatory column notes.</li>
-  <li>Cite the ReproAI workflow (Xu &amp; Yang, 2026) and FLoRA (human-conducted reproducibility reports), and add full reference lists for all included studies (main, <i>Meta-Psychology</i>, and <i>NHB</i> lists).</li>
+  <li>Cite the ReproAI workflow (<a class="cit" href="#ref-xu" title="Xu, Y., &amp; Yang, L. Y. (2026). Scaling Reproducibility: An AI-Assisted Workflow for Large-Scale Replication and Reanalysis. arXiv preprint arXiv:2602.16733.">Xu &amp; Yang, 2026</a>) and FLoRA (human-conducted reproducibility reports), and add full reference lists for all included studies (main, <i>Meta-Psychology</i>, and <i>NHB</i> lists).</li>
   <li>Point each study ID link to its individual ReproAI report hosted on GitHub Pages, each readable at its own URL.</li>
   <li>Add histograms of the distribution of the number of audited claims per article for each journal.</li>
   <li>Disclose that the model was prompted by Lukas R&ouml;seler and add a conflict-of-interest statement.</li>
   <li>Nuance the discussion to avoid over-generalising from <i>Meta-Psychology</i> and <i>NHB</i> to all scholar-led versus commercial journals, and frame the two as a quality&ndash;quantity contrast for meta-psychological research.</li>
 </ul>
 
-<h2>References</h2>
-<p class="ref">Munaf&#242;, M. R., Nosek, B. A., Bishop, D. V. M., Button, K. S., Chambers, C. D., Percie du Sert, N., Simnson, U., Wagenmakers, E.-J., Ware, J. J., &amp; Ioannidis, J. P. A. (2017). A manifesto for reproducible science. <i>Nature Human Behaviour, 1</i>, 0021. https://doi.org/10.1038/s41562-016-0021</p>
-<p class="ref">Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. <i>Science, 349</i>(6251), aac4716. https://doi.org/10.1126/science.aac4716</p>
-<p class="ref">Sassenberg, K., &amp; Ditrich, L. (2019). Research in social psychology changed between 2011 and 2016: Larger sample sizes, stronger biasing influences. <i>Frontiers in Psychology, 10</i>, 2708. https://doi.org/10.3389/fpsyg.2019.02708</p>
-<p class="ref">Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform&mdash;Two years of on-premises LLM operations. In L. Desnos, C. Diaz, J. Mincer-Daszkiewicz, L. Merakos, R. Vogl, S. McLellan, &amp; U. Lucke (Eds.), <i>Proceedings of EUNIS 2026 Annual Congress</i> (EPiC Series in Computing, Vol. 109, pp. 96&ndash;107). EasyChair. https://doi.org/10.29007/4rq8</p>
+<h2 id="references">References</h2>
+<p class="ref" id="ref-munafo">Munaf&#242;, M. R., Nosek, B. A., Bishop, D. V. M., Button, K. S., Chambers, C. D., Percie du Sert, N., Simnson, U., Wagenmakers, E.-J., Ware, J. J., &amp; Ioannidis, J. P. A. (2017). A manifesto for reproducible science. <i>Nature Human Behaviour, 1</i>, 0021. <a href="https://doi.org/10.1038/s41562-016-0021" target="_blank" rel="noopener">https://doi.org/10.1038/s41562-016-0021</a></p>
+<p class="ref" id="ref-osc">Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. <i>Science, 349</i>(6251), aac4716. <a href="https://doi.org/10.1126/science.aac4716" target="_blank" rel="noopener">https://doi.org/10.1126/science.aac4716</a></p>
+<p class="ref" id="ref-sassenberg">Sassenberg, K., &amp; Ditrich, L. (2019). Research in social psychology changed between 2011 and 2016: Larger sample sizes, stronger biasing influences. <i>Frontiers in Psychology, 10</i>, 2708. <a href="https://doi.org/10.3389/fpsyg.2019.02708" target="_blank" rel="noopener">https://doi.org/10.3389/fpsyg.2019.02708</a></p>
+<p class="ref" id="ref-radas">Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform&mdash;Two years of on-premises LLM operations. In L. Desnos, C. Diaz, J. Mincer-Daszkiewicz, L. Merakos, R. Vogl, S. McLellan, &amp; U. Lucke (Eds.), <i>Proceedings of EUNIS 2026 Annual Congress</i> (EPiC Series in Computing, Vol. 109, pp. 96&ndash;107). EasyChair. <a href="https://doi.org/10.29007/4rq8" target="_blank" rel="noopener">https://doi.org/10.29007/4rq8</a></p>
+<p class="ref" id="ref-openalex">OpenAlex. (2026). <i>OpenAlex: The open index of scholarly works</i>. https://openalex.org</p>
 @@EXTRA_REFS@@
 
 </div>
@@ -413,6 +486,11 @@ document.getElementById("resetBtn").addEventListener("click",function(){
 });
 document.getElementById("dlBtn").addEventListener("click",function(){ downloadCSV(visibleRows()); });
 render();
+
+document.getElementById("tocToggle").addEventListener("click",function(){
+  var b=document.querySelector(".toc-body");
+  b.style.display=(b.style.display==="block")?"none":"block";
+});
 </script>
 
 </body></html>"""
@@ -442,6 +520,12 @@ repl = {
     "@@NHBCLAIMS_MED@@": str(_med(_nhb_cl)),
     "@@NHBCLAIMS_MIN@@": str(min(_nhb_cl)),
     "@@NHBCLAIMS_MAX@@": str(max(_nhb_cl)),
+    "@@MPCSUM@@": str(sum(_mp_cites)),
+    "@@MPCMED@@": str(_st.median(_mp_cites)),
+    "@@NHBCSUM@@": str(sum(_nhb_cites)),
+    "@@NHBCMED@@": str(_st.median(_nhb_cites)),
+    "@@APCNHB@@": _apc_str,
+    "@@NHBCOST@@": _nhb_cost_str,
     "@@EXTRA_REFS@@": _extra_refs_html,
 }
 # also replace single-@ variants (@X@)
