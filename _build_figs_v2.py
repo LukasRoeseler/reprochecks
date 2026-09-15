@@ -62,9 +62,9 @@ def unit_chart(ax, cats, vals, colors, square=0.8, per_col_max=14, gap=0.12):
             ax.add_patch(rect)
     maxrows = max((int(v)//per_col_max + (1 if int(v)%per_col_max else 0)) for v in vals) if vals else 1
     top = maxrows*per_col_max
-    ax.set_xlim(-0.3, len(cats)+0.3)
+    ax.set_xlim(-0.3, len(cats)+1.3)
     ax.set_ylim(0, top*(square+gap)+gap)
-    ax.set_xticks(range(len(cats))); ax.set_xticklabels(cats, fontsize=9)
+    ax.set_xticks(np.arange(len(cats))+0.5); ax.set_xticklabels(cats, fontsize=9)
     step = _nice_step(top)
     ax.set_yticks(np.arange(0, top+1, step))
     ax.set_ylim(0, int(ax.get_ylim()[1])+1)
@@ -104,15 +104,15 @@ unit_chart(ax, cats, vals, cols, per_col_max=40)
 ax.set_title(f"Meta-Psychology open data (n={len(mp_aud)})\nOpen data present: {mp_od} ({round(100*mp_od/len(mp_aud))}%)", fontsize=12, fontweight="bold")
 # nhb
 ax=axes[1]
-cats=["Direct\nlink","Statement\nonly","No\navail."]
+cats=["Direct\nlink","Statement,\nno link","No\navail."]
 vals=[nhb_p3, nhb_p2, nhb_p1]
 cols=[OK,PAR,BAD]
 unit_chart(ax, cats, vals, cols, per_col_max=100)
-ax.set_title(f"Nature Human Behavior data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
+ax.set_title(f"Nature Human Behavior data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt, no link: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
 # single shared legend
-handles=[mpatches.Patch(facecolor=OK, label=f"Open data / direct link ({mp_od}+{nhb_p3})"),
-         mpatches.Patch(facecolor=PAR, label=f"Statement only ({nhb_p2})"),
-         mpatches.Patch(facecolor=BAD, label=f"No availability ({nhb_p1})"),
+handles=[mpatches.Patch(facecolor=OK, label=f"Direct data/code link: provided ({mp_od}+{nhb_p3})"),
+         mpatches.Patch(facecolor=PAR, label=f"Statement only: says data exist, no direct link ({nhb_p2})"),
+         mpatches.Patch(facecolor=BAD, label=f"No availability statement ({nhb_p1})"),
          mpatches.Patch(facecolor="#b0bec5", label=f"Data N/A (simulation) ({mp_od_na})")]
 fig.suptitle("Open data availability by journal — each small square is one audited study", fontsize=13, fontweight="bold")
 fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=10)
