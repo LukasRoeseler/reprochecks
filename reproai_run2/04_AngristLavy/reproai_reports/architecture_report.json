@@ -1,0 +1,27 @@
+{
+  "architecture_report": {
+    "study": "Angrist & Lavy (2009), AER 99(4):1384-1414",
+    "doi": "10.1257/aer.99.4.1384",
+    "audit_date": "2026-09-15",
+    "analyst": "ReproAI (opencode / DeepSeek V4 Flash) numerical-reproducibility audit",
+    "osf_nodes": {
+      "563d4": "SCORE Push-Button Reproduction project (RR ID 65996) - reproduced claims + output + estimates",
+      "5k36r": "Reproduction code node (all do-files, SAS, brl.ado)",
+      "xjwa6": "Authors' data / Phase 2 Reproduction Materials node (raw base*.dta + base_ns.sas7bdat + README)",
+      "jvwtb": "Warning from task - actually a FILE GUID (Transparency Trail docx) resolved to node 563d4, NOT a node"
+    },
+    "data_source": "https://osf.io/xjwa6/ raw data package 113319-V1.zip (base99/00/01/02.dta, base_ns.sas7bdat) prepared by Yannay Spitzer (2008-08-27) + reproduction do-files/SAS in nodes 5k36r/563d4",
+    "data_status": "obtained"
+  },
+  "recomputation_method": {
+    "language": "Python 3.8 (numpy, pandas, statsmodels 0.14, sas7bdat reader)",
+    "scripts": [
+      "exec_check/recompute_t2.py  - Table 2 OLS coefficients + HC1 cluster SE (replicated data prep & quartile algorithm)",
+      "exec_check/brl_se.py        - Independent implementation of BRL (Bias-Reduced Linearization) SE from brl.ado",
+      "exec_check/recompute_logit.py - Table 2 logit marginal effects (h0*coef, treated-set-to-zero method)",
+      "exec_check/recompute_t4.py  - Table 4 girls top-half lagscore logit marginal effect",
+      "exec_check/recompute_t8.py  - Table 8 girls top-quartile college0 OLS + robust SE (school FE, base_ns.sas7bdat)"
+    ],
+    "estimator": "brl (Bias-Reduced Linearization cluster SE, small-sample corrected with Satterthwaite df) as in authors' brl.ado; OLS & logit point estimates = plain (WLS-linearized) regressions"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "risk_register": [
+    {
+      "id": "P3-1",
+      "severity": "P3",
+      "title": "Replication requires the third-party 'brl' (Bias-Reduced Linearization) Stata/SAS component not bundled by the authors",
+      "evidence": "Transparency Trail: 'the command brl went unrecognized and ... the package brl was installed from https://economics.byu.edu/faculty-and-staff/frandsen/software'. brl.ado (Stata) / brl.sas are separate from the paper but were mirrored in the OSF code node. Running table-2/4.do out-of-the-box on a stock Stata fails until brl is installed.",
+      "impact": "Reproducibility friction only; the human PBR produced exact results after installing brl, and this audit independently re-derived the BRL SE from brl.ado (0.0472902). Not a substantive error.",
+      "fix": "Bundle/version-pin the brl ado-file and document the Frandsen source; add a container/environment manifest."
+    },
+    {
+      "id": "P3-2",
+      "severity": "P3",
+      "title": "Hard-coded absolute Windows working directories and path edits required in do-files/SAS",
+      "evidence": "table-2.do, table-4.do contain 'cd \"W:\\Student bonuses\\Yannay Aug 08\\data\"'; table8_linear_quart.sas has libname home/target pointing at the same W: path; the PBR analysts had to edit these and rename a 'cap erase' to keep estimates. table-2/4.do also erase their output .dta at the end (needed a PBR stop-line edit).",
+      "impact": "Not push-button reproducible without path edits; minor friction, no numerical discrepancy.",
+      "fix": "Use project-relative paths and remove destructive final 'cap erase' of primary output tables."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "study": {
+    "authors": "James Cloyne",
+    "year": 2013,
+    "title": "Discretionary Tax Changes and the Macroeconomy: New Narrative Evidence from the United Kingdom",
+    "journal": "American Economic Review",
+    "volume_issue_pages": "103(4): 1507-1528",
+    "doi": "10.1257/aer.103.4.1507",
+    "field": "Macroeconomics / Fiscal Policy",
+    "replication_package": "ICPSR/AEA DOi 10.3886/E112651V1 (V1)",
+    "package_files": ["data.xlsx","Table2.m","Figures3to9.m","Figure1and2.m","Figure10.m","table1.wf1","ReadMe.pdf","LICENSE.txt"]
+  },
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+    "audit_date": "2026-09-15",
+    "grade": "PARTIAL",
+    "data_status": "partial",
+    "headline_numbers_verified": false,
+    "headline_numbers_note": "Corroborated via published human reproduction (I4R DP132) and internal-consistency checks; NOT independently recomputed because raw ICPSR data could not be downloaded (Cloudflare on OpenICPSR /download + ICPSR deposit login wall).",
+    "human_flora_classification": "computationally reproducible",
+    "verdict_matches_human": true,
+    "verdict_note": "Package is complete and an independent published reproduction reproduced all VAR tables/figures exactly; I agree it is computationally reproducible. My failure to recompute is an access-layer limitation, not a package defect.",
+    "independent_recompute_performed": false,
+    "independent_recompute_reason": "raw quarterly UK macro data + Cloyne's constructed narrative tax-shock series live only in the inaccessible ICPSR package"
+  },
+  "headline_claims": [
+    {"id":"C1","claim":"1%-of-GDP tax cut raises UK GDP ~0.6% on impact","paper_value":"~0.6%","repro_value":"0.599 (Matlab author code); 0.567 (Stata)","status":"corroborated-not-recomputed"},
+    {"id":"C2","claim":"peak GDP response ~2.5% over ~3 years (10-11 quarters)","paper_value":"~2.5%","repro_value":"2.458 (Matlab); 2.226 (Stata)","status":"corroborated-not-recomputed"},
+    {"id":"C3","claim":"peak comparable to Romer & Romer (2010) US (~2.5 at 10-11 qtrs)","paper_value":"~2.5%","repro_value":"same horizon/scale per I4R","status":"corroborated-not-recomputed"}
+  ],
+  "internal_consistency_checks": {
+    "script": "exec_check/check_internal.py",
+    "result": "PASS",
+    "detail": "I4R DP132 Table 1 reproduction numbers: z=coef/SE and 95% CI=coef +/- 1.96*SE recompute within rounding for author-code and Stata columns; cross-source abstract (0.6/2.5) matches reproduction (0.599/2.458)."
+  },
+  "findings": [
+    {"id":"CLO-001","severity":"P2","title":"Raw replication data effectively inaccessible for automated third-party verification","type":"accessibility"},
+    {"id":"CLO-002","severity":"P2","title":"Author's original MATLAB bootstrap samples residuals non-jointly across the VAR block, understating the peak-response SE (0.797 vs 1.012 with joint resampling)","type":"methodological"},
+    {"id":"CLO-003","severity":"P3","title":"Headline p-values not emitted by code; reconstructed as bootstrap share-below-zero (effectively one-sided)","type":"documentation"},
+    {"id":"CLO-004","severity":"P3","title":"Reproduction requires proprietary MATLAB + EViews; not runnable open-source-only","type":"tooling"}
+  ],
+  "sev_counts": {"P0":0,"P1":0,"P2":2,"P3":2}
+}

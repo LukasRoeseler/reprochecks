@@ -1,0 +1,83 @@
+{
+  "audit": {
+    "study": "Robertson et al. (2023), 'Negativity drives online news consumption', Nature Human Behaviour",
+    "doi": "10.1038/s41562-023-01538-4",
+    "audit_folder": "C:\\Users\\lroesele.IVV5NET\\AppData\\Local\\Temp\\opencode\\reprochecks\\reproai_run2\\01_Robertson_news",
+    "date": "2026-09-15",
+    "analyst": "ReproAI (opencode) numerical-reproducibility audit",
+    "osf_reproduction_node": "bfhdw (https://osf.io/bfhdw/), FLoRA / I4R x Nature Human Behaviour replication node",
+    "primary_sources": [
+      "report.txt / report.pdf (I4R replication report by Reiss & Roggenkamp, Dec 2024)",
+      "NHB_Upworthy_Replication_Response.pdf / NHB_response.txt (authors' response)",
+      "blind_regression_df.csv (blind-reconstruction analysis dataset, N=53,755 / 12,473 test IDs)"
+    ],
+    "data_status": "obtained"
+  },
+  "headline_claims": [
+    {
+      "id": "C1",
+      "claim": "Headlines with a larger proportion of NEGATIVE words significantly increase click-through rate (CTR).",
+      "paper_value": "beta=0.018, SE=0.003, t=6.942, p<0.001, 99% CI=(0.011,0.025) [random-slopes model, main claim, p.814]",
+      "status": "direction_and_significance_confirmed",
+      "recomputed": "random-slopes: beta=+0.0079, SE=0.00232, z=3.39; fixed-slopes: beta=+0.0088, SE=0.00083, z=10.60 (both p<0.001, positive sign)"
+    },
+    {
+      "id": "C2",
+      "claim": "Headlines with a larger proportion of POSITIVE words significantly decrease CTR.",
+      "paper_value": "beta=-0.017, SE=0.003, t=-6.589, p<0.001, 99% CI=(-0.023,-0.010) [random-slopes model, p.814]",
+      "status": "direction_and_significance_confirmed",
+      "recomputed": "random-slopes: beta=-0.0158, SE=0.00239, z=-6.61; fixed-slopes: beta=-0.0085, SE=0.00086, z=-9.94 (both p<0.001, negative sign)"
+    }
+  ],
+  "recomputation": {
+    "method": "Multilevel binomial (logit) GLMM, clusters=clickability_test_id, link=logit, PQL-ish (nAGQ=0), lme4 v2.0.6, R 4.6.1",
+    "spec_1": "random intercept, fixed slopes: logit(CTR) ~ positive + negative + length + complexity + platform_age + (1|clickability_test_id)",
+    "spec_1_results": {
+      "positive": [-0.008513508, 0.0008563072, -9.942119],
+      "negative": [0.008835920, 0.0008338892, 10.596036],
+      "length": 0.039670361,
+      "complexity": -0.003376340,
+      "platform_age": -0.308851125
+    },
+    "spec_2": "random intercept + random slopes for positive & negative",
+    "spec_2_results": {
+      "positive": [-0.015773483, 0.002386996, -6.608090],
+      "negative": [0.007850215, 0.002317443, 3.387447],
+      "length": 0.042150752,
+      "complexity": -0.002580391,
+      "platform_age": -0.309277496
+    },
+    "dataset": "blind_regression_df.csv (I4R blind reconstruction, n=53,755 rows, 12,473 clickability_test_id)",
+    "notes": "This file is the I4R blind-reconstruction analysis set (no stemming), so magnitudes are not expected to equal the authors' final analysis numbers; it matches the I4R 'blind without stemming' columns of their Table 3 (neg ~0.009 / ~0.006; pos ~-0.009 / ~-0.017). Run via rerun_models.R; full output in _rerun_models_out.txt."
+  },
+  "independent_reproduction_vs_paper": {
+    "negativity": "Sign and significance reproduced; MAGNITUDE SMALLER in blind rerun (0.0079-0.0088 vs paper 0.018 main claim). Discrepancy attributed by I4R to an unreported stemming pre-processing step in the authors' pipeline; with authors' code+data (unblind) the I4R authors report numerically IDENTICAL results to the paper.",
+    "positivity": "Sign and significance reproduced; magnitude close to paper (random-slopes -0.0158 vs -0.017)."
+  },
+  "authors_response": "Robertson et al. state the I4R replication exactly reproduced their key results, remained robust, and supported the main claim (negative drives news consumption); they note the LLM-based semantic positivity result did not show a robust negative effect but consider negativity the main claim.",
+  "findings": [
+    {
+      "id": "P2-1",
+      "severity": "P2",
+      "title": "Negativity coefficient magnitude not exactly reproduced in independent blind rerun",
+      "detail": "Independent rerun on the blind-reconstruction dataset gives negative beta of 0.008 (fixed) / 0.008 (random slopes) vs the paper's 0.015 / 0.018. Direction and significance hold. The I4R report traces the gap to an unreported stemming step and confirms identical numbers using the authors' exact code+data (unblind)."
+    },
+    {
+      "id": "P3-1",
+      "severity": "P3",
+      "title": "Reporting inconsistencies in original paper",
+      "detail": "KS test statistic reported as D=0.574 in text (p.814) vs D=0.084 in Fig 1b header; positive/negative word proportions 2.83%/2.62% not reproducible from code (reproducible 3.7%/2.8% in Supp Table 1); abstract N=22,743 refers to data accessed vs ~12,000 RCTs analyzed."
+    },
+    {
+      "id": "P3-2",
+      "severity": "P3",
+      "title": "Replication-package completeness and environment issues",
+      "detail": "Three files incomplete: LIWC2015 dictionary is proprietary (not shared), upworthy raw file hosted on Matias et al. repository, topic-modeling file missing by mistake. R package versions partially conflicting (quanteda 2.0.1 vs quanteda.dictionaries requiring 3.0.0; lme4 1.1.23 dependency issues on R 4.0.2). Duplicate variable names across datasets (e.g. regression_df.csv). No package version control (renv/packrat) and no processing-order documentation."
+    }
+  ],
+  "grade": "CONSISTENT",
+  "grade_rationale": "Both headline claims are statistically significant in the predicted directions in an independent recomputation. The exact main-claim magnitude for negativity (0.018) is not reproduced from the local blind-reconstruction data (0.008) without the authors' stemming step, but the human code + data are computationally reproducible (I4R unblind reproduction yields numerically identical results). Because exact headline magnitudes were verified only via the authors' pipeline and the independent rerun differs in magnitude, the grade is CONSISTENT rather than FULL, aligning with the human assessment that the code is computationally reproducible.",
+  "p0_p3_severity": "P0:0 P1:0 P2:1 P3:2",
+  "verdict_matches_human_computationally_reproducible": true,
+  "headline_numbers_verified": "direction_and_significance_yes_exact_magnitude_only_via_author_code"
+}

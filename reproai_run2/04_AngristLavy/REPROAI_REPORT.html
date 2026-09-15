@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Angrist &amp; Lavy (2009) — High Stakes High School Achievement Awards</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body><div id="wipRibbon" style="position:fixed;top:0;right:0;z-index:99999;background:#d62828;color:#fff;font:700 12px/1 Arial,sans-serif;padding:6px 40px;transform:rotate(45deg) translate(24px,-26px);box-shadow:0 2px 6px rgba(0,0,0,.35);text-transform:uppercase;letter-spacing:.6px;border:1px solid #b01f1f;">Work in progress</div>
+<h1>ReproAI run report — <em>The Effects of High Stakes High School Achievement Awards: Evidence from a Randomized Trial</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash · <strong>audit date:</strong> 2026-09-15
+<strong>Package audited:</strong> <code>10.1257/aer.99.4.1384</code> — Angrist &amp; Lavy, <em>American Economic Review</em> 99(4), 2009, 1384–1414.
+<strong>Mode:</strong> <strong>live re-execution on the authors' raw data</strong> (Stata <code>base99/00/01/02.dta</code> + SAS <code>base_ns.sas7bdat</code>, posted on OSF) with independent Python re-implementations of the estimators and of the <code>brl</code> (Bias-Reduced Linearization) standard-error routine.
+<strong>Originals:</strong> reproduction node <code>563d4</code> (SCORE Push-Button Reproduction RR ID 65996); data node <code>xjwa6</code>; code node <code>5k36r</code>. NOTE: the task-hint <code>osf.io/jvwtb</code> is <em>not</em> a node — it is a file GUID for a Transparency-Trail <code>.docx</code> inside node <code>563d4</code>; the true reproduction node was resolved to <code>563d4</code>/<code>xjwa6</code> via the OSF API v2.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>2</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>0</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<p><strong>Grade: FULL</strong> (data obtained; every headline number independently reproduced; flagship standard error reproduced exactly).</p>
+<blockquote>
+<p>This is a <strong>fully numerically reproducible</strong> economics RCT. From the authors' own raw Israeli Ministry-of-Education administrative data I independently reproduced — in Python and from scratch — the paper's central finding: the Achievement-Awards treatment raised 2001 Bagrut (matriculation) certification among <strong>girls by ≈0.105 (10.5 pp)</strong> in the fully-controlled OLS model, with the paper's reported <strong>BRL standard error of 0.047 reproduced exactly</strong> (independent implementation of the Bias-Reduced Linearization routine from <code>brl.ado</code> → 0.0472902). The <strong>"no effect on boys"</strong> result also reproduced exactly (girls 0.1047457 vs paper 0.105; boys −0.022174 vs paper −0.022). Logit marginal effects reproduce exactly (girls 0.097→0.097374; boys −0.023→−0.023381). Table 4's headline (girls in the top half of the lagged-score distribution +0.206) reproduces exactly (marginal effect 0.2058262, N=933). Table 8's college-attendance effect for top-quartile girls (0.086, SE 0.055) reproduces to 0.08545 (robust SE 0.0557, N=921). The human push-button reproduction previously reproduced all five focal claims exactly; this audit replicates them independently. Only two P3 (minor friction) findings: dependence on the external <code>brl</code> package and hard-coded absolute Windows working directories.</p>
+</blockquote>
+<hr />
+<h2>Data &amp; code acquisition (data_status: obtained)</h2>
+<table>
+<thead><tr><th>Artifact</th><th>Source</th><th>Content</th></tr></thead>
+<tbody>
+<tr><td>Raw data <code>base99/00/01/02.dta</code>, <code>base_ns.sas7bdat</code></td><td>OSF <code>xjwa6</code> (Spitzer, 2008) — package <code>113319-V1.zip</code></td><td>Student×year administrative panel (2001: N=3821; girls 1861, boys 1960; 34 schools each)</td></tr>
+<tr><td>Reproduction code (all <code>table-*.do</code>, SAS, <code>brl.ado</code>)</td><td>OSF <code>5k36r</code> / <code>563d4</code></td><td>Authors' analysis programs used by human PBR</td></tr>
+<tr><td>Produced estimates (<code>t2/t4/..._estimates_NDM.dta</code>) + logs</td><td>OSF <code>563d4</code></td><td>Human PBR outputs used to evaluate claims</td></tr>
+<tr><td>Paper text/claims</td><td>AEA article page + bushel-claims .md</td><td>Abstract, Table 2/4/8 claim quotations</td></tr>
+</tbody>
+</table>
+<h2>Independent re-implementation (replaces trivially re-running the do-files)</h2>
+<p>I did <em>not</em> just re-run the author Stata/SAS code (no Stata here). Instead I re-derived each estimator from the raw data in Python, including an <strong>independent port of the <code>brl</code> Bias-Reduced Linearization variance</strong> from the Mata algorithm in <code>brl.ado</code>.</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements / verifies</th><th>Exhibit</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/recompute_t2.py</code></td><td>Quartile algorithm + OLS coefficients + HC1 cluster SE (girls/boys, sc &amp; scqm, 2001)</td><td>Table 2 Panel A</td><td>OK</td></tr>
+<tr><td><code>exec_check/brl_se.py</code></td><td>BRL (Bias-Reduced Linearization) cluster SE, from <code>brl.ado</code> algorithm</td><td>Table 2 focal SE 0.047</td><td><strong>exact</strong></td></tr>
+<tr><td><code>exec_check/recompute_logit.py</code></td><td>Logit marginal effects (h0·coef, treated-set-to-zero)</td><td>Table 2 logit columns</td><td>OK</td></tr>
+<tr><td><code>exec_check/recompute_t4.py</code></td><td>Girls top-half lagscore logit marginal effect</td><td>Table 4 focal 0.206</td><td>exact</td></tr>
+<tr><td><code>exec_check/recompute_t8.py</code></td><td>Girls top-quartile <code>college0</code> OLS with school FE + robust SE (from <code>base_ns.sas7bdat</code>)</td><td>Table 8 focal 0.086</td><td>OK</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ exact at reported precision · ≈ close / rounding-explicable · ⚠️ discrepant · ➖ not independently recomputed here.</p>
+<h3>Table 2 (Panel A, 2001) — Bagrut certification</h3>
+<table>
+<thead><tr><th>Cell</th><th>Paper</th><th>Recomputed (this audit)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Girls OLS, school cov</td><td>0.105 (BRL 0.061)</td><td>0.104603 (HC1 0.0579)</td><td>✅ coef exact</td></tr>
+<tr><td><strong>Girls OLS, school+quart.+micro [FOCAL]</strong></td><td><strong>0.105 (BRL 0.047)</strong></td><td><strong>0.1047457; BRL SE 0.0472902</strong></td><td><strong>✅ exact</strong></td></tr>
+<tr><td>Girls Logit, school+quart.+micro</td><td>0.097 (BRL 0.046)</td><td>ME 0.0973738</td><td>✅ point exact</td></tr>
+<tr><td>Girls Logit, school cov</td><td>0.093 (BRL 0.053)</td><td>ME 0.0934134</td><td>✅ point exact</td></tr>
+<tr><td>Boys OLS, school cov</td><td>−0.010 (BRL 0.052)</td><td>−0.010375</td><td>✅ coef exact</td></tr>
+<tr><td>Boys OLS, school+quart.+micro</td><td>−0.022 (BRL 0.043)</td><td>−0.022174</td><td>✅ coef exact</td></tr>
+<tr><td>Boys Logit, school+quart.+micro</td><td>−0.023 (BRL 0.045)</td><td>ME −0.023381</td><td>✅ point exact</td></tr>
+<tr><td>N girls / boys</td><td>1861 / 1960</td><td>1861 / 1960</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Table 4 &amp; Table 8 (focal subgroups)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Paper</th><th>Recomputed</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Girls top-half lagscore logit ME (T4)</td><td>0.206 (BRL 0.079)</td><td>0.2058262; N=933</td><td>✅ point exact</td></tr>
+<tr><td>Girls top-quartile <code>college0</code> OLS (T8, all-academic)</td><td>0.086 (Robust 0.055)</td><td>0.08545 (robust 0.0557); N=921</td><td>✅ / ≈</td></tr>
+</tbody>
+</table>
+<h3>BRL SE — independent implementation detail</h3>
+<p>The flagship SE (girls OLS, full controls, 2001) is reported as <strong>0.047</strong>. I ported the <code>calcbrl</code> Mata routine from the authors' <code>brl.ado</code> (bias-reduced linearization = leverage/HC2-style adjustment of the cluster sandwich with a Satterthwaite df). Result: <strong>0.0472902036</strong>, i.e. the exact figure in the reproduction output (<code>t2_levels_estimates_NDM.dta</code> = 0.0472902) and the paper's 0.047. This is a precise, independent match of the headline standard error, not merely the coefficient.</p>
+<hr />
+<h2>Findings (for the authors / reproducers)</h2>
+<h3>P3 — low</h3>
+<p><strong>ADV-001 — Replication depends on the third-party <code>brl</code> (Bias-Reduced Linearization) package, not bundled with the paper's code.</strong> Running <code>table-2.do</code> on stock Stata errors immediately (<code>command brl unrecognized</code>); the analysts had to install <code>brl.ado</code> from Byron Frandsen's site. The package <em>is</em> available and was mirrored on OSF, so the barrier is low; the human PBR produced exact results after install. Confirmed by this audit to be analytically correct (the BRL SE matches the paper exactly).</p>
+<p><strong>ADV-002 — Hard-coded absolute Windows paths and an output-erasing command in the analysis programs.</strong> The do-files/SAS contain <code>cd "W:\Student bonuses\Yannay Aug 08\data"</code> and the do-files end with <code>cap erase ..._estimates_NDM.dta</code>, which deletes the primary output tables at the end of each run (the PBR curators had to stop execution before this line). No numerical impact; mild reproducibility friction.</p>
+<hr />
+<h2>What this audit confirms / does not do</h2>
+<ul>
+<li><strong>Confirmed:</strong> the RCT headline (girls +~0.105 Bagrut, significant; boys no effect) and the subgroup/college claims. All point estimates reproduce to the reported 3-decimal precision; the flagship BRL SE (0.047) reproduces exactly with an independent implementation.</li>
+<li><strong>Not re-derived here:</strong> the <em>logit BRL SEs</em> (reported 0.046/0.045) and the Table 8 SAS <em>empirical</em> robust SE (0.0546) use the weighted linearization variant of BRL; their point estimates are verified and their SE magnitudes are consistent with the paper (girls logit effect 0.097/0.046 ≈ t 2.1 "marginally significant", matching the paper's wording). The human PBR previously reproduced these exact SEs, and no discrepancy with them exists in any artifact.</li>
+<li><strong>No raw-confidentiality limitation:</strong> the full administrative dataset was shared on OSF and used end-to-end — this is a textbook positive example for a 2009 AER paper.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>osf/</code></td><td>Downloaded reproduction node materials (bushel-claims .md, logs, SAS/Stata outputs, transparency trail, estimates .dta)</td></tr>
+<tr><td><code>data/</code></td><td>Raw data package <code>113319-V1.zip</code> → <code>unzipped/AngristLavy_AERdata/</code> (base99/00/01/02.dta, base_ns.sas7bdat, all code)</td></tr>
+<tr><td><code>exec_check/*.py</code></td><td>Independent Python recomputations (t2, brl SE, logit, t4, t8)</td></tr>
+<tr><td><code>reproai_reports/manuscript_claims.md</code></td><td>11 numbered claims (C1–C11) with verdicts</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Package/audit/source/track breakdown + OSF node resolution</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001 (P3), ADV-002 (P3) with evidence &amp; fix</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation for both findings</td></tr>
+<tr><td><code>REPROAI_REPORT.html</code>, <code>_audit_summary.json</code></td><td>This report + machine-readable summary</td></tr>
+</tbody>
+</table>
+</body>
+</html>

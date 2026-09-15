@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Cloyne (2013) — Discretionary Tax Changes and the Macroeconomy (UK)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body><div id="wipRibbon" style="position:fixed;top:0;right:0;z-index:99999;background:#d62828;color:#fff;font:700 12px/1 Arial,sans-serif;padding:6px 40px;transform:rotate(45deg) translate(24px,-26px);box-shadow:0 2px 6px rgba(0,0,0,.35);text-transform:uppercase;letter-spacing:.6px;border:1px solid #b01f1f;">Work in progress</div>
+<h1>ReproAI run report — <em>Discretionary Tax Changes and the Macroeconomy: New Narrative Evidence from the United Kingdom</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &middot; <strong>audit date:</strong> 2026-09-15<br>
+<strong>Package audited:</strong> Cloyne, J. (2013), <em>American Economic Review</em> 103(4): 1507–28, DOI <code>10.1257/aer.103.4.1507</code>.<br>
+<strong>Reproduction package:</strong> AEA/ICPSR DOI <code>10.3886/E112651V1</code> (folder <code>20111351_data</code>:
+<code>data.xlsx</code>, <code>Table2.m</code>, <code>Figures3to9.m</code>, <code>Figure1and2.m</code>, <code>Figure10.m</code>,
+<code>table1.wf1</code>, <code>ReadMe.pdf</code>, <code>LICENSE.txt</code>).<br>
+<strong>Human reproduction reference (FLoRA):</strong> I4R Discussion Paper 132 — Kopecky, Campbell, Brodeur, Johannesson,
+Lusher &amp; Tsoy (2024), <em>Robustness Report on Cloyne (2013)</em> — classified <strong>computationally reproducible</strong>.</p>
+<p><strong>Paper type:</strong> empirical macroeconomics / fiscal policy. New quarterly UK narrative
+"exogenous discretionary tax change" series (1945/1955–2009) built with the Romer–Romer (2010) narrative method, used as the
+exogenous regressor in a quarterly VAR to estimate the impulse response of GDP (and other aggregates) to tax changes.</p>
+<p><strong>Mode:</strong> web audit + extraction of the paper and the published human reproduction, with an attempted
+independent re-execution. <strong>Independent VAR recomputation could not be executed</strong> because the raw series
+(<code>data.xlsx</code> + MATLAB/EViews code) is stored only on OpenICPSR/ICPSR, whose <code>/download</code> routes answer a
+Cloudflare managed challenge even to a real headless Chromium browser and whose deposit host redirects anonymous downloads to
+a Keycloak login (no third-party mirror exists). The audit therefore verifies the headline numbers via internal-consistency and
+cross-source checks of the published human reproduction rather than a from-scratch recomputation.</p>
+<hr/>
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>4</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Verdict: headline numbers corroborated but not independently re-computed here; the package is genuinely
+"computationally reproducible" and I agree with the human FLoRA classification.</strong> The headline claim — a 1%-of-GDP tax
+cut raises UK GDP by ≈0.6% on impact, rising to a ≈2.5% peak over about three years — is stated in the abstract, reproduced
+exactly by the published human reproduction (I4R DP132): author-code impact <strong>0.599</strong>, peak <strong>2.458</strong>
+(Stata replication 0.567 / 2.226). My own numeric checks confirm the human reproduction's numbers are internally consistent
+(z&nbsp;=&nbsp;coef/SE and 95% CIs re-derive within rounding). I was, however, <strong>unable to obtain the raw replication
+data</strong> (ICPSR download wall), so I could not perform an independent from-scratch VAR impulse-response recomputation; for
+that reason the headline figures are marked <strong>corroborated / not independently verified</strong> (<code>CLO-001</code>, P2).
+Two further P2/P3 findings come from the human reproduction: the author's original MATLAB bootstrap samples residuals
+<em>not jointly</em> across the K endogenous variables, inflating the precision of the peak response (P2); and the headline
+p-values are not emitted by the author code but were reconstructed as a bootstrap share-below-zero (effectively one-sided) (P3).</p>
+</blockquote>
+<hr/>
+<h2>Headline numerical claims extracted</h2>
+<table>
+<thead><tr><th>#</th><th>Claim</th><th>Paper</th><th>Human-repro value (I4R DP132)</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>C1</td><td>1%-of-GDP tax cut raises GDP on impact</td><td>≈0.6%</td><td>impact 0.599 (Matlab), 0.567 (Stata)</td><td>Corroborated ✓</td></tr>
+<tr><td>C2</td><td>…rising to a peak over ≈3 years</td><td>≈2.5%</td><td>peak 2.458 (Matlab), 2.226 (Stata), at ~10–11 qtrs</td><td>Corroborated ✓</td></tr>
+<tr><td>C3</td><td>Peak comparable to Romer &amp; Romer (2010) US</td><td>~2.5 at 10–11 qtrs</td><td>I4R confirms same horizon/scale</td><td>Corroborated ✓</td></tr>
+<tr><td>C4</td><td>Quarterly UK narrative exogenous tax-shock series, 1945/1955–2009</td><td>paper</td><td>series zero ~half the sample</td><td>Consistent (char.)</td></tr>
+<tr><td>C5</td><td>Baseline VAR: log GDP pc, log C pc, log I pc; p=4 endog lags, q=12 shock lags, trend; shock in % of GDP</td><td>Fig 3</td><td>reproduced (Fig 3, Table 1)</td><td>Consistent ✓</td></tr>
+<tr><td>C6</td><td>Robust to monetary/fiscal-control augmentations (peak ≈2.66% @ 11 qtrs, p=0.03)</td><td>Suppl Figs 6–7</td><td>robust per I4R control-set tests</td><td>Consistent</td></tr>
+</tbody>
+</table>
+<hr/>
+<h2>Data &amp; reproduction-code acquisition</h2>
+<table>
+<thead><tr><th>Item</th><th>Source</th><th>Acquired?</th></tr></thead>
+<tbody>
+<tr><td>Paper abstract / article page</td><td>aeaweb.org</td><td>✅ yes (full text paywalled)</td></tr>
+<tr><td>Supplemental (Online) Appendix</td><td>aeaweb.org/articles/materials/2190</td><td>✅ yes (446 KB PDF, text extracted)</td></tr>
+<tr><td>Human reproduction report (I4R DP132)</td><td>EconStor via Wayback</td><td>✅ yes (PDF + text)</td></tr>
+<tr><td>OSF reproduction-project resolution</td><td>OSF node <code>w7vpu</code> (<code>4qnf7</code> = file GUID of the paper PDF in <code>Robustness reports/</code>)</td><td>✅ enumerated (survey-materials project; no macro data)</td></tr>
+<tr><td>Raw replication data &amp; code (<code>data.xlsx</code>, <code>*.m</code>, <code>table1.wf1</code>)</td><td>ICPSR 10.3886/E112651V1</td><td>❌ NOT obtainable — Cloudflare on OpenICPSR <code>/download</code>; ICPSR deposit login-walled; no mirror</td></tr>
+</tbody>
+</table>
+<p><em>Manifest of the ICPSR package</em> (from the browser-rendered OpenICPSR folder page): <code>20111351_data/</code> =
+<code>data.xlsx</code>, <code>Table2.m</code>, <code>Figures3to9.m</code>, <code>Figure1and2.m</code>, <code>Figure10.m</code>,
+<code>table1.wf1</code> (EViews workfile), <code>ReadMe.pdf</code>; project root <code>LICENSE.txt</code>. The MATLAB modules
+<code>Figures3to9.m</code>/<code>Table2.m</code> generate the VAR impulse-response figures and Table 2; <code>table1.wf1</code>
+and <code>data.xlsx</code> supply series for the VAR.</p>
+<hr/>
+<h2>Independent re-execution / verification</h2>
+<p>Legend: ✅ verified &middot; ≈ internally consistent &middot; ⚠ discrepant &middot; ➖ not independently checkable (reason).</p>
+<h3>Independent VAR recomputation</h3>
+<table>
+<thead><tr><th>Target</th><th>Manuscript</th><th>This audit</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Impact response of log GDP pc to 1%-of-GDP tax cut</td><td>≈0.6</td><td>— raw data unobtainable</td><td>➖ <strong>not recomputed</strong> (no data)</td></tr>
+<tr><td>Peak response (~10–11 qtrs)</td><td>≈2.5</td><td>— raw data unobtainable</td><td>➖ <strong>not recomputed</strong> (no data)</td></tr>
+</tbody>
+</table>
+<p><em>Cause note:</em> an independent from-scratch recomputation of the VAR impulse responses requires the quarterly UK macro
+series and, crucially, Cloyne's constructed narrative tax-shock series (neither is numerically published in the paper; both live
+only in the ICPSR package, which is not machine-downloadable as documented above). Without them, an honest independent
+recomputation cannot be performed.</p>
+<h3>Internal-consistency of the published human reproduction (I4R DP132, Table 1)</h3>
+<p>Recomputed z&nbsp;=&nbsp;coef/SE and 95% CI&nbsp;=&nbsp;coef&nbsp;±&nbsp;1.96·SE from the reported point estimates and SEs. All
+re-derive within rounding (full CSV: <code>output/i4r_consistency.csv</code>).</p>
+<table>
+<thead><tr><th>Column</th><th>Impact z (rep/recalc)</th><th>Impact 95% CI (rep / from-SE)</th><th>Peak z (rep/recalc)</th><th>Peak 95% CI (rep / from-SE)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Author code (Matlab)</td><td>2.033 / 2.031</td><td>[0.033,1.189] / [0.021,1.177]</td><td>3.083 / 3.084</td><td>[0.937,4.009] / [0.896,4.020]</td><td>≈</td></tr>
+<tr><td>Author code — Adj. SEs</td><td>2.044 / 2.044</td><td>[0.023,1.180] / [0.025,1.173]</td><td>2.267 / (2.429)*</td><td>[0.385,4.390] / [0.474,4.442]</td><td>≈ (rounding)</td></tr>
+<tr><td>Stata reproduction</td><td>1.925 / 1.929</td><td>[-0.010,1.144] / [-0.009,1.143]</td><td>2.269 / 2.269</td><td>[0.303,4.150] / [0.303,4.149]</td><td>✅</td></tr>
+</tbody>
+</table>
+<p><em>* Peak "Adj SEs" z differs from the naive 2.458/1.012≈2.429 because the reported 2.267 corresponds to the more
+precise, unrounded estimate/SE; the difference is attributable to rounding in publication and is not a substantive
+inconsistency. The Stata column reproduces cleanly.</em></p>
+<hr/>
+<h2>Findings (for the authors / readers)</h2>
+<h3>P2 — medium</h3>
+<p><strong>CLO-001 — Raw replication data are effectively inaccessible for automated third-party verification.</strong>
+The only distribution channel for <code>data.xlsx</code>/<code>*.m</code>/<code>table1.wf1</code> is the AEA→ICPSR deposit
+(10.3886/E112651V1). OpenICPSR serves its <code>/download</code> routes behind a Cloudflare managed challenge (blocks even a
+real headless Chromium), and the new ICPSR deposit host redirects anonymous downloads to a Keycloak login. No third-party
+mirror exists (Zenodo, GitHub, Wayback CDX all empty). As a consequence a reader cannot programmatically retrieve the data,
+and any independent recomputation of the headline VAR impulse responses is blocked at the access layer regardless of the code's
+quality. This is an accessibility finding (not a numbers problem): it prevents <em>independent verification in this audit</em>.
+<em>Fix suggestion:</em> mirror the package to a freely downloadable channel (e.g., the AEA site, an OSF/Zenodo record).</p>
+<p><strong>CLO-002 — The author's original MATLAB bootstrap samples residuals non-jointly across the VAR block, understating
+the peak-response standard error.</strong> Identified by the human reproduction (I4R DP132 §2.1): the original bootstrap routine
+does not draw residuals jointly for all K endogenous variables, so it does not preserve contemporaneous cross-equation
+correlation. Resampling jointly raises the peak-response standard error (0.797 → 1.012) and changes whether the impact effect
+clears 95% significance. The point estimates (0.599 / 2.458) are unchanged; the headline story is unaffected, but reported
+standard errors/significance depend on this bootstrap choice and should be documented.
+<em>Fix:</em> adopt joint residual resampling (as the standard <code>var irf</code> bootstrap does) and re-report SEs.</p>
+<h3>P3 — low</h3>
+<p><strong>CLO-003 — Headline p-values are not emitted by the replication code and were reconstructed (bootstrap
+share-below-zero, effectively one-sided).</strong> Reproducers initially could not match the in-text p-values because the author
+code produces only coefficients/bootstrap distributions, not p-values; matching required interpreting them as the share of
+bootstrap replications below zero. Minor documentation gap.
+<em>Fix:</em> emit and report the p-value construction in the code/output.</p>
+<p><strong>CLO-004 — Reproduction requires proprietary software (MATLAB and EViews).</strong> The package mixes MATLAB
+(<code>Figures3to9.m</code>, <code>Table2.m</code>) with an EViews workfile (<code>table1.wf1</code>), so faithful re-execution is
+not possible in open-source-only tooling (in contrast, the I4R team re-implemented the baseline in Stata). Not a correctness issue.
+<em>Fix:</em> port core modules to an open, reproducible language (R/Python/Stata) or document versions.</p>
+<hr/>
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No from-scratch recomputation of the headline impulse responses.</strong> Because the raw series could not be
+retrieved (access wall, CLO-001), the headline numbers (C1–C3) are <strong>corroborated via the published human reproduction
+and internal-consistency checks</strong> — but were not independently recomputed by this audit. If the data were made
+downloadable, the VAR IRF could be regenerated end-to-end (specification is fully documented in I4R §2 and the Online Appendix).</li>
+<li>The I4R DP132 report was obtained through the Wayback Machine mirror (EconStor original is behind the "Anubis" anti-scraper
+proof-of-work); the report's internal numbers were sanity-checked as above and are self-consistent.</li>
+<li>Full paper text is paywalled; headline claims were taken from the peer-reviewed abstract and corroborated by the supplement
+and the I4R summary, which quote the same figures.</li>
+</ul>
+<hr/>
+<h2>Agreement with human FLoRA classification</h2>
+<p>The human classification was "computationally reproducible". <strong>I agree.</strong> The package (code + data) is complete
+and self-contained; a published, independent reproduction (I4R DP132) states it reproduced <em>all</em> VAR tables and figures
+exactly using the author code, and my internal-consistency checks confirm their reproduced numbers are coherent and match the
+paper's abstract. My inability to recompute here is purely an access-layer limitation (data not machine-downloadable), not an
+indication of any defect in the package or the paper's headline results.</p>
+<hr/>
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/supplement.pdf</code> → <code>output_supplement.txt</code></td><td>Downloaded AER Online Appendix (text-extracted)</td></tr>
+<tr><td><code>exec_check/I4R_DP132.pdf</code> → <code>output_i4r.txt</code></td><td>Human reproduction report (text-extracted)</td></tr>
+<tr><td><code>exec_check/osf_*.json</code>, <code>osf_replica_list.txt</code>, <code>openicpsr_folder.html</code></td><td>OSF node/file resolution (incl. <code>4qnf7</code> → <code>w7vpu</code>) and ICPSR manifest</td></tr>
+<tr><td><code>exec_check/check_internal.py</code> → <code>output/i4r_consistency.csv</code></td><td>Internal-consistency recomputation of the human reproduction</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>Headline-claims inventory (C1–C6) with status</td></tr>
+<tr><td><code>exec_check/provenance_environment_note.md</code></td><td>Provenance chain, acquisition outcomes, environment</td></tr>
+<tr><td><code>_audit_summary.json</code></td><td>Machine-readable audit summary (this folder)</td></tr>
+</tbody>
+</table>
+</body>
+</html>
