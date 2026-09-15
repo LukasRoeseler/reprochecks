@@ -1,0 +1,16 @@
+library(survey)
+d <- read.csv("d.csv", stringsAsFactors=FALSE)
+svyd <- svydesign(id=~1, weights=~weight, data=d)
+m2 <- svyglm(swensenfav ~ innuendo+denial+causal, design=svyd)
+cat("== Table 2 Model 2 (Survey, Favorable) n=", nrow(model.frame(m2)),"==\n")
+print(round(coef(m2),2))
+m4 <- svyglm(acceptedbribes ~ innuendo+denial+causal, design=svyd)
+cat("\n== Table 2 Model 4 (Survey, Bribes) n=", nrow(model.frame(m4)),"==\n")
+print(round(coef(m4),2))
+m6 <- svyglm(resigninvest ~ denial+causal, design=svyd)
+cat("\n== Table 2 Model 6 (Survey, Investigation) n=", nrow(model.frame(m6)),"==\n")
+print(round(coef(m6),2))
+# Model 6 causal-denial
+b<-coef(m6); s<-SE(m6); d6<-b['causal']-b['denial']
+se6<-sqrt(s['causal']^2+s['denial']^2-2*vcov(m6)['causal','denial'])
+cat(sprintf("Model6 causal-denial=%.3f p=%.4f\n", d6, 2*(1-pt(abs(d6/se6), df=df.residual(m6)))))
