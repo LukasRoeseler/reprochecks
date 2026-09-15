@@ -165,19 +165,9 @@ axes[2].set_title("NHB: citations by data availability", fontsize=12, fontweight
 fig.suptitle("Is reproducibility linked to citation numbers? (Study 2)", fontsize=14, fontweight="bold")
 fig.tight_layout(rect=[0,0,1,0.93]); fig.savefig(os.path.join(OUT,"fig5_citations.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
-# ============================================================ Study 2: estimated APC costs
+# ============================================================ Study 2: estimated APC costs (reported in text only)
 APC_NHB = 9000.0
 nhb_cost = len(nhb_ft)*APC_NHB
-fig, ax = plt.subplots(figsize=(8,5))
-bars = ax.bar(["Meta-Psychology\n(diamond OA)", "Nature Human Behavior\n(estimated APC)"],
-              [0, nhb_cost], color=[MP_C, NHB_C], alpha=0.9)
-ax.annotate("EUR 0", (0, 0.0), ha="center", va="bottom", fontsize=11, fontweight="bold")
-ax.annotate(f"EUR {nhb_cost:,.0f}\n= {len(nhb_ft)} \u00d7 EUR {APC_NHB:,.0f}", (1, nhb_cost*1.02), ha="center", va="bottom", fontsize=10, fontweight="bold")
-ax.set_ylabel("Estimated total APC (EUR)")
-ax.set_title("Estimated article-processing charges (Study 2)", fontsize=13, fontweight="bold")
-ax.set_ylim(0, nhb_cost*1.18)
-ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
-fig.tight_layout(); fig.savefig(os.path.join(OUT,"fig6_costs.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # remove obsolete fig3_open_repro
 obsolete = os.path.join(OUT, "fig3_open_repro.png")
