@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: de Leeuw et al. ERP Music-Language P600 Replication (MP.2018.1481)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .warn { color: #b35900; font-weight: bold; }
+  .none { color: #666; }
+</style>
+</head>
+<body>
+<h1>ReproAI re-audit report — <em>Similar event-related potentials to music and language: A replication of Patel, Gibson, Ratner, Besson, &amp; Holcomb (1998)</em> (de Leeuw et al., 2019)</h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &nbsp;·&nbsp; <strong>rules:</strong> 2026.06.27 &nbsp;·&nbsp; <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> de Leeuw, J. R., Andrews, J., et al. (2019), <em>Meta-Psychology</em>, 3, Paper <code>MP.2018.1481</code>, doi: <code>10.15626/MP.2018.1481</code>. Badges: Preregistration Plus, Open Data, Open Materials, Open &amp; Reproducible Analysis (independently reproduced by Martina Sladekova). OSF <code>EPD42</code> (supplementary page), <code>zpm9t</code> (data/materials), <code>g3b5j</code> (preregistration), <code>m9kej</code> (analysis notebook).
+<strong>Mode:</strong> <strong>static audit + independent reimplementation</strong> of every reported statistic from the shipped processed data (R 4.6.1 + an independent Python scipy SS-decomposition cross-check). No live re-run of the author's R Notebook was required because it depends only on the shipped processed CSVs the notebook itself ships with; the notebook's method, exclusions, seed, and priors were diffed against the reimplementation.
+<strong>Note on paper identity:</strong> the task header label "<em>jsPsych: A JavaScript library…</em>" does <strong>not</strong> match this article. The actual paper audited is the empirical ERP replication above (matching the folder name <code>deLeeuw_ERP</code>); jsPsych (de Leeuw, 2015) appears only as a Methods citation.
+<strong>Originals:</strong> <code>paper.pdf</code> and <code>paper_extracted.txt</code> untouched. All work on copies under <code>extracted/</code> and <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>4</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>An empirically sound and almost perfectly reproducible replication.</strong> Every pre-registered statistical result the manuscript reports reproduces from the shipped processed data to the manuscript's own precision — the behavioral accuracy table (Table 1), all 12 grammaticality × electrode ANOVAs (Table 2), both difference-wave ANOVAs (Table 3), all 8 Bayes factors (Table 4), and the appendix RATN three-way ANOVA — verified independently in R and cross-checked in Python (SS-decomposition, separate code path). The headline conclusion — a P600 component for both syntactic (language) and harmonic (music) violations, with statistically indistinguishable amplitude and scalp distribution — is robustly reproduced on N=35 (&gt;2× the original N=15). Findings are minor and do not threaten the conclusions: (a) the two appendix RATN Bayes-factor magnitudes are ~3%/1.5% below the reported values (Monte-Carlo sampling noise in <code>BayesFactor</code> — the author's own rendered notebook gives a third value, 430,597 ±6.69%, confirming the several-percent noise); and (b) <strong>a genuine, previously-missed sample-consistency defect</strong> — behavioral Table 1 was computed over N=36 because the author's exclusion filter fails to remove excluded subject 8 (zero-padded ID <code>"08"</code> never matches integer <code>8</code>), so the behavioral analysis sample differs from the stated analytic N=35. Numeric impact is negligible (~0.1–0.2 percentage points) and no conclusion changes.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution" of the author notebook)</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). Per-script logs under <code>exec_check/R/output/</code> and <code>exec_check/python/</code>.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/10_env.R</code></td><td>Environment/provenance/versions/RNG seed</td><td>Header provenance (all 6 deps pinned)</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/11_demographics_beh.R</code></td><td>Demographics, exclusion bookkeeping, usable-trial means, behavioral accuracy (Table 1)</td><td>Methods + Results p.5–6; C1–C13</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/12_anovas.R</code></td><td>4× grammaticality×electrode ANOVAs (Table 2), 2 difference-wave ANOVAs (Table 3), RATN 3-way ANOVA</td><td>Tables 2–3, Appendix; C14–C31, C39</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/13_bayes.R</code> (+ <code>14_ratn_bf.R</code>)</td><td>8 Bayes factors (Table 4) + appendix RATN Bayes factors</td><td>Table 4, Appendix; C32–C38, C40–C41</td><td class="warn">OK (C40/C41 ≈ 3%/1.5%)</td></tr>
+<tr><td><code>exec_check/R/15_beh_excl_check.R</code> &amp; <code>15b_diag.R</code></td><td>Subject-exclusion filter audit (author-style vs proper integer filter)</td><td>ADV-003 sample-consistency defect</td><td class="warn">Finding ADV-003</td></tr>
+<tr><td><code>exec_check/python/python_crosscheck.py</code></td><td>Independent scipy within-subjects SS-decomposition ANOVA (2nd language)</td><td>Tables 2–3 (REPRO §5 cross-language)</td><td class="ok">OK</td></tr>
+<tr><td><code>extracted/analysis.Rmd</code> / <code>analysis.nb.html</code></td><td>Author's own notebook (diffed for method/exclusions/seed)</td><td>Confirms identical pipeline, seed 12604, same processed data, same exclusions in EEG path</td><td class="ok">OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (49 numbered claims, C1–C49): <code>exec_check/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: <span class="ok">✅</span> identical at reported precision · <span class="warn">≈</span> close &amp; explicable · <span class="warn">⚠</span> discrepant · <span class="none">➖</span> not independently checkable (reason given).</p>
+<h3>Sample &amp; data structure</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Recruited / complete / analyzed N</td><td>44 / 39 / 35</td><td>44 / 39 / 35 (excl. S8,S21,S10,S27,S30 &rarr; S11,S23,S25,S40)</td><td class="ok">✅</td></tr>
+<tr><td>Exclusion cutoff (&gt;=19 good segments/condition)</td><td>19</td><td>19 (cutoff cell in <code>Good_Segments_Per_Category.xlsx</code>); excluded 11,23,25,40</td><td class="ok">✅</td></tr>
+<tr><td>Mean usable trials LG/LU/MG/MU</td><td>27.7 / 27.7 / 33.3 / 33.0</td><td>27.63 / 27.71 / 33.34 / 33.03</td><td class="ok">✅</td></tr>
+<tr><td>Age M(SD) / yrs exp M(SD) / hrs-wk M(SD)</td><td>19.8(1.2) / 9.7(3.3) / 5.8(3.4)</td><td>19.8(1.21) / 9.71(3.43) / 5.83(3.42)</td><td class="ok">✅</td></tr>
+<tr><td>P600 window; electrode sets</td><td>500–800 ms; 3 midline {11,62,129} + 10 lateral</td><td>t∈[500,800]; same electrode sets</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+<h3>Behavioral accuracy (Table 1)</h3>
+<p>The reported numbers reproduce exactly from the shipped code, <em>but</em> that code's sample keeps excluded subject 8 (N=36) — see <strong>ADV-003</strong>.</p>
+<table>
+<thead><tr><th>Condition</th><th>Manuscript M(SD)</th><th>As reported (N=36, author filter)</th><th>Intended N=35</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Language-Grammatical</td><td>93.3% (5.3)</td><td>93.3 (5.35)</td><td>93.43 (5.39)</td><td class="ok">✅*</td></tr>
+<tr><td>Language-Ungrammatical</td><td>88.2% (18.0)</td><td>88.2 (18.0)</td><td>88.19 (18.25)</td><td class="ok">✅*</td></tr>
+<tr><td>Music-In-Key</td><td>84.5% (14.5)</td><td>84.5 (14.5)</td><td>84.29 (14.67)</td><td class="ok">✅*</td></tr>
+<tr><td>Music-Distant-Key</td><td>69.1% (15.5)</td><td>69.1 (15.5)</td><td>69.29 (15.73)</td><td class="ok">✅*</td></tr>
+</tbody>
+</table>
+<p>*as reported; sample mismatch covered by ADV-003.</p>
+<h3>Table 2 — grammaticality × electrode ANOVAs (500–800 ms, N=35)</h3>
+<table>
+<thead><tr><th>Set</th><th>Grammaticality</th><th>Electrode</th><th>Gram × Electrode</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Language Midline</td><td>6.41 / .016 → 6.4129 / .0161</td><td>1.00 / .372 → 1.0033 / .3720</td><td>5.11 / .009 → 5.1154 / .0085</td><td class="ok">✅</td></tr>
+<tr><td>Language Lateral</td><td>0.44 / .512 → 0.4392 / .5120</td><td>3.68 / .0002 → 3.6757 / 2.18e-4</td><td>4.99 / .000003 → 4.9915 / 2.79e-6</td><td class="ok">✅</td></tr>
+<tr><td>Music Midline</td><td>23.94 / .00002 → 23.9365 / 2.37e-5</td><td>7.00 / .002 → 6.99996 / 1.72e-3</td><td>12.43 / .00003 → 12.4300 / 2.51e-5</td><td class="ok">✅</td></tr>
+<tr><td>Music Lateral</td><td>1.12 / .298 → 1.1163 / .2982</td><td>11.10 / &lt;.000001 → 11.1038 / 5.31e-15</td><td>6.47 / &lt;.000001 → 6.4700 / 1.97e-8</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+<h3>Table 3 — difference-wave ANOVAs (500–800 ms)</h3>
+<table>
+<thead><tr><th>Set</th><th>Stimulus (lang vs music)</th><th>Electrode</th><th>Stim × Electrode</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Midline</td><td>0.226 / .637 → 0.2262 / .6374</td><td>16.289 / .000002 → 16.2888 / 1.66e-6</td><td>0.315 / .731 → 0.3153 / .7306</td><td class="ok">✅</td></tr>
+<tr><td>Lateral</td><td>1.784 / .190 → 1.7849 / .1904</td><td>12.181 / &lt;.000001 → 12.1805 / 1.82e-16</td><td>2.009 / .038 → 2.0092 / .0380</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+<h3>Table 4 — Bayes factors (vs participant-only) + derived ratios</h3>
+<table>
+<thead><tr><th>Model</th><th>Midline (paper → reimpl)</th><th>Lateral (paper → reimpl)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Electrode + P</td><td>18,160 ±1.26% → 18159.5 (1.26%)</td><td>1.81e9 ±0.35% → 1.805e9 (0.35%)</td><td class="ok">✅</td></tr>
+<tr><td>Stimulus + P</td><td>0.170 ±2.03% → 0.1703 (2.03%)</td><td>0.157 ±2.03% → 0.1570 (2.03%)</td><td class="ok">✅</td></tr>
+<tr><td>E+S + P</td><td>3,015 ±1.32% → 3015.2 (1.32%)</td><td>2.93e8 ±1.22% → 2.926e8 (1.22%)</td><td class="ok">✅</td></tr>
+<tr><td>Full (E+S+E×S) + P</td><td>367 ±2.02% → 366.7 (2.02%)</td><td>1.24e9 ±1.30% → 1.237e9 (1.30%)</td><td class="ok">✅</td></tr>
+<tr><td>Mid BF (E-only)/(E+S)</td><td colspan="2">6.02 → 6.0226</td><td class="ok">✅</td></tr>
+<tr><td>Lat BF (E-only)/full</td><td colspan="2">1.46 → 1.4593</td><td class="ok">✅</td></tr>
+<tr><td>Lat BF full/main-only</td><td colspan="2">4.22 → 4.2280</td><td class="ok">✅</td></tr>
+<tr><td>RATN 3-way ANOVA (300–400 ms)</td><td colspan="2">F(4,136)=.366, p=.832 → F=0.3660, p=.8325</td><td class="ok">✅</td></tr>
+<tr><td>RATN full vs null (1/bf)</td><td colspan="2">431,034 → 418,304</td><td class="warn">≈ ADV-001</td></tr>
+<tr><td>RATN full vs no-3-way</td><td colspan="2">39 → 37.77</td><td class="warn">≈ ADV-002</td></tr>
+</tbody>
+</table>
+<h3>Interpretive headline claims (direction verified)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Supported by</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>P600 for both syntactic &amp; harmonic violations</td><td>C20, C31, difference waves</td><td class="ok">✅</td></tr>
+<tr><td>Language &amp; music P600 amplitudes indistinguishable (no stimulus main effect)</td><td>C26, C29; BFs C33, C38</td><td class="ok">✅</td></tr>
+<tr><td>Effect stronger at posterior electrodes</td><td>C16, C19, C22, C25</td><td class="ok">✅</td></tr>
+<tr><td>No music P600 at O1/O2 (deviation from Patel)</td><td>figure-based</td><td class="none">➖ (ADV-005, figures)</td></tr>
+<tr><td>N=35 &gt; 2× original N=15</td><td>data</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — The two appendix RATN Bayes-factor magnitudes do not reproduce exactly (~3% / 1.5% low).</strong>
+The appendix states the data are "431,034 times less likely" under the full three-way RATN model than the participant-only null, and "39 times less likely" under the full model than the no-three-way model. Re-running the identical <code>BayesFactor::anovaBF</code> (same 18-model list, same data, same seed 12604, <code>1/bf_full</code>) gives <strong>418,304×</strong> (3.0% below the manuscript). Notably, the author's <em>own rendered notebook</em> (<code>analysis.nb.html</code>, <code>1/bf.anova.RATN[18]</code>) produced a <em>third</em>, different value, <strong>430,597 ±6.69%</strong> — not the 431,034 printed in the manuscript and not my 418,304. Three independent draws of the same model/data (paper 431,034; notebook 430,597; this audit 418,304) differing by up to ~3–6% is textbook Monte-Carlo sampling noise, and the notebook's own ±6.69% error tag shows the estimate is only trustworthy to roughly ±7% at this magnitude. Method and code are identical; the print-to-print gap is pure MC variance, amplified by the exponential sensitivity of large BFs. The qualitative conclusion (overwhelming support against the RATN three-way interaction) is unaffected. <em>Fix:</em> report these two appendix BFs to two significant figures (4.2e5, ~38) or annotate the ~2–3% MC error; the deterministic ANOVA (F(4,136)=.366, p=.832) already carries the same conclusion.</p>
+<p><strong>ADV-003 — Behavioral Table 1 was computed over N=36 — including excluded subject 8 — not the stated analytic N=35.</strong>
+The author's exclusion filter is <code>filter(!subject_id %in% c(8,21,11,23,25,40))</code>, but <code>subject_id</code> in <code>beh_data_tidy.csv</code> is a <strong>zero-padded character string</strong> (<code>"08"</code>, <code>"11"</code>, …). R coerces the integer <code>8</code> to <code>"8"</code>, which never equals <code>"08"</code>; only the two-digit IDs (11, 21, 23, 25, 40) are removed. Verified: the author-style filter removes {11,21,23,25,40} and <em>keeps</em> subject 8 (N=36); a proper integer filter removes all 6 (N=35). The manuscript's Table 1 values (93.3/88.2/84.5/69.1) match the 36-subject computation exactly, confirming the reported numbers were produced with excluded subject 8 still in the behavioral sample. The intended N=35 values are 93.43/88.19/84.29/69.29 — a ~0.1–0.2 percentage-point difference that changes nothing qualitatively (accuracy still "consistent with Patel"). Because this is a genuine sample-consistency/provenance defect in the reproducibility code where the behavioral sample differs from the EEG sample and from the Methods' stated exclusion rules, it is rated P2. <em>Fix:</em> coerce IDs to integer (<code>as.integer(subject_id) %in% c(8,21,11,23,25,40)</code>) or store IDs without leading zeros, then recompute Table 1 on N=35; add a check that the behavioral and EEG samples match.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — The appendix "39 times" three-way interaction ratio is 37.77 (1.5% off).</strong> Same Monte-Carlo source as ADV-001; direction (strongly favors dropping the three-way term) unchanged. <em>Fix:</em> round to ~38 or annotate MC error.</p>
+<p><strong>ADV-004 — The RATN/N350 analysis was not pre-registered (disclosed).</strong> The appendix transparently states it was added "in response to a reviewer's request." It is an exploratory add-on whose conclusion (no RATN) is robust and which does not affect the pre-registered headline P600 finding. <em>Fix:</em> label it "exploratory / reviewer-requested post hoc" in the main text.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>R-version gap.** The paper's analyses were run in R 3.4.2 with 2017-era packages; this audit reproduced every statistic in R 4.6.1 with current <code>ez</code> 4.5.0 and <code>BayesFactor</code> 0.9.12.4.8. The fact that all closed-form ANOVAs reproduce exactly across a ~9-year version gap confirms those results are version-independent; only the seed-fixed Monte-Carlo Bayes factors carry draw-to-draw noise (unchanged, see above).</li>
+<li><strong>Processed (post-artifact-rejection) data, not raw EEG.</strong> The shipped <code>eeg_data_tidy.csv</code> is the post-NetStation, averaged waveform data the author actually analyzed. The raw <code>.fdt</code> recordings and the NetStation filtering/segmentation/artifact-rejection/average-referencing/baseline-correction pipeline (<code>net</code> triggering) were <em>not</em> re-run. Reproducibility is established from the analysis-ready data — exactly the level at which the Open Data badge is claimed. The exclusion bookkeeping (cutoff 19; S8,S21 tech; S11,S23,S25,S40 low-segment) is internally consistent and matches the manuscript's N=35 for the EEG analyses.</li>
+<li><strong>Bayes factors are Monte-Carlo estimates.</strong> All Table 4 BFs reproduce within the stated ±2% MC error band; only the two very large appendix RATN BFs differ by ~3%/1.5% — and the author's own notebook's render differs from the manuscript's printed value by a comparable ~0.1–3% (430,597 ±6.69% vs 431,034), confirming these magnitudes carry several-percent MC error. Directional and significance conclusions are identical.</li>
+<li><strong>No pixel-verification of figures.</strong> Figures 1–3 (grand-average and difference-wave raster waveform plots) and the electrode-specific O1/O2 observation (C46) were not image-checked (no vision input); the statistical quantities underpinning them were verified numerically (ADV-005, scope only — no action needed).</li>
+<li><strong>Cross-language ANOVA check used SS decomposition.</strong> <code>python_crosscheck.py</code> independently recomputed the within-subjects ANOVA F/p via SS decomposition in a second language and matched every cell of Tables 2–3 in R; this is a code-path independence check, not a live re-run of a proprietary tool.</li>
+<li><strong>The behavioral Table 1 sample nuance (ADV-003)</strong> is quantified and characterized but the manuscript was not re-rendered with the corrected N=35 filter; that is offered as a next step for the authors.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/</code></td><td>Untouched author archive: <code>analysis.Rmd</code> + <code>analysis.nb.html</code> (notebook), <code>load-data.R</code>, <code>data/</code> (raw + generated), <code>manuscript_claims.md</code>, <code>analysis_nb_text.txt</code></td></tr>
+<tr><td><code>exec_check/data/</code></td><td>Copies of shipped data (raw demog/behavioral; generated beh/eeg tidy; Good_Segments xlsx)</td></tr>
+<tr><td><code>exec_check/R/10_env.R</code> … <code>15b_diag.R</code></td><td>Re-audit R scripts (environment; demographics/behavioral; ANOVAs; Bayes; RATN BF; exclusion-filter audit)</td></tr>
+<tr><td><code>exec_check/R/output/*.log</code></td><td>Full console logs for every script (all reproduced values)</td></tr>
+<tr><td><code>exec_check/python/python_crosscheck.py</code> + <code>.log</code></td><td>Independent Python scipy ANOVA cross-check</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Consolidated console log with START/END markers</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>49 numbered claims (C1–C49), each checked (regenerated)</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation/provenance description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-004 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for all 4 findings + next steps</td></tr>
+</tbody>
+</table>
+</body>
+</html>

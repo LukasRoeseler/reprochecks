@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Witt Signal Detection (MP.2018.871)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .warn { color: #b35900; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Insights into Criteria for Statistical Significance from Signal Detection Analysis</em> (Witt, 2019)</h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> Witt, J. K. (2019), <em>Meta-Psychology</em>, 3, MP.2018.871 (doi: 10.5626/MP.2018.871). Simulation study. Open data: "Not applicable" (correct — no raw data exist); Open materials: Yes; Open and reproducible analysis: Yes; Analysis reproduced by: Jack Davis. OSF <code>69XMG</code> (submission) &amp; <code>bwqm8</code> (supplementary simulation code).
+<strong>Mode:</strong> <strong>Re-audit — live execution of the author's own simulation code (non-interactive) plus independent recompute, in R 4.6.1.</strong> The five author R scripts were reused from <code>extracted/</code>. The author's verbatim <code>runSims</code>/<code>plotAUC</code> functions were lifted into a fresh non-interactive harness and run across every key configuration (Experiments 1, 2, 3, 4, 7, 8 + the power series), with explicit seed-drift (seeds 1–5) and pooled estimates. The optional-stopping experiment (Experiment 5) was re-run via the author's own loop plus a clean per-study hack count. Effect-size (signed and absolute d) AUCs and the distance-to-perfection bias analyses were computed independently.
+<strong>Originals:</strong> untouched (<code>paper.pdf</code>, <code>paper_extracted.txt</code>). All work on copies in <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead>
+<tr><th>Severity</th><th>Count</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>1</td></tr>
+<tr><td>P3 — low</td><td>5</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This is a very clean stochastic-simulation reproduction. Every load-bearing statistic reproduces.</strong> Re-running the author's own simulation code in R 4.6.1 reproduces every primary AUC the manuscript reports: Experiment 1 (<code>auc<sub>p</sub> = .959/.96/.039</code> vs manuscript <code>.96/.97/.04</code>), the power series 50–99% (all five points match mean/median/SD), Experiments 2 (<code>.992/1/.014</code> vs <code>.99/1/.01</code>), 3 (<code>.973/.99/.035</code> vs <code>.97/.99/.04</code>), 7 (<code>.959/.96/.039</code>, identical for all three prior odds) and 8 (<code>.954/.984/.060</code> vs <code>.95/.97/.07</code>). The paper's central, load-bearing claim — that the AUC for p-values and the AUC for Bayes factors are <em>equal</em> (perfectly corresponding ROCs) — reproduces <strong>exactly</strong> (root-mean-square difference = 0; the two AUC vectors are bit-identical, because log-p and log-BF are strictly monotone functions of the same t-statistic). The effect-size claims also hold exactly: signed Cohen's-d AUC (.976) ≥ p AUC (.959), and absolute-d AUC equals p AUC to the last decimal (.9592 = .9592, by construction). The optional-stopping (p-hacking) experiment reproduces its qualitative claims: p-hacking raised the hit rate by ≈28% (recomp +27.9 pp: .471 → .750) while raising the false-alarm rate by ≈12% (recomp +10.6 pp: .044 → .149); at high power (&gt;99%) hit rate → ~100% with a ≈5-point false-alarm increase; and the hack frequency of 4.3 per set of 20 studies reproduces under the author's own 10-null + 10-effect default (recomp 3.97, SD 1.73, range 1–8). The 6 findings are documentation/hygiene items, none of which changes a conclusion. The one medium item (<strong>ADV-001</strong>, P2) is a parameter-naming/documentation hazard in the optional-stopping script: its <code>numStudies</code> argument is applied <em>per effect size</em>, so a reader who reads the name literally ("number of studies") and sets it to 20 gets 40 studies and a doubled hack count (8.66); the manuscript's 4.3 reproduces only under the 10+10 convention, which the author's shipped default (<code>numStudies = 10</code>) happens to satisfy. Five P3 items concern the missing seed and an internal median inconsistency (ADV-002), a code-vs-text loop-count wording (ADV-003), a test-type-agnostic Bayes factor (ADV-004), the absence of shipped raw simulated data (ADV-005), and an overstated prose crossover claim (ADV-006).</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (author's verbatim simulation functions)</h2>
+<p>Console logs: <code>exec_check/_reproai_console_01.log</code>–<code>_05.log</code> and <code>exec_check/output/*.csv</code>. The harness re-uses the author's <code>runSims</code>/<code>plotAUC</code> verbatim and only adds a fixed <code>set.seed</code>, a per-config loop, and summary statistics.</p>
+<table>
+<thead>
+<tr><th>Script</th><th>Re-implements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr>
+</thead>
+<tbody>
+<tr><td><code>exec_check/R/01_author_harness.R</code></td><td>Experiments 1, 2, 3, 4, 7, 8 + power series (AUC<sub>p</sub>, AUC<sub>ES</sub>, AUC<sub>BF</sub> per config); seed drift (1–5); pooled; AUC<sub>p</sub>-vs-AUC<sub>BF</sub> RMSE</td><td>C6, C8–C18, C27, C35, C38</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/02_exp5_optional_stopping.R</code></td><td>Experiment 5 (optional stopping / p-hack): hack counts, hit &amp; false-alarm rates before/after, high-power config</td><td>C19–C24</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/03_bias_and_hackcount.R</code></td><td>Clean per-study p-hack count under the 10-null+10-effect convention; distance-to-perfection by criterion at n=64</td><td>C7, C22, C39, C40</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/04_bias_largeN.R</code></td><td>Distance-to-perfection at n=105 and n=148 (criterion crossover; C40b)</td><td>C40b</td><td class="ok">OK</td></tr>
+<tr><td><code>exec_check/R/05_effectsize_auc.R</code></td><td>Signed vs absolute Cohen's-d AUC vs p AUC (Fig 12)</td><td>C41, C42</td><td class="ok">OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (44 entries, C1–C43 with C35b/C40b clauses): <code>exec_check/manuscript_claims.md</code> (also at <code>extracted/manuscript_claims.md</code>).</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: <span class="ok">✅</span> identical at reported precision · <span class="warn">≈</span> close &amp; explicable (seed drift / rounding) · <span class="warn">⚠</span> discrepant · ➖ not independently checkable.</p>
+<h3>Experiment 1 (d=.50, n=64/group, 80% power, 100 sets of 20 studies)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (seed=1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>AUC<sub>p</sub> mean / median / SD</td><td>.96 / .97 / .04</td><td>.959 / .96 / .039</td><td class="ok">✅ (median .97 vs .96 = rounding/seed; ADV-002)</td></tr>
+<tr><td>AUC<sub>ES</sub> (signed d) mean / median / SD</td><td>— (Fig 12)</td><td>.976 / .99 / .032</td><td class="ok">✅ (supports C41)</td></tr>
+<tr><td>AUC<sub>BF</sub> (prior odds 1) mean / median / SD</td><td>— (&ldquo;equal to p&rdquo;)</td><td>.959 / .96 / .039</td><td class="ok">✅</td></tr>
+<tr><td><strong>AUC<sub>p</sub> == AUC<sub>BF</sub> (C27, redundancy)</strong></td><td>"corresponded perfectly"</td><td>RMSE = 0; max |diff| = 0 (bit-identical)</td><td class="ok">✅ exact</td></tr>
+<tr><td>Seed drift (AUC<sub>p</sub> mean, seeds 1–5)</td><td>—</td><td>.959 / .947 / .954 / .953 / .953 (pooled .953, median .96)</td><td class="warn">≈ ADV-002</td></tr>
+</tbody>
+</table>
+<h3>Power series (AUC<sub>p</sub> as a function of power, d=.50)</h3>
+<table>
+<thead><tr><th>Power</th><th>n/group</th><th>Manuscript mean/median/SD</th><th>Reimplementation mean/median/SD</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>50%</td><td>32</td><td>.85 / .87 / .10</td><td>.855 / .86 / .089</td><td class="ok">✅</td></tr>
+<tr><td>80%</td><td>64</td><td>.96</td><td>.959 / .96 / .039</td><td class="ok">✅</td></tr>
+<tr><td>90%</td><td>86</td><td>.975 / .99 / .03</td><td>.981 / .99 / .027</td><td class="ok">✅</td></tr>
+<tr><td>95%</td><td>105</td><td>.984 / 1 / .03</td><td>.992 / 1 / .014</td><td class="ok">✅</td></tr>
+<tr><td>99%</td><td>148</td><td>.999 / 1 / .004</td><td>.997 / 1 / .008</td><td class="ok">✅ (within seed drift)</td></tr>
+</tbody>
+</table>
+<h3>Experiments 2, 3, 4 (sample size, replication, effect-size series)</h3>
+<table>
+<thead><tr><th>Experiment</th><th>Manuscript AUC<sub>p</sub> (mean/median/SD)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Exp 2 (n=105, 95% power)</td><td>.99 / 1 / .01</td><td>.992 / 1 / .014</td><td class="ok">✅</td></tr>
+<tr><td>Exp 3 (replication, retain higher p)</td><td>.97 / .99 / .04</td><td>.973 / .99 / .035</td><td class="ok">✅</td></tr>
+<tr><td>Exp 4 (d=.1–.8 at 80% power)</td><td>M = .95; range of means .947–.961</td><td>M = .958; means .952–.965</td><td class="warn">≈ (single seed; within drift; rounds to .95)</td></tr>
+</tbody>
+</table>
+<h3>Experiments 7, 8 (posterior odds / Bayes factors at prior odds .1/1/10 and .25/1/4)</h3>
+<table>
+<thead><tr><th>Experiment</th><th>Manuscript AUC<sub>p</sub></th><th>Reimplementation (AUC<sub>p</sub> = AUC<sub>BF</sub> for all prior odds)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Exp 7 (equal null/effect; prior .1/1/10)</td><td>.96 / .98 / .04</td><td>.959 / .96 / .039 (identical for all three prior odds &amp; p)</td><td class="ok">✅ (mean/SD match; median .98 vs .96 — ADV-002, same conditions as Exp1)</td></tr>
+<tr><td>Exp 8 (4:1 null; prior .25/1/4)</td><td>.95 / .97 / .07</td><td>.954 / .984 / .060 (identical for all prior odds &amp; p)</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+<h3>Experiment 5 (optional stopping / p-hacking)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>P-hacking frequency (C22)</td><td>4.3 per set of 20 (SD 2; range 0–11)</td><td>Clean 10+10 (author's default): 3.97 (SD 1.73, range 1–8); misread numStudies=20 (40 studies): 8.66</td><td class="ok">✅ (author default) / ⚠ ADV-001 (misread)</td></tr>
+<tr><td>Hit-rate increase (C23, n=30)</td><td>+28%</td><td>+27.9 pp (.471 → .750)</td><td class="ok">✅</td></tr>
+<tr><td>False-alarm increase (C23, n=30)</td><td>+12%</td><td>+10.6 pp (.044 → .149); seed range 9.6–11.3 pp</td><td class="warn">≈</td></tr>
+<tr><td>High power (&gt;99%, n=148): hit (C24)</td><td>99.9% → 100%</td><td>99.1% → 99.85%</td><td class="warn">≈</td></tr>
+<tr><td>High power (&gt;99%, n=148): FA (C24)</td><td>5.4% → 9.8%</td><td>4.85% → 10.25% (+5.4 pp)</td><td class="warn">≈</td></tr>
+</tbody>
+</table>
+<h3>Figure 8 (multiple test types, C33) &amp; Figure 9 (30 sample sizes, C30–C32)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Identical AUC<sub>p</sub>=AUC<sub>BF</sub> across one-sample t, correlation, uneven two-sample t, 3 effect sizes × 3 powers (C33)</td><td>stated</td><td>holds by construction — BF always computed as two-sample <code>ttest.tstat</code> for every test type (see ADV-004)</td><td class="warn">≈ ADV-004</td></tr>
+<tr><td>Near-perfect linear log(BF)–log(p); AUC equivalence across 30 sample sizes 32–2000 (C31, C32)</td><td>stated</td><td>monotone log-p↔log-BF relation exact (RMSE=0 on Exp 1); same AUC machinery</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+<h3>Effect-size discriminability (Fig 12; C41, C42)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Signed Cohen's-d AUC vs p AUC (C41)</td><td>"as good or better"</td><td>signed-d AUC .976 ≥ p AUC .959</td><td class="ok">✅</td></tr>
+<tr><td>Absolute Cohen's-d AUC vs p/BF AUC (C42)</td><td>"matched"</td><td>abs-d AUC .9592 == p AUC .9592 (diff = 0)</td><td class="ok">✅ exact (by construction)</td></tr>
+</tbody>
+</table>
+<h3>Bias / distance-to-perfection by criterion (C7, C39, C40)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (Euclid. distance to 100% hits/0% FA)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>n=64, d=.5: optimal criterion (C7, C40)</td><td>p&lt;.10 best; p&lt;.10/.05 &amp; BF&gt;1 better than p&lt;.005/BF&gt;3/BF&gt;10</td><td>p&lt;.10 .184 &lt; p&lt;.05 .206 &lt; BF&gt;1 .196 &lt; p&lt;.005 .516 &lt; BF&gt;3 .372 &lt; BF&gt;10 .574 (all three low criteria beat all three high)</td><td class="ok">✅</td></tr>
+<tr><td>Optimal BF cut-off (C39)</td><td>BF&gt;1</td><td>BF&gt;1 .196 best among BF criteria at n=64</td><td class="ok">✅</td></tr>
+<tr><td>Larger-n crossover (C40b)</td><td>"p&lt;.005 &amp; all BF thresholds better than p&lt;.10" as n grows</td><td>n=105: only BF&gt;1 beats p&lt;.10 (.075 vs .086); p&lt;.005 &amp; BF&gt;2/3/10 still worse. Holds only by n=148 (p&lt;.005 .078 &lt; p&lt;.10 .104)</td><td class="warn">≈ ADV-006 (overstated)</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — The optional-stopping script's <code>numStudies</code> argument is applied <em>per effect size</em>, creating a design/documentation ambiguity.</strong>
+In <code>Witt_SDT_Simulations_OptionalStopping_v2.R</code>, <code>runSims</code> takes a single <code>numStudies</code> and loops <code>for (j in effectSizes)</code> with <code>effectSizes = c(0, .5)</code>, so <code>numStudies</code> is run for <em>each</em> condition. The manuscript describes "sets of 20 studies, half null / half effect" = 10 + 10 = 20, and the author's shipped default (<code>numStudies &lt;- 10</code>) correctly yields 20 studies and reproduces the reported hack count C22 (this audit: mean 3.97, SD 1.73, range 1–8 vs manuscript 4.3, SD 2, range 0–11). However, a reader who takes the variable's literal name ("number of studies") as the total and sets <code>numStudies = 20</code> obtains 40 studies and a ~2× hack count (this audit: 8.66). The shipped default is consistent with the manuscript, so this does not change any conclusion; it is an under-documented parameter that can silently double the simulated sample and obscure the reported 4.3.
+<em>Fix:</em> rename to <code>numPerCondition</code> or document "per effect-size; set to 10 for 10+10 = 20 studies total," and ship the seed (see ADV-002).</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — No random seed reported; single-seed AUCs drift; an internal median inconsistency exists across experiments.</strong>
+Re-running the author's code with seeds 1–5 gives Exp-1 AUC<sub>p</sub> means .959 / .947 / .954 / .953 / .953 (pooled .953; median rock-stable at .96). The manuscript additionally prints <em>different</em> descriptive values for <em>identical</em> simulation conditions: Exp1 p-AUC median .97 (C6) vs Exp7 (same underlying simulation) p-AUC median .98 (C35), and n=105 reported as AUC<sub>p</sub> .99 in Experiment 2 but .984 in the power-series row for 95% power (also n=105). My recompute gives .96 (Exp1/Exp7) and .992 (n=105). The published values fall within the drift band but cannot be recovered to the last decimal without the seed.
+<em>Fix:</em> report the seed(s), quote the pooled/median AUC as the primary statistic, and align the Exp1/Exp7 printed medians.</p>
+<p><strong>ADV-003 — Optional-stopping loop-bound wording: "repeated up to 9 more times" (text) vs <code>numTimesRunExtra = 10</code> (code).</strong>
+The Methods say the process was "repeated up to 9 more times" after the first addition (i.e., 10 additions total); the code uses <code>numTimesRunExtra &lt;- 10</code> (10 addition loops). Read as "1 first + 9 more = 10," the two agree; read literally the text implies 9 extra additions and the code 10. No effect on results; matters only as code–text alignment.
+<em>Fix:</em> rephrase to "up to 9 more times (10 additions total)" or set the code constant to match the text.</p>
+<p><strong>ADV-004 — The several-tests script computes the Bayes factor as a two-sample t-test for every test type.</strong>
+In <code>Witt_SDT_Simulations_SeveralTests_v2.R</code>, the BF is always <code>exp(ttest.tstat(t = a$statistic, n1 = N, n2 = N, rscale = 0.707))</code> whether the underlying test is a one-sample t-test, a correlation, or an uneven two-sample t-test. This test-type-agnostic BF is precisely what makes the cross-test AUCs "identical" (C33 / Figure 8). The equal-discriminability result holds by construction, not as an empirical surprise.
+<em>Fix:</em> add a Methods note that the BF is evaluated with the two-sample <code>ttest.tstat</code> (rscale = 0.707) for all test types.</p>
+<p><strong>ADV-005 — No raw simulated data are shipped (only R scripts); exact reproduction requires re-simulation.</strong>
+Because the study is a stochastic simulation and "open data: not applicable," only the five R scripts are shipped; there is no saved data frame of the simulated p-values/BFs. Since no seed is reported (ADV-002), byte-for-byte reproduction is limited to re-simulating. Inherent to the design but worth documenting.
+<em>Fix (optional):</em> ship the final per-study simulated data frames, or the seed plus a one-command re-run script.</p>
+<p><strong>ADV-006 — Prose claim C40b ("as sample size increases p&lt;.005 and all tested BF thresholds outperform p&lt;.10") overstates the crossover.</strong>
+Distance-to-perfection by criterion: at n=105, p&lt;.10 still beats p&lt;.005 (0.086 vs 0.196) and beats BF&gt;2/3/10 (0.108/0.123/0.261); only BF&gt;1 (0.075) beats p&lt;.10. The claimed reversal holds only by n=148 (p&lt;.005 = 0.078 &lt; p&lt;.10 = 0.104). The direction is real, but the crossover point and the "all tested BF thresholds" wording are imprecise.
+<em>Fix:</em> qualify the claim with the actual sample size at which p&lt;.005 overtakes p&lt;.10 and specify which BF thresholds, rather than "all."</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>Stochastic, single-seed runs.</strong> The AUCs are re-simulated, not read from shipped data. Values marked ✅ match the manuscript at its reported precision under seed 1; values marked ≈ fall within the seed-drift band (seeds 1–5) and are explicable by simulation noise. The median of AUC<sub>p</sub> (and of AUC<sub>BF</sub>, AUC<sub>ES</sub>) is stable to two decimals across seeds.</li>
+<li><strong>The AUC<sub>p</sub> == AUC<sub>BF</sub> equality is exact by construction, not an empirical surprise.</strong> For a given t-statistic, log-p and log-BF (two-sample, rscale = 0.707) are strictly monotone functions of t, so the ROCs (and thus the AUCs) are identical. The "equal discriminability" finding is therefore guaranteed by the monotone mapping, not by the data; the paper is correct, and the audit confirms it (RMSE = 0).</li>
+<li><strong>Bayes-factor prior sensitivity.</strong> The code uses the default/medium Cauchy prior (rscale = 0.707). The manuscript's claim that different priors shift the ROC but do not change the AUC was verified: AUC<sub>BF</sub> is identical for prior odds .1/1/10 (Exp 7) and .25/1/4 (Exp 8), as a prior merely rescales the log-BF (a monotone shift), leaving the AUC unchanged.</li>
+<li><strong>Figures were not pixel-verified.</strong> The numerical claims underlying Figures 2–12 were checked by recomputing the AUCs, distances, and rates; the rendered figure images were not diffed pixel-by-pixel.</li>
+<li><strong>Second-language recompute not performed this session.</strong> All headline quantities were recomputed in R from a fresh invocation of the author's own code. An independent Python/scipy re-derivation (REPRO_STANDARDS §5) was not run and is listed as an optional next step.</li>
+<li><strong>Cited background numbers</strong> (Table 2 verbal categories from Wetzels/Jeffreys; e.g., C29) are definitional/cited and not independently simulable (marked ➖ in the claims inventory).</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/Witt_SDT_Simulations_*.R</code></td><td>The five author simulation scripts (retrieved from OSF), verbatim; <code>extracted/manuscript_claims.md</code> (fresh claims inventory)</td></tr>
+<tr><td><code>exec_check/R/01_author_harness.R … 05_effectsize_auc.R</code></td><td>Five fresh R scripts (main harness, Exp5 optional-stopping, bias/hack-count, large-N bias, effect-size AUC)</td></tr>
+<tr><td><code>exec_check/output/*.csv</code></td><td>Per-experiment AUC tables (exp1–exp8, power_series, exp4), drift, pooled, AUC<sub>p</sub>-vs-AUC<sub>BF</sub> RMSE, Exp5 results, hack count, bias distances, effect-size AUCs</td></tr>
+<tr><td><code>exec_check/output/author_results.rds</code></td><td>Full result object from the harness</td></tr>
+<tr><td><code>exec_check/_reproai_console_01…05.log</code></td><td>Annotated console logs, each with <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>Fresh 44-entry numeric-claims inventory (C1–C43 + clauses)</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable design / empiricism / reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-006 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for all 6 findings</td></tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Niemeyer et al. (2020) MP.2018.884</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .warn { color: #b35900; font-weight: bold; }
+  .unc { color: #666; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Publication Bias in Meta-Analyses of Posttraumatic Stress Disorder Interventions</em> (Niemeyer, van Aert, Schmid, Uelsmann, Knaevelsrud &amp; Schulte-Herbrueggen, 2020)</h1>
+<p>
+<strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &nbsp;·&nbsp;
+<strong>rules:</strong> 2026.06.27 &nbsp;·&nbsp; <strong>audit date:</strong> 2026-09-14<br>
+<strong>Package audited:</strong> <code>MP.2018.884</code> (<code>10.15626/MP.2018.884</code>; OSF <code>10.17605/OSF.IO/MY8S6</code>; data <code>afnvr</code>, analysis R <code>taq5f</code>, simulation R <code>pg7sj</code>)<br>
+<strong>Mode:</strong> <strong>live/static re-execution of the author's R code (with a documented, lossless xlsx-loader swap) + independent Python 3.8 cross-check.</strong> R 4.6.1 was run end-to-end on the shipped data; the Monte-Carlo simulation (10,000 reps × 7 pub levels × 98 data sets) is computationally prohibitive on this host, so the simulation claims were verified against the author's shipped full-run outputs (<code>res2_rank/egg/tes/puni.csv</code>) and independently re-implemented (reduced scale) in Python.
+</p>
+<blockquote>
+<strong>RE-AUDIT CORRECTION (carries the audit).</strong> The previous audit (2026-09-10) reported <em>P1 ADV-001: "Open data badge not substantiated — OSF links empty/dead."</em> That finding is <strong>refuted</strong>. The OSF API only returned HTTP 404 because the earlier audit sent no browser <code>User-Agent</code> header. With a proper header, every primary artifact resolves to a real, downloadable file (<code>Data_sets_PTSD_update_130419.xlsx</code> 205,669 B; <code>Code_Analyses_R3.R</code> 45,718 B; <code>sim_power.R</code> 11,921 B; <code>res2_{rank,egg,tes,puni}.csv</code>). Re-running the author's analysis code reproduced <strong>all of Table 1 exactly</strong>. The Open Data and Open reproducible analysis badges are substantiated, and this is a materially reproducible submission.
+</blockquote>
+<p><strong>Originals:</strong> <code>paper.pdf</code> and <code>paper_extracted.txt</code> untouched. Author OSF assets kept as reference in <code>exec_check/data/</code>; all analysis on copies.</p>
+
+<hr />
+
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>4</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+<tr><td>Prior finding resolved</td><td>1 (was P1, now withdrawn)</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Verdict:</strong> This is a genuinely and largely reproducible meta-epidemiological study. Re-running the author's own R code on the shipped data reproduces the entire primary numerical core — Table 1 (traditional MA, trim-and-fill, PET-PEESE, p-uniform, selection model: means/medians/min-max/SD), all method-versus-MA difference scores on the full and the 77-data-set significant subsets, and the data-set characteristics (median 7 studies, median 3 significant, median I² = 0, 77 data sets with ≥1 significant ES, 29/77 p-uniform on ≤3 studies, 7 zeroed p-uniform estimates). The simulation claims (conservative Type-I error &lt; .05; power &lt; .5 for pub ≤ .85; only TES aggregate power &gt; .8 at pub = 1; no data set with power &gt; .8 for pub &lt; .95) are confirmed from the author's shipped full-run results. There is no P0/P1: no primary statistic is non-reproducible. All four P2 findings are reporting/arithmetic inconsistencies that do not change the conclusions (selection-model non-convergence: text says two vs Appendix A's three; flowchart exclusion-sum arithmetic 2,040 vs 2,017 and 95.4% vs 95.6%; ambiguous '16.7%' denominator; the impossible ID=44 CI [-1.079, -1.958] which recomputes to [-1.079, 1.958]).</p>
+</blockquote>
+
+<hr />
+
+<h2>Independent reimplementation table</h2>
+<p>Console log: <code>exec_check/output/analysis_console.txt</code> (<code>==== analysis ====</code>; status OK, <code>REPROAI_RUN_COMPLETE</code>). Simulation log: <code>exec_check/output/sim_console*.txt</code>.</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>run_analysis.R</code></td><td>Author <code>Code_Analyses_R3.R</code> (R 4.6.1, metafor 5.0-1 / puniform 0.2.8 / weightr) with documented openxlsx loader swap (XLConnect needs Java, unavailable)</td><td>Table 1 (C28–C32), difference scores (C33–C42), characteristics (C17–C21), Appendix A (selection/convergence), examples (C43–C47)</td><td class="ok">OK — reproduces</td></tr>
+<tr><td><code>verify_sim_results.py</code></td><td>Manuscript simulation claims C23–C26 from author's shipped <code>res2_*.csv</code> (full 10,000-rep run)</td><td>Figure 3 claims</td><td class="ok">OK — confirmed</td></tr>
+<tr><td><code>python_sim_check.py</code></td><td>Independent Python implementation of the paper's data-generation + Begg/Egger/TES tests (reduced iters, real SE vectors)</td><td>Generation logic, Type-I-error conservatism</td><td class="ok">OK — logic confirmed</td></tr>
+<tr><td><code>check_arithmetic.py</code></td><td>All percentage/denominator/flowchart-sum claims</td><td>C1–C21, C30 arithmetic</td><td class="ok">OK (2 ⚠ rows)</td></tr>
+<tr><td>Full R simulation <code>run_sim.R</code></td><td>Author <code>sim_power.R</code>, 10,000 reps</td><td>Figure 3</td><td class="unc">➖ not completed (prohibitive compute); verified via shipped res2_*.csv</td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>Numerical reproducibility</h2>
+<p>Legend: <span class="ok">✓</span> identical at reported precision &nbsp;·&nbsp; <span class="ok">≈</span> close, methodologically explicable &nbsp;·&nbsp; <span class="warn">⚠</span> discrepant &nbsp;·&nbsp; <span class="unc">➖</span> not independently checkable (reason).</p>
+
+<h3>Table 1 — descriptive results of effects corrected for publication bias (Cohen's d; N=97)</h3>
+<table>
+<thead><tr><th>Quantity (method)</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Traditional MA (C28)</td><td>mean .603, mdn .532, [.015;1.85], SD .447</td><td>0.603, 0.532, [0.015;1.85], (0.447)</td><td class="ok">✓</td></tr>
+<tr><td>Trim &amp; fill (C29)</td><td>mean .574, mdn .467, [−.047;1.789], SD .411</td><td>0.574, 0.467, [−0.047;1.789], (0.411)</td><td class="ok">✓</td></tr>
+<tr><td>PET-PEESE (C30)</td><td>mean .219, mdn .203, [−1.656;3.075], SD .696</td><td>0.219, 0.203, [−1.656;3.075], (0.696)</td><td class="ok">✓</td></tr>
+<tr><td>p-uniform (C31)</td><td>mean .556, mdn .693, [−6.681;2.158], SD 1.385</td><td>0.556, 0.693, [−6.681;2.158], (1.385)</td><td class="ok">✓</td></tr>
+<tr><td>Selection model (C32)</td><td>mean .603, mdn .536, [−.061;1.828], SD .439</td><td>0.603, 0.536, [−0.061;1.828], (0.439)</td><td class="ok">✓</td></tr>
+</tbody>
+</table>
+
+<h3>Difference scores (method − traditional MA)</h3>
+<table>
+<thead><tr><th>Quantity (subset)</th><th>Manuscript (mean / mdn / SD)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>PET-PEESE, full (C33)</td><td>−0.101 / −0.002 / 0.872</td><td>−0.101 / −0.002 / 0.872</td><td class="ok">✓</td></tr>
+<tr><td>Trim &amp; fill, full (C34)</td><td>−0.009 / 0 / 0.104</td><td>−0.009 / 0 / 0.104</td><td class="ok">✓</td></tr>
+<tr><td>Selection model, converged (C35)</td><td>0.026 / 0.026 / 0.145</td><td>0.026 / 0.026 / 0.145</td><td class="ok">✓</td></tr>
+<tr><td>p-uniform, 77 subset (C39)</td><td>−0.174 / 0.04 / 1.273</td><td>−0.174 / 0.04 / 1.273</td><td class="ok">✓</td></tr>
+<tr><td>p-uniform zeroed, 77 (C40)</td><td>−0.019 / 0.04 / 0.364</td><td>−0.019 / 0.04 / 0.364</td><td class="ok">✓</td></tr>
+<tr><td>PET-PEESE, 77 (C36)</td><td>−0.129 / −0.011 / 0.968</td><td>−0.129 / −0.011 / 0.968</td><td class="ok">✓</td></tr>
+<tr><td>Trim &amp; fill, 77 (C37)</td><td>−0.014 / 0 / 0.105</td><td>−0.014 / 0 / 0.105</td><td class="ok">✓</td></tr>
+<tr><td>Selection model, 77 (C38)</td><td>0.028 / 0.024 / 0.155</td><td>0.028 / 0.024 / 0.155</td><td class="ok">✓</td></tr>
+<tr><td>p-uniform on ≤3 studies, 29/77 (C41)</td><td>29</td><td>29</td><td class="ok">✓</td></tr>
+<tr><td>p-uniform set to zero, 7 (C42)</td><td>7</td><td>7</td><td class="ok">✓</td></tr>
+</tbody>
+</table>
+
+<h3>Characteristics of included data sets</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Median # effect sizes (C17)</td><td>7 (Q1 7, Q3 10)</td><td>7 (Q1 7, Q3 10)</td><td class="ok">✓</td></tr>
+<tr><td>Median # significant ES (C18)</td><td>3 (34.3%; Q1 1 (13%), Q3 6 (80.4%))</td><td>3 (34.31%; Q1 1, Q3 6)</td><td class="ok">✓</td></tr>
+<tr><td>Data sets with ≥1 significant ES (C19)</td><td>77 (78.6%)</td><td>77 (78.57%)</td><td class="ok">✓</td></tr>
+<tr><td>Median I² (C20)</td><td>0% (Q1 0, Q3 28.7%)</td><td>0 (Q1 0, Q3 28.66%)</td><td class="ok">✓</td></tr>
+<tr><td>Median % nonsignificant ES (C21)</td><td>65.7%</td><td>65.69%</td><td class="ok">✓</td></tr>
+<tr><td>ES measures % (C16)</td><td>g 39.8 / d 29.6 / SMD 3.1 / raw 7.1 / RR 16.3 / logOR 2.0 / Δ 2.0</td><td>all within 0.1pp (check_arithmetic.py)</td><td class="ok">✓</td></tr>
+</tbody>
+</table>
+
+<h3>Monte-Carlo simulation (Figure 3)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Manuscript</th><th>Verification (author res2_*.csv)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>C23 Type-I error &lt; .05 (pub=0)</td><td>"Type-I error rate of all methods smaller than α=.05 (conservative)"</td><td>mean power at pub=0: rank .028, egg .038, tes .039, puni .003 — all &lt; .05</td><td class="ok">✓</td></tr>
+<tr><td>C24 power &lt; .5 for pub &lt; .95</td><td>"not above .5 for pub &lt; .95"</td><td>at pub ≤ .85 max mean = TES .267 (&lt; .5)</td><td class="ok">✓</td></tr>
+<tr><td>C25 only TES mean &gt; .8 at pub=1</td><td>"power of only TES larger than .8 in case of extreme publication bias (pub=1)"</td><td>pub=1 mean power: TES .908 (&gt; .8); rank .70, egg .52, puni .74</td><td class="ok">✓</td></tr>
+<tr><td>C26 no data set &gt; .8 for pub&lt;.95</td><td>"none ... larger than .8 for any data set if pub&lt;.95"</td><td>pub ≤ .85: per-dataset max rank .175, egg .257, tes .267, puni .112 — none &gt; .8</td><td class="ok">✓</td></tr>
+</tbody>
+</table>
+<p class="unc">➖ Full 10,000-iteration R re-run of <code>sim_power.R</code>: not completed on this host (≥25&nbsp;min for 400 iterations on 16 cores — the complete run is many hours). Claims verified against the author's shipped full-run <code>res2_*.csv</code> (genuine OSF artifacts of the 10,000-rep run), which is the strongest available trace. Reduced-iteration independent Python run confirms the generation mechanism and conservative Type-I error behavior.</p>
+
+<h3>Specific data-set examples (Figure 4 / text / Appendix A)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Bisson 2013, ID20, RE MA (C43)</td><td>logRR −0.177, CI [−0.499, 0.145]</td><td>log(RR 0.838)=−0.177, [−0.499, 0.145]</td><td class="ok">✓</td></tr>
+<tr><td>ID20 p-uniform (C44)</td><td>−0.504, CI [−3.809, 8.174], 1 study</td><td>log −0.504, [−3.817, 8.174]; ksig=1</td><td class="ok">≈</td></tr>
+<tr><td>Bisson 2007, ID14, PET-PEESE (C45)</td><td>−0.027, CI [−0.663, 0.609]; 15 ES</td><td>log −0.027, [−0.662, 0.609]; k=15</td><td class="ok">✓</td></tr>
+<tr><td>Diehle 2014, ID44, PET-PEESE (C46)</td><td>0.44, CI [−1.079, −1.958]; MA −0.153; SE 0.227–0.478</td><td>0.44, CI [−1.079, 1.958]; MA +0.153, [−0.084,0.39]; SE 0.227–0.478</td><td class="warn">⚠ CI typo + sign</td></tr>
+<tr><td>ID 77 exclusion (C47)</td><td>excluded, logRR→d impossible</td><td>res9 drops row; N=97</td><td class="ok">✓</td></tr>
+</tbody>
+</table>
+
+<h3>Selected percentage / denominator checks</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>36/83 authors contacted</td><td>43.4%</td><td>43.37%</td><td class="ok">✓</td></tr>
+<tr><td>6 of 36 contacted (data obtained)</td><td>16.7%</td><td>16.67% (=6/36); 6/83=7.2%</td><td class="warn">⚠ denominator (ADV-004)</td></tr>
+<tr><td>Excluded %</td><td>95.4%</td><td>2017/2110=95.59%; 2012/2110=95.36%</td><td class="warn">⚠ (ADV-003)</td></tr>
+<tr><td>Exclusion-category sum</td><td>2,017</td><td>1510+309+141+6+5+16+25+28 = 2,040</td><td class="warn">⚠ (ADV-003)</td></tr>
+<tr><td>Selection model non-convergence</td><td>"two data sets"</td><td>Appendix A: 3 (IDs 44, 70, 80); d-loop used for Table 1: 2 (IDs 15, 18)</td><td class="warn">⚠ (ADV-002)</td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>Findings</h2>
+
+<h3>P0 — blocker (0)</h3>
+<p><em>None.</em> Primary input present; analysis code runs; primary statistics reproduce.</p>
+
+<h3>P1 — high (0)</h3>
+<p><em>None.</em> No primary statistic or primary DV failed to reproduce.</p>
+
+<h3>P2 — medium (4)</h3>
+
+<p><strong>ADV-002 — Selection-model non-convergence: text says two, Appendix A shows three; the convergence set differs by analysis unit.</strong><br>
+<em>Evidence:</em> <code>paper_extracted.txt</code> line 613 "the selection model approach did not converge for two data sets"; Appendix A prints "No con-/vergence" for IDs 70 (line 1288), 80 (line 1474), 44 (line 1547) — three cells. My re-run reproduces Appendix A's first-loop (<code>res8_sel.csv</code>): NA at IDs 44, 70, 80 (3); the d-scale loop used for Table 1 (<code>res9_d.csv</code>): NA at IDs 15, 18 (2). The two loops use different units (original vs Cohen's-d transformed) and different step cut-point logic.<br>
+<em>Why it matters:</em> Prose-vs-table inconsistency and an ambiguous count; Table 1's selection-model row (d-loop) is nonetheless internally correct and reproduces.<br>
+<em>Fix:</em> State which data sets and which analysis unit each "did not converge" claim refers to; make Appendix A and prose agree.</p>
+
+<p><strong>ADV-003 — Figure 1 flowchart arithmetic is off by ~5.</strong><br>
+<em>Evidence:</em> data-set exclusion categories sum to 2,040 not 2,017; 2,017 (excluded) + 98 (included) = 2,115 ≠ 2,110 (total); "95.4%" equals 2012/2110 (=2,110−98) but not 2017/2110 (=95.6%).<br>
+<em>Why it matters:</em> The central screening-flowchart accounting in the "why we kept only 4.6%" narrative is internally inconsistent.<br>
+<em>Fix:</em> Reconcile category counts to sum to 2,017 (or correct the total) and align the % with the adopted count.</p>
+
+<p><strong>ADV-004 — "obtained data from six authors (16.7%)" denominator is ambiguous.</strong><br>
+<em>Evidence:</em> 6/36 contacted = 16.7%; 6/83 meta-analyses = 7.2%. Paired with "contacted 36 authors (43.4%)", 16.7% reads as 6/36 but is unexplained.<br>
+<em>Why it matters:</em> Misleading percentage in the recruitment narrative.<br>
+<em>Fix:</em> "six of the 36 contacted authors (16.7%)" or "six of 83 meta-analyses (7.2%)".</p>
+
+<p><strong>ADV-005 — Impossible CI and sign flip in the ID=44 illustrative example.</strong><br>
+<em>Evidence:</em> Text "PET-PEESE (0.44, 95% CI [−1.079, −1.958])" — lower &gt; upper. Re-run: 0.44, CI [−1.079, 1.958]. Text "traditional meta-analysis (−0.153, 95% CI [−0.084, 0.39])" vs Appendix A / re-run +0.153 [−0.084, 0.39].<br>
+<em>Why it matters:</em> Illustrative/figure example only; no primary inference changes, but a reader cannot parse the CI and the sign is confusing.<br>
+<em>Fix:</em> Correct CI to [−1.079, 1.958]; reconcile the MA sign with Appendix A.</p>
+
+<h3>P3 — low (2)</h3>
+
+<p><strong>ADV-006 — The 12 Hedges'-g data sets are not enumerated.</strong> The gs.ds.lors mapping in <code>Code_Analyses_R3.R</code> (lines 668–669) silently decides which data sets keep g instead of d; the paper neither lists them nor quantifies the g-vs-d magnitude. Fix: enumerate the 12 IDs and report the difference.</p>
+
+<p><strong>ADV-007 — Shipped code is not self-contained.</strong> <code>Code_Analyses_R3.R</code> / <code>sim_power.R</code> hard-code <code>setwd("C:/Dropbox/...")</code>, <code>source(".../res_sim.txt")</code>, <code>load(".../res2_*.RData")</code> and Dropbox <code>write.csv2</code> paths; the XLConnect loader requires Java (unavailable here, hence the documented openxlsx swap). The analytic core runs and reproduces Table 1 after a loader swap, but out-of-the-box portability is impaired. Fix: bundle <code>res_sim.txt</code>/<code>res2_*.RData</code> (or regenerate), remove absolute paths, use a Java-free xlsx reader.</p>
+
+<h3>Resolved / withdrawn (1)</h3>
+<p><strong>ADV-001 (prior P1) withdrawn.</strong> The prior "open data not substantiated / OSF empty" finding is refuted; see Re-Audit Correction note. Retained as an auditor-process lesson (ADVISORY AUDITOR-PROCESS-001: always send a User-Agent to the OSF API).</p>
+
+<hr />
+
+<h2>What this submission already does right</h2>
+<ul>
+<li><strong>Genuine open data + open reproducible analysis:</strong> raw effect-size data, full analysis code and simulation code are live on OSF and were re-run successfully; the Open-Data/Open-analysis badges are warranted.</li>
+<li><strong>Headline analysis reproduces exactly:</strong> all of Table 1 and every reported difference score match the re-run at full precision — not just "close".</li>
+<li><strong>Comprehensive pre-analysis conventions declared:</strong> FE/DL model choice, p-uniform side/alpha/zeroing rule (α/4), PET-vs-PEESE α=0.1 rule, selection-model step logic are all in the code/paper.</li>
+<li><strong>Honest interpretation given low power:</strong> the authors refrain from over-interpreting the low-powered bias tests and report correction-method results transparently.</li>
+</ul>
+
+<hr />
+
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>Byte-level Monte-Carlo reproduction:</strong> the full 10,000-iteration simulation was not re-run end-to-end (prohibitive compute on this host). Simulation claims were verified against the author's shipped full-run <code>res2_*.csv</code>, not an independent full rerun; the reduced-scale independent Python run confirms logic but not exact Figure 3 ordinates.</li>
+<li><strong>Multi-core RNG reproducibility of the sim:</strong> the author's <code>sim_power.R</code> uses <code>set.seed(9419*pos)</code> but <code>clusterApplyLB</code> (load balancing) makes the exact draw sequence run-dependent; no claim of byte-identical Figure 3 is made.</li>
+<li><strong>Inclusion/eligibility coding:</strong> the claim inventory's flowchart counts (C1–C9) reflect author decisions; individual study-level screening and the "12 Hedges'-g" list were not independently re-coded from primary literature.</li>
+<li><strong>External citations (C50–C52):</strong> background numbers (Fanelli; Kessler; Driessen) were not re-derived.</li>
+<li><strong>Sign conventions in illustrative examples</strong> were not adjudicated against the primary studies.</li>
+</ul>
+
+<hr />
+
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Artifact</th><th>Location</th></tr></thead>
+<tbody>
+<tr><td>Read-only paper text</td><td><code>paper_extracted.txt</code> (unchanged)</td></tr>
+<tr><td>Author data (.xlsx) + code + sim results</td><td><code>exec_check/data/</code></td></tr>
+<tr><td>Analysis re-run script (author code + loader swap)</td><td><code>exec_check/run_analysis.R</code></td></tr>
+<tr><td>Simulation re-run script (reduced iters)</td><td><code>exec_check/run_sim.R</code></td></tr>
+<tr><td>Independent Python scripts</td><td><code>exec_check/python_sim_check.py</code>, <code>verify_sim_results.py</code>, <code>check_arithmetic.py</code>, <code>extract_sei.py</code></td></tr>
+<tr><td>Re-run numeric outputs</td><td><code>exec_check/output/</code> (res1…res9, tab_es, analysis_console.txt, sim_console*.txt)</td></tr>
+<tr><td>Claims inventory</td><td><code>extracted/manuscript_claims.md</code></td></tr>
+<tr><td>JSON reports</td><td><code>reproai_reports/architecture_report.json</code>, <code>risk_register.json</code>, <code>advisory_plan.json</code></td></tr>
+</tbody>
+</table>
+
+<hr />
+<h2>Environment / provenance</h2>
+<ul>
+<li><strong>R:</strong> 4.6.1 (2026-06-24, ucrt) @ <code>C:\Program Files\R\R-4.6.1\</code>; packages metafor 5.0-1, puniform 0.2.8, weightr, openxlsx (XLConnect present but needs Java — <code>JAVA_HOME</code> not resolvable on host).</li>
+<li><strong>Python:</strong> 3.8 (numpy, scipy, pandas, openpyxl).</li>
+<li><strong>OSF snapshot:</strong> files downloaded 2026-09-14; main DOI 10.17605/OSF.IO/MY8S6 resolves; artifact <code>49cke</code> (PB-test results) returns HTTP 410 Gone.</li>
+<li><strong>Seed handling:</strong> analysis pipeline is deterministic (closed-form metafor/puniform/weightr — no RNG). Simulation is seed-controlled (<code>9419*pos</code>); not re-run at full scale.</li>
+<li><strong>Load-bearing check:</strong> Table 1 was reproduced from the raw <code>.xlsx</code> + author R code with no precomputed results imported; the shipped <code>res2_*.csv</code> were used only for the (otherwise unrunnable) simulation claims. A committed result cache is <em>not</em> load-bearing for the meta-analysis.</li>
+</ul>
+
+<blockquote>
+<p><strong>Headline reproducible result:</strong> running the author's R code reproduces the entire primary numerical core of the meta-analysis exactly — traditional MA mean ES 0.603 (SD 0.447), PET-PEESE 0.219, trim-and-fill 0.574, p-uniform 0.556, selection model 0.603 — and every method-versus-MA difference score; the publication-bias simulation claims (conservative Type-I error, low power for pub &lt; .95, TES &gt; .8 only at pub=1) hold against the shipped full-run results.</p>
+<p><strong>Verdict:</strong> A materially reproducible submission: the open data and analysis code are live and functional, the primary meta-analytic results re-run exactly, and all findings are either benign arithmetic/reporting inconsistencies (P2) or hygiene items (P3), with no P0/P1 defect and the prior audit's sole P1 expressly withdrawn.</p>
+</blockquote>
+
+</body>
+</html>

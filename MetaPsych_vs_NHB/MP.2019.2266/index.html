@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Francis &amp; Thunell (2020) MP.2019.2266</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report &mdash; <em>Excess success in &ldquo;Don&rsquo;t count calorie labeling out&rdquo;: a Test for Excess Success meta-analysis</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) &mdash; DeepSeek V4 Flash via uniGPT &nbsp;&#8226;&nbsp; <strong>rules:</strong> 2026.06.27 &nbsp;&#8226;&nbsp; <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>11_FrancisThunell_CalorieExcessSuccess</code> &mdash; Francis &amp; Thunell (2020), <em>Meta-Psychology</em> 4, <code>MP.2019.2266</code>; DOI <code>10.15626/MP.2019.2266</code>; OSF project <code>4TGQ9</code>, code <code>xrdhj</code>.
+<strong>Mode:</strong> <strong>live author-code re-run (R 4.6.1) + independent reimplementation (R closed-form and Python 3.8 numpy/scipy Monte Carlo).</strong> The author&rsquo;s own R scripts were retrieved from the OSF project and executed in clean sessions; the headline statistics were additionally recomputed from scratch in a second language. <em>This is a re-audit; the previous (shallow) pass only multiplied the published powers and did not execute the supplied simulation code &mdash; this pass re-runs everything.</em>
+<strong>Originals:</strong> <code>paper.pdf</code>/<code>paper_extracted.txt</code> untouched; reference code copies in <code>extracted/osf_xrdhj/</code>, all work on copies in <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>3</strong></td></tr>
+<tr><td>P0 &mdash; blocker</td><td>0</td></tr>
+<tr><td>P1 &mdash; high</td><td>0</td></tr>
+<tr><td>P2 &mdash; medium</td><td>2</td></tr>
+<tr><td>P3 &mdash; low</td><td>1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Verdict: the headline result fully reproduces.</strong> All six Test-for-Excess-Success power estimates and their product &mdash; the paper&rsquo;s central claim that a replication of the six Dallas et al. studies has only probability <strong>0.014</strong> of uniform success &mdash; are confirmed both by running the authors&rsquo; own R code live and by an independent Monte-Carlo reimplementation (Studies 1 and 3 reproduce <em>exactly</em> under the documented seed; Studies 2 and S1 in closed form; the unseeded S2/S3 simulations fall within Monte-Carlo tolerance). The pooled meta-analytic Hedges&rsquo; g* = 0.2366 and the Table 2 power-planning figures also recompute. No primary statistic is wrong or undiscoverable. The three findings are all non-blocking: ADV-001 (P2) is an internal provenance inconsistency &mdash; Table 1 uses post-corrigendum input data while Table 2 was evidently produced from the <em>pre</em>-corrigendum meta-analysis (off-by-one cells as large as the introduction&rsquo;s 1123 vs 1125 half-effect rows); ADV-002 (P2) is that the OSF project ships <em>both</em> pre- and post-corrigendum scripts at the root, so running the non-&ldquo;AC&rdquo; files gives Study-3 power &asymp;0.376 instead of the published 0.3626; ADV-003 (P3) is that two of the four simulation scripts ship without a seed (run-to-run drift, acknowledged by the authors). The excess-success conclusion (&approx;1.4% chance) is robust to all of these.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation &amp; live execution</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements / runs</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>author code: <code>AnalysisAC.R</code></td><td>Assembles the six power estimates &amp; multiplies them (live run)</td><td>Table 1 powers &amp; C9 product</td><td>OK &mdash; 0.01355559&asymp;0.014</td></tr>
+<tr><td>author code: <code>Study1AC.R</code>, <code>Study3AC.R</code></td><td>100,000-sim TES for Studies 1 &amp; 3 (live run, seed 3947194)</td><td>Table 1 power 0.4582 / 0.3626</td><td>OK &mdash; exact (0.4582, 0.36262)</td></tr>
+<tr><td>author code: <code>StudyS2.R</code>, <code>StudyS3.R</code></td><td>100,000-sim TES for Studies S2 &amp; S3 (live run, unseeded)</td><td>Table 1 power 0.5667 / 0.4953</td><td>OK &mdash; MC drift within SE (ADV-003)</td></tr>
+<tr><td>author code: <code>MetaanalysisPower.R</code> &amp; <code>MetaanalysisPowerAC.R</code></td><td>Meta-analysis pooled g + Table 2 n (live run, both variants)</td><td>C14 &amp; Table 2</td><td>OK &mdash; but Table 2 traced to the <em>pre</em>-corrigendum run (ADV-001)</td></tr>
+<tr><td><code>reimpl_tes.R</code></td><td>Independent R reimplementation: product, closed-form powers, hand-computed Hedges&rsquo; g + inverse-variance pooling, pwr Table-2 for both variants</td><td>all primary + Table 2</td><td>OK &mdash; confirms ADV-001</td></tr>
+<tr><td><code>reimpl_python.py</code></td><td>Independent Python 3.8 numpy/scipy: vectorised 100,000-sim TES MC + meta-analysis + Table 2</td><td>all primary, cross-language check</td><td>OK &mdash; all within MC SE</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (29 claims, C1&ndash;C29): <code>exec_check/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: &#10003; identical at reported precision &nbsp;&#8776; close &amp; explicable &nbsp;&#9888; discrepant &nbsp;&#10138; not independently checkable.</p>
+<h3>Primary &mdash; six TES power estimates and their product</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Study 1 power (ANOVA + Left&lt;Right + Left&lt;None)</td><td>0.4582</td><td>author R (seed 3947194) 0.4582; Python MC 0.45847</td><td>&#10003;</td></tr>
+<tr><td>Study 2 power (t-test)</td><td>0.5426</td><td>author R 0.5426402; R closed-form 0.54264; Python 0.54204</td><td>&#10003;</td></tr>
+<tr><td>Study 3 power (contrasts only)</td><td>0.3626</td><td>author R (seed 3947194) 0.36262; Python MC 0.36338</td><td>&#10003;</td></tr>
+<tr><td>Study S1 power (t-test)</td><td>0.5358</td><td>R closed-form 0.53577; Python 0.53480</td><td>&#10003;</td></tr>
+<tr><td>Study S2 power (unseeded sim)</td><td>0.5667</td><td>R 0.56738; Python 0.56610 (SE&asymp;0.0016)</td><td>&#8776; (ADV-003)</td></tr>
+<tr><td>Study S3 power (unseeded sim)</td><td>0.4953</td><td>R 0.49435; Python 0.49552 (SE&asymp;0.0016)</td><td>&#8776; (ADV-003)</td></tr>
+<tr><td><strong>Product of the six powers (headline)</strong></td><td><strong>0.014</strong></td><td>0.01355773 (Table-1 values); 0.01355559 (author AnalysisAC)</td><td><strong>&#10003;</strong></td></tr>
+<tr><td>Study 2 Hedges&rsquo; g (from t=2.08)</td><td>0.25</td><td>0.25037</td><td>&#10003;</td></tr>
+</tbody>
+</table>
+<h3>Meta-analysis &amp; designing-new-studies (Table 2)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Individual effect-size range</td><td>0.15 &ndash; 0.45</td><td>0.154 &ndash; 0.451</td><td>&#10003;</td></tr>
+<tr><td>Pooled Hedges&rsquo; g*</td><td>0.2366</td><td>0.23662 (PRE) / 0.23659 (POST) &mdash; both round to 0.2366</td><td>&#10003;</td></tr>
+<tr><td>Table 2, full g: 0.80/0.85/0.90/0.95/0.99 power</td><td>282/322/377/465/658</td><td>PRE-g: 282/322/377/465/658 (exact); POST-g: 282/322/377/<strong>466</strong>/658</td><td>&#9888; ADV-001 (95% row)</td></tr>
+<tr><td>Table 2, g/2: 0.80/0.85/0.90/0.95/0.99 power</td><td>1123/1284/1502/1858/2626</td><td>PRE-g/2: exact; POST-g/2: 1123/1285/1503/1859/2627</td><td>&#9888; ADV-001</td></tr>
+<tr><td>&ldquo;only study S3 had &ge;282/condition&rdquo;</td><td>&mdash;</td><td>max other condition-n = 151 &lt; 282; S3=337</td><td>&#10003;</td></tr>
+<tr><td>&ldquo;90% needs 377 &gt; any of the six&rdquo;</td><td>377</td><td>max condition-n = 337 &lt; 377</td><td>&#10003;</td></tr>
+<tr><td>Table-1 descriptive cells (17 means/SD/n)</td><td>as printed</td><td>all 17 internally consistent with the post-corrigendum script inputs</td><td>&#10003;</td></tr>
+</tbody>
+</table>
+<p>Directional prose (Studies 1,2,S1,S2,S3 left&lt;right; Study 3 right&lt;left; left&lt;no-label in 1/S2/S3) all verified against the Table-1 means. Prose &ldquo;smaller effect sizes for larger samples&rdquo; (C13) is a broad trend, not strictly monotone (Study 3 g=0.298 vs S1 g=0.314 at similar n) &mdash; judged &#8776;.</p>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 &mdash; medium</h3>
+<p><strong>ADV-001 &mdash; Table 1 and Table 2 are built from <em>different</em> data revisions (internal provenance inconsistency).</strong>
+The published Table 2 values (282/322/377/<strong>465</strong>/658 and 1123/1284/1502/1858/2626) reproduce <em>exactly</em> only from the <strong>pre-corrigendum</strong> meta-analysis (Study-1 right-label n=55, pooled g=0.2366623, verified live with <code>MetaanalysisPower.R</code>). The paper&rsquo;s Table 1 power estimates and the 0.014 product, however, use the <strong>post-corrigendum</strong> inputs (Study-1 n=54 and the Study-3 no-label corrections), i.e. the &ldquo;AC&rdquo; files, whose meta-analysis run gives 282/322/377/<strong>466</strong>/658 and 1123/1285/1503/1859/2627. Because the in-text pooled g* = 0.2366 is consistent with both (0.2366623 vs 0.2365894 both round to 0.2366) and the 282/377/1123 astronaut anchors agree, the discrepancy is easy to miss: the Table-2 <em>95% row</em> (465 vs 466) and the entire <em>g/2 half-effect block</em> (1284/1502/1858/2626 vs 1285/1503/1859/2627) were generated from the older value of Study-1&rsquo;s sample size.
+<em>Why it matters:</em> an internal-consistency defect (one paper, two data versions) rather than an error with any impact on conclusions &mdash; the headline 0.014 and all policy-relevant sample sizes are unaffected.
+<em>Fix:</em> regenerate Table 2 from the post-corrigendum <code>MetaanalysisPowerAC.R</code> (full 282/322/377/466/658; half 1123/1285/1503/1859/2627) or explicitly disclose that Table 2 used the pre-corrigendum n; ensure a single self-consistent data version across all exhibits.</p>
+<p><strong>ADV-002 &mdash; OSF code ships two revisions at the project root; the most prominent (non-&ldquo;AC&rdquo;) scripts do not reproduce the published Study-3 power.</strong>
+<code>osf.io/xrdhj</code> contains pre-corrigendum <code>Analysis.R</code>/<code>Study1.R</code>/<code>Study3.R</code>/<code>MetaanalysisPower.R</code> (README dated Oct 2019&ndash;Feb 2020) along with the post-corrigendum &ldquo;AC&rdquo; set (READMEAC dated 14 Jun 2020). Running the top-level <code>Study3.R</code> yields Study-3 power &asymp;0.376 (live re-run; shipped Results.txt prints 0.37647), <em>not</em> the paper&rsquo;s Table-1 value 0.3626, because <code>Study3.R</code> still uses the pre-corrigendum no-label parameters (mean 1441.45, SD 382.43, n=83) instead of the corrected 1436.79/378.47/81. A downloader following the article&rsquo;s generic &ldquo;code at osf.io/xrdhj&rdquo; pointer can easily run the wrong files; only the AC variants reproduce Table 1. Both give product &asymp;0.014, so the headline is robust, but the code-to-paper trace is ambiguous without reading READMEAC.txt &mdash; which is a clear reproducibility/documentation hazard.
+<em>Fix:</em> move the legacy pre-corrigendum files into a labelled <code>legacy/</code> subfolder, leave the AC set canonical at the root, and add an explicit data-availability note directing readers to the post-corrigendum files.</p>
+<h3>P3 &mdash; low</h3>
+<p><strong>ADV-003 &mdash; two of the four simulation scripts ship without a seed.</strong>
+<code>StudyS2.R</code> and <code>StudyS3.R</code> contain no <code>set.seed()</code>, so the paper&rsquo;s 0.5667 / 0.4953 are single Monte-Carlo draws that cannot be reproduced bit-for-bit. Re-runs drift well within the Monte-Carlo SE (&asymp;0.0016 for 100,000 replications): S2 &rarr; R 0.56738 / Python 0.56610; S3 &rarr; R 0.49435 / Python 0.49552. Studies 1 and 3 <em>do</em> ship a seed (3947194) and reproduce exactly. The authors&rsquo; own README warns &ldquo;your numbers may vary,&rdquo; and the inference is unaffected.
+<em>Fix:</em> publish fixed seeds for S2 and S3 (as already done for Studies 1 and 3) so the exact reported figures are byte-reproducible.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>Open data = No.</strong> No raw trial-level data is shipped (by design &mdash; the TES consumes only the summary means/SD/n of Dallas et al.). Consequently the background study&rsquo;s numbers are <em>inputs</em>, traced here only for internal consistency with the scripts, not recomputed from primary data. The Dallas et al. reproduction record itself (banner &ldquo;reproduced by N. Brown, P. Langford&rdquo;) is not independently verifiable from the retrieved OSF nodes (C28 &#10138;).</li>
+<li>This is a &ldquo;methods/statistics-analysis&rdquo; paper (Francis &amp; Thunell), not a study re-analysis; the six power values are Monte-Carlo estimates whose exact decimal depends on the RNG stream. We report accepted-draw agreement (&mdash; two independent draws everywhere within SE, exact for the seeded studies), not a single bit-for-bit global reproduction for the unseeded studies.</li>
+<li>The mediation analyses explicitly <em>excluded</em> by the authors (insufficient summary information) were not and cannot be checked.</li>
+<li>Editorial review files and the Meta-Psychology platform-supplement were not in scope; only the paper text, the OSF code node, and the article banner were audited.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>paper.pdf</code> / <code>paper_extracted.txt</code></td><td>Untouched originals (not modified)</td></tr>
+<tr><td><code>extracted/osf_xrdhj/</code></td><td>Reference copies of the author&rsquo;s 12 R scripts + 2 READMEs + 2 Results logs (both revisions)</td></tr>
+<tr><td><code>exec_check/author_code/</code></td><td>Working copies of the author code actually executed (pre- and post-corrigendum)</td></tr>
+<tr><td><code>exec_check/reimpl_tes.R</code></td><td>Independent R reimplementation (product, closed-form powers, hand-computed Hedges&rsquo; g, pwr Table-2)</td></tr>
+<tr><td><code>exec_check/reimpl_python.py</code></td><td>Independent Python 3.8 numpy/scipy Monte-Carlo TES + meta-analysis + Table 2</td></tr>
+<tr><td><code>exec_check/output/</code></td><td><code>run_*.txt</code> live author-code logs; <code>reimpl_tes_results.csv</code>; <code>reimpl_python_results.json</code></td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>29 numbered claims (C1&ndash;C29), each checked</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline / data / component reproducibility description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001..003 with severities + evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for all three findings</td></tr>
+</tbody>
+</table>
+</body>
+</html>

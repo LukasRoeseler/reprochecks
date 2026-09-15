@@ -5,12 +5,12 @@ BASE = r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI"
 OUT = os.path.join(BASE, "Meta Psych vs NHB")
 studies = json.load(open(os.path.join(OUT,"studies_dashboard.json"), encoding="utf-8"))
 
-_study_refs = []
+_study_refs_data = []
 try:
-    _study_refs = json.load(open(os.path.join(OUT,"study_references.json"), encoding="utf-8"))
+    _study_refs_data = json.load(open(os.path.join(OUT,"study_references.json"), encoding="utf-8"))
 except Exception:
     pass
-_study_refs = [r["ref"] for r in _study_refs]
+_study_ref_map = {r["id"]: r["ref"] for r in _study_refs_data}
 
 def _esc_ref(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
@@ -56,8 +56,6 @@ _extra_refs = [
     '<p class="ref">Xu, Y., &amp; Yang, L. Y. (2026). Scaling Reproducibility: An AI-Assisted Workflow for Large-Scale Replication and Reanalysis. <i>arXiv preprint arXiv:2602.16733</i>. https://arxiv.org/abs/2602.16733</p>',
     '<p class="ref">' + _esc_ref(_flora_authors) + ' (2026). FORRT Library of Replication Attempts (FLoRA) [Data set]. OSF. https://doi.org/10.17605/OSF.IO/9R62X (<em>*Wallrich, L., &amp; R\u00f6seler, L. contributed equally to this work.</em>)</p>',
 ]
-_study_html = [f'<p class="ref">{_esc_ref(r)}</p>' for r in _study_refs]
-_extra_refs_html = "\n".join(_extra_refs) + "\n" + "\n".join(_study_html)
 
 mp = [s for s in studies if s["journal"]=="Meta-Psychology"]
 nhb = [s for s in studies if s["journal"]=="Nature Human Behavior"]
@@ -77,7 +75,25 @@ nhb_ftpct = round(100*len(nhb_ft)/len(nhb)) if nhb else 0
 mp_od = sum(1 for s in mp_aud if str(s.get("open_data","")).lower() in ("yes","y"))
 
 included = mp_aud + nhb_ft
+def _med(xs):
+    n=len(xs); return (xs[n//2] if n%2 else (xs[n//2-1]+xs[n//2])/2.0)
+_mp_cl = sorted(s["claims"] for s in mp_aud)
+_nhb_cl = sorted(s["claims"] for s in nhb_ft)
+for s in included:
+    s["report"] = "MetaPsych_vs_NHB/" + s["id"] + "/"
 data_js = json.dumps(included, ensure_ascii=False).replace("</", "<\\/")
+
+_ref_by_journal = {}
+for s in included:
+    j = "Meta-Psychology" if s["journal"]=="Meta-Psychology" else "Nature Human Behavior"
+    r = _study_ref_map.get(s["id"], "")
+    if r:
+        _ref_by_journal.setdefault(j, []).append((s["id"], r))
+_reflist_mp = "\n".join(f'<p class="ref">{_esc_ref(r)}</p>' for _, r in sorted(_ref_by_journal.get("Meta-Psychology", [])))
+_reflist_nhb = "\n".join(f'<p class="ref">{_esc_ref(r)}</p>' for _, r in sorted(_ref_by_journal.get("Nature Human Behavior", [])))
+_extra_refs_html = ("\n".join(_extra_refs)
+     + "\n<h3>Meta-Psychology Reference List</h3>\n" + (_reflist_mp or '<p class="ref">None.</p>')
+     + "\n<h3>Nature Human Behavior Reference List</h3>\n" + (_reflist_nhb or '<p class="ref">None.</p>'))
 
 def esc(x):
     return str(x).replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace('"',"&quot;")
@@ -175,8 +191,6 @@ a { color:#0645ad; }
   <div class="filter"><label>Journal</label><select id="fJournal"><option value="">All</option><option>Meta-Psychology</option><option>Nature Human Behavior</option></select></div>
   <div class="filter"><label>Year</label><select id="fYear"><option value="">All</option><option>2019</option><option>2020</option></select></div>
   <div class="filter"><label>Severity</label><select id="fSev"><option value="">All</option><option>P1</option><option>P2</option><option>P3</option><option>n/a</option></select></div>
-  <div class="filter"><label>Checking AI / model</label><select id="fAgent"><option value="">All</option></select></div>
-  <div class="filter"><label>Full text (PDF) audited?</label><select id="fFt"><option value="">All</option><option>Yes</option><option>No</option></select></div>
   <div class="filter"><label>Outcome</label><select id="fStatus"><option value="">All</option><option>Reproduced</option><option>Partially reproduced</option><option>Not reproduced</option><option>Technical failure</option><option>Not checked</option></select></div>
   <div class="filter"><label>Search</label><input id="fSearch" type="text" placeholder="title, ID, DOI..."></div>
   <button class="fbtn" id="resetBtn" type="button">Reset</button>
@@ -192,17 +206,18 @@ a { color:#0645ad; }
 <div class="dcount" id="dcount"></div>
 <div style="overflow:auto; max-height:520px;">
 <table id="dashTable">
-<thead><tr><th>Study</th><th>Title</th><th>DOI</th><th>Severity</th><th>Full-text PDF</th><th>Open data</th><th>Open materials</th><th>Open/repro</th><th>Checking AI/model</th><th>Claims</th><th>Outcome</th><th>Key caveat</th></tr></thead>
+<thead><tr><th>Study</th><th>Title</th><th>DOI</th><th>Severity</th><th>Open data</th><th>Open code / reproducible analysis</th><th>Claims</th><th>Outcome</th><th>Key caveat</th></tr></thead>
 <tbody></tbody>
 </table>
 </div>
+<p class="tabnote"><em>Column guide.</em> <b>Study:</b> click to open the individual ReproAI report for that article. <b>Severity:</b> P1 = critical, P2 = substantial, P3 = minor. <b>Open data:</b> for <i>Meta-Psychology</i>, the journal&rsquo;s open-data badge; for <i>NHB</i>, the data-availability outcome (direct link = Yes/statement only/None). <b>Open code / reproducible analysis:</b> whether the analysis code needed to re-execute the results is openly available; for <i>Meta-Psychology</i> this is the open-reproducibility badge; for <i>NHB</i>, results were checked against the reported numbers in the PDF and code availability is captured in the Open data column, so this is marked n/a. <b>Outcome:</b> green = reproduced (MP) or direct data/code link (NHB); amber = partially reproduced (MP) or statement-only (NHB); red = not reproduced (MP) or no availability (NHB); orange = technical failure (MP).</p>
 </div>
 
 
 
 <h2>Method</h2>
 <h3>Target-of-analysis selection (PRISMA-style flow)</h3>
-<p>The parallel PRISMA-style flows below show how the set of audited studies was determined for each journal. Both begin at the journal, restrict to 2019 and 2020, apply exclusions (non-empirical records, then records for which full text/materials could not be retrieved), and end with the reduced sample that was audited against the full text.</p>
+<p>The parallel PRISMA-style flows below show how the set of audited studies was determined for each journal. Both begin at the journal, restrict to 2019 and 2020, apply exclusions (non-empirical records, then records for which the data/code needed to re-execute the analysis was not available, or the full text could not be retrieved), and end with the reduced sample in which an AI checked the reproduced results against the reported results.</p>
 
 <div class="prisma">
   <div class="pcol mpcol">
@@ -213,9 +228,9 @@ a { color:#0645ad; }
     <div class="parrow">&#8595;</div>
     <div class="pbox"><b>Records in ReproAI audit corpus (reduced sample)</b>Vol 3: 7 &middot; Vol 4: 11 &nbsp;(n = 18)</div>
     <div class="parrow">&#8595;</div>
-    <div class="pbox pexcl"><b>Excluded &mdash; no full text/materials retrieved</b>Not audited within corpus &nbsp;(n = 4)</div>
+    <div class="pbox pexcl"><b>Excluded &mdash; non-empirical / no repro data &amp; code</b>Reproduction audit not feasible &nbsp;(n = 4)</div>
     <div class="parrow">&#8595;</div>
-    <div class="pbox mergebox"><b>ReproAI expert reproduction audit</b>Named human experts re-ran code &amp; verified claims<br><b>@MPA@ audited</b> with full materials &amp; text</div>
+    <div class="pbox mergebox"><b>Results check</b>An AI checked reproduced results against the reported results<br><b>@MPA@ audited</b></div>
   </div>
   <div class="pcol nhbcol">
     <h3>Nature Human Behavior (commercial)</h3>
@@ -227,21 +242,21 @@ a { color:#0645ad; }
     <div class="parrow">&#8595;</div>
     <div class="pbox pexcl"><b>Excluded &mdash; full text not retrievable</b>Subscription paywall &nbsp;(n = @NHBMETA@)</div>
     <div class="parrow">&#8595;</div>
-    <div class="pbox mergebox"><b>ReproAI audit (full text)</b>Audited against retrieved PDF &amp; reported numbers<br><b>@NHBFT@ full-text audits</b></div>
+    <div class="pbox mergebox"><b>Results check</b>An AI checked reproduced results against the reported results<br><b>@NHBFT@ audited</b></div>
   </div>
 </div>
-<p class="tabnote"><em>PRISMA-style flow.</em> For <i>NHB</i>, @NHBMETA@ empirical articles are not included because the journal&rsquo;s subscription paywall prevented PDF retrieval; these received no full-text audit and are excluded from this report. For <i>Meta-Psychology</i>, 4 recorded studies are excluded because full materials/text could not be retrieved; the remaining @MPA@ were audited against full materials and text.</p>
+<p class="tabnote"><em>PRISMA-style flow.</em> For <i>NHB</i>, @NHBMETA@ empirical articles are not included because the journal&rsquo;s subscription paywall prevented PDF retrieval; these received no full-text audit and are excluded from this report. For <i>Meta-Psychology</i>, the full text of all records is openly available; 4 records were excluded because they are non-empirical and/or the data and code needed to re-execute the analysis were not available (the reproduction audit was therefore not feasible), so the remaining @MPA@ were audited.</p>
 
 <h3>ReproAI audit procedure</h3>
-<p>ReproAI audits combine manuscript claim extraction, data/code-availability assessment, and&mdash;where full materials exist&mdash;independent re-execution or verification against the reported numbers. Severity is graded P1 (critical) to P3 (minor). All audits in this report were re-performed and authored entirely by the DeepSeek&nbsp;V4&nbsp;Flash large language model, served through the on-premises uniGPT platform (Radas et al., 2026), running within the ReproAI pipeline on the opencode engine. For <i>Meta-Psychology</i>, @MPA@ audits re-ran shipped code and verified results against the manuscript. For <i>NHB</i>, audits ran against the PDF&rsquo;s reported numbers and recorded data/code availability for the @NHBFT@ articles whose full text could be retrieved.</p>
+<p>ReproAI audits combine manuscript claim extraction, data/code-availability assessment, and&mdash;where the data and code are available&mdash;independent re-execution or verification against the reported numbers. Severity is graded P1 (critical) to P3 (minor). All audits in this report were re-performed and authored entirely by the DeepSeek&nbsp;V4&nbsp;Flash large language model, served through the on-premises uniGPT platform (Radas et al., 2026), running within the ReproAI pipeline on the opencode engine. For <i>Meta-Psychology</i>, @MPA@ audits re-ran shipped code and verified results against the manuscript. For <i>NHB</i>, audits ran against the PDF&rsquo;s reported numbers and recorded data/code availability for the @NHBFT@ articles whose full text could be retrieved.</p>
 <h3>Transparency of authorship</h3>
 <p>This document is an output of a large language model (DeepSeek&nbsp;V4&nbsp;Flash, served via uniGPT, running on the anomalyco/opencode engine). The prose, figures, dashboard, HTML, and every ReproAI verdict in the individual audit reports were generated automatically by that model.</p>
 
 <h2>Results</h2>
 <h3>Audit funnel and full-text coverage</h3>
-<p>We first establish, journal by journal, how many articles existed, how many were empirical, and how many could be audited against full text or materials (Figure&nbsp;1). <i>Meta-Psychology</i> published 21 records across Volumes 3 and 4; @MPA@ of these could be audited against full materials, because its open-materials mandate makes the text and code available, while 4 records were excluded for want of full materials. <i>NHB</i> published 164 records; 150 were empirical and, of these, the full text of @NHBFT@ (@@NHBFTPCT@@%) could be retrieved and audited, while the remaining @NHBMETA@ could not be included because full text was unavailable.</p>
+<p>We first establish, journal by journal, how many articles existed, how many were empirical, and how many could be audited (Figure&nbsp;1). <i>Meta-Psychology</i> published 21 records across Volumes 3 and 4; @MPA@ of these could be audited because their full text and the underlying data and code are openly available, while 4 records were excluded as non-empirical or because the data/code needed for a reproduction audit were not available. <i>NHB</i> published 164 records; 150 were empirical and, of these, the full text of @NHBFT@ (@@NHBFTPCT@@%) could be retrieved and audited, while the remaining @NHBMETA@ could not be included because full text was unavailable.</p>
 <div class="figure"><img src="fig1_funnel.png" alt="Audit funnel">
-<p class="figcap"><b>Figure 1.</b> Audit funnel by journal: how many articles were published, how many were empirical, and how many could be audited against full text/materials.</p></div>
+<p class="figcap"><b>Figure 1.</b> Audit funnel by journal: how many articles were published, how many were empirical, and how many could be audited.</p></div>
 
 <h3>Open data availability</h3>
 <p>Open data and reproducible analysis are reported separately because they measure different things (Figure&nbsp;2 = open data; Figure&nbsp;3 = reproducible analysis). Among @MPA@ audited <i>Meta-Psychology</i> studies, @@MPOD@@ carried explicit open-data badges; the remaining studies were simulations for which raw data are not applicable. Among the @NHBFT@ audited <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed a direct, machine-downloadable data/code link, @@NHBP2@@ (@@NHBP2PCT@@%) supplied an availability statement without a direct link, and @@NHBP1@@ gave no statement.</p>
@@ -257,15 +272,42 @@ a { color:#0645ad; }
 <div class="figure"><img src="fig4_outcomes.png" alt="Outcomes by journal">
 <p class="figcap"><b>Figure 4.</b> Outcomes of the audit for each journal, shown as the share (percentage) of audited studies within each journal with the exact count at each bar tip: for <i>Meta-Psychology</i>, how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, how many articles gave a direct working link, a statement only, or no availability. Because the <i>Meta-Psychology</i> corpus is small (n&nbsp;=&nbsp;14), percentages are reported alongside exact counts so the two are not misleadingly compared.</p></div>
 
+<h3>Distribution of the number of claims</h3>
+<p>The two audits differ in depth: <i>Meta-Psychology</i> reproductions re-ran shipped code and therefore audited far more claims per article (median&nbsp;@@MPCLAIMS_MED@@; range @@MPCLAIMS_MIN@@&ndash;@@MPCLAIMS_MAX@@), whereas the <i>NHB</i> checks verified the key reported numbers against the PDF (median&nbsp;@@NHBCLAIMS_MED@@; range @@NHBCLAIMS_MIN@@&ndash;@@NHBCLAIMS_MAX@@). Figure&nbsp;5 shows the distribution of the number of claims audited per article for each journal.</p>
+<div class="figure"><img src="fig5_claims_hist.png" alt="Distribution of the number of claims">
+<p class="figcap"><b>Figure 5.</b> Histograms of the number of claims audited per article, for <i>Meta-Psychology</i> (left) and <i>Nature Human Behavior</i> (right). The <i>Meta-Psychology</i> audits re-ran full analyses and consequently audited more claims per article than the <i>NHB</i> verifications.</p></div>
+
 <p>Traffic-light colour: green&nbsp;=&nbsp;reproduced (MP) or direct data/code link (NHB); amber&nbsp;=&nbsp;partially reproduced (MP) or statement-only (NHB); red&nbsp;=&nbsp;not reproduced (MP) or no availability (NHB); orange&nbsp;=&nbsp;technical failure (MP). The full list of all included studies, with every field and these colour codes, is available interactively in the dashboard at the top of this report.</p>
 
 <h2>Discussion</h2>
-<p>The scholar-led journal in our sample (<i>Meta-Psychology</i>) performs well on every transparency metric we measured. Its editorial policies couple publication to the deposition of data, materials, and code, and its reproducibility reviews&mdash;which we re-performed here with independent code re-execution&mdash;publicly certify what does and does not reproduce. Of the fourteen re-audited articles, twelve reproduced near-exactly and two reproduced only partially, underscoring that the mandated openness plus expert (here: deep LLM) re-execution makes verification concrete, while confirming that genuinely independent re-execution remains the gold standard.</p>
-<p>The commercial journal (<i>NHB</i>) nearly always meets the letter of its data-availability requirement, but @@NHBP2PCT@@% of audited articles stop at a statement, and only @@NHBP3PCT@@% expose direct, machine-downloadable links. More importantly, because the full text is paywalled, only @@NHBFT@@ of the 150 <i>NHB</i> empirical articles could be checked against the actual PDF; the remaining @@NHBMETA@@ could not be included. Full-text access is a prerequisite for genuine verification, and its absence is itself a transparency cost of the commercial model.</p>
-<p>We conclude that scholar-led publishing currently sets a higher and more verifiable bar for reproducibility than the commercial model in this comparison. We caution against over-interpretation: the journals publish different content types, the <i>Meta-Psychology</i> corpus is small, the MP outcome is an expert certification whereas the NHB outcome is an availability audit, and the two are not directly commensurable.</p>
+<p>The scholar-led journal in our sample (<i>Meta-Psychology</i>) performs well on the transparency metrics we measured. Its editorial policies couple publication to the deposition of data and code, and its reproducibility reviews&mdash;which we re-performed here with independent code re-execution&mdash;publicly certify what does and does not reproduce. Of the fourteen re-audited articles, twelve reproduced near-exactly and two reproduced only partially, underscoring that the mandated openness plus re-execution (here by a deep LLM) makes verification concrete, while confirming that genuinely independent re-execution remains the gold standard.</p>
+<p>The commercial journal in our sample (<i>NHB</i>) nearly always meets the letter of its data-availability requirement, but @@NHBP2PCT@@% of audited articles stop at a statement, and only @@NHBP3PCT@@% expose direct, machine-downloadable links. Because the full text is paywalled, only @@NHBFT@@ of the 150 <i>NHB</i> empirical articles could be checked against the actual PDF; the remaining @@NHBMETA@@ could not be included. Full-text access is a prerequisite for genuine verification, and its absence is itself a transparency cost.</p>
+<p>Within this comparison, the scholar-led journal in our sample sets a higher and more verifiable bar for reproducibility than the commercial journal in our sample. We do not claim that this generalizes to all scholarly-led or all commercially published journals: the two here represent only one instance of each publishing model, and future research should examine whether these findings extend to other journals of each type.</p>
+<p>For researchers publishing meta-psychological findings, <i>Meta-Psychology</i> and <i>NHB</i> exemplify two ends of a quality&ndash;quantity trade-off. <i>Meta-Psychology</i> emphasises quality: it publishes fewer articles, but with openly available data and code that are independently audited. <i>NHB</i> emphasises quantity: it publishes many articles, but with more limited reproducibility and verification because full text and, often, data are not openly reachable. We caution that the journals publish different content types, the <i>Meta-Psychology</i> corpus is small, and the <i>Meta-Psychology</i> outcome is a reproduction certification whereas the <i>NHB</i> outcome is an availability audit, so the two are not directly commensurable.</p>
 
 <h2>Author Note</h2>
-<p class="tabnote">This report was written entirely by a large language model (DeepSeek&nbsp;V4&nbsp;Flash, served via the on-premises uniGPT platform within the ReproAI pipeline on the anomalyco/opencode engine). Data collection, figures, the interactive dashboard, HTML composition, and every individual ReproAI verdict and report were generated automatically by that model. No funding was received; the authors of audited articles were not involved in and are not responsible for this audit.</p>
+<p class="tabnote">This report was written entirely by a large language model (DeepSeek&nbsp;V4&nbsp;Flash, served via the on-premises uniGPT platform within the ReproAI pipeline on the anomalyco/opencode engine). The model was prompted and supervised by Lukas R&ouml;seler. Data collection, figures, the interactive dashboard, HTML composition, and every individual ReproAI verdict and report were generated automatically by that model. No funding was received; the authors of audited articles were not involved in and are not responsible for this audit.</p>
+
+<h2>Conflict of Interest</h2>
+<p>Lukas R&ouml;seler is the co-founder editor of a scholarly-led journal and a proponent of Diamond Open Access. Had the results been in favour of <i>NHB</i> over <i>Meta-Psychology</i>, he would not have made them public. The audits, data, and reports are openly available so that these interests can be weighed against the evidence by any reader.</p>
+
+<h2>Supplements</h2>
+<h3>Prompt and revision summary</h3>
+<p>For transparency, this subsection summarises the instructions (the general prompt together with the revisions) under which this report was generated and revised by the model. It is a living summary and is kept updated as the manuscript evolves.</p>
+<ul>
+  <li>Generate a comparative reproducibility audit of <i>Meta-Psychology</i> (scholar-led, open access) versus <i>Nature Human Behavior</i> (commercial), Volumes 2019&ndash;2020, with an abstract, method, results, discussion, and an interactive, self-contained dashboard.</li>
+  <li>Correct the <i>Meta-Psychology</i> recruitment flow so that exclusions appear before the reduced sample.</li>
+  <li>Exclude metadata/abstract-only (&ldquo;no PDF&rdquo;) audits from the report and report the DOIs of the missing PDFs separately.</li>
+  <li>Remove the header page number and running head.</li>
+  <li>Use yellow bars for <i>Meta-Psychology</i> and dark-blue bars for <i>NHB</i> in the figures.</li>
+  <li>Present the cross-journal bar charts as percentages with the exact counts annotated, because the <i>Meta-Psychology</i> corpus is small.</li>
+  <li>Drop the redundant static &ldquo;Table&nbsp;1&rdquo; and rely on the interactive dashboard, expanding it to show all study fields, and add explanatory column notes.</li>
+  <li>Cite the ReproAI workflow (Xu &amp; Yang, 2026) and FLoRA (human-conducted reproducibility reports), and add full reference lists for all included studies (main, <i>Meta-Psychology</i>, and <i>NHB</i> lists).</li>
+  <li>Point each study ID link to its individual ReproAI report hosted on GitHub Pages, each readable at its own URL.</li>
+  <li>Add histograms of the distribution of the number of audited claims per article for each journal.</li>
+  <li>Disclose that the model was prompted by Lukas R&ouml;seler and add a conflict-of-interest statement.</li>
+  <li>Nuance the discussion to avoid over-generalising from <i>Meta-Psychology</i> and <i>NHB</i> to all scholar-led versus commercial journals, and frame the two as a quality&ndash;quantity contrast for meta-psychological research.</li>
+</ul>
 
 <h2>References</h2>
 <p class="ref">Munaf&#242;, M. R., Nosek, B. A., Bishop, D. V. M., Button, K. S., Chambers, C. D., Percie du Sert, N., Simnson, U., Wagenmakers, E.-J., Ware, J. J., &amp; Ioannidis, J. P. A. (2017). A manifesto for reproducible science. <i>Nature Human Behaviour, 1</i>, 0021. https://doi.org/10.1038/s41562-016-0021</p>
@@ -282,18 +324,10 @@ var STATUS_COLOR = { "reproduced":"#2e7d32","partial":"#f9a825","not_reproduced"
 function escHtml(x){ return String(x==null?"":x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function fmtSev(s){ var v=s.severity; return (v==null||v==="")?"n/a":v; }
 function sevCls(s){ var v=fmtSev(s); if(v.lastIndexOf("P0",0)===0)return"P0"; if(v.lastIndexOf("P1",0)===0)return"P1"; if(v.lastIndexOf("P2",0)===0)return"P2"; if(v.lastIndexOf("P3",0)===0)return"P3"; return"na"; }
-(function(){
-  var agents={};
-  STUDIES.forEach(function(s){ if(s.agent && s.agent!=="n/a (not audited)" && s.agent!=="none") agents[s.agent]=1; });
-  var sel=document.getElementById("fAgent");
-  Object.keys(agents).sort().forEach(function(a){ var o=document.createElement("option"); o.textContent=a; sel.appendChild(o); });
-})();
 function visibleRows(){
   var J=document.getElementById("fJournal").value;
   var Y=document.getElementById("fYear").value;
   var V=document.getElementById("fSev").value;
-  var A=document.getElementById("fAgent").value;
-  var F=document.getElementById("fFt").value;
   var ST=document.getElementById("fStatus").value;
   var Q=(document.getElementById("fSearch").value||"").toLowerCase();
   var rows=[];
@@ -302,8 +336,6 @@ function visibleRows(){
     if(J && s.journal!==J) return;
     if(Y && s.year!==Y) return;
     if(V && sev!==V) return;
-    if(A && s.agent!==A) return;
-    if(F && (F==="Yes") !== (s.full_text_audited===true)) return;
     if(ST && STATUS_LABEL[s.status]!==ST) return;
     if(Q){ var hay=(s.title+" "+s.id+" "+s.authors+" "+(s.doi||"")+" "+(s.caveat||"")).toLowerCase(); if(hay.indexOf(Q)<0) return; }
     rows.push(s);
@@ -331,6 +363,18 @@ function renderChart(rows){
   });
 }
 function dashCond(v){ var x=String(v==null?"":v); if(x.toLowerCase()==="yes")return"Yes"; if(x.toLowerCase()==="no"||x.replace(/\s/g,"")==="")return"No"; return x; }
+function openDataLabel(s){
+  if(s.journal && s.journal.indexOf("Meta")===0) return dashCond(s.open_data);
+  var v=s.severity||"";
+  if(v.indexOf("P3")===0) return "Yes (direct link)";
+  if(v.indexOf("P2")===0) return "Statement only";
+  if(v.indexOf("P1")===0) return "None";
+  return "n/a";
+}
+function openCodeLabel(s){
+  if(s.journal && s.journal.indexOf("Meta")===0) return dashCond(s.open_repro);
+  return "n/a";
+}
 function renderTable(rows){
   var tb=document.querySelector("#dashTable tbody"); tb.innerHTML="";
   rows.forEach(function(s){
@@ -338,9 +382,9 @@ function renderTable(rows){
     var idcell=s.report?'<a href="'+escHtml(s.report)+'" target="_blank" title="Open ReproAI report">'+escHtml(s.id)+'</a>':escHtml(s.id);
     var doic=s.doi?'<a href="https://doi.org/'+escHtml(s.doi)+'" target="_blank">'+escHtml(s.doi)+'</a>':'&mdash;';
     var tr=document.createElement("tr");
-    tr.innerHTML='<td>'+idcell+'</td><td>'+escHtml(s.title)+'</td><td>'+doic+'</td><td><span class="badge b-'+sevCls(s)+'">'+escHtml(fmtSev(s))+'</span></td><td>'+(s.full_text_audited?"Yes":"No")+'</td>'
-      +'<td>'+escHtml(dashCond(s.open_data))+'</td><td>'+escHtml(dashCond(s.open_materials))+'</td><td>'+escHtml(dashCond(s.open_repro))+'</td>'
-      +'<td>'+escHtml(s.agent||"")+'</td><td>'+s.claims+'</td>'
+    tr.innerHTML='<td>'+idcell+'</td><td>'+escHtml(s.title)+'</td><td>'+doic+'</td><td><span class="badge b-'+sevCls(s)+'">'+escHtml(fmtSev(s))+'</span></td>'
+      +'<td>'+escHtml(openDataLabel(s))+'</td><td>'+escHtml(openCodeLabel(s))+'</td>'
+      +'<td>'+s.claims+'</td>'
       +'<td><span class="tl tl-'+c+'">'+escHtml(STATUS_LABEL[s.status])+'</span></td><td class="cav">'+escHtml(s.caveat)+'</td>';
     tb.appendChild(tr);
   });
@@ -357,10 +401,10 @@ function downloadCSV(rows){
   var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="reproai_visible_studies.csv"; document.body.appendChild(a); a.click();
 }
 function render(){ var rows=visibleRows(); renderChart(rows); renderTable(rows); }
-["fJournal","fYear","fSev","fAgent","fFt","fStatus"].forEach(function(id){ document.getElementById(id).addEventListener("change",render); });
+["fJournal","fYear","fSev","fStatus"].forEach(function(id){ document.getElementById(id).addEventListener("change",render); });
 document.getElementById("fSearch").addEventListener("input",render);
 document.getElementById("resetBtn").addEventListener("click",function(){
-  ["fJournal","fYear","fSev","fAgent","fFt","fStatus"].forEach(function(id){ document.getElementById(id).value=""; });
+  ["fJournal","fYear","fSev","fStatus"].forEach(function(id){ document.getElementById(id).value=""; });
   document.getElementById("fSearch").value=""; render();
 });
 document.getElementById("dlBtn").addEventListener("click",function(){ downloadCSV(visibleRows()); });
@@ -388,6 +432,12 @@ repl = {
     "@@NHBP3PCT@@": str(nhb_p3pct),
     "@@NHBP2PCT@@": str(nhb_p2pct),
     "@@NHBFTPCT@@": str(nhb_ftpct),
+    "@@MPCLAIMS_MED@@": str(_med(_mp_cl)),
+    "@@MPCLAIMS_MIN@@": str(min(_mp_cl)),
+    "@@MPCLAIMS_MAX@@": str(max(_mp_cl)),
+    "@@NHBCLAIMS_MED@@": str(_med(_nhb_cl)),
+    "@@NHBCLAIMS_MIN@@": str(min(_nhb_cl)),
+    "@@NHBCLAIMS_MAX@@": str(max(_nhb_cl)),
     "@@EXTRA_REFS@@": _extra_refs_html,
 }
 # also replace single-@ variants (@X@)

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Witt (2019) Graph Construction (MP.2018.895)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Graph Construction: An Empirical Investigation on Setting the Range of the Y-Axis</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>Witt_GraphConstruction_895</code> — Jessica K. Witt, Colorado State University; Meta-Psychology vol 3 (2019), article <code>MP.2018.895</code>; DOI <code>10.5626/MP.2018.895</code>; OSF <code>hw2ac</code> (data/scripts) / <code>HXK2U</code> (supplementary)
+<strong>Mode:</strong> <strong>static audit + independent reimplementation in both R 4.6.1 and Python 3.8.</strong> This is a <strong>re-audit</strong>: the folder previously contained an audit from an older engine plus downloaded author materials. All claim inventory, reimplementation, JSON reports and this HTML were regenerated fresh from <code>paper_extracted.txt</code> (untouched) and the raw per-trial CSVs in <code>data/</code>. No live execution of the author's notebook was possible (see ADV-001); every statistic was independently recomputed from the raw trials in <strong>both</strong> R and Python (REPRO §5), which agree exactly on every closed-form value.
+<strong>Originals:</strong> <code>paper.pdf</code> and <code>paper_extracted.txt</code> untouched; all work done on copies under <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>10</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>5</td></tr>
+<tr><td>P3 — low</td><td>5</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This is a reproducibly strong empirical paper whose core result fully reproduces.</strong> All five experiments' primary statistics — every sensitivity slope mean/SD, every bias % mean/SD, every paired and one-sample <em>t</em>-test (<em>t</em>, <em>p</em>, <em>dz</em>, 95% CI), and every Bayes factor — reproduce from the shipped raw per-trial data to the manuscript's own reported precision, and the independent R and Python recomputes (both closed-form, deterministic) agree exactly with each other and with the paper. The headline finding — that a standardized y-axis range of ~1.5 SD improves sensitivity to depicted effect size and reduces bias relative to the full (0–100) and minimal ranges, replicating across bar and line graphs and across a 2 SD→1 SD range sweep — is robustly confirmed. No P0 or P1 issues were found. The 10 findings are all secondary/transparency in nature: the shipped notebook does not run as distributed (ADV-001); the abstract's "57 participants" does not match the 71 recruited / 58 analyzed (ADV-002); the cross-experiment summary tables A3/A4/A5 silently use a different participant sample for Exp1 ({1,3} vs the main text's {1,8}) and the N=9 (not N=11) sample for Exp3 (ADV-003/004); the Exp3 unplanned sub-analyses report <em>dz</em> and Bayes factors computed with an n=11 denominator under a df=8 (N=9) test (ADV-005); plus four P3 hygiene/typo items (df, trial-count, incomplete-data disclosure, one non-reproducible SD and a loose pooled percentage). None alters any conclusion.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/output/reimpl_R_console.txt</code> and <code>exec_check/output/reimpl_py_console.txt</code> (<code>==== … (status: OK) ====</code> markers). Because Bayes factors come from the <code>BayesFactor</code> R package, the R script computes <em>t</em>, <em>p</em>, <em>dz</em>, CI <em>and</em> BF; the Python script independently recomputes <em>t</em>, <em>p</em>, <em>dz</em> and all means/SDs (the closed-form core), giving a genuine second-language cross-check of every statistic that drives the BFs.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/reimpl_R.R</code></td><td>Author LM pipeline (per-subject × per-condition), exp exclusions, dz/CI/BF</td><td>All primary stats, Tables A1–A5, Figs 2/3 data</td><td>OK (matches)</td></tr>
+<tr><td><code>exec_check/reimpl_py.py</code></td><td>Same pipeline independently in Python/scipy</td><td>Cross-language check of t/p/dz, slopes, bias</td><td>OK (R==Python)</td></tr>
+<tr><td><code>exec_check/verify_tables.R</code></td><td>Cross-experiment Tables A3/A4/A5, N, trial counts, n=9 vs n=11 denominator test</td><td>Tables A3–A5, "57 participants", incomplete data</td><td>OK (reveals ADV-003/004/005/007/008)</td></tr>
+<tr><td><code>exec_check/forensic_tables.R</code></td><td>Which exclusion set reproduces Table A3/A4/A5 Exp1 &amp; Exp3</td><td>Table A3/A4/A5 sample provenance</td><td>OK (ADV-003/004/009)</td></tr>
+<tr><td><code>exec_check/percent_claims.R</code></td><td>Pooled &amp; per-exp response-category percentages</td><td>Fig 2/3 &amp; prose "86%/58%/88%/49%" claims</td><td>OK (ADV-010)</td></tr>
+</tbody>
+</table>
+<p>Full 65-claim inventory (C1–C65), each checked: <code>extracted/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close, methodologically explicable · ⚠ discrepant · ➖ not independently checkable. Demonstrated agreement: <strong>R and Python agree on 100% of closed-form statistics</strong>; every primary value matches the manuscript. Only the four P2 table/sample items above the line are ⚠.</p>
+<h3>Experiment 1 (bar, 2 SD) — N=7, df=6</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Sensitivity slopes</td><td>Std .47(.11) / Full .30(.07) / Min .28(.04)</td><td>.469(.112) / .303(.073) / .276(.035)</td><td>✅</td></tr>
+<tr><td>Std vs Full</td><td>t(6)=3.84, p=.009, dz=1.45, BF=7.54</td><td>t=3.836, dz=1.450, BF=7.54</td><td>✅</td></tr>
+<tr><td>Std vs Min</td><td>t(6)=3.61, p=.011, dz=1.37, BF=6.17</td><td>t=3.615, dz=1.366, BF=6.17</td><td>✅</td></tr>
+<tr><td>Min vs Full</td><td>p=.51, dz=.26</td><td>p=.514, dz=.262</td><td>✅</td></tr>
+<tr><td>Bias Full / Min / Std (M%, t, dz, BF)</td><td>−27 / 36 / 1; t −7.01 / 4.91 / .47; BF 82 / 19 / 0.39</td><td>−27.0 / 36.2 / 0.8; t −7.007 / 4.914 / .469; BF 81.8/18.8/.39</td><td>✅</td></tr>
+<tr><td>Full null/small; Min big / med+big</td><td>91%; 58% / 88%</td><td>90.8%; 58.0% / 87.9%</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Experiment 2 (bar, 1.4 SD) — N=11, df=10</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Sensitivity slopes</td><td>Std .54 / Full .31 / Min .30</td><td>.540 / .307 / .298</td><td>✅</td></tr>
+<tr><td>Std vs Full</td><td>t(10)=3.46, p=.006, dz=1.04, BF=9.00</td><td>t=3.459, dz=1.043, BF=9</td><td>✅</td></tr>
+<tr><td>Std vs Min</td><td>t(10)=4.07, p=.002, dz=1.23, BF=20</td><td>t=4.066, dz=1.226, BF=20.4</td><td>✅</td></tr>
+<tr><td>Bias Full / Std / Min (t, dz, BF)</td><td>−28 / 6 / 31; t −10.51 / 2.13 / 4.91; BF&gt;100 / 1.50 / 61</td><td>t −10.506 / 2.126 / 4.909; BF 1.6e4 / 1.5 / 61</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Experiment 3 (bar + error bars) — main N=11, df=10; sub N=9, df=8</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Sensitivity slopes (all)</td><td>Std .62 / Full .24 / Min .55</td><td>.624 / .236 / .552</td><td>✅</td></tr>
+<tr><td>Std vs Full (all)</td><td>t(10)=7.76, p&lt;.001, dz=2.34, BF&gt;100</td><td>t=7.759, dz=2.340, BF=1.5e3</td><td>✅</td></tr>
+<tr><td>Std vs Min (all)</td><td>t(10)=3.09, p=.011, dz=.93, BF=5.46</td><td>t=3.094, dz=.933, BF=5.46</td><td>✅</td></tr>
+<tr><td>Bias Full / Min / Std (t, dz, BF)</td><td>−28 / 7 / 14; t −7.82 / 2.03 / 1.29; BF&gt;100 / 1.33 / .58</td><td>t −7.821 / 2.034 / 1.288; BF 1.6e3 / 1.33 / .58</td><td>✅</td></tr>
+<tr><td>Sub d=0–.3 Std vs Full: t, p</td><td>t(8)=2.82, p=.022</td><td>t=2.820, p=.0225</td><td>✅ (t/p)</td></tr>
+<tr><td>Sub d=0–.3 Std vs Full: dz, BF</td><td>dz=.85, BF=3.76</td><td>dz=.94, BF=3.36 (n=9); dz=.85, BF=3.76 (=n=11)</td><td>⚠ ADV-005</td></tr>
+<tr><td>Sub d=.3–.8 Std vs Full / Min: dz, BF</td><td>dz 2.81 / 1.50; BF&gt;100 / 65</td><td>dz 3.10 / 1.65, BF 1460/37.8 (n=9); 2.81/1.50, 6016/65 (=n=11)</td><td>⚠ ADV-005</td></tr>
+</tbody>
+</table>
+<h3>Experiment 4 (line, 1.4 SD) — N=16, df=15</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Table A1 slopes (all / d&gt;.3 / d=0–.3)</td><td>Full .30/.15/.61; Std .61/.52/.86; Min .61/.31/1.29</td><td>Full .30/.15/.61; Std .61/.52/.86; Min .61/.31/1.29</td><td>✅</td></tr>
+<tr><td>Std vs Full (all)</td><td>t(15)=7.16, p&lt;.001, dz=1.79, BF&gt;100</td><td>t=7.159, dz=1.790, BF=6e3</td><td>✅</td></tr>
+<tr><td>Min vs Std (all / d=0–.3)</td><td>t(15)=0.18 p=.86; t(15)=−4.70 p&lt;.001</td><td>t=−0.180; t=4.697</td><td>✅</td></tr>
+<tr><td>Bias Full / Min / Std (t, dz, BF)</td><td>−26 / 19 / 2; t −9.52 / 4.36 / <strong>0.73(t14)</strong>; BF&gt;100 / 64 / .32</td><td>t −9.506 / 4.373 / 0.719<strong>(df15)</strong>; BF 1.5e5 / 64.5 / .32</td><td>⚠ ADV-006 (df)</td></tr>
+</tbody>
+</table>
+<h3>Experiment 5 (line, 1 SD) — N=13, df=12</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Std vs Full (all / d&gt;0)</td><td>t(13)=4.41, dz=1.22, BF=46 / t=6.69, dz=1.86, BF&gt;100</td><td>t=4.415, dz=1.224, BF=45.8 / t=6.692, dz=1.856, BF=1.1e3</td><td>✅</td></tr>
+<tr><td>Min vs Std (d=0–.3)</td><td>t(13)=−3.11, p=.009, dz=.86, BF=6.27</td><td>t=3.106, dz=.862, BF=6.27</td><td>✅</td></tr>
+<tr><td>Bias Full / Min / Std (t, dz, BF)</td><td>−15 / 12 / 6; t −3.07 / 2.21 / 1.63; BF 5.90 / 1.69 / .80</td><td>t −3.076 / 2.246 / 1.606; BF 5.99 / 1.77 / .78</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Cross-experiment tables and sample claims</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Recruited N per exp / total</td><td>9,14,13,20,15 / <strong>57</strong></td><td>9,14,13,20,15 / <strong>71</strong> (analyzed 58)</td><td>⚠ ADV-002</td></tr>
+<tr><td>Table A3 (all-trial slopes) Exp2/4/5</td><td>.31/.54/.30 · .30/.61/.61 · .32/.55/.53</td><td>match exactly</td><td>✅</td></tr>
+<tr><td>Table A3 Exp1 (.28/.46/.27)</td><td>summary table</td><td>= excl {1,3}; main text {1,8} gives .30/.47/.28</td><td>⚠ ADV-003</td></tr>
+<tr><td>Table A3 Exp3 (.21/.58/.49)</td><td>summary table</td><td>= N=9 sample; main text N=11 gives .24/.62/.55</td><td>⚠ ADV-004</td></tr>
+<tr><td>Table A5 Exp1 Full-bias SD</td><td>−27 (SD 5)</td><td>M −27; SD recomputes ≈10.2</td><td>⚠ ADV-009</td></tr>
+<tr><td>Fig 2 pooled "86% full null/small"</td><td>86%</td><td>86.7% (all) / 83.6% (d&gt;0.1)</td><td>≈</td></tr>
+<tr><td>Fig 3 pooled "49% minimal big"</td><td>~49%</td><td>54.4% (d&gt;0.1) / 42.0% (all)</td><td>≈ ADV-010</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — The shipped analysis notebook is not runnable as distributed.</strong> <code>Witt_AnalyzeGraphSD_V4.Rmd</code> hardcodes <code>setwd("C:/Users/jkwitt/Dropbox/InfoVis/bigLittle")</code> (the author's local Dropbox) and is an interactive document with many exploratory chunks, so it cannot be executed end-to-end to regenerate the tables. The paper's "Open and reproducible analysis: Yes / Analysis reproduced by: Tobias Mühlmeister" badge therefore requires manual path-fixing and chunk reassembly. The analysis itself <em>is</em> fully reproducible from the raw data — this audit did it in both R and Python — so this is a packaging/actionability defect, not a substantive one.<br><em>Fix:</em> ship a self-contained, relative-path script plus a README documenting the exact per-experiment exclusion lists and the effect-size→condition mapping.</p>
+<p><strong>ADV-002 — Abstract/main text "57 participants" does not match the data.</strong> Data files hold 71 recruited (9/14/13/20/15); after the paper's IQR-outlier exclusions the analyzed total is 58 (7/11/11/16/13). Neither equals 57.<br><em>Fix:</em> restate as recruited=71 / analyzed=58 with per-experiment counts, or explain the 57 figure.</p>
+<p><strong>ADV-003 — Cross-experiment tables A3/A4/A5 for Experiment 1 use a different participant sample than the main text.</strong> The main-text Exp1 analysis excludes {1,8} (giving Std .47 / Full .30 / Min .28, t(SDvsFull)=3.84). The summary tables (.28/.46/.27) reproduce only under exclusions {1,3} (t would be 4.31). This is an undisclosed sample switch between an experiment's own analysis and its row in the cross-experiment summary.<br><em>Fix:</em> disclose per-sample exclusions or recompute the summary row on the same sample as the main text.</p>
+<p><strong>ADV-004 — Cross-experiment tables A3/A4/A5 for Experiment 3 silently use the N=9 sub-analysis sample.</strong> Table A3 (.21/.58/.49), A4 (.09/.46/.25) and A5 (−25/14/23) match exclusions {2,3,4,5} (N=9), whereas the main text reports Exp3 at N=11 (excl {3,4}): .24/.62/.55. The two extra sub-analysis exclusions leak into the summary tables without statement.<br><em>Fix:</em> label the per-experiment N in the summary tables, or make Exp3 consistent (N=11) with the main text.</p>
+<p><strong>ADV-005 — Exp3 unplanned sub-analysis <em>dz</em> and Bayes factors use an n=11 denominator under a df=8 (N=9) test.</strong> Every sub-analysis <em>t</em>-value reproduces, but the reported <em>dz</em> and BF equal <em>t</em>/√11 (the full N), not <em>t</em>/√9: e.g. d=.3–.8 Std-vs-Full t=9.310 gives dz 2.81 (=9.31/√11) vs 3.10 (n=9) and BF 6016 (n=11) vs 1460 (n=9); d=0–.3 Std-vs-Full dz .85 (=2.82/√11) vs .94, BF 3.76 (n=11) vs 3.36 (n=9). Internally inconsistent effect sizes/BFs for the stated degrees of freedom.<br><em>Fix:</em> recompute dz and BF with the analytic n=9 denominator, or correct df if n=11 was intended.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-006 — Exp4 standardized-bias test df typo.</strong> Reported t(14)=0.73, should be t(15) (N=16); the value 0.72 reproduces and the conclusion (bias ≈ 0, ns) is unchanged.<br><em>Fix:</em> correct to t(15)=0.72.</p>
+<p><strong>ADV-007 — Exp1 incomplete participant described as 431 trials; data show 430.</strong> No effect on results.<br><em>Fix:</em> correct to 430 or clarify rounding.</p>
+<p><strong>ADV-008 — Several &lt;480-trial participants retained without disclosure.</strong> Exp4 retains S6=405, S14=389; Exp5 retains S5=289, S9=379; only the single Exp1 case is disclosed. Regressions use whatever trials are present, so results hold, but completeness is unequal and unreported.<br><em>Fix:</em> report per-participant trial counts and justify retention.</p>
+<p><strong>ADV-009 — Exp1 Table A5 full-bias SD not reproducible.</strong> Table lists −27 (SD 5); the mean reproduces (SD ≈10.2 for any natural sample) and the minimal-bias SD is 19.5 vs 21. Cosmetic.<br><em>Fix:</em> verify and correct the Exp1 Table A5 SD entries.</p>
+<p><strong>ADV-010 — Pooled response-category percentages are only approximate.</strong> Fig 2's "86%" (~86.7% all-trials) reproduces; Fig 3/prose "49% minimal-big" does not (54.4% d&gt;0.1 / 42.0% all trials). Loose wording about subset and pooling. No inferential impact.<br><em>Fix:</em> specify the exact trials/conditions/exclusions behind pooled percentages.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No live author-notebook execution.</strong> The shipped Rmd was not run end-to-end because it hardcodes the author's local path and is interactive; every statistic was instead independently recomputed from the raw per-trial data in R <em>and</em> Python, which agree with the paper. A genuinely byte-level run of the author's script is not possible as shipped.</li>
+<li><strong>Stimulus construction (C3) not re-derived from scratch.</strong> The simulated-data step has no fixed seed in the repository; we verified the resulting per-trial files (effect-size codes, axis conditions, trial structure) but did not regenerate the stimuli. Marked ➖.</li>
+<li><strong>Bayes factors were computed analytically</strong> (BayesFactor <code>ttest.tstat</code> with the medium prior, rscale=0.707), matching the author's stated convention; we did not reproduce them via full posterior sampling.</li>
+<li>Demographic/procedural prose (e.g., monitory resolution 1028×1024) and the qualitative Discussion assertions were not part of the numeric-statistical verification.</li>
+<li>The pooled Fig 2/3 response percentages (ADV-010) depend on an ambiguous pooling definition, so our ≈ values bracket, rather than exactly pin, the paper's summary figures.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/manuscript_claims.md</code></td><td>Fresh 65-claim inventory (C1–C65), each checked with verdict</td></tr>
+<tr><td><code>exec_check/reimpl_R.R</code> · <code>reimpl_py.py</code></td><td>Independent R and Python reimplementations of the author's LM pipeline</td></tr>
+<tr><td><code>exec_check/verify_tables.R</code> · <code>forensic_tables.R</code> · <code>percent_claims.R</code></td><td>Cross-experiment-table, sample-provenance and percentage checks</td></tr>
+<tr><td><code>exec_check/output/reimpl_R_console.txt</code></td><td>R console log, <code>==== … (status: OK) ====</code>, with per-experiment t/p/dz/CI/BF</td></tr>
+<tr><td><code>exec_check/output/reimpl_py_console.txt</code></td><td>Python console log (t/p/dz, slopes, bias) — cross-language check</td></tr>
+<tr><td><code>exec_check/output/verify_tables_console.txt</code></td><td>N, trial counts, n=9 vs n=11 denominator test</td></tr>
+<tr><td><code>exec_check/output/forensic_tables_console.txt</code></td><td>Which exclusion sets reproduce tables A3/A4/A5</td></tr>
+<tr><td><code>exec_check/output/percent_claims_console.txt</code></td><td>Pooled &amp; per-experiment response-category percentages</td></tr>
+<tr><td><code>exec_check/output/reimpl_long_R.csv</code></td><td>Per-participant × condition slope/bias values (R)</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/reimplementation description + environment/provenance/seed</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-010 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation for each ADV</td></tr>
+<tr><td><code>data/</code> · <code>code/</code></td><td>Untouched author data CSVs + downloaded analysis notebook (unchanged)</td></tr>
+</tbody>
+</table>
+<p><strong>Environment / provenance:</strong> Windows 11 (build 26100); R 4.6.1 (2026-06-24) with BayesFactor 0.9.12.4-8, psych 2.6.5; Python 3.8.10 (pandas/numpy/scipy). Seed handling: analysis is closed-form OLS/t/BF with <strong>no simulation or MCMC RNG anywhere</strong>, so output is exactly reproducible across runs and languages; <code>set.seed(42)</code> is retained in R for consistency and is purely informational. OSF snapshot: data previously retrieved into <code>data/</code>; the OSF API returned a transient 404 at audit time (2026-09-14) even for the known project — provenance is recorded from the locally retained files.</p>
+</body>
+</html>

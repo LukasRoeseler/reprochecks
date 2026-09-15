@@ -123,6 +123,21 @@ fig.suptitle("For how many did the check work, and how many had issues or big pr
 fig.tight_layout(rect=[0,0,1,0.95])
 fig.savefig(os.path.join(OUT,"fig4_outcomes.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
+# ---------------------------------------------------------------- Figure 5: histograms of number of claims
+fig, axes = plt.subplots(1,2, figsize=(12.5,5))
+panels = [
+    (axes[0], [s["claims"] for s in mp_aud], "Meta-Psychology", MP_C, list(range(14, 67, 6))),
+    (axes[1], [s["claims"] for s in nhb_ft], "Nature Human Behavior", NHB_C, list(range(0, 19))),
+]
+for ax, vals, name, color, bins in panels:
+    ax.hist(vals, bins=bins, color=color, edgecolor="white", alpha=0.9)
+    ax.set_title(f"{name} (n={len(vals)})", fontsize=13, fontweight="bold")
+    ax.set_xlabel("Number of claims audited per article"); ax.set_ylabel("Number of studies")
+    ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
+fig.suptitle("Distribution of the number of claims audited per article", fontsize=14, fontweight="bold")
+fig.tight_layout(rect=[0,0,1,0.95])
+fig.savefig(os.path.join(OUT,"fig5_claims_hist.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
+
 json.dump(dict(mp_total=MP_TOTAL,mp_emp=MP_EMP,mp_aud=MP_AUD,
                mp_ok=mp_ok,mp_par=mp_par,mp_bad=mp_bad,mp_tech=mp_tech,mp_na=mp_na,
                nhb_total=NHB_TOTAL,nhb_emp=NHB_EMP,nhb_aud=NHB_AUD,nhb_meta=NHB_EMP-NHB_AUD,

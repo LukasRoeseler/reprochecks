@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Williams & Bürkner (2020) MP.2018.872</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Coding Errors Lead to Unsupported Conclusions: A critique of Hofmann et al. (2015)</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>MP.2018.872</code> — Williams &amp; Bürkner, <em>Meta-Psychology</em> Vol 4 (2020); DOI <code>10.15626/2018.872</code>; OSF paper project <code>J2QGS</code>, analysis project <code>kd3en</code>
+<strong>Article type:</strong> <strong>Commentary</strong> (open-data / open-materials / open-analysis; preregistration N/A). Its "empiricism" is an <strong>original re-analysis meta-analysis</strong> of the (since-retracted) Hofmann et al. (2015) on intranasal oxytocin and psychiatric symptoms — 16 outcomes, two effect-size metrics (SMD, Hedges' g; SMCR). It <em>does</em> produce new, fully checkable numerical output (overall estimates, Table 1, trim-and-fill, symptom-restricted subsets); the audit therefore checked every such number.
+<strong>Mode:</strong> <strong>live execution of the author's R analysis</strong> (R 4.6.1 + metafor 5.0.1) on the author's OSF data + <strong>independent Python 3.8 reimplementation</strong> (from-scratch REML random-effects and mixed-effects meta-regression; independent Hedges' g recompute).
+<strong>Originals:</strong> untouched. Reference/downloaded author materials in <code>extracted/</code>, all work on copies in <code>exec_check/</code>.</p>
+<blockquote>
+<p><strong>Re-audit scope note:</strong> this is a <strong>RE-AUDIT</strong>. The prior (older-model) audit concluded, inter alia, that OSF project J2QGS was <em>"empty (0 files)"</em> and that the "Open data / Open reproducible analysis" badges were <em>not substantiated</em>. <strong>Both of those findings are RETRACTED here.</strong> Live inspection of the OSF API shows <code>J2QGS/Submission</code> is populated with the author data <code>dat.csv</code>, the analysis R script and the manuscript; the data is byte-identical (MD5 <code>765E634C…F3EF3F</code>) to the copy in <code>kd3en</code> that actually reproduces the paper. The headline scientific results were not re-verified by the old audit at all.</p>
+</blockquote>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>2</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>1</td></tr>
+<tr><td>P3 — low</td><td>1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This Commentary is analytically sound and its core scientific claims are fully reproducible.</strong> Running the paper-cited OSF analysis (<code>osf.io/kd3en</code>) on R 4.6.1 + metafor 5.0.1 reproduces <em>every</em> numerical result of the paper to the printed precision: the null overall effects (SMD = 0.22, z = 1.67, p = 0.095, CI [−0.04, 0.47]; SMCR = 0.17, z = 1.23, p = 0.217, CI [−0.10, 0.43]), the trim-and-fill corrected SMD (0.07, CI [−0.18, 0.32]), the between-study variance results (τ²<sub>SMCR</sub> = 0.15, p = 0.003; τ²<sub>SMD</sub> = 0.09, p = 0.115), all ten Table 1 symptom rows and both τ² rows, the "6 of 16 outcomes should have been negative" count (for the headline SMCR metric), and the loss of significance when psychotic symptoms are restricted to total PANSS outcomes. An independent from-scratch Python REML reimplementation confirms the same estimates to 3–4 decimals. The only genuine reproducible-research defect (<strong>ADV-001</strong>, P2) is that the <em>duplicate</em> analysis script stored in the paper's own DOI project (<code>J2QGS/Submission/872-DataAnalysis.R</code>) uses version-fragile hard-coded column indices and, run as shipped under metafor 5.0.1, drops the Averbeck study (k = 15) and no longer returns the published numbers — read the published numbers <em>are</em> recoverable via the paper-cited <code>kd3en</code> copy, so the science is not in doubt; this is a reproducibility-pathway defect. A second, hygiene-grade finding (ADV-002, P3) concerns the divergent duplicate scripts and absence of a pinned metafor version.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (live execution of author code + second-language cross-check)</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). The author's own script was run end-to-end verbatim (and again instrumented for CSV capture); the meta-analysis is deterministic (REML, no RNG) so no seed is required and the run is byte-stable.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/01_run_authors_analysis.R</code></td><td>Author <code>hofmann_analysis.R</code> end-to-end (escalc → rma REML → trim&amp;fill → moderator → psycho_tot) + structured CSV capture</td><td>Overall SMD/SMCR (C1–C5), Table 1 (C6–C12), psycho_tot (C13), direction counts (C14)</td><td>OK</td></tr>
+<tr><td><code>exec_check/python/02_reimlement_meta_checking.py</code></td><td>From-scratch REML random-effects + mixed-effects meta-regression (no metafor); independent Hedges' g from raw means/SDs</td><td>Same claims, second language (§5 cross-check)</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/psycho_tot.R</code></td><td>psycho_tot subset (<code>rma()</code> on <code>psycho_tot==1</code>)</td><td>C13</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/j2qgs_variant_check.R</code></td><td>The <em>different</em> J2QGS/Submission script verbatim (Averbeck cols 20/26/21/27)</td><td>Provenance consistency (ADV-001)</td><td>OK (demonstrates divergence, k=15)</td></tr>
+</tbody>
+</table>
+<p>Full claim inventory (24 claims, C1–C24): <code>exec_check/manuscript_claims.md</code> (= <code>extracted/manuscript_claims.md</code>).</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close, methodologically explicable · ⚠ discrepant · ➖ not independently checkable.</p>
+<h3>Overall meta-analysis (author data + code, R 4.6.1/metafor 5.0.1, cross-checked in Python)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R / Python)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Overall SMD (Hedges' g) — primary null result</td><td>0.22, z=1.67, p=0.0953, CI[−0.04,0.47]</td><td>0.2162/1.6682/0.0953/[−0.038,0.470] ; Python 0.2162/1.6682</td><td>✅</td></tr>
+<tr><td>Overall SMCR — primary null result</td><td>0.17, z=1.23, p=0.217, CI[−0.10,0.43]</td><td>0.1671/1.2346/0.2170/[−0.098,0.432] ; Python 0.1672/1.2348</td><td>✅</td></tr>
+<tr><td>Trim &amp; fill — corrected SMD</td><td>0.07, CI[−0.18,0.32]</td><td>0.0672/[−0.184,0.319], k0=4</td><td>✅</td></tr>
+<tr><td>τ² SMCR (heterogeneity)</td><td>0.15, p=0.003</td><td>0.1523, Q p=0.0038</td><td>✅</td></tr>
+<tr><td>τ² SMD (heterogeneity)</td><td>0.09, p=0.1149</td><td>0.0886, p=0.1149</td><td>✅</td></tr>
+<tr><td>"6 of 16 outcomes should have been negative"</td><td>6</td><td>SMCR: 6 / 16 negative (SMD: 4 / 16)</td><td>✅ (reporting nuance: count matches the headline SMCR metric)</td></tr>
+</tbody>
+</table>
+<h3>Table 1 — meta-analytic estimates for specific symptoms (SMCR then SMD)</h3>
+<table>
+<thead><tr><th>Disorder</th><th>Manuscript (ES, SE, z, p, CI)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>SMCR Anxiety</td><td>0.09, 0.17, 0.5147, 0.6067, [−0.24,0.41]</td><td>0.0861, 0.1673, 0.5147, 0.6067, [−0.242,0.414]</td><td>✅</td></tr>
+<tr><td>SMCR Depression</td><td>0.29, 0.27, 1.0843, 0.2782, [−0.23,0.81]</td><td>0.2902, 0.2677, 1.0843, 0.2782, [−0.234,0.815]</td><td>✅</td></tr>
+<tr><td>SMCR Psychopathology</td><td>0.10, 0.18, 0.5664, 0.5711, [−0.25,0.46]</td><td>0.1033, 0.1824, 0.5664, 0.5711, [−0.254,0.461]</td><td>✅</td></tr>
+<tr><td>SMCR Psychotic</td><td>0.31, 0.18, 1.6814, 0.0927, [−0.05,0.66]</td><td>0.3069, 0.1825, 1.6814, 0.0927, [−0.051,0.665]</td><td>✅</td></tr>
+<tr><td>SMCR Repetitive</td><td>−0.06, 0.21, −0.2889, 0.7726, [−0.46,0.35]</td><td>−0.0597, 0.2066, −0.2889, 0.7726, [−0.465,0.345]</td><td>✅</td></tr>
+<tr><td>SMCR τ²</td><td>0.09, 0.06, 0.0140, [0.01,0.29]</td><td>0.092, 0.062, 0.0140, [0.006,0.287]</td><td>✅</td></tr>
+<tr><td>SMD Anxiety</td><td>0.08, 0.18, 0.4695, 0.6387, [−0.26,0.43]</td><td>0.0823, 0.1753, 0.4695, 0.6387, [−0.261,0.426]</td><td>✅</td></tr>
+<tr><td>SMD Depression</td><td>0.28, 0.27, 1.0300, 0.3030, [−0.25,0.81]</td><td>0.2773, 0.2693, 1.0300, 0.3030, [−0.250,0.805]</td><td>✅</td></tr>
+<tr><td>SMD Psychopathology</td><td>0.14, 0.19, 0.7301, 0.4653, [−0.24,0.52]</td><td>0.1417, 0.1941, 0.7301, 0.4653, [−0.239,0.522]</td><td>✅</td></tr>
+<tr><td><strong>SMD Psychotic (significant)</strong></td><td><strong>0.41, 0.19, 2.1278, 0.0334, [0.03,0.80]</strong></td><td>0.4138, 0.1945, 2.1278, 0.0334, [0.033,0.795]</td><td>✅</td></tr>
+<tr><td>SMD Repetitive</td><td>0.15, 0.22, 0.6876, 0.4917, [−0.28,0.58]</td><td>0.1493, 0.2172, 0.6876, 0.4917, [−0.276,0.575]</td><td>✅</td></tr>
+<tr><td>SMD τ²</td><td>0.069, 0.069, 0.0561, [0.00,0.40]</td><td>0.069, 0.069, 0.0561, [0.000,0.401]</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Symptom-restricted analyses and effect-size method</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Restrict to total psychotic outcomes → significance lost</td><td>"resulted in a loss of statistical significance"</td><td>SMCR subset p=0.3001; SMD subset p=0.2742 (both non-significant vs SMD psychotic 0.0334 in full model)</td><td>✅</td></tr>
+<tr><td>Effect-size method: SMD from post scores; SMCR raw-score standardized change (r=0.7)</td><td>Methods / code</td><td>Independent Python Hedges' g recomputed from raw post means/SDs matches all 29 per-study g values</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Documentary claims forwarded about the retracted Hofmann et al. (2015)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Lee et al. (2013) reported placebo-improved but Hofmann Table 1 showed Hedges' g=1.07</td><td>➖ (retracted source, "1.07" not checkable); direction consistent — author's recoded Lee effect is negative (SMD −0.558)</td></tr>
+<tr><td>Anagnostou et al. three outcomes d=0.13, −0.22, 0.64</td><td>➖ (forwarded from retracted Table 1)</td></tr>
+<tr><td>Included vs excluded outcomes avg d=0.83 vs 0.49 (from Hofmann Table 1)</td><td>➖ (forwarded from retracted source)</td></tr>
+<tr><td>PANSS/BPRS misclassification (C20)</td><td>≈ consistent with the author's dat.csv coding (PANSS-total rows coded "psychotic", BPRS rows coded "psychopathology")</td></tr>
+</tbody>
+</table>
+<h3>Open-science / provenance claims</h3>
+<table>
+<thead><tr><th>Claim</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>"Open data: Yes"</td><td>✅ substantiated — dat.csv on OSF (kd3en and J2QGS/Submission, byte-identical MD5)</td></tr>
+<tr><td>"Open materials: Yes"</td><td>✅ — R scripts + manuscript on OSF</td></tr>
+<tr><td>"Open and reproducible analysis: Yes"</td><td>✅ via paper-cited kd3en copy; ⚠ J2QGS/Submission duplicate does not reproduce under metafor 5.0.1 (ADV-001)</td></tr>
+<tr><td>"Analysis reproduced by: André Kalmendal" (editorial attestation)</td><td>➖ (editorial process record, not independently re-checkable here)</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors / journal)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — The J2QGS/Submission copy of the analysis script no longer reproduces the published results under metafor 5.0.1.</strong>
+The analysis script shipped inside the paper's own OSF DOI project (<code>J2QGS/Submission/872-DataAnalysis.R</code>) uses hard-coded column indices to enter the Averbeck (2012) effect size that differ from the paper-cited copy (<code>osf.io/kd3en</code>) — <code>adata[1,20 / 26 / 21 / 27]</code> vs <code>adata[1,19 / 25 / 20 / 26]</code>. Run verbatim on R 4.6.1 + metafor 5.0.1, the J2QGS variant leaves <code>SMD_post=NA</code> and <code>SMCR=NA</code> for Averbeck and overwrites <code>vSMD_post</code>/<code>vSMCR</code> with −0.51; metafor silently drops that study (k=15) and the estimates drift: <strong>overall SMD 0.1986 (z=1.4586, p=0.1447, CI[−0.068,0.465])</strong> vs reported 0.22/1.67/0.0953; <strong>overall SMCR 0.1479 (z=1.0451, p=0.2960)</strong> vs reported 0.17/1.23/0.217. The paper-cited <code>kd3en</code> copy reproduces every number exactly (k=16), so the published science is intact and this does not change any conclusion. Root cause: hard-coded column indices are sensitive to <code>metafor::escalc()</code>'s output column layout, which is version-dependent.
+<em>Fix:</em> replace the hard-coded indices with named-column assignments (<code>adata$SMD_post[1] &lt;- -0.51; adata$vSMCR[1] &lt;- 0.19</code>), make both OSF copies byte-identical, and pin the metafor version.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — Divergent duplicate analysis copies + no pinned metafor version (hygiene).</strong>
+The same analysis exists as two non-identical scripts across two OSF projects with different hard-coded indices, and neither records a lockfile/<code>sessionInfo()</code> (exactly what enabled ADV-001). The Averbeck effect is also not present in <code>dat.csv</code> (computed externally from a t-statistic and hand-entered) — this is disclosed in the script comments and the manuscript Figure caption, so it is transparent, but it is the one reproducible seam worth making explicit.
+<em>Fix:</em> single canonical script + data in one OSF project; add <code>renv.lock</code>/<code>sessionInfo()</code>; sync the J2QGS/Submission copy.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li>The five documentary claims about the <strong>retracted</strong> Hofmann et al. (2015) (C16–C20: the "1.07" Hedges' g for Lee, the Anagnostou d-values 0.13/0.22/0.64, the included-vs-excluded 0.83/0.49 averages) cannot be checked against the retracted source and are marked ➖. The audit verifies the <em>authors' own</em> analysis, not every fact asserted about the retracted paper.</li>
+<li>The Averbeck (2012) effect size (−0.51, v=0.19) was entered by hand from an external t-statistic; its correct entry is confirmed to reproduce the paper, but its <em>derivation from the primary study</em> was not independently re-run here (no Averbeck group means/SDs were shipped).</li>
+<li>The editorial attestation "Analysis reproduced by André Kalmendal" is taken as administrative fact; it was not independently re-verified.</li>
+<li>This run used metafor 5.0.1; the manuscript predates it. That the paper-cited code reproduces exactly on a modern metafor is a positive provenance signal. The J2QGS/Submission divergence (ADV-001) is a version-fragility defect whose magnitude may differ under the authors' original metafor.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/</code></td><td>Downloaded originals: <code>dat.csv</code>, <code>hofmann_analysis.R</code>, <code>script_plots.R</code> (from kd3en); <code>J2QGS_Submission/</code> (author dat.csv, 872-DataAnalysis.R, 872-Manuscript.docx); <code>manuscript_claims.md</code> (re-audit inventory)</td></tr>
+<tr><td><code>exec_check/R/01_run_authors_analysis.R</code></td><td>Instrumented author pipeline → <code>output/table1_repro.csv</code>, <code>overall_repro.csv</code>, <code>trimfill_repro.csv</code>, <code>psycho_tot_repro.csv</code>, <code>derived_effect_sizes.csv</code></td></tr>
+<tr><td><code>exec_check/R/psycho_tot.R</code> · <code>exec_check/R/j2qgs_variant_check.R</code></td><td>psycho_tot subset; J2QGS duplicate-script divergence test</td></tr>
+<tr><td><code>exec_check/python/02_reimlement_meta_checking.py</code></td><td>Independent from-scratch REML + Hedges' g cross-check</td></tr>
+<tr><td><code>exec_check/output/</code></td><td>CSVs + logs (<code>run_authors_analysis.log</code>, <code>python_reimpl.log</code>, <code>j2qgs_variant.log</code>)</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Provenance + environment + seed note with START/END markers</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>24 numbered claims (C1–C24), each checked</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline / environment / reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001 (P2), ADV-002 (P3) with evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps</td></tr>
+</tbody>
+</table>
+</body>
+</html>

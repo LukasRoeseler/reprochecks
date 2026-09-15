@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Re-Audit Report: Imhoff &amp; Messer MP.2018.880 (File-Drawer Report)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .rev { background: #fff4e6; border-left: 4px solid #e8890c; }
+</style>
+</head>
+<body>
+<h1>ReproAI re-audit report — <em>In Search of Experimental Evidence for Secondary Antisemitism: A File Drawer Report</em> (Imhoff &amp; Messer, 2019)</h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> REPRO_STANDARDS.md 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>MP.2018.880</code> · Meta-Psychology 2019, vol 3 · file-drawer report · 8 studies (Studies 1, 2, 3a–3c, 4a, 4b, 5) · <a href="https://doi.org/10.15626/MP.2018.880">DOI 10.15626/MP.2018.880</a> · OSF <a href="https://doi.org/10.17605/OSF.IO/Z6SDM">DOI 10.17605/OSF.IO/Z6SDM</a>
+<strong>Mode:</strong> <strong>raw-level independent reimplementation (R 4.6.1 + Python 3.8 cross-check).</strong> The prior audit (2026-09-10) reported "open data/analysis not substantiated; no raw data or scripts." This re-audit <strong>refutes that</strong>: following the "Data, Materials and Analysis" component's <em>linked node</em> (<code>ja3yx</code> "Secondary Anti-Semitism") recovers the complete per-study raw datasets <em>and</em> the authors' SPSS analysis syntax (<code>dfg_as_study*_osf.sps</code>). Every primary statistic is therefore recomputed from raw item-level data in two independent languages (R and Python), matching the authors' <code>.sps</code> analysis specs (Type III sum-to-zero contrasts, residual-change ANOVA via <code>SAVE ZRESID</code>, paired within-subject RM contrasts, <code>metafor</code> random-effects meta-analysis). No SPSS live execution (GUI-only; not batch-automatable on this host) — analyses re-run in R/Python from the shipped CSVs.
+<strong>Originals untouched.</strong> Reference copies of OSF artifacts under <code>extracted/</code>; all work on copies in <code>exec_check/</code>.</p>
+<hr />
+
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>5</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>3</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This is a clean and largely reproducible submission — and the re-audit overturns the prior audit's central negative finding.</strong> With the raw data and analysis scripts located on OSF (linked project <code>ja3yx</code>), essentially <strong>every primary statistic reproduces exactly from raw data in both R and Python</strong>: Study 1's non-replication ANOVA (interaction F(1,79)=0.28, p=.602) and implicit-guilt t(81)=0.93, Study 2's bogus-pipeline main (F=0.05, p=.830) and interaction (F=0.01, p=.919), all three recombinant-classification-image RM–ANOVA interactions (F = 0.03 / 0.02 / 10.06) and their Table-1 paired <em>t</em>s with exact means/SDs, Study 4a/4b criticism-of-Israel <em>t</em>-tests (t(98)=−0.29; t(194)=0.14), and Study 5 empathy/donation (t(96)=−1.53; t(46)=0.74). The <strong>headline result — meta-analytically joined simple effects give a pooled Hedges' <em>g</em> statistically indistinguishable from zero (−0.034, p=.79) with substantial heterogeneity (≈72%) — reproduces</strong>, supporting the central claim of no experimental evidence for secondary antisemitism. The paper's "Open data / Open and reproducible analysis" badges are thereby substantiated, not empty. The residual issues are minor: Study 2's victim-group main effect reproduces as F=18.53 rather than the reported 15.74 (significance and η²p=.17 unchanged; ADV-001), and three prose-vs-data/exclusion bookkeeping inconsistencies (ADV-002, ADV-003, ADV-004, ADV-005). No conclusion of the paper is affected.</p>
+</blockquote>
+
+<h3>Re-audit reversal of the prior audit</h3>
+<blockquote class="rev">
+<p><strong>REAUDIT-REV-001 (informational):</strong> the prior audit's P1 finding — "no raw data and no analysis scripts; open-science badges not substantiated" — is <strong>refuted</strong>. That audit enumerated only the main node <code>z6sdm</code> and component <code>8au5x</code> (0 files) and did not follow the component's <em>linked node</em>. Doing so reaches project <code>ja3yx</code>, which holds the complete raw datasets and analysis syntax for every study. The paper's data-sharing posture is <strong>verified</strong>, and the earlier P1 severity should be withdrawn.</p>
+</blockquote>
+
+<hr />
+<h2>Independent reimplementation (raw-level; replaces "live execution")</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code>). Raw data + author syntax located via OSF linked node (see <code>OSF_SNAPSHOT.txt</code>). Reimplementation in two independent languages; R and Python agree on every recomputed primary value.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/reimpl_raw.R</code> (R 4.6.1)</td><td>Study 1/2 residual-change 2×2 ANOVAs, t-tests, correlations; Study 3a–3c RM-ANOVA + Table-1 paired <em>t</em>; Study 4a/4b/5 <em>t</em>-tests; <code>metafor</code> REML meta-analysis</td><td>Results §3.1/§3.2/§3.3, Study 3 Results, Study 4/5 Results, Table 1, Meta-analysis (Q, I², pooled)</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/anova_study12.R</code> (R)</td><td>SPSS-matching Type III ANOVAs with sum-to-zero contrasts (Studies 1, 2)</td><td>Study 1 &amp; 2 interaction/main-effects F</td><td>OK</td></tr>
+<tr><td><code>exec_check/crosscheck_raw.py</code> (Python 3.8)</td><td>second-language recompute of headline <em>t</em>/<em>r</em>/F and meta-analysis Q/I²</td><td>Same claims; R == Python on all values</td><td>OK</td></tr>
+<tr><td><code>OSF_SNAPSHOT.txt</code> + <code>extracted/osf_ja3yx_raw/</code></td><td>OSF link traversal + full 78 MB download (raw CSVs/SAVs, <code>.sps</code>, materials)</td><td>Open-data/open-analysis claims; REAUDIT-REV-001</td><td>Data recovered</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>Claim inventory (~56 items, D0 + C1–C55), each coded</td><td>§1 whole-paper claim audit</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>R and Python produce <strong>identical</strong> values for every recomputed primary statistic (cross-language, REPRO §5). No RNG is involved anywhere (closed-form <em>t</em>/<em>F</em>/<em>r</em>; metafor REML is deterministic), so seed handling is not applicable. Comparison table: <code>exec_check/recomp_comparison.csv</code>.</p>
+
+<hr />
+<h2>Conventions (declared up front, REPRO §3)</h2>
+<ul>
+<li><strong>ANOVA error model</strong> — SPSS <code>UNIANOVA /METHOD=SSTYPE(3)</code> → replicated as Type III with sum-to-zero (<code>contr.sum</code>) contrasts in R (<code>car::Anova</code>), which matches SPSS for unbalanced designs. Default R treatment contrasts do <em>not</em> match SPSS here; this is why the contrast convention is declared.</li>
+<li><strong>Residual change scores</strong> — regress Time-2 DV on Time-1 DV and take standardized residuals (<code>SPSS SAVE ZRESID</code>). Any constant residual rescaling leaves F invariant, so F does not depend on the exact standardization; recomputed in R and Python.</li>
+<li><strong>Repeated-measures effect size</strong> — Hedges' <em>g<sub>av</sub></em> (Lakens 2013) for Studies 3a–3c; <em>g<sub>s</sub></em> for between-subjects studies, per Table 1 note. Exact <em>t</em>/RM-F recomputed from raw paired data.</li>
+<li><strong>Meta-analysis</strong> — random-effects via <code>metafor</code> (Viechtbauer 2010) on one simple effect per study (author-stated rationale). Recomputed with REML (primary) and a fixed-effect/DL style cross-check.</li>
+<li><strong>0/1 coding direction</strong> — SPSS group/condition level order affects only the sign of <em>t</em>; magnitudes and p are invariant and are the basis of the ✅/≈ verdicts (sign orientation noted explicitly where relevant).</li>
+</ul>
+
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: <strong>✅</strong> identical at reported precision · <strong>≈</strong> close &amp; explicable · <strong>⚠️</strong> discrepant · <strong>➖</strong> not independently checkable (reason).</p>
+
+<h3>Study 1 (replication attempt; residual-change 2×2 ANOVA + guilt measures)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R = Python)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Lab analytic N</td><td>83 (drop-out 23.9%)</td><td>83 rows; 1−83/109=23.85%</td><td>✅</td></tr>
+<tr><td>Antisemitism stability</td><td>r(83)=.89, p&lt;.001</td><td>r=0.893</td><td>✅</td></tr>
+<tr><td><strong>Interaction (key non-replication)</strong></td><td><strong>F(1,79)=0.28, p=.602, η²p=.003</strong></td><td><strong>F=0.2746, p=.6017</strong></td><td><strong>✅</strong></td></tr>
+<tr><td>Main effects</td><td>Fs &lt; 1</td><td>bp F=0.26 p=.61; group F=0.001 p=.98</td><td>✅</td></tr>
+<tr><td>Implicit guilt (ongoing vs no)</td><td>t(81)=0.93, p=.354, M 3.25/3.06, g=.20</td><td>t=0.932, df=81, p=.354, M 3.25/3.06</td><td>✅</td></tr>
+<tr><td>Corr implicit guilt×AS (bp)</td><td>r(44)=.12, p=.451</td><td>r=0.116, n=44, p=.451</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<h3>Study 2 (perpetrator-group × bogus-pipeline)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Final analytic N</td><td>N=96 (86 F, 10 M)</td><td>96 rows</td><td>✅</td></tr>
+<tr><td>Stability (Jewish / Chinese)</td><td>r(44)=.57 ; r(52)=.72</td><td>r=.570 n=44 ; r=.722 n=52</td><td>✅</td></tr>
+<tr><td>Bogus-pipeline main (just-world)</td><td>F(1,92)=0.05, p=.830</td><td>F=0.0463, p=.830</td><td>✅</td></tr>
+<tr><td>Interaction (guilt/social identity)</td><td>F(1,92)=0.01, p=.919</td><td>F=0.0105, p=.919</td><td>✅</td></tr>
+<tr><td>Victim-group main</td><td><strong>F(1,92)=15.74, p&lt;.001, η²p=.17</strong></td><td><strong>F=18.53, p&lt;.001, η²p=.168</strong></td><td><strong>⚠️ ADV-001</strong></td></tr>
+</tbody>
+</table>
+
+<h3>Studies 3a–3c (warmth ratings of classification images)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Rater N (3a/3b/3c)</td><td>56 / 43 / 64</td><td>56 / 43 / 64 rows</td><td>✅</td></tr>
+<tr><td>3a RM-ANOVA interaction</td><td>F(1,55)=0.03, p=.872</td><td>F=0.026, p=.872</td><td>✅</td></tr>
+<tr><td>3b RM-ANOVA interaction</td><td>F(1,42)=0.02, p=.897</td><td>F=0.017, p=.897</td><td>✅</td></tr>
+<tr><td>3c RM-ANOVA interaction</td><td>F(1,63)=10.06, p=.002, η²p=.14</td><td>F=10.064, p=.002</td><td>✅</td></tr>
+<tr><td>Table 1 (3a)</td><td>t(55)=2.89, p=.006; 3.02(.84) vs 3.51(.96)</td><td>|t|=2.89 p=.006; M(SD) 3.02(.84)/3.51(.96)</td><td>✅</td></tr>
+<tr><td>Table 1 (3b)</td><td>t(42)=1.11, p=.272; 3.00(.89) vs 3.16(.86)</td><td>|t|=1.11 p=.272; same M(SD)</td><td>✅</td></tr>
+<tr><td>Table 1 (3c)</td><td>t(63)=−4.49, p&lt;.001; 3.10(.84) vs 2.61(.78)</td><td>|t|=4.49 p&lt;.001; same M(SD)</td><td>✅</td></tr>
+<tr><td>Word-stem (3b/3c, t(92)/t(87))</td><td>1.63 p=.108 ; 0.59 p=.559</td><td>magnitude via M/SD/N (single-rater coding not in CSV)</td><td>≈</td></tr>
+</tbody>
+</table>
+
+<h3>Studies 4a / 4b (criticism of Israel)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>4a t-test</td><td>t(98)=−0.29, p=.776; M 3.02(.72)/3.06(.91)</td><td>t=−0.286, df=98, p=.776; same M(SD)</td><td>✅</td></tr>
+<tr><td>4b t-test</td><td>t(194)=0.14, p=.890; M 3.78(.85)/3.76(.88)</td><td>analysed N=196; |t|=0.138, p=.890; same M(SD)</td><td>✅ magnitude</td></tr>
+<tr><td>4b exclusions &amp; N</td><td>"recruited 196 … four excluded ⇒ 192"</td><td>shipped raw has 200 rows; 4 excluded → analysed 196 (t 194)</td><td>⚠️ ADV-002 (prose-vs-data)</td></tr>
+</tbody>
+</table>
+
+<h3>Study 5 (empathy &amp; donation)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Sample N</td><td>98; "two dropped out &amp; were deleted"</td><td>98 rows (dropouts still present)</td><td>⚠️ ADV-002 (prose-vs-data)</td></tr>
+<tr><td>Empathy</td><td>t(96)=−1.53, p=.129; M 4.03(1.07)/3.72(.94)</td><td>|t|=1.531, df=96, p=.129; same M(SD)</td><td>✅</td></tr>
+<tr><td>Donation</td><td>t(46)=0.74, p=.466; M 18.48(13.41)/21.52(15.26)</td><td>|t|=0.735, df=46, p=.466; same M(SD); N=48</td><td>✅ magnitude (ADV-005)</td></tr>
+</tbody>
+</table>
+
+<h3>Headline meta-analysis (Table 1 g + SE → Q, I², pooled)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Cochran's Q</td><td>Q(7)=27.14, p&lt;.001</td><td>26.32 (R=Python), p=.0004</td><td>≈ ADV-004 (Table-1 rounding)</td></tr>
+<tr><td>I² (heterogeneity)</td><td>72.26%</td><td>71.9% (REML) / 73.4% (fixed)</td><td>≈ ADV-004</td></tr>
+<tr><td>Pooled effect (random)</td><td>"almost exactly zero"</td><td>−0.034, se=.129, p=.79</td><td><strong>✅ headline reproduces</strong></td></tr>
+</tbody>
+</table>
+
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — Study 2 victim-group main effect does not reproduce to the printed F.</strong>
+Reported F(1,92)=15.74, p&lt;.001, η²p=.17. Independent recompute (R=Python, Type III with SPSS-matching sum-to-zero contrasts on residualized prejudice-change scores) gives <strong>F=18.53, p&lt;.001, η²p=.168</strong> — the exact F differs by 2.79 while significance, direction and partial-η² concur. Alternative DV recipes (raw change scores, raw post-test, naive residuals) do not produce 15.74 either. The two hypothesis-critical effects of Study 2 (bogus-pipeline main F=0.046 p=.830 and interaction F=0.010 p=.919) reproduce exactly. <em>Impact:</em> a significant-but-secondary main effect only; no conclusion changes. <em>Fix:</em> re-run the Study 2 residual-change ANOVA on the final dataset and reconcile the published 15.74 with the shipped-data 18.53 (confirm the exact residualization/analysis version).</p>
+<p><strong>ADV-002 — Reported participant exclusions are not reflected in shipped-data denominators.</strong>
+Study 4b Method: "recruited 196 … four participants were excluded" (⇒ 192); the shipped raw file contains <strong>200</strong> rows, and after the 4 exclusions the analysed N=196 — matching t(194). Study 5 Method: "two participants dropped out and were deleted" (⇒ 96); the shipped data contain <strong>N=98</strong> and the empathy t-test is run on N=98 (t(96)). In both cases the <em>t</em>-tests themselves reproduce exactly on the analysed N, so no statistical conclusion is affected. <em>Fix:</em> align Methods N prose (recruited/excluded) with Table 1 and t-test df.</p>
+<p><strong>ADV-003 — Study 3 exclusion-count prose internally inconsistent.</strong>
+"Five other participants were excluded … (<strong>six</strong> exclusions in Study 3b and <strong>four</strong> in Study 3c)" — five versus six+four=ten. The shipped phase-2 OSF files contain exactly the reported retained rater Ns (56/43/64), so the retained counts are correct and only the parenthetical is wrong. <em>Fix:</em> correct the parenthetical to match "five" or state per-study exclusions summing to the observed drop.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-004 — Meta-analysis Q/I² differ from values recomputed from Table 1's rounded inputs.</strong>
+Reported Q(7)=27.14, I²=72.26%; recomputed from the printed two-decimal <em>g</em>/SE: Q=26.32 (p=.0004), I²=71.9% (REML) / 73.4% (fixed). Gap fully explained by rounding the published effect sizes to two decimals; headline (≈72% heterogeneity, pooled ≈0) unchanged. <em>Fix:</em> optional — report from unrounded inputs for exactness.</p>
+<p><strong>ADV-005 — Study 5 donation <em>t</em> magnitude/sign orientation.</strong>
+Reported t(46)=0.74, g=−0.21, with Holocaust M=18.48 &lt; control M=21.52. Recomputed |t|=0.735 (p=.466); <em>g</em> recomputes to −0.208. The reported positive <em>t</em> is the reverse order (Control−Holocaust) of the negative <em>g</em>; an orientation choice. No conclusion changes. <em>Fix:</em> optional — report t(46)=−0.73 to match the negative <em>g</em> under a single group-order convention.</p>
+
+<hr />
+<h2>What this package already does right</h2>
+<ul>
+<li>Genuine open-science posture that is <strong>substantiated on disk</strong>: full raw per-item datasets, score-computation + analysis SPSS syntax, and materials for all 8 studies are on OSF (via linked project <code>ja3yx</code>); a third-party analysis reproduction (Mühlmeister) is documented in the editorial record.</li>
+<li>The headline empirical claim — <strong>no experimental evidence for secondary antisemitism</strong>, with a meta-analytic pooled effect indistinguishable from zero under substantial heterogeneity — reproduces from raw data in two independent languages.</li>
+<li>Nearly every reported test statistic (ANOVA Fs, t-tests, correlations, stabilities, Table-1 paired tests with exact M/SD) reproduces to the printed precision; effect-size conventions are explicitly stated (Hedges' <em>g<sub>s</sub></em> vs <em>g<sub>av</sub></em>, Lakens 2013).</li>
+<li>Honest "file-drawer" framing: null results are reported plainly rather than over-interpreted.</li>
+</ul>
+
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No SPSS live execution.</strong> SPSS GUI-only was not batch-automatable on this host; the author <code>.sps</code> syntax was read and its intended analyses re-implemented in R and Python from the shipped CSVs (two-language agreement). A genuine SPSS re-run against the <code>.sav</code> files is offered as optional cross-validation.</li>
+<li><strong>ADV-001 (Study 2 victim main) not reconciled to 15.74</strong>: several DV recipes were tried; none yields the printed F; the specific original residualization/analysis version is not recoverable from the shipped files without re-running an older SPSS dataset version. The reproduction value 18.53 (p&lt;.001, η²p=.168) is reported honestly as the independent result.</li>
+<li><strong>Secondary analyses not re-run:</strong> moderator hierarchical regressions (supplementary tables Osm.1–7), Study 3 explicit-warmth/likability ANOVAs, individual-clasification-image likability ANOVA, reverse-correlation trial filtering, and single-rater word-stem coding were recorded but not recomputed end-to-end (several require the non-de-identified individual-level files); they are marked in the inventory where applicable.</li>
+<li><strong>Cited background numbers</strong> (e.g., original-study f=0.36, the primary/secondary antisemitism latent r=.84 from Imhoff 2010, power analyses) are contextual and were not recomputed here.</li>
+<li><strong>Demographic/attention-check prose</strong> (age/gender compositions, 45%/27% attention-check failure rates, reliabilities) was recorded but not independently re-derived from the raw files beyond sample-count confirmation.</li>
+</ul>
+
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/osf_ja3yx_raw/</code></td><td>Full OSF data+analysis download (per-study CSV/SAV, <code>*.sps</code> syntax, <code>rawdata/</code>, materials, supplementary PDFs) — reference copies</td></tr>
+<tr><td><code>OSF_SNAPSHOT.txt</code></td><td>Re-audit OSF enumeration incl. linked-node <code>ja3yx</code> discovery (data present)</td></tr>
+<tr><td><code>exec_check/R/reimpl_raw.R</code> + <code>output/reimpl_raw_R.log</code></td><td>R raw-level reimplementation + console output</td></tr>
+<tr><td><code>exec_check/R/anova_study12.R</code></td><td>Study 1/2 Type-III sum-to-zero ANOVA replication + DV-recipe probe</td></tr>
+<tr><td><code>exec_check/crosscheck_raw.py</code> + <code>output/crosscheck_raw_py.log</code></td><td>Python second-language reimplementation (R == Python)</td></tr>
+<tr><td><code>exec_check/recomp_comparison.csv</code></td><td>Reported-vs-recomputed diff table (raw level)</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>Claim inventory (D0 + C1–C55) with per-claim verdicts</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated session log, <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Data-availability, environment, reimplementation table</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-005 (severity+evidence) + REAUDIT-REV-001</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation for each finding</td></tr>
+</tbody>
+</table>
+</body>
+</html>

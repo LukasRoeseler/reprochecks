@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Lakens &amp; Delacre (2020) MP.2018.933 — Equivalence Testing and the Second Generation P-Value</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.5; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.55rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.25rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.05rem; margin-top: 1.4rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 1.6rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid #ccc; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .ok { color: #198754; font-weight: 700; }
+  .dis { color: #b02a37; font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Equivalence Testing and the Second Generation P-Value</em></h1>
+<p>
+<strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek&nbsp;V4&nbsp;Flash via uniGPT ·
+<strong>rules:</strong> 2026.06.27 (REPRO_STANDARDS.md) ·
+<strong>audit date:</strong> 2026-09-14
+</p>
+<p>
+<strong>Package audited:</strong> <code>Lakens_EquivalenceTesting_933</code> — Daniël Lakens (Eindhoven Univ. of Technology) &amp; Marie Delacre (Université Libre de Bruxelles). Meta-Psychology 2020, Vol 4, paper ID <code>MP.2018.933</code>; DOI <code>10.15626/MP.2018.933</code>. Badges: Open materials Yes · Open &amp; reproducible analysis Yes (analysis reproduced by André Kalmendal) · Open data N/A. Supplementary/OSF: <code>https://doi.org/10.17605/OSF.IO/ZP3KF</code>; code (Authors' Note): <code>https://github.com/Lakens/TOST_vs_SGPV</code> and <code>https://osf.io/8crkg/</code>; Shiny app: <code>http://shiny.ieis.tue.nl/TOST_vs_SGPV/</code>.
+</p>
+<p>
+<strong>Mode:</strong> <strong>independent reimplementation</strong> (re-audit). This is a methodological / simulation-theoretic paper with <strong>no empirical dataset</strong> (Open data: N/A): every numeric claim is a closed-form one-sample <em>t</em>-test or correlation interval computed from the specified parameters under a continuous bivariate normal assumption. All claims were recomputed <strong>from first principles</strong> in two independent languages — R 4.6.1 and Python 3.8.10 (numpy 1.24.4, scipy 1.10.1) — and additionally cross-checked against the <strong>author's own <code>p_delta()</code></strong> function (dependency-free), sourced from the article's GitHub repository. The author's full reproducible <code>manuscript.Rmd</code>, the Shiny app source, and all helper functions are available and were inspected. The live Shiny app (HTTP 200) and the OSF/GitHub provenance were checked on the audit date.
+</p>
+<p><strong>Originals:</strong> <code>paper.pdf</code> and <code>paper_extracted.txt</code> untouched. Reference copies in <code>extracted/</code> (author code re-downloaded on 2026-09-14); all work on copies in <code>exec_check/</code>.</p>
+<hr />
+
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>2</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>1</td></tr>
+<tr><td>P3 — low</td><td>1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This is a clean, fully reproducible methods paper.</strong> Every computable numeric claim reproduces, in both R and Python, and every recomputed value matches the author's own <code>p_delta()</code>. Figure&nbsp;1's full TOST-vs-SGPV relationship (means 140–150), the cited <em>t</em>-values (t(29)=5.48 at mean 145, t(29)=−8.22 at mean 140), the three TOST/SGPV correspondence points (p=0.025↔SGPV=1, p=0.5↔0.5, p=0.975↔SGPV=0), Figure&nbsp;4's SGPVs (0.76/0.81/0.86/0.91) and tail probabilities (0.16/0.12/0.08/0.05), the "small sample correction" behaviour (Figure&nbsp;6/7: SGPV=0.5 plateau, TOST p never &lt;0.05; Figure&nbsp;9/10: 1.79× ratio, SGPV=0.56 plateau), and the correlation CIs (r=0→[−0.63,0.63], r=0.7→[0.13,0.92], r=0.45→[0.11,0.70] with 58.11% overlap) all reproduce at the manuscript's reported precision. Two cited values inherited from Blume et&nbsp;al. (2018) — the n=4 extreme-case 97.60% CI overlap and the "36% of future correlations" — reproduce to 97.57% (recomputed) and 35.6% (200,000-simulation; ≈). The only findings are cosmetic: one prose typo in the third TOST/SGPV correspondence sentence (<strong>ADV-001</strong>, P2) and the two OSF links in the paper pointing to empty projects while all materials actually live on the cited GitHub repository (<strong>ADV-002</strong>, P3). Neither changes any statistic or conclusion.</p>
+</blockquote>
+<hr />
+
+<h2>Independent reimplementation</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). No RNG appears anywhere in the closed-form pipeline; the only seed-dependent step is the separate extreme-case sampling simulation (fixed seed 20260914, 200,000 draws), for which drift is quantified rather than hidden.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/reproai_reimpl.R</code></td><td>TOST p (one-sample, M<sub>p</sub>=max of the two one-sided <em>p</em>'s) + SGPV from the paper formula; sources the author's <code>p_delta()</code> for cross-check</td><td>Figure 1 (C2–C8); Figure 4 (C9–C10); correction Figures 6/7 &amp; 8/9/10 (C11–C12); correlation CIs + overlaps (C13–C17)</td><td>OK</td></tr>
+<tr><td><code>exec_check/reproai_crosscheck.py</code></td><td>Second-language recompute of all headline numbers + 200k-simulation of the cited "36%" sampling probability</td><td>Figures 1, 4, 11/12; C16 extreme case</td><td>OK</td></tr>
+<tr><td><code>extracted/author_code/functions__SGPV_function.R</code></td><td>Author's reference SGPV (sourced, run verbatim)</td><td>C1 formula identity + every SGPV</td><td>OK (50/50 agree)</td></tr>
+<tr><td>GitHub repo inspection</td><td>reproducible <code>manuscript.Rmd</code>, <code>functions/*.R</code>, Shiny app source, archive/</td><td>Badges / provenance (C21–C24)</td><td>OK — materials present</td></tr>
+<tr><td>OSF API / Shiny HTTP checks</td><td>link liveness (ZP3KF, 8crkg, shiny.ieis.tue.nl)</td><td>C22, C24</td><td>⚠ OSF empty; Shiny live</td></tr>
+</tbody>
+</table>
+<p>Full claims inventory (24 numbered claims, C1–C24): <code>exec_check/manuscript_claims.md</code>. Pipeline re-run end-to-end from a clean state; closed-form outputs are deterministic and byte-stable.</p>
+
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close / methodologically explicable · ⚠ discrepant · ➖ not independently checkable (with reason).</p>
+
+<h3>Figure 1 — TOST p &amp; SGPV across means 140–150 (n=30, sd=2, eq [143,147])</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R = Python)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>mean 140 / 150</td><td>TOST p=1, SGPV=0</td><td>p=1.0000, SGPV=0.0000</td><td class="ok">✅</td></tr>
+<tr><td>mean 143 / 147 (eq bounds)</td><td>TOST p=0.5, SGPV=0.5</td><td>p=0.5000, SGPV=0.5000 (&amp; 1−SGPV plotting)</td><td class="ok">✅</td></tr>
+<tr><td>mean 145 (test value)</td><td>t(29)=5.48, TOST p&lt;.001, SGPV=1</td><td>t=5.477, TOST p=3.4e-6, SGPV=1</td><td class="ok">✅</td></tr>
+<tr><td>mean 140</td><td>t(29)=−8.22, TOST p=1 (&gt;.999), SGPV=0</td><td>t=−8.216, TOST p=1, SGPV=0</td><td class="ok">✅</td></tr>
+<tr><td>full 140–150 sweep</td><td>Figure 1 curve</td><td>11/11 points identical (R), 11/11 (Python)</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+
+<h3>Three TOST/SGPV correspondence points</h3>
+<table>
+<thead><tr><th>Point (mean where 95% CI endpoint touches an eq bound)</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>A — mean on lower/upper bound (143 / 147)</td><td>TOST p=0.5, SGPV=0.5</td><td>p=0.5000, SGPV=0.5000</td><td class="ok">✅</td></tr>
+<tr><td>B — CI⊂eq, endpoint on bound (mean≈143.7468)</td><td>TOST p=0.025, SGPV=1</td><td>p=0.0250, SGPV=1.0000</td><td class="ok">✅</td></tr>
+<tr><td>C — CI outside eq, endpoint on bound (mean≈147.7468)</td><td>TOST p=0.975, SGPV=0</td><td>p=0.9750, SGPV=0.0000</td><td class="ok">✅ (but prose typo — ADV-001)</td></tr>
+</tbody>
+</table>
+
+<h3>Figure 4 — uniform overlap vs non-uniform <em>p</em> (sd=500, n=1e6, mu=144.5, eq=±2)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>SGPV A–D (means +1.5/1.4/1.3/1.2)</td><td>0.76, 0.81, 0.86, 0.91</td><td>0.755, 0.806, 0.857, 0.908</td><td class="ok">✅</td></tr>
+<tr><td>overlap diff A−B / C−D</td><td>−0.05 / −0.05 (uniform)</td><td>−0.051 / −0.051</td><td class="ok">✅</td></tr>
+<tr><td>tail Pr(X&gt;2), sd=0.5: A–D</td><td>0.16, 0.12, 0.08, 0.05</td><td>0.1587, 0.1151, 0.0808, 0.0548</td><td class="ok">✅</td></tr>
+<tr><td>tail diff A−B / C−D</td><td>0.04 / 0.03 (non-uniform)</td><td>0.044 / 0.026</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+
+<h3>"Small sample correction" when the CI is wider than the equivalence range</h3>
+<table>
+<thead><tr><th>Scenario</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Fig 6/7: n=10, sd=2, eq[−0.4,0.4] (CI 2.861, ratio 3.58&gt;2)</td><td>SGPV set to 0.5 over a range; TOST p never &lt;0.05 (0% power)</td><td>SGPV≡0.500 across (−1.03,1.03); min TOST p=0.2714</td><td class="ok">✅</td></tr>
+<tr><td>Fig 8/9/10: n=10, sd=1, eq[−0.4,0.4]</td><td>CI 1.79× eq width; SGPV=0.56 constant plateau</td><td>ratio 1.788; SGPV=0.559 constant across (−0.315,0.315)</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+
+<h3>Correlation section (Fisher z)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>n=10, r=0 → 95% CI</td><td>[−0.63, 0.63]</td><td>[−0.630, 0.630]</td><td class="ok">✅</td></tr>
+<tr><td>n=10, r=0.7 → 95% CI</td><td>[0.13, 0.92]</td><td>[0.126, 0.923]</td><td class="ok">✅</td></tr>
+<tr><td>n=30, r=0.45 → 95% CI (Fig 12)</td><td>[0.11, 0.70]</td><td>[0.107, 0.697]</td><td class="ok">✅</td></tr>
+<tr><td>n=30, r=0.45 overlap, eq[−0.45,0.45] (Fig 12)</td><td>58.11%</td><td>58.11% (58.1062)</td><td class="ok">✅</td></tr>
+<tr><td>overlap &gt; 50% at r=±0.45 (Fig 12)</td><td>yes</td><td>58.11% both signs</td><td class="ok">✅</td></tr>
+<tr><td>Fig 13: n=10, eq r=0.4–0.8, SGPV=0.5 misfire</td><td>correction sets SGPV=0.5 for some r</td><td>mechanism reproduced (CI&gt;2×eq width for mid-range r) — same as C11</td><td class="ok">✅</td></tr>
+</tbody>
+</table>
+
+<h3>Extreme case from Blume et al. (2018): n=4, true r=0.99, eq r=±0.99</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript (cited from Blume 2018)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>% of 95% CI overlapping eq range</td><td>97.60%</td><td>97.57% (Fisher-z CI [0.596, 0.9998], overlap [0.596,0.99])</td><td><span class="ok">≈</span> (rounding/CI-truncation convention)</td></tr>
+<tr><td>share of future correlations falling in eq range</td><td>≈36%</td><td>35.6% (200,000 bivariate-normal sims, n=4, seed 20260914)</td><td><span class="ok">≈</span> (simulation; cited from Blume)</td></tr>
+</tbody>
+</table>
+
+<h3>Author-function &amp; provenance checks</h3>
+<table>
+<thead><tr><th>Check</th><th>Result</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Paper SGPV formula ≡ author <code>p_delta()</code></td><td>mathematically equivalent (overlap / min(|I|, 2|H₀|)); 50/50 random-CI agreement in R</td><td class="ok">✅</td></tr>
+<tr><td>Shiny app <code>shiny.ieis.tue.nl/TOST_vs_SGPV/</code></td><td>loads (HTTP 200) on 2026-09-14</td><td class="ok">✅</td></tr>
+<tr><td>"All supplementary files can be accessed at OSF: ZP3KF" (badge line)</td><td>OSF ZP3KF osfstorage has 0 files; OSF 8crkg also 0 files — materials are on GitHub instead</td><td class="dis">⚠ ADV-002</td></tr>
+</tbody>
+</table>
+<hr />
+
+<h2>Findings (for the authors)</h2>
+
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — Prose typo in the third TOST/SGPV correspondence sentence.</strong>
+The manuscript states: "<em>…we focus on their correspondence at three values, namely where the TOST p = 0.025 and SGPV is 1, where the TOST p = 0.5 and SGPV = 0.5, and where the TOST p = 0.975 and SGPV = 1.</em>" The third item should read <strong>SGPV = 0</strong> (equivalently 1−SGPV = 1): at TOST p = 0.975 the 95% CI falls outside the equivalence range and the data favour the alternative hypothesis. The correction is confirmed by our recomputation — at the corresponding mean (≈147.75) TOST p = 0.9750 and SGPV = 0.0000 — and by the paper's own Figure&nbsp;2, Figure&nbsp;1 caption ("1−SGPV = 1"), and the "situation C" paragraph ("the <em>p</em>-value will always be 0.975, and the SGPV is 0"). The error is a genuine published typo: it appears in the author's own reproducible source (<code>manuscript.R2.Rmd</code> line 136), not merely in our PDF extraction. <em>Impact:</em> cosmetic prose error; no numeric or inferential consequence (the governing figures and the next sentence are correct). Occurred in the extracted text at <code>paper_extracted.txt</code> lines 96–98.
+<br><em>Fix:</em> change "and SGPV = 1" to "and SGPV = 0" (or "and 1-SGPV = 1") in that sentence.</p>
+
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — Published OSF links point to empty projects; all open materials actually live on GitHub.</strong>
+The badge line "All supplementary files can be accessed at OSF: ZP3KF" and the Authors' Note URL <code>osf.io/8crkg</code> both resolve to OSF projects whose <code>osfstorage</code> contained <strong>0 files</strong> on 2026-09-14 (OSF API totals = 0). The complete reproducible package — <code>manuscript.R2.Rmd</code>, <code>functions/SGPV_function.R</code>, <code>p_tost_converter*.R</code>, <code>TOST_to_SGPV.R</code>, the <code>TOST_vs_SGPV_app/</code> Shiny app source, and an <code>archive/</code> with the derivation scripts — exists at the GitHub repository <code>github.com/Lakens/TOST_vs_SGPV</code> that the Authors' Note explicitly cites. The Open Materials / Open &amp; reproducible analysis badges are therefore substantiated, and this re-audit reproduced every claim from that repository — but the specific URLs a reader is told to click are empty. <em>Impact:</em> findability/archival hygiene; broken-link risk; contradicts "all supplementary files at OSF ZP3KF".
+<br><em>Fix:</em> upload the functions, reproducible <code>.Rmd</code>, Shiny app source and figures to ZP3KF (and/or 8crkg), or reword the badge line to point to GitHub.</p>
+
+<p><em>Re-audit note:</em> this run supersedes the earlier audit, which reported "OSF has manuscript only, no code/data" as its single finding. That conclusion checked only the OSF badge node and missed that the Authors' Note redirects to a complete GitHub repository. The re-audit corrects this: the code <em>is</em> available and every numeric claim independently reproduces.</p>
+
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No live re-knit of the author's <code>manuscript.Rmd</code>.</strong> We sourced and ran the author's <code>p_delta()</code> function directly and reimplemented TOST/SGPV from first principles, but we did not execute the full <code>manuscript.Rmd</code> (it requires the CRAN <code>TOSTER</code> package and knitr on the audit host, which was not configured). The closed-form outputs are byte-equivalent to the author's function, so this gap is non-blocking.</li>
+<li><strong>Figures 2, 3, 5, 7, 10 and 11 are 1−SGPV / parametric-transform plots of the verified quantities</strong>; we verified their parent statistics but did not pixel-diff raster PDF renders (not meaningful, and the underlying values all reproduce).</li>
+<li><strong>Cited background values from Blume et al. (2018)</strong> (n=4: 97.60% and ~36%) are quoted in-text; we reproduced them to ≈ and independently simulated the sampling statistic, but their <em>exact</em> published precision depends on the original authors' CI-truncation/seeding convention.</li>
+<li><strong>Qualitative/directional claims</strong> (e.g. "multiple comparisons are not obviated", the Conclusion strengths/weaknesses) were checked for internal consistency, not formally tested — they have no independent numeric source to recompute against.</li>
+</ul>
+<hr />
+
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/author_code/</code></td><td>Author code re-downloaded on 2026-09-14 from <code>github.com/Lakens/TOST_vs_SGPV</code>: <code>functions/*.R</code>, <code>TOST_vs_SGPV_app/*</code>, <code>manuscript.R2.Rmd</code>, <code>manuscript.R2.old.Rmd</code>, <code>manuscript.Rmd</code>, <code>archive/sgpv_vs_TOST.Rmd</code></td></tr>
+<tr><td><code>exec_check/reproai_reimpl.R</code></td><td>R 4.6.1 reimplementation (TOST p, SGPV, Figures 1/4/6–13, correlation CIs, extreme case)</td></tr>
+<tr><td><code>exec_check/reproai_crosscheck.py</code></td><td>Python 3.8.10 second-language cross-check + 200k-simulation of C16</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>exec_check/output/</code></td><td><code>reproai_results.tsv</code> (machine-readable claim verdicts), <code>fig1_table.csv</code>, <code>reproai_python_crosscheck.txt</code>, <code>R_sessionInfo.txt</code>, <code>Python_env.txt</code></td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>24 numbered claims (C1–C24), each checked</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline / data / reimplementation description + provenance</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001, ADV-002 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for both findings</td></tr>
+</tbody>
+</table>
+</body>
+</html>

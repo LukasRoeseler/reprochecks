@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Hunter et al. (2020) MP.2019.1992</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 1020px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .sev { font-weight: 700; } .p0{color:#b02a37}.p1{color:#a46a00}.p2{color:#8a6d00}.p3{color:#666}
+</style>
+</head>
+<body>
+<h1>ReproAI run report (RE-AUDIT) — <em>Multiplicity Control vs Replication: Making an Obvious Choice Even More Obvious</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT
+· <strong>rules:</strong> 2026.06.27 (REPRO_STANDARDS.md)
+· <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>MP.2019.1992</code> (DOI <code>10.15626/MP.2019.1992</code>) — Hunter, Farmus, Beribisky &amp; Cribbie (York University), Meta-Psychology 2020, vol 4, pp. 1–15; OSF <code>9B6Z3</code>.
+<strong>Mode:</strong> <strong>independent reimplementation (R 4.6.1 + Python 3.8) AND live execution of the author's shipped R code.</strong>
+<strong>Originals:</strong> <code>paper.pdf</code> / <code>paper_extracted.txt</code> untouched; author code downloaded live from OSF on audit date into <code>exec_check/author_code/</code>; all work on copies in <code>exec_check/</code>.</p>
+
+<blockquote>
+<p><strong>RE-AUDIT HEADLINE — the prior audit's "technical failure" verdict is REFUTED.</strong> In the 2026-09-10 audit this paper was scored a technical failure because the linked R code appeared to be a 404 / 0-byte placeholder. On 2026-09-14 the same OSF file (GUID <code>xrq3k</code>) downloads cleanly at <strong>15,043 bytes</strong> and executes successfully in R 4.6.1. The R code is available and runnable now. This paper is <em>not</em> a reproducibility failure: an independent reimplementation reproduces the manuscript's simulation tables within Monte-Carlo error, and a live run of the author's own code reproduces the flagship power cells to within sampling noise. The shipped code is nevertheless a stripped demonstration file (see findings).</p>
+</blockquote>
+
+<hr />
+
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>5</strong></td><td></td></tr>
+<tr><td class="sev p0">P0 — blocker</td><td>0</td><td>shipped code fails / primary input missing / a reported number cannot be true</td></tr>
+<tr><td class="sev p1">P1 — high</td><td>0</td><td>primary statistic or primary analysis code not reproducible</td></tr>
+<tr><td class="sev p2">P2 — medium</td><td>1</td><td>secondary / configuration / documentation gaps blocking straightforward verification</td></tr>
+<tr><td class="sev p3">P3 — low</td><td>4</td><td>hygiene — seed, code efficiency, archival, minor code defect</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This simulated-data paper reproduces.</strong> The simulation design is fully specified in the paper and independently re-implemented at 5000 simulations per condition across all 12 configurations; all 336 rate-cells of Tables 3–8 agree with the manuscript at 3-decimal precision within Monte-Carlo sampling error (280 cell-perfect, 50 within 0.02, 6 slightly beyond 0.02 — all explicable). The headline empirics hold: unreplicated Bonferroni/Holm hold FWER ≤ .05 while no-control FWER rises to .202–.448, and one (≤ .05) or two (&lt; .01) replications without any multiple-comparison correction bring FWER down to equivalent control; no-control + replication provides per-pair power comparable to (and meta-analysis above) the unreplicated MCPs. The paper's central thesis — that replication achieves similar error control and power to MCPs — is supported by the reproduced numbers. The only substantive defect is that the shipped code is a stripped demo (<code>nsim&lt;-5</code>, single condition) that must be re-scaled to reproduce the full tables; no P0/P1 blockers.</p>
+</blockquote>
+
+<hr />
+
+<h2>Empiricism confirmation</h2>
+<p><strong>Empirical (simulation study).</strong> This is a Monte-Carlo simulation paper; all "data" are synthetic draws (one-way independent-groups, n per group = mean + Normal(0, 20)). There is no empirical human dataset and no raw-data requirement. The empirical claims are the simulated FWER/power/d effect-size rates in Tables 3–8, which are independently recomputable from the specified design.</p>
+
+<hr />
+
+<h2>Independent reimplementation table (incl. live author-code execution)</h2>
+<p>Console logs: <code>exec_check/runtime_reimpl_console.log</code>, <code>exec_check/runtime_crosscheck_console.log</code>, <code>exec_check/author_code/run/*.log</code> (<code>==== START/END (status: OK) ====</code> markers).</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>author_code/hunter_author_sim.R</code> (author's own, downloaded LIVE)</td><td>Author's Bonferroni/Holm/no-control FWER + power + Cohen's-d simulation, metafor FE meta</td><td>Tables 3–8 design; flagship Table 6/8 n=100 cells</td>
+<td>OK — runs (status 0) as-shipped at nsim=5; live nsim=500 run (355 s) reproduced Table 6 n100 / Table 8 cells within MC error</td></tr>
+<tr><td><code>exec_check/hunter_reimpl.R</code></td><td>Independent base-R reimplementation (5000 sims/cond, all 12 configs, seed 20260914)</td><td>Tables 3–8 (336 cells)</td><td>OK — 205 s; 336-cell comparison</td></tr>
+<tr><td><code>exec_check/hunter_crosscheck.py</code></td><td>Python (numpy/scipy) cross-check: no-control FWER + flagship power contrast</td><td>Tables 3–4 no-control; Results § "Power" prose (.450/.224/.104/.089)</td><td>OK — within MC noise</td></tr>
+<tr><td><code>exec_check/hunter_compare_manuscript.py</code></td><td>Automated cell-by-cell Manuscript vs reimplementation diff</td><td>Tables 3–8</td><td>OK — 280 exact / 50 close / 6 &gt;0.02</td></tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✓ identical at reported precision (|Δ| ≤ 0.005) · ≈ close, within Monte-Carlo sampling error (|Δ| ≤ 0.02) · ⚠ discrepant (&gt; 0.02, cause given) · ➖ not independently checkable (reason given).
+Simulated values are inherently seed-sensitive; no seed is reported, so ✓/≈ is judged against MC noise at nsim=5000 (std err ≈ 0.006). Values shown are the independent reimplementation (<code>hunter_reimpl.R</code>).</p>
+
+<h3>Familywise-error control — Tables 3 &amp; 4 (representative cells, all 88 cells compared)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>4 grp, n=25, complete null, NoControl (no rep)</td><td>.202</td><td>.204</td><td>≈</td></tr>
+<tr><td>4 grp, n=100, complete null, NoControl (no rep)</td><td>.205</td><td>.208</td><td>≈</td></tr>
+<tr><td>4 grp, n=25, complete null, Bonferroni / Holm (no rep)</td><td>.041 / .041</td><td>.040 / .040</td><td>✓</td></tr>
+<tr><td>7 grp, n=25, complete null, NoControl (no rep)</td><td>.442</td><td>.448</td><td>≈</td></tr>
+<tr><td>7 grp, n=100, partial null, NoControl (no rep) <em>(prose cites .374)</em></td><td>.374</td><td>.369</td><td>≈</td></tr>
+<tr><td>7 grp, n=100, complete null, NoControl (no rep) <em>(prose cites .440)</em></td><td>.440</td><td>.436</td><td>≈</td></tr>
+<tr><td>NoControl, one replication (max across Tables 3–4)</td><td>≤ .050</td><td>≤ .044</td><td>✓</td></tr>
+<tr><td>Bonferroni / Holm, any replication</td><td>.000</td><td>.000</td><td>✓</td></tr>
+</tbody>
+</table>
+<p><strong>Headline confirmed:</strong> unreplicated MCPs hold FWER ≤ α=.05; no-control exceeds α without replication but drops to ≤ .05 with one replication and &lt; .01 with two.</p>
+
+<h3>Power (per-pair PP / all-pairs AP) — Tables 5 &amp; 6 (representative; all 176 cells compared)</h3>
+<table>
+<thead><tr><th>Quantity (n=100, 4 grp, μ=0,8,16,24 unless noted)</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Bonferroni no-rep AP <em>(prose .089)</em></td><td>.089</td><td>.0998</td><td>≈</td></tr>
+<tr><td>Holm no-rep AP <em>(prose .450)</em></td><td>.450</td><td>.453</td><td>✓</td></tr>
+<tr><td>NoControl 1-rep AP <em>(prose .224)</em></td><td>.224</td><td>.222</td><td>≈</td></tr>
+<tr><td>NoControl 2-rep AP <em>(prose .104)</em></td><td>.104</td><td>.104</td><td>✓</td></tr>
+<tr><td>7 grp n=100 non-null: Bonf / Holm / NoC PP (no rep)</td><td>.829 / .913 / .944</td><td>.829 / .912 / .945</td><td>✓</td></tr>
+<tr><td>7 grp n=100 non-null: Holm / NoC AP (no rep)</td><td>.150 / .202</td><td>.140 / .194</td><td>≈</td></tr>
+<tr><td>Meta-analysis, 7 grp n=100 non-null, 1-rep: PP / AP</td><td>.994 / .874</td><td>.993 / .871</td><td>✓</td></tr>
+<tr><td>Meta-analysis, 4 grp n=25 partial, 1-rep: PP / AP</td><td>.491 / .241</td><td>.512 / .269</td><td>⚠ (impl. diff)</td></tr>
+</tbody>
+</table>
+<p>6 cells exceeded 0.02 (280 exact / 50 close / 6 ⚠ in the automated diff); all six are meta-analysis (FE-meta implementation) or low-n cells. Per-pair and all-pairs power of MCPs vs no-control+replication are highly comparable in the reproduced tables; meta-analysis gives higher power — the paper's power claims hold.</p>
+
+<h3>Cohen's d effect-size rates — Tables 7 &amp; 8 (representative; all 72 cells compared)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>T7 4 grp n=100 partial: NoRep / OneRep / TwoRep (d≥.3 persistence)</td><td>.090 / .003 / .000</td><td>.090 / .003 / .000</td><td>✓</td></tr>
+<tr><td>T7 7 grp n=100 null: NoRep / OneRep</td><td>.347 / .025</td><td>.360 / .021</td><td>≈</td></tr>
+<tr><td>T8 7 grp n=100 non-null APC: NoRep / 1Rep / 2Rep</td><td>.931 / .878 / .839</td><td>.932 / .880 / .840</td><td>✓</td></tr>
+<tr><td>T8 7 grp n=100 non-null PAC: NoRep / 1Rep / 2Rep</td><td>.117 / .016 / .002</td><td>.121 / .017 / .002</td><td>✓</td></tr>
+<tr><td>Prose: "n=100, 1-rep persistence &lt;3%, 2-rep ~0%" (Table 7)</td><td>≤ .016</td><td>≤ .021</td><td>✓</td></tr>
+</tbody>
+</table>
+
+<h3>Cross-language (Python) recompute of key no-control FWER &amp; flagship power</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Python</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>n25 J4 null NoControl no-rep FWER</td><td>.202</td><td>.205</td><td>≈</td></tr>
+<tr><td>n25 J4 null NoControl 1-rep FWER</td><td>.013</td><td>.015</td><td>≈</td></tr>
+<tr><td>n25 J4 partial NoControl no-rep FWER</td><td>.120</td><td>.118</td><td>≈</td></tr>
+<tr><td>Holm no-rep all-pairs (n=100, μ=0,8,16,24)</td><td>.450</td><td>.454</td><td>✓</td></tr>
+<tr><td>NoControl 1-rep all-pairs</td><td>.224</td><td>.205</td><td>≈</td></tr>
+<tr><td>NoControl 2-rep all-pairs</td><td>.104</td><td>.101</td><td>✓</td></tr>
+<tr><td>Bonferroni no-rep all-pairs</td><td>.089</td><td>.091</td><td>✓</td></tr>
+</tbody>
+</table>
+
+<h3>Live run of the AUTHOR's code (n=100, 7 grp, μ=0,8,16,24,32,40,48; nsim=500) vs manuscript</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript (Table 6/8)</th><th>Author code nsim=500</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Per-pair power: Bonf / Holm / NoControl (no rep)</td><td>.829 / .913 / .944</td><td>.826 / .911 / .943</td><td>≈</td></tr>
+<tr><td>Per-pair power: NoControl 1-rep / 2-rep</td><td>.898 / .862</td><td>.898 / .858</td><td>≈</td></tr>
+<tr><td>Per-pair power: Meta 1-rep / 2-rep</td><td>.994 / .999</td><td>.993 / 1.000</td><td>≈</td></tr>
+<tr><td>Table 8 APC: no-rep / 1-rep / 2-rep</td><td>.931 / .878 / .839</td><td>.928 / .876 / .835</td><td>≈</td></tr>
+</tbody>
+</table>
+<p>The author's code, run live, reproduces the paper's values for this condition within sampling noise, corroborating the independent reimplementation and the editorial "analysis reproduced" badge.</p>
+
+<hr />
+
+<h2>Findings (for the authors / editor)</h2>
+
+<h3>P2 — medium</h3>
+<p><strong>adv-002 — The shipped R script is a stripped demonstration file, not the full analysis.</strong> OSF GUID <code>xrq3k</code> is available and runs, but hardcodes <code>nsim&lt;-5</code> (line 13) and a single mean configuration (7-group non-null); the other 11 configurations are comment-blocked (lines 23–33). Running it as-is prints one nsim=5 row (no 3-decimal fidelity) rather than the manuscript's Tables 3–8. Reproduction requires the user to raise <code>nsim</code> to 5000 and loop the configurations (=108 conditions). <em>Cause:</em> archived development/demo version. <em>Evidence:</em> <code>hunter_author_sim.R:13,23-33</code>; live run status 0. <em>Why it matters:</em> present-and-correct-but-under-configured; the primary code does not directly regenerate the reported tables. <em>Fix:</em> ship with <code>nsim&lt;-5000</code>, an explicit loop over all 12 configs, and a seed; archive the output tables.</p>
+
+<h3>P3 — low</h3>
+<p><strong>adv-003 — Replication-study variances are written to swapped meta-variance columns.</strong> In the FE meta-analysis preparation, rep1 variance is stored at <code>k+npair*2</code> and rep2 variance at <code>k+npair</code> (lines 117–125), opposite to <code>meta_d</code>. Effect is negligible for the headline (n=100 meta cells reproduced, live run .993 vs .994) but a latent defect behind the small-n meta deviations. <em>Fix:</em> swap the two column indices to <code>k+npair</code> / <code>k+npair*2</code>.</p>
+
+<p><strong>adv-004 — No random seed set or reported.</strong> Author code has no <code>set.seed()</code> and the paper reports none. Verified seed-stable: cross-seed FWER drift ≤ 0.005. <em>Fix:</em> add and report a seed for exact reproduction.</p>
+
+<p><strong>adv-005 — Author code is computationally impractical for full reproduction.</strong> In-loop <code>metafor::rma</code> makes a single condition at nsim=500 take ~355 s and nsim=2000 exceed 900 s; full 5000×108 would take days (independent base-R reimpl did 12×5000 in 205 s). <em>Fix:</em> replace in-loop meta with a precomputed closed-form inverse-variance weighted z-test.</p>
+
+<p><strong>adv-006 — No archived reproduction log/output for the "analysis reproduced by" badge.</strong> The claim is consistent with our independent reproduction, but OSF holds only the script/manuscript/cover letter — a reader cannot witness the editor's run. <em>Fix:</em> archive the reproduction log and tables.</p>
+
+<hr />
+
+<h2>Cross-check vs the prior audit (2026-09-10)</h2>
+<p>The prior audit returned 0/0/3/1 (P0/P1/P2/P3) with <strong>adv-001 (P2) "R script is a broken 404 placeholder"</strong> and two related availability findings, plus a not-reproducible verdict. This re-audit <strong>refutes</strong> the central availability finding by direct evidence (the file downloads at 15,043 bytes and runs). The availability component that previously counted as a technical failure is now <em>confirmed available</em>; it was either re-uploaded since, or the earlier download GUID resolution failed transiently. Remaining, still-valid concerns are the stripped-demo configuration and hygiene items now captured as adv-002…adv-006. Net severity moves from "not reproducible (technical failure)" to "reproducible; minor config/hygiene findings."</p>
+
+<hr />
+
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No human empirical data.</strong> This is a synthetic Monte-Carlo paper; there is no raw dataset to audit, and no claim herein covers empirical subject data.</li>
+<li><strong>Simulated values are seed-sensitive.</strong> Because the manuscript reports no seed, cell-perfect (bit-for-bit) reproduction of every 3-decimal table entry is not guaranteed; agreement is judged against Monte-Carlo sampling error at nsim=5000 (~0.006). A full re-run at the authors' exact (unreported) seed would be required for byte-level table equality.</li>
+<li><strong>The author code was not run end-to-end at nsim=5000×108</strong> (computationally impractical, adv-005). Live execution was demonstrated at nsim=5 (as-shipped) and nsim=500 (one condition); full-table reproduction rests on the independent reimplementation plus the author-code logic match at scale.</li>
+<li><strong>Meta-analysis cells</strong> at small sample sizes (n=25) carry an implementation-difference caveat between the independent FE-meta (closed-form z) and the author's <code>metafor::rma</code> (+ variance-swap bug); direction and magnitude of the paper's meta conclusions are nonetheless reproduced.</li>
+<li><strong>The editorial "analysis reproduced by: Erin M. Buchanan" run was not witnessed</strong>; no log is archived (adv-006). Our independent reproduction is consistent with it but does not prove that specific run occurred.</li>
+</ul>
+
+<hr />
+
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/author_code/hunter_author_sim.R</code></td><td>Author's shipped R script (downloaded live from OSF GUID xrq3k, 15,043 B)</td></tr>
+<tr><td><code>exec_check/author_code/hunter_author_manuscript.pdf</code>, <code>hunter_cover_letter.docx</code></td><td>Author manuscript PDF &amp; cover letter (provenance copies from OSF)</td></tr>
+<tr><td><code>exec_check/author_code/run/*.log</code></td><td>Live author-code console logs (nsim=5 as-is; nsim=500 scaled, 355 s; nsim=2000 aborted &gt;900 s)</td></tr>
+<tr><td><code>exec_check/hunter_reimpl.R</code> → <code>exec_check/output/*.csv</code></td><td>Independent R reimplementation (5000 sims/cond, all 12 configs) + Tables 3–8 comparison CSVs + drift rds</td></tr>
+<tr><td><code>exec_check/hunter_crosscheck.py</code></td><td>Python 3.8 numpy/scipy cross-check of no-control FWER &amp; flagship power</td></tr>
+<tr><td><code>exec_check/hunter_compare_manuscript.py</code></td><td>Automated 336-cell Manuscript-vs-reimplementation diff (280 exact / 50 close / 6 ⚠)</td></tr>
+<tr><td><code>exec_check/runtime_reimpl_console.log</code> / <code>runtime_crosscheck_console.log</code></td><td>Annotated console logs, <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>extracted/manuscript_claims.md</code></td><td>Claims inventory C1–C16 with checked status</td></tr>
+<tr><td><code>extracted/provenance_environment.md</code></td><td>Env/version/seed record + OSF traversal + prior-audit correction</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>adv-002…adv-006 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps</td></tr>
+</tbody>
+</table>
+</body>
+</html>
