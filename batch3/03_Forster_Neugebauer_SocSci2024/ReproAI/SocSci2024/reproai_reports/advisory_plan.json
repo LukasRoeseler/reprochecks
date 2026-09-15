@@ -1,0 +1,30 @@
+{
+  "audit_id": "ReproAI-SocSci2024-FN-001",
+  "advisory_plan": [
+    {
+      "id": "ADV-001",
+      "severity": "P3",
+      "remediation": "Re-round the Administration (0.51) and Media (0.21) rows of Table 2's FS panel to strict 2-decimal precision, or explicitly annotate the column as 'rounded to sum to 1.00'. Raw counts are correct and need no change.",
+      "owner": "authors (cosmetic)",
+      "priority": "low"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "remediation": "Update README.txt and the header comments in the .do files to the actual shipped data file names (validation_fe.dta / validation_fs.dta) so provenance matches the archive.",
+      "owner": "authors (hygiene)",
+      "priority": "low"
+    },
+    {
+      "id": "ADV-OBS-003",
+      "severity": "P3",
+      "remediation": "No action required; optionally document the -998/-949 missing codes for type_applicants in the data dictionary.",
+      "owner": "maintainers (optional)",
+      "priority": "low"
+    }
+  ],
+  "next_steps": [
+    "Optional: execute the shipped Stata .do files end-to-end on a Stata 18 install and diff the regenerated 03_tables/04_figures/05_logs against the manuscript to close the residual 'not byte-for-byte Stata' gap.",
+    "Optional: verify online-supplement tables S7-S10 (full model coefficient matrices) against TableS7-S19 exports for completeness; the headline rows reproduced here are consistent."
+  ]
+}

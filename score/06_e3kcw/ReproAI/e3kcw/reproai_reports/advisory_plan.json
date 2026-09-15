@@ -1,0 +1,49 @@
+{
+  "package_doi": "10.31234/osf.io/e3kcw",
+  "notes": "Remediation / advisory plan corresponding to risk_register.json findings.",
+  "priority_order": [
+    "ADV-001",
+    "ADV-002",
+    "ADV-003",
+    "ADV-005",
+    "ADV-004",
+    "ADV-006"
+  ],
+  "actions": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "recommended": "Correct Table 1 column labels to match the true predictor rows (Quarantine Length / Flow / Mindfulness / Flow x Quarantine / Mindfulness x Quarantine). Regenerate from the analysis script that produced the full-results PDF."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "recommended": "Verify gender coding against the original (identified) data and correct the '% female' statement; confirm the sign convention of the Gender covariate coefficients in the full-results PDF."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "recommended": "Recompute mindfulness M/SD (and, if items can be recovered, cronbach alpha) from the raw 12-item CAMS-R responses with item-5 reversal, and reconcile with the shipped 'mindful' total."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P2",
+      "recommended": "Align the covariate list across prose, Method, Table 1 note, and the model (region is listed in prose but absent from the model)."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "recommended": "Add an N/missing-handling note (146 age NAs) and compute age descriptives on the analytic sample; note de-identification rounding of ages."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "recommended": "Share the analysis script + exact centering/standardization convention so betas are reproducible to full precision; document listwise deletion of age-NA cases."
+    }
+  ],
+  "positive_aspects": [
+    "Full de-identified dataset, survey instrument, and full regression-results PDF are publicly shared on OSF vuwg3 with stable hashes (provenance integrity confirmed on download).",
+    "All descriptives for flow, posemo, negemo, depression, anxiety, loneliness, healthy/unhealthy behavior, optimism, IU, SWL reproduce exactly; corona (worry, lonely, healthy, unhealthy) cronbach alphas reproduce exactly.",
+    "Every regression significance decision at p<.01 reproduces; the headline flow x quarantine moderation (and mindfulness non-moderation) reproduces from raw data; R and Python give identical betas."
+  ]
+}

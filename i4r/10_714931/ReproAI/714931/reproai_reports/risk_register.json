@@ -1,0 +1,38 @@
+{
+  "audit": "10_714931 (DOI 10.1086/714931)",
+  "rollup": { "P0": 0, "P1": 0, "P2": 1, "P3": 3, "total": 4 },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "found": "Manuscript prose (Results, bystander section) reads 'Models 2 and 8 reveal a negative and statistically significant interaction effect' when describing the bystander-intervention DV.",
+      "evidence": "paper_extracted.txt:588. For the bystander DV the interaction models are Model 6 (WPS x Female) and Model 8 (Years x Female); Model 2 is the intolerance DV's WPS-interaction model (text at line 449 correctly attributes Model 2 to DV1).",
+      "impact": "Prose-table mislabel; does not change any reported statistic or conclusion, but is a genuine internal inconsistency that will mislead readers.",
+      "fix": "Change 'Models 2 and 8' to 'Models 6 and 8' in the bystander paragraph."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "found": "Figure 4 caption says 'Results based on model 8 in Table 2'.",
+      "evidence": "paper_extracted.txt:638. There is no Table 2; all 8 models are in Table 1 (Figure 4's underlying years-interaction model is Model 8 of Table 1).",
+      "impact": "Table cross-reference typo only.",
+      "fix": "Change 'Table 2' to 'Table 1' in the Figure 4 caption."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "found": "Table A3 reports N = 688 for the IPV-experience model; the independent R reimplementation on the same shipped dataset yields 697 usable observations.",
+      "evidence": "reimpl glmer N = 697 vs paper Table A3 N = 688. Coefficient reproduces well (reimpl WPS -0.854, SE 0.385; paper -0.865, SE 0.388), so the N gap has negligible impact on inference.",
+      "impact": "Minor sample-size reporting discrepancy; likely listwise-deletion / quadrature differences between R's glmer and Stata's melogit (possibly the two women with NA b9a plus NA pattern differences).",
+      "fix": "Confirm which observations Stata 15.1 drops and document the precise analysis N; reconcile 688 vs 697 (ideally report both with a missing-value note)."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "found": "DV1 'strongly agree' shares printed as 66.5% (men) and 78.5% (women); reimplementation gives 66.63% and 78.55% (rounding to 66.6 / 78.6).",
+      "evidence": "paper lines 377-378 vs reimpl descriptive statistics.",
+      "impact": "0.1-pp rounding nit on descriptive text only; no inference affected.",
+      "fix": "Optional: print one decimal consistent with rounding (66.6 / 78.6) or cite raw percentages."
+    }
+  ]
+}

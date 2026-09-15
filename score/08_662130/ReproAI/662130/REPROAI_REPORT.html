@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Altmann, Falk &amp; Wibral (2012) — 10.1086/662130</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Promotions and Incentives: The Case of Multistage Elimination Tournaments</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>10.1086/662130</code> (SCORE batch item 8, folder <code>08_662130</code>) — Steffen Altmann, Armin Falk &amp; Matthias Wibral, <em>Journal of Labor Economics</em> 30(1):149–174 (Jan 2012), University of Chicago Press.
+<strong>Mode:</strong> <strong>static audit + closed-form verify (equilibrium predictions, one-sample <em>t</em>, z→<em>p</em>).</strong> The paper ships no data or code (it predates replication-data mandates), and no ICPSR/Dataverse/OSF/GitHub deposit for this DOI could be located by web search. Raw z-Tree data are therefore <strong>not obtainable</strong>, so an independent raw-data reimplementation of the treatment summaries, Mann–Whitney tests, Table 3 OLS, and Figures 1–2 was <strong>not possible</strong>. All checks that do not require raw data were recomputed closed-form in R 4.6.1 (<code>pt</code>/<code>pnorm</code> only, no add-on packages, no RNG → deterministic output).
+<strong>Originals:</strong> untouched; <code>paper_extracted.txt</code> and <code>paper.pdf</code> were read-only and never modified.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>2</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>0</td></tr>
+<tr><td>P3 — low</td><td>1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Internally the paper is clean; externally it is not independently recomputable.</strong> Every closed-form check that can be run without raw data passes: the Nash-equilibrium effort prediction of <strong>74</strong> in all four treatments recomputes exactly from the published wage parameters (<em>e</em>* = <em>c</em>(<em>w</em>_high − <em>w</em>_low)/(4<em>q</em>) = 73.97 ≈ 74), the sample sizes reconcile exactly to 320 subjects (OS 60 + TS 64 + THS 64 + OSL 100 + TSC 32), all eight reported Mann–Whitney/Wilcoxon <em>z</em>-statistics convert to the printed two-sided <em>p</em>-values, and all seven one-sample <em>t</em>-tests read off the reported (mean, SD, N) hit the paper's accept/reject decisions (the small deltas — e.g. OS <em>p</em>=.534 vs recomputed .543 — are within one-decimal rounding tolerance of the tabled moments). No P0/P2 finding and <strong>no internal inconsistency, directional reversal, or impossible value</strong> was found. The single P1 (<strong>ADV-001</strong>) is a transparency/availability gap: the headline results (Table 2 summary statistics, the key Mann–Whitney <em>z</em>=2.536, <em>p</em>=.011 for first-stage excess effort in TS, Table 3 OLS, Figures 1–2) rest on author-reported summaries because no data or code is shipped or publicly deposited — a routine, not-unexpected state for a 2012 JOLE paper, but it caps how far this audit (or any independent audit) can go. Among the 58 inventoried claims, 29 are verified ✅, 5 are ≈ (rounding), 24 are ➖ (require unattainable raw data), and 0 are ⚠.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/output/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). All recomputes closed-form, R 4.6.1, no RNG (deterministic).</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements / verifies</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>Nash e* from wage params (c=2250, q=60)</td><td>Table 1; C1–C8</td><td>OK — all four treatments → 73.97 ≈ 74</td></tr>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>One-sample <em>t</em> of Table-2 means vs 74, from reported mean/SD/N</td><td>§IV.A–E; C18–C24</td><td>OK — 7/7 decisions match; ≈ rounding</td></tr>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>Mann–Whitney / Wilcoxon z → two-sided p</td><td>Results §IV.B–E; C25–C32</td><td>OK — 8/8 within .002</td></tr>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>Sample-size, percentage &amp; directional arithmetic</td><td>§III.B, §IV, footnotes 7–10; C55–C58 etc.</td><td>OK — 320 exact; ratios correct</td></tr>
+<tr><td><em>not possible</em></td><td>Treatment means/SD, MW-U/Wilcoxon, Levene, Table 3 OLS, Figs 1–2</td><td>Table 2, Table 3, Figs 1–2</td><td>➖ no raw data/code obtainable</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (58 claims, C1–C58, each classified): <code>exec_check/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close (rounding, methodologically explicable) · ⚠ discrepant · ➖ not independently checkable.</p>
+<h3>Equilibrium predictions (Table 1)</h3>
+<table>
+<thead><tr><th>Treatment</th><th>Wage spread used</th><th>Recomputed e* = c·(Δw)/(4q)</th><th>Table-1 / text value</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>OS (4 agents, 2 winners)</td><td>w_med 13.62 − w_low 5.73 = 7.89</td><td>73.97</td><td>74</td><td>✅</td></tr>
+<tr><td>TS stage 2</td><td>w_high 20 − w_med 12.11 = 7.89</td><td>73.97</td><td>74</td><td>✅</td></tr>
+<tr><td>THS stage 3</td><td>w_top 26.38 − w_high 18.49 = 7.89</td><td>73.97</td><td>74</td><td>✅</td></tr>
+<tr><td>OSL (lottery)</td><td>17.57 − 9.68 = 7.89</td><td>73.97</td><td>74</td><td>✅</td></tr>
+</tbody>
+</table>
+<p>The equal spread of 7.89 pence across every design is itself the deliberate "incentive-maintaining" construction (§III); the closed-form FOC reproduces the stated 74 to rounding in all cells.</p>
+<h3>One-sample t-tests of reported means vs equilibrium (from reported mean/SD/N)</h3>
+<table>
+<thead><tr><th>Row (Table 2)</th><th>Mean; SD; N</th><th>Manuscript p</th><th>Recomputed t; p</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>OS stage 1</td><td>71.7; 29.1; 60</td><td>.534 (cannot reject)</td><td>t=−0.612; .543</td><td>≈ (Δ .009; 1-decimal rounding)</td></tr>
+<tr><td>TS stage 1</td><td>84.8; 19.7; 64</td><td>&lt;.001 (reject)</td><td>t=4.386; &lt;.0001</td><td>✅</td></tr>
+<tr><td>TS stage 2</td><td>76.7; 26.5; 32</td><td>.565 (cannot reject)</td><td>t=0.576; .569</td><td>≈ (Δ .004)</td></tr>
+<tr><td>THS stage 1</td><td>79.2; 16.2; 64</td><td>.013 (reject)</td><td>t=2.568; .013</td><td>✅</td></tr>
+<tr><td>THS stage 2</td><td>83.1; 17.3; 32</td><td>.006 (reject)</td><td>t=2.976; .006</td><td>✅</td></tr>
+<tr><td>THS stage 3</td><td>74.6; 23.9; 16</td><td>.918 (cannot reject)</td><td>t=0.100; .921</td><td>≈ (Δ .003)</td></tr>
+<tr><td>OSL stage 1</td><td>77.3; 25.8; 100</td><td>.199 (cannot reject)</td><td>t=1.279; .204</td><td>≈ (Δ .005)</td></tr>
+</tbody>
+</table>
+<p>All seven tests reproduce the manuscript's accept/reject decision; the ≈ deltas are consistent with publishing mean/SD to one decimal.</p>
+<h3>Mann–Whitney / Wilcoxon z → two-sided p (conversion consistency)</h3>
+<table>
+<thead><tr><th>Comparison</th><th>z (manuscript)</th><th>p (manuscript)</th><th>p from z</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>OS vs TS st1 (Result 2)</td><td>2.536</td><td>.011</td><td>.0112</td><td>✅</td></tr>
+<tr><td>TS finalists st1→st2 (Wilcoxon)</td><td>2.315</td><td>.021</td><td>.0206</td><td>✅</td></tr>
+<tr><td>TS st2 vs OS</td><td>.771</td><td>.441</td><td>.4409</td><td>✅</td></tr>
+<tr><td>THS final vs TS final</td><td>.37</td><td>.710</td><td>.711</td><td>✅</td></tr>
+<tr><td>THS prefinal vs TS st1</td><td>.81</td><td>.419</td><td>.418</td><td>✅</td></tr>
+<tr><td>THS st1 vs TS st1</td><td>1.85</td><td>.065</td><td>.0643</td><td>✅</td></tr>
+<tr><td>OSL vs OS</td><td>.94</td><td>.349</td><td>.347</td><td>≈ (Δ .002)</td></tr>
+<tr><td>OSL vs TS</td><td>1.81</td><td>.070</td><td>.0703</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Sample sizes &amp; arithmetic consistency (Table 2 / §III.B / footnotes)</h3>
+<table>
+<thead><tr><th>Claim</th><th>Manuscript</th><th>Recompute</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Two main treatments OS + TS</td><td>124</td><td>60 + 64 = 124</td><td>✅</td></tr>
+<tr><td>Total subjects</td><td>320</td><td>60+64+64+100+32 (OS,TS,THS,OSL,TSC) = 320</td><td>✅</td></tr>
+<tr><td>TS first-stage "almost 20% higher" than OS</td><td>84.8 vs 71.7</td><td>84.8/71.7 = 1.183 (~18%)</td><td>✅</td></tr>
+<tr><td>OSL "&gt;5 points above OS"</td><td>77.3</td><td>77.3 − 71.7 = 5.6</td><td>✅</td></tr>
+<tr><td>Finalists' st1→st2 drop "about 16"</td><td>93.1 → 76.7</td><td>16.4</td><td>✅</td></tr>
+<tr><td>Footnote 10: 55 vs actual second-stage 76.7 "~30% lower"</td><td>≈30%</td><td>1 − 55/76.7 = 28.3%</td><td>✅</td></tr>
+<tr><td>Footnote 9 TSC: 82.4, SD 24.6, N 32, e*=42</td><td>"significantly above, p&lt;.001"</td><td>t=9.29, p&lt;.0001</td><td>✅</td></tr>
+<tr><td>Risk-certainty-equivalent N (Table 3 col 2)</td><td>114</td><td>124 main − 10 no-CE (fn 7) = 114</td><td>✅</td></tr>
+<tr><td>Table 2 row stats (mean/median/min/max/SD/N)</td><td>7 cells × 6 stats</td><td>require raw z-Tree data</td><td>➖</td></tr>
+</tbody>
+</table>
+<h3>Table 3 heterogeneity regressions</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>OLS β, SE, R², N for cols 1–5; TS 12.658***/11.907**/19.599***/6.356/6.767</td><td>as printed</td><td>requires raw data</td><td>➖</td></tr>
+<tr><td>Subgroup means 81.3 / 87.7; Hit15 57%, mean 3.4</td><td>as printed</td><td>requires raw data</td><td>➖</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — No data or code is shipped or publicly deposited; the headline analyses are not independently recomputable.</strong>
+A full-text search of <code>paper_extracted.txt</code> finds no data-availability statement and no deposit link; the only "online appendix" mention (§III.B, p.159) is a translation of the TS <em>instructions</em> — not data. Web searches (DuckDuckGo, 2026-09-14) surface the published article (journals.uchicago.edu / JSTOR), the EconStor working-paper PDF, and IZA Discussion Paper 3835 (<code>docs.iza.org/dp3835.pdf</code>), but <strong>no</strong> ICPSR / Dataverse / OSF / GitHub / Zenodo data or code package for <code>10.1086/662130</code>. Consequently the load-bearing empirical results — Table 2 treatment summaries, the key Mann–Whitney <em>z</em>=2.536, <em>p</em>=.011 underpinning Result 2, Levene's test (<em>W</em>=5.79, <em>p</em>=.018), Table 3 OLS, and Figures 1–2 — could not be recomputed from an independent raw source; 24 of 58 claims are marked ➖ for this reason.
+<em>Why it matters:</em> the audit can confirm the paper's <em>internal</em> logic is sound (every closed-form and conversion check passes) but cannot independently verify the data-generating process behind the excess-effort finding.
+<em>Cause:</em> 2012 publication predates replication-data mandates (JOLE/UCP did not require data posting then); no public replication package was deposited by the authors.
+<em>Fix:</em> deposit anonymized z-Tree experiment exports (or a tidy subject×stage CSV) plus a Stata <code>.do</code>/R script reproducing Table 2, Table 3, all nonparametric/tests, Levene, and Figures 1–2 on a persistent repository (IZA Data Archive, OSF, or Dataverse), and add a data-availability link to the article page (corresponding author: altmann@iza.org). This is the single step that would move all 24 ➖ claims to verifiable status.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — Small p-value deltas from coarse publication rounding (no inference impact).</strong>
+Recomputing one-sample <em>t</em>-tests from the 1-decimal-precision mean/SD and z→<em>p</em> from 2-decimal z yields: OS <em>p</em>=.543 vs printed .534 (Δ .009); OSL .204 vs .199 (Δ .005); TS st2 .569 vs .565; THS st3 .921 vs .918; OSL-vs-OS MW .347 vs .349 (Δ .002). Every affected test keeps the same accept/reject conclusion and apposite significance wording.
+<em>Why it matters:</em> none for conclusions; purely a precision artifact of reporting moments/z to coarse decimals, therefore not a defect.
+<em>Fix:</em> non-blocking; resolves automatically to sub-.0015 deltas once raw data are deposited (ADV-001).</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No independent raw-data reimplementation.</strong> The treatment means/medians/SD (Table 2), Mann–Whitney/Wilcoxon outcomes, Levene's test, Table 3 OLS coefficients/SEs/R², and Figures 1–2 histogram frequencies were <strong>not</strong> regenerated from the z-Tree dataset because that dataset and the analysis code were neither shipped nor publicly located. All the ✅/≈ verifications above are <em>closed-form recomputes of the authors' own reported summary values</em> (consistency audits), not independent reproductions from raw observations.</li>
+<li><strong>Theoretical-consistency of first-stage e*=74</strong> is validated via the single-difference FOC and the Orrison et al. (2004) organizational-replication shortcut used by the authors; the full backward-induction continuation-value chain was not re-solved numerically, but it is algebraically equivalent by design (§II, §III.A).</li>
+<li><strong>OCR corruption:</strong> the scanned text occasionally smears equations/spellings; Tables 1–3 and all cited statistics used here were legible and cross-checked against the tabled column layouts.</li>
+<li><strong>Cited background figures from other studies</strong> (e.g. Orrison et al. 2004 avg effort 73.3; Burks et al. 2008 mean 2.4 / 25%) were not independently re-derived here.</li>
+<li><strong>One-shot design and $/€ conversions</strong> (i18.75 average earnings, i1 ≈ US$1.25 at time of experiment) are descriptive and not audited arithmetically beyond internal consistency.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>../08_662130/paper_extracted.txt</code> (origin, <em>untouched</em>)</td><td>Full text, 1202 lines — read-only, not modified</td></tr>
+<tr><td><code>../08_662130/paper.pdf</code> (origin, <em>untouched</em>)</td><td>Shipped PDF — read-only, not modified</td></tr>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>R 4.6.1 closed-form recompute (equilibrium, one-sample t, z→p, arithmetic)</td></tr>
+<tr><td><code>exec_check/output/equilibrium_predictions.csv</code></td><td>e* recomputed per treatment → 73.97 ≈ 74</td></tr>
+<tr><td><code>exec_check/output/onesample_ttests_recompute.csv</code></td><td>7 one-sample t-tests vs 74 (t, p, vs manuscript p)</td></tr>
+<tr><td><code>exec_check/output/mannwhitney_z2p.csv</code></td><td>8 z→p conversion checks</td></tr>
+<tr><td><code>exec_check/output/sample_sizes.csv</code></td><td>60+64+64+100+32 = 320</td></tr>
+<tr><td><code>exec_check/output/tsc_footnote9.csv</code></td><td>TSC foot-9 t-test (t=9.29, p&lt;.0001)</td></tr>
+<tr><td><code>exec_check/output/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>58 numbered claims (C1–C58), each classified ✅/≈/➖</td></tr>
+<tr><td><code>exec_check/ENVIRONMENT_PROVENANCE.md</code></td><td>Engine, host, R 4.6.1, data-availability search record</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001 (P1), ADV-002 (P3) with evidence &amp; claims</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation for both findings</td></tr>
+</tbody>
+</table>
+</body>
+</html>

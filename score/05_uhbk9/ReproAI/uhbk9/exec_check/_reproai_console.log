@@ -1,0 +1,24 @@
+==== START (status: OK) — ReproAI uhbk9 audit run, engine anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT, R 4.6.1 ==================
+[00b] S1 nrow 853; Condition 1-4 maps to version columns (base/.0/.1/.2); base Fake/Real columns 853 non-empty but mostly literal "NA" strings.
+[01_prep] Each subject has exactly one real value across the 4 order-version candidate columns; mapping cond1->base, cond2->.0, cond3->.1, cond4->.2.
+[01_prep] non-NA fake cells 12795/12795, real 12795/12795; rows with all 30 ratings = 853; long rows 25590, non-missing 25590.
+[01_prep] accuracy rows 12540 (418 subj), sharing rows 13050 (435 subj).
+[01 study1 main] N=25590 df2=25586.
+  interaction            est=-0.5204 F=  43.796 p<.0001 (manuscript beta=-0.126, F=42.24)  [DISCREPANT - ADV-001]
+  accuracy simple effect est= 0.6459 F=  52.752 (manuscript d=0.657, F=42.24)            [d approx, F discrepant - ADV-002]
+  sharing simple effect  est= 0.1255 F=   7.394 p=.0066 (manuscript d=0.121, F=6.74)     [approx - ADV-001/2]
+  Cohen d accuracy=0.6818 (ms 0.657); sharing=0.1259 (ms 0.121).
+  false: %acc=0.3305 %share=0.4342 diff(pp)=10.37% (ms '32.4%')                          [DISCREPANT - ADV-003]
+[01c fixest cross-check] interaction F=43.697 (fixest) == manual 43.80 -> confirms 42.24 is not reproducible (data-level, not implementation).
+[01b diag] standardized-predictor model gives interaction beta = -0.1301 (≈ ms -0.126); within-condition-z DV F=43.74.
+[02 study2 main] Study2 long 25680, non-missing 25627 (855 subj effective); df2=25623 (exact match).
+  interaction realXtrt  est=0.03430 F=17.881 p<.0001 (ms beta=0.039, F=17.88)  [F/p EXACT; beta adv-005]
+  simple real in control   est=0.01910 F=1.409 p=.235 d=0.050 (ms 1.41,.24,0.050)   [OK]
+  simple real in treatment est=0.05341 F=8.887 p=.003  d=0.143 (ms 8.89,.003,0.142) [OK]
+  discernment ratio = 2.796 (ms 2.8x)                                                [OK]
+  Figure 3 r(28)=0.754, p<.0001 (ms 0.76)                                            [OK]
+[03 demographics] Study1: n=853, age 45.6 (ms 46), range 18-90; gender via Gender.0: 357M/482F/14other (ms match) [OK].
+  Study2: n=856; Gender.0 385M/463F/8other; manuscript "385M/468F/8other" sums to 861 != 856  [INTERNAL INCONSISTENCY - ADV-004].
+[03 Table 1] Simple-effect betas reproduce within ~0.008 for CRT/SciKnow/MMS/Repub/Distance across the 4 cells (see manuscript_claims.md C11b-C15).
+[ADV inventory] ADV-001 P1, ADV-002 P2, ADV-003 P2, ADV-004 P2, ADV-005 P3, ADV-006 P3.
+==== END (status: OK) ======================================================================================================================

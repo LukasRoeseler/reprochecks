@@ -1,0 +1,56 @@
+{
+  "package": "10.1038/s41562-023-01712-8",
+  "audit_engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Risk-of-bias and aggregate-sample tallies are not recomputable from the raw shared data alone",
+      "evidence": "QualityAssessment.csv ships 217 rows (206 consensus) and Reviews.csv ships 217 rows, but every Table-1 reliability percentage (93/102 low heterogeneity, 86/102 low characteristics, 71/102 low search, 71/102 unclear eligibility, 20/102 high screening, 37/102 unclear screening, 52/102 high dual-quality) and the abstract's 'medium-to-high risk of bias in 95/102' (C44-C51) use a denominator of 102 'reviews providing unique effects'. The 102-row denominator is produced inside the pipeline (make_table_df 'main' subset; prisma$unique_reviews [stage 11]), not from the raw CSV. Naively computed over the shared 217/206 rows the tallies differ (e.g. low-on-all-criteria = 11, not 7; heterogeneity low = 186/206 = 90%, not 93/102 = 91%). Also Reviews.csv sums to 4,948 studies / 6,343,028 participants vs the paper's 2,451 / 1,937,501 (which are pipeline-deduped sums over the selected effects).",
+      "impact": "A reader who opens only the shared data cannot regenerate the headline reliability and aggregate-sample numbers without replicating the internal 217-to-102 subset/dedup logic. This is a traceability/documentation gap (not an arithmetic error in the pipeline, which self-consistently generates the numbers).",
+      "fix": "Document in the data-availability note exactly which 102 reviews supply Table 1 / the reliability tallies (or ship a derived 102-row quality table alongside the 217-row raw slab), and state that aggregate study/participant totals are de-duplicated sums over selected effects."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Credible-effect significance prose elides the non-significant effects",
+      "evidence": "Education: 'most of the credible results (13 of 22 effects) ... with the remaining six associations significant at the 95% confidence level' (13+6=19, so 3 of the 22 credible education effects are non-significant and go unnamed). Health: '14 of 21 effects were statistically significant at the 99.9% ... with the remaining four significant at 95%' (14+4=18, so 3 of 21 are non-significant). Consistent arithmetically (general screen-use->learning p=0.071 and co-viewing p=0.028 straddle 0.05), but the 'remaining X' phrasing implies a full partition.",
+      "impact": "Minor clarity issue; a careful reader could momentarily believe all 21/22 credible effects were significant.",
+      "fix": "Add 'and 3 were not statistically significant' to both sentences."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Code hygiene: stray token and identity conversion",
+      "evidence": "make_forest_plot.R line 1 begins 't #' .. content' (stray leading 't '). conversions.R b2r returns beta unchanged (identity: r = beta), flagged with a TODO by the authors; beta-derived effects are entered at their raw beta scale without an explicit standardisation step.",
+      "impact": "No effect on the verified d/r/z effects; a latent methodological caveat for beta-origin effects and a benign typo.",
+      "fix": "Remove the stray token; replace the b2r TODO with a documented standardised-beta->r transform if it is ever load-bearing."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Environment/version documentation",
+      "evidence": "Methods cites R 4.3.0; local audit host ran R 4.6.1 with metafor 5.0-1. renv.lock is present and pins the graph, but a full clean-session rerun of the targets pipeline (incl. webshot/webshot2 figure render + Python PDF merge) was not executed in this audit; metafor emitted '1 study with NAs omitted from model fitting'.",
+      "impact": "Minor; version drift R 4.3.0->4.6.1 is within tolerance and the pooled results were reproduced regardless.",
+      "fix": "Re-run the targets graph from a clean session on the pinned renv profile and record sessionInfo()/renv.lock commit."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Missing-value sentinel must be replicated to avoid a reproducibility cliff",
+      "evidence": "Studies.csv uses -999/''/'#N/A' as NA markers, mapped to NA by the authors' read_sheet (na=c('-999','','#N/A')) before mean-N imputation. A naive reader (as in this audit's first pass) keeps -999 as a sample size and metafor fails on 27 effects with 'One or more sample sizes are <= 0', which could be mistaken for a paper error.",
+      "impact": "No paper number is wrong (all 18 quoted effects reproduce after sentinel handling); it is a documentation cliff for would-be reusers.",
+      "fix": "Document the sentinel convention in the data README (or ship pre-cleaned numeric data)."
+    }
+  ],
+  "positive_findings": [
+    "Full analysis code AND underlying study-level data are publicly shared (GitHub + OSF).",
+    "The manuscript is a papaja R Markdown document whose every headline number is computed dynamically from the data via an explicit targets pipeline (no hand-typed statistics in the text).",
+    "All 18 independently-recomputed pooled effects (r, 95% CI, k, N, p) match the paper to 2-dp precision.",
+    "PRISMA flow is internally consistent and matches the shipped covidence file exactly.",
+    "Credibility counts are internally consistent (43=22+21 effects; 32=17+15 reviews; 88−66=22; 163−142=21).",
+    "A second-language (Python) recompute confirms the headline effects in direction and magnitude."
+  ]
+}

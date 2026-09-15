@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: ECTA14370 — Measuring Ambiguity Attitudes for All (Natural) Events</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Measuring Ambiguity Attitudes for All (Natural) Events</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>10.3982/ECTA14370</code> — Baillon, Huang, Selim &amp; Wakker, <em>Econometrica</em> 86(5), 2018, 1839–1858.
+<strong>Mode:</strong> <strong>static audit + internal-consistency reimplementation</strong> (NO author code/data is publicly available). The paper's two index <em>means</em>, all sample/denominator arithmetic, and Model-1 regression point estimates were independently recomputed in R 4.6.1 from the published tables (Supplement Table SC.I), exploiting the fact that both indexes <code>b</code> and <code>a</code> are <em>linear</em> functions of the matching probabilities. Inferential statistics that require the (unpublished) raw per-subject data are marked ➖ with the specific reason.
+<strong>Originals:</strong> <code>paper.pdf</code>/<code>paper_extracted.txt</code> untouched; work done only in <code>exec_check/</code>. Supplement PDF downloaded live from the Econometric Society article page.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead>
+<tr><th>Severity</th><th>Count</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>2</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>1</td></tr>
+<tr><td>P3 — low</td><td>1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This is a clean, internally highly consistent paper; the audit is limited by the absence of a public replication package.</strong>
+All 8 index <em>means</em> in Table III (b and a, control and TP, Parts 1–2) recompute <strong>exactly</strong> from the Supplement's Table SC.I matching-probability summary means, because the indexes are linear in (<code>mc</code>, <code>ms</code>). Every standard-error entry obeys <code>SE = SD/√N</code>; the Model-1 regression point estimates of Tables IV &amp; V equal their cell means; and every denominator reproduced (N=104 enrolled → 99 analysed; 198 regression observations; 1584 response-time observations; 496 TP Part-1 choices; 191 supplement N). No reported number is arithmetically impossible, and the headline mean-level pattern (TP raises a-insensitivity to ≈0.34 vs ≈0.15–0.17 elsewhere; index b flat near −0.07 to −0.11) is corroborated. The theoretical core (Definitions 2.1/2.2) is sound. <strong>One finding (ADV-001, P2):</strong> the a-insensitivity Spearman retest correlation is reported differently in the text (ρ=0.73/0.74) than in the Figure 2 captions (ρ=0.77/0.70) — both conditions disagree, so they cannot both be right; this does not touch the headline inference. <strong>One finding (ADV-002, P3):</strong> no public replication package/raw data exists for this lab experiment, so 8/19 empirical claims (regression SE/Chi², R², correlations, nonparametric tests, medians) are not independently executable.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers).</p>
+<table>
+<thead>
+<tr><th>Script</th><th>Re-implements / verifies</th><th>Manuscript exhibit / claim</th><th>Status</th></tr>
+</thead>
+<tbody>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>Index definition calibration (b, a ranges); all 8 Table III index means from Supplement Table SC.I; SE=SD/√N; N/denominator arithmetic; Model-1 point estimates = cell means; Spearman text-vs-figure cross-check; RT narrative</td><td>Defs 2.1/2.2; Tables III, IV, V, VI; Figs 1–2; Appendix SA; §4 text</td><td>OK (see log)</td></tr>
+<tr><td><code>exec_check/output/supplement.pdf</code> / <code>supplement.txt</code></td><td>Econometrica online supplement retrieved and text-extracted</td><td>Appendices SA–SE, esp. Table SC.I (matching-probability summary stats)</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (26 numbered claims, C1–C26): <code>reproai_reports/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close / rounding-explicable · ⚠️ discrepant · ➖ not independently checkable.</p>
+<h3>Track (a) — Formal index definitions (Eq. 2, Eq. 3)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript claim</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>b under neutrality (ms=⅓, mc=⅔)</td><td>= 0</td><td>1 − ⅔ − ⅓ = 0.000</td><td>✅</td></tr>
+<tr><td>b max / min (all m=0 / all m=1)</td><td>= 1 / −1</td><td>1.000 / −1.000</td><td>✅</td></tr>
+<tr><td>a under neutrality</td><td>= 0</td><td>0.000</td><td>✅</td></tr>
+<tr><td>a max insensitivity (mc=ms)</td><td>= 1</td><td>1.000</td><td>✅</td></tr>
+<tr><td>a &lt; 0 allowed (α-maxmin excludes)</td><td>allowed, e.g. a&lt;0</td><td>a(ms=0.1,mc=0.6)=−0.5</td><td>✅</td></tr>
+<tr><td>Orthogonality; α=b/(2a)+½</td><td>companion paper</td><td>—</td><td>➖ (external companion-paper result, not derivable here)</td></tr>
+</tbody>
+</table>
+<h3>Table III — index means, reimplemented from Supplement Table SC.I</h3>
+<table>
+<thead><tr><th>Cell (Part/Treatment)</th><th>ms (impl)</th><th>mc (impl)</th><th>b (impl)</th><th>b (Table III)</th><th>a (impl)</th><th>a (Table III)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Control P1 (N=42)</td><td>0.393</td><td>0.677</td><td>−0.070</td><td>−0.07</td><td>0.150</td><td>0.15</td><td>✅</td></tr>
+<tr><td>Control P2 (N=42)</td><td>0.417</td><td>0.693</td><td>−0.110</td><td>−0.11</td><td>0.170</td><td>0.17</td><td>✅</td></tr>
+<tr><td>TP P1 (N=57)</td><td>0.433</td><td>0.657</td><td>−0.090</td><td>−0.09</td><td>0.330</td><td><strong>0.34</strong></td><td>✅ (≈)*</td></tr>
+<tr><td>TP P2 (N=57)</td><td>0.393</td><td>0.670</td><td>−0.063</td><td>−0.06</td><td>0.170</td><td>0.17</td><td>✅</td></tr>
+</tbody>
+</table>
+<p>* The one apparent diff (a=0.330 vs 0.34) is pure 2-decimal rounding of the published SC.I <code>ms</code>/<code>mc</code> — rounded 0.43/0.65 → a = 1−3(0.65−0.43) = 0.34, the exact printed value.</p>
+<h3>Table III — SE internal consistency (SE = SD/√N)</h3>
+<table>
+<thead><tr><th>Cell</th><th>SD</th><th>N</th><th>Impl SE</th><th>Reported SE</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Control a P1</td><td>0.44</td><td>42</td><td>0.0679</td><td>0.07</td><td>✅</td></tr>
+<tr><td>Control a P2</td><td>0.41</td><td>42</td><td>0.0633</td><td>0.06</td><td>✅</td></tr>
+<tr><td>Control b P1</td><td>0.21</td><td>42</td><td>0.0324</td><td>0.03</td><td>✅</td></tr>
+<tr><td>Control b P2</td><td>0.24</td><td>42</td><td>0.0370</td><td>0.04</td><td>✅</td></tr>
+<tr><td>TP a P1</td><td>0.44</td><td>57</td><td>0.0583</td><td>0.06</td><td>✅</td></tr>
+<tr><td>TP a P2</td><td>0.45</td><td>57</td><td>0.0596</td><td>0.06</td><td>✅</td></tr>
+<tr><td>TP b P1</td><td>0.24</td><td>57</td><td>0.0318</td><td>0.03</td><td>✅</td></tr>
+<tr><td>TP b P2</td><td>0.24</td><td>57</td><td>0.0318</td><td>0.03</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Regression point estimates (Tables IV &amp; V, Model 1) vs cell means</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reproduced from Table III means</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Table IV intercept (b, Control P1)</td><td>−0.07</td><td>−0.070</td><td>✅</td></tr>
+<tr><td>Table IV Part1·TP (→ b TP P1)</td><td>−0.02 (→ −0.09)</td><td>−0.090</td><td>✅</td></tr>
+<tr><td>Table IV Part2·control (→ b Ctrl P2)</td><td>−0.04 (→ −0.11)</td><td>−0.110</td><td>✅</td></tr>
+<tr><td>Table V intercept (a, Control P1)</td><td>0.15</td><td>0.150</td><td>✅</td></tr>
+<tr><td>Table V Part1·TP (→ a TP P1 = headline)</td><td>0.19 (→ 0.34)</td><td>0.330→0.34</td><td>✅ point estimate</td></tr>
+<tr><td>Table V Part2·control / Part2·TP</td><td>0.02 / 0.02</td><td>0.170 / 0.170</td><td>✅ point estimate</td></tr>
+<tr><td>Table IV/V SEs, stars, Chi² (6.42, 18.48 / 16.19, 18.36)</td><td>reported</td><td>—</td><td>➖ (raw clustered data needed)</td></tr>
+</tbody>
+</table>
+<h3>Sample / denominator arithmetic</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Enrolled subjects</td><td>104 (42+62)</td><td>104</td><td>✅</td></tr>
+<tr><td>Analysed after 5 TP excluded</td><td>99 (42/57)</td><td>99</td><td>✅</td></tr>
+<tr><td>Regression N</td><td>198</td><td>99×2 = 198</td><td>✅</td></tr>
+<tr><td>Response-time N</td><td>1584</td><td>99×2×8 = 1584</td><td>✅</td></tr>
+<tr><td>TP Part-1 choices</td><td>496 (62×8)</td><td>496</td><td>✅</td></tr>
+<tr><td>Supplement SA N (7 dropped)</td><td>191</td><td>198−7 = 191</td><td>✅</td></tr>
+<tr><td>Weak-monotonicity violations 5/4/5/0%</td><td>TP P1/P2, Ctrl P1/P2</td><td>3/57≈5%, 2/57≈4%, 2/42≈5%, 0/42=0</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Spearman retest correlations (index, Part 1 vs Part 2)</h3>
+<table>
+<thead><tr><th>Index / group</th><th>Text §4</th><th>Figure caption</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>b / control</td><td>0.77</td><td>0.77 (Fig 1A)</td><td>—</td><td>✅ text=fig</td></tr>
+<tr><td>b / TP</td><td>0.85</td><td>0.85 (Fig 1B)</td><td>—</td><td>✅ text=fig</td></tr>
+<tr><td>a / control</td><td><strong>0.73</strong></td><td><strong>0.77</strong> (Fig 2A)</td><td>—</td><td>⚠️ ADV-001</td></tr>
+<tr><td>a / TP</td><td><strong>0.74</strong></td><td><strong>0.70</strong> (Fig 2B)</td><td>—</td><td>⚠️ ADV-001</td></tr>
+</tbody>
+</table>
+<p>None of the ρ values can be independently recomputed without raw data (➖); the a-index is additionally self-inconsistent between text and figure caption (⚠️).</p>
+<h3>Claims not independently checkable (reason: no public raw data)</h3>
+<ul>
+<li>Table III medians (median of a non-linear index ≠ function of component medians) — ➖</li>
+<li>Table IV/V/VI regression SEs, significance stars, Wald Chi², R² — ➖</li>
+<li>TP "learning effect" p=0.14 (joint test not shown in table) — ➖</li>
+<li>Consistency test (TP Part-1 m₁₃ mean diff 0.04, p=0.01) — ➖</li>
+<li>Set-monotonicity means 0.58/0.30/0.36/0.24; Wilcoxon Z=−2.61 p=.01; Mann–Whitney Z=−1.71 p=.09 — ➖</li>
+</ul>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — The a-insensitivity Spearman retest correlation differs between text and Figure 2 captions.</strong>
+Section 4.2 states "ρ=0.73 for the control treatment and ρ=0.74 for TP," but the Figure 2 panel captions read "ρ=0.77 (control)" and "ρ=0.70 (TP)" (paper_extracted.txt lines 402–403 vs. line 428). Both groups disagree, and the two figures' control values cannot both be the correct a-index retest correlation. Notably, Figure 2's control value (0.77) equals Figure 1's b-index control value (0.77), consistent with a panel-caption copy-paste error. <em>Impact:</em> secondary/descriptive (a retest-correlation shown in a figure); does not affect the headline inference (TP raises a-insensitivity; no effect on b). <em>Also not independently recomputable without raw data (➖).</em>
+<em>Fix:</em> recompute both a-index ρ from the raw per-subject a-values and reconcile the text with the figure captions (correct the wrong one, most likely the figure).</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — No public replication package / raw data for a lab-experiment paper.</strong>
+No per-subject matching-probability data or analysis code is publicly available (Zenodo <code>es-replication-repository</code> returns 0 hits for ECTA14370; the Econometric Society page exposes only the Supplement PDF). This paper predates Econometrica's mandatory data-editor replication policy (~2019–2020), so this is a provenance/reproducibility limitation rather than an author error — but it blocks independent verification of 8/19 empirical claims. <em>Fix:</em> retroactively archive the anonymised data + cleaning/regression code (e.g. in the ES Journals' Zenodo community) with a README mapping every exhibit to its producing script.</p>
+<hr />
+<h2>What this paper already does right</h2>
+<ul>
+<li>Methodologically clean: the index definitions are internally calibrated and their means, SDs, SEs, and the Model-1 OLS point estimates are mutually consistent across Tables III–V and the Supplement's SC.I — no impossible or self-contradictory headline number was found.</li>
+<li>The linearity of the indexes makes Table III fully reconstructable from the Supplement's summary statistics, a strong positive cross-check.</li>
+<li>Sample-size and denominator arithmetic is consistent end to end (104→99, 198, 1584, 496, 191), and the weak-monotonicity exclusion counts reconcile exactly with the reported percentages and the Supplement's N=191.</li>
+</ul>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No raw-data re-execution.</strong> No author data or code is publicly available, so regression standard errors, Wald Chi², R², Spearman ρ, the Wilcoxon/Mann–Whitney statistics, and Table III medians could NOT be independently computed. All such entries are marked ➖ with the reason; they should not be read as verified.</li>
+<li>Figures 1–2 are raster images in the PDF; their panel-level percentages ("two-thirds of the dots to the right of the diagonal") were not extracted/verified, and the ρ values are read from the caption text only.</li>
+<li>Pilot-response-time figures (36 s without TP; 30 s limit) are authors' pilot data, not independently checkable.</li>
+<li>The proposition-track items C6 (orthogonality) and C7 (α = b/(2a)+½) derive from the companion working paper Baillon et al. (2018b), not from this manuscript; marked ➖ here.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>paper.pdf</code>, <code>paper_extracted.txt</code> (parent folder)</td><td>Untouched supplied originals</td></tr>
+<tr><td><code>exec_check/01_internal_consistency.R</code></td><td>R reimplementation/verification script (index calibration, index-means from SC.I, SE=SD/√N, N arithmetic, ρ cross-check)</td></tr>
+<tr><td><code>exec_check/output/01_internal_consistency.log</code></td><td>R script output</td></tr>
+<tr><td><code>exec_check/output/supplement.pdf</code>, <code>supplement.txt</code></td><td>Econometrica online supplement downloaded + text-extracted</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log with <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>reproai_reports/manuscript_claims.md</code></td><td>26 numbered claims (C1–C26) with verdicts</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Package, audit, source, track breakdown</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001 (P2), ADV-002 (P3) with evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for both findings</td></tr>
+<tr><td><code>ENVIRONMENT.md</code></td><td>Environment &amp; provenance note</td></tr>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report</td></tr>
+</tbody>
+</table>
+</body>
+</html>

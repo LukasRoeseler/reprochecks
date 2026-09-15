@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Flesia et al. (2020) — yb2h8</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Predicting Perceived Stress Related to the Covid-19 Outbreak through Stable Psychological Traits and Machine Learning Models</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &middot; <strong>rules:</strong> 2026.06.27 &middot; <strong>audit date:</strong> 2026-09-14<br>
+<strong>Package audited:</strong> Flesia, L., Monaro, M., Mazza, C., Fietta, V., Colicino, E., Segatto, B., &amp; Roma, P. (2020), <em>J. Clin. Med.</em> 9(10):3350; preprint PsyArXiv <code>10.31234/osf.io/yb2h8</code> (OSF preprint <code>yb2h8_v1</code>; underlying OSF project node <code>e285f</code>); published DOI <code>10.3390/jcm9103350</code>.<br>
+<strong>Paper type:</strong> empirical cross-sectional observational study (online survey, N=2053 Italian adults), COVID-19 perceived-stress prediction using OLS regressions (JASP 0.14) and machine-learning classifiers (WEKA 3.9).<br>
+<strong>Mode:</strong> <strong>static audit + independent reimplementation at the summary-statistic level.</strong> The headline inferential statistics (two multiple regressions in Tables 1–2 and the ML classification metrics in Table 3) cannot be recomputed from raw participant-level data because <strong>no raw data and no analysis code are provided anywhere</strong> — the public OSF project backing the DOI (node <code>e285f</code>, zero children) contains exactly one file, the summary-level supplement PDF <code>jcm-09-03350-s001</code>. Every value that <em>is</em> checkable from the shipped summary materials (sample/N arithmetic, section 3.1 one-sample <em>t</em>-tests and Cohen&rsquo;s <em>d</em>, Table 3 F-measures from precision/recall, supplement Table S2 item <em>t</em>-tests, supplement Table S1 correlation CIs) was independently regenerated in <strong>R 4.6.1</strong> and cross-checked in <strong>Python 3.8</strong>.
+<strong>Originals:</strong> <code>paper_extracted.txt</code> / <code>paper.pdf</code> untouched (read-only). All work on copies in <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>5</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Verdict: the paper&rsquo;s <em>headline statistics are not independently reproducible from the shipped materials.</em></strong> The paper repeatedly states &ldquo;Data are provided in the Supplementary Materials,&rdquo; but the OSF project referenced by the DOI ships only a summary-level supplement (descriptive tables S1–S4); there is <strong>no raw participant-level dataset, no JASP/WEKA analysis files, and no analysis code anywhere</strong> (OSF node <code>e285f</code>: public, 0 children, 1 file). Consequently the primary claims — Regression 1 (R&sup2;=0.103), Regression 2 (R&sup2;=0.356) with all coefficients, and the ML classification metrics (sens. ≈0.76) — cannot be regenerated from data (<strong>ADV-001, P1</strong>). What <em>can</em> be checked is clean and largely internally consistent: all N/exclusion arithmetic reproduces; the section 3.1 one-sample <em>t</em>-tests and Cohen&rsquo;s <em>d</em> for males (t=4.79, d=0.22) and females (t=18.21, d=0.46) recompute correctly from the reported means/SDs/normative values; all eight Table 3 F-measures check out against their own precision/recall; and 9 of 10 supplement Table S2 item <em>t</em>-tests/d&rsquo;s are internally consistent. The exception is <strong>Table S2 Item 1</strong>, whose printed group means are incompatible with its own (mutually consistent) <em>t</em>=27.95 and <em>d</em>=1.57 (<strong>ADV-002, P2</strong>). If the promised raw data and code were released, the audit could be completed end-to-end; as shipped, the primary statistical findings are marked <strong>➖ not independently checkable</strong>.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces live execution — no author code shipped)</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). Because the authors shipped no code, &ldquo;live execution&rdquo; of the original JASP/WEKA pipeline was impossible; instead every summary-statistic-checkable value was recomputed in R 4.6.1 and independently cross-checked in Python 3.8.</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements / checks</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/check_internal.R</code></td><td>N/exclusion arithmetic; §3.1 one-sample <em>t</em>/<em>d</em>; Table S2 item <em>t</em>-tests &amp; <em>d</em>; Table 3 F-measures from P/R; Table S1 correlation CIs (Fisher-z)</td><td>§2.2; §3.1 (C10–C11); Table S2; Table 3; Table S1</td><td>OK</td></tr>
+<tr><td><code>exec_check/output/crosscheck_python.py</code></td><td>Independent re-computation of the same summary statistics in a second language</td><td>§3.1; Table 3; Table S2</td><td>OK (agrees with R)</td></tr>
+<tr><td><code>exec_check/extract_supplement.py</code></td><td>pdfminer text extraction of shipped supplement PDF</td><td>Tables S1–S4</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (25 claim ids, 46 numeric sub-claims, C1–C25): <code>exec_check/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision &middot; ≈ close/methodologically explicable &middot; ⚠ discrepant &middot; ➖ not independently checkable (reason given).</p>
+<h3>Sample construction (§2.2) — all reproduce</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Volunteers / duplicates / final N</td><td>2072 → 19 → 2053</td><td>2072−19 = 2053</td><td>✅</td></tr>
+<tr><td>Sex composition</td><td>1555 F + 480 M + 18 other</td><td>1555+480+18 = 2053</td><td>✅</td></tr>
+<tr><td>Mean age (SD), range</td><td>35.81 (13.19), 18–83</td><td>matches suppl S1 (35.81/13.19)</td><td>✅</td></tr>
+<tr><td>Mean education (SD), range</td><td>15.35 (3.43), 5–21</td><td>suppl S1 gives 15.36 (3.43) — 0.01-yr drift</td><td>⚠ ADV-005 (P3)</td></tr>
+<tr><td>High/low stress classes (excl. 18 other)</td><td>high 393 + low 1642 = 2035</td><td>2035 = 2053−18</td><td>✅</td></tr>
+<tr><td>Train/test split, 20% test</td><td>train 1628 (314/1314), test 407 (79/328)</td><td>1628+407=2035; 407=20.00% of 2035</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Section 3.1 — one-sample t-tests &amp; Cohen&rsquo;s d (recomputed from reported M/SD + normative means)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Sample PSS-10 mean (SD)</td><td>18.81 (6.25)</td><td>— no raw data</td><td>➖</td></tr>
+<tr><td>Males PSS-10 M (SD); Females M (SD)</td><td>16.71 (6.91); 19.44 (6.79)</td><td>— no raw data</td><td>➖</td></tr>
+<tr><td>Male <em>t</em>, <em>d</em> (vs norm 15.2)</td><td><em>t</em>(479)=4.79, p&lt;.001, <em>d</em>=0.22, CI(0.13,0.31)</td><td><em>t</em>=4.788, <em>d</em>=0.219</td><td>✅ (≈)</td></tr>
+<tr><td>Female <em>t</em>, <em>d</em> (vs norm 16.3)</td><td><em>t</em>(1554)=18.21, p&lt;.001, <em>d</em>=0.46, CI(0.41,0.51)</td><td><em>t</em>=18.236, <em>d</em>=0.462</td><td>≈ (rounding)</td></tr>
+</tbody>
+</table>
+<h3>Section 3.2 / 3.3 — Multiple regressions (Tables 1 &amp; 2)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Regression 1 fit (R&sup2;, adj-R&sup2;, F-change, F, RMSE)</td><td>0.103 / 0.101 / 12.009 / 46.65 / 6.56</td><td>— no raw data/code</td><td>➖ (no data or code shipped)</td></tr>
+<tr><td>Table 1 coefficients (B, SE, t, p, CI)</td><td>Intercept 25.342; Age −0.121; Gender −2.406; Education −0.081; Household 0.453; Income −0.463</td><td>— no raw data/code</td><td>➖</td></tr>
+<tr><td>Regression 2 fit (R&sup2;, adj-R&sup2;, F-change, F, RMSE)</td><td>0.356 / 0.352 / 5.908 / 101.49 / 5.57</td><td>— no raw data/code</td><td>➖</td></tr>
+<tr><td>Table 2 coefficients (12 terms incl. ES −0.959, BSCS −0.127, IntLOC −0.145)</td><td>see paper</td><td>— no raw data/code</td><td>➖</td></tr>
+</tbody>
+</table>
+<p><em>Cause note:</em> these are the paper&rsquo;s primary statistical results, but because the manuscript&rsquo;s data-sharing claim is not honored at the raw level and no JASP/WEKA output was shipped, none is independently recomputable.</p>
+<h3>Section 3.4 — Machine learning (Table 3)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>CFS-selected predictors (7)</td><td>age, income, COPEavoid, COPEpos, BSCS, ES, agreeableness</td><td>— no data/code/WEKA</td><td>➖</td></tr>
+<tr><td>ROC / precision / recall per classifier</td><td>see Table 3 (ROC 0.70–0.78)</td><td>— no data/code</td><td>➖</td></tr>
+<tr><td>F-measure consistency (P &amp; R → F)</td><td>8 reported values</td><td>F = 2PR/(P+R): 8/8 agree</td><td>✅ (internal consistency)</td></tr>
+<tr><td>Best sensitivity (Logistic, high-stress)</td><td>0.759</td><td>matches Table 3 cell</td><td>✅ (table-internal)</td></tr>
+<tr><td>Abstract claim</td><td>&ldquo;sensitivity greater than 76%&rdquo;</td><td>0.759 = 75.9%, not &gt;76%; Discussion says &ldquo;approaching 0.759&rdquo;</td><td>⚠ ADV-004 (P3)</td></tr>
+</tbody>
+</table>
+<h3>Supplement Table S2 — item-level independent-samples <em>t</em>-tests (means/SDs → <em>t</em>, <em>d</em>)</h3>
+<p>Pooled two-sample <em>t</em> (df = 393+1642−2 = 2033, matching reported df); |<em>d</em>| = |M<sub>hi</sub>−M<sub>lo</sub>|/SD<sub>pooled</sub>.</p>
+<table>
+<thead><tr><th>Item</th><th>reported t</th><th>reported |d|</th><th>recomputed t</th><th>recomputed |d|</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>27.950</td><td>1.57</td><td>15.263</td><td>0.857</td><td>⚠ ADV-002 (P2)</td></tr>
+<tr><td>2</td><td>28.040</td><td>1.58</td><td>27.990</td><td>1.572</td><td>✅</td></tr>
+<tr><td>3</td><td>29.480</td><td>1.66</td><td>29.353</td><td>1.648</td><td>✅</td></tr>
+<tr><td>4</td><td>22.750</td><td>1.28</td><td>22.544</td><td>1.266</td><td>✅</td></tr>
+<tr><td>5</td><td>19.820</td><td>1.11</td><td>19.715</td><td>1.107</td><td>✅</td></tr>
+<tr><td>6</td><td>18.060</td><td>1.01</td><td>18.100</td><td>1.016</td><td>✅</td></tr>
+<tr><td>7</td><td>18.710</td><td>1.05</td><td>18.595</td><td>1.044</td><td>✅</td></tr>
+<tr><td>8</td><td>23.200</td><td>1.30</td><td>23.286</td><td>1.308</td><td>✅</td></tr>
+<tr><td>9</td><td>23.958</td><td>1.35</td><td>24.086</td><td>1.353</td><td>✅</td></tr>
+<tr><td>10</td><td>33.972</td><td>1.91</td><td>33.996</td><td>1.909</td><td>✅</td></tr>
+</tbody>
+</table>
+<p><em>Note:</em> reported <em>t</em> and <em>d</em> are mutually consistent for all 10 items (relation <em>t</em> = |<em>d</em>|·√(n₁n₂/(n₁+n₂)) = |<em>d</em>|·17.807); only Item 1&rsquo;s printed group means disagree with its own (mutually consistent) <em>t</em>/<em>d</em> pair. All effects reported as negative <em>d</em> (low-minus-high convention), unstated legend (ADV-003).</p>
+<h3>Supplement Table S1 — correlations vs PSS-10 (n=2053)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Age r, CI</td><td>−0.26***, (−0.30,−0.20)</td><td>CI via Fisher-z (−0.30,−0.22)</td><td>≈ (method; within 0.02)</td></tr>
+<tr><td>BSCS Impulse-Control r, CI</td><td>−0.36***, (−0.39,−0.32)</td><td>Fisher-z (−0.40,−0.32)</td><td>≈</td></tr>
+<tr><td>Emotional stability r, CI</td><td>−0.47***, (−0.51,−0.44)</td><td>Fisher-z (−0.50,−0.44)</td><td>≈</td></tr>
+<tr><td>Student, HOUSEhold, Agreeab., Consc., IntLOC r/p</td><td>multiple cells</td><td>CI approx.; cell-level p subject to extraction alignment</td><td>≈ / ➖</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — The data (and analysis outputs) promised as &ldquo;in the Supplementary Materials&rdquo; are not actually provided; the primary statistics are therefore not independently reproducible.</strong>
+Sections 2.1/2.2 and the Discussion state that data (including &ldquo;open access data&rdquo;) are provided in the Supplementary Materials (paper_extracted.txt &asymp; lines 234, 523–525). The OSF project behind the DOI (node <code>e285f</code>, public, zero children) ships a single file, the supplement PDF <code>jcm-09-03350-s001</code>, which contains only summary descriptive statistics and ML parameter listings (Tables S1–S4). <em>No raw participant-level responses, no derived-variable dataset, no JASP 0.14 analyses, and no WEKA 3.9 arff/models/code are present anywhere.</em>
+<em>Why it matters:</em> the primary inferential claims — Regression 1 (R&sup2;=0.103), Regression 2 (R&sup2;=0.356) with all 12 coefficients, and the headline ML sensitivity (&asymp;0.759) — rest entirely on data a reader cannot obtain; a thorough recipient cannot confirm any of them.
+<em>Fix:</em> publish a de-identified participant-level dataset (raw item responses + the 18 derived variables), the JASP <code>.jasp</code> analysis files for Tables 1–2, and the WEKA 3.9 configuration/ARFF pipeline on OSF node <code>e285f</code>, with a README tracing raw → derived → analysis. Then re-run Tables 1–3 and Table S2 end-to-end.</p>
+<h3>P2 — medium</h3>
+<p><strong>ADV-002 — Supplement Table S2 Item 1&rsquo;s group means are inconsistent with its own reported <em>t</em> and Cohen&rsquo;s <em>d</em>.</strong>
+Printed means 2.62 (SD 0.91, high) vs 1.84 (SD 0.91, low), n=393/1642, recompute to a pooled <em>t</em>=15.263 and |<em>d</em>|=0.857, but the table reports <em>t</em>=27.95 and |<em>d</em>|=1.57. The reported <em>t</em> and <em>d</em> are mutually consistent with each other (and with a mean difference &asymp;1.43, roughly double the printed 0.78), and Items 2–10 in the same table are internally consistent — so a global extraction artifact is implausible.
+<em>Fix:</em> re-derive Item 1 from the raw data and correct the means (or the <em>t</em>/<em>d</em>) so all three agree within rounding.</p>
+<p><strong>ADV-003 — Unstated sign convention for Cohen&rsquo;s <em>d</em> in Table S2.</strong>
+All ten items print a negative <em>d</em> (low-minus-high), internally consistent across the table but never stated; a reader expects high-minus-low (as used in §3.1). No conclusion changes (all items significant), so this is documentation hygiene.
+<em>Fix:</em> state the convention in the Table S2 legend (or flip the sign to high-minus-low).</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-004 — The abstract overstates the best sensitivity (&ldquo;greater than 76%&rdquo;).</strong>
+The best high-stress sensitivity in Table 3 is 0.759 (Logistic) = 75.9%, which is <em>not</em> greater than 76%; the Discussion correctly says sensitivity &ldquo;approaching 0.759&rdquo;.
+<em>Fix:</em> restate as &ldquo;approaching 76%&rdquo; or quote 0.759 exactly.</p>
+<p><strong>ADV-005 — Education-mean drift between paper text and supplement.</strong>
+§2.2 reports 15.35 (SD 3.43); supplement Table S1 reports 15.36 (SD 3.43).
+<em>Fix:</em> harmonize the two sources.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No end-to-end reimplementation of the primary analyses.</strong> Because the authors shipped no raw data and no code, Tables 1–2 (regression) and Table 3 (ML metrics, feature selection) are marked <strong>➖ not independently checkable</strong> rather than verified or refuted. A completed audit requires the authors to release the data/code (see ADV-001).</li>
+<li>The supplement Table S2 and Table S1 numbers above were read from an automatic PDF-text extraction (pdfminer), which can misaligned two-column cells; item-level cell values were therefore treated with care, and only the Item 1 discrepancy that survives the 9-of-10 agreement pattern was elevated to a finding.</li>
+<li>Normative Italian PSS-10 values (males 15.2/6.1; females 16.3/5.5, ref. [53]) are cited, not independently recomputed — the PSS-10 normative source was not fetched.</li>
+<li>ML behaviour depends on random seeds/parameterization documented in Table S4 (WEKA defaults, seeds 1); without the raw training/test split we could not quantify classifier variance. Abstract wording aside, ROC 0.697–0.782 is consistent only at the stated two-decimal range.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>../paper_extracted.txt</code>, <code>../paper.pdf</code></td><td>Untouched paper full text / PDF (read-only originals; not modified)</td></tr>
+<tr><td><code>exec_check/check_internal.R</code></td><td>R 4.6.1 internal-consistency &amp; summary-stat reimplementation (N, §3.1 t/d, Table S2, Table 3, Table S1)</td></tr>
+<tr><td><code>exec_check/output/internal_consistency.log</code></td><td>Full R console output (status OK)</td></tr>
+<tr><td><code>exec_check/output/tableS2_item_recomputation.csv</code></td><td>Item-level <em>t</em>/<em>d</em> recomputation vs manuscript</td></tr>
+<tr><td><code>exec_check/output/crosscheck_python.py</code></td><td>Independent Python 3.8 cross-check (second language)</td></tr>
+<tr><td><code>exec_check/output/jcm-09-03350-s001_supplement.pdf</code></td><td>Downloaded supplement (SHA256 57B61722…, matches OSF)</td></tr>
+<tr><td><code>exec_check/output/supplement_extracted.txt</code></td><td>pdfminer text of Tables S1–S4</td></tr>
+<tr><td><code>exec_check/output/osf_*.json</code></td><td>OSF API responses (preprint yb2h8_v1, node e285f, its files, children)</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>25 claim ids / 46 numeric sub-claims, each checked</td></tr>
+<tr><td><code>exec_check/provenance_environment_note.md</code></td><td>Environment, provenance chain, version/drift note</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-005 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for each finding</td></tr>
+</tbody>
+</table>
+</body>
+</html>

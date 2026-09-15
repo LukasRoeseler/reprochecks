@@ -1,0 +1,42 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "rules_version": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "host_environment": {
+    "os": "win32 / Windows PowerShell 5.1",
+    "R": "4.6.1 (ucrt)",
+    "python": "3.8.10 (available)",
+    "stata": "NOT available (author used Stata 15.1)"
+  },
+  "package": {
+    "doi": "10.1086/714931",
+    "title": "State Action to Prevent Violence against Women: The Effect of Women's Police Stations on Men's Attitudes toward Gender-based Violence",
+    "authors": "Abby Córdova, Helen Kras",
+    "journal": "Journal of Politics (U Chicago Press / SPSA), 2021",
+    "type": "Cross-sectional public-opinion multilevel ordered-logistic policy-feedback study (NOT difference-in-differences); observational, with propensity-score-matched robustness"
+  },
+  "mode": "static audit + independent R 4.6.1 reimplementation (data & author Stata .do obtained from JOP Dataverse)",
+  "replication_package": {
+    "doi": "10.7910/DVN/D2WL5I",
+    "dataverse": "The Journal of Politics Dataverse",
+    "published": "2020-07-30",
+    "files": [
+      "Cordova_Kras_dataset_data popular V1.tab (gzip text, 204 KB, 1501 obs x 32 vars)",
+      "Cordova_Kras_do_file_online_appendix.do (Stata, 11 KB)",
+      "Cordova_Kras_do_file_table & graphs in manuscript.do (Stata, 20 KB)"
+    ],
+    "author_software": "Stata 15.1 (meologit / melogit, random intercept by municipio)"
+  },
+  "reimplementation": {
+    "scripts": [
+      "exec_check/scripts/01_inspect.R",
+      "exec_check/scripts/02_mainmodels.R",
+      "exec_check/scripts/03_margins.R",
+      "exec_check/scripts/04_supplementary.R"
+    ],
+    "method": "Ordered/binary multilevel models in R: ordinal::clmm (cumulative-link random-intercept) and lme4::glmer for melogit/meologit analogs; fixed-only predicted probabilities (b=0) average-over-sample to mirror Stata predict(mu fixedonly)"
+  },
+  "originals_untouched": true,
+  "reference_copy": "extracted/",
+  "working_copy": "exec_check/"
+}

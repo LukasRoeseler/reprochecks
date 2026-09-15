@@ -1,0 +1,48 @@
+================================================================================
+==== START (status: OK) =======================================================
+ReproAI reproducibility audit — Javanmard & Montanari, JMLR 15(1):2869–2909 (2014)
+"Confidence Intervals and Hypothesis Testing for High-Dimensional Regression"
+Engine: anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT
+Rules: 2026.06.27  |  Audit date: 2026-09-14
+================================================================================
+
+[1] Originals: paper.pdf + paper_extracted.txt (untouched). Working copy under
+    ReproAI\JMLR2014\ (deliverables).
+
+[2] Host environment:
+    - Windows win32, Python 3.8.10, numpy 1.24.4, scipy 1.10.1
+    - R 4.6.1 (2026-06-24 ucrt), glmnet 5.0, quadprog 1.5.8
+    - sklearn NOT installed; LASSO solved by a from-scratch numpy coordinate-descent.
+    - Code shipped by paper: NONE (URL only, legacy). Data: NONE.
+
+[3] PART A — analytic / internal-consistency checks (run_sim.py):
+    - A1  Debiased estimator decomposition (Eq 5 -> Theorem 6/8): max|diff| = 3.19e-10  -> CONFIRMED
+    - A1  Conditional covariance of Z: E[ZZ^T]=sigma^2 M Sigma_hat M^T: max rel err = 2.03% -> CONFIRMED
+    - A2  Lemma 12: [M S M^T]_ii >= (1-mu)^2 / S_ii : all satisfied (min margin +1.53) -> CONFIRMED
+    - A2  Feasibility of QP (4): |M Sigma_hat - I|_inf = 2.3e-15 (tiny test) -> CONFIRMED
+    - A3  Theorem 16 power fn: G(alpha,0)=alpha for alpha in {0.01,0.05,0.10,0.20} -> CONFIRMED
+    - A3  Proof identity 1-Phi(z*-u)+Phi(-z*-u) = 2-Phi(z*+u)-Phi(z*-u): diff 0.0 -> CONFIRMED
+    - A3  G monotone increasing in u -> CONFIRMED (power grows with signal)
+    - A5  Corollary 10 bias constant 160 = 16*10 -> CONFIRMED
+
+[4] PART B — synthetic simulation (Section 5.1), 20 noise realizations, fixed design.
+    Methodology: all configs have n>p; QP (4) solved exactly as box-constrained QP in
+    u = Sigma_hat m with mu = 2*sqrt(log p/n); entrywise feasibility = mu = 0.16 (OK).
+    sigma_hat: alternating approximation to Sun-Zhang scaled LASSO (df-corrected).
+      config            l_re   lS_re  lSc_re   Cov   CovS  CovSc    FP     TP
+      (1000,600,10,0.5) 0.1930 0.1943 0.1930 0.9328 0.5800 0.9388 0.0612 1.0000
+      (1000,600,10,0.25)0.1349 0.1351 0.1349 0.9435 0.8550 0.9450 0.0550 1.0000
+      (1000,600,10,0.1) 0.1099 0.1102 0.1098 0.9488 0.9300 0.9492 0.0508 0.8700
+      (1000,600,10,1.0) 0.3405 0.3406 0.3405 0.9272 0.4200 0.9358 0.0642 1.0000
+      (1000,600,30,0.5) 0.3072 0.3095 0.3071 0.9188 0.8900 0.9204 0.0796 1.0000
+
+[5] sigma_hat sensitivity probe (true sigma = 1.0):
+      b=0.1 -> sigma_hat 1.048;  b=0.25 -> 1.277;  b=0.5 -> 1.858
+    Strong-signal inflation ~ sqrt(1 + theta0^T Sigma theta0) drives length b-dependence
+    and active-coverage deviation (undocumented author sigma_hat not reproducible).
+
+[6] Verdict: THEORY VERIFIED; SIMULATION qualitative agreement (coverage, FP/TP);
+    exact numerical magnitudes and real-data + competitor columns NOT reproducible
+    from the article alone. Findings JM-001 (P1), JM-002/JM-003 (P2), JM-004 (P3).
+
+==== END (status: OK) =========================================================

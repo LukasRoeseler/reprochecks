@@ -1,0 +1,56 @@
+{
+  "audit": {
+    "package": "Flesia et al. (2020) JCM 9:3350 / PsyArXiv 10.31234/osf.io/yb2h8",
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "audit_date": "2026-09-14"
+  },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "Promised data/code are not actually provided; primary statistics not reproducible from shipped materials",
+      "evidence": "Paper sections 2.1/2.2/Discussion state 'Data are provided in the Supplementary Materials' (paper_extracted.txt lines ~234, ~523-525). OSF node e285f backing the preprint is public but contains exactly one file, the supplement PDF jcm-09-03350-s001 (2).pdf (SHA256 57B61722...); 0 children; no raw participant data, no raw item responses, no JASP 0.14 output, no WEKA 3.9 arff/models, no analysis code. Consequently Tables 1-2 regression coefficients, R^2=0.103/0.356, F-change, and Table 3 ML metrics cannot be independently recomputed (marked not-checkable-without-raw-data).",
+      "why_it_matters": "The primary inferential claims (two multiple regressions and the headline ML sensitivity ~0.76) rest entirely on data that were described as available but were not shipped in any raw or code form. A reader cannot reproduce the headline results.",
+      "fix": "Upload the de-identified participant-level dataset (raw item responses + derived 18 variables), plus the JASP .jasp analysis files and WEKA 3.9 .arff pipelines/configuration, to the OSF project (node e285f) referenced by the DOI; add a README describing the derivation chain raw -> derived -> analysis."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Supplement Table S2 Item 1 group means are inconsistent with its own reported t and Cohen's d",
+      "evidence": "Reported means 2.62 (SD 0.91, high) vs 1.84 (SD 0.91, low), n=393/1642. Pooled two-sample t recomputes to 15.263 and |d| to 0.857, but manuscript reports t=27.950 and |d|=1.57. The reported t and d are mutually consistent both with each other (t=|d|*17.807) and with a mean difference of ~1.43 points, i.e. roughly double the table's printed 0.78-point difference. Items 2-10 in the same table are all internally consistent, ruling out a global extraction/alignment artifact.",
+      "why_it_matters": "Item-level PSS-10 analysis is a secondary exhibit, not a primary hypothesis test; however the inconsistency is not explained by the data and undermines confidence in the table.",
+      "fix": "Re-check the raw data for Item 1 means/SDs (or the Item 1 t/d). Correct whichever side is wrong so that means, t and d agree within rounding."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Sign convention of Cohen's d in Table S2",
+      "evidence": "All ten items print negative d while the recomputed magnitude uses (M_high - M_low)/SDpool, i.e. d is reported under a low-minus-high convention. This is internally consistent across items and does not change conclusions, but the convention is not stated in the table; a reader assumes high-minus-low.",
+      "why_it_matters": "Documenting the sign convention prevents misinterpretation of whether higher stress maps to positive or negative d.",
+      "fix": "State the d convention in the Table S2 legend or report d with consistent sign relative to the direction of the difference."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Abstract overstates best sensitivity ('greater than 76%')",
+      "evidence": "Table 3 best high-stress sensitivity = 0.759 (Logistic), i.e. 75.9%, which is NOT greater than 76%; the Discussion correctly says sensitivity 'approaching 0.759'. Also all four classifiers ROC 0.697-0.782 is consistent with '0.70-0.78'.",
+      "why_it_matters": "Minor wording overstatement in the headline abstract figure.",
+      "fix": "Restate abstract as 'sensitivity approaching 76%' or give the exact 0.759."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Education-mean drift between paper text and supplement",
+      "evidence": "paper_extracted.txt section 2.2 reports education 15.35 (SD 3.43); supplement Table S1 all-participants reports 15.36 (SD 3.43).",
+      "why_it_matters": "Trivial descriptive inconsistency between the two shipped sources.",
+      "fix": "Harmonize the reported education mean."
+    }
+  ],
+  "summary": {
+    "P0": 0,
+    "P1": 1,
+    "P2": 2,
+    "P3": 2,
+    "total": 5
+  }
+}

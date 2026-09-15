@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: aer.20161385 (Hjort &amp; Poulsen 2019, AER)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>The Arrival of Fast Internet and Employment in Africa</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14</p>
+<p><strong>Package audited:</strong> <code>aer.20161385</code> (Jonas Hjort &amp; Jonas Poulsen, American Economic Review 2019, 109(3): 1032–79, <code>10.1257/aer.20161385</code>; I4R batch item 17 — folder <code>15_aer.20161385</code>).
+<strong>Paper type:</strong> empirical development/labor microeconomics — generalized difference-in-differences and event-study regressions on individual- and firm-level outcomes (sub-Saharan Africa), with SEs clustered at location level.</p>
+<p><strong>Mode:</strong> <strong>static audit + independent arithmetic re-derivation</strong> of every manuscript-derivable check (R 4.6.1 + Python 3.8, cross-checked in two languages). A <strong>full data-level reimplementation was attempted but not executed</strong>: the replication package is confirmed to exist and be complete at openICPSR <code>10.3886/E113156V1</code>, but the raw microdata (qlfs.dta 153&nbsp;MB, DHS inputs, light.dta 104&nbsp;MB, …) could not be programmatically downloaded past a Cloudflare “managed challenge” on this shell’s egress, and Stata is not installed on the audit host. See “What this audit does not guarantee” and <code>advisory_plan.json</code>.</p>
+<p><strong>Originals:</strong> untouched (<code>paper.pdf</code>, <code>paper_extracted.txt</code>). All work on copies under <code>exec_check/</code>. Coefficient signs were cross-verified against a fresh pdfminer extraction of <code>paper.pdf</code> (<code>pdfminer_full.txt</code>) because the .txt extract drops some leading minus signs.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>3</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>0</td></tr>
+<tr><td>P3 — low</td><td>3</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The manuscript is internally consistent and the replication package is present and complete.</strong> All 41 manuscript-derivable arithmetic claims that can be checked without microdata pass: the headline pp-to-percent conversions, all 16 Table 1 baseline differences (connected − unconnected) and the sign of every t-statistic, all asinh/log-coefficient ↔ prose-“%” claims (speed, Internet use, SA hours, firm entry, Ethiopia employment &amp; productivity, incomes), and the N / mean-of-outcome consistency across Tables 3–9, A1, A2. The full Stata replication archive exists and is co-located with the AER article (openICPSR <code>10.3886/E113156V1</code>, V1, 2019-10-12), satisfying AER’s replication policy, so the package is available in principle. The one ‘≈’ is a rounding-base quirk in a single prose percentage (DHS “6.9%” vs 6.8% under the Table 3 mean). <strong>The headline regression coefficients themselves — DHS employment 0.046 (0.014), Afrobarometer 0.077 (0.037), SA-QLFS 0.022 (0.008) — could NOT be independently re-tabulated from raw data in this session</strong> because the data could not be downloaded past the access gate (➖ with reason, not evidence of a defect). Three P3 documentation nits were found (citation DOI misprint; one inconsistent % base; loose pp/% terminology). No P0–P2 reproducibility defect was established.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers; also shown below).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/scripts/01_internal_consistency.R</code></td><td>Headline pp→% conversions; Table 1 baseline differences &amp; t-sign consistency; asinh-coefficient “%” prose claims; N / mean-of-outcome consistency across tables</td><td>Abstract+IV-B; Tables 1, 2, 3, 7, 8, 9 prose; N across T3–T6, A1, A2 → C1–C41</td><td>OK — 40 ✅ / 1 ≈ / 0 ⚠</td></tr>
+<tr><td><code>exec_check/scripts/01b_python_crosscheck.py</code></td><td>Same checks re-derived independently in Python 3.8 (second-language cross-check, §5)</td><td>overlapping subset (32 checks)</td><td>OK — 31 ✅ / 1 ≈ / 0 ⚠; agrees with R</td></tr>
+<tr><td><code>python (pdfminer)</code> → <code>pdfminer_full.txt</code></td><td>Authoritative sign check of tables from the actual PDF (recovers minus signs the .txt extract drops)</td><td>Table 3 Panel B “wants to work more” = <strong>−0.022</strong></td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (41 numbered claims, C1–C41): <code>exec_check/manuscript_claims.md</code>. The load-bearing <strong>regression-level</strong> reimplementation (equation 1 of the paper, `t1–t4.do`, `f4/f5/f7.do`) is specified in <code>advisory_plan.json</code> but was not executed (data gate + no Stata).</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical/consistent at reported precision · ≈ close, base/rounding-sensitive · ⚠ discrepant · ➖ not independently checkable (reason given).</p>
+
+<h3>Headline employment results (Table 3 / abstract)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Re-derivation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>DHS effect (pp), [SE], N, mean</td><td>0.046 [0.014], 59,914, 0.68</td><td>coef not re-run (no microdata); mean 0.68 ✅ matches Table 1</td><td>✅ arithmetic; ➖ from data</td></tr>
+<tr><td>Afrobarometer effect (pp), [SE], N, mean</td><td>0.077 [0.037], 7,918, 0.58</td><td>mean 0.58 ✅ matches Table 1</td><td>✅ arithmetic; ➖ from data</td></tr>
+<tr><td>SA-QLFS effect (pp), [SE], N, mean</td><td>0.022 [0.008], 280,641, 0.72</td><td>mean 0.72 ✅ matches Table 1</td><td>✅ arithmetic; ➖ from data</td></tr>
+<tr><td>DHS “6.9%” conversion</td><td>4.6 pp → 6.9%</td><td>0.046/0.68=6.76%; needs base 0.67 (connected) → 6.87%</td><td>≈ ADV-002</td></tr>
+<tr><td>Afro “13.2%” conversion</td><td>7.7 pp → 13.2%</td><td>0.077/0.58=13.28%</td><td>✅</td></tr>
+<tr><td>SA “3.1%” conversion</td><td>2.2 pp → 3.1%</td><td>0.022/0.72=3.06%</td><td>✅</td></tr>
+<tr><td>“Wants to work more” (T3 PB c2)</td><td>prose: −2.2%</td><td>PDF confirms coefficient <strong>−0.022</strong> (0.008)</td><td>✅ (sign verified from PDF)</td></tr>
+</tbody>
+</table>
+
+<h3>Table 1 — baseline differences &amp; t-sign (16 rows)</h3>
+<table>
+<thead><tr><th>Row</th><th>Connected</th><th>Unconnected</th><th>Reported Δ</th><th>Re-derived Δ</th><th>t</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Speed (kbps)</td><td>453.64</td><td>423.47</td><td>30.17</td><td>30.17</td><td>0.27</td><td>✅</td></tr>
+<tr><td>Daily Internet use</td><td>0.08</td><td>0.11</td><td>−0.03</td><td>−0.03</td><td>−2.42</td><td>✅</td></tr>
+<tr><td>Weekly Internet use</td><td>0.16</td><td>0.21</td><td>−0.05</td><td>−0.05</td><td>−2.61</td><td>✅</td></tr>
+<tr><td>DHS employment</td><td>0.67</td><td>0.68</td><td>−0.01</td><td>−0.01</td><td>−1.46</td><td>✅</td></tr>
+<tr><td>DHS skilled</td><td>0.57</td><td>0.58</td><td>−0.01</td><td>−0.01</td><td>−1.05</td><td>✅</td></tr>
+<tr><td>Afrobarometer employment</td><td>0.56</td><td>0.59</td><td>−0.03</td><td>−0.03</td><td>−1.57</td><td>✅</td></tr>
+<tr><td>SA employment</td><td>0.77</td><td>0.71</td><td>0.06</td><td>0.06</td><td>7.99</td><td>✅</td></tr>
+<tr><td>SA skilled</td><td>0.55</td><td>0.49</td><td>0.07</td><td>0.06 (rounding)</td><td>8.13</td><td>✅</td></tr>
+<tr><td>Hours worked</td><td>45.26</td><td>45.38</td><td>−0.11</td><td>−0.12 (rounding)</td><td>−0.41</td><td>✅</td></tr>
+<tr><td>Wants to work more</td><td>0.62</td><td>0.66</td><td>−0.04</td><td>−0.04</td><td>−5.82</td><td>✅</td></tr>
+<tr><td>Formal employment</td><td>0.54</td><td>0.47</td><td>0.07</td><td>0.07</td><td>7.83</td><td>✅</td></tr>
+<tr><td>Informal employment</td><td>0.12</td><td>0.12</td><td>0.00</td><td>0.00 (t≈−0.67, sub-precision)</td><td>−0.67</td><td>✅</td></tr>
+<tr><td>Ethiopia employees</td><td>73.90</td><td>80.83</td><td>−6.93</td><td>−6.93</td><td>−0.35</td><td>✅</td></tr>
+<tr><td>Ethiopia skilled positions</td><td>24.30</td><td>23.85</td><td>0.45</td><td>0.45</td><td>0.05</td><td>✅</td></tr>
+<tr><td>Net firm entry / quarter</td><td>3.46</td><td>3.31</td><td>0.15</td><td>0.15</td><td>1.58</td><td>✅</td></tr>
+<tr><td>Night-light density</td><td>3.62</td><td>1.41</td><td>2.21</td><td>2.21</td><td>8.89</td><td>✅</td></tr>
+</tbody>
+</table>
+<p>All 16 t-statistics carry the sign of their baseline difference (directionally consistent). Exact |t| values require the raw data → ➖ this session.</p>
+
+<h3>Prose “%” claims derived from asinh/log coefficients</h3>
+<table>
+<thead><tr><th>Prose claim</th><th>Coefficient</th><th>Re-derived %</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Speed +35% / +36% / +38%</td><td>0.354 / 0.362 / 0.380</td><td>35.4 / 36.2 / 38.0</td><td>✅✅✅</td></tr>
+<tr><td>Daily use +8% / +12%</td><td>0.082 / 0.124</td><td>8.2 / 12.4</td><td>✅✅</td></tr>
+<tr><td>Weekly use +12% / +14%</td><td>0.123 / 0.142</td><td>12.3 / 14.2</td><td>✅✅</td></tr>
+<tr><td>SA hours ~10%</td><td>0.101</td><td>10.1</td><td>✅</td></tr>
+<tr><td>SA net firm entry ~23%</td><td>0.227</td><td>22.7</td><td>✅</td></tr>
+<tr><td>Ethiopia employment ~16% / ~22%</td><td>0.156 / 0.224</td><td>15.6 / 22.4</td><td>✅✅</td></tr>
+<tr><td>Ethiopia productivity ~13%</td><td>0.127</td><td>12.7</td><td>✅</td></tr>
+<tr><td>Incomes +2.4% / +3.3%</td><td>0.024 / 0.033</td><td>2.4 / 3.3</td><td>✅✅</td></tr>
+</tbody>
+</table>
+
+<h3>Sample N / mean-of-outcome consistency (cross-table)</h3>
+<table>
+<thead><tr><th>Item</th><th>Observed across tables</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>DHS employment N</td><td>59,914 in T3, T4, T6, A1</td><td>✅</td></tr>
+<tr><td>Afrobarometer N</td><td>7,918 (T3/A1); 7,900 (T4/A2); 7,902 (T6) — differing restrictions, not contradictory</td><td>✅</td></tr>
+<tr><td>SA-QLFS employment N</td><td>280,641 (T3/T4); 277,737 (T6, education-matched)</td><td>✅</td></tr>
+<tr><td>Means of outcome ↔ Table 1 “All”</td><td>DHS 0.68=0.68; Afro 0.58=0.58; SA 0.72=0.72; SA skilled 0.50=0.50; DHS skilled 0.58=0.58</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<p><strong>Regression coefficients, clustered SEs, p-values and exact Table 1 t-statistics are all ➖ (not independently re-derived this session)</strong> solely because the raw microdata could not be downloaded in this environment and Stata is not installed. Availability of the package is itself ✅ (openICPSR <code>10.3886/E113156V1</code>, complete: data/syntax/gis).</p>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P3 — low</h3>
+<p><strong>ADV-001 — The reference-list dataset citation DOI does not resolve.</strong>
+The entry (paper_extracted.txt lines 2904–05) prints <code>https://doi.org/10.1275/20161385</code> for “The Arrival of Fast Internet and Employment in Africa: Dataset.” <code>10.1275</code> is not an AEA handle and <code>20161385</code> alone is not a valid dataset suffix, so the citation as printed fails to point a reader to the files. The actual package is at <code>10.3886/E113156V1</code>.
+<em>Fix:</em> cite the resolving replication DOI (10.3886/E113156V1), or the correct AER-native dataset handle, and verify it resolves. No effect on inference.</p>
+<p><strong>ADV-002 — One prose percentage uses a different baseline across samples.</strong>
+DHS is reported as “4.6 pp, or 6.9%”; re-derivation gives 0.046/0.68 = 6.76% under the printed Table 3 mean, and 6.87% only under the connected-baseline 0.67 (Table 1) — whereas the Afrobarometer “13.2%” (0.077/0.58) and SA “3.1%” (0.022/0.72) use the pooled mean. The base is not held constant across the three samples.
+<em>Fix:</em> state the conversion base, or uniformly use the mean-of-outcome (then DHS prints “6.8%”). No effect on inference.</p>
+<p><strong>ADV-003 — “Percent” vs “percentage point” used loosely for 0/1 coefficients.</strong>
+Table 3 Panel B “wants to work more” = −0.022 is described as reducing the probability “by 2.2 percent” (it is 2.2 pp); Table 5 prose calls DHS 0.044 / SA 0.014 “4.4 and 1.4 percent”. Coefficients are unambiguous in the tables.
+<em>Fix:</em> use “percentage points” for dummy-outcome coefficients; reserve “percent” for relative changes. No effect on inference.</p>
+<hr />
+<h2>What this package already does right</h2>
+<ul>
+<li><strong>Replication policy compliance:</strong> full data + Stata code + GIS are deposited and linked from the AER article (openICPSR <code>10.3886/E113156V1</code>) — this is the strongest element of the package.</li>
+<li><strong>Headline internal consistency:</strong> every pp/% conversion, baseline difference, t-sign, and cross-table N/mean check passes (40/41 ✅).</li>
+<li><strong>Transparent identification write-up:</strong> equation (1), connectivity radius (500 m), excluded (indirect) sample rules, SE clustering, and asinh transforms are all documented.</li>
+<li><strong>Thorough robustness battery</strong> (radius, grid-cell size, placebo roads/electricity/3G, leads/lags, permutation test, Conley spatial SEs, admin-unit clustering).</li>
+</ul>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No live data-level retabulation.</strong> The headline coefficients, clustered SEs, p-values, N and (absent) R² were not re-derived from raw microdata in this session: the binary replication files could not be downloaded past the openICPSR/Cloudflare gate from this shell, and Stata (the author tool) is not installed. This is an environment/access limitation, not evidence of a package defect. <strong>Recommended next step</strong> (preserved in <code>advisory_plan.json</code>): on an approved network, download <code>10.3886/E113156V1</code>, run <code>t1–t4.do</code>, <code>f4/f5/f7.do</code>, <code>fa1.do</code> in Stata 14+, and diff all coefficients/SEs/N against Tables 3–9 and Table A1/A2.</li>
+<li>Table 1 exact t-statistics and all regression standard errors require the microdata → not re-verified (± sign consistency only).</li>
+<li>Table 5/6 fine-grained occupational/education cell-level signs were read from reconstructed tables; where the .txt extract dropped a minus, the PDF extraction was used, but a handful of minor cell signs were not exhaustively re-verified.</li>
+<li>The WBES firm-level results are summarized from the online appendix and were not extracted/checked here.</li>
+<li>The Fig. A1 ITU broadband-charge event-study and Figure 5 permutation-test estimates are figure-only and were not re-derived.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>41 numbered claims (C1–C41) with verdicts</td></tr>
+<tr><td><code>exec_check/scripts/01_internal_consistency.R</code></td><td>R re-derivation of all manuscript-derivable arithmetic claims</td></tr>
+<tr><td><code>exec_check/scripts/01b_python_crosscheck.py</code></td><td>Independent Python cross-check</td></tr>
+<tr><td><code>exec_check/output/internal_consistency_checks.csv</code> / <code>.json</code></td><td>R check results (40✅/1≈/0⚠)</td></tr>
+<tr><td><code>exec_check/output/python_crosscheck.json</code></td><td>Python check results (31✅/1≈/0⚠)</td></tr>
+<tr><td><code>exec_check/pdfminer_full.txt</code></td><td>Authoritative sign verification text from paper.pdf</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Console log with <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline / source / reimplementation / provenance</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-003 with severities + evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation + full-data retabulation recipe (next step)</td></tr>
+<tr><td><code>ENVIRONMENT_NOTE.md</code></td><td>Host environment, provenance chain, access-gate reason for ➖</td></tr>
+</tbody>
+</table>
+<hr />
+<h3>Console log excerpt</h3>
+<pre>==== START (audit) — aer.20161385, DeepSeek V4 Flash via uniGPT, rules 2026.06.27
+[1] R 4.6.1 present; Python 3.8.10 present; Stata ABSENT
+[2] Replication package located: openICPSR 10.3886/E113156V1 (data/syntax/gis), 2019-10-12
+[3] Data download attempt -> 403 Cloudflare managed challenge (PS/curl/webfetch); no mirror; -> assigned ➖ with reason
+[4] Edge sources: paper_extracted.txt + pdfminer_full.txt (authoritative signs)
+[5] R 01_internal_consistency.R -> 41 checks, 40 check / 1 approx / 0 discrepant (status: OK)
+[6] Py 01b_python_crosscheck.py -> 32 checks, 31 check / 1 approx / 0 discrepant (status: OK)
+[7] Findings: P0=0 P1=0 P2=0 P3=3 (ADV-001..003)
+==== END (status: OK) ====</pre>
+</body>
+</html>

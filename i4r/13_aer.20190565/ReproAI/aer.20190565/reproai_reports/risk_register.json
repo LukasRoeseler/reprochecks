@@ -1,0 +1,47 @@
+{
+  "audit": {
+    "package_id": "10.1257/aer.20190565",
+    "short_title": "Vulnerability and Clientelism",
+    "audit_date": "2026-09-14",
+    "rules": "2026.06.27"
+  },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "category": "verification gap / data access",
+      "what": "The ICPSR replication package (10.3886/E173341V1) and the AEA Supplemental Appendix could not be retrieved or executed in the audit environment (ICPSR/AEA returned HTTP 403; no institutional login or browser-automation available).",
+      "evidence": "HTTP 403 Forbidden from https://doi.org/10.3886/E173341V1, https://www.openicpsr.org/openicpsr/project/173341/version/V1/view, and AEA supplemental-appendix endpoints on 2026-09-14.",
+      "why_it_matters": "Every regression point estimate and clustered/wild-bootstrap standard error in Tables 2-5 could therefore only be checked for internal consistency (which passes) but NOT independently re-estimated. All such cells are marked ➖ in the numerical tables.",
+      "is_author_defect": false,
+      "suggested_fix": "Obtain the deposit via institutional / ICPSR-login / library access or by direct author request; run the supplied Stata and/or R do-scripts against the supplied data in a clean session and diff outputs against Tables 2-5. Re-run headline requests (Table 3), well-being (Table 2), electoral (Table 4) and heterogeneity (Table 5) specifications."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "category": "reproducibility/documentation (extraction ambiguity)",
+      "what": "Table 3 columns 7-8 (requests excluding water; requests for public goods) report only the pooled cisterns/rainfall coefficients; the per-cell point estimates cannot be cleanly read from the article-text extraction because column alignment was lost in PDF->text conversion.",
+      "evidence": "paper_extracted.txt Table 3 rows show a lossy sequence of coefficients without unambiguous column mapping for cols 7-8; prose states only 'robust ... estimates are mechanically smaller' (col 7) and a 2.7% control mean (col 8, verified as 0.027).",
+      "why_it_matters": "Prevents cell-level verification of two secondary robustness regressions from the main text alone.",
+      "is_author_defect": false,
+      "suggested_fix": "Cross-check those cells against the typeset PDF and the deposited replication output; include the point estimates in the appendix if not already present."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "category": "minor rounding/label",
+      "what": "Text states a 1-SD decrease in rainfall 'decreases self-reported health by 0.04 units, or about 0.08 standard deviations'; the recomputed ratio is 0.039/0.535 = 0.073, which standard-rounds to 0.07, not 0.08.",
+      "evidence": "Table 2 panel B col2: coefficient 0.039, control-group SD 0.535; 0.039/0.535 = 0.0729.",
+      "why_it_matters": "Cosmetic; does not change any conclusion but is an imprecise effect-size label in the prose.",
+      "is_author_defect": true,
+      "suggested_fix": "Restate as 'about 0.07 standard deviations' (or recompute with the unrounded coefficient)."
+    }
+  ],
+  "severity_counts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 1,
+    "P3": 2,
+    "total": 3
+  }
+}

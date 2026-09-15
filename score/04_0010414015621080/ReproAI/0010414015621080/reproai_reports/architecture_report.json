@@ -1,0 +1,39 @@
+{
+  "engine": "anomalyco/opencode (ReconAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "mode": "static audit + internal-consistency reimplementation (no raw data obtainable)",
+  "package": {
+    "doi": "10.1177/0010414015621080",
+    "title": "The Spousal Bump: Do Cross-Ethnic Marriages Increase Political Support in Multiethnic Democracies?",
+    "journal": "Comparative Political Studies 49(5):635-661",
+    "authors": "Claire L. Adida, Nathan Combes, Adeline Lo, Alex Verink",
+    "year": 2016
+  },
+  "paper_type": "Empirical comparative political science / political economy: randomized survey experiment (Benin) + observational cross-national analysis (Afrobarometer Rounds 3-4; DHS; EPR)",
+  "data_accessibility": {
+    "replication_package": "NOT FOUND",
+    "paper_stated_access": "Bootstrap results 'available on request' (footnote 21); no Dataverse/OSF/Data-and-Code link in full text",
+    "attempts": [
+      "DOI resolution (doi.org/10.1177/0010414015621080) -> citation only, no data link",
+      "SAGE journal page -> HTTP 403",
+      "Harvard Dataverse API search '\"Spousal Bump\"' -> 0 datasets",
+      "Harvard Dataverse API search by DOI -> no matching deposit",
+      "Harvard Dataverse API search 'Adida cross-ethnic marriage' -> no matching deposit"
+    ]
+  },
+  "analyses_identified": [
+    "Benin RCT: vote-choice difference-in-means (Table 1); OLS with enumerator FE robust SE (Table 2); manipulation check; instrumental heterogeneous-effects (southerner perception)",
+    "Afrobarometer: leader-spouse ethnicity original data; marriage prevalence comparisons (Table 3); four outcomes OLS with country+round FE (Table 4)"
+  ],
+  "reimplementation_scope": {
+    "exec_check/internal_consistency.py": "Reconstructs Table 1 cell counts from published % x n; verifies all column percentage-point differences to 0.01pp; recomputes two-proportion (pooled z) p-values from reconstructed counts; verifies Table 1 n sums against Table 2 observations; verifies Table 3 incidence/group-size arithmetic; checks prose-vs-table and direction claims",
+    "out_of_scope_no_data": ["Table 2 regression coefficients/SEs", "Table 4 regression coefficients", "Afrobarometer/DHS/EPR raw values", "bootstrapped & logit robustness checks"]
+  },
+  "host_environment": {
+    "os": "win32 (Windows PowerShell 5.1)",
+    "R": "R 4.6.1 (2026-06-24) at C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe (NOT required: no raw data)",
+    "python": "Python 3.8.10 (scipy present)",
+    "output_dir": "ReproAI\\0010414015621080\\exec_check\\output"
+  }
+}

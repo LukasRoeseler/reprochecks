@@ -1,0 +1,25 @@
+suppressMessages({library(readxl); library(jsonlite)})
+base <- "C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/SCORE ReproAI Checks/06_e3kcw/ReproAI/e3kcw"
+src <- file.path(base, "exec_check/source/Primary_sample_data.xlsx")
+outdir <- file.path(base, "exec_check/output")
+dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+
+x <- file.path(base, "exec_check/output/00_inspect")
+dir.create(x, showWarnings = FALSE, recursive = TRUE)
+con <- file(file.path(x, "console.log"), open = "wt")
+sink(con)
+sink(con, type = "message")
+cat("==== START 00_inspect.R (status: RUN) ====\n")
+cat("R version:", R.version.string, "\n")
+sheets <- excel_sheets(src)
+cat("Sheets:", paste(sheets, collapse = " | "), "\n")
+for (s in sheets) {
+  d <- read_excel(src, sheet = s, col_names = FALSE, n_max = 5)
+  cat("\n--- Sheet:", s, " dims(first 5 rows) ---\n")
+  print(d)
+}
+cat("==== END 00_inspect.R (status: OK) ====\n")
+sink(type = "message")
+sink()
+close(con)
+cat("done\n")

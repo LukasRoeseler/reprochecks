@@ -1,0 +1,44 @@
+{
+  "risk_register": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "No replication data/code shipped or archived for any headline model",
+      "evidence": "Working-paper text references only an 'Online Appendix' with no URL (paper_extracted.txt lines 283, 775). Harvard Dataverse title-exact search for 'Severity, Duration, and Outcomes of Civil Wars' returned 0 datasets; no OSF/GitHub link found. Tables 1-8 coefficients, SEs, p-values and N therefore cannot be independently reproduced.",
+      "why_it_matters": "All primary statistical results (weibull duration, OLS severity, mlogit outcomes) are unverifiable from the shipped materials; the entire empirical core fails an independent live reimplementation.",
+      "fix": "Archive a replication package (data + Stata/do or R code) for the version of record on Dataverse/OSF; cite it in the article. Regenerate the working-paper tables from the same code."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Audited artifact is the 2012 working paper, not the 2014 version of record for this DOI",
+      "evidence": "paper_extracted.txt is ICIP Working Paper 2012/5 (title page line 2, pp.3-40). DOI 10.1177/0022002714547903 resolves to JCR 58(8):1390-1418 (2014). The tables/coefficients audited are the preprint draft and may differ from the published article.",
+      "why_it_matters": "A reproducibility audit keyed to a DOI must be run against the version of record; claims validated here are for the preprint and do not automatically certify the published article.",
+      "fix": "Re-run the audit against the DOI's version of record (final PDF + any published online appendix); diff preprint vs published tables."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "PRIO100 severity sample inconsistency: Table 4 sums 902, Table 6 M1 has 913",
+      "evidence": "Table 4 obs = 122+757+23 = 902 (exec_check output); Table 6 M1 Observations = 913, a superset of the battledeaths-tabulated sample. Laia footnote 3 states 903 conflict-years.",
+      "why_it_matters": "Aseverity regression needing non-missing battledeaths (913) exceeding the battledeaths-tabulated rows (902) is internally inconsistent; obscure without data.",
+      "fix": "Verify which rows compose Table 6 M1's sample; align the tabulated N (Table 4) with the regression N or explain the extra cases."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Footnote 12 missing-data percentages inconsistent with implied counts; footnote mixes scales",
+      "evidence": "Implied SNC total = 9 observed + 9 missing = 18, so missing% = 50.0%, but footnote claims 45% (for 45%, total would be 20). Conventional 14/50 = 28.0% vs claimed 28.5%. Also fn12 reports a global mean of 70,328.66 with max 2,097,705 (Vietnam) - values on the PRIO100 per-conflict deaths scale - cited against the TR section '98 cases'.",
+      "why_it_matters": "Minor but indicates the missingness accounting and the source-scale of the footnote statistic are not self-consistent; can mislead about coverage.",
+      "fix": "Recompute the missing-case percentages against the correct per-technology totals; state whether fn12 min/max/mean are TR or PRIO100 scale."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Table 1 (TR Weibull) observation counts far exceed the stated war-level N, with undocumented panel structure",
+      "evidence": "Text says 142 ended wars (and TR has 147 wars), but Table 1 M1 Observations = 1206, M2-M4 = 899. A per-war Weibull AFT would have N <= 147; 1206 implies an undocumented conflict-year (spell) panel.",
+      "why_it_matters": "Without stating the unit of analysis, the duration-model sample and the 147/142 war-level figures cannot be reconciled; limits interpretation.",
+      "fix": "State explicitly the unit of analysis (war vs conflict-year) for the Weibull models and reconcile N with the war count."
+    }
+  ]
+}

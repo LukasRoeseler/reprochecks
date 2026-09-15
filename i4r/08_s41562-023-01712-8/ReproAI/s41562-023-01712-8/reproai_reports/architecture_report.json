@@ -1,0 +1,31 @@
+{
+  "package": "10.1038/s41562-023-01712-8",
+  "title": "An umbrella review of the benefits and risks associated with youths' interactions with electronic screens",
+  "authors": "Sanders, T.; Noetel, M.; Parker, P.; Del Pozo Cruz, B.; Biddle, S.; Ronto, R.; Hulteen, R.; Parker, R.; Thomas, G.; De Cocker, K.; Salmon, J.; Hesketh, K.; Weeks, N.; Arnott, H.; Devine, E.; Vasconcellos, R.; Pagano, R.; Sherson, J.; Conigrave, J.; Lonsdale, C.",
+  "journal": "Nature Human Behaviour 8(1), 82-99 (2024)",
+  "paper_type": "Umbrella review / overview of reviews (meta-analysis of meta-analyses)",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "audit_mode": "static audit + independent reimplementation (R metafor; Python DL-on-z cross-check)",
+  "provenance": {
+    "data": ["https://github.com/motivation-and-Behaviour/screen_umbrella (data/*.csv, covidence_prisma.txt)",
+             "https://osf.io/3ubqp/ (OSF mirror)"],
+    "code": "https://github.com/motivation-and-Behaviour/screen_umbrella (targets pipeline; _targets.R; R/*.R; reports/manuscript.Rmd papaja)",
+    "input_source": "Study-level primary data in Studies.csv; effect/review/quality tables",
+    "pipeline": {
+      "clean": ["clean_reviews.R","clean_effects.R","clean_studies.R"],
+      "convert": ["translate_tests.R","convert_studies.R","convert_effects.R","conversions.R"],
+      "synthesize": ["run_metaanalysis.R (metafor rma, measure=COR, DL)","tidy_meta.R","run_eggers.R","run_excess_sig.R","combine_effects.R"],
+      "manuscript": "reports/manuscript.Rmd (papaja) with dynamic inline numbers via make_manuscript_info.R"
+    }
+  },
+  "reimplementation": {
+    "language_r": "R 4.6.1, metafor 5.0-1 (mirrors authors' run_metaanalysis: rma measure=COR, mean-imputed N)",
+    "language_python": "Python 3.8.10 — independent DerSimonian-Laird on Fisher-z for 8 headline effects",
+    "headline_result": "18/18 paper-quoted pooled effects (r, 95% CI, k, N, p) reproduced to the paper's 2-dp precision",
+    "sensitivity": "Shared Studies.csv uses sentinel -999/''/#N/A converted to NA (authors' read_sheet na=c('-999','','#N/A')); must be replicated before mean N imputation."
+  },
+  "severity_totals": { "P0": 0, "P1": 0, "P2": 1, "P3": 4 },
+  "summary": "Primary quantitative synthesis fully reproducible from shared study-level data via the shared targets pipeline; every pooled effect verified independently. Remaining findings are traceability/documentation nuances around the risk-of-bias and aggregate-sample tallies (102-review Table-1 subset vs the 217-row raw QA file) and minor prose/code hygiene."
+}

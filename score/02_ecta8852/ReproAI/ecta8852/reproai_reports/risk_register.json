@@ -1,0 +1,56 @@
+{
+  "package": {"doi": "10.3982/ecta8852", "title": "An Experimental Study of Collective Deliberation"},
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "PART_9_36_chat.txt contains duplicated per-subject records (periods 1-5)",
+      "evidence": "File has 540 rows over 9 periods; periods 1-5 carry 72 rows each (18/group = each of 9 subjects recorded twice), periods 6-9 carry 36 rows (9/group). Expected 324 rows for 36 subjects x 9 rounds. On face-value recompute, partisan r=9 with-communication majority-red = 40.0% (paper 84.4%); after de-duplicating by (period,group,subject) = 81.8%.",
+      "why_it_matters": "A shipped primary data file does not reproduce the paper's reported statistic without an undocumented de-duplication step; naive reproduction deviates >40pp for a Table VI cell.",
+      "fix": "De-duplicate the file (or ship the clean version) and document in the codebook that PART r9 chat periods 1-5 contain duplicate records; state that all reported partisan r=9 communication statistics use the cleaned 324-row file."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "HOM_7_36_chat.txt is shipped but not used; footnote contradicts file presence",
+      "evidence": "Paper Table III/Table V communication homogeneous r=7 N=486 individual decisions (= HOM_7_27_chat, 27 subjects x 18 rounds). Full shipped data include HOM_7_36_chat.txt (36 subjects, 540 decisions; with-comm hom r7 all-sessions = 1026 decisions, ngroups=114 vs paper 54). Footnote b of Table I states 'only the no-chat treatment was run' for the 36/45 sessions, yet HOM_7_36_chat.txt exists.",
+      "why_it_matters": "Internal inconsistency between shipped data and reported sample; a reader including all shipped files cannot reproduce the paper's communication hom r7 panel.",
+      "fix": "Clarify which sessions enter the communication analyses in the codebook; reconcile or remove Footnote b; state explicitly that HOM_7_36_chat is a pilot/separate run not included."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Table VI 95% CIs do not reproduce under the stated normal approximation",
+      "evidence": "Recomputed Wald CIs at the reported majority-cell group-count are wider than printed (e.g. hom r7 majority-red 92.6%: printed [89.3,95.9] vs recomputed [82.7,100]; hom r9 red 94.7%: printed [92.4,97.1] vs [87.6,100]). Printed widths imply an effective N close to 9x the group count (individual-decision level, ≈243 vs 27 groups for hom r7), i.e. clustering is ignored.",
+      "why_it_matters": "The paper states CIs 'approximating a normal distribution' but omits the N/unit; the printed CIs are substantially tighter than group-level Wald CIs and understate uncertainty from within-group correlation.",
+      "fix": "Disclose the CI unit/N (likely individual decisions) and report cluster/group-robust CIs; or recompute at the group level for consistency with the % cells."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Average payoffs per segment do not reproduce",
+      "evidence": "Recompute of per-subject sum of col-9 payoff over the segment: no-chat $9.34 (paper $9.53); chat $13.43 (paper $13.11). Both ~2% off in opposite directions; not fixed by restricting to full-15-round sessions ($10.07 / $13.45).",
+      "why_it_matters": "Reported aggregate design statistic differs from the raw data under the natural per-subject recompute; computation is undocumented.",
+      "fix": "Document how 'average payoff per subject' was computed (subsample, inclusion of practice, per-session weighting) or correct the reported values."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "fn16 absolute decision-time seconds not reproduced (qualitative claim holds)",
+      "evidence": "Recomputed no-communication means of col-10 (seconds): with-signal hom/het/part 8.5/11.9/13.2 s (paper 41.4/55.1/30.5); against-signal 11.8/14.9/16.7 s (paper 51.3/72.2/36.7). Qualitative 'at least 20% longer when voting against signal' reproduces (hom +39%, het +25%, part +27%).",
+      "why_it_matters": "Absolute footnote values don't reconstruct from the shipped data column labelled 'time in seconds'.",
+      "fix": "Clarify the decision-time measure/subsample used for fn16, or correct the printed seconds."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Table IV probit: flagship cell reproduces exactly; other cells not at printed precision",
+      "evidence": "Homogeneous no-communication 'Red sample' marginal effect reproduces EXACTLY under the at-means (MEM) convention = 0.814 (paper 0.814). Rule7 MEM 0.259 vs 0.271; rule9 MEM 0.424 vs 0.385; interactions ≈0.01-0.04 off. Homogeneous communication col and other preference cols do not reproduce (Red sample MEM 0.579 vs 0.504).",
+      "why_it_matters": "The paper's leading individual-level result reconstructs, but exact reproduction of the full 6-column probit table requires the undocumented spec (covariate lag definitions, marginal-effect convention applied per column, software round-trip).",
+      "fix": "Archive the estimation code/spec; state the marginal-effect convention (at-means vs average) and the exact lag/'late' definitions."
+    }
+  ]
+}

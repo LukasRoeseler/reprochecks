@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: 10.1086/700235 — Democracy and the Class Struggle</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .warn { background: #fff7e6; border-left: 4px solid #e8a200; padding: 0.5rem 1rem; margin: 1rem 0; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Democracy and the Class Struggle</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> DOI <code>10.1086/700235</code> — <em>Democracy and the Class Struggle</em>, by Adaner Usmani (Brown University), <em>American Journal of Sociology</em> 124(3): 664–704, 2018 (University of Chicago Press; SCORE batch item 10, folder <code>10_700235</code>)
+<strong>Mode:</strong> <strong>static audit + internal-consistency reimplementation.</strong> This is an empirical comparative-historical political-economy paper whose headline evidence is a set of dynamic, country/date fixed-effects panel regressions (Tables 3 &amp; 4) on an <strong>original, author-compiled cross-national employment-structure dataset</strong> (disruptive capacity, 1754–2013), plus descriptive statistics (Table 2), a mobilization validation (Fig. 1) and counterfactual simulations (Figs. 3–4).</p>
+<p><strong>Scope limitation stated up front:</strong> the published article provides <strong>no replication package and no data/code archive link</strong> (see ADV-001, P1) — a full-text search for <code>osf / dataverse / github / zenodo / "data and code" / "available at" / doi</code> returned <strong>zero</strong> replication links, and only a "supplementary online appendix" is cited (fn 12, p. 678) with no deposited artifact. The disruptive-capacity dataset is described as an original compilation (Mitchell 2013; ILO; GGDC) but is not shipped. <strong>Consequently no external/numerical reproduction of any headline coefficient, SE, CI, N, descriptive, figure-validated, or counterfactual value was possible.</strong> The independent reimplementation in R therefore consists of every <em>internal-consistency</em> check that is computable from the printed tables and prose alone (closed-form arithmetic: within-SD monotonicity, point-vs-CI midpoint, prose-vs-table sample/sign reconciliation, counterfactual arithmetic). All regression/descriptive magnitudes that require the raw panel are marked ➖ with a method note (REPRO_STANDARDS §4).</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>4</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>1</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This audit cannot certify the numerical results.</strong> The paper's central empirical contribution — an original cross-national, long-run panel finding that nonelite "disruptive capacity" drives democratization while landlord power inhibits it — is <strong>not independently reproducible as published</strong>, because the article ships no replication dataset and no data/code archive link (<strong>ADV-001, P1</strong>). Every headline long-run multiplier, SE/CI, N, descriptive statistic, Figure 1 validation and counterfactual magnitude is therefore ➖ (not checkable). What <em>can</em> be verified without data — and does hold — is the paper's <em>internal</em> consistency: the sign and significance claims in the prose match the reported Tables 3 &amp; 4 (disruptive capacity positive &amp; significant, preferred col. 6 largest at a=.01; landlord power negative &amp; significant in cols. 2, 3, 6); Table 2 within-country SDs are all below the overall SDs (9/9); the sample descriptions reconcile with the table model-info (col. 1 = 104 countries/1821–2013; col. 2 = 145/1859–2008; preferred col. 6 = 64, fewest); and the counterfactual arithmetic is internally coherent. One concrete reporting inconsistency was found in <strong>Table 1</strong> (ADV-002, P2): the prose claims the pro-democracy availability bias for union-membership data is "42 points higher (on a 0–100 scale)" while the tabled "ΔAverage Polity2" column lists 142, a value that is also not interpretable as a 0–100 difference. Two minor prose/hygiene items (ADV-003, ADV-004). The direction of the headline findings is internally consistent, but no coefficient can be certified without the missing replication materials.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (static + internal-consistency R recompute)</h2>
+<p>Console log: <code>exec_check/output/03_internal_consistency_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). Claim inventory (50 claims, C1–C50): <code>exec_check/manuscript_claims.md</code>.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/scripts/01_locate_tables.py</code> / <code>01b_locate.py</code></td><td>Locates Tables 1/2/3 and Figs in the PDF</td><td>Scope of exhibited content</td><td>OK</td></tr>
+<tr><td><code>exec_check/scripts/02_words.py</code> / <code>02b_tokens.py</code></td><td>Positional (x/y) word reconstruction of mirror-stored tables</td><td>Tables 1, 2, 3, 4 values</td><td>OK</td></tr>
+<tr><td><code>exec_check/scripts/decode_tables.py</code></td><td>Line-level reversal of the mirrored table text</td><td>Tables 3 &amp; 4 readable orientation</td><td>OK</td></tr>
+<tr><td><code>exec_check/scripts/03_internal_consistency.R</code> (R 4.6.1)</td><td>All internal-consistency checks computable from tables + prose</td><td>Tables 2/3/4, sample model-info, counterfactuals (C16, C26, C31–C50)</td><td>OK (closed-form)</td></tr>
+</tbody>
+</table>
+<div class="warn"><strong>Important caveat for Table 4 col. 1:</strong> in my mirrored-text transcription the disruptive-capacity pair point 1.406† vs CI [2.13, 3.15] violates its own point-in-CI test. Following REPRO_STANDARDS §3/§12 (false-positive guard for non-default/artifact derivations) this is judged a <em>reversal/pairing artifact of the mirror-stored PDF</em>, not a paper error, and is excluded from verdicts.</div>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ verified (internal/closed-form) · ≈ close, methodologically or by rounding explicable · ⚠ discrepant · ➖ not independently checkable (no data/code).</p>
+
+<h3>Table 2 — descriptive statistics (no raw data ⇒ external recompute impossible)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript (Avg / SD / within-SD)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Polity2 score</td><td>67.32 / 34.66 / 19.71</td><td>— (no data)</td><td>➖ (within&lt;overall ✓ internal)</td></tr>
+<tr><td>Electoral democracy</td><td>52.35 / 29.17 / 15.85</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>GDP per capita (log)</td><td>8.13 / .93 / .44</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Growth rate</td><td>1.96 / 5.17 / 4.69</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Disruptive capacity</td><td>19.90 / 8.37 / 3.35</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Educational attainment</td><td>6.13 / 2.97 / 1.63</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Urbanity</td><td>229.47 / 142.19 / 69.26</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Landlord power</td><td>27.37 / 19.72 / 10.20</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Income inequality</td><td>36.71 / 9.95 / 3.00</td><td>—</td><td>➖ (within&lt;overall ✓)</td></tr>
+<tr><td>Monotonicity (within-SD &lt; overall-SD)</td><td>holds</td><td>holds 9/9 rows</td><td>✅ (internal, C26)</td></tr>
+</tbody>
+</table>
+
+<h3>Table 3 &amp; 4 — headline long-run multipliers (dynamic FE panel; no raw data)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>DC col.1 bivariate (Polity2)</td><td>2.978** [1.01, 5.08]</td><td>— no data; est↔CI mid ≈ (2.98 vs 3.05)</td><td>➖ (≈ internal)</td></tr>
+<tr><td>DC col.3 social-forces (Polity2)</td><td>2.624** [.68, 4.68]</td><td>—; mid 2.68</td><td>➖ (≈ internal)</td></tr>
+<tr><td><strong>DC col.6 preferred (Polity2)</strong></td><td><strong>4.168** [1.35, 6.94]</strong></td><td>—; mid 4.15</td><td>➖ (sign/sig ✓ vs prose "larger, a=.01")</td></tr>
+<tr><td>Landlord col.2/3/6 (Polity2)</td><td>negative, ** (mag. ≈ −4.9/−5.5/−5.8)</td><td>— sign &amp; ** unambiguous</td><td>➖ (direction ✓; exact mag. ➖ mirror-transcript)</td></tr>
+<tr><td><strong>DC col.6 preferred (Electoral Democracy)</strong></td><td><strong>2.812** [.69, 5.08]</strong></td><td>—; mid 2.89</td><td>➖ (sign/sig ✓ vs prose)</td></tr>
+<tr><td>Landlord col.6 (Electoral Democracy)</td><td>negative, ** (mag. ≈ 6.0)</td><td>— sign &amp; ** unambiguous</td><td>➖ (direction ✓)</td></tr>
+<tr><td>GDP per capita "never significant"</td><td>col.3/4/6 all ns</td><td>CIs include 0 / no stars</td><td>✅ (internal, C37)</td></tr>
+<tr><td>Income inequality "positive, not negative"</td><td>T3 col4 +0.516, col6 +2.061; T4 +1.377†, +2.160</td><td>all positive, no ** except †</td><td>✅ (internal, C39/C44)</td></tr>
+<tr><td>Education "significant only in ED"</td><td>T4 col4 11.938* [.67, 25.13]; T3 ns</td><td>ED col4 * only</td><td>✅ (internal, C43)</td></tr>
+<tr><td>Regional avg predicts democracy (col.6)</td><td>5.471** (Polity2); 7.274** (ED)</td><td>— no data</td><td>➖</td></tr>
+<tr><td>Sample: DC "104 countries, 1821–2013"</td><td>col.1 = 104 / 7,127 / 1821–2013</td><td>matches</td><td>✅ (internal, C31)</td></tr>
+<tr><td>Sample: landlord "145 countries, 1859–2008"</td><td>col.2 = 145 / 10,656 / 1859–2008</td><td>matches</td><td>✅ (internal, C31)</td></tr>
+<tr><td>Preferred col.6 fewest countries</td><td>64 / 4,437 / 1871–2003</td><td>col.6 = 64 (fewest)</td><td>✅ (internal, C32)</td></tr>
+</tbody>
+</table>
+
+<h3>Table 1 — coverage/bias prose vs table</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>DC coverage (country-years / with Polity2)</td><td>8,668 / 7,610</td><td>— no data</td><td>➖</td></tr>
+<tr><td>Union-membership availability bias</td><td>prose "42 points higher (0–100)"</td><td>Table 1 ΔAvg column = 142</td><td>⚠ ADV-002</td></tr>
+<tr><td>Strikes/cap coverage "only 60% of DC"</td><td>4,378 vs 7,610 → "60%"</td><td>4,378/7,610 = 57.5%</td><td>≈ (rounding; ADV-003, P3)</td></tr>
+</tbody>
+</table>
+
+<h3>Counterfactual political-significance (prose arithmetic; exact magnitudes ➖)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Brazil gain ≈ 46 democracy-years ≈ 83% of observed</td><td>46 / 83%</td><td>46/0.83 ≈ 55 yrs; 55+46 ≈ 2×55</td><td>≈ (internal, C45)</td></tr>
+<tr><td>Decomposition landlords / nonelites</td><td>63% / 37%</td><td>63+37 = 100</td><td>✅ (internal, C46)</td></tr>
+<tr><td>Avg developing-country gain / improvement</td><td>29 yrs (Polity2) / 54%; 19 (ED) / 52%</td><td>29/0.54 ≈ 54 yrs</td><td>≈ (internal, C47)</td></tr>
+<tr><td>Democracy gap (fewer years)</td><td>49 (Polity2) / 35 (ED)</td><td>consistent w/ 57%/54%</td><td>≈ (internal, C48/C49)</td></tr>
+<tr><td>Share of gap explained</td><td>≈57% (Polity2) / 54% (ED); Fig.4 "50–60%"</td><td>49/0.57≈86; 35/0.54≈65</td><td>≈ (internal, C49/C50)</td></tr>
+</tbody>
+</table>
+
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — No replication dataset or code is provided; the article's central empirical results are not independently reproducible as published.</strong>
+The paper's principal contribution is a quantitative test of the "social forces" account on an <em>original</em> cross-national, long-run employment-structure dataset (disruptive capacity, 1754–2013; ~179 countries), and its headline evidence (Tables 3 &amp; 4 long-run multipliers, SEs/CIs, N; Table 2 descriptives; Figure 1 validation; the counterfactual simulations) all depend on this unshipped data. A full-text search of <code>paper_extracted.txt</code> (1,872 lines) for <code>osf</code>, <code>dataverse</code>, <code>github</code>, <code>zenodo</code>, <code>replication</code>, <code>"data and code"</code>, <code>"available at"</code>, <code>doi</code> found <strong>no data/code link</strong>; only a "supplementary online appendix" is cited (fn 12, p. 678), with no deposited archive. The many sourced covariates (Polity2, V-Dem v2x_polyarchy, PWT+Maddison GDP, Morrison–Murtin education, Banks urbanization, Bourguignon–Morrison/Babones–Rivadulla/Solt inequality, Vanhanen landlord index) are cited but not assembled into a package. Result: the paper's numbers cannot be regenerated or audited independently — a primary-analysis-reproducibility gap (P1 per §9). <em>Fix:</em> deposit the full replication bundle (data + estimation code + counterfactual scripts) on OSF/Dataverse/Zenodo and add a data-availability statement and link to the article. A clean-session R run of that code should reproduce the headline col. 6 multipliers (Polity2 DC = 4.168**; ED DC = 2.812**) and Table 2 to the printed precision.</p>
+<h3>P2 — medium</h3>
+<p><strong>ADV-002 — Table 1 internal inconsistency: prose "42 points higher (0–100)" vs tabled "142", and the ΔAverage column is not interpretable on a 0–100 scale.</strong>
+The prose (p. 680) states that where union-membership data are available "the average democracy score is 42 points higher (on a 0–100 scale) than the average score in all countries and years for which data exist." Table 1's column (labeled in the note as "ΔAverage Polity2," i.e., sample-min_{us} overall average difference) lists <strong>142</strong> for all three union rows (union membership, per-capita, density) — a 100-point gap from the prose figure — and every value in that column (111–142) exceeds 100, which is impossible for a difference on a 0–100 scale (and as a plain average also impossible, since the rescaled Polity2 mean is 67.32). Either the column is mislabeled or the prose figure is wrong; both cannot hold. Unresolvable without the data. <em>Fix:</em> recompute the availability-bias from the Polity2 sample, correct the label and/or the prose value, and reconcile 42 vs 142. Because no included coefficient is at stake this is not a P1, but it is a genuine self-contradictory reported value (P2, §9).</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-003 — "only 60% of the coverage of disruptive capacity" is a rounding overstatement.</strong>
+Table 1 N(Polity2): strikes per capita = 4,378; disruptive capacity = 7,610 → 4,378/7,610 = <strong>57.5%</strong>, not 60%. Substantive point (strikes data cover far less) still holds. <em>Fix:</em> restate as "about 58%" / "roughly three-fifths."</p>
+<p><strong>ADV-004 — Exhibit hygiene: mirror-stored tables and bitmap figures limit machine-verifiability.</strong>
+The AJS "track" PDF stores Tables 1/3/4 as mirrored right-to-left text and Figures 1–4 as embedded bitmaps with no extractable data cache, so exact negative-coefficient magnitudes and the 0.91/0.24/0.08 SD figure values could not be read programmatically without manual reversal. No effect on the paper's conclusions; resolved by the ADV-001 deposition of tidy CSV tables + code. (Also: the Table 4 col. 1 pair [2.13, 3.15] vs point 1.406 failing its own point-in-CI test in my transcription is a mirror-reversal pairing artifact, not a paper error — see §Caveat and REPRO_STANDARDS §3/§12.)</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No numerical verification of any headline result.</strong> With no replication dataset or code shipped (ADV-001), none of the long-run multipliers, SEs/CIs, N, descriptives, Figure 1 validation values, or counterfactual magnitudes could be recomputed. The R "reimplementation" verified only closed-form <em>internal</em> consistency; it is not a byte-level reproduction of the author's regressions.</li>
+<li><strong>Exact CI endpoints and negative-coefficient magnitudes</strong> for the mirrored tables carry transcription uncertainty; verdicts for those rows are directional (sign/significance) only and marked ➖ for magnitude.</li>
+<li><strong>Statements about sample-bias magnitudes, stationarity tests, robustness spec checks, and any non-tabulated results</strong> described only in prose/references were not auditable.</li>
+<li><strong>Second-language recompute (§5) and live execution (§6)</strong> were impossible by design: no author code or data exists in the audited package.</li>
+<li>The engine's internal-consistency computation itself is deterministic and auditable from the enclosed console log; the interpretation of the mirror-reversed table values is the auditor's and flagged as such.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path (under <code>ReproAI\700235\</code>)</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report (house style)</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>50 numbered claims (C1–C50), each with verdict</td></tr>
+<tr><td><code>exec_check/ENVIRONMENT.md</code></td><td>Environment / provenance / toolchain note</td></tr>
+<tr><td><code>exec_check/scripts/01_locate_tables.py</code>, <code>01b_locate.py</code>, <code>02_words.py</code>, <code>02b_tokens.py</code>, <code>decode_tables.py</code>, <code>extract_pdf.py</code>, <code>dump_all.py</code></td><td>PDF/table extraction + mirror-reversal tooling</td></tr>
+<tr><td><code>exec_check/scripts/03_internal_consistency.R</code></td><td>R 4.6.1 internal-consistency recompute (the independent reimplementation)</td></tr>
+<tr><td><code>exec_check/output/03_internal_consistency_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>exec_check/output/all_0xx.txt</code>, <code>page_0xx.txt</code></td><td>Per-page pdfplumber text dumps (41 pages) incl. mirror-order tables</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-004 with severities + evidence + fixes</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation plan for each finding</td></tr>
+</tbody>
+</table>
+<p><em>Inputs untouched:</em> <code>paper.pdf</code> and <code>paper_extracted.txt</code> were never modified (REPRO_STANDARDS §0).</p>
+</body>
+</html>

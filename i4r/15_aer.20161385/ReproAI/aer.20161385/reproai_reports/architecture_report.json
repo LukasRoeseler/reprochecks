@@ -1,0 +1,49 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules_version": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "article": {
+    "title": "The Arrival of Fast Internet and Employment in Africa",
+    "authors": "Jonas Hjort & Jonas Poulsen",
+    "journal": "American Economic Review",
+    "year_issue": "2019, 109(3): 1032-1079",
+    "doi": "10.1257/aer.20161385",
+    "package_audited": "10.1257/aer.20161385 (I4R batch item 17; folder 15_aer.20161385)",
+    "paper_type": "Empirical development / labor microeconomics; generalized difference-in-differences and event-study regressions on individual- and firm-level outcomes (sub-Saharan Africa); clustered SEs"
+  },
+  "mode": "static audit + independent arithmetic re-derivation of all manuscript-derivable checks (R 4.6.1 + Python 3.8 cross-check). Full-data reimplementation attempted but NOT executed: binary replication microdata could not be programmatically downloaded.",
+  "host_environment": {
+    "os": "Windows (win32), PowerShell 5.1",
+    "R": "C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe (R 4.6.1)",
+    "python": "Python 3.8.10 (pdfminer for authoritative sign check)",
+    "stata": "NOT installed on audit host",
+    "text_sources_used": "paper_extracted.txt (transcription) + pdfminer_full.txt (authoritative for coefficient signs, regenerated from paper.pdf this session)"
+  },
+  "data_availability": {
+    "statement_in_paper": "fn provided on p.1032; full dataset+code cited in reference list",
+    "replication_package": "exists — openICPSR (AEA Data & Code Repository) DOI 10.3886/E113156V1, V1, deposited 2019-10-12",
+    "package_contents_verified": {
+      "data": ["afrobarometer.dta","afrobarometer_close2landing.dta","afrobarometer_roads_electricity.dta","afrobarometertii.dta","akamai.dta","itu.dta","light.dta (104 MB)","lmmis.dta","qlfs.dta (153 MB)","qlfs_close2landing.dta","+ DHS inputs (page 2; 13 .dta total)"],
+      "syntax": ["t1.do","t2.do","t3-and-f6.do","t4.do","f4.do","f5.do","f7.do","fa1.do","ols_spatial_HAC.ado","reg2hdfespatial.ado","+ others (19 records total)"],
+      "other": ["gis/","LICENSE.txt"]
+    },
+    "download_status": "BLOCKED this session: www.openicpsr.org / www.icpsr.umich.edu / pcms.icpsr.umich.edu return a Cloudflare 'managed challenge' 403 to the shell egress (observed in PowerShell, curl, and webfetch on download endpoints); the openICPSR download/terms flow requires a signed-in browser; Stata is not installed; no public mirror found (GitHub search = 0 results)."
+  },
+  "pipeline": {
+    "identification": "Equation (1): SubmarineCables_country(t) x Connected_i; grid-cell x Connected location FEs; country x time FE; SEs clustered at location (grid-cell / enumeration area) level.",
+    "econ_of_record": "Headline: DHS empl 0.046 (0.014); Afrobarometer empl 0.077 (0.037); SA-QLFS empl 0.022 (0.008); plus speed/use, firm entry, Ethiopia production-function, and night-light income results.",
+    "no_rer_slr_notes": "N reported, R^2 not reported in these tables; SEs = robust, cluster-location."
+  },
+  "reimplementation_scripts": [
+    {"script": "exec_check/scripts/01_internal_consistency.R", "reimplements": "pp->% headline conversions; Table 1 baseline differences & t-sign consistency; asinh-coefficient % prose claims; N/mean cross-table consistency", "manuscript_exhibit": "Abstract+IV-B; Table 1; Table 2,3,7,8,9 prose; N across T3,T4,T5,T6,A1,A2", "status": "RUN OK (40 check / 1 approx / 0 discrepant)"},
+    {"script": "exec_check/scripts/01b_python_crosscheck.py", "reimplements": "same checks independently in Python 3.8 (second-language cross-check)", "manuscript_exhibit": "overlapping subset (32 checks)", "status": "RUN OK (31 check / 1 approx / 0 discrepant); agrees with R"}
+  ],
+  "self_audit": {
+    "verdict_consistent_with_values": true,
+    "approx_items_have_cause_and_fix": true,
+    "indeterminate_items_have_reason": true,
+    "severities_justified_by_primary_impact": true,
+    "rerun_on_corrected_data": "not applicable (no corrected data this session); full retabulation preserved as next step",
+    "version/environment_gap_accounted": true
+  }
+}

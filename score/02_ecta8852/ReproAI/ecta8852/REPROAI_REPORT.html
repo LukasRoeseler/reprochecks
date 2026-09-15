@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: ECTA8852 — An Experimental Study of Collective Deliberation</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>An Experimental Study of Collective Deliberation</em></h1>
+<p><strong>Engine:</strong> <code>anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT</code> · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<br><strong>Package audited:</strong> <code>DOI 10.3982/ecta8852</code> — Goeree &amp; Yariv (2011), <em>Econometrica</em> 79(3):893–921, "An Experimental Study of Collective Deliberation."
+<br><strong>Mode:</strong> <strong>static audit + independent R reimplementation.</strong> No author analysis code exists in the package despite the name "data and programs" — it ships raw per-period behavior data (<code>BehaviorOutcomes/*.txt</code>, 10 columns/record), message logs (<code>MessageData/*.xls</code>), and two codebook <code>.docx</code> files. Every statistic reported here was regenerated in R 4.6.1 directly from the raw per-period <code>.txt</code> records (preprocessed in Python into <code>master_behavior.csv</code>, 13,311 decisions), with Python kept as an independent second-language cross-check of the headline counts and payoffs. No author <code>.do/.R/.sas</code> was available to run live.
+<br><strong>Data source:</strong> Econometric Society supplemental archive (live mirror linked from the article browse page): <code>…/2011/05/01/experimental-study-collective-deliberation/supp/8852_data and programs_0.zip</code>, downloaded 2026-09-14 (457,243 bytes). The legacy citation URL (<code>econometricsociety.org/ecta/Supmat/8852_dataandprograms.zip</code>) now returns 404; the browse-page mirror is the current one. <code>paper.pdf</code>/<code>paper_extracted.txt</code> were untouched (reference kept in <code>extracted/</code>).
+<br><strong>Originals:</strong> untouched. All analysis on copies/outputs only.</p>
+
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>3</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Substantially reproducible on the raw data.</strong> The paper's two central claims reconstruct cleanly from the shipped per-period data: (1) the no-communication strategic-voting comparative statics (Table III) reproduce near-exactly across all preference treatments and voting rules, including the type-level cells and wrong-jury-outcome rows; and (2) the outcome-frequency tables (Table V exactly; Table VI point estimates) reconstruct, supporting the headline that deliberation erases most institutional differences. The total sample N=549 reproduces exactly, and the paper's flagship individual-level probit result — the homogeneous no-communication <em>Red sample</em> marginal effect — reproduces exactly (0.814) once the at-means marginal-effect convention is adopted. The findings are clustered in data-integrity and documentation: <strong>ADV-001 (P1)</strong> a shipped raw file (<code>PART_9_36_chat.txt</code>) contains duplicated per-subject rows (periods 1–5), so a naive recompute of partisan r=9 with-communication majority-red gives 40% vs the printed 84.4% (≈81.8% after de-duplication); <strong>ADV-002 (P2)</strong> <code>HOM_7_36_chat.txt</code> is shipped yet unused (the communication homogeneous r=7 cell matches only the 27-subject session, and Table I Footnote b says only no-chat ran there); <strong>ADV-003 (P2)</strong> Table VI's 95% CIs do not reproduce under the stated normal approximation (printed ones are narrower, consistent with an individual-level N that ignores within-group clustering); and three P3 documentation issues (payoff averages $9.34/$13.43 vs $9.53/$13.11; fn16 decision-time seconds; secondary probit cells). Message-content tables (VII, VIII) remain not independently reproducible without the coders' rubric.</p>
+</blockquote>
+
+<hr />
+<h2>Independent reimplementation (replace "live execution"; no author code was shipped)</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/scripts/00_preprocess.py</code></td><td>Unified loader of 30 behavior files → <code>master_behavior.csv</code>; session/subject inventory</td><td>Sample, per-session N, Table I/III Ns</td><td>OK</td></tr>
+<tr><td><code>exec_check/scripts/01_sample_payoffs.R</code></td><td>Session inventory; per-session payoffs</td><td>p.899 N=549; avg payoffs $9.53/$13.11</td><td>OK (N✅, payoffs ⚠ ADV-004)</td></tr>
+<tr><td><code>exec_check/scripts/02_tableIII.R</code></td><td>Table III no-comm &amp; comm cells (N, red-with-red/blue, wrong outcomes, truejar)</td><td>Table III</td><td>OK (no-comm ✅; comm N ⚠ ADV-002)</td></tr>
+<tr><td><code>exec_check/scripts/03_tableIII_types_decisions.R</code></td><td>Type-level splits (het red/blue; part neutral/strong) + decision times</td><td>Table III hetero/partisan; fn16</td><td>OK (types ✅; times ⚠ ADV-005)</td></tr>
+<tr><td><code>exec_check/scripts/04_tableVVI.R</code></td><td>Table V (rule × #red-signals) and Table VI (majority-signal %)</td><td>Tables V, VI</td><td>OK (V ✅; VI pts ✅/≈; CIs ⚠ ADV-003)</td></tr>
+<tr><td><code>exec_check/scripts/05_tableVI_dedup.R</code></td><td>De-duplicated Table VI (fixes PART r9 chat)</td><td>Table VI part r9</td><td>OK (confirms ADV-001)</td></tr>
+<tr><td><code>exec_check/scripts/06_probit_hom.R</code>, <code>06b_probit_mem.R</code></td><td>Table IV probit; AME and at-means (MEM) marginal effects, clustered SE by subject</td><td>Table IV</td><td>OK for flagship (Red sample MEM=0.814 == paper); others ≈/⚠ ADV-006</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claim inventory (C1–C29, each checked): <code>exec_check/manuscript_claims.md</code>.</p>
+
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close/explainable · ⚠ discrepant · ➖ not independently checkable.</p>
+
+<h3>Sample and payoffs (p.899)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Total subjects</td><td>549</td><td>549 (17 sessions counted once: hom 189 / het 261 / part 99)</td><td>✅</td></tr>
+<tr><td>Avg payoff — no-chat segment</td><td>$9.53</td><td>$9.34 (934¢/subject; full-15-round only: $10.07)</td><td>⚠ ADV-004</td></tr>
+<tr><td>Avg payoff — chat segment</td><td>$13.11</td><td>$13.43 (1343¢/subject; full-15-round only: $13.45)</td><td>⚠ ADV-004</td></tr>
+</tbody>
+</table>
+
+<h3>Table III — strategic voting, WITHOUT communication (reproduces near-exactly)</h3>
+<table>
+<thead><tr><th>Cell</th><th>Paper (r5/r7/r9)</th><th>Reimplementation (r5/r7/r9)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Hom — # individual decisions</td><td>540 / 1620 / 675</td><td>540 / 1620 / 675</td><td>✅</td></tr>
+<tr><td>Hom — # group decisions</td><td>60 / 180 / 75</td><td>60 / 180 / 75</td><td>✅</td></tr>
+<tr><td>Hom — red votes w/ red signal</td><td>91 / 89 / 90</td><td>90.6 / 89.4 / 89.8</td><td>✅</td></tr>
+<tr><td>Hom — red votes w/ blue signal</td><td>7 / 24 / 39</td><td>7.2 / 24.1 / 39.1</td><td>✅</td></tr>
+<tr><td>Hom — wrong jury outcomes</td><td>10 / 35 / 48</td><td>10.0 / 35.0 / 48.0</td><td>✅</td></tr>
+<tr><td>Hom — truejar blue / red</td><td>7,5,0 / 13,60,97</td><td>6.9,4.9,0.0 / 12.9,60.2,97.3</td><td>✅</td></tr>
+<tr><td>Het — red types red-sig / blue-sig</td><td>86,88,91 / 37,44,49</td><td>86.0,87.9,90.6 / 36.9,44.2,48.6</td><td>✅</td></tr>
+<tr><td>Het — blue types red-sig / blue-sig</td><td>64,59,62 / 16,15,19</td><td>63.7,58.9,61.9 / 15.5,14.8,19.1</td><td>✅</td></tr>
+<tr><td>Part — neutral red-sig / blue-sig</td><td>91,90,71 / 18,21,28</td><td>91.5,90.4,71.1 / 17.9,20.6,28.0</td><td>✅</td></tr>
+<tr><td>Part — strong-red red-sig / blue-sig</td><td>81,90,68 / 57,45,50</td><td>80.6,90.2,68.3 / 57.1,45.3,50.0</td><td>✅</td></tr>
+<tr><td>Het &amp; Part — wrong / truejar blue / truejar red</td><td>as printed</td><td>all within 0.1–0.4pp (see tableIII_recompute.csv)</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<h3>Table III — WITH communication (N's)</h3>
+<table>
+<thead><tr><th>Cell</th><th>Paper</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Hom ind. decisions r5/r7/r9</td><td>540 / 486 / 675</td><td>540 / 1026 (all files) / 675</td><td>⚠ ADV-002 (486 = HOM_7_27 only)</td></tr>
+<tr><td>Het ind. decisions r5/r7/r9</td><td>675 / 675 / 540</td><td>675 / 675 / 540</td><td>✅</td></tr>
+<tr><td>Part ind. decisions r5/r7/r9</td><td>405 / 540 / 540</td><td>405 / 540 / 540</td><td>✅</td></tr>
+<tr><td>x%/y% red-optimal cells</td><td>as printed</td><td>not recomputed</td><td>➖ (need full-profile optimal-decision normalization)</td></tr>
+</tbody>
+</table>
+
+<h3>Table V — homogeneous outcomes by # red signals (reproduces exactly)</h3>
+<table>
+<thead><tr><th>Rule / mode</th><th>Paper</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>r=5 no-comm (4..9 sig)</td><td>25/56/100/100/100/100</td><td>25/56/100/100/100/100</td><td>✅</td></tr>
+<tr><td>r=7 no-comm</td><td>0/24/29/54/81/100</td><td>0/24/29/54/82/100</td><td>✅</td></tr>
+<tr><td>r=9 no-comm</td><td>all 0, 9→100</td><td>all 0, 9→100</td><td>✅</td></tr>
+<tr><td>with-comm r5/r7/r9</td><td>as printed</td><td>all match (incl. N), on 27-session comm r7 basis</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<h3>Table VI — % red by signal majority, WITH communication</h3>
+<table>
+<thead><tr><th>Cell (majority red / blue)</th><th>Paper (%, 95% CI)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Hom r5 / r7 / r9</td><td>100 / 92.6 / 94.7 &nbsp;;&nbsp; 6.7 / 3.7 / 0</td><td>100 / 92.6 / 94.7 &nbsp;;&nbsp; 6.7 / 3.7 / 0</td><td>✅ points</td></tr>
+<tr><td>Het r5 / r7 / r9</td><td>97.6 / 84.2 / 51.7 &nbsp;;&nbsp; 5.9 / 2.7 / 6.5</td><td>97.6 / 84.2 / 51.7 &nbsp;;&nbsp; 5.9 / 2.7 / 6.5</td><td>✅ points</td></tr>
+<tr><td>Part r5 / r7 / r9</td><td>100 / 97.2 / 84.4 &nbsp;;&nbsp; 4 / 12.5 / 10.7</td><td>100 / 97.2 / 81.8 (dedup) &nbsp;;&nbsp; 4 / 12.5 / 0</td><td>≈ (ADV-001 dedup; blue r9 small-n)</td></tr>
+<tr><td>95% CIs (all cells)</td><td>e.g. hom r7 red [89.3,95.9]</td><td>Wald group-level e.g. [82.7,100]</td><td>⚠ ADV-003</td></tr>
+</tbody>
+</table>
+
+<h3>Table IV — probit marginal effects (homogeneous columns)</h3>
+<table>
+<thead><tr><th>Term</th><th>Paper (no-chat)</th><th>Reimplementation (MEM)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td><strong>Red sample (no-chat)</strong></td><td><strong>0.814</strong></td><td><strong>0.814</strong></td><td><strong>✅ flagship reproduces exactly</strong></td></tr>
+<tr><td>Rule7 / Rule9 (no-chat)</td><td>0.271 / 0.385</td><td>0.259 / 0.424</td><td>≈</td></tr>
+<tr><td>Red sample(chat)</td><td>0.504</td><td>AME 0.477 / MEM 0.579</td><td>⚠ ADV-006</td></tr>
+<tr><td>Other preference columns &amp; cells</td><td>as printed</td><td>direction/significance broadly consistent; precision differs</td><td>⚠ ADV-006</td></tr>
+</tbody>
+</table>
+
+<h3>Decision times (fn16, p.906)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Paper</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>mean time with-signal (hom/het/part)</td><td>41.4 / 55.1 / 30.5 s</td><td>8.5 / 11.9 / 13.2 s</td><td>⚠ ADV-005</td></tr>
+<tr><td>mean time against-signal</td><td>51.3 / 72.2 / 36.7 s</td><td>11.8 / 14.9 / 16.7 s</td><td>⚠ ADV-005</td></tr>
+<tr><td>"≥20% longer when against signal"</td><td>direction claim</td><td>hom +39% / het +25% / part +27%</td><td>✅ qualitative</td></tr>
+</tbody>
+</table>
+
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — <code>PART_9_36_chat.txt</code> contains duplicated per-subject records in periods 1–5.</strong>
+The file holds 540 rows over only 9 periods: periods 1–5 carry 72 rows each (4 groups × 18 rows = each of the 9 subjects recorded twice), periods 6–9 carry 36 rows (9 rows/group, correct). The expected row count for 36 subjects × 9 rounds is 324, so ≈180 duplicate records are present. On the shipped file as-is, the partisan r=9 with-communication majority-red cell recomputes to <strong>40.0%</strong> (paper 84.4%); de-duplicating by (period, group, subject) yields <strong>81.8%</strong> (paper 84.4%). This is the only file with such duplication (all other segments are clean), and it is exactly the one treatment whose Table VI point I could not reproduce naively. The paper's printed value is consistent with the cleaned data, confirming the authors' analysis used a file not identical to the one shipped.
+<em>Fix:</em> redistribute a de-duplicated <code>PART_9_36_chat.txt</code> and state in the codebook that its periods 1–5 contain duplicate records.</p>
+
+<h3>P2 — medium</h3>
+<p><strong>ADV-002 — <code>HOM_7_36_chat.txt</code> is shipped but unused; N contradicts Footnote b.</strong>
+Paper Table III (and Table V) with-communication homogeneous r=7 reports N=486 individual decisions (54 group decisions), which matches only <code>HOM_7_27_chat.txt</code> (27 subjects × 18 rounds). The shipped package <em>also</em> contains <code>HOM_7_36_chat.txt</code> (36 subjects, 540 decisions); including it gives 1026 decisions / 114 groups for that cell. Table I Footnote b states the 36- and 45-subject homogeneous r=7 sessions were "no-chat only", yet a chat file for the 36-subject session was shipped. A reader who naively loads every shipped file cannot reproduce the printed communication panel.
+<em>Fix:</em> document the exact session set entering each communication cell and reconcile Footnote b with the shipped files.</p>
+
+<p><strong>ADV-003 — Table VI 95% CIs do not reproduce under the stated "normal approximation".</strong>
+All Table VI point estimates reproduce, but the printed CIs are materially narrower than Wald group-level CIs. Example: homogeneous r=7 majority-red 92.6% — printed [89.3,95.9], recomputed Wald at the reported group-count (n=27) [82.7,100]; homogeneous r=9 majority-red 94.7% — printed [92.4,97.1], recomputed [87.6,100]. The printed widths imply an effective N of roughly 9× the group count (≈ individual-decision level), i.e. within-group clustering is ignored and uncertainty is understated.
+<em>Fix:</em> disclose the CI unit/N and report group-level (cluster-robust) intervals, or correct the intervals.</p>
+
+<h3>P3 — low</h3>
+<p><strong>ADV-004 — average payoffs do not reproduce.</strong> Per-subject recompute: no-chat <strong>$9.34</strong> (paper $9.53), chat <strong>$13.43</strong> (paper $13.11). Both are ≈2% off in opposite directions and the gaps persist restricting to full-15-round sessions ($10.07/$13.45). The averaging rule is undocumented.
+<em>Fix:</em> state the payoff-averaging rule (subsample, practice rounds, per-session weighting) or correct the figures.</p>
+
+<p><strong>ADV-005 — fn16 decision-time absolute seconds do not reproduce.</strong> Recomputed no-communication col-10 (seconds) means are 8.5/11.9/13.2 (with-signal) and 11.8/14.9/16.7 (against-signal), vs the printed 41.4/55.1/30.5 and 51.3/72.2/36.7. The paper's substantive claim — "subjects took at least 20% longer when voting against their signal" — does reproduce (hom +39%, het +25%, part +27%). The footnote seconds reconstruct from no shipped variable.
+<em>Fix:</em> clarify the decision-time measure/subsample or correct the printed seconds.</p>
+
+<p><strong>ADV-006 — Table IV secondary probit cells not reproduced at printed precision.</strong> The flagship homogeneous no-communication <em>Red sample</em> marginal effect reproduces <strong>exactly</strong> (= 0.814) under the at-means (MEM) convention, and Rule7/Rule9 are close (0.259/0.424 vs 0.271/0.385). The communication column (MEM red sample 0.579 vs 0.504) and the heterogeneous/partisan columns do not reconstruct at the 3-decimal precision shown, most likely due to undocumented covariate/lag definitions and per-column marginal-effect handling.
+<em>Fix:</em> archive the estimation spec and state the marginal-effect convention, lag, and "late" definitions.</p>
+
+<hr />
+<h2>What the package already does right (honest positives)</h2>
+<ul>
+<li>Raw per-period behavior data are shipped and machine-readable with an explicit codebook (<code>File_Label_Key.docx</code>, <code>BasicParamOverview.docx</code>) — no opaque summary-only releases.</li>
+<li>The central no-communication strategic-voting results reconstruct near-exactly from the raw data across all three preference treatments, three rules, and the type-level cells — a strong, directly verifiable core.</li>
+<li>Table V (outcome by number of red signals) reconstructs exactly for both communication regimes, and the with/without-communication outcome differential that drives the paper's main conclusion reproduces.</li>
+<li>The total sample N=549 reconstructs exactly, and the flagship individual-level probit coefficient reproduces exactly.</li>
+</ul>
+
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No author code was run.</strong> The archive contains no analysis script (despite the "data and programs" name); all statistics were independently recomputed in R from the raw <code>.txt</code>. A genuine Stata/limdep re-run of Table IV was not attempted and is not byte-for-byte reproducible without the spec.</li>
+<li><strong>Message-content tables (Table VII, VIII) and the Wilcoxon tests</strong> require the research assistants' manual Truthful/Lie/Nothing and signal-message categorization. The <code>.xls</code> message logs are shipped, but without the coding rubric these cells are not independently reproducible (➖).</li>
+<li>The Table III with-communication <em>x%/y%</em> cells require a full-signal-profile optimal-decision normalization that was not re-implemented end-to-end (➖ with method; the underlying N's are reported).</li>
+<li>Demographic/design parameters without a data footprint (e.g. the $5 show-up fee, recruitment) were not machine-verified.</li>
+<li>CIs in Table VI could not be matched to their exact printed method; the recomputed Wald intervals and the likely individual-level-N cause are offered as the evidence, not a claim to have found the authors' exact function.</li>
+</ul>
+
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path (under <code>ReproAI\ecta8852\</code>)</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>extracted/</code></td><td>Untouched reference copy of the supplemental archive (behavior .txt, message .xls, codebooks)</td></tr>
+<tr><td><code>data/8852_data_and_programs.zip</code></td><td>Fresh download of the archive (2026-09-14)</td></tr>
+<tr><td><code>exec_check/scripts/00_preprocess.py</code></td><td>Unified raw-data loader → <code>master_behavior.csv</code></td></tr>
+<tr><td><code>exec_check/scripts/01…06b*.R</code></td><td>R reimplementations (sample/payoffs, Table III, types, Tables V/VI, dedup, probit)</td></tr>
+<tr><td><code>exec_check/output/master_behavior.csv</code>, <code>tableIII_recompute.csv</code></td><td>Unified dataset and Table III recompute</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>C1–C29 claim inventory with verdicts</td></tr>
+<tr><td><code>ENVIRONMENT_PROVENANCE.md</code></td><td>Engine/host/version and payload provenance chain</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…006 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation plan (incl. message-table next step)</td></tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "package": {
+    "title": "Promotions and Incentives: The Case of Multistage Elimination Tournaments",
+    "authors": "Steffen Altmann, Armin Falk, Matthias Wibral",
+    "journal": "Journal of Labor Economics 30(1):149-174",
+    "year": 2012,
+    "doi": "10.1086/662130",
+    "publisher": "University of Chicago Press / Society of Labor Economists",
+    "folder": "SCORE ReproAI Checks/08_662130",
+    "paper_type": "Controlled laboratory experiment (tournament theory); OLS/regression + nonparametric tests on z-Tree data"
+  },
+  "engine": {
+    "engine": "anomalyco/opencode (ReproAI)",
+    "authoring_model": "DeepSeek V4 Flash via uniGPT",
+    "rules": "2026.06.27 (REPRO_STANDARDS.md)",
+    "audit_date": "2026-09-14",
+    "host_os": "win32",
+    "r_version": "3.6.1 -> host reports R 4.6.1 (2026-06-24)"
+  },
+  "mode": "static audit + closed-form recompute (equilibrium predictions, one-sample t, z->p); independent raw-data reimplementation NOT possible - no data/code obtainable",
+  "inputs": {
+    "paper_extracted.txt": "full text (1202 lines), scanned-JSTOR OCR extraction",
+    "paper.pdf": "shipped PDF",
+    "data_and_code": "NONE. No data deposit, no code, no ICPSR/Dataverse/OSF/GitHub link found in text or via web search (DDG 2026-09-14)."
+  },
+  "pipeline_reimplementation": {
+    "01_internal_consistency.R": [
+      "recompute Nash equilibrium e* from wages (c=2250,q=60): all treatments -> 73.97 ~ 74",
+      "one-sample t of Table-2 means vs e*=74 from reported mean/SD/N (C18-C24)",
+      "Mann-Whitney z -> two-sided p conversion (C25-C32)",
+      "sample-size arithmetic, percentage/directional arithmetic checks"
+    ]
+  },
+  "reproducible": {
+    "equilibrium_predictions": "ALL 4 treatments reproduce e*=74 exactly to rounding",
+    "one_sample_t_vs_equilibrium": "6/7 within 0.005 of reported p (1 more, OS, within 0.009)",
+    "z_to_p_conversions": "7/8 exact to .001, 1 (OSL vs OS) within .002",
+    "sample_sizes": "60+64+64+100+32 = 320 exact",
+    "table3_ols": "NOT recomputable (no data)"
+  },
+  "not_independent": [
+    "treatment means/medians/min/max/SD (Table 2) require raw z-Tree data",
+    "Mann-Whitney U / Wilcoxon tests require raw data",
+    "Levene test, distribution tail claims (77%, 52%, 20%)",
+    "Table 3 OLS regressions",
+    "Figures 1-2 histogram frequency data",
+    "sociodemographic / personality subgroup means (81.3, 87.7, 3.4 Hit15, 57%)"
+  ]
+}

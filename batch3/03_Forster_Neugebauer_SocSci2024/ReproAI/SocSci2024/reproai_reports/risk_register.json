@@ -1,0 +1,48 @@
+{
+  "audit_id": "ReproAI-SocSci2024-FN-001",
+  "risk_register": [
+    {
+      "id": "ADV-001",
+      "severity": "P3",
+      "title": "Table 2 FS occupational-field proportions do not follow strict 2-decimal rounding",
+      "quantity": "Administration & Media rows of the FS panel",
+      "evidence": {
+        "manuscript_value": "Administration 0.50; Media 0.22",
+        "recomputed_value": "Administration 512? no: 1944/3840 = 0.5063 -> 0.51; Media 824/3840 = 0.2146 -> 0.21",
+        "raw_counts_agree": true,
+        "file": "paper_extracted.txt Table 2 (p.895); 03_models_reimpl.R descriptives"
+      },
+      "impact": "Cosmetic. The raw field Ns (512/560/1944/824) and the four proportions are all present and correct to ~1dp (0.5 / 0.2 ~ 0.51 / 0.21). The 2-dp choice appears to force the column to sum to 1.00. It does not affect any analytic result, model, or conclusion.",
+      "fix": "Report Administration as 0.51 and Media as 0.21 (strict rounding), or add a note that proportions are rounded-then-summed to 1.00.",
+      "load_bearing": false
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "README / master.do header reference stale data file names",
+      "quantity": "provenance / hygiene",
+      "evidence": {
+        "readme_and_comments": "validation_replication_fe.dta / validation_replication_fs.dta",
+        "shipped_files": "validation_fe.dta / validation_fs.dta",
+        "matters": false
+      },
+      "impact": "Does not block reproduction: master.do only sets directory globals (`$data` etc.) and each analysis .do opens the correct shipped names. Cosmetic drift between comments and actual archive file names.",
+      "fix": "Update README.txt and the header comments in 00_master.do / 01_dataprep_significance.do to the actual shipped file names.",
+      "load_bearing": false
+    },
+    {
+      "id": "ADV-OBS-003",
+      "severity": "P3",
+      "title": "Observation: type_applicants carries missing codes (-998, -949) in the FS data",
+      "quantity": "n/a (observation, not an error)",
+      "evidence": {
+        "recomputed": "type_applicants == -998: 56 rows; == -949: 56 rows; 61% realism figure uses full 3840 denominator (0.6104) matching code threshold 3|4"
+      },
+      "impact": "The shipped code and the 61% text figure both use the full-3840 denominator, so no discrepancy. Noted only so future users know 112 rows are flagged missing/non-response.",
+      "fix": "None required.",
+      "load_bearing": false
+    }
+  ],
+  "severity_counts": { "P0": 0, "P1": 0, "P2": 0, "P3": 3 },
+  "total_findings": 3
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: 0022002714547903 — Does Warfare Matter?</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Does Warfare Matter? Severity, Duration, and Outcomes of Civil Wars</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>0022002714547903</code> — Balcells &amp; Kalyvas, DOI <code>10.1177/0022002714547903</code> (Journal of Conflict Resolution 58(8):1390–1418, 2014)
+<strong>Mode:</strong> <strong>static audit + arithmetic internal-consistency checks in R 4.6.1.</strong> The article is an empirical cross-national civil-war paper
+(Weibull/AFT duration, OLS severity, multinomial-logit outcomes). <strong>No replication package is shipped or obtainable</strong> — the working-paper text cites only an
+"Online Appendix" with no URL, and Harvard Dataverse / OSF searches returned no dataset for this article. Every source-level coefficient, standard error,
+p-value, and regression N (Tables 1–8) is therefore marked <strong>➖ (not independently reproducible)</strong> with this documented reason. What <em>could</em> be verified
+— sample-size accounting, missing-data percentages, and cross-table observation totals — was re-checked arithmetically in R and produced three internal-consistency findings.
+<strong>Originals:</strong> untouched (<code>paper.pdf</code>, <code>paper_extracted.txt</code>). All work on outputs in <code>ReproAI\0022002714547903\</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>5</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>3</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>This submission provides no replication materials, and none could be located in any public archive, so the paper's entire empirical core — every headline
+coefficient, SE, p-value and N in Tables 1–8 (duration Weibull, severity OLS, outcome mlogit) — cannot be independently reproduced and is marked ➖ for that reason.</strong>
+Against the shipped text alone, the sample-accounting arithmetic that <em>can</em> be checked largely hangs together (severity tabulation 36+53+9=98 matches the footnote,
+and the TR severity regression N=98 matches), but three internal inconsistencies remain: (ADV-003) the PRIO100 severity regression sample (913) exceeds the
+battle-deaths-tabulated rows (902); (ADV-004) footnote 12's SNC missing-case percentage (45%) is inconsistent with the implied 9/18 = 50% (and the footnote mixes TR/PRIO100
+scales); and (ADV-005) the TR Weibull observation counts (1206 → 899) are far above the 147 wars / 142 ended stated in the text, implying an undocumented conflict-year panel.
+Two medium-severity structural issues dominate the audit: (ADV-001) no replication dataset/code exists, and (ADV-002) the audited artifact is the 2012 ICIP <em>working paper</em>,
+not the version of record for the stated DOI, so even the claim set here is a preprint snapshot. There is <em>no demonstrated numerical error in any primary statistic</em> — but
+equally, <em>nothing primary could be verified</em>; the headline result ("irregular wars last longest; conventional wars most lethal; incumbents win irregular wars; conventional/SNC
+wars end in draws") rests entirely on unreplicable reported estimates.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). Because no data is obtainable, no regression was re-estimated
+(<code>survival</code>, <code>nnet</code>, <code>MASS</code> were verified present and would be used in a full pass).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/scripts/00_environment.R</code></td><td>Host/packages/SDK fingerprint</td><td>—</td><td>OK</td></tr>
+<tr><td><code>exec_check/scripts/01_internal_consistency.R</code></td><td>Arithmetic sample accounting + cross-table N totals (checked from reported numbers)</td><td>Tables 3–6, fn12, Table 1 N; C19–C30</td><td>OK (3 mismatches → ADV-003/004/005)</td></tr>
+<tr><td><em>(not run)</em> Weibull / OLS / mlogit re-estimation</td><td>Tables 1,2 / 5,6 / 7,8</td><td>Headline coefficients, SEs, p, N</td><td>➖ no data/code</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (42 claims, C1–C42): <code>manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✔ verified (arithmetic) · ⚠ discrepant (internal) · ➖ not independently reproducible (no data/code).</p>
+<h3>Severity — TR dataset (Table 3 + footnote 12)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation / check</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Table 3 obs by type</td><td>36 / 53 / 9</td><td>sum = 98</td><td>✔ (matches fn12 "98 cases")</td></tr>
+<tr><td>obs + missing = TR total</td><td>98 + (14+26+9=49) = 147</td><td>147</td><td>✔</td></tr>
+<tr><td>fn12 conventional missing %</td><td>28.5%</td><td>14/50 = 28.0%</td><td>⚠ ADV-004 (minor)</td></tr>
+<tr><td>fn12 irregular missing %</td><td>33.3%</td><td>26/79 = 32.9%</td><td>✔ (≈)</td></tr>
+<tr><td>fn12 SNC missing %</td><td>45%</td><td>9/18 = 50.0%</td><td>⚠ ADV-004</td></tr>
+<tr><td>Table 3 means (deaths/month)</td><td>3,038.127 / 1,257.908 / 1,015.103</td><td>— (no micro-data)</td><td>➖ no data</td></tr>
+<tr><td>fn12 min/max/mean</td><td>50 / 2,097,705 / 70,328.66 (n=98)</td><td>scale (TR vs PRIO100) unclear</td><td>⚠ ADV-004</td></tr>
+</tbody>
+</table>
+<h3>Severity — PRIO100 (Table 4 vs Table 6)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation / check</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Table 4 obs by type</td><td>122 / 757 / 23</td><td>sum = 902</td><td>✔</td></tr>
+<tr><td>Table 4 means (total deaths)</td><td>17,334.77 / 5,803.97 / 1,234.217</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>Table 6 M1 obs</td><td>913</td><td>913 vs 902 (Table 4)</td><td>⚠ ADV-003</td></tr>
+<tr><td>Table 6 M1 Conv / SNC</td><td>0.94*** / –0.61**</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>Table 5 (TR OLS) obs</td><td>98 / 92 / 84</td><td>M1=98 matches Table 3</td><td>✔</td></tr>
+</tbody>
+</table>
+<h3>Duration (Tables 1–2)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation / check</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>C2 average ended-war duration</td><td>80.19 months</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>C4 irregular avg duration</td><td>113.32 months</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>Table 1 M1 Irregular</td><td>1.20*** (0.23)</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>Table 1 M1 SNC</td><td>0.83** (0.38)</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>Table 1 M1 obs</td><td>1206</td><td>1206 ≫ 147 wars / 142 ended</td><td>⚠ ADV-005</td></tr>
+<tr><td>Table 1 M2–M4 obs</td><td>899</td><td>—</td><td>➖ no data (depends on 1206 construction)</td></tr>
+<tr><td>Table 2 M1 Irregular / obs</td><td>0.85*** (0.16) / 902</td><td>—</td><td>➖ no data</td></tr>
+</tbody>
+</table>
+<h3>Outcomes (Tables 7–8) — prose percentages</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation / check</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>% irregular incumbent wins (TR)</td><td>64%</td><td>— (Figure values not in text)</td><td>➖ no data</td></tr>
+<tr><td>% SNC draws</td><td>55.56%</td><td>—</td><td>➖ no data</td></tr>
+<tr><td>Table 7 obs / pseudo-R²</td><td>145/133/99 · 0.061/0.153/0.219</td><td>monotone decreasing M1→M3</td><td>➖ no data (accounting ✔)</td></tr>
+<tr><td>Table 8 obs / pseudo-R²</td><td>212/148/148 · 0.047/0.119/0.189</td><td>monotone decreasing M1→M3</td><td>➖ no data (accounting ✔)</td></tr>
+<tr><td>Draw: SNC vs Conv (Table 7 M1)</td><td>2.41*** vs 0.99**</td><td>direction consistent with prose</td><td>➖ no data (direction ✔ vs prose)</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — No replication data or code exists for any headline model; primary statistics are unverifiable.</strong>
+The working-paper text references an "Online Appendix" with coding rules/codebooks but gives no URL (<code>paper_extracted.txt</code> lines 283, 775). A Harvard Dataverse
+title-exact search for this article returned 0 datasets; no OSF/GitHub replication link was found. All coefficients/SEs/p-values/N for the Weibull, OLS, and multinomial
+models (Tables 1–8) therefore cannot be independently reproduced and are marked ➖. <em>Why it matters:</em> the entire empirical core of the article is unreplicable from shipped or
+publicly archived materials. <em>Fix:</em> publish a complete replication package (both dataset builds TR and PRIO100 + analysis code) on Dataverse/OSF for the version of record,
+and cite it in the article; then re-run this audit against it.</p>
+<p><strong>ADV-002 — The audited artifact is the 2012 ICIP working paper, not the 2014 version of record for the stated DOI.</strong>
+<code>paper_extracted.txt</code> is the ICIP Working Paper 2012/5 preprint (41 pp.); the DOI resolves to Journal of Conflict Resolution 58(8):1390–1418 (2014). The tables/estimates
+audited here are a preprint snapshot that may differ from the published article. <em>Why it matters:</em> certifying a preprint does not certify the version of record that the DOI
+labels. <em>Fix:</em> re-run the audit against the final published PDF + online appendix and diff preprint vs published tables.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-003 — PRIO100 severity sample inconsistency: Table 4 sums to 902 rows, Table 6 M1 has 913.</strong>
+The battledeaths-tabulated rows (122+757+23 = 902) are <em>fewer</em> than the OLS regression's M1 N (913), although the regression requires battledeaths data. Rechecked in R
+(<code>01_internal_consistency.R</code>). <em>Fix:</em> identify the 11 extra rows in Table 6 M1 or align the tabulated N.</p>
+<p><strong>ADV-004 — Footnote 12 missing-data percentages and scale are internally inconsistent.</strong>
+With 9 observed + 9 missing SNC wars the total is 18 and the missing fraction is 50.0%, yet the footnote reports 45% (which would need 20 SNC wars total); conventional is
+28.0% vs a claimed 28.5%. The footnote's global mean 70,328.66 / max 2,097,705 (Vietnam) are on the PRIO100 per-conflict deaths scale but are reported against the TR section's
+98 cases. <em>Fix:</em> recompute percentages against the correct per-technology totals and label the source scale explicitly.</p>
+<p><strong>ADV-005 — Table 1 (TR Weibull) observation counts are far above the war-level N and the panel structure is undocumented.</strong>
+Text states 142 ended wars (147 total in TR), yet Table 1 M1 has 1206 observations and M2–M4 have 899. A per-war Weibull AFT would be capped at 147; 1206 implies an
+undocumented conflict-year (spell) panel. <em>Fix:</em> state the unit of analysis and reconcile N with the war count.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No source-level re-implementation was possible.</strong> No replication dataset or code was shipped or found (Dataverse/OSF), so none of the regression coefficients,
+SEs, p-values, or model Ns (Tables 1–8) was regenerated; they remain ➖. This is a limitation of the available materials, not a pass on their correctness.</li>
+<li><strong>The audit tests the preprint, not the version of record.</strong> Published JCR tables may differ; nothing here certifies the DOI-titled article's in-print numbers.</li>
+<li><strong>Directional/concluding claims</strong> (e.g., "irregular wars are won by incumbents", "irregular wars are the longest") were cross-checked against in-text signs/percentages and
+found internally consistent, but the underlying models were not rerun.</li>
+<li><strong>Cited background statistics</strong> (footnote 1's 66.34%/47.83%/26.09%/26.09%, drawn from Kalyvas &amp; Balcells 2010) were not independently recomputed.</li>
+<li>Figure 2 (Kaplan–Meier) and Figures 3–6 (outcome shares) embed values not printed in the text and were not verified pixel-/value-wise.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk (under <code>ReproAI\0022002714547903\</code>)</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report (house style).</td></tr>
+<tr><td><code>exec_check/scripts/00_environment.R</code>, <code>01_internal_consistency.R</code></td><td>Environment fingerprint + arithmetic consistency scripts.</td></tr>
+<tr><td><code>exec_check/output/00_environment.txt</code>, <code>01_internal_consistency.txt</code></td><td>Script outputs.</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log with <code>==== START/END (status: OK) ====</code> markers.</td></tr>
+<tr><td><code>manuscript_claims.md</code></td><td>42 numbered claims (C1–C42), each checked.</td></tr>
+<tr><td><code>environment_note.md</code></td><td>Host, R version, provenance chain, and data-availability search notes.</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/model/reimplementation description.</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-005 with severities and evidence.</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation plan.</td></tr>
+</tbody>
+</table>
+<p><em>Originals untouched:</em> <code>…\07_0022002714547903\paper.pdf</code> and <code>paper_extracted.txt</code> were only read.</p>
+</body>
+</html>

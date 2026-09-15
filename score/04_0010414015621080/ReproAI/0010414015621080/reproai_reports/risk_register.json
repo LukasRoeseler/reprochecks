@@ -1,0 +1,31 @@
+{
+  "package": "10.1177/0010414015621080 — The Spousal Bump",
+  "audit_date": "2026-09-14",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "summary": "No replication data/code package obtainable; only 'available on request' for robustness",
+      "evidence": "Full text (paper_extracted.txt) contains no Dataverse/OSF/Data-and-Code link; footnote 21 says bootstraps 'available on request'. Cambridge-Harvard Dataverse API searches returned 0 matching deposits for title, DOI and author-keyword; DOI resolves to citation only; SAGE page HTTP 403.",
+      "impact": "Primary statistics not independently reproducible: Benin survey regression coefficients and SEs (Table 2, claims C6-C7) and ALL Afrobarometer regression coefficients (Table 4, claims C18-C21) cannot be recomputed from source data. Headline causal estimate (0.21**-0.22** Fon-wife effect) and cross-national generalisation (0.04** Vote) are unverifiable beyond internal consistency.",
+      "fix": "Authors should deposit a replication package (raw/cleaned data + code + codebook) to a persistent repository (Harvard Dataverse / OSF / journal supplement) citing the article DOI, ideally containing the Benin respondent-level data and the constructed Afrobarometer/DHS/EPR analysis files with the full exclusion list given in note 27."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "summary": "Prose 'marry into groups that are ... larger (by 8 percentage points)' has an ambiguous referent",
+      "evidence": "Table 3 country-round unit: coethnic spouse grp 0.317 vs cross-ethnic spouse grp 0.582 (Δ=26.5pp); but within cross-ethnic column leader 0.509 -> spouse 0.582 (Δ=7.3pp). Only the within-column 7.3pp reconciles with 'by 8pp'; a reader comparing columns sees 26.5pp.",
+      "impact": "Minor prose/tabular clarity issue; no substantive conclusion affected.",
+      "fix": "State explicitly that spouse groups in cross-ethnic marriages are ~7-8pp larger than the leader's OWN group (0.509->0.582), not larger than spouse groups in coethnic marriages."
+    }
+  ],
+  "non_findings_checked": [
+    "T1-D: all six Table 1 percentage-point differences reconstruct to exactly the published magnitudes (6.02/21.82/27.84/13.85/16.20/2.35) to 0.01pp",
+    "T1-P: reconstructed-count two-proportion z p-values agree with all six published p (.41/.01/.00/.11/.06/.79) within 0.05",
+    "T1-BASE: baseline 71.43 vs 19.35 = 52.08pp consistent with 'more than 50-point' prose claim",
+    "T2-N: Table 1 cell n sums (158 coethnics, 189 non-coethnics) exactly match Table 2 reported observations",
+    "T3: incidence arithmetic holds (6+8=14 countries; 13+12=25 tenures; 8/14; 12/25); prose 24%/13% matches 0.240/0.128",
+    "DR1/DR2: directional claims (effect positive only for Fon; Wife cue NS-negative) consistent with Table 1 signs"
+  ],
+  "legend": { "P0": "blocker", "P1": "high", "P2": "medium", "P3": "low" }
+}

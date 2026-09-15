@@ -1,0 +1,39 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules_version": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "article_doi": "10.1257/aer.20161385",
+  "severity_totals": {"P0_blocker": 0, "P1_high": 0, "P2_medium": 0, "P3_low": 3, "total": 3},
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P3",
+      "title": "Malformed / non-resolving dataset citation DOI in the reference list",
+      "what": "The reference entry 'Hjort, Jonas, and Jonas Poulsen. 2019. \"The Arrival of Fast Internet and Employment in Africa: Dataset.\" American Economic Review. https://doi.org/10.1275/20161385' prints DOI handle '10.1275/20161385'.",
+      "evidence": "paper_extracted.txt lines 2904-2905. The published replication package actually lives at DOI 10.3886/E113156V1 (openICPSR / AEA Data & Code Repository); '10.1275' is not an AEA handle and '20161385' alone is not a valid dataset suffix, so the citation as printed does not resolve.",
+      "why_it_matters": "Documentation defect that impedes a reader from directly locating the deposited replication files from the paper.",
+      "fix": "Replace the dataset citation with the correct replication DOI (10.3886/E113156V1) (or, if an AER-native dataset handle is intended, the correct 10.1257/... handle) and verify it resolves.",
+      "impact_on_primary": "none — availability of the package is otherwise confirmed; citation misprint only."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Inconsistent baseline denominator in the abstract/IV-B percentage conversions (DHS only)",
+      "what": "The abstract and Section IV-B report the DHS employment increase as '4.6 percentage point, or 6.9 percent'. Re-derivation: 0.046/0.68 = 6.76% using the Table 3 mean-of-outcome (0.68), but 0.046/0.67 = 6.87% using the connected-baseline rate 0.67 from Table 1 — the '6.9%' prints only under the connected-base denominator.",
+      "evidence": "C4; R `01_internal_consistency.R` ABS-1; paper_extracted.txt lines 142-146, 1125-1192. For comparison the Afrobarometer '13.2%' (0.077/0.58=13.28%) and SA '3.1%' (0.022/0.72=3.06%) use the pooled mean-of-outcome base, so the base is not held constant across the three samples.",
+      "why_it_matters": "Minor rounding/documentation imprecision; a reader re-deriving 6.9% from the printed Table 3 mean gets 6.8%. Does not affect any coefficient, SE, or significance.",
+      "fix": "State the conversion base (or report pp only, or uniformly use the mean-of-outcome), e.g. change '6.9 percent' to '6.8 percent' if the pooled mean (0.68) is the intended base.",
+      "impact_on_primary": "none."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Loose 'percent' vs 'percentage point' terminology for coefficients on 0/1 outcomes",
+      "what": "For dummy outcomes the coefficients are percentage-point changes, but prose occasionally says 'percent'. Cases: Table 3 Panel B col 2 'wants to work more' = -0.022 described as reducing the probability 'by 2.2 percent'; Table 5 prose 'increases the probability ... by respectively 4.4 and 1.4 percent' for DHS 0.044 / SA 0.014.",
+      "evidence": "C7, C E; pdfminer_full.txt confirmed the Table 3 col-2 sign is indeed -0.022 (paper_extracted.txt had dropped the minus).",
+      "why_it_matters": "Terminology imprecision only; the coefficient magnitudes are unambiguous in the tables and no inference changes.",
+      "fix": "Use 'percentage points' for the 0/1-dummy coefficients, reserving 'percent' for relative changes; state the convention once.",
+      "impact_on_primary": "none."
+    }
+  ]
+}

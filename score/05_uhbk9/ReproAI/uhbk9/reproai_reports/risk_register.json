@@ -1,0 +1,59 @@
+{
+  "package": "uhbk9",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "Study 1 headline interaction statistic not reproducible from shipped data",
+      "evidence": "Interaction: manuscript beta=-0.126, F(1,25586)=42.24, p<.0001; reimplementation (two-way cluster, both 00_lib.R and fixest) beta=-0.130 (standardized-predictor convention; raw -0.520), F=43.70, p<.0001. df2=25586 matches (N=25590 confirmed), so N and structure agree; the F difference (~3.5%) is not a rounding or small-sample-correction artifact (G1=853, G2=30 make such corrections <0.01%).",
+      "why_it_matters": "This is the primary headline result of Study 1. While direction, sign and significance are identical, the exact advertised statistic cannot be reproduced from the shipped CSV, indicating the analyzed data differ slightly from the manuscript's analysis set or the reported statistic.",
+      "fix": "Re-run Study 1's cluster2 analysis on the exact analysis set used for Table S2/S3; identify the discrepancy source (data version vs reporting); re-export with reproducible pipeline and report exact F/beta.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Manuscript reports Study 1 accuracy-simple-effect F identical to the interaction F (suspected copy-paste)",
+      "evidence": "Text: accuracy simple effect 'F(1,25586)=42.24' equals the interaction 'F(1,25586)=42.24'. Reimplementation gives accuracy-simple F=52.75 (interaction F=43.70). The two tests are different linear combinations and are not generally equal; the duplicated value is consistent with a copy/paste of the interaction line.",
+      "why_it_matters": "Contributes to ADV-001; the reported simple-effect F is not reproducible and is internally suspicious.",
+      "fix": "Correct the accuracy simple-effect F to the value actually obtained (52.75 from this data) or to the value from the correct analysis set; cross-check the sharing F as well.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Prose claim '32.4% more people were willing to share [false headlines] than rated them as accurate' not reproducible",
+      "evidence": "Data: mean share-false=0.4342, mean accuracy-false=0.3305 -> +10.37 percentage points, +31.4% relative. Neither 32.4 pp nor 32.4% relative reproduces.",
+      "why_it_matters": "A concrete, headline prose quantity in the Study 1 Results that does not follow from the shipped data.",
+      "fix": "Recompute from the analysis dataset and correct the prose number (or the dataset).",
+      "status": "open"
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P2",
+      "title": "Study 2 gender counts are internally inconsistent (861 vs N=856) and do not match the shipped data",
+      "evidence": "Manuscript: '385 males, 468 females, and 8 other/prefer not' -> 385+468+8=861, not 856. Shipped data (Gender.0): 385 M, 463 F, 8 other (sums to 856). The 468F figure also does not match the data's 463F.",
+      "why_it_matters": "A self-consistent demographic block whose components over-count the reported N; the female count is off by 5 relative to the data.",
+      "fix": "Re-tally gender from the analysis dataset; correct the demographic sentence so components sum to N.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Study 2 reported interaction beta (0.039) vs reimplementation (0.0343)",
+      "evidence": "F(1,25623)=17.88 reproduces exactly (17.881) and beta would scale with it; manuscript beta=0.039 implies a scaled-up SE relative to ours (0.00811). Likely a different DV scaling/reporting convention.",
+      "why_it_matters": "Minor reporting inconsistency; inferential statistics (F, p, df) match exactly.",
+      "fix": "Document the scaling convention for the reported beta or restate to match the rescaled-DV estimate.",
+      "status": "open"
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Hygiene: stale/incomplete analysis artifacts in the prepopulated tree did not reproduce",
+      "evidence": "Pre-existing exec_check/R/output/study1_main_tests.csv contained only NA rows; the earlier system 01_study1_main.R read non-version-selected rating columns and yielded 6360/25590 ratings (regression rank-deficient). Version (order-block) selection is required (Study 1 Condition 1-4 -> base/.0/.1/.2). Paper text uses placeholder links '(link)' for data/materials/preregistration rather than a working URL.",
+      "why_it_matters": "A naive re-run would have reported a failed/singular model; the real data require order-block column selection. Placeholder links block direct OSF access from the manuscript.",
+      "fix": "Ship a completed preprocessing script (as provided now in 01_prep_study1.R / 02_study2_main.R); replace placeholder links with the OSF DOI/project id.",
+      "status": "open"
+    }
+  ]
+}

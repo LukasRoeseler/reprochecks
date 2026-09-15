@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: s10683-011-9295-3</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Self-interest and fairness: self-serving choices of justice principles</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &nbsp;·&nbsp; <strong>rules:</strong> 2026.06.27 &nbsp;·&nbsp; <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>10.1007/s10683-011-9295-3</code> — Rodriguez-Lara, I. &amp; Moreno-Garrido, L., <em>Experimental Economics</em> 15:158–175 (2012) (SCORE batch item 3, folder <code>03_s10683-011-9295-3</code>).
+<strong>Mode:</strong> <strong>static audit + independent internal-consistency reimplementation.</strong> This is a 2011 behavioral/experimental-economics labouratory dictator-game paper. The paper and ESM contain <strong>no raw per-pair dataset or analysis code</strong> (no OSF/Zenodo/GitHub citation; ESM = Appendix A instructions, B hurdle/M-estimators, C thresholds — no data). Every statistic that can be derived from the published cell means, test statistics and thresholds was independently recomputed in <strong>R 4.6.1</strong> and cross-checked in a <strong>second language (Python 3.8 / scipy)</strong>; the two implementations agree on every recomputed value. All raw-data-dependent results (Table 2 regressions, Table 3 Wilcoxon values, ESM B coefficients, Table 1 SDs/group means, exact KS p) are marked ➖ with reason <code>DATA-NA</code>. Originals (<code>paper.pdf</code>, <code>paper_extracted.txt</code>) were not modified.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>2</td></tr>
+<tr><td>P3 — low</td><td>3</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The paper's internally re-computable statistics are clean, but its headline inferential results cannot be independently reproduced because no raw data or code is deposited.</strong> Every derived / internal-consistency check that can be done from the published numbers passes: the pooled cell means recompute exactly (qd 10.16, qr 10.87, s 0.39); the (s−x<sub>a</sub>) and (s−x<sub>l</sub>) treatment means are fully consistent with the q<sub>d</sub>, q<sub>r</sub>, s cell means under the stated prices; the footnote-13 BL t-test recomputes to t=2.154, p=.0365 (reported 2.14, .036); the q0=3/7 and q1=0.6 most-favourable-principle thresholds derive exactly; every W(z)↔p and F(df)↔p pairing in the text, footnotes and ESM B is numerically consistent (<strong>16/16 F-pairings and 13/14 W-pairings</strong> with reported p verify; the one flagged is ADV-001; the χ²₃=7.63 hurdle p verifies to 0.05431). The headline "<strong>bias principle</strong>" — dictators follow the pay-off-maximising justice principle — is internally coherent (pooled: no natural principle p&lt;.0020 but bias F=3.17 p=.0482 / F=0.35 p=.7056 / W=0.10, and the "isolate the selfish" F<sub>2,60</sub>=0.59 p=.56). The limitations are: <strong>no data deposit ⇒ all Table 2/3/ESM-B numbers and Table-1 group SDs are not third-party-verifiable</strong> (ADV-000, P1); a likely copy-paste of one Wilcoxon p-value (W=1.120 printed with p=0.904 that belongs to W=0.120; correct p≈0.263) (ADV-001, P2); a 7-vs-8 discrepancy in the number of zero givers between Table-1 shares/"90% positive transfers" prose and footnote 19/ESM Appendix B (ADV-002, P2); plus three minor documentation/rounding notes (ADV-003/004/005, P3). None of the findings changes any conclusion.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (in lieu of live execution — no author code exists)</h2>
+<p>Console log: <code>exec_check/output/console_01_consistency.log</code> (<code>==== START/END (status: OK) ====</code> markers).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements / checks</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/00_extract_esm.R</code></td><td>ESM PDF text extraction (pdftools)</td><td>ESM Appendices A/B/C; confirms no raw data</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/01_internal_consistency.R</code></td><td>Pooled means; (s−x<sub>a</sub>)/(s−x<sub>l</sub>) from cell means; fn13 BL t-test; fn14 KS p; W↔p and F↔p mappings; q0/q1 thresholds; zero-giver cell-counts; pooled min/max</td><td>Table 1, footnotes 13/14/17–19, Table 2/3 pairings, Table 3 Ns, ESM B/C</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/02_crosscheck_python.py</code></td><td>Independent second-language recompute (Python 3.8 + scipy.stats) of the same derived checks</td><td>Same as above (cross-language agreement)</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (54 numbered items, C01–C54): <code>exec_check/manuscript_claims.md</code>. All closed-form checks are deterministic (no RNG), so results are stable across runs and languages.</p>
+<hr />
+<h2>Numerical reproducibility (internally re-computable subset)</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close (rounding-explained) · ⚠ discrepant (finding) · ➖ not independently checkable (no raw data).</p>
+
+<h3>Table 1 — Earning &amp; allocation means (pooled = unweighted mean of 3 cell means, n=24 each)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>q<sub>d</sub> pooled mean</td><td>10.16</td><td>10.1667</td><td>✅</td></tr>
+<tr><td>q<sub>d</sub> cell means 9.92/10.75/9.83; SDs 2.95/2.41/3.47</td><td>—</td><td>—</td><td>➖ DATA-NA</td></tr>
+<tr><td>q<sub>r</sub> pooled mean</td><td>10.87</td><td>10.8767</td><td>✅</td></tr>
+<tr><td>s pooled mean</td><td>0.39</td><td>0.3900</td><td>✅</td></tr>
+<tr><td>s cell means 0.44/0.37/0.36; SDs 0.20/0.17/0.21</td><td>—</td><td>—</td><td>➖ DATA-NA</td></tr>
+<tr><td>(s−x<sub>a</sub>) DW / DB / BL</td><td>−0.07 / −0.12 / −0.18</td><td>−0.066 / −0.124 / −0.189</td><td>✅ (derived from cell means)</td></tr>
+<tr><td>(s−x<sub>l</sub>) DW / DB / BL</td><td>−0.14 / −0.03 / −0.18</td><td>−0.138 / −0.024 / −0.189</td><td>✅ (derived from cell means)</td></tr>
+<tr><td>(s−x<sub>a</sub>) pooled mean</td><td>−0.13</td><td>−0.1233 (rounds −0.12)</td><td>⚠ ADV-003</td></tr>
+<tr><td>(s−x<sub>l</sub>) pooled mean</td><td>−0.11</td><td>−0.1167 (rounds −0.12)</td><td>⚠ ADV-003</td></tr>
+<tr><td>Pooled min/max for q<sub>d</sub>, q<sub>r</sub>, s, (s−x<sub>a</sub>), (s−x<sub>l</sub>)</td><td>3/17, 4/19, 0/.74, −.69/.12, −.69/.21</td><td>= across-treatment min/max</td><td>✅ (all 5)</td></tr>
+<tr><td>Share offering nothing 0.08/0.04/0.17/0.10</td><td>—</td><td>→ integer 2/1/4 = 7 of 72 (0.097)</td><td>✅ internally; ⚠ vs "8" (ADV-002)</td></tr>
+<tr><td>Share offering above 0.5</td><td>0.29/0.17/0.25/0.24</td><td>—</td><td>➖ DATA-NA</td></tr>
+</tbody>
+</table>
+
+<h3>Footnotes 13/14 and §4 prose</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>fn13: BL q<sub>d</sub>≠q<sub>r</sub></td><td>t=2.14, p=.036 (df=46)</td><td>t=2.154, p=.0365 (pooled two-sample, df=46)</td><td>✅</td></tr>
+<tr><td>fn14: KS DW vs DB offers</td><td>D=0.33, p=.089</td><td>asymptotic p ≈ .07–.15; exact needs raw data</td><td>➖ ADV-005</td></tr>
+<tr><td>"~3000 pesetas (18 €)"</td><td>amount ~3000</td><td>18×166.386 = 2995 pts ✅ conversion; amount</td><td>➖ DATA-NA (amount)</td></tr>
+<tr><td>"positive transfers 90% of the time"</td><td>~90%</td><td>7 zeros → 65/72=.903; 8 zeros → 64/72=.889</td><td>⚠ ADV-002</td></tr>
+<tr><td>"average distribution ~40%"</td><td>~40%</td><td>pooled s=0.39</td><td>✅</td></tr>
+<tr><td>"20% DW / ~17% DB" just-desert violations</td><td>20% / 17%</td><td>—</td><td>➖ DATA-NA</td></tr>
+</tbody>
+</table>
+
+<h3>W(z) ↔ p (Wilcoxon signed-rank reported as normal z) and F(df) ↔ p mappings</h3>
+<table>
+<thead><tr><th>Statistic</th><th>Reported p</th><th>Recomputed p</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>fn17: Libertarian DW W=4.095</td><td>.0000</td><td>.0000</td><td>✅</td></tr>
+<tr><td>fn17: Accountability DW W=0.93</td><td>.3529</td><td>.3524</td><td>✅</td></tr>
+<tr><td>fn17: Egalitarian DW W=1.060</td><td>.2889</td><td>.2891</td><td>✅</td></tr>
+<tr><td>T3 md≥m<sub>r</sub> Libertarian W=0.762</td><td>.446</td><td>.4461</td><td>✅</td></tr>
+<tr><td>T3 md&lt;m<sub>r</sub> Egalitarian W=0.240</td><td>.810</td><td>.8103</td><td>✅</td></tr>
+<tr><td>T3 md&lt;m<sub>r</sub> q<sub>d</sub>≥q<sub>r</sub> Account. W=0.120</td><td>.9049</td><td>.9045</td><td>✅</td></tr>
+<tr><td>T3 md≥m<sub>r</sub> p<sub>d</sub>&gt;p<sub>r</sub> Libertarian W=0.345</td><td>.730</td><td>.7301</td><td>✅</td></tr>
+<tr><td><strong>T3 md≥m<sub>r</sub> p<sub>d</sub>≤p<sub>r</sub> Accountability W=1.120</strong></td><td><strong>.904</strong></td><td><strong>.2627</strong></td><td><strong>⚠ ADV-001</strong></td></tr>
+<tr><td>fn18: pooled bias W=0.10</td><td>.9172</td><td>.9203</td><td>≈ (continuity correction)</td></tr>
+<tr><td>fn17: Libertarian DW F=7.93 (2,22)</td><td>.0025</td><td>.0026</td><td>✅</td></tr>
+<tr><td>fn17: Libertarian DW (quant) F=8.03</td><td>.0024</td><td>.0024</td><td>✅</td></tr>
+<tr><td>fn17: Accountability DW F=2.04 / 1.39</td><td>.1534 / .2705</td><td>.1539 / .2701</td><td>✅</td></tr>
+<tr><td>fn17: Libertarian DB F=0.88 / 0.00</td><td>.4278 / 1</td><td>.4289 / 1.0000</td><td>≈ / ✅</td></tr>
+<tr><td>fn17: Egalitarian DW F=4.28 / 0.61</td><td>.0269 / .5524</td><td>.0269 / .5523</td><td>✅</td></tr>
+<tr><td>fn18: pooled bias F=3.17 / 0.35 (2,60)</td><td>.0482 / .7056</td><td>.0491 / .7061</td><td>✅</td></tr>
+<tr><td>fn19: isolate-selfish F=0.59 (2,60)</td><td>.5597</td><td>.5575</td><td>≈</td></tr>
+<tr><td>ESM B: M-est F 25.97(2,22),10.43(2,20),17.89(2,22),8.55(2,19)</td><td>.0000,.001,.0000,.002</td><td>.0000,.0008,.0000,.0022</td><td>✅</td></tr>
+<tr><td>ESM B: hurdle χ²₃=7.63</td><td>.0543</td><td>.05431</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<h3>Table 3 — structure &amp; classifications (arithmetic + thresholds)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Panel I Ns: m<sub>d</sub>≥m<sub>r</sub> 34, m<sub>d</sub>&lt;m<sub>r</sub> 38</td><td>34 / 38</td><td>34+38=72; 21+13=34; 9+29=38</td><td>✅</td></tr>
+<tr><td>Panel II Ns: Acc 22, Lib 21, Egal 29</td><td>22/21/29</td><td>22+21+29=72</td><td>✅</td></tr>
+<tr><td>Panel I &amp; II Wilcoxon values</td><td>as printed</td><td>—</td><td>➖ DATA-NA (values need raw data)</td></tr>
+<tr><td>q0 threshold (DW)</td><td>3/7</td><td>200q<sub>r</sub>=150q<sub>d</sub> → 0.75/1.75 = 0.4286</td><td>✅</td></tr>
+<tr><td>q1 threshold (DB)</td><td>0.6</td><td>150q<sub>d</sub>=100q<sub>r</sub> → 1.5/2.5 = 0.6000</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<h3>Not independently checkable (no raw data deposit)</h3>
+<table>
+<thead><tr><th>Exhibit</th><th>Items</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Table 2</td><td>All WLS robust and bootstrapped quantile (median) regression coefficients and standard errors; the underlying justice F-tests' values (as opposed to their p↔F pairings)</td><td>➖ DATA-NA</td></tr>
+<tr><td>Table 3</td><td>All Wilcoxon signed-rank statistic values (each requires per-observation signed ranks)</td><td>➖ DATA-NA</td></tr>
+<tr><td>Table 1</td><td>All group SDs and cell min/max distributions; share-above-0.5 cell values</td><td>➖ DATA-NA</td></tr>
+<tr><td>ESM B</td><td>Hurdle (probit + Papke–Wooldridge) coefficients &amp; marginal effects; M-estimator (Tukey Biweight) regressions; p=.026/.010/.009 treatment contrasts</td><td>➖ DATA-NA</td></tr>
+<tr><td>ESM C / Fig. 1</td><td>Scatter configurations behind just-desert violation percentages (20%/17%)</td><td>➖ DATA-NA</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+
+<h3>P1 — high</h3>
+<p><strong>ADV-000 — No raw data or analysis code is deposited, so the paper's primary inferential statistics are not independently reproducible by a third party.</strong>
+Not a numeric error, but a reproducibility blocker under the ReproAI rubric (§9: a "primary statistic ... not reproducible" is P1). The paper (2011) cites no data/code link; the ESM (<code>10683_2011_9295_MOESM1_ESM.pdf</code>, retrieved and parsed) contains only Appendix A (instructions), B (hurdle model + M-estimators) and C (threshold derivations) — no per-pair dataset. "The complete test is available on request" refers to the questionnaire, not the data. Consequently all of Table 2 (WLS + bootstrapped quantile regressions), Table 3 (Wilcoxon values) and ESM B (hurdle/M-estimator coefficients) are classified ➖ (<code>DATA-NA</code>), and the exact two-sample KS p (fn14) is not computable.
+<em>Fix:</em> deposit the anonymized per-pair dataset and z-Tree/Stata analysis code (e.g. on OSF/Zenodo) and cite it; at minimum publish the aggregate cell data.</p>
+
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — In-text Wilcoxon p-value does not correspond to its own reported W statistic.</strong>
+Main text (p.172): the Accountability group for m<sub>d</sub>≥m<sub>r</sub> &amp; p<sub>d</sub>≤p<sub>r</sub> prints "W = 1.120, p-value = 0.904". The reported "W" is a normal-approximation z throughout (verified: dozens of W↔p pairs in the paper map exactly to p = 2·[1−Φ(|W|)]). Using that identity, W=1.120 ⇒ p = 0.2627 (R and Python agree). The printed 0.904 matches W=0.120, the Accountability row of the adjacent m<sub>d</sub>&lt;m<sub>r</sub>, q<sub>d</sub>≥q<sub>r</sub> group (p=0.9049) on the same page — an apparent copy-paste. Both p-values are non-significant, so the conclusion ("accountability cannot be rejected here") is unchanged.
+<em>Fix:</em> correct the p-value to ≈0.263 (or report the exact signed-rank p) for the W=1.120 row.</p>
+
+<p><strong>ADV-002 — Internal inconsistency in the number of zero givers: Table 1/"90%" implies 7, footnote 19 &amp; ESM Appendix B say 8.</strong>
+Table 1 "share offering nothing" (0.08 / 0.04 / 0.17) decomposes to integer counts of 2 / 1 / 4 = <strong>7</strong> of 72 (pooled 0.10 ≈ 7/72 = 0.097), which also reproduces the prose "positive transfers occur 90% of the time" (65/72 = 0.9028; with 8 zeros it would be 64/72 = 0.8889, i.e. ~89%). But footnote 19 (p.171) and ESM Appendix B both state <strong>"EIGHT dictators choosing s=0"</strong> (8/72 = 0.111), and ESM Appendix B's "unselfish (give ≥5%) DW=21, DB=22" implies 3 below-5% givers in DW and 2 in DB. The paper's own sources disagree by one observation.
+<em>Fix:</em> state the exact per-treatment counts of s=0 (and of s=0.01/0.02), then make Table 1 shares, the "90%" prose, footnote 19 and Appendix B mutually consistent.</p>
+
+<h3>P3 — low</h3>
+<p><strong>ADV-003 — Pooled (s−x<sub>a</sub>) and (s−x<sub>l</sub>) means (−0.13, −0.11) differ from the unweighted average of the printed treatment means (−0.123, −0.117).</strong>
+The treatment-level (s−x<sub>a</sub>)/(s−x<sub>l</sub>) means are fully internally consistent with the q<sub>d</sub>/q<sub>r</sub>/s cell means under the stated prices (verified). The pooled figures are almost certainly computed from full-precision cell data (hence −0.13 / −0.11) while re-deriving from the 2-dp printed cell means gives −0.12 / −0.12 — a rounding-drift artefact, not an error.
+<em>Fix:</em> confirm pooled means are from raw cell data and add a rounding note.</p>
+
+<p><strong>ADV-004 — Pooled justice F-tests report df2=60 for n=72, implying an undocumented ~12-parameter unrestricted model; the pooled qnt-libertarian p just exceeds the stated "<0.0020" bound.</strong>
+72−60 = 12 estimated parameters in the pooled robust/quantile regressions is not a plain two-parameter fit (which would be F(2,70)); the pooled specification (treatment dummies/interactions) is not documented in the text. Also, the text's "none ... can explain the pooled data (p-values&lt;0.0020 in all the cases)" is marginally violated by the bootstrapped-quantile libertarian F=6.79(2,60) → p=0.0022 (all other pooled natural F's give p&lt;.0001).
+<em>Fix:</em> document the pooled model (variables, df) and state p precisely rather than a blanket &lt;0.0020.</p>
+
+<p><strong>ADV-005 — fn14 KS D=0.33 (n=24,24), p=0.089 is not matched by standard two-sample asymptotics.</strong>
+Two-sided asymptotic p for D=0.33, n<sub>1</sub>=n<sub>2</sub>=24 computes to ≈0.1465 (basic) or ≈0.0695 (Stephens finite-n correction). The exact two-sample p depends on the empirical-offer arrangement (raw data) and could plausibly be 0.089, but it is not independently computable here.
+<em>Fix:</em> recompute the exact (non-asymptotic) two-sample KS p from the raw offers and document the software/package used.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No live or first-principles recomputation of the primary inferential results.</strong> Because no raw data or analysis code exists, Table 2 regressions (WLS robust, bootstrapped quantile), Table 3 Wilcoxon values, and ESM B hurdle/M-estimator coefficients were <strong>not</strong> recomputed — they are marked ➖ with reason <code>DATA-NA</code>. If the authors release the dataset, the natural next step is to rerun all of these from the raw pairs.</li>
+<li><strong>Exact KS p (fn14)</strong> and all **group-level SDs / cell minimum-maximum distributions** are based on the published cell statistics only and are not verifiable without raw data.</li>
+<li><strong>Not a byte-for-byte <em>author</em> reproduction.</strong> The closed-form checks (t, F, χ², W→p, thresholds, mean arithmetic) are deterministic and language-independent (R == Python), but this audit does not claim to replicate the original z-Tree/Stata implementation because none was shipped.</li>
+<li><strong>Interpretation, not statistics:</strong> whether the "bias principle" story correctly reflects subjects' motives is a substantive economic judgment, outside a reproducibility audit.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk (<code>ReproAI\s10683-011-9295-3\</code>)</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report</td></tr>
+<tr><td><code>exec_check/ESM_MOESM1.pdf</code> (+ <code>ESM_text.txt</code>)</td><td>Supplementary material (Appendices A/B/C), downloaded &amp; text-extracted; confirms no raw data</td></tr>
+<tr><td><code>exec_check/R/00_extract_esm.R</code></td><td>ESM text extraction (pdftools)</td></tr>
+<tr><td><code>exec_check/R/01_internal_consistency.R</code></td><td>Main reimplementation (R 4.6.1)</td></tr>
+<tr><td><code>exec_check/R/02_crosscheck_python.py</code></td><td>Independent second-language cross-check (Python 3.8 / scipy)</td></tr>
+<tr><td><code>exec_check/output/console_01_consistency.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>exec_check/output/w_to_p_check.csv</code>, <code>f_to_p_check.csv</code>, <code>consistency_cases.RData</code></td><td>Machine-readable check tables</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>54 numbered claims (C01–C54), each checked</td></tr>
+<tr><td><code>exec_check/ENVIRONMENT_NOTE.md</code></td><td>Provenance &amp; environment note (R 4.6.1 / Python 3.8, data-availability verdict)</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-000 … ADV-005 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps for all findings</td></tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules_version": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "article_doi": "10.1257/aer.20161385",
+  "remediation_plan": [
+    {
+      "id": "ADV-001",
+      "action": "Update the dataset reference to the resolving DOI 10.3886/E113156V1 (or the correct AER-native handle), and verify the link resolves before the next printing/online update.",
+      "owner": "authors / AEA copy editor",
+      "priority": "low",
+      "blocks_quantitative_replication": false
+    },
+    {
+      "id": "ADV-002",
+      "action": "Make the %-conversion base explicit and uniform across samples (recommend mean-of-outcome); if pooled base (0.68) intended, print '6.8 percent' for DHS.",
+      "owner": "authors",
+      "priority": "low",
+      "blocks_quantitative_replication": false
+    },
+    {
+      "id": "ADV-003",
+      "action": "Adopt 'percentage points' for coefficients on 0/1 outcomes and state the convention once.",
+      "owner": "authors",
+      "priority": "low",
+      "blocks_quantitative_replication": false
+    },
+    {
+      "id": "REPLICATION-NEXT-STEP",
+      "action": "Perform a full live retabulation of the headline regressions (Table 3 and key robustness) from the public openICPSR E113156V1 package. Required: (a) a network path that can pass the openICPSR Cloudflare managed challenge (signed-in browser or allowed egress) to download qlfs.dta (153 MB), the DHS dta(s), afrobarometer.dta, akamai.dta, lmmis.dta, light.dta, itu.dta; (b) Stata 14+ to run t1-t4.do, f4/f5/f7.do, fa1.do (load-bearing specs; equation (1) of the paper); (c) report coefficients, clustered SEs, N, and means and diff against Tables 3-9 and Table A1/A2. This was NOT executable this session because the data could not be downloaded and Stata is not installed.",
+      "owner": "independent replicator (recommend an I4R re-run on an approved network)",
+      "priority": "high (for a complete data-level reproducibility verdict)",
+      "blocks_quantitative_replication": true
+    }
+  ]
+}

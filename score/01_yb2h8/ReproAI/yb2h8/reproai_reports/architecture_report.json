@@ -1,0 +1,47 @@
+{
+  "package": {
+    "title": "Predicting Perceived Stress Related to the Covid-19 Outbreak through Stable Psychological Traits and Machine Learning Models",
+    "authors": "Flesia, Monaro, Mazza, Fietta, Colicino, Segatto, Roma (2020)",
+    "journal": "J. Clin. Med. 9(10), 3350",
+    "preprint_doi": "10.31234/osf.io/yb2h8",
+    "published_doi": "10.3390/jcm9103350",
+    "preprint_id": "yb2h8_v1",
+    "osf_node": "e285f",
+    "paper_type": "Empirical cross-sectional observational study (online survey), COVID-19 stress prediction"
+  },
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules_version": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "mode": "static audit + independent reimplementation of all summary-statistic-checkable values (no raw data or code available)",
+  "host_environment": {
+    "os": "Windows (win32)",
+    "r": "R 4.6.1 (2026-06-24)",
+    "python": "Python 3.8.10 (pdfminer 20231228 for PDF text extraction)",
+    "original_tools": "JASP 0.14 (statistics), WEKA 3.9 (ML) — reported by authors, not available/used",
+    "network": "OSF API v2 and MDPI supplement retrieved live on audit date"
+  },
+  "data_provenance": {
+    "primary_input": "paper_extracted.txt (provided), paper.pdf (provided)",
+    "supplement": "jcm-09-03350-s001 (2).pdf downloaded from https://osf.io/download/x7kjw/ (SHA256 57B617226C10B5302BE47AFC62A763575A3D280C871553B9159A3F8686124524, matches OSF metadata exactly)",
+    "raw_participant_data": "NOT SHIPPED. OSF node e285f is public, has 0 children, 1 file (the supplement PDF). No raw responses, no JASP output, no WEKA arff/models, no analysis code anywhere.",
+    "claimed_availability": "Paper states 'Data are provided in the Supplementary Materials' — only summary tables are provided."
+  },
+  "verifiable_layers": [
+    "N / sample-exclusion arithmetic (C1-C6) - all OK",
+    "Section 3.1 one-sample t-tests & Cohen's d (C10-C11) - reproduce from summary",
+    "Table 3 F-measures recomputed from precision/recall (8/8 agree)",
+    "Supplement Table S2 item t-tests & d from means/SDs (9/10 agree; item 1 inconsistent)",
+    "Supplement Table S1 correlation CIs approx consistent (Fisher-z)",
+    "Text-vs-supplement descriptive drift (education 15.35 vs 15.36)"
+  ],
+  "not_checkable_without_raw_data": [
+    "Regression 1 & 2 coefficients, R^2, adjusted R^2, F-change, RMSE (Tables 1-2)",
+    "ML ROC / precision / recall / sensitivity / specificity and CFS feature selection (Table 3, Section 3.4)",
+    "Item-level regressions and machine-learning pipelines end-to-end"
+  ],
+  "independent_reimplementation": {
+    "script_1": "exec_check/check_internal.R",
+    "script_2": "exec_check/output/crosscheck_python.py (independent second-language recomputation)",
+    "agreement": "R and Python agree on all recomputed summary statistics"
+  }
+}

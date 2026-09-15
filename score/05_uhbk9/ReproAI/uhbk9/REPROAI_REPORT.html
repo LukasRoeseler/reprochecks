@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: uhbk9 — Pennycook et al. (2020) COVID-19 misinformation accuracy nudge</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+  .warn { color: #b45309; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Fighting COVID-19 misinformation on social media: Experimental evidence for a scalable accuracy nudge intervention</em> (Pennycook, McPhetres, Zhang, Lu &amp; Rand, Psychological Science-schooling preprint)</h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — <strong>DeepSeek V4 Flash via uniGPT</strong> · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>10.31234/osf.io/uhbk9</code> (SCORE batch item 5). Empirical psychology / social-media behaviour experiment (two online studies, U.S. adults, Lucid). Data + Stata code obtained from the OSF project files and held read-only in <code>extracted/</code>.
+<strong>Mode:</strong> <strong>independent R reimplementation</strong> (data are obtainable). Both studies were re-built from the raw CSVs at the rating level and analyzed with two-way cluster-robust OLS (participant × headline), re-implementing the authors' Stata <code>cluster2</code> (Cameron–Gelbach–Miller additive V = V_id + V_item − V_id×item) and cross-checked with the validated <code>fixest</code> package. No Stata executable was present on the host; nothing was executed in Stata.
+<strong>Originals:</strong> untouched; all work on copies under <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>3</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>A genuinely split submission.</strong> Study 2 — the headline accuracy-nudge experiment — <strong>reproduces cleanly</strong>: the treatment×veracity interaction F(1,25623)=17.881 (manuscript 17.88), both simple-effect <em>d</em>'s (0.050 / 0.143 vs 0.050 / 0.142), the "2.8× higher discernment" claim (2.80×), the df2=25623 (exact), and Figure 3's r(28)=0.754 (ms 0.76) all come out of the shipped data. Study 1, by contrast, reproduces only <em>qualitatively</em>: the Figure-1 cell means, Table-1 simple-effect betas and the demographics all match, <strong>but the primary headline statistic does not</strong> — the veracity×condition interaction re-computes to F=43.70, β=−0.130 (raw −0.520) instead of the manuscript's <strong>F(1,25586)=42.24, β=−0.126</strong> (ADV-001), the accuracy simple-effect F = 52.75 rather than the printed 42.24 (which suspiciously duplicates the interaction F — ADV-002), and the prose "32.4% more willing to share [false]" computes to 31.4% (ADV-003). Because both implementations independently agree (hand-rolled R and <code>fixest</code> both ≈43.7, and Study 2 matches exactly), this is a <strong>data-level, not method-level, divergence</strong> in Study 1. Every affected test stays significant in the same direction, so <em>no substantive conclusion changes</em> — but the shipped Study 1 data do not reproduce the advertised headline numbers and should be reconciled before release. A separate manuscript-internal inconsistency (Study 2 gender counts summing to 861 vs N=856) is ADV-004.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers).</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/00b_inspect_data.R</code>, <code>00c_inspect2.R</code></td><td>Raw export structure; order-block column selection</td><td>Study 1 pre-processing (Condition 1–4 → base/.0/.1/.2 version columns)</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/01_prep_study1.R</code></td><td>Stata pre-process/reshape to long (rating-level)</td><td>Sample; 25590 ratings across 853 subjects</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/01_study1_main.R</code></td><td><code>cluster2 rating realC sharingC realCxsharingC, tcluster(id) fcluster(item_num)</code> + <code>test</code></td><td>Study 1 Results §3.3 (interaction, simple effects, Cohen's <em>d</em>, 32.4%)</td><td><span class="warn">DISCREPANT (ADV-001/2/3)</span></td></tr>
+<tr><td><code>exec_check/R/01b_diag.R</code>, <code>01c_fixest_crosscheck.R</code></td><td>Reporting-variant search; second-implementation cross-check</td><td>adjudicates ADV-001 (F ≈ 43.7 in both), β convention</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/02_study2_main.R</code></td><td><code>cluster2 rating real treatment realxtreatment, tcluster(id) fcluster(item_num)</code></td><td>Study 2 Results (interaction, simple effects, 2.8×, Figure 3)</td><td><strong>OK (reproduces)</strong></td></tr>
+<tr><td><code>exec_check/R/03_internal_consistency.R</code>, <code>03b_gender.R</code></td><td>Demographics, attention columns, Table 1 simple effects</td><td>§Sample; Table 1; Table S1/S2/S5/S7</td><td>OK (Table 1 matches)</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (32 checks, C1–C28 with Table-1 panels): <code>exec_check/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close/methodologically explicable · ⚠ discrepant · ➖ not independently checkable.</p>
+
+<h3>Study 1 — sample &amp; demographics</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Final N</td><td>853</td><td>853 rows</td><td>✅</td></tr>
+<tr><td>Rating-level N / df2</td><td>— / 25586</td><td>25590 / 25586</td><td>✅ (structure matches)</td></tr>
+<tr><td>Mean age (range)</td><td>46 (18–90)</td><td>45.6 (18–90)</td><td>✅</td></tr>
+<tr><td>Gender</td><td>357 M / 482 F / 14 other</td><td>357 / 482 / 14 (Gender.0)</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Study 1 — headline interaction &amp; simple effects (z-scored, two-way cluster)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td><strong>Veracity×Condition interaction</strong></td><td><strong>β=−0.126, F(1,25586)=42.24, p&lt;.0001</strong></td><td><strong>β=−0.130 (std-pred) / −0.520 (raw), F=43.70, p&lt;.0001</strong></td><td><strong>⚠ ADV-001</strong></td></tr>
+<tr><td>Accuracy simple effect</td><td><em>d</em>=0.657, F(1,25586)=42.24</td><td><em>d</em>=0.682, F=52.75</td><td>⚠ ADV-001/2</td></tr>
+<tr><td>Sharing simple effect</td><td><em>d</em>=0.121, F=6.74, p=.009</td><td><em>d</em>=0.126, F=7.39, p=.0066</td><td>⚠ ADV-001/2</td></tr>
+<tr><td>"32.4% more willing to share [false]"</td><td>32.4%</td><td>+31.4% relative (10.4 pp)</td><td>⚠ ADV-003</td></tr>
+<tr><td>Figure 1 cells (Acc F/T, Sha F/T)</td><td>≈33/65%, ≈43/50%</td><td>0.331 / 0.653 / 0.434 / 0.497</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Study 1 — Table 1 simple-effect betas (no controls)</h3>
+<table>
+<thead><tr><th>IV</th><th>Manuscript (A-F/A-T/S-F/S-T)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>CRT</td><td>−0.148 / 0.008 / −0.177 / −0.134</td><td>−0.147 / 0.007 / −0.174 / −0.135</td><td>✅</td></tr>
+<tr><td>Science knowledge</td><td>−0.080 / 0.079 / −0.082 / −0.011</td><td>−0.076 / 0.084 / −0.077 / −0.011</td><td>≈</td></tr>
+<tr><td>MMS</td><td>0.130 / 0.047 / 0.236 / 0.233</td><td>0.133 / 0.042 / 0.236 / 0.235</td><td>≈</td></tr>
+<tr><td>Republican</td><td>0.003 / −0.016 / −0.070 / −0.128</td><td>0.000 / −0.021 / −0.073 / −0.132</td><td>≈</td></tr>
+<tr><td>Distance</td><td>−0.046 / −0.021 / −0.099 / −0.099</td><td>−0.046 / −0.021 / −0.096 / −0.102</td><td>≈</td></tr>
+</tbody>
+</table>
+
+<h3>Study 2 — headline (rescaled DV, two-way cluster)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Rating-level N / df2</td><td>— / 25623</td><td>25627 / 25623</td><td>✅ (exact)</td></tr>
+<tr><td><strong>Veracity×Treatment interaction</strong></td><td><strong>β=0.039, F(1,25623)=17.88, p&lt;.0001</strong></td><td><strong>β=0.0343, F=17.881, p&lt;.0001</strong></td><td><strong>✅ F/p; ⚠/≈ β (ADV-005)</strong></td></tr>
+<tr><td>Control simple effect</td><td><em>d</em>=0.050, F=1.41, p=.24</td><td><em>d</em>=0.050, F=1.409, p=.235</td><td>✅</td></tr>
+<tr><td>Treatment simple effect</td><td><em>d</em>=0.142, F=8.89, p=.003</td><td><em>d</em>=0.143, F=8.887, p=.003</td><td>✅</td></tr>
+<tr><td>Discernment ratio (treat/control)</td><td>2.8×</td><td>2.80×</td><td>✅</td></tr>
+<tr><td>Figure 3 r(28)</td><td>r(28)=0.76, p&lt;.0001</td><td>r=0.754, p&lt;.0001</td><td>✅</td></tr>
+<tr><td>Gender</td><td>385 M / 468 F / 8 other (sums to 861)</td><td>385 M / 463 F / 8 other (sums to 856)</td><td>⚠ ADV-004 (manuscript-internal inconsistency)</td></tr>
+</tbody>
+</table>
+
+<h3>Not independently checkable (➖, with reason)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Reason</th></tr></thead>
+<tbody>
+<tr><td>CRT α=.69, science-knowledge α=.77, MMS α=.86 (Study 1)</td><td>No item-level scoring keys for the scales were shipped; cannot recompute reliability from the provided columns.</td></tr>
+<tr><td>Study 2 "no moderation" p's &gt; .10 (all 3-way interactions)</td><td>Moderation interactions were not independently re-run in this pass (out of the headline audit scope).</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — Study 1's headline veracity×condition interaction statistic is not reproducible from the shipped data.</strong>
+The manuscript reports β=−0.126, F(1,25586)=42.24, p&lt;.0001. Re-running the exact two-way cluster-robust regression on the shipped CSV yields β=−0.130 under the standardized-predictor convention (raw −0.520 under the manuscript's ±0.5 contrast coding) and <strong>F(1,25586)=43.70</strong>. This F was computed two independent ways (hand-rolled two-way VCV and <code>fixest</code>) that agree; with 853×30=25590 observations and df2=25586 exactly matching the manuscript, the ~3.5% gap is not a rounding or (here, &lt;0.01%) small-sample-correction artifact — it is a data-level difference. The associated simple effects also differ (accuracy 52.75 vs 42.24; sharing 7.39 vs 6.74; <em>d</em> 0.682/0.126 vs 0.657/0.121). Direction and significance are identical (all p&lt;.0001), so no conclusion changes, but the headline numbers on the record cannot be reproduced from what was shipped.
+<em>Fix:</em> re-run Study 1's <code>cluster2</code> on the exact analysis set underlying Tables S2/S3; identify whether the CSV or the manuscript is authoritative and reconcile both (report exact F/β/df with a reproducible, version-selecting preprocessing pipeline — see ADV-006).</p>
+
+<h3>P2 — medium</h3>
+<p><strong>ADV-002 — The printed accuracy simple-effect F equals the interaction F and does not reproduce.</strong>
+The Results state the accuracy simple effect as <em>F(1,25586)=42.24</em> and the interaction as <em>F(1,25586)=42.24</em> — identical. These are different linear combinations and are not guaranteed equal; the reimplementation gives accuracy-simple F=52.75 (interaction F=43.70). The duplicated value is consistent with a copy/paste from the interaction line.
+<em>Fix:</em> correct the accuracy (and re-verify sharing) simple-effect F to the value actually obtained on the author's analysis set.</p>
+<p><strong>ADV-003 — "32.4% more people were willing to share [false headlines] than rated them as accurate" does not reproduce.</strong>
+Data: mean share-false = 0.4342, mean accuracy-false = 0.3305 → +10.37 percentage points, i.e. +31.4% relative — not 32.4 pp nor 32.4%.
+<em>Fix:</em> recompute from the analysis dataset and correct the prose figure (or the dataset).</p>
+<p><strong>ADV-004 — Study 2 gender counts are internally inconsistent.</strong>
+The manuscript's "385 males, 468 females, and 8 other/prefer not to answer" sums to 861, not the reported N=856. The shipped data (Gender.0) give 385 M / 463 F / 8 other, which sums correctly to 856; the 468 F figure is off by five.
+<em>Fix:</em> re-tally gender from the analysis dataset so the demographic components sum to N.</p>
+
+<h3>P3 — low</h3>
+<p><strong>ADV-005 — Study 2 reported interaction β=0.039 vs reimplementation 0.0343.</strong>
+The inferential statistic reproduces exactly (F=17.881, df 25623, p&lt;.0001); the β implies a slightly different DV scaling convention. Document or restate the β to match the rescaled-DV estimate. No conclusion impact.</p>
+<p><strong>ADV-006 — Hygiene: order-block selection is load-bearing and the manuscript's links are placeholders.</strong>
+The prepopulated tree's earlier Study-1 script read non-version-selected rating columns and produced a rank-deficient model / NA tables; correct Study 1 pre-processing requires selecting the per-subject version column by <code>Condition</code> (1→base, 2→.0, 3→.1, 4→.2). The manuscript cites data/materials/preregistration as "(link)" placeholders with no working URL. Ship completed runnable scripts and replace placeholder links with the OSF DOI/project id.</p>
+<hr />
+<h2>What this package already does right (honest positives)</h2>
+<ul>
+<li><strong>Study 2 reproduces cleanly</strong> — interaction F, both simple-effect <em>d</em>'s, the 2.8× claim, the df2=25623, and Figure 3's r(28) all emerge from the shipped data. This is the strongest positive result and independently validates the shared analysis machinery (identical method in Study 1).</li>
+<li><strong>Study 1 cell means / Figure 1</strong> reproduce to the published proportions (Accuracy 0.331/0.653; Sharing 0.434/0.497).</li>
+<li><strong>Study 1 Table 1 simple-effect betas</strong> reproduce within ~0.008 across all five individual-difference panels.</li>
+<li><strong>Demographics (age, gender) for Study 1</strong> reproduce; Study 2 df and sample structure reproduce exactly.</li>
+<li>A real data + code package <em>was</em> shipped (unlike many preprints), and both studies analyzed at the rating level with two-way clustered SEs, materially reducing the risk of anti-conservative standard errors.</li>
+</ul>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No Stata execution.</strong> Stata was not installed on the host; the shipped <code>.do</code> files and <code>cluster2</code> were re-implemented in R and cross-checked with <code>fixest</code>. A byte-level Stata run was not performed. The Study 1 F discrepancy (43.70 vs 42.24) persists under two independent R implementations with identical N/df, so it is reported as data-level; a genuine Stata run on the author's analysis set remains the strongest possible adjudication.</li>
+<li><strong>Scale reliabilities (α) and Study 2 moderation p-values</strong> were not independently recomputed (no scoring keys; moderation outside headline scope) — marked ➖ with reasons.</li>
+<li><strong>Cited background numbers</strong> (e.g., effect sizes and claims quoted from prior Pennycook/Rand work in the Discussion) were not traced to their source papers' raw data.</li>
+<li><strong>Robustness tables</strong> S3/S4/S6/S7 (headline exclusions, multilevel models) were not fully re-run; Table S2 col 1 and Table S5 col 1 were spot-checked (Study 2 matches; Study 1 col 1 ≈ −0.252 vs −0.260).</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>paper.pdf</code>, <code>paper_extracted.txt</code></td><td>Untouched manuscript (read-only reference).</td></tr>
+<tr><td><code>extracted/</code></td><td>Untouched author data + code: Study 1 &amp; Study 2 CSVs, <code>study 1 code.do</code>, <code>study 2 code.do</code>.</td></tr>
+<tr><td><code>exec_check/R/*.R</code></td><td>Preprocessing (version selection), Study 1 + Study 2 main analyses, diagnostics, fixest cross-check, internal-consistency checks.</td></tr>
+<tr><td><code>exec_check/R/output/</code></td><td><code>study1_long_clean.rds</code>, <code>study1_main.rds</code>, <code>study1_main_tests.csv</code>, <code>study2_main.rds</code>, <code>study2_main_tests.csv</code>. (Note: <code>study1_long.rds</code> from the prepopulated tree is stale — non-version-selected.)</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>32-check numeric-claims inventory (C1–C28 + Table-1 panels).</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log with <code>==== START/END (status: OK) ====</code> markers.</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline / data / reimplementation description.</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-006 with severities + evidence.</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps per finding.</td></tr>
+<tr><td><code>ENVIRONMENT_PROVENANCE.md</code></td><td>Engine/rules/date, host env, provenance chain, conventions, verdict summary.</td></tr>
+</tbody>
+</table>
+</body>
+</html>

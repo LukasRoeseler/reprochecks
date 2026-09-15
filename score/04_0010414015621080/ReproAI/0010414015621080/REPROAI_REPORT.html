@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Adida et al. (2016) — The Spousal Bump</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>The Spousal Bump: Do Cross-Ethnic Marriages Increase Political Support in Multiethnic Democracies?</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT &nbsp;·&nbsp;
+<strong>rules:</strong> 2026.06.27 &nbsp;·&nbsp; <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>0010414015621080</code> — Adida, Combes, Lo &amp; Verink (2016),
+<em>Comparative Political Studies</em> 49(5), 635–661. DOI <code>10.1177/0010414015621080</code>.
+<strong>Mode:</strong> <strong>static audit + internal-consistency reimplementation.</strong>
+<strong>Host:</strong> win32 (PowerShell); Python 3.8.10 (scipy) used for recomputation; R 4.6.1 available on the
+host but not required because <em>no raw data or replication package could be obtained</em> (all headline
+regressions therefore marked <code>➖</code>). The full text <code>paper_extracted.txt</code> and <code>paper.pdf</code> were
+treated as untouched originals.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>2</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>0</td></tr>
+<tr><td>P3 — low</td><td>1</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Internally exemplary, externally unreproducible.</strong> Everything that can be checked without the
+underlying data is consistent: all six Table&nbsp;1 difference-in-means magnitudes reconstruct to the published
+percentage points exactly (to 0.01&nbsp;pp, not merely close), all six published <em>p</em>-values (including the
+headline Fon-vs-control, <em>p</em>=.01, and Fon-vs-wife, <em>p</em>=.00) are reproduced by two-proportion tests on the
+reconstructed cell counts, the Table&nbsp;1 cell <em>n</em>s sum exactly to the Table&nbsp;2 regression observations
+(158 and 189), and every Table&nbsp;3 incidence/group-size arithmetic (8/14 countries, 12/25 tenures,
+24%&nbsp;vs&nbsp;13% cross-ethnic marriage rate) checks out. None of this, however, substitutes for the raw data:
+because no replication package, Dataverse/OSF deposit, or data-and-code linkage is stated in the paper or
+obtainable from any archive (<strong>ADV-001</strong>, P1), the <em>headline</em> Benin causal estimates (Table&nbsp;2,
+b≈0.21–0.22** for the Fon-wife cue) and the Afrobarometer generalization (Table&nbsp;4, Spouse-coethnic
+Vote b=0.04**) <em>cannot be independently reproduced</em>. A second, minor finding (ADV-002, P3) is an ambiguous
+referent for the prose "larger by 8 percentage points" in the cross-national section.</p>
+</blockquote>
+<hr />
+<h2>Replication-data acquisition attempt (traceable)</h2>
+<table>
+<thead><tr><th>Source / method</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Full text (<code>paper_extracted.txt</code>) scan for Dataverse/OSF/Data-and-Code/replica link</td><td>None present; only footnote&nbsp;21 says bootstrap results "available on request"</td></tr>
+<tr><td>DOI resolution <code>https://doi.org/10.1177/0010414015621080</code></td><td>Resolves to citation only; no data linkage</td></tr>
+<tr><td>SAGE journal article page</td><td>HTTP 403 (blocked); no data-availability section retrievable</td></tr>
+<tr><td>Harvard Dataverse API search <code>"Spousal Bump"</code></td><td>0 datasets</td></tr>
+<tr><td>Harvard Dataverse API search by the DOI string</td><td>No matching Adida/Benin deposit among results</td></tr>
+<tr><td>Harvard Dataverse API search <code>Adida cross-ethnic marriage</code></td><td>No matching deposit</td></tr>
+</tbody>
+</table>
+<p><strong>Conclusion:</strong> no replication package is obtainable for this 2016 CPS article. Its two primary
+analyses (Benin RCT, Afrobarometer + DHS/EPR cross-national) rest on datasets that were never deposited
+publicly at any signposted, searchable location.</p>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers).
+Full claims inventory: <code>exec_check/manuscript_claims.md</code> (25 numbered claims, C1–C25).</p>
+<table>
+<thead><tr><th>Script</th><th>Re-implements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/internal_consistency.py</code></td><td>Table&nbsp;1 cell-count reconstruction (%&nbsp;×&nbsp;n → count), all 6 column percentage-point differences, all 6 two-proportion <em>p</em>-values, n-sum→Table&nbsp;2 observations, Table&nbsp;3 incidence/group-size arithmetic, prose-vs-table &amp; direction claims</td><td>Tables 1–3; C1–C25; DR1/DR2</td><td>OK</td></tr>
+<tr><td>(R 4.6.1 ready but unused)</td><td>No data-dependent model could be re-fit (no raw data)</td><td>Tables 2 &amp; 4 headline regressions</td><td>➖ no data</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close/explainable · ⚠ discrepant · ➖ not independently checkable.</p>
+<h3>Benin experiment — Table 1 difference-in-means (reconstructed from published % × n)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Coethnics: Control / Wife / Fon support</td><td>19.35 (n=62) / 13.33 (n=45) / 41.18 (n=51)</td><td>counts (12, 6, 21) reconstruct % to &lt;0.06pp</td><td>✅</td></tr>
+<tr><td>Coethnics: n sum</td><td>62+45+51 = 158</td><td>158 (matches Table 2 obs)</td><td>✅</td></tr>
+<tr><td>Non-coethnics: Control / Wife / Fon support</td><td>71.43 (n=56) / 57.58 (n=66) / 55.22 (n=67)</td><td>counts (40, 38, 37)</td><td>✅</td></tr>
+<tr><td>Non-coethnics: n sum</td><td>56+66+67 = 189</td><td>189 (matches Table 2 obs)</td><td>✅</td></tr>
+<tr><td>Coethnics: Wife−Control</td><td>−6.02, p=.41</td><td>−6.02 pp; pooled-z p=.45</td><td>✅</td></tr>
+<tr><td>Coethnics: <strong>Fon−Control (headline)</strong></td><td><strong>+21.82, p=.01</strong></td><td>+21.82 pp; pooled-z p=.017</td><td>✅ (magnitude &amp; p; raw-fit ➖)</td></tr>
+<tr><td>Coethnics: Fon−Wife</td><td>+27.84, p=.00</td><td>+27.84 pp; pooled-z p=.004</td><td>✅</td></tr>
+<tr><td>Non-coethnics: Wife−Control</td><td>−13.85, p=.11</td><td>−13.85 pp; pooled-z p=.10</td><td>✅</td></tr>
+<tr><td>Non-coethnics: Fon−Control</td><td>−16.20, p=.06</td><td>−16.20 pp; pooled-z p=.05</td><td>✅</td></tr>
+<tr><td>Non-coethnics: Fon−Wife</td><td>−2.35, p=.79</td><td>−2.35 pp; pooled-z p=.82</td><td>✅</td></tr>
+<tr><td>Baseline gap (Control: non-coethnics vs coethnics)</td><td>"71% vs 19%", &gt;50pp, sig &gt;99%</td><td>71.43−19.35 = 52.08pp</td><td>✅ (internal)</td></tr>
+</tbody>
+</table>
+<h3>Benin experiment — Table 2 regressions (OLS, robust SE, enumerator FE)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Coethnics Fon-wife coefficient</td><td>0.22** (0.08) → 0.21** (0.08); R² .07/.13</td><td>cannot re-fit (no respondent-level data)</td><td>➖ no raw data</td></tr>
+<tr><td>Non-coethnics Fon-wife coefficient</td><td>−0.16 (0.09) → −0.19* (0.09); R² .02/.10</td><td>cannot re-fit</td><td>➖ no raw data</td></tr>
+</tbody>
+</table>
+<h3>Afrobarometer cross-national — Table 3 (prevalence / group-size arithmetic)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Pop cross-ethnic marriage rate</td><td>0.128 / 0.240</td><td>prose 13% / 24% consistent</td><td>✅ (internal; source DHS ➖)</td></tr>
+<tr><td>ELF / PREG, Population, Polity</td><td>0.791/.741; .433/.405; 19,052/32,659; 3.5/5.4</td><td>no discrepancies identified</td><td>✅ (internal)</td></tr>
+<tr><td>Country observations</td><td>6 coethnic / 8 cross</td><td>6+8 = 14 countries = "8/14"</td><td>✅</td></tr>
+<tr><td>Leader group size (country-round)</td><td>0.317 → 0.509</td><td>prose ~32% → ~50% consistent</td><td>✅</td></tr>
+<tr><td>Spouse group size (country-round)</td><td>0.317 → 0.582</td><td>Δ=26.5pp vs coethnic; 7.3pp in-cross (see ADV-002)</td><td>≈ ADV-002</td></tr>
+<tr><td>Country-round observations</td><td>11/9 (excl.) &amp; 13/12 (incl.)</td><td>25 tenures = "12/25"</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Afrobarometer cross-national — Table 4 regressions (four outcomes, country+round FE)</h3>
+<table>
+<thead><tr><th>Outcome</th><th>Manuscript (no-SES → SES)</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Vote</td><td>0.03* (0.01) → 0.04** (0.01)</td><td>cannot re-fit (AB raw data not obtained)</td><td>➖</td></tr>
+<tr><td>Job performance</td><td>−0.13** (0.02) → −0.05 (0.03)</td><td>cannot re-fit</td><td>➖</td></tr>
+<tr><td>Ethnic political power</td><td>0.01 → 0.02 (0.03)</td><td>cannot re-fit</td><td>➖</td></tr>
+<tr><td>Ethnic unfair</td><td>−0.00 → −0.03 (0.03)</td><td>cannot re-fit</td><td>➖</td></tr>
+<tr><td>Prose: "4.3 percentage points" (most restrictive model)</td><td>4.3pp</td><td>consistent if b≈0.043 (rounds to 0.04**)</td><td>≈ (plausible, unverifiable)</td></tr>
+</tbody>
+</table>
+<h3>Directional / prose claims</h3>
+<table>
+<thead><tr><th>Claim</th><th>Manuscript</th><th>Check</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Cosmopolitan mechanism ruled out: cue effect positive only for Fon</td><td>positive Fon, negative/NS non-coethnics</td><td>coeth F−C=+21.82; non-coeth F−C=−16.20 (NS-negative)</td><td>✅ direction consistent</td></tr>
+<tr><td>Wife cue negative but NS "across the board"</td><td>Wife−Control negative, NS</td><td>coeth −6.02 (NS); non-coeth −13.85 (NS)</td><td>✅</td></tr>
+<tr><td>Fon support rises "more than 20 percentage points"</td><td>&gt;20pp</td><td>F−C = +21.82pp</td><td>✅</td></tr>
+<tr><td>Instrumental: 9.8%→13.7%, p=.513; ~1/3 favor Southerners, 9% of those Fon</td><td>p=.513</td><td>denominators not published</td><td>➖ no data</td></tr>
+<tr><td>Manipulation check: 100% coethnics / 98% non-coethnics identify spouse ethnicity</td><td>100% / 98%</td><td>no counts given</td><td>➖ no data</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — No replication data or code is obtainable for either headline analysis; only the internal
+arithmetic is verifiable.</strong> The paper's full text states no Dataverse/OSF/Data-and-Code link; footnote 21
+offers only "available on request" for bootstraps. Automated searches of Harvard Dataverse (title, DOI, and
+author-keyword) returned no matching deposit, the DOI resolves to a bare citation, and the SAGE page is
+access-blocked. Consequently the Benin RCT regression coefficients and SEs (Table 2, C6–C7) and every
+Afrobarometer coefficient (Table 4, C18–C21), including the headline generalization (Vote b=0.04**), cannot
+be independently recomputed. Because the two primary analyses rest on undisclosed data, the standard of full
+reproducibility is not met. <em>Fix (recommended):</em> deposit a replication package (Benin respondent-level
+data + constructed Afrobarometer/DHS/EPR files + code + codebook, including the note-27 exclusion list) to a
+persistent repository and link it from the article DOI.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — "Marry into groups that are ... substantially larger (by 8 percentage points)" has an
+ambiguous referent.</strong> From Table 3 (country-round unit), comparing marital-status columns gives Spouse group
+size 0.317 (coethnic) vs 0.582 (cross-ethnic) = 26.5pp, yet the prose's "8pp" only reconciles with the
+<em>within-cross-ethnic</em> comparison of the leader's group (0.509) to the spouse's group (0.582) = 7.3pp. The
+sentence is understandable only if the reader infers the within-column comparison. <em>Fix:</em> state explicitly
+that in cross-ethnic marriages the leader marries into a group ~7–8pp larger than his <em>own</em> group.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No headline regression was re-run.</strong> No raw data, replication package, or deposited code could be
+obtained for this 2016 article. R 4.6.1 was available and is the intended second-language reimplementation
+path, but with nothing to fit, Tables 2 and 4 are marked <code>➖</code> by necessity, not by choice.</li>
+<li>Table&nbsp;1 <em>p</em>-values were re-derived by pooled two-proportion z-tests on counts rounded from the published
+percentages; the authors may have used a Fisher-exact or chi-square test, so "✅" here means "consistent with
+a standard proportion test at the reported precision," not a byte-exact reproduction of their exact procedure.</li>
+<li>Contextual background numbers (Benin's ~10M population; 2006 run-off "~75%") and cited external statistics
+(DHS rates, EPR group sizes, ELF/PREG indices) were treated as source citations, not part of the audited
+empirical pipeline, and were not independently re-derived from their external sources.</li>
+<li>The online appendix tables (SI-3, SI-4, SI-5, SI-6, SI-8) were referenced in the text but were not included in
+the audit input; their contents could not be checked.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report (house style)</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>25-claim inventory (C1–C25) with verdicts</td></tr>
+<tr><td><code>exec_check/internal_consistency.py</code></td><td>Reimplementation script (Python 3.8 + scipy)</td></tr>
+<tr><td><code>exec_check/output/internal_consistency.csv</code></td><td>50 check results (check id, manuscript, computed, verdict)</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code></td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description incl. acquisition attempts</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001, ADV-002 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation plan + recommended next steps</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Environment / provenance note</h2>
+<ul>
+<li><strong>Engine:</strong> anomalyco/opencode (ReproAI); model DeepSeek V4 Flash via uniGPT.</li>
+<li><strong>Host:</strong> Windows (PowerShell 5.1); <strong>Python</strong> 3.8.10 with scipy; <strong>R</strong> 4.6.1
+(2026-06-24) available at <code>C:\Program Files\R\R-4.6.1\bin\Rscript.exe</code> (not required — no raw data).</li>
+<li><strong>Inputs:</strong> <code>paper.pdf</code> and <code>paper_extracted.txt</code> under
+<code>SCORE ReproAI Checks\04_0010414015621080\</code>. Both treated as read-only originals; no modifications.</li>
+<li><strong>Data provenance chain:</strong> raw → processed → analysis → exhibit could not be confirmed for any claim,
+because no raw source was obtainable. Only the paper's own displayed values were cross-checked for internal
+consistency (summary-vs-summary, per standards §2 type (a)).</li>
+</ul>
+</body>
+</html>

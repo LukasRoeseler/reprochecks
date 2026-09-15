@@ -1,0 +1,30 @@
+{
+  "audit": {
+    "doi": "10.1086/662130",
+    "audit_date": "2026-09-14",
+    "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT"
+  },
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "No data or code shipped / publicly obtainable; primary analyses not independently recomputable",
+      "evidence": "Full-text grep of paper_extracted.txt finds no data-availability statement and no deposit link (only a mention of an online appendix containing the TS *instructions*, not data). Web searches (DuckDuckGo, 2026-09-14) locate the published PDF (journals.uchicago.edu, JSTOR) and the IZA Discussion Paper 3835 (docs.iza.org/dp3835.pdf) but no ICPSR/Dataverse/OSF/GitHub deposition of the z-Tree dataset or analysis code for DOI 10.1086/662130.",
+      "impact": "Headline findings (excess first-stage effort in TS: mean/SD in Table 2; Mann-Whitney z=2.536 p=.011; Table 3 OLS; Figures 1-2) are not independently recomputable from any shipped or located raw source. Correctness of the central claims therefore rests on author-reported summaries and internal consistency only.",
+      "cause": "2012 publication predates the replication-data era; JOLE/UCP journal did not require data posting at the time; authors did not deposit a public replication package.",
+      "fix": "Deposit the anonymized z-Tree experiment files plus a Stata/R do-file/script on a persistent repository (IZA Data Archive, OSF, or Dataverse), and add a data-availability statement to the article page; document variable construction for Table 2, Table 3, and Figures 1-2.",
+      "claims_affected": "C9-C15, C33-C36, C42, C44, C48-C52, C54, C57, C58 (24 claims)"
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Minor p-value sensitivity of reported summary statistics recomputed from 1-decimal mean/SD",
+      "evidence": "One-sample t-tests of Table-2 means vs e*=74 recomputed from reported (mean, SD, N): OS p=0.5430 vs paper 0.534 (delta 0.009); OSL p=0.2039 vs 0.199 (delta 0.005); TS st2 0.5685 vs 0.565; THS st3 0.9213 vs 0.918. Mann-Whitney OSL-vs-OS p=0.347 vs paper 0.349 (delta 0.002). All within one-decimal/two-decimal rounding tolerance of the tabled mean/SD/z.",
+      "impact": "None on conclusions - every affected test keeps the same accept/reject decision and all remain non- or marginally-significant as stated. Purely a precision artifact of coarse publication rounding.",
+      "cause": "Mean and SD are published to one decimal place and z to two decimals; recomputation from rounded moments cannot recover the authors' full-precision p-values.",
+      "fix": "Not a defect requiring correction; if full-precision figures were desired, they would follow automatically from depositing the raw data (ADV-001).",
+      "claims_affected": "C18, C20, C23, C24, C31 (5 claims)"
+    }
+  ],
+  "severity_counts": { "P0": 0, "P1": 1, "P2": 0, "P3": 1 }
+}

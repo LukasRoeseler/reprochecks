@@ -1,0 +1,24 @@
+==== START (status: OK) ====
+[2026-09-14] ReproAI audit of 10.1038/s41562-023-01712-8 (Sanders et al. 2024, Nat Hum Behav 8:82-99)
+[env] R 4.6.1 (metafor 5.0-1); Python 3.8.10; Windows/PowerShell 5.1
+[git] Cloned https://github.com/motivation-and-Behaviour/screen_umbrella (shallow) -> temp; copied to exec_check/ (repo_data, repo_R, _targets.R)
+[data] Effects.csv (911 lines), Studies.csv (6023 lines), Reviews.csv (322 lines), QualityAssessment.csv (218 lines), covidence_prisma.txt
+[meta] 338 effect-size IDs have analysable study-level data (after -999/''/#N/A -> NA + mean-N imputation); 0 rma failures
+[reanalysis] R metafor rma(measure="COR", DL) per effect-size ID -> output/reanalysis_metaanalysis.csv, reanalysis_full.csv
+[verified] 18/18 paper-quoted pooled effects reproduced exactly to 2-dp (r, 95% CI, k, N, p):
+  47569_001 gen screen->learning -0.11[-0.24,0.01] k18 N13100 ; 47569_002 TV->learning -0.10[-0.15,-0.04] k18 N62135
+  47569_005 video->learning -0.08[-0.12,-0.04] k10 N4276 ; 20223_015 e-book narration->learning 0.11[0.05,0.17] k50 N2288
+  50271_001 touch->learning 0.21[0.15,0.28] k79 N5810 ; 42168_002 AR->learning 0.33[0.25,0.42] k15 N1474
+  47783_001 screen->literacy -0.14[-0.20,-0.09] k38 N18318 ; 47783_022 coview->literacy 0.15[0.02,0.28] k12 N6083
+  47783_015 eduTV->literacy 0.13[0.03,0.23] k13 N1955 ; 37653_002 math->numeracy 0.27[0.21,0.33] k85 N36793
+  41430_001 numeracy games 0.32[0.21,0.43] k25 N2008 ; 6739_002 unhealthy-food ads 0.23[0.10,0.37] k13 N1756
+  47594_001 advergames 0.18[0.10,0.25] k15 N3842 ; 47429_003 social media->risky sex 0.21[0.14,0.28] k14 N23096
+  6524_005 TV->sleep adult -0.06[-0.10,-0.01] k10 N9798 ; 8556_119 TV->body 0.06[0.03,0.10] k12 N3196
+  60496_003 internet->depression 0.25[0.22,0.27] k118 N527696 ; 53160_001 social media->depression 0.12[0.05,0.19] k12 N93740
+[python] Independent DL-on-Fisher-z for 8 headline effects; agrees in direction/magnitude (implementation tolerance)
+[prisma] 50,649 - 28,675 = 21,974 ; -19,417 = 2,557 ; -2,340 = 217  (matches covidence_prisma.txt)
+[consistency] 43 = 22+21 effects ; 32 = 17+15 reviews ; 88-66=22 edu ; 163-142=21 health  (all consistent)
+[rob] QualityAssessment.csv ships 217 rows (206 consensus); Table-1/prose tallies use 102-review subset (pipeline make_table_df); raw-file tallies differ (see ADV-001) -> P2 traceability note
+[findings] P0:0 P1:0 P2:1 P3:4  (ADV-001..ADV-004)
+[self-audit] Recomputed values reconciled with verdicts; no false positives introduced; severity justified by impact on conclusions
+==== END (status: OK) ====

@@ -1,0 +1,52 @@
+{
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "paper": "Javanmard & Montanari, JMLR 15(1):2869–2909 (2014)"
+  },
+  "findings": [
+    {
+      "id": "JM-001",
+      "severity": "P1",
+      "title": "No code, data, or seed shipped; core numerical magnitudes not bit-for-bit reproducible",
+      "evidence": "JMLR ships no supplementary material. Paper §1.1 references a legacy URL (stanford.edu/~montanar/sslasso/) but no archive is attached and no seed is given. Independent reimplementation (fresh design realization, Python 3.8) yields overall/inactive-coverage 0.93–0.95 vs reported 0.97 (≈), but active-coordinate coverage 0.58–0.93 vs reported 0.90–1.00 and interval lengths that vary with b (0.110–0.307) vs near-constant author lengths (0.176–0.211), traced to the undocumented sigma_hat estimator and to finite-sample bias (||M Sigma_hat - I||_inf = mu off-diagonals scale with s0*mu*b, not negligible vs sigma/sqrt(n) at s0=10,sqrt(n)/log p=4.9).",
+      "why_it_matters": "Exact simulation reproduction is impossible without author code/seed; active-coordinate coverage differs materially from the paper's reported near-nominal values, so a reader cannot confirm the headline coverage guarantee from the published numbers alone.",
+      "suggested_fix": "Deposit the R implementation (sslasso), a fixed RNG seed, the exact scaled-LASSO sigma_hat routine, and the riboflavin dataset/preprocessing with the article (e.g., a JMLR supplement or OSF/Zenodo); report active-coordinate coverage at n,p,s0 satisfying s0=o(sqrt(n)/log p) to reach the nominal regime.",
+      "verification_chain": "C19, C20, C21, C22, C27 in manuscript_claims.md"
+    },
+    {
+      "id": "JM-002",
+      "severity": "P2",
+      "title": "Interval length depends on b in reimplementation; author lengths near-constant across b is not reproducible",
+      "evidence": "Manuscript Table 1 lengths for (1000,600,10,{0.5,0.25,0.1}) are 0.1870/0.1757/0.1809 (near-constant). Reimplementation gives 0.1930/0.1349/0.1099 (monotone in b) because sigma_hat collapses toward 1.0 in the weak-signal regime but inflates to 1.86 in the strong-signal regime (b=0.5), consistent with sigma_hat≈sqrt(1+theta0^T Sigma theta0).",
+      "why_it_matters": "Length is a load-bearing output (nearly-optimal CI size claim); the b-dependence suggests sigma_hat sensitivity rather than a stable protocol.",
+      "suggested_fix": "Disclose the scaled-LASSO sigma_hat details/formula; verify length is b-invariant on the author implementation.",
+      "verification_chain": "C19-C22"
+    },
+    {
+      "id": "JM-003",
+      "severity": "P2",
+      "title": "Real-data results and competitor-method columns not reproducible from the article alone",
+      "evidence": "Riboflavin results (λ=0.036; 30 genes; genes YXLD-at, YXLE-at significant at FWER 5%) and Table 2 multisample-splitting/ridge-projection columns require the Bu?hlmann et al. (2014) data and the R 'hdi' package; neither is shipped or available, and the data was not provided in the working directory.",
+      "why_it_matters": "A third of the numerical exhibits cannot be independently confirmed.",
+      "suggested_fix": "Ship the riboflavin data and exact hdi-call scripts; or cite a persistent data DOI.",
+      "verification_chain": "C26, C27"
+    },
+    {
+      "id": "JM-004",
+      "severity": "P3",
+      "title": "Figure-only exhibits (Fig 1-4) have embedded numerical content not archived as data",
+      "evidence": "Figures 1-4 are embedded PDF plots; their underlying generated values were not exported. Q-Q/p-value-CDF uniformity is only qualitatively claimed.",
+      "why_it_matters": "Hygiene: the graphical claims are the least auditable without generator scripts.",
+      "suggested_fix": "Export the plotted coordinates or the generating script with the article.",
+      "verification_chain": "C25, C28"
+    }
+  ],
+  "positive_findings": [
+    "All theoretical claims C1-C18 (debiased estimator definition, Theorem 6/8 decomposition, Lemma 12 variance bound, Theorem 16 power function G, Corollary 10 constant, non-Gaussian CLT) are internally consistent and re-derive correctly.",
+    "Overall and inactive-coordinate confidence-set coverage reproduces at ≈0.93-0.95 vs reported 0.97 (qualitative agreement).",
+    "Table 2 FP at alpha=0.05 reproduces near nominal (0.051-0.08 vs reported 0.038-0.055) and TP for the proposed method reproduces well: TP=1.0 at b=0.5/0.25 (paper 1) and TP=0.87 at b=0.1 (paper 0.8).",
+    "Feasibility of the convex program (4) confirmed: |M Sigma_hat - I|_inf = mu = 0.16 exactly as specified."
+  ]
+}

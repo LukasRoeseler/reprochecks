@@ -1,0 +1,64 @@
+{
+  "report_meta": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules_version": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "package": "s10683-011-9295-3"
+  },
+  "findings": [
+    {
+      "id": "ADV-000",
+      "severity": "P1",
+      "title": "No raw data or analysis code deposited — primary inferential statistics not independently reproducible",
+      "evidence": "Paper (p.159-175) deposits no data/OSF/Zenodo/GitHub link. ESM_MOESM1.pdf (sourced from media.springernature.com) contains only Appendix A (instructions), B (hurdle model + M-estimators), C (threshold derivations) — no per-subject data. All of Table 2 regressions, Table 3 Wilcoxon values, hurdle/M-estimator coefficients require raw data.",
+      "impact_primary": true,
+      "cause": "2011-era publication predates open-data norms; 'complete test available on request' refers to the questionnaire.",
+      "fix": "Deposit anonymized per-pair data + z-Tree/.do analysis code (e.g., OSF/Zenodo) to allow third-party reproduction; at minimum publish the aggregate cell data."
+    },
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "In-text Wilcoxon p-value does not correspond to its own reported W statistic",
+      "evidence": "Main text (p.172): 'W=1.120, p-value=0.904' for md>=mr & pd<=pr Accountability. Recomputing p = 2*(1-Phi(|W|)) for W=1.120 gives p=0.2628 (R 0.2627, Python 0.2627). The printed 0.904 matches the W=0.120 row (md<mr, qd>=qr, Accountability, p=0.9049) elsewhere on the same page.",
+      "impact_primary": false,
+      "cause": "Apparent copy-paste of the p-value from the adjacent W=0.120 row into the W=1.120 row.",
+      "fix": "Correct the p-value to ~0.263 (still non-significant, so no conclusion changes) or re-report the exact signed-rank p."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Internal inconsistency in the count of zero givers: Table 1 / prose '90%' imply 7, footnote 19 & Appendix B say 8",
+      "evidence": "Table 1 'share offering nothing' 0.08/0.04/0.17 -> integer counts 2/1/4 = 7 of 72 (pooled 0.10, 7/72=0.097). Prose 'positive transfers 90% of the time' matches 7 zero-givers (65/72=0.9028), not 8 (64/72=0.8889). Footnote 19 and ESM Appendix B (p.1) both state 'EIGHT dictators choosing s=0' (8/72=0.111). Appendix B 'unselfish (>=5%)' DW=21, DB=22 implies 3 below-5% in DW and 2 in DB.",
+      "impact_primary": false,
+      "cause": "Rounding of per-treatment shares plus inconsistent zero-giver totals across tables/footnotes.",
+      "fix": "Reconcile: state the exact counts of s=0 (and of 0.01/0.02) givers per treatment; make Table 1 shares and the '90%' prose and footnote 19/Appendix B all agree."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Pooled (s-xa) and (s-xl) means (-0.13, -0.11) differ from the unweighted average of the printed treatment means (-0.123, -0.117)",
+      "evidence": "Treatment means are internally consistent with derived xa/xl (DW -0.066/-0.138, DB -0.124/-0.024, BL -0.189/-0.189). Pooled recomputed from printed 2-dp cell means: (s-xa) -0.1233 (rounds -0.12), (s-xl) -0.1167 (rounds -0.12); paper prints -0.13 and -0.11.",
+      "impact_primary": false,
+      "cause": "Rounding drift: the pooled mean is computed from full-precision cell data, not from the 2-dp printed cell means.",
+      "fix": "Confirm pooled means computed from raw cell data; add a note on rounding. No inference change."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Pooled justice F-tests report df2=60 for n=72, implying an undocumented ~12-parameter unrestricted model; pooled qnt-lib F p is just above the stated '<0.0020' bound",
+      "evidence": "Pooled F-tests use F(2,60): 72-60=12 estimated parameters, not a plain 2-parameter regression (which would be F(2,70)). The pooled regression specification (treatment dummies/interactions) is not documented in text. Also 'p-values<0.0020 in all the cases' for pooled natural principles is violated by the bootstrapped-quantile libertarian F=6.79(2,60) -> p=0.0022.",
+      "impact_primary": false,
+      "cause": "Unreported fuller model specification for pooled columns; rounding of F in the table.",
+      "fix": "Document the pooled regression specification (variables, df); state p precisely."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "fn14 KS D=0.33 (n=24,24) p=0.089 not matched by standard two-sample asymptotics",
+      "evidence": "For D=0.33, n1=n2=24, two-sided asymptotic p computed as ~0.1465 (basic) or ~0.0695 (Stephens finite-n correction). The exact two-sample p requires the empirical distributions (raw data) and could plausibly be 0.089, but is not independently computable here.",
+      "impact_primary": false,
+      "cause": "Secondary descriptive statistic; exact value depends on the ECDF arrangement (raw data).",
+      "fix": "Recompute with the exact two-sample KS p from raw offers; document the package used."
+    }
+  ]
+}

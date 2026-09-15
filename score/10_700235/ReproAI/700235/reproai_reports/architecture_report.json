@@ -1,0 +1,48 @@
+{
+  "report": {
+    "doi": "10.1086/700235",
+    "short_title": "Democracy and the Class Struggle",
+    "authors": "Adaner Usmani (Brown University)",
+    "journal": "American Journal of Sociology 124(3): 664-704",
+    "year": 2018,
+    "publisher": "University of Chicago Press",
+    "paper_type": "Empirical comparative-historical political economy / quantitative democratization study (theoretical model + original cross-national long-run panel dataset + dynamic fixed-effects panel regressions + counterfactual simulations)",
+    "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+    "rules_version": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "mode": "static audit + internal-consistency reimplementation (no live external reproduction possible: no replication package shipped)",
+    "host_environment": {
+      "os": "win32 (PowerShell 5.1)",
+      "R": "R 4.6.1 (2026-06-24 ucrt) - C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe",
+      "R_packages": "lmtest present; plm NOT installed",
+      "python": "3.8.10 (Python38)",
+      "python_packages": "pdfplumber 0.11.5, numpy 1.24.4, pandas 2.0.3"
+    }
+  },
+  "pipeline_architecture": {
+    "source": "SCORE ReproAI Checks\\10_700235\\paper.pdf (1,595,134 bytes) and paper_extracted.txt (110,819 bytes; full text). Working copy under ReproAI\\700235\\.",
+    "extraction": [
+      "paper_extracted.txt: full-text claim mining (1872 lines)",
+      "pdfplumber per-page extract_text (all_0xx.txt) + x/y word reconstruction (02_words.py, 02b_tokens.py) to resolve the AJS tables, which are stored in the PDF as MIRRORED (right-to-left) text",
+      "line-level reversal decoder (decode_tables.py) to recover Tables 1, 3, 4 in readable orientation",
+      "Tables 2, 3, 4 transcribed from the clean positional reconstruction"
+    ],
+    "reimplementation": [
+      "R script 03_internal_consistency.R runs every internal-consistency check computable from printed tables + prose (no raw data shipped)",
+      "An external/numerical reproduction of the headline panel coefficients, SEs, CIs, N, descriptives was IMPOSSIBLE: the article provides no data/code archive link and ships no dataset. All such values are marked not-independently-checkable (noted per-code in manuscript_claims.md)"
+    ]
+  },
+  "claim_coverage": {
+    "total_claims_enumerated": 50,
+    "verified_internal": ["C26","C31","C32","C37","C38","C39","C43","C44","C46","C50"],
+    "approx_internal": ["C1","C15","C45","C47","C48","C49"],
+    "discrepant": ["C16"],
+    "not_independently_checkable_no_data": ["C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","C12","C13","C14","C17","C18","C19","C20","C21","C22","C23","C24","C25","C27","C28","C29","C30","C33","C34","C35","C36","C40","C41","C42"]
+  },
+  "findings": {
+    "ADV-001": {"severity":"P1","id":"ADV-001","type":"replication-materials-absent","subject":"No replication data/code; headline results not independently reproducible"},
+    "ADV-002": {"severity":"P2","id":"ADV-002","type":"internal-inconsistency","subject":"Table 1 bias '42 points' prose vs 142 tabled; column not interpretable on 0-100 scale"},
+    "ADV-003": {"severity":"P3","id":"ADV-003","type":"prose-rounding","subject":"'only 60%' coverage vs computed 57.5%"},
+    "ADV-004": {"severity":"P3","id":"ADV-004","type":"hygiene-limitation","subject":"PDF tables mirrored + figures bitmap; no machine-verifiable exhibit data"}
+  }
+}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Forster &amp; Neugebauer 2024 (Sociological Science 11:886-906)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Factorial Survey Experiments to Predict Real-World Behavior: A Cautionary Tale from Hiring Studies</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT ·
+<strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14<br>
+<strong>Package audited:</strong> <a href="https://doi.org/10.15195/v11.a32">10.15195/v11.a32</a> — Forster, A. G., &amp;
+Neugebauer, M. (2024), <em>Sociological Science</em> 11, 886–906; OSF replication package
+<code>x2tcp</code> (https://osf.io/x2tcp/), preregistration <code>2jrgu</code> (https://osf.io/2jrgu/).<br>
+<strong>Mode:</strong> <strong>static audit + independent R reimplementation.</strong> The authors' analysis toolchain is
+Stata 18 (<code>01_code/*.do</code>), but Stata is <em>not</em> installed on the audit host, so no <code>.do</code> file was executed.
+All manuscript statistics were independently regenerated in <strong>R 4.6.1</strong> directly from the shipped
+<code>.dta</code> files, replicating the Stata model specs exactly (OLS linear-probability models; FE
+<code>vce(robust)</code> = HC1; FS <code>vce(cluster ID)</code> = CR1/HC1 clustered at the employer; <code>egen pctile</code>
+default = R <code>quantile(type=6)</code>). This is the mandated second-language recompute (R vs the authors' Stata).<br>
+<strong>Originals:</strong> untouched. All work on copies under <code>exec_check/</code>; shipped data verified by MD5
+(<code>d1ddb190416a09b894c2d28e2838e1c5</code>).</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>3</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>0</td></tr>
+<tr><td>P3 — low</td><td>3</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Verdict: fully reproducible — a model empirical-methods submission.</strong> This open-access preregistered
+field-vs-factorial-survey validation reproduces completely from the shipped replication package. Every headline
+parameter checked — all sample sizes and response rates, every Table-2 descriptive, the FE ethnic effect
+(−0.070), the FS ethnic effect (−0.001), the FE education effect (+0.028, n.s.), the FS education effect
+(−0.050), both cross-experiment disparity interactions (ethnicity b=0.070/SE=0.023; education b=−0.080/SE=0.026),
+all H2/H3 percentile cut-offs and all nine subgroup sizes (1600/1272/968, 1280/1264/1296, 1720/936/1184) — agrees
+exactly with the manuscript, and all the subgroup ethnic effects confirm the paper's directional claim that no
+FS subgroup reproduces the FE discrimination effect. The headline cautionary conclusion is faithfully supported by
+the data. The only findings are three cosmetic P3 items (two rounding/table-proportion nits and one stale-file-name
+README/comment), none of which is load-bearing for any inference.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> with <code>==== START/END (status: OK) ====</code> markers.
+Stata (the authors' tool) is unavailable on this host; R reimplementation replaces live execution and satisfies the
+second-language requirement (R vs the authors' Stata).</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/R/00_inspect.R</code></td><td>Load/describe both <code>.dta</code>; dimensions &amp; factor coding</td><td>Data structure; FE 3002×11, FS 3840×17</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/03_models_reimpl.R</code></td><td>Table-2 descriptives; H1 FE/FS LPMs; pooled significance test; H2/H3 group splits</td><td>Table 2; Fig 3–6; H1–H3; C1–C31</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/04_supplement.R</code></td><td>FS respondent count; response rate; H2/H3 subgroup coefficients; 61% realism; 120-s check</td><td>C2–C4, C25, C30, C31, C32, C33</td><td>OK</td></tr>
+<tr><td><code>exec_check/R/05_consolidate.R</code></td><td>Manuscript-vs-reimplementation CSV + diagnostic figure</td><td>See tables below</td><td>OK</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (33 claims, C1–C33): <code>exec_check/manuscript_claims.md</code>.<br>
+All computations are closed-form OLS/tests — pipeline is deterministic, no RNG, outputs stable across runs.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close, methodologically explicable · ⚠ discrepant · ➖ not
+independently checkable (with reason).</p>
+<h3>Sample and data structure</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>FE applications (N)</td><td>3,002</td><td>3,002 rows</td><td>✅</td></tr>
+<tr><td>FS respondents</td><td>480</td><td>480 distinct IDs</td><td>✅</td></tr>
+<tr><td>FS response rate</td><td>16%</td><td>480/3002 = 0.1599</td><td>✅</td></tr>
+<tr><td>FS vignette ratings</td><td>3,840 (8×480)</td><td>3,840 rows; 8/respondent</td><td>✅</td></tr>
+<tr><td>FE mean invitation prob (SD)</td><td>0.54 (0.50)</td><td>0.5410 (0.4984)</td><td>✅</td></tr>
+<tr><td>FS mean invitation prob (SD)</td><td>0.59 (0.49)</td><td>0.5932 (0.4913)</td><td>✅</td></tr>
+<tr><td>FE occupational-field N</td><td>655/398/1261/688</td><td>655/398/1261/688</td><td>✅</td></tr>
+<tr><td>FE occupational-field proportions</td><td>0.22/0.13/0.42/0.23</td><td>0.218/0.133/0.420/0.229</td><td>✅</td></tr>
+<tr><td>FS occupational-field N</td><td>512/560/1944/824</td><td>512/560/1944/824</td><td>✅</td></tr>
+<tr><td>FS occupational-field proportions</td><td>0.13/0.15/0.50/0.22</td><td>0.133/0.146/0.506/0.215</td><td>⚠ ADV-001</td></tr>
+<tr><td>FS hiring responsibility (alone/joint/colleagues)</td><td>632 (0.16)/2984 (0.78)/224 (0.06)</td><td>632/2984/224</td><td>✅</td></tr>
+<tr><td>Text: "94% sole/joint, 6% colleagues"</td><td>94% / 6%</td><td>0.16+0.78=0.94; 0.06</td><td>✅</td></tr>
+<tr><td>SDB scale standardized (SD)</td><td>0 (1), N 3,840</td><td>~0 (1), N 3,840</td><td>✅</td></tr>
+<tr><td>Attitudes scale standardized (SD)</td><td>0 (1), N 3,840</td><td>~0 (1), N 3,840</td><td>✅</td></tr>
+<tr><td>Avg processing time / vignette (SD)</td><td>30.78 (11.63)</td><td>30.7848 (11.6254)</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>H1 — topic sensitivity (headline)</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>FE ethnic effect (migration=1)</td><td>−0.07*** (7 pp)</td><td>−0.0703 (HC1)</td><td>✅</td></tr>
+<tr><td>FS ethnic effect (migration=1)</td><td>−0.001 (n.s.)</td><td>−0.0012 (cluster)</td><td>✅</td></tr>
+<tr><td><strong>Ethnicity disparity (interaction)</strong></td><td><strong>b=0.070, SE=0.023</strong></td><td><strong>b=0.0697, SE=0.0226</strong></td><td><strong>✅</strong></td></tr>
+<tr><td>FE education dropout effect</td><td>+2.8 pp (n.s.)</td><td>+0.0278</td><td>✅</td></tr>
+<tr><td>FS education 3-vs-2 effect</td><td>−0.05* (−5 pp)</td><td>−0.0502</td><td>✅</td></tr>
+<tr><td><strong>Education disparity (interaction)</strong></td><td><strong>b=−0.080, SE=0.026</strong></td><td><strong>b=−0.0801, SE=0.0259</strong></td><td><strong>✅</strong></td></tr>
+<tr><td>FS intermediate-HS disadvantage (1-vs-2)</td><td>12.2 pp</td><td>−0.1216</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>H2 — social desirability</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>SDB cut-offs (p33/p66)</td><td>−0.29 / 0.53</td><td>−0.289 / 0.528</td><td>✅</td></tr>
+<tr><td>SDB group N (low/int/high)</td><td>1600/1272/968</td><td>1600/1272/968</td><td>✅</td></tr>
+<tr><td>FS ethnic effect by SDB group</td><td>all n.s. (~0)</td><td>−0.0015 / +0.0079 / −0.0055</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>H3 — insufficient-effort responding</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Response-time cut-offs (p33/p66)</td><td>24.50 / 33.25</td><td>24.5 / 33.25</td><td>✅</td></tr>
+<tr><td>Response-time group N</td><td>1280/1264/1296</td><td>1280/1264/1296</td><td>✅</td></tr>
+<tr><td>FS ethnic effect by time group</td><td>all n.s. (~0)</td><td>−0.0095 / +0.0103 / −0.0108</td><td>✅</td></tr>
+<tr><td>Survey-attitudes cut-offs (p33/p66)</td><td>−0.26 / 0.42</td><td>−0.264 / 0.418</td><td>✅</td></tr>
+<tr><td>Survey-attitudes group N</td><td>1720/936/1184</td><td>1720/936/1184</td><td>✅</td></tr>
+<tr><td>FS ethnic effect by attitude group</td><td>all n.s. (~0)</td><td>−0.0019 / +0.0070 / −0.0041</td><td>✅</td></tr>
+</tbody>
+</table>
+<h3>Robustness / prose</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>"61%" found profiles realistic</td><td>61%</td><td>0.6104 (type 3/4 of 3840)</td><td>✅</td></tr>
+<tr><td>120-s distraction cut-off</td><td>beyond 120 s omitted</td><td>retained time_use max 77.5 s</td><td>✅</td></tr>
+</tbody>
+</table>
+<p>Diagnostic figure regenerated: <code>exec_check/output/figure_fevsfs_reimpl.png</code>. Comparison CSV:
+<code>exec_check/output/comparison_manuscript_reimpl.csv</code>.</p>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P3 — low</h3>
+<p><strong>ADV-001 — Table 2 FS occupational-field proportions do not follow strict 2-decimal rounding.</strong>
+The raw FS field counts reproduce exactly (512/560/1944/824). The printed proportions of 0.13/0.15/0.50/0.22 differ
+from strict 2-decimal rounding of 0.1333/0.1458/0.5063/0.2146, which would read 0.13/0.15/<strong>0.51</strong>/<strong>0.21</strong>.
+Administration is printed 0.50 against 0.5063, and Media 0.22 against 0.2146. The choice appears designed to force
+the column to sum to 1.00 (same for the FE panel, 0.22/0.13/0.42/0.23, which happens to round cleanly). This is a
+presentation/rounding choice only; it does not affect any model, effect, or conclusion. <em>Fix:</em> print 0.51 and
+0.21, or annotate the column as rounded-then-summed to 1.00.</p>
+<p><strong>ADV-002 — README and <code>.do</code>-file headers reference stale data file names.</strong>
+<code>readme.txt</code> and the header comments of <code>00_master.do</code>/<code>01_dataprep_significance.do</code> name the data as
+<code>validation_replication_fe.dta</code> / <code>validation_replication_fs.dta</code>, but the shipped files are
+<code>validation_fe.dta</code> / <code>validation_fs.dta</code>. Not load-bearing: <code>master.do</code> only sets directory globals and every
+analysis <code>.do</code> opens the correct shipped names. <em>Fix:</em> align README/header comments with the actual archive file
+names.</p>
+<p><strong>ADV-OBS-003 — <code>type_applicants</code> carries missing codes (−998, −949) in the FS data (observation).</strong>
+56 rows each are coded −998/−949. The shipped robustness code and the manuscript's 61% figure both use the full
+3,840 denominator (threshold 3|4 → 0.6104), so no discrepancy arises. Noted only so future users are aware of the
+flagged non-response rows. <em>Fix:</em> none required; optionally document the codes in a data dictionary.</p>
+<hr />
+<h2>What this package already does right</h2>
+<ul>
+<li><strong>Genuinely open and complete.</strong> Sociological Science's open-access policy plus a single, current OSF
+replication package (node <code>x2tcp</code>) ships both datasets (FE + FS), all analysis code, and a clean README. The
+preregistration (node <code>2jrgu</code>) is public and matches the study.</li>
+<li><strong>Data and code are mutually consistent and reproduce the manuscript exactly.</strong> Every headline statistic
+regenerates in R to the manuscript's own reported precision — reflecting well on the analysis pipeline, not merely
+a final-tidy copy.</li>
+<li><strong>Clean provenance / deterministic pipeline.</strong> No RNG anywhere; closed-form OLS; outputs stable across
+runs. No PII was found in the shipped data (only anonymised employer IDs and coded covariates; no free-text fields
+were shipped).</li>
+<li><strong>Honest reporting of the null/negative result.</strong> The reproduced numbers genuinely support the central
+cautionary claim that the factorial survey fails to reproduce the field-experiment discrimination effect across
+all sensitivity/effort subgroups.</li>
+</ul>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No live Stata execution.</strong> Stata is not installed on this host; the authors' <code>.do</code> files were not run.
+All numbers were independently regenerated in R from the raw <code>.dta</code> to the manuscript's reported precision and MDS
+match the authors' model logic, but a byte-for-byte Stata run was not performed. If desired, running
+<code>01_code/*.do</code> in Stata 18 and diffing the regenerated <code>03_tables</code>/<code>04_figures</code>/<code>05_logs</code> against the paper
+would close this residual gap (offered as optional cross-validation, not a requirement).</li>
+<li><strong>Full online-supplement coefficient matrices (Tables S7–S10/S11–S19)</strong> were not diffe'd cell-by-cell. The
+headline rows reproduced here (the FE/FS main coefficients, the two disparity interactions, all subgroup size and
+descriptive figures) are the load-bearing entries and all agree; a complete spreadsheet-level diff of every
+supplement table was out of scope.</li>
+<li><strong>Preregistration content</strong> was confirmed to exist publicly but its internal content was not diffed against the
+reported analyses (the article-level reproducibility of the results, not preregistration-adherence auditing, is the
+object of this check).</li>
+<li>No live rendering of Figures 3–6 from the author's <code>coefplot</code> code was produced; the underlying point estimates
+and CIs they plot are all reproduced numerically here instead.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/data/</code></td><td>Downloaded <code>replication_package_incl_data.zip</code> (MD5 verified) + extracted package (<code>00_data/*.dta</code>, <code>01_code/*.do</code>, README)</td></tr>
+<tr><td><code>exec_check/R/*.R</code></td><td>4 R scripts: <code>00_inspect.R</code>, <code>03_models_reimpl.R</code>, <code>04_supplement.R</code>, <code>05_consolidate.R</code></td></tr>
+<tr><td><code>exec_check/output/</code></td><td><code>03_models_out.txt</code>, <code>comparison_manuscript_reimpl.csv</code>, <code>figure_fevsfs_reimpl.png</code>, <code>fe.rds</code>, <code>fs.rds</code></td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log, <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>33 numbered claims (C1–C33), each checked</td></tr>
+<tr><td><code>exec_check/environment_provenance.md</code></td><td>Environment, toolchain, data provenance, version-gap note</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001, ADV-002, ADV-OBS-003 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps</td></tr>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report (house style)</td></tr>
+</tbody>
+</table>
+<pre>==== START ReproAI audit SocSci2024 (status: OK) ====
+Claims inventory: C1-C33 approved before checking.
+OSF replication package obtained (x2tcp) and MD5-verified.
+R 4.6.1 reimplementation of all headline models completed.
+Descriptives, H1/H2/H3 coefficients, interactions, group Ns, cut-offs: all reproduced.
+Comparison CSV + diagnostic figure written; JSON artifacts validated.
+Severity counts: P0=0, P1=0, P2=0, P3=3.
+==== END ReproAI audit SocSci2024 (status: OK) ====</pre>
+</body>
+</html>

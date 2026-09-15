@@ -1,0 +1,79 @@
+﻿==== ReproAI consistency reimplementation START (status: OK) ==== 
+Engine: anomalyco/opencode (ReproAI) / DeepSeek V4 Flash via uniGPT
+Rules: 2026.06.27  Audit date: 2026-09-14  R  R version 4.6.1 (2026-06-24 ucrt) 
+
+[1] Pooled (n=72) mean = unweighted mean of the three treatment means (n=24 each) 
+   qd pool mean reported=10.16  calc=10.167  diff=-0.007 
+   qr pool mean reported=10.87  calc=10.877  diff=-0.007 
+   s pool mean  reported=0.39  calc=0.390  diff=0.000 
+   s-xa pool mean reported=-0.13  calc=-0.123  diff=-0.007 
+   s-xl pool mean reported=-0.11  calc=-0.117  diff=0.007 
+   (s-xa) & (s-xl) pooled: computed -0.1233 & -0.1167 -> would round to -0.12/-0.12; paper prints -0.13/-0.11 (rounding drift) 
+[2] (s-xa)=s-qr/(qd+qr) and (s-xl)=s-mr/(md+mr) from cell means (price: DW 150:200, DB 150:100, BL 150:150) 
+   DW: s-xa rep=-0.07 calc=-0.066 | s-xl rep=-0.14 calc=-0.138 
+   DB: s-xa rep=-0.12 calc=-0.124 | s-xl rep=-0.03 calc=-0.024 
+   BL: s-xa rep=-0.18 calc=-0.189 | s-xl rep=-0.18 calc=-0.189 
+[3] Footnote 13: BL qd!=qr, reported t=2.14, p=0.036 -> recompute from cell stats 
+   t=2.154  two-tailed p=0.0365  (df=46) 
+[4] Footnote 14: KS=0.33, p=0.089 (DW vs DB offers). Compute two-sample two-sided KS p for n1=n2=24. 
+   k=1.143  two-sided asymptotic p=0.1465   [exact/companion approx not reproducible w/o raw data -> not exact] 
+[5] Reported 'W' = normal approx z; verify every printed (W, p) pair by p=2*(1-pnorm(|W|)) 
+   [Account DW ftn17] W=0.930 p_reported=0.3529 p_calc=0.3524 -> OK 
+   [Libert DW ftn17] W=4.095 p_reported=0.0000 p_calc=0.0000 -> OK 
+   [Egalit DW ftn17] W=1.060 p_reported=0.2889 p_calc=0.2891 -> OK 
+   [md>=mr Libert T3] W=0.762 p_reported=0.4460 p_calc=0.4461 -> OK 
+   [md<mr Egalit T3] W=0.240 p_reported=0.8100 p_calc=0.8103 -> OK 
+   [md<mr qd>=qr Acc] W=0.120 p_reported=0.9049 p_calc=0.9045 -> OK 
+   [md<mr qd>=qr Lib] W=2.668 p_reported=0.0070 p_calc=0.0076 -> OK 
+   [md<mr qd>=qr Egal] W=1.640 p_reported=0.1000 p_calc=0.1010 -> ~ 
+   [md<mr qd<qr Acc] W=3.845 p_reported=0.0001 p_calc=0.0001 -> OK 
+   [md<mr qd<qr Lib] W=4.131 p_reported=0.0000 p_calc=0.0000 -> OK 
+   [md<mr qd<qr Egal] W=0.292 p_reported=0.7699 p_calc=0.7703 -> OK 
+   [md>=mr pd>pr Lib] W=0.345 p_reported=0.7300 p_calc=0.7301 -> OK 
+   [md>=mr pd<=pr Acc] W=1.120 p_reported=0.9040 p_calc=0.2627 -> MISMATCH 
+   [md>=mr pd<=pr Lib] W=1.753 p_reported=NA p_calc=0.0796 -> n/a 
+   [md>=mr pd<=pr Egal] W=3.185 p_reported=NA p_calc=0.0014 -> n/a 
+   [Pool bias W] W=0.100 p_reported=0.9172 p_calc=0.9203 -> MISMATCH 
+   [Pool acc W] W=4.930 p_reported=NA p_calc=0.0000 -> n/a 
+   [Pool lib W] W=4.484 p_reported=NA p_calc=0.0000 -> n/a 
+   [Pool egal W] W=3.936 p_reported=NA p_calc=0.0001 -> n/a 
+   *** KEY: md>=mr & pd<=pr Accountability W=1.120 -> p_calc=0.2628, but in-text prints p-value=0.904 (matches W=0.12 row) -> citation error. 
+[6] F(.,.) <-> p verification for reported F values 
+   [Lib DW robust ftn17] F=7.93(2,22) p_reported=0.0025 p_calc=0.0026 -> OK 
+   [Lib DW quant ftn17] F=8.03(2,22) p_reported=0.0024 p_calc=0.0024 -> OK 
+   [Acc DW robust ftn17] F=2.04(2,22) p_reported=0.1534 p_calc=0.1539 -> OK 
+   [Acc DW quant ftn17] F=1.39(2,22) p_reported=0.2705 p_calc=0.2701 -> OK 
+   [Lib DB robust ftn17] F=0.88(2,22) p_reported=0.4278 p_calc=0.4289 -> ~ 
+   [Lib DB quant ftn17] F=0(2,22) p_reported=1 p_calc=1.0000 -> OK 
+   [Egal DW robust ftn17] F=4.28(2,22) p_reported=0.0269 p_calc=0.0269 -> OK 
+   [Egal DW quant ftn17] F=0.61(2,22) p_reported=0.5524 p_calc=0.5523 -> OK 
+   [Pool acc robust] F=16.03(2,60) p_reported=0.002 p_calc=0.0000 -> ~ 
+   [Pool acc quant] F=13.98(2,60) p_reported=n/a p_calc=0.0000 -> n/a 
+   [Pool lib robust] F=15.72(2,60) p_reported=n/a p_calc=0.0000 -> n/a 
+   [Pool lib quant] F=6.79(2,60) p_reported=n/a p_calc=0.0022 -> n/a 
+   [Pool egal robust] F=21.46(2,60) p_reported=n/a p_calc=0.0000 -> n/a 
+   [Pool egal quant] F=10.7(2,60) p_reported=n/a p_calc=0.0001 -> n/a 
+   [Pool bias robust] F=3.17(2,60) p_reported=0.0482 p_calc=0.0491 -> OK 
+   [Pool bias quant] F=0.35(2,60) p_reported=0.7056 p_calc=0.7061 -> OK 
+   [Bias isolate robust ftn19] F=0.59(2,60) p_reported=0.5597 p_calc=0.5575 -> ~ 
+   [M-acc DB(2,22)] F=25.97(2,22) p_reported=0 p_calc=0.0000 -> OK 
+   [M-acc DB unself(2,20)] F=10.43(2,20) p_reported=0.001 p_calc=0.0008 -> OK 
+   [M-lib DW(2,22)] F=17.89(2,22) p_reported=0 p_calc=0.0000 -> OK 
+   [M-lib DW unself(2,19)] F=8.55(2,19) p_reported=0.002 p_calc=0.0022 -> OK 
+   Pooled F df2=60 with n=72 implies k=12 estimated params in unrestricted robust model (not a plain 2-param fit, which would be df2=70) -> documentation note. 
+[7] Appendix C thresholds: q0 (DW, 200qr=150qd) -> qr/Q = 0.75/1.75 = 3/7; q1 (DB, 150qd=100qr) -> 1.5/2.5 = 0.6 
+   q0 = 0.4286 (paper 3/7 = 0.4286)  q1 = 0.6000 (paper 0.6) 
+[8] Share-offering-nothing -> integer counts out of 24 
+   DW=2/24 (0.08), DB=1/24 (0.04), BL=4/24 (0.17); total zero-givers=7 /72 = 0.097 
+   Pooled reported 0.10 -> about 7 zero-givers. Footnote/Appendix B state EIGHT s=0 dictators (8/72=0.111). 
+   Prose 'positive transfers 90 pct of the time' matches 7 zero-givers (65/72=0.9028), NOT 8 (64/72=0.8889). 
+   Appendix B: 'unselfish' (give>=5pct) DW=21, DB=22 -> below-5pct = 3 in DW, 2 in DB. 
+   => internal inconsistency 7 (Table-shares/prose-90pct) vs 8 (footnote19/AppendixB) zero-givers. 
+[9] Pooled min/max vs across-treatment min/max
+    qd: OK  pooled 3 / 17 
+    qr: OK  pooled 4 / 19 
+    s: OK  pooled 0 / 0.74 
+    sxa: OK  pooled -0.69 / 0.12 
+    sxl: OK  pooled -0.69 / 0.21 
+[10] prose 'average distribution is around 40 percent' vs pooled s=0.39 -> 0.39 (39 percent, ~40) OK
+==== END (status: OK) ==== 

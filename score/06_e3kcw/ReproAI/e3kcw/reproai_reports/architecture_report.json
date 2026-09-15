@@ -1,0 +1,38 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "rules_version": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "package": {
+    "doi": "10.31234/osf.io/e3kcw",
+    "title": "Flow in the Time of COVID-19: Findings from China",
+    "authors": ["K. Sweeny","K. Rankin","X. Cheng","L. Hou","F. Long","Y. Meng","L. Azer","R. Zhou","W. Zhang"],
+    "type": "Psychology/wellbeing cross-sectional survey (China, COVID-19); PsyArXiv preprint",
+    "osf_node_data": "vuwg3 (in-text link), 'COVID-19 China Survey Feb 2020'",
+    "doi_osf_node": "e3kcw not resolvable via OSF API (404) - DOI is PsyArXiv preprint handle"
+  },
+  "mode": "static audit + independent reimplementation (R 4.6.1 primary, Python 3.8 cross-check); live author-code execution NOT possible (no analysis script shipped - only data, survey, full-results PDF)",
+  "host_environment": {
+    "os": "Windows (win32)",
+    "r": "R 4.6.1 (2026-06-24 ucrt)",
+    "r_packages": ["readxl","openxlsx","psych","dplyr","jsonlite","writexl"],
+    "python": "Python 3.8.10",
+    "python_packages": ["pandas","numpy","scipy","pdfplumber","openpyxl"]
+  },
+  "sources_obtained": {
+    "dataset": {"file": "Primary sample data (minus identifiers).xlsx", "rows": 5115, "cols": 52,
+      "md5": "82AC621667427972FA765E8000DC5F77", "sha256": "e6b5ebcfa1185ced6172478414090741ccccef48941c2f1f263519c19fa06c5c",
+      "osf_guid": "fk3n9",
+      "provenance_integrity": "downloaded MD5/SHA256 identical to OSF-reported hashes"},
+    "survey": {"file": "COVID 2020 China survey OSF.docx", "osf_guid": "xe34n"},
+    "full_regression_results": {"file": "full_regression_results.pdf", "osf_guid": "u48cp",
+      "md5": "7B2499686B9442C29915A3886DFF13A3"}
+  },
+  "analysis_plan": [
+    "00_inspect.R: sheet/column structure",
+    "01_explore.R: distributions + descriptives",
+    "02_regression.R / 02b_match.R / 02c_grid.R: reconstruct 8 multiple regressions across conventions",
+    "03_alpha_t2.R: Cronbach alpha + Table-2 simple slopes",
+    "py_crosscheck.py: independent Python recompute of headline numbers"
+  ],
+  "key_result": "Full model (vuwg3 regression PDF) reproduced in sign and significance (p<.01 identical) with beta within ~0.015 under grand-mean-centered fully-standardized OLS; manuscript Table 1 predictor columns are cyclically mislabeled (ADV-001)."
+}

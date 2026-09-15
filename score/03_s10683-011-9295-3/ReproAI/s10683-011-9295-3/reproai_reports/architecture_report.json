@@ -1,0 +1,44 @@
+{
+  "report_meta": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules_version": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "package": "s10683-011-9295-3",
+    "doi": "10.1007/s10683-011-9295-3",
+    "title": "Self-interest and fairness: self-serving choices of justice principles",
+    "authors": "Ismael Rodriguez-Lara, Luis Moreno-Garrido",
+    "journal": "Experimental Economics 15:158-175 (2012)",
+    "mode": "STATIC audit (no public raw-data deposit; ESM = instructions + appendices, no data). Internal-consistency + derived-value reimplementation in R 4.6.1 and Python 3.8 cross-check."
+  },
+  "pipeline": {
+    "experiment": "Dictator game with production: 20-question quiz earning stage (reward rate per correct answer 100/150/200 pesetas randomized) + allocation stage. 144 students (72 dictator observations = 24 per treatment DW/DB/BL). z-Tree.",
+    "treatments": {"DW": "pd=150, pr=200 (dictator worse)", "DB": "pd=150, pr=100 (dictator better)", "BL": "pd=pd=150 (baseline)"},
+    "analysis": [
+      "Table 1 descriptive statistics (means/SDs/min/max per treatment + pooled)",
+      "Table 2: WLS robust (Huber/White sandwich) + bootstrapped median (quantile) regressions s = a + b*x (x = xa, xl, xb); F-tests vs (a=0,b=1) or (a=0.5,b=0); Wilcoxon signed-rank",
+      "Table 3: Wilcoxon signed-rank grouped by relative contribution and by most-favourable principle",
+      "ESM Appendix B: hurdle model (probit + Papke-Wooldridge fractional response), M-estimators (Tukey Biweight)",
+      "ESM Appendix C: most-favourable-principle threshold derivations q0=3/7, q1=0.6"
+    ]
+  },
+  "raw_data_availability": {
+    "osf": null,
+    "zenodo": null,
+    "github": null,
+    "supplementary": "ESM_MOESM1.pdf (media.springernature.com, 766 KB) — contains Appendix A (instructions), B (hurdle/M-estimators), C (thresholds). NO raw per-subject data.",
+    "paper_statement": "Electronic supplementary material 'available to authorized users'; 'complete test is available on request' (refers to the questionnaire, not the data).",
+    "verdict": "DATA-NA : no raw dataset or analysis code obtainable by a third party."
+  },
+  "reimplementation_scripts": [
+    {"script": "exec_check/R/00_extract_esm.R", "job": "Extract ESM PDF text via pdftools", "status": "OK"},
+    {"script": "exec_check/R/01_internal_consistency.R", "reimplements": "Pooled-mean derivation, (s-xa)/(s-xl) from cell means, fn13 BL t-test, fn14 KS p, W(z)<->p and F(df)<->p mappings, q0/q1 thresholds, cell-count decomposition, pooled min/max consistency", "status": "OK"},
+    {"script": "exec_check/R/02_crosscheck_python.py", "reimplements": "Independent second-language recompute (Python 3.8 + scipy) of the same derived checks", "status": "OK"},
+    {"script": "exec_check/R/00_extract_esm.R", "job": "provenance of ESM", "status": "OK"}
+  ],
+  "host": {
+    "os": "win32, Windows",
+    "R": "R 4.6.1 (2026-06-24 ucrt) via C:/Program Files/R/R-4.6.1/bin/Rscript.exe",
+    "python": "3.8.10",
+    "pdftools/poppler": "26.01.0"
+  }
+}

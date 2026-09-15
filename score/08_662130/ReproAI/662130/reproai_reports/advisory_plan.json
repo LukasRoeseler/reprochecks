@@ -1,0 +1,21 @@
+{
+  "audit": { "doi": "10.1086/662130", "audit_date": "2026-09-14" },
+  "remediation": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "action": "Authors: create and deposit a reproducible research package (anonymized z-Tree .slt/.xls exports or a tidy CSV with one row per subject-treatment-stage, plus a Stata .do or R script that reproduces Table 2, Table 3, all Mann-Whitney/Wilcoxon/t-tests, Levene's test, and Figures 1-2).",
+      "target_repository": "IZA Data Archive, OSF, or Harvard Dataverse; add DOI-specific data-availability link on the journal article page.",
+      "owner": "Altmann / Falk / Wibral (correspondence altmann@iza.org).",
+      "priority": "high",
+      "verification_after_fix": "Re-run all 58 claims; expect the 24 ➖ claims (C9-C15, C33-36, C42, C44, C48-52, C54, C57-58) to move to ✅/⚠."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "action": "Non-blocking. Once raw data are deposited, recompute one-sample t-tests and Mann-Whitney conversions at full precision to rule out any rounding artifact and to confirm the ≈ classifications are benign.",
+      "priority": "low",
+      "verification_after_fix": "Confirm deltas (OS p .534-vs-.543; OSL .199-vs-.204; OSL-vs-OS MW .349-vs-.347) collapse to <0.0015 at full precision."
+    }
+  ]
+}

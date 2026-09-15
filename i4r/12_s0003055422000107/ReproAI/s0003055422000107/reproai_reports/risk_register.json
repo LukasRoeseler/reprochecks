@@ -1,0 +1,68 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "paper_doi": "10.1017/S0003055422000107",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "title": "Independent Python recompute of the headline RRP Model 5 does not reproduce the fixed effects",
+      "claim": "C30",
+      "evidence": "R lme4 (ML) reproduces Table 1 M5 interaction = -0.868 (SE 0.317) exactly; Python 3.8 statsmodels MixedLM on the same N=58 rows converges to interaction -0.555 (SE 0.307) with a non-positive-definite Hessian; other coefficients also differ (Intercept -1022.9 vs -294.9; year 0.517 vs 0.151). Both are ML fits of the same crossed two-random-intercept specification.",
+      "why_it_matters": "The paper's own (lme4) numbers reproduce exactly, so nothing is fabricated; but the small-sample crossed-random-effects ML problem (58 obs, 22 parties, 19 countries) has multiple near-optimal modes, so the headline point estimate is not uniquely identified / is optimizer- and software-sensitive.",
+      "fix_from_author": "Report the analysis as fragile to identification; consider REML, or report a sensitivity check across optimizers/starting values; note Satterthwaite denominator-df limitation at small N."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "Abstract sample scope (187 parties, 30 countries) not exactly recoverable from shipped data",
+      "claim": "C29",
+      "evidence": "Shipped Replication_data.RData contains 730 unique party IDs across 38 countries (raw), while the complete-case all-parties model (Table 2 M5) uses 175 parties in 29 countries. The abstract's '187 parties in 30 countries, 1985-2018' matches neither the raw data nor the model sample exactly.",
+      "why_it_matters": "Descriptive scope imprecision only; does not change any regression result (the models report their own N/Nparties which DO reproduce).",
+      "fix_from_author": "Clarify that '187 parties / 30 countries' refers to the analysis window before complete-case listwise deletion, or restate to match the shipped data."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Table 1 Model 2 interaction significance star is borderline / convention-dependent",
+      "claim": "C5",
+      "evidence": "Reproduced Satterthwaite (lmerTest) p = 0.0548 for interaction -0.663 (SE 0.338) is NOT <0.05, yet the manuscript prints '*'. A plain Wald/z approximation gives p = 2*(1-pnorm(1.9641)) = 0.0495 <0.05. The discrepancy reflects Wald-vs-Satterthwaite convention, not a data error.",
+      "why_it_matters": "Minor. M3-M5 (the models carrying the paper's claims, incl. headline M5 p=0.008) are clearly significant; only the borderline M2 star flips under Satterthwaite.",
+      "fix_from_author": "Report the M2 p-value explicitly or note the Wald-based star; or drop the borderline star at alpha=0.05."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Illustrative predicted values '20% (losing) / 14% (gaining)' not exactly reproduced",
+      "claim": "C24",
+      "evidence": "At M/F=2 with mean covariates from Table 1 M5, reproduced predicted %women = 21.5% (VoteChange=-5) and 15.7% (VoteChange=+5), vs the paper's stated 20% / 14%. Direction (losing votes => more women) is correct.",
+      "why_it_matters": "Illustrative 'For example' quantities; direction is what the hypothesis requires and it reproduces.",
+      "fix_from_author": "State the covariate values used, or quote the reproduced 21.5%/15.7%."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "title": "Case-study prose: 'PVV vote share increased by about 3 p.p.' vs dataset chgvotelagged = -5.37 in 2017",
+      "claim": "C32",
+      "evidence": "The PVV case (The Netherlands 2017) prose says the strategy worked and 'the PVV's vote share increased by about 3 percentage points', but the shipped dataset chgvotelagged for PVV 2017 = -5.37 (a large vote-share loss vs the prior election), consistent with the same passage's 'losing votes (10.1% vs 15.5%)'. The 'increased ~3 p.p.' figure is ambiguous and does not match the dataset's vote-change variable.",
+      "why_it_matters": "Qualitative case-section prose ambiguity; the quantitative models are unaffected.",
+      "fix_from_author": "Clarify what the '+3 p.p.' refers to and reconcile it with chgvotelagged."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Data hygiene: party-name strings are double-encoded (mojibake); software/version drift between fit-time and shipped package",
+      "claim": "hygiene",
+      "evidence": "partyname/partyabbrev fields show UTF-8 encoded-mojibake (e.g., 'SwsP...'); the shipped README states R 4.1.2 while the audit host uses R 4.6.1 (lme4 2.0.6 / lmerTest 3.2.1). No numeric reproduction was affected (all coefficients reproduced at 3 dp).",
+      "why_it_matters": "Hygiene / forward-compat caution; does not change results.",
+      "fix_from_author": "Ship data with clean/re-coded labels; pin package versions (renv.lock) alongside the RData."
+    }
+  ],
+  "severity_counts": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 1,
+    "P3": 5
+  }
+}

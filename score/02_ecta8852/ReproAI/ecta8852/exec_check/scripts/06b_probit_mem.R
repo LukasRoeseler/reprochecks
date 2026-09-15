@@ -1,0 +1,21 @@
+options(warn=-1)
+suppressMessages(library(dplyr))
+d <- read.csv("C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/SCORE ReproAI Checks/02_ecta8852/ReproAI/ecta8852/exec_check/output/master_behavior.csv")
+d$id <- paste(d$pref,d$rule,d$nsubj,d$rev,d$comm,sep="_")
+d <- d[!duplicated(d[,c("period","group","subj","id")]),]
+d <- d[!(d$pref=="hom"&d$rule==7&d$comm==1&d$nsubj==36),]
+d$red <- as.integer(d$action==1); d$redsample <- as.integer(d$sample==1)
+d$rule7 <- as.integer(d$rule==7); d$rule9 <- as.integer(d$rule==9)
+d <- arrange(d,id,subj,period) %>% group_by(id,subj) %>% mutate(pastwrongblue=lag(as.integer(groupdec==2&jar==1),default=0)) %>% ungroup()
+d <- group_by(d,id) %>% mutate(maxper=max(period),late=as.integer(period>=(maxper-4))) %>% ungroup()
+for (cm in c(0,1)) {
+  sub <- d[d$pref=="hom"&d$comm==cm,]
+  m <- glm(red~redsample+pastwrongblue+rule7+rule9+redsample:rule7+redsample:rule9+late+late:redsample+late:rule7+late:rule9+late:pastwrongblue,data=sub,family=binomial("probit"))
+  X <- model.matrix(m); b <- coef(m)
+  cat(sprintf("\n=== hom comm=%d MEM (at means) ===\n", cm))
+  for (k in 1:ncol(X)) {
+    Xp<-X;Xp[,k]<-X[,k]+0.5;Xm<-X;Xm[,k]<-X[,k]-0.5
+    cat(sprintf("%-18s MEM=%.3f\n", colnames(X)[k], pnorm(colMeans(Xp)%*%b)-pnorm(colMeans(Xm)%*%b)))
+  }
+  cat("paper redsample:", ifelse(cm==0,"0.814","0.504"), "rule7:", ifelse(cm==0,"0.271","-0.426"), "\n")
+}

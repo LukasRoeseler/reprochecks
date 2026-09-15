@@ -1,0 +1,23 @@
+{
+  "register": [
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "claim": "C21",
+      "title": "Figure 2 Spearman-rho caption vs text discrepancy (a-insensitivity index)",
+      "detail": "Text section 4.2 reports the a-insensitivity index Part-1-vs-Part-2 Spearman correlations as rho=0.73 (control) and rho=0.74 (TP); the Figure 2 panel captions report rho=0.77 (control) and rho=0.70 (TP). Both conditions disagree; the two sets of numbers cannot both be correct. Figure 2's control value (0.77) coincides with Figure 1 (b-index) control value, consistent with a copy-paste error in a panel caption.",
+      "impact": "Secondary/descriptive result (an index-retest correlation shown in a figure). Does not alter the headline inference (TP raises a-insensitivity, no effect on b).",
+      "evidence": "paper_extracted.txt lines 402-403 (text rho 0.73/0.74) vs line 428 (Figure 2 caption rho 0.77/0.70); contrast lines 375-376 & 395 (Figure 1 b rho 0.77/0.85, text and caption agree).",
+      "fix": "Authors should recompute and reconcile the two a-index Spearman rho values in the text and Figure 2 caption; confirm which value is correct from the raw data and correct the other."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P3",
+      "title": "No public replication package / raw data for a lab-experiment paper",
+      "detail": "No raw choice-level matching-probability data or analysis code is publicly available (no Zenodo es-replication repository entry for EOF04370; only the Supplement PDF is downloadable). Consequently 8 of 19 empirical claims (regression SE/t/Chi2, R2, Spearman, nonparametric tests, medians) cannot be independently reproduced.",
+      "impact": "Limits external verification of the statistical inference (though all internal cross-table means and denominators reproduce). Note: this 2018 paper predates Econometrica's compulsory data-editor replication policy (2019-2020); not an author error, but a reproducibility limitation.",
+      "evidence": "Zenodo API search 'ECTA14370' in community es-replication-repository = 0 hits; econometricsociety.org page exposes only Supplement PDF (no replication-data tab).",
+      "fix": "Retroactively archive the (anonymised) per-subject matching-probability data and cleaning/analysis code (e.g. in the ES Journals' Zenodo community) so the claims can be re-executed."
+    }
+  ]
+}

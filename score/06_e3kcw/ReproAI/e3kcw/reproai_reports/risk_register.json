@@ -1,0 +1,54 @@
+{
+  "package_doi": "10.31234/osf.io/e3kcw",
+  "notes": "Risk register of findings (ADV ids). Severity per REPRO_STANDARDS.md rubric (by impact on conclusions).",
+  "findings": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "Table 1 predictor columns are cyclically mislabeled",
+      "evidence": "Column headed 'Flow' contains the QUARANTINE-LENGTH betas (worry .10/.092, lonely .12/.114, unhealthy .08/.072); column 'Mindfulness' contains FLOW betas (posemo .17/.175, lonely -.15/-.157, healthy .19/.187); column 'Quarantine Length' contains MINDFULNESS betas. Full-results PDF (OSF vuwg3) labels these rows correctly, and independent R+Python recomputation from shipped data matches the PDF rows, not the Table-1 labels. Only the two interaction columns are correctly labelled.",
+      "why_it_matters": "A reader taking Table 1 literally would attribute quarantine-length's wellbeing effects to flow, and flow's to mindfulness; the printed main-effect statistics are under the wrong predictor names. Direction/prose and the headline FLOW x QUARANTINE moderation result are unaffected (that column is correct).",
+      "suggested_fix": "Re-label Table 1 columns to their true predictors (Quarantine Length, Flow, Mindfulness, Flow x Quarantine, Mindfulness x Quarantine); re-derive from the analysis file that produced the full-results PDF."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Sample sex composition contradicts shipped data",
+      "evidence": "Manuscript: '73% female'. Shipped data: sex==2 = 1394 (27.3%), sex==1 = 3721 (72.7%); full-results PDF footnote states 'a1=male, 2=female', i.e. the data are 72.7% MALE.",
+      "why_it_matters": "Demographic-sample description not reproducible; direction of the sex (Gender) covariate coefficients depends on coding and should be re-checked against the true male/female split.",
+      "suggested_fix": "Confirm true gender coding from the pre-de-identification data; correct the '% female' statement (and verify the sign interpretation of the Gender regression coefficients)."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P2",
+      "title": "Mindfulness descriptives not reproducible",
+      "evidence": "Manuscript: M=2.50, SD=.47 (12-item CAMS-R average). Shipped 'mindful' total: mean 24.994 -> average 2.083, SD .389. All other scales reproduce as averages; mindfulness does not.",
+      "why_it_matters": "A reported measure mean/SD is inconsistent with the shipped variable used in all analyses (alpha for mindfulness also not checkable, items not shipped). Does not change any regression conclusion.",
+      "suggested_fix": "Recompute mindfulness M/SD from the raw 12 CAMS-R items (incl. item-5 reversal) and reconcile with the shipped 'mindful' total; report the correct values."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Age descriptives approximate, not exact",
+      "evidence": "Manuscript M=21.36 SD=4.49 range 15-71; data M=21.60 SD=4.39 (listwise n=4969), min 15.55 max 70.90. Age stored as fractional values consistent with de-identification/date-derived years.",
+      "why_it_matters": "Minor; likely an artifact of the 'minus identifiers' release (146 age NAs).",
+      "suggested_fix": "State N/missing handling and compute age descriptives on the analytic sample; note de-identification rounding."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P2",
+      "title": "Prose/method says 'region' is controlled; model has no region term",
+      "evidence": "Results prose: 'We controlled for gender, age, education, region, sibling status, family income, ...'. Full-results PDF and Table-1 note list gender, age, education, sibling, income, optimism, IU, SWL - NO region term.",
+      "why_it_matters": "Misdescribed method; a reader expects a covariate that was not in the model. Region is near-constant (mode=3) so its absence barely changes estimates.",
+      "suggested_fix": "Either add region to the models or remove it from the prose description of covariates."
+    },
+    {
+      "id": "ADV-006",
+      "severity": "P3",
+      "title": "Analysis-sample/missing handling undocumented; exact standardized-betas not byte-identical",
+      "evidence": "Analysis implies listwise deletion of 146 age-NA cases (n=4969) yet the paper reports N=5115 throughout with no exclusion note. Reconstructed fully-standardized betas agree in sign and significance but not to 2dp in every cell (max |diff| ~0.015).",
+      "why_it_matters": "Documentation gap; exact numeric reproduction of every beta cell not achieved, though every inferential decision reproduces.",
+      "suggested_fix": "Document age NA handling and the exact standardization/centering convention used for the 'beta' coefficients."
+    }
+  ]
+}

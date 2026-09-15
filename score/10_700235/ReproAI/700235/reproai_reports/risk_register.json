@@ -1,0 +1,45 @@
+{
+  "doi": "10.1086/700235",
+  "short_title": "Democracy and the Class Struggle",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "risk_register": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "title": "No replication package: primary empirical results not independently reproducible",
+      "evidence": "Full-text search of paper_extracted.txt (1872 lines) for osf/dataverse/github/zenodo/'data and code'/'available at'/doi returned zero replication links. The article cites only a 'supplementary online appendix' (fn 12, p.678) but deposits no dataset (the disruptive-capacity index is described as an original compilation from Mitchell 2013/ILO/GGDC) and no analysis code. Consequently the headline long-run-multiplier panel coefficients (Tables 3 & 4), standard errors/CIs, sample N, descriptive statistics (Table 2), Figure 1 validation, and counterfactual magnitudes cannot be recomputed from any shipped artifact.",
+      "manuscript_ref": "Tables 3,4; Figure 1-4; fn 12; entire Results/Political Significance sections (paper pp. 688-695)",
+      "why_it_matters": "The article's stated principal contribution is 'a quantitative test of the social forces account' on an original cross-national, long-run dataset. Without the data/code, no reader or future auditor can verify or reuse the core result set. This is a primary-analysis-reproducibility gap (per REPRO_STANDARDS §9 P1: 'primary analysis code missing').",
+      "suggested_fix": "Deposit the full replication bundle (employment-structure dataset, all sourced covariates 1754-2013, Polity2 & V-Dem outcomes, estimation code, and the counterfactual/simulation scripts) on a citable archive (OSF/Dataverse/Zenodo) and add a data-availability statement + link to the paper."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "title": "Internal inconsistency: prose '42 points higher' vs Table 1 tabled '142'; ΔAverage column not interpretable on a 0-100 scale",
+      "evidence": "Prose (paper p.680): 'Where data on the number of union members are available, the average democracy score is 42 points higher (on a 0-100 scale) than the average score in all countries and years for which data exist.' Table 1 'ΔAverage Polity2' column (note: 'the difference between the sample Polity2 average and the Polity2 average for all sovereign countries in the modern period') lists 142 for all three union rows (union membership 2,581/2,426; per-capita 2,629; density 2,387), and all column values are 111-142, i.e. impossible for a 0-100 scale difference.",
+      "manuscript_ref": "Table 1 (paper p.679); prose p.680",
+      "why_it_matters": "Either the column is mislabeled (it looks like an 'Average Polity2' not a 'ΔAverage', but those values also exceed 100, so even that interpretation fails) or the prose figure (42) and the tabled value (142) cannot both be correct. Readers citing Table 1 as evidence of sample-bias magnitude would propagate an inconsistent number. A self-contradictory/impossible reported value per §9 = P2.",
+      "suggested_fix": "Recompute the availability-bias difference from the underlying Polity2 sample and reconcile the prose (42?) with the table (what 142 denotes) and with the column label; correct whichever is wrong.",
+      "verdict_note": "Unresolvable without the data; reported as a genuine inconsistency, not a transcription artifact (the 42-vs-142 gap is on the reversed-extraction-robust numbers)."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "title": "Prose 'only 60% of the coverage of disruptive capacity' is a rounding overstatement",
+      "evidence": "Table 1 N(Polity2): strikes per capita = 4,378; disruptive capacity = 7,610. 4,378/7,610 = 0.575, not 0.60.",
+      "manuscript_ref": "Table 1; prose p.680",
+      "why_it_matters": "Minor; the substantive point (strikes data cover substantially less) still holds. Cosmetic prose-vs-table mismatch.",
+      "suggested_fix": "Say 'roughly 58%' or 'about three-fifths' to match 4,378/7,610."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "title": "Exhibit hygiene: mirrored table text + bitmap figures limit machine-verifiability",
+      "evidence": "AJS 'track' PDF stores Tables 3/4 as mirrored right-to-left text (all_0xx/page_0xx dumps) and Figures 1-4 as embedded bitmaps with no extractable chart-data cache. Recovering exact CI endpoints/star values for negative (landlord) coefficients required manual reversal; figure values (0.91/0.24/0.08 SD, counterfactual trajectories) cannot be read programmatically.",
+      "manuscript_ref": "PDF tables 1,3,4; Figures 1-4",
+      "why_it_matters": "No effect on the paper's own conclusions; affects independent audits of the exhibit values. The Table 4 col1 disruptive pair [2.13,3.15] not containing its point estimate 1.406 in my transcription is a mirrored-PDF pairing artifact, not a paper error (see report).",
+      "suggested_fix": "N/A for the manuscript per se; resolved by ADV-001's deposition of tidy CSV tables + code."
+    }
+  ]
+}

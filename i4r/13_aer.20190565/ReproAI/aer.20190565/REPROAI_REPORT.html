@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: Vulnerability and Clientelism (AER 10.1257/aer.20190565)</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Vulnerability and Clientelism</em></h1>
+<p><strong>Engine:</strong> anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14
+<strong>Package audited:</strong> <code>10.1257/aer.20190565</code> — Gustavo J. Bobonis, Paul J. Gertler, Marco Gonzalez-Navarro, Simeon Nichter, "Vulnerability and Clientelism," <em>American Economic Review</em> 112(11): 3627–3659 (2022).
+<strong>Mode:</strong> <strong>static audit + independent closed-form arithmetic reimplementation.</strong> The replication package (ICPSR <code>10.3886/E173341V1</code>) and the AEA Supplemental Appendix are cited in and linked from the article, but are <strong>not retrievable in this audit environment</strong> — all landing pages returned HTTP 403 (ICPSR/AEA bot protection + institutional-login gating; no credentials or GUI browser automation available in this session). No regression could therefore be independently re-estimated from raw data; instead the audit re-derives every headline proportional claim, binary-SD identity, coefficient-sum, and sample/electoral bookkeeping item <strong>closed-form from the article's own reported numbers</strong> (50 Python checks + 27 independent R checks, 0 mismatches). All data-dependent point estimates are marked <strong>➖</strong>.
+<strong>Originals:</strong> untouched. <code>paper.pdf</code> / <code>paper_extracted.txt</code> read-only; all work in <code>exec_check/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead>
+<tr><th>Severity</th><th>Count</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>3</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>0</td></tr>
+<tr><td>P2 — medium</td><td>1</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>A high-quality, internally very consistent published AER paper whose headline arithmetic we can verify end-to-end, but whose regression point estimates we cannot yet independently re-estimate because the replication data/code are not obtainable in this environment.</strong> Every checkable number checks out: all 12 Table 1 binary-mean SDs exactly satisfy <em>σ</em> = √(<em>p</em>(1−<em>p</em>)); the headline effect sizes are exactly consistent with their stated %-of-control-mean claims (cisterns −3.0pp = 17% of 0.177; rainfall −2.3pp = 13%; cisterns −10.9pp among clientelist = 38% of 0.285); all Table 5 main+interaction coefficient sums reproduce the reported clientelist-subgroup effects; the voting-machine bookkeeping (260 valid + 19 blank/null + 59 abstain = 338; incumbent 118/260 = 45%; challenger 142/260 = 55%) is arithmetically exact; and the randomization counts (615+693 = 1,308 households; 189+236 = 425 clusters) are consistent. No P0/P1 defect was found. The single substantive caveat (ADV-001, P2) is a <em>verification gap, not an author error</em>: because ICPSR <code>10.3886/E173341V1</code> returned HTTP 403, Tables 2–5 regression coefficients, clustered SEs, and wild-cluster-bootstrap <em>p</em>-values could not be re-derived and are marked ➖. Two trivial findings remain: an imprecise effect-size label ("about 0.08 SD" vs the recomputable 0.073 for rainfall→self-reported health; ADV-003) and an extraction-level ambiguity in two secondary Table 3 cells (ADV-002).</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (closed-form arithmetic, replaces unavailable live execution)</h2>
+<p>Console log: <code>exec_check/_reproai_console.log</code> (<code>==== START/END (status: OK) ====</code> markers). Replication-data regressions could not be run (data unobtainable, HTTP 403); the two scripts below re-derive the arithmetic of the article's own reported numbers in two independent languages (Python 3.8.10, R 4.6.1).</p>
+<table>
+<thead>
+<tr><th>Script</th><th>Re-implements / verifies</th><th>Manuscript exhibit / claim</th><th>Status</th></tr>
+</thead>
+<tbody>
+<tr><td><code>exec_check/01_internal_consistency.py</code></td><td>Closed-form arithmetic of Tables 1–5: binary-SD identities <em>σ</em>=√(<em>p</em>(1−<em>p</em>)), %-of-control-mean claims, β<sub>1</sub>+β<sub>2</sub> subgroup-effect sums, electoral &amp; randomization bookkeeping</td><td>Tables 1–5; headline claims C-01…C-06, C-13…C-17 (see <code>manuscript_claims.md</code>)</td><td>50/50 OK</td></tr>
+<tr><td><code>exec_check/02_r_crosscheck.R</code></td><td>Independent re-derivation (R) of the headline proportions, SD conversions, and counts</td><td>Cross-check of the Python results</td><td>27/27 OK</td></tr>
+<tr><td><em>(not run)</em> — Tables 2/3/4/5 regressions from ICPSR <code>10.3886/E173341V1</code></td><td>Re-estimate everything with the deposited Stata/R code against deposited data</td><td>All Tables 2–5 point estimates + clustered/bootstrap SEs</td><td>➖ (data not obtainable)</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory (60 claims, C-01…C-60): <code>exec_check/manuscript_claims.md</code>.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision (or exact closed-form arithmetic) · ≈ close/methodologically explicable · ⚠ discrepant · ➖ not independently checkable (reason given).</p>
+<h3>Table 1 — descriptive means and binary-SD identity (σ = √p(1−p))</h3>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity (Table 1 col 1)</th><th>Manuscript mean (SD)</th><th>Reimputed SD</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-08</td><td>Request private good 2012</td><td>0.213 (0.409)</td><td>0.4094</td><td>✅</td></tr>
+<tr><td>C-09</td><td>Request private good 2013</td><td>0.086 (0.280)</td><td>0.2804</td><td>✅</td></tr>
+<tr><td>—</td><td>Request and receive 2012</td><td>0.124 (0.330)</td><td>0.3296</td><td>✅</td></tr>
+<tr><td>—</td><td>Request and receive 2013</td><td>0.039 (0.193)</td><td>0.1936</td><td>✅</td></tr>
+<tr><td>C-13</td><td>Frequent interactions w/ politician</td><td>0.184 (0.387)</td><td>0.3875</td><td>✅</td></tr>
+<tr><td>C-14</td><td>Visit from mayoral-candidate rep</td><td>0.696 (0.460)</td><td>0.4600</td><td>✅</td></tr>
+<tr><td>C-15</td><td>Voted same coalition</td><td>0.718 (0.450)</td><td>0.4500</td><td>✅</td></tr>
+<tr><td>C-16</td><td>All household same mayoral candidate</td><td>0.773 (0.419)</td><td>0.4190</td><td>✅</td></tr>
+<tr><td>—</td><td>Any declared support</td><td>0.485 (0.500)</td><td>0.4998</td><td>✅</td></tr>
+<tr><td>—</td><td>Declared support on body</td><td>0.185 (0.388)</td><td>0.3883</td><td>✅</td></tr>
+<tr><td>—</td><td>Declared support on house</td><td>0.387 (0.487)</td><td>0.4871</td><td>✅</td></tr>
+<tr><td>—</td><td>Declared support at rally</td><td>0.218 (0.413)</td><td>0.4129</td><td>✅</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity (Table 1 prose ↔ regression cell)</th><th>Manuscript</th><th>Reimputation</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-17</td><td>1-SD rain decline → declarations +6.6pp</td><td>6.6 pp</td><td>0.066 (cell)</td><td>✅</td></tr>
+<tr><td>C-11</td><td>1-SD rain decline → requests +3.6pp (2012), ~0 (2013)</td><td>3.6 pp</td><td>0.036 (cell), 0.003 (2013)</td><td>✅ size; sign from lossy extraction ➖ (prose direction consistent with Table 3)</td></tr>
+</tbody>
+</table>
+<p><em>Note on Table 1 regression-cell signs:</em> the PDF→text conversion drops some minus signs, so individual cell <em>signs</em> are not trustworthy from this extraction; the article's prose ("droughts increase requests/declarations") is directionally consistent with Table 3's negative rainfall coefficients. Cell magnitudes carry the prose values exactly.</p>
+<h3>Table 2 — well-being: coefficient ÷ control-SD = stated SD effect</h3>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity</th><th>Manuscript</th><th>Reimputed</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-35</td><td>Cisterns CES-D 0.092 / 0.646</td><td>"0.09 units, 0.14 SD"</td><td>0.1424</td><td>✅</td></tr>
+<tr><td>C-36</td><td>Cisterns SRHS 0.075 / 0.535</td><td>"0.08 units, 0.14 SD"</td><td>0.1402</td><td>✅</td></tr>
+<tr><td>C-37</td><td>Cisterns child food 0.084</td><td>"0.08 units"</td><td>0.084</td><td>✅ size (significance ➖, need data)</td></tr>
+<tr><td>C-38</td><td>Cisterns overall index 0.126</td><td>"0.13 SD, 1%"</td><td>KLK-standardized index makes 0.126 ≈ 0.13 SD internally plausible</td><td>✅/➖</td></tr>
+<tr><td>C-39</td><td>Rain CES-D 0.046 / 0.646</td><td>"0.05 units, ~0.07 SD"</td><td>0.0712</td><td>✅</td></tr>
+<tr><td>C-40</td><td>Rain SRHS 0.039 / 0.535</td><td>"0.04 units, about 0.08 SD"</td><td>0.0729 (<em>≈0.07</em>)</td><td>⚠ ADV-003</td></tr>
+<tr><td>C-41</td><td>Rain child food 0.046 / 0.990</td><td>"0.05 units, ~0.05 SD"</td><td>0.0465</td><td>✅</td></tr>
+<tr><td>C-42</td><td>Rain overall index 0.064</td><td>"0.06 SD, 1%"</td><td>0.064</td><td>✅/➖</td></tr>
+<tr><td>C-43</td><td>Rain expenditure 24.736 = 13.33+11.54</td><td>"R$24.74 ≈ 7%"; split food R$13.33 / other R$11.54</td><td>24.87 ≈ total; 24.736/370.877 = 6.7% ≈ 7%</td><td>✅/≈</td></tr>
+</tbody>
+</table>
+<h3>Table 3 — citizen requests: effect ÷ control mean = stated %</h3>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity</th><th>Manuscript</th><th>Reimputed</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-01</td><td>Cisterns −3.0pp = 17% of control mean (0.177)</td><td>−0.030, 17%</td><td>0.030/0.177 = 0.169</td><td>✅</td></tr>
+<tr><td>C-02</td><td>Rain −2.3pp = 13% of control mean (0.177)</td><td>−0.023, 13%</td><td>0.023/0.177 = 0.130</td><td>✅</td></tr>
+<tr><td>C-45</td><td>Cisterns year-specific ≈3pp both years; homogeneity <em>p</em>=0.91</td><td>−0.029 / −0.031; <em>p</em>=0.910</td><td>mean ≈ 0.030</td><td>✅</td></tr>
+<tr><td>C-46</td><td>Rain 2012 (−0.042) vs 2013 (−0.004); homogeneity <em>p</em>=0.011</td><td>"0.042 vs 0.004"; <em>p</em>=0.011</td><td>—</td><td>✅ (prose↔table)</td></tr>
+<tr><td>C-48</td><td>Public-good requests control mean = 2.7%</td><td>"only 2.7 percent"</td><td>0.027</td><td>✅</td></tr>
+<tr><td>C-44/47</td><td>Cols 3–4 (joint + interaction) and col 7 (non-water) point estimates</td><td>"stable"/"robust, mechanically smaller"</td><td>cells not cleanly readable from lossy extraction</td><td>➖ ADV-002</td></tr>
+</tbody>
+</table>
+<h3>Table 4 — electoral outcomes (voting-machine level)</h3>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity</th><th>Manuscript</th><th>Reimputation / check</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-05</td><td>1 treated → −0.101 incumbent votes (21-municipality sample), bootstrap <em>p</em>=0.041</td><td>"0.10 fewer votes, <em>p</em>=0.04"</td><td>prose ↔ table cell</td><td>✅ (regression itself ➖, no data)</td></tr>
+<tr><td>C-06</td><td>Expanded: −0.076</td><td>"0.08 fewer votes, <em>p</em>=0.09"</td><td>0.076 ≈ 0.08</td><td>✅</td></tr>
+<tr><td>—</td><td>Challenger +0.098</td><td>"increase by 0.10, <em>p</em>=0.09"</td><td>0.098 ≈ 0.10</td><td>✅</td></tr>
+<tr><td>C-28</td><td>Machines/location (main): 909/190</td><td>"mean 4.8"</td><td>4.784</td><td>✅</td></tr>
+<tr><td>C-29</td><td>Machines/location (expanded): 1641/369</td><td>—</td><td>4.447</td><td>✅</td></tr>
+<tr><td>C-30</td><td>Registered 338 = 260 valid + 19 blank/null + 59 abstain</td><td>338 / 260 / 19 / 59</td><td>sum = 338</td><td>✅</td></tr>
+<tr><td>C-30</td><td>Incumbent 118 (45%), challenger 142 (55%)</td><td>45% / 55%</td><td>118/260 = 45.4%; 142/260 = 54.6%</td><td>✅ (118+142=260)</td></tr>
+</tbody>
+</table>
+<h3>Table 5 — heterogeneity by clientelist-relationship marker</h3>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity</th><th>Manuscript</th><th>Reimputed</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-03</td><td>Cisterns effect for clientelist = β1+β2 (col 1)</td><td>−0.109</td><td>−0.012 + −0.097 = −0.109</td><td>✅</td></tr>
+<tr><td>C-03</td><td>"38% reduction": −0.109 / 0.285</td><td>38%</td><td>0.382</td><td>✅</td></tr>
+<tr><td>C-04</td><td>Rain: clientelist β3+β4 vs non-clientelist β3</td><td>3.5 pp vs 2.0 pp</td><td>0.020+0.014=0.035 vs 0.020</td><td>✅</td></tr>
+<tr><td>C-53</td><td>Fulfilled requests (col 5): cisterns −0.062; rain +0.027</td><td>"6.2pp" / "2.7pp"</td><td>cells 0.062 / 0.027 match prose</td><td>✅</td></tr>
+<tr><td>C-54</td><td>Electoral heterogeneity: treated×marker −0.27 (10%) vs −0.05 (ns)</td><td>—</td><td>online appendix Table A8</td><td>➖ (appendix not obtainable)</td></tr>
+</tbody>
+</table>
+<h3>Samples / administration (closed-form)</h3>
+<table>
+<thead>
+<tr><th>Claim ID</th><th>Quantity</th><th>Manuscript</th><th>Reimputed</th><th>Verdict</th></tr>
+</thead>
+<tbody>
+<tr><td>C-22</td><td>1,308 households = 615 treatment + 693 control</td><td>615 / 693 / 1308</td><td>sum = 1308</td><td>✅</td></tr>
+<tr><td>C-22</td><td>425 clusters = 189 treatment + 236 control</td><td>189 / 236 / 425</td><td>sum = 425</td><td>✅</td></tr>
+<tr><td>C-24</td><td>Wave2 2,680 + Wave3 1,944 individuals</td><td>2,680 / 1,944</td><td>sum = 4,624 (analysis N 4,288, Table 3, is the post-exclusion sample)</td><td>✅/≈</td></tr>
+<tr><td>C-25/26</td><td>Compliance / attrition / baseline-balance numerics</td><td>(see text)</td><td>online appendix Tables A1–A2</td><td>➖ (appendix not obtainable)</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Findings (for the authors / for the audit trail)</h2>
+<h3>P0 — blocker</h3>
+<p>None. No impossible, self-falsifying, or wrong primary value was found in the main text.</p>
+<h3>P1 — high</h3>
+<p>None. (No primary statistic could be <em>contradicted</em>; see ADV-001 for the non-reproduced-by-access gap, which blocks independent re-estimation but does not indicate any error.)</p>
+<h3>P2 — medium</h3>
+<p><strong>ADV-001 — Replication data/code not retrievable in the audit environment; primary regressions unverified (➖), not an author defect.</strong>
+The article is a model of open-science practice — it deposits replication data and code at ICPSR (<code>10.3886/E173341V1</code>) and links a Supplemental Appendix and disclosure statements from the AEA page — and the deposit is referenced in the References and on the article page. However, every retrieval attempt in this session (<code>https://doi.org/10.3886/E173341V1</code>, the openICPSR project view, and AEA openICPSR/supplemental endpoints) returned <strong>HTTP 403 Forbidden</strong>. As a result, none of the Tables 2–5 regression coefficients, clustered standard errors, or wild-cluster-bootstrap <em>p</em>-values could be independently re-estimated, and every such cell is marked ➖. This is a <em>verification gap driven by this environment's access</em>, not evidence of any defect. Internal-consistency (all arithmetic above) is high, so there is no red flag to chase beyond a routine re-run.
+<em>Fix (audit next step):</em> acquire the ICPSR deposit via institutional/library login or by direct author request; pin the environment (Stata/R versions, packages); run the deposited code end-to-end in a clean session against the deposited data; diff regenerated Tables 2–5 against the manuscript; and independently recompute the headline requests and voting regressions in a second language (§6/§5 of the standards).</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-002 — Two secondary Table 3 cells (cols 7–8: non-water and public-good requests) are not cell-level verifiable from the main-text extraction.</strong>
+The PDF→text conversion loses column alignment in Table 3, so the specific pooled point estimates for the non-water (col 7) and public-good (col 8) regressions cannot be read unambiguously; only the prose claims ("robust…, mechanically smaller"; "2.7% of control" — verified as 0.027) hold. Purely a verification/documentation ambiguity, no conclusion impact.
+<em>Fix:</em> confirm those cells against the typeset PDF and the deposited replication output; ensure they are printed in the appendix if not already.</p>
+<p><strong>ADV-003 — Minor imprecise effect-size label: rainfall→self-reported health stated as "about 0.08 SD," recomputable as ~0.07.</strong>
+Table 2 panel B col 2: coefficient 0.039, control-group SD 0.535 ⇒ 0.039/0.535 = 0.0729, which standard-rounds to 0.07. The adjacent labels (CES-D 0.14/0.07, child-food 0.05, overall 0.06/0.13) are all correct, so this is an isolated cosmetic overstatement with no bearing on any conclusion.
+<em>Fix:</em> restate as "about 0.07 standard deviations," or quote the unrounded ratio.</p>
+<hr />
+<h2>What this package already does right (honest positives)</h2>
+<ul>
+<li><strong>Genre-leading transparency design:</strong> AER RCT-registration (AEARCTR-0000561), IRB protocols, funding disclosures, author disclosure statement, and an ICPSR replication deposit are all publicly referenced — a best-practice baseline.</li>
+<li><strong>Exceptionally high internal consistency:</strong> 50 Python + 27 R closed-form checks of the article's own numbers: 0 mismatches. Every headline proportional claim (17%, 13%, 38%), every binary SD, every main+interaction coefficient sum, and every electoral/randomization count is arithmetically exact.</li>
+<li><strong>Clean, self-consistent table notes</strong> that state clustering level, ITT convention, rainfall-shock standardization, and the KLK index construction — exactly the metadata a re-implementer needs.</li>
+<li>Only one (cosmetic, prose-only) effect-size label issue (ADV-003) and one extraction-level ambiguity (ADV-002) among all claims checked.</li>
+</ul>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No data-driven regression re-estimation.</strong> The ICPSR replication package (<code>10.3886/E173341V1</code>) and the AEA Supplemental Appendix were not retrievable from this environment (HTTP 403). All Tables 2–5 point estimates, clustered SEs, and wild-cluster-bootstrap <em>p</em>-values remain ➖-unverified. The internal-consistency checks above validate the paper's <em>internal</em> arithmetic, not that the underlying data produce those numbers. Genuine re-implementation requires the deposit.</li>
+<li><strong>Online-appendix tables not audited:</strong> Tables A1–A10 (compliance, balance, homogeneous-effects, politician-response, beliefs, preferences, electoral heterogeneity) and Figures A1–A2 were not checkable; many Section VII claims (C-56…C-60) rest there.</li>
+<li><strong>Rainfall-shock construction</strong> and the rescaled voting-machine regressors (online App. D) could not be validated against the underlying CHIRPS rainfall and TSE data.</li>
+<li><strong>Consistency ≠ correctness:</strong> all effects may be internally consistent yet depend on undocumented data choices; only a live run of the deposit could settle that.</li>
+<li>Background/cited descriptive numbers (climate, health-expenditure ratios, population figures) were treated as cited context, not independently recomputed.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead>
+<tr><th>Path</th><th>Contents</th></tr>
+</thead>
+<tbody>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report (house style).</td></tr>
+<tr><td><code>manuscript_claims.md</code></td><td>60-claim inventory (C-01…C-60) with status and basis for each.</td></tr>
+<tr><td><code>ENVIRONMENT.md</code></td><td>Provenance/environment note; documents the HTTP-403 data-access limitation.</td></tr>
+<tr><td><code>exec_check/01_internal_consistency.py</code></td><td>50-check closed-form arithmetic audit (Tables 1–5, samples, electoral bookkeeping).</td></tr>
+<tr><td><code>exec_check/02_r_crosscheck.R</code></td><td>27-check independent R re-derivation (second language).</td></tr>
+<tr><td><code>exec_check/output/internal_consistency.json</code></td><td>Machine-readable per-check results (50 rows).</td></tr>
+<tr><td><code>exec_check/output/r_crosscheck.csv</code></td><td>R cross-check results (27 rows).</td></tr>
+<tr><td><code>exec_check/_reproai_console.log</code></td><td>Annotated console log with <code>==== START/END (status: OK) ====</code> markers.</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Pipeline/data/reimplementation description + access limitation.</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-003 with severities and evidence.</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation steps (incl. the unblocked path once the deposit is obtained).</td></tr>
+<tr><td><em>Untouched reference</em> <code>paper.pdf</code> / <code>paper_extracted.txt</code></td><td>Original article files, never modified (in <code>13_aer.20190565/</code>).</td></tr>
+</tbody>
+</table>
+</body>
+</html>

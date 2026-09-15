@@ -1,0 +1,58 @@
+{
+  "report_meta": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules_version": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "package": "s10683-011-9295-3"
+  },
+  "advisory_plan": [
+    {
+      "id": "ADV-000",
+      "severity": "P1",
+      "action": "Authors: deposit anonymized per-pair data and z-Tree/.do analysis code (OSF/Zenodo) and cite it in the article, enabling third-party reproduction of Tables 2-3 and ESM B.",
+      "owner": "authors",
+      "verification": "Third-party rerun of WLS/quantile regressions and Wilcoxon from raw data, diffed against Table 2/3 and ESM B."
+    },
+    {
+      "id": "ADV-001",
+      "severity": "P2",
+      "action": "Correct the in-text p-value for W=1.120 (md>=mr & pd<=pr Accountability) from 0.904 to ~0.263, or report the exact signed-rank p.",
+      "owner": "authors",
+      "verification": "Recompute p = 0.2627 for W=1.120 (two-tailed normal approx) — done in R and Python; conclusion unchanged."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "action": "Reconcile zero-giver counts: state exact per-treatment counts of s=0 (and 0.01/0.02) so that Table 1 shares, the 'positive transfers ~90%' prose, footnote 19, and ESM Appendix B agree (7 vs 8).",
+      "owner": "authors",
+      "verification": "Sum per-treatment s=0 counts = stated total; recompute 'positive-transfer' share."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "action": "Confirm pooled (s-xa)/(-xl) means are computed from full-precision cell data; add a rounding note if so.",
+      "owner": "authors",
+      "verification": "Recompute pooled means from raw cell data; expect -0.13/-0.11."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "action": "Document the pooled regression specification (12 params -> df2=60) and either correct or caveat the '<0.0020' pooled bound (qnt-lib F p=0.0022).",
+      "owner": "authors",
+      "verification": "Specify the pooled model; recompute each pooled F df and p."
+    },
+    {
+      "id": "ADV-005",
+      "severity": "P3",
+      "action": "Recompute the exact two-sample KS p for D=0.33, n1=n2=24 from raw offers; document the software.",
+      "owner": "authors",
+      "verification": "Exact (non-asymptotic) KS p matches the printed 0.089."
+    }
+  ],
+  "auditor_next_steps_if_data_released": [
+    "Re-run Table 2 WLS robust and bootstrapped quantile regressions from raw data (R quantreg / sandwich vs author output).",
+    "Re-run all Table 3 Wilcoxon signed-rank statistics and the subgroup classifications.",
+    "Re-run ESM B hurdle (probit + Papke-Wooldridge) and M-estimators.",
+    "Recompute exact KS p and all Table 1 SDs from raw per-subject values."
+  ]
+}

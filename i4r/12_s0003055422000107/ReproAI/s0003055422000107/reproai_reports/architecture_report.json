@@ -1,0 +1,59 @@
+{
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "paper": {
+    "doi": "10.1017/S0003055422000107",
+    "title": "When Do Männerparteien Elect Women? Radical Right Populist Parties and Strategic Descriptive Representation",
+    "authors": ["Ana Catalano Weeks", "Bonnie M. Meguid", "Miki Caul Kittilson", "Hilde Coffé"],
+    "journal": "American Political Science Review",
+    "volume_pages": "117(2): 421-438",
+    "year": 2023,
+    "type": "empirical cross-national time-series cross-section (TSCS) multilevel analysis"
+  },
+  "mode": "static audit + live R reimplementation (author's code spec) + independent Python second-language recompute",
+  "replication_source": {
+    "statement": "Data Availability Statement in paper (p.436) points to Harvard Dataverse",
+    "doi": "10.7910/DVN/SG55BJ",
+    "package_files": [
+      "replication/Replication_code.R",
+      "replication/Replication_data.RData",
+      "replication/Readme.docx"
+    ],
+    "local_status": "package present in working dir; author's R script uses REML=FALSE (ML), lme4+lmerTest"
+  },
+  "environment": {
+    "R": "4.6.1 (2026-06-24 ucrt)",
+    "lme4": "2.0.6",
+    "lmerTest": "3.2.1",
+    "python": "3.8.10",
+    "statsmodels": "0.14.1",
+    "pandas": "2.0.3",
+    "platform": "win32 / Windows 11 x64",
+    "author_reported_r": "4.1.2 (2021-11-01)"
+  },
+  "data_pipeline": {
+    "raw": "Replication_data.RData (newd: 2961 rows, 20 cols, 8 party families; RRP sample newd2 = 199 rows)",
+    "analysis_sample_t1": "RRP complete cases, N=58, 22 parties, 19 countries",
+    "analysis_sample_t2": "all parties complete cases, N=632/632/632/622/613 over models 1-5, 175-180 parties",
+    "analysis_sample_t3": "family-level N=102/72/110/81/125",
+    "outcome": "pfem_new2 (% women MPs, lower chamber)",
+    "key_predictors": "lag1_mfcombined10 (M/F voter ratio t-1), chgvotelagged (vote share change t-1), interaction",
+    "estimator": "multilevel linear model, two random intercepts (party, country), REML=FALSE (ML), lmerTest"
+  },
+  "reimplementation": [
+    {"script": "exec_check/R/00_inspect.R", "reimplements": "data structure / sample definition", "status": "OK"},
+    {"script": "exec_check/R/01_replicate_tables.R", "reimplements": "Tables 1 and 2 (RRP and all-parties models)", "status": "OK - all coefs/SEs/N reproduce"},
+    {"script": "exec_check/R/02_replicate_table3.R", "reimplements": "Table 3 (by party family)", "status": "OK - all coefs/SEs/N reproduce"},
+    {"script": "exec_check/R/03_verify_claims.R", "reimplements": "N, cluster counts, interaction p-values, Table 3 N", "status": "OK"},
+    {"script": "exec_check/R/05_predvals.R", "reimplements": "in-text predicted %women at M/F=2, VC +/-5", "status": "approximately reproduced"},
+    {"script": "exec_check/R/07_svp_residual.R", "reimplements": "PVV/SVP residuals and abstract sample reconciliation", "status": "OK (residuals 4.79/1.39, SD 8.28)"},
+    {"script": "exec_check/R/09_python_crosscheck.py", "reimplements": "Table 1 Model 5 in statsmodels MixedLM (ML)", "status": "WARNING - different local optimum (interaction -0.555 vs -0.868)"}
+  ],
+  "headline_result": {
+    "model": "Table 1 Model 5 (full RRP model)",
+    "interaction": "M/F ratio x Vote change = -0.868 (SE 0.317, t=-2.742, p=0.0082)",
+    "reproduced": true,
+    "note": "negative & significant => male-dominated + electorally struggling RRP parties elect more women; matches paper exactly"
+  }
+}

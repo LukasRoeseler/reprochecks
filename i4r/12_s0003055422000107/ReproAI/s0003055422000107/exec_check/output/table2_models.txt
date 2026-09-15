@@ -1,0 +1,188 @@
+==== START (status: OK) ====
+
+############ out1 ############
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: pfem_new2 ~ lag1_mfcombined10 + chgvotelagged + (1 | party) +      (1 | country)
+   Data: dat
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+   5171.1    5197.8   -2579.6    5159.1       626 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7487 -0.4740 -0.0187  0.4809  5.7705 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ party    (Intercept) 109.7    10.474  
+ country  (Intercept)  59.2     7.694  
+ Residual             137.3    11.718  
+Number of obs: 632, groups:  party, 180; country, 30
+
+Fixed effects:
+                  Estimate Std. Error       df t value Pr(>|t|)    
+(Intercept)        27.3464     1.9652  46.0520  13.915   <2e-16 ***
+lag1_mfcombined10  -0.7129     0.7498 434.6863  -0.951   0.3422    
+chgvotelagged      -0.1652     0.0892 522.4888  -1.852   0.0645 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) lg1_10
+lg1_mfcmb10 -0.449       
+chgvotelggd -0.002 -0.002
+
+############ out2 ############
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: pfem_new2 ~ lag1_mfcombined10 + chgvotelagged + lag1_mfcombined10:chgvotelagged +      (1 | party) + (1 | country)
+   Data: dat
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+   5173.0    5204.1   -2579.5    5159.0       625 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7471 -0.4696 -0.0141  0.4820  5.7673 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ party    (Intercept) 109.27   10.453  
+ country  (Intercept)  59.85    7.736  
+ Residual             137.32   11.718  
+Number of obs: 632, groups:  party, 180; country, 30
+
+Fixed effects:
+                                 Estimate Std. Error        df t value Pr(>|t|)    
+(Intercept)                      27.36910    1.97149  45.88896  13.882   <2e-16 ***
+lag1_mfcombined10                -0.74259    0.75346 427.79191  -0.986    0.325    
+chgvotelagged                    -0.04764    0.31363 575.80939  -0.152    0.879    
+lag1_mfcombined10:chgvotelagged  -0.11584    0.29629 583.13380  -0.391    0.696    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) lg1_10 chgvtl
+lg1_mfcmb10 -0.449              
+chgvotelggd  0.036 -0.100       
+lg1_mfcm10: -0.038  0.104 -0.959
+
+############ out3 ############
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: pfem_new2 ~ lag1_mfcombined10 + chgvotelagged + lag1_mfcombined10:chgvotelagged +      year + (1 | party) + (1 | country)
+   Data: dat
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+   5122.9    5158.5   -2553.4    5106.9       624 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7578 -0.4415 -0.0236  0.4229  5.8775 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ party    (Intercept) 103.73   10.185  
+ country  (Intercept)  58.57    7.653  
+ Residual             125.34   11.195  
+Number of obs: 632, groups:  party, 180; country, 30
+
+Fixed effects:
+                                  Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)                     -994.81178  138.62533  552.47541  -7.176 2.32e-12 ***
+lag1_mfcombined10                 -0.79525    0.72550  428.50807  -1.096    0.274    
+chgvotelagged                      0.05610    0.30058  575.76731   0.187    0.852    
+year                               0.50903    0.06903  552.06742   7.374 6.09e-13 ***
+lag1_mfcombined10:chgvotelagged   -0.15983    0.28376  582.48687  -0.563    0.573    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) lg1_10 chgvtl year  
+lg1_mfcmb10  0.006                     
+chgvotelggd -0.046 -0.101              
+year        -1.000 -0.012  0.047       
+lg1_mfcm10:  0.020  0.105 -0.959 -0.021
+optimizer (nloptwrap) convergence code: 0 (OK)
+Model failed to converge with max|grad| = 0.00733597 (tol = 0.002, component 1)
+  See ?lme4::convergence and ?lme4::troubleshooting.
+
+
+############ out4 ############
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: pfem_new2 ~ lag1_mfcombined10 + chgvotelagged + lag1_mfcombined10:chgvotelagged +      year + femaleleader2_lag + cabinet_party2_lag + (1 | party) +      (1 | country)
+   Data: dat
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+   4995.9    5040.2   -2487.9    4975.9       612 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.0462 -0.4455 -0.0213  0.4528  6.1519 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ party    (Intercept) 109.3    10.453  
+ country  (Intercept)  57.6     7.589  
+ Residual             112.0    10.583  
+Number of obs: 622, groups:  party, 177; country, 30
+
+Fixed effects:
+                                  Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)                     -947.52542  134.30206  536.96487  -7.055 5.34e-12 ***
+lag1_mfcombined10                 -0.53311    0.71538  407.93381  -0.745    0.457    
+chgvotelagged                      0.06878    0.29094  558.40445   0.236    0.813    
+year                               0.48532    0.06690  536.67182   7.255 1.42e-12 ***
+femaleleader2_lag                  0.83307    1.53745  602.05957   0.542    0.588    
+cabinet_party2_lag                -0.48739    1.09403  562.78569  -0.445    0.656    
+lag1_mfcombined10:chgvotelagged   -0.15885    0.27216  563.90651  -0.584    0.560    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) lg1_10 chgvtl year   fmll2_ cbn_2_
+lg1_mfcmb10  0.012                                   
+chgvotelggd -0.049 -0.115                            
+year        -1.000 -0.019  0.051                     
+femlldr2_lg  0.168  0.058 -0.002 -0.170              
+cbnt_prty2_  0.003  0.073 -0.165 -0.006 -0.019       
+lg1_mfcm10:  0.022  0.114 -0.957 -0.023 -0.004  0.100
+
+############ out5 ############
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: pfem_new2 ~ lag1_mfcombined10 + chgvotelagged + lag1_mfcombined10:chgvotelagged +      year + femaleleader2_lag + cabinet_party2_lag + lag1womenpar +      tier1_avemag2 + as.factor(prop2) + natquota + weurope + (1 |  
+    party) + (1 | country)
+   Data: dat
+
+      AIC       BIC    logLik -2*log(L)  df.resid 
+   4866.4    4937.1   -2417.2    4834.4       597 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.3074 -0.4464  0.0040  0.4344  6.3049 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ party    (Intercept) 100.4    10.02   
+ country  (Intercept)   0.0     0.00   
+ Residual             106.1    10.30   
+Number of obs: 613, groups:  party, 175; country, 29
+
+Fixed effects:
+                                  Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)                     -21.397026 184.543007 607.134875  -0.116   0.9077    
+lag1_mfcombined10                -0.586425   0.676698 427.106810  -0.867   0.3866    
+chgvotelagged                     0.302317   0.284379 560.397388   1.063   0.2882    
+year                              0.013555   0.091914 607.236464   0.147   0.8828    
+femaleleader2_lag                 0.830836   1.494685 601.547902   0.556   0.5785    
+cabinet_party2_lag               -0.406875   1.062269 563.565789  -0.383   0.7018    
+lag1womenpar                      0.699034   0.087387 418.346190   7.999 1.24e-14 ***
+tier1_avemag2                    -0.009737   0.022586 142.946219  -0.431   0.6670    
+as.factor(prop2)2                 1.334462   6.199183 175.713645   0.215   0.8298    
+as.factor(prop2)3                 2.936637   5.672362 151.959767   0.518   0.6054    
+natquota                          2.905686   1.636436 607.137295   1.776   0.0763 .  
+weurope                           2.085139   2.451684 218.875787   0.850   0.3960    
+lag1_mfcombined10:chgvotelagged  -0.347500   0.265788 564.885039  -1.307   0.1916    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+optimizer (nloptwrap) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+

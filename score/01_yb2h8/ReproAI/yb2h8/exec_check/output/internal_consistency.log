@@ -1,0 +1,72 @@
+==== SECTION 0: N ARITHMETIC ====
+2072 - 19 = 2053 (reported 2053) => OK
+1555+480+18 = 2053 (reported 2053) => OK
+high+low = 2035 (=2035 after excluding 18 'other') => OK
+train+test = 2035 (reported 2035) => OK
+test set = 407 is 20.000% of 2035; 20% of 2035 = 407.0 => OK
+high+low = 2035; train high+low = 314+1314 = 1628; test = 79+328 = 407
+
+==== SECTION 1: ONE-SAMPLE t & d (section 3.1) ====
+Males: recomputed t=4.788 (reported 4.79), d=0.219 (reported 0.22), p=2.25e-06
+Females: recomputed t=18.236 (reported 18.21), d=0.462 (reported 0.46), p=1.76e-67
+Note: recomputation uses the sample's own rounded M and SD; small residual from rounding.
+
+==== SECTION 2: Table S2 item t-tests from reported means/SDs ====
+(compared against manuscript's reported t [pooled, df=2033] and Cohen's d)
+Item  1: rep t=27.950 calc t=15.263 (Welch=15.263) | rep d=-1.5700 calc d= 0.8571 | pooledSD=0.910
+Item  2: rep t=28.040 calc t=27.990 (Welch=31.671) | rep d=-1.5800 calc d= 1.5718 | pooledSD=0.948
+Item  3: rep t=29.480 calc t=29.353 (Welch=37.796) | rep d=-1.6600 calc d= 1.6484 | pooledSD=0.868
+Item  4: rep t=22.750 calc t=22.544 (Welch=21.701) | rep d=-1.2800 calc d= 1.2660 | pooledSD=0.790
+Item  5: rep t=19.820 calc t=19.715 (Welch=19.857) | rep d=-1.1100 calc d= 1.1071 | pooledSD=0.858
+Item  6: rep t=18.060 calc t=18.100 (Welch=18.524) | rep d=-1.0100 calc d= 1.0164 | pooledSD=1.072
+Item  7: rep t=18.710 calc t=18.595 (Welch=17.833) | rep d=-1.0500 calc d= 1.0442 | pooledSD=0.862
+Item  8: rep t=23.200 calc t=23.286 (Welch=25.756) | rep d=-1.3000 calc d= 1.3077 | pooledSD=0.895
+Item  9: rep t=23.958 calc t=24.086 (Welch=26.301) | rep d=-1.3450 calc d= 1.3526 | pooledSD=0.946
+Item 10: rep t=33.972 calc t=33.996 (Welch=34.463) | rep d=-1.9080 calc d= 1.9091 | pooledSD=0.906
+
+t-consistency (delta<=0.20): 8 / 10
+d-consistency (delta<=0.05): 0 / 10
+==== SECTION 3: reported t <-> reported d relation ====
+sqrt(n1*n2/(n1+n2)) = 17.8074
+Item  1: t=27.950 vs t-from-d= 1.570 | d=-1.5700 vs d-from-t= 1.5696  CHECK
+Item  2: t=28.040 vs t-from-d= 1.575 | d=-1.5800 vs d-from-t= 1.5746  CHECK
+Item  3: t=29.480 vs t-from-d= 1.655 | d=-1.6600 vs d-from-t= 1.6555  CHECK
+Item  4: t=22.750 vs t-from-d= 1.278 | d=-1.2800 vs d-from-t= 1.2776  CHECK
+Item  5: t=19.820 vs t-from-d= 1.113 | d=-1.1100 vs d-from-t= 1.1130  CHECK
+Item  6: t=18.060 vs t-from-d= 1.014 | d=-1.0100 vs d-from-t= 1.0142  CHECK
+Item  7: t=18.710 vs t-from-d= 1.051 | d=-1.0500 vs d-from-t= 1.0507  CHECK
+Item  8: t=23.200 vs t-from-d= 1.303 | d=-1.3000 vs d-from-t= 1.3028  CHECK
+Item  9: t=23.958 vs t-from-d= 1.345 | d=-1.3450 vs d-from-t= 1.3454  CHECK
+Item 10: t=33.972 vs t-from-d= 1.908 | d=-1.9080 vs d-from-t= 1.9077  CHECK
+(d stored as negative = low-minus-high convention; compare magnitudes)
+
+==== SECTION 4: Table S1 correlation CI/p consistency ====
+Age                r=-0.26  CIcalc=( -0.30, -0.22) rep=( -0.30, -0.20)  pcalc=4.520e-33 rep=1.458e-33
+Gender(male)       r=-0.15  CIcalc=( -0.19, -0.11) rep=( -0.20, -0.11)  pcalc=8.430e-12 rep=3.462e-12
+Student            r= 0.19  CIcalc=(  0.15,  0.23) rep=(  0.15,  0.23)  pcalc=3.859e-18 rep=4.488e-18
+InternalLOC        r=-0.32  CIcalc=( -0.36, -0.28) rep=( -0.36, -0.28)  pcalc=4.221e-50 rep=1.548e-25
+BSCS GSD           r=-0.32  CIcalc=( -0.36, -0.28) rep=( -0.36, -0.28)  pcalc=4.221e-50 rep=2.647e-50
+BSCS IC            r=-0.36  CIcalc=( -0.40, -0.32) rep=( -0.39, -0.32)  pcalc=7.412e-64 rep=1.807e-50
+Agreeableness      r=-0.18  CIcalc=( -0.22, -0.14) rep=( -0.22, -0.13)  pcalc=2.068e-16 rep=1.450e-15
+Conscientiousness  r=-0.21  CIcalc=( -0.25, -0.17) rep=( -0.25, -0.16)  pcalc=6.795e-22 rep=6.103e-21
+EmotionalStability r=-0.47  CIcalc=( -0.50, -0.44) rep=( -0.51, -0.44)  pcalc=2.523e-113 rep=1.322e-114
+HOUSEhold          r= 0.13  CIcalc=(  0.09,  0.17) rep=(  0.09,  0.17)  pcalc=3.383e-09 rep=3.502e-09
+(CI/P recomputed assuming the correlation is vs PSS-10 on the full analytic N=2053)
+
+==== SECTION 5: Table 3 F-measure from precision/recall ====
+Logistic-High  P=0.349 R=0.759 Fcalc=0.478 Frep=0.478 OK
+Logistic-Low   P=0.919 R=0.659 Fcalc=0.768 Frep=0.767 OK
+SVM-High       P=0.337 R=0.747 Fcalc=0.464 Frep=0.465 OK
+SVM-Low        P=0.914 R=0.646 Fcalc=0.757 Frep=0.757 OK
+NB-High        P=0.361 R=0.709 Fcalc=0.478 Frep=0.479 OK
+NB-Low         P=0.909 R=0.698 Fcalc=0.790 Frep=0.790 OK
+RF-High        P=0.438 R=0.532 Fcalc=0.480 Frep=0.480 OK
+RF-Low         P=0.881 R=0.835 Fcalc=0.857 Frep=0.858 OK
+F-measure agreement: 8 / 8 
+
+==== SECTION 6: text vs supplement descriptives ====
+Paper text age mean = 35.81 (SD 13.19); supplement Table S1 all-participants = 35.81 (13.19)
+Paper text education = 15.35 (SD 3.43); supplement Table S1 = 15.36 (SD 3.43)
+=> education mean differs by 0.01 year across the two sources (rounding or typo).
+
+==== END (status: OK) ====

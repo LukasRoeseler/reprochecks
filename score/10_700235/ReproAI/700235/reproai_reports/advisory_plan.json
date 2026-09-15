@@ -1,0 +1,42 @@
+{
+  "doi": "10.1086/700235",
+  "short_title": "Democracy and the Class Struggle",
+  "audit_date": "2026-09-14",
+  "engine": "anomalyco/opencode (ReproAI) - DeepSeek V4 Flash via uniGPT",
+  "advisory_plan": [
+    {
+      "id": "ADV-001",
+      "severity": "P1",
+      "owner": "Author (A. Usmani) / University of Chicago Press",
+      "remediation": [
+        "Assemble and deposit the complete replication bundle: (a) the disruptive-capacity employment-structure dataset (source years 1754-2013, ~200 countries) with the straddle-category and interpolation rules documented; (b) all covariate inputs (Polity2 rescaling, V-Dem v2x_polyarchy, Penn World Tables + Maddison GDP, Morrisson-Murtin education, Banks urbanization, Bourguignon-Morrison/Babones/Solt inequality, Vanhanen landlord index); (c) the dynamic fixed-effects panel estimation code (annual + 5/10/15/20-year intervals) that reproduces Tables 3 & 4 exactly; (d) the robust/alternative-specification code (consistent samples, war controls, random effects, jackknife); (e) the Figure 1 validation and Simulation's-rule counterfactual code.",
+        "Add a data-availability statement and a persistent archive link (OSF/Dataverse/Zenodo) to the article.",
+        "State the exact estimator/cluster-robust SE convention and the semistandardization formula used for Tables 3 & 4."
+      ],
+      "acceptance_test": "A fresh auditor obtains the deposit, runs the clean code end-to-end, and reproduces the headline long-run multipliers (e.g., Table 3 col6 disruptive = 4.168** [1.35,6.94]; Table 4 col6 = 2.812** [.69,5.08]) and Table 2 descriptives to the printed precision."
+    },
+    {
+      "id": "ADV-002",
+      "severity": "P2",
+      "owner": "Author / Publisher (corrigendum)",
+      "remediation": [
+        "Recompute the availability-bias difference for each indicator from the underlying Polity2 sample.",
+        "Reconcile: prose '42 points higher (0-100)' vs Table 1 'ΔAverage Polity2' cell 142 vs the column label. Determine what 142 denotes; if it is a scaled/mislabeled quantity, correct the label; if 42 is wrong, correct the prose.",
+        "Verify against the clean (non-mirrored) data or author confirmation."
+      ],
+      "acceptance_test": "A single, self-consistent number appears in prose and table and lies within a valid 0-100 range difference."
+    },
+    {
+      "id": "ADV-003",
+      "severity": "P3",
+      "owner": "Author",
+      "remediation": "Restate the coverage claim to match 4,378/7,610 = 57.5% (e.g., 'about 58%' or 'roughly three-fifths')."
+    },
+    {
+      "id": "ADV-004",
+      "severity": "P3",
+      "owner": "Auditor / Publisher",
+      "remediation": "Resolved by ADV-001 deposition (tidy CSV tables + code). If re-auditing the current PDF, use positional pdfplumber extraction + manual reversal; treat Table 4 col1 B [2.13,3.15] / point 1.406 as a transcription-pairing artifact, not a paper error."
+    }
+  ]
+}

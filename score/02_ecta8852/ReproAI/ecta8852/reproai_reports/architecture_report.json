@@ -1,0 +1,49 @@
+{
+  "package": {
+    "doi": "10.3982/ecta8852",
+    "title": "An Experimental Study of Collective Deliberation",
+    "authors": ["Jacob K. Goeree", "Leeat Yariv"],
+    "journal": "Econometrica",
+    "volume_issue": "79(3)",
+    "pages": "893-921",
+    "year": 2011,
+    "method": "Laboratory experiment (jury-style collective decision), 3x3x2 between-session design"
+  },
+  "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+  "rules": "2026.06.27",
+  "audit_date": "2026-09-14",
+  "mode": "static audit + independent R reimplementation from shipped raw per-period data (plus Python preprocessing/cross-check)",
+  "host_environment": {
+    "os": "win32",
+    "r": "4.6.1 (2026-06-24)",
+    "python": "3.8.10 (numpy/pandas/scipy/statsmodels)",
+    "note": "No author analysis code shipped in the package; all recomputation performed in R against raw behavior .txt files."
+  },
+  "data_source": {
+    "location": "Econometric Society supplemental archive (article browse page): /publications/econometrica/2011/05/01/experimental-study-collective-deliberation  [supp/8852_data and programs_0.zip]",
+    "legacy_url_404": "http://www.econometricsociety.org/ecta/Supmat/8852_dataandprograms.zip (deprecated; returns 404)",
+    "archive_zip": "8852_data_and_programs.zip (457243 bytes)",
+    "contains": {
+      "behavior": "Data/BehaviorOutcomes/*.txt (17 sessions x 10-col per-round records, comm/no-comm)",
+      "messages": "Data/MessageData/*.xls (message-level logs)",
+      "docs": ["File_Label_Key.docx", "BasicParamOverview.docx", "ChatData_ParamOverview.docx"],
+      "code": "none shipped (package named 'data and programs' contains data only)"
+    },
+    "raw_record_schema": ["period","subject","group","type","sample(1=red,2=blue)","action(1=red,2=blue)","groupdec(1=red,2=blue)","jar(1=red,2=blue)","payoff(cents)","time(seconds)"]
+  },
+  "pipeline": {
+    "raw_to_unified": "exec_check/scripts/00_preprocess.py -> master_behavior.csv (13311 decisions)",
+    "analysis": ["01_sample_payoffs.R","02_tableIII.R","03_tableIII_types_decisions.R","04_tableVVI.R","05_tableVI_dedup.R","06_probit_hom.R","06b_probit_mem.R"]
+  },
+  "headline_results": {
+    "N_subjects": "549 (verified)",
+    "tableIII_no_comm": "reproduces near-exactly across hom/het/part and rules (strategic-voting comparative statics)",
+    "tableV": "reproduces exactly",
+    "tableVI_points": "reproduces (part r9 81.8 vs 84.4 after dedup)",
+    "tableIV_flag": "homogeneous no-chat Red sample marginal effect 0.814 reproduces exactly (MEM convention)"
+  },
+  "integrity_issues": [
+    {"file": "PART_9_36_chat.txt", "issue": "duplicated per-subject rows in periods 1-5 (540 rows vs 324 expected)", "impact": "naive part r9 comm majority-red = 40% vs paper 84.4%"},
+    {"file": "HOM_7_36_chat.txt", "issue": "shipped but not used in paper comm hom r7 analysis (N=486 matches HOM_7_27 only)", "impact": "N/consistency"}
+  ]
+}

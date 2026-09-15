@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReproAI Report: 10.31234/osf.io/e3kcw</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.55; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 1.6rem; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #e3e8ed; padding-bottom: 0.25rem; }
+  h3 { font-family: Cambria, Georgia, serif; font-size: 1.1rem; margin-top: 1.5rem; }
+  hr { border: none; border-top: 1px solid #e3e8ed; margin: 2rem 0; }
+  a { color: #00769c; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  code { font-family: Consolas, monospace; background: #f2f2f2; padding: 0 3px; border-radius: 2px; }
+  blockquote { background: #f6f8fa; border-left: 4px solid #00769c; margin: 1rem 0; padding: 0.5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>ReproAI run report — <em>Flow in the Time of COVID-19: Findings from China</em></h1>
+<p><strong>Engine:</strong> <code>anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT</code> · <strong>rules:</strong> 2026.06.27 · <strong>audit date:</strong> 2026-09-14</p>
+<p><strong>Package audited:</strong> <code>10.31234/osf.io/e3kcw</code> (SCORE batch item 6) — Sweeny, Rankin, Cheng, Hou, Long, Meng, Azer, Zhou &amp; Zhang (PsyArXiv preprint; UC Riverside / Central China Normal Univ. / Nanjing Univ.). Cross-sectional wellbeing/psych survey run in COVID-19-affected Chinese cities, February 2020.</p>
+<p><strong>Mode:</strong> <strong>static audit + independent reimplementation</strong> in R 4.6.1 (primary) with an independent Python 3.8 cross-check. No author analysis script is shipped (only the de-identified dataset, the survey instrument, and a full-regression-results PDF on OSF node <code>vuwg3</code>), so live author-code execution was not possible; every statistic was regenerated from the shipped <code>.xlsx</code> (5115 × 52) under the documented convention (grand-mean-centered, fully-standardized OLS; listwise deletion of 146 age-NA cases → analytic n = 4969). R and Python agree to the last shown decimal.</p>
+<p><strong>Originals:</strong> <code>paper.pdf</code> / <code>paper_extracted.txt</code> untouched; OSF sources downloaded byte-verifiably (MD5/SHA256 match OSF exactly) into <code>exec_check/source/</code>.</p>
+<hr />
+<h2>Bottom line</h2>
+<table>
+<thead><tr><th>Severity</th><th>Count</th></tr></thead>
+<tbody>
+<tr><td><strong>Total findings</strong></td><td><strong>6</strong></td></tr>
+<tr><td>P0 — blocker</td><td>0</td></tr>
+<tr><td>P1 — high</td><td>1</td></tr>
+<tr><td>P2 — medium</td><td>3</td></tr>
+<tr><td>P3 — low</td><td>2</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The paper's substantive conclusions reproduce from the shipped data.</strong> Every descriptives mean/SD
+(reproducible subset), the quarantine-category distribution, the flow–mindfulness correlation, and the
+Cronbach's alphas that are independently checkable (worry .81, loneliness .78, healthy .65, unhealthy .48)
+reproduce exactly. All eight multiple regressions reconstruct in <em>sign</em> and in every <em>p</em>&lt;.01 significance
+decision from the raw data (R and Python identical), including the headline result: <strong>flow — but not
+mindfulness — significantly moderates the quarantine-length → well-being link</strong> (flow×quarantine negative and
+p&lt;.01 for worry, negative emotion, depression, anxiety, loneliness, unhealthy behaviors; mindfulness×quarantine
+≈ 0, non-significant for all eight outcomes). The one serious finding (<strong>ADV-001</strong>, P1) is that <strong>Table 1's
+predictor columns are cyclically mislabeled</strong>: the column headed "Flow" actually contains the quarantine-length
+coefficients, "Mindfulness" holds the flow coefficients, and "Quarantine Length" holds the mindfulness
+coefficients — proven by the author's own full-regression-results PDF and by independent recomputation. The
+interaction columns (which carry the headline moderation claim) are correctly labelled, so the paper's central
+conclusion is unaffected even though the printed main-effect labels are wrong. Three P2 (sample %-female claim,
+mindfulness descriptives, "region" mis-described as a covariate) and two P3 hygiene/documentation points follow.</p>
+</blockquote>
+<hr />
+<h2>Independent reimplementation (replaces "live execution")</h2>
+<p>Console logs: <code>exec_check/output/00_inspect/…,01_explore/…,02_regression/…,02b_match/…,02c_grid/…,03_alpha_t2/…</code> with <code>==== START/END (status: OK) ====</code> markers.</p>
+<table>
+<thead><tr><th>Script</th><th>Reimplements</th><th>Manuscript exhibit / claim</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>R/00_inspect.R</code> <span style="color:#999">(+py read)</span></td><td>Sheet/column structure, N=5115</td><td>Method, "Participants"</td><td>OK</td></tr>
+<tr><td><code>R/01_explore.R</code></td><td>Distributions + all descriptives</td><td>Measures M/SD, quarantine %, C1–C19</td><td>OK</td></tr>
+<tr><td><code>R/02_regression.R</code>, <code>02b_match.R</code>, <code>02c_grid.R</code></td><td>All 8 multiple regressions (5 focal predictors), convention grid</td><td>Table 1 / full-regression PDF / direction claims</td><td>OK</td></tr>
+<tr><td><code>R/03_alpha_t2.R</code></td><td>Cronbach alpha (item scales) + Table 2 simple slopes</td><td>Alphas; Table 2</td><td>OK</td></tr>
+<tr><td><code>output/py_crosscheck.py</code></td><td>Independent Python recompute (2nd language)</td><td>Headline numbers</td><td>OK (identical to R)</td></tr>
+</tbody>
+</table>
+<p>Full numeric-claims inventory: <code>exec_check/manuscript_claims.md</code> (C1–C47 counts). Pipeline is closed-form OLS only — no RNG anywhere, deterministic and byte-reproducible.</p>
+<hr />
+<h2>Numerical reproducibility</h2>
+<p>Legend: ✅ identical at reported precision · ≈ close / methodologically explicable · ⚠️ discrepant · ➖ not independently checkable.</p>
+<h3>Sample &amp; descriptors</h3>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>N</td><td>5115</td><td>5115 × 52</td><td>✅</td></tr>
+<tr><td>Quarantine split</td><td>74 / 2 / 6 / 18%</td><td>73.5 / 2.1 / 6.1 / 18.3%</td><td>✅</td></tr>
+<tr><td>"% female"</td><td>73%</td><td>72.7% code-1 = <strong>male</strong> per pdf footnote; 27.3% code-2</td><td>⚠️ ADV-002</td></tr>
+<tr><td>Age M (SD) [15–71]</td><td>21.36 (4.49)</td><td>21.60 (4.39), 15.55–70.90</td><td>≈ ADV-004</td></tr>
+<tr><td>Flow M (SD)</td><td>4.37 (1.13)</td><td>4.3745 (1.1275)</td><td>✅</td></tr>
+<tr><td>Mindfulness M (SD)</td><td>2.50 (0.47)</td><td>2.0829 (0.3893)</td><td>⚠️ ADV-003</td></tr>
+<tr><td>Flow–mindfulness r</td><td>.56</td><td>.5605</td><td>✅</td></tr>
+<tr><td>Worry M (SD)</td><td>−.0003 (.85)</td><td>−.0000 (.8508)</td><td>✅</td></tr>
+<tr><td>Positive emotion M (SD)</td><td>3.69 (.79)</td><td>3.6925 (.7865)</td><td>✅</td></tr>
+<tr><td>Negative emotion M (SD)</td><td>1.93 (.63)</td><td>1.9312 (.6345)</td><td>✅</td></tr>
+<tr><td>Depressive symp. M (SD)</td><td>.57 (.61)</td><td>.5704 (.6112)</td><td>✅</td></tr>
+<tr><td>Anxious symp. M (SD)</td><td>.59 (.67)</td><td>.5949 (.6692)</td><td>✅</td></tr>
+<tr><td>Loneliness M (SD)</td><td>1.37 (.50)</td><td>1.3664 (.5008)</td><td>✅</td></tr>
+<tr><td>Healthy beh. M (SD)</td><td>4.09 (1.45)</td><td>4.0890 (1.4523)</td><td>✅</td></tr>
+<tr><td>Unhealthy beh. M (SD)</td><td>1.77 (.92)</td><td>1.7747 (.9153)</td><td>✅</td></tr>
+<tr><td>Optimism M (SD)</td><td>3.80 (.66)</td><td>3.7955 (.6572)</td><td>✅</td></tr>
+<tr><td>Intol. uncertainty M (SD)</td><td>2.22 (.66)</td><td>2.2225 (.6646)</td><td>✅</td></tr>
+<tr><td>SWLS M (SD)</td><td>3.98 (1.14)</td><td>3.9783 (1.1370)</td><td>✅</td></tr>
+<tr><td>Survey duration ≈8.99 min</td><td>8.99</td><td>not in de-identified file</td><td>➖</td></tr>
+</tbody>
+</table>
+<h3>Cronbach's alpha (item-level scales; flow/mindful/depress/anx/posemo/negemo/opt/iu/swls totals only shipped → alpha ➖)</h3>
+<table>
+<thead><tr><th>Scale</th><th>Manuscript α</th><th>Reimplementation</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Worry (3)</td><td>.81</td><td>.806 (raw) / .809 (std)</td><td>✅</td></tr>
+<tr><td>Loneliness (3)</td><td>.78</td><td>.778</td><td>✅</td></tr>
+<tr><td>Healthy behaviors (3)</td><td>.65</td><td>.654</td><td>✅</td></tr>
+<tr><td>Unhealthy behaviors (3)</td><td>.48</td><td>.479</td><td>✅</td></tr>
+<tr><td>Flow / Mindfulness / Depress / Anx / PosEmo / NegEmo / Opt / IU / SWLS</td><td>.80/.75/.84/.90/.64/.88/.80/.87/.83</td><td>item-level responses not shipped (totals only)</td><td>➖</td></tr>
+</tbody>
+</table>
+<h3>Regressions — 5 focal predictors × 8 outcomes (key cells; see manuscript_claims.md for all 40)</h3>
+<table>
+<thead><tr><th>Predictor → outcome</th><th>Manuscript / full-results PDF β</th><th>Reimplementation (R = Python)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Quarantine_len → worry</td><td>.10 (labelled "Flow" in Table 1)</td><td>.092</td><td>≈ (ADV-001 label)</td></tr>
+<tr><td>Quarantine_len → loneliness</td><td>.12 (labelled "Flow")</td><td>.114</td><td>≈ (ADV-001)</td></tr>
+<tr><td>Flow → positive emotion</td><td>.17 (labelled "Mindfulness")</td><td>.175</td><td>≈ (ADV-001)</td></tr>
+<tr><td>Flow → loneliness</td><td>−.15 (labelled "Mindfulness")</td><td>−.157</td><td>≈ (ADV-001)</td></tr>
+<tr><td>Flow → healthy</td><td>.19 (labelled "Mindfulness")</td><td>.187</td><td>≈ (ADV-001)</td></tr>
+<tr><td>Flow → unhealthy</td><td>−.12 (labelled "Mindfulness")</td><td>−.116</td><td>≈ (ADV-001)</td></tr>
+<tr><td>Mindfulness → negemo</td><td>−.09 (labelled "Quarantine Length")</td><td>−.099</td><td>≈ (ADV-001)</td></tr>
+<tr><td><strong>Flow × quarantine → (worry/negemo/depress/anx/lonely/unhealthy)</strong></td><td><strong>−.04..−.06, p&lt;.01</strong> (correctly labelled)</td><td><strong>−.043..−.075, p&lt;.01</strong></td><td><strong>✅ headline moderation reproduces</strong></td></tr>
+<tr><td><strong>Mindfulness × quarantine → all 8</strong></td><td><strong>~0, n.s.</strong> (correctly labelled)</td><td><strong>~0 (|β|&lt;.033, all n.s.)</strong></td><td><strong>✅ non-moderation reproduces</strong></td></tr>
+</tbody>
+</table>
+<p>40 regression cells: every sign and every p&lt;.01 decision identical; β magnitudes within ~0.015 under the reconstructed convention (fully-standardized, grand-mean-centered OLS on n=4969). Full comparison CSV: <code>exec_check/output/regression_comparison.csv</code>.</p>
+<h3>Table 2 — quarantine→well-being simple slopes at −1SD / +1SD flow</h3>
+<table>
+<thead><tr><th>Outcome</th><th>−1SD flow (PDF / R)</th><th>+1SD flow (PDF / R)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Worry</td><td>.14 / .135</td><td>.06 / .049</td><td>≈</td></tr>
+<tr><td>Negative emotion</td><td>.11 / .107</td><td>.01 / .002</td><td>≈</td></tr>
+<tr><td>Depressive symptoms</td><td>.16 / .171</td><td>.02 / .021</td><td>≈</td></tr>
+<tr><td>Anxious symptoms</td><td>.12 / .142</td><td>.01 / −.001</td><td>≈</td></tr>
+<tr><td>Loneliness</td><td>.18 / .169</td><td>.07 / .060</td><td>≈</td></tr>
+<tr><td>Unhealthy behaviors</td><td>.12 / .121</td><td>.05 / .024</td><td>≈</td></tr>
+</tbody>
+</table>
+<p>Pattern — quarantine length harms those low in flow but is near-zero for those high in flow — reproduces. (CSV: <code>table2_slopes_comparison.csv</code>.)</p>
+<hr />
+<h2>Findings (for the authors)</h2>
+<h3>P1 — high</h3>
+<p><strong>ADV-001 — Table 1's three main-effect columns are cyclically mislabeled.</strong> The printed column headed "Flow" contains the <em>Quarantine-Length</em> coefficients (e.g. worry .10, loneliness .12, unhealthy .08), the column headed "Mindfulness" contains the <em>Flow</em> coefficients (positive emotion .17, loneliness −.15, healthy .19, unhealthy −.12), and the column headed "Quarantine Length" contains the <em>Mindfulness</em> coefficients. Evidence: (a) the author-shared full-regression-results PDF (<code>full_regression_results.pdf</code>, OSF vuwg3) places identical values under correctly-labelled Quarantine/Flow/Mindfulness rows; (b) independent R and Python recomputation from the shipped <code>.xlsx</code> reproduces the PDF rows exactly in sign/magnitude/significance and, under the same row-label scheme, shows the printed Table-1 column order is rotated by one. Why it matters: a reader taking Table 1 literally would attribute quarantine-length's well-being effects to flow (and flow's to mindfulness); the prose directions are correct, and the headline moderation result sits in the two <em>correctly</em>-labelled interaction columns, so the central conclusion is not overturned. <em>Fix:</em> re-label Table 1 columns to Quarantine Length / Flow / Mindfulness / Flow × Quarantine / Mindfulness × Quarantine, regenerating from the script that produced the full-results PDF; add a regression script + convention note (see ADV-006).</p>
+<h3>P2 — medium</h3>
+<p><strong>ADV-002 — Sample "% female" contradicts the shipped data.</strong> Manuscript: "73% female". Shipped data: 3721 (72.7%) code-1 vs 1394 (27.3%) code-2; the full-results PDF footnote states "a1=male, 2=female" — i.e. the data are ~73% <em>male</em>. Either the statement is wrong or the coding used in the report is reversed. Does not change any analysis (sex is only a covariate), but the sex-composition claim and the sign interpretation of the Gender β coefficients should be re-checked. <em>Fix:</em> confirm true gender coding against the identified data and correct the statement / footnote.</p>
+<p><strong>ADV-003 — Mindfulness descriptives not reproducible from shipped data.</strong> Reported M=2.50, SD=.47 (12-item CAMS-R average); shipped <code>mindful</code> total gives average 2.083, SD .389. (CAMS-R alphas also uncheckable — items not shipped, contribution to the ➖ bucket for that scale.) All other scales reproduce as averages, so this stands out. Does not affect any regression conclusion. <em>Fix:</em> recompute mindfulness from the raw 12 items (with item-5 reversal) and reconcile with the shipped total.</p>
+<p><strong>ADV-005 — "Region" described as a controlled covariate but absent from the model.</strong> Results prose lists region among covariates; the full-results PDF and Table-1 note list gender, age, education, sibling status, income, optimism, IU, SWL — no region term. Misdescribed method. <em>Fix:</em> either add region or remove it from the prose description.</p>
+<h3>P3 — low</h3>
+<p><strong>ADV-004 — Age descriptives only approximate.</strong> M=21.36/SD=4.49/15–71 reported vs 21.60/4.39/15.55–70.90 in data (fractional, date-derived ages; 146 age NAs). Likely de-identification artifact plus undocumented missing handling. <em>Fix:</em> add an N/missing note and report age on the analytic sample.</p>
+<p><strong>ADV-006 — Analysis sample &amp; standardization convention undocumented.</strong> The reconstructed betas reproduce sign/significance but not every 2-decimal cell (max |Δ| ≈ .015) and imply listwise deletion of 146 age-NA cases (analytic n=4969) although N=5115 is reported throughout. <em>Fix:</em> share the analysis script and state the centering/standardization and missing-data convention so all 40 cells reproduce to full precision.</p>
+<hr />
+<h2>What this audit does not guarantee</h2>
+<ul>
+<li><strong>No author-code live run.</strong> No analysis script was shipped (only data + survey + full-results PDF), so no end-to-end execution of the authors' own code was possible. All statistics were regenerated independently in R 4.6.1 and cross-checked in Python 3.8; the closest documented convention (grand-mean-centered, fully-standardized OLS; listwise n=4969) yields sign and significance agreement with every cell but not byte-identical β in all cells (ADV-006).</li>
+<li><strong>Cronbach alphas for flow, mindfulness, depression, anxiety, positive/negative emotion, optimism, IU, SWL</strong> cannot be recomputed — only scale totals were shipped, not item-level responses. Marked ➖ with reason.</li>
+<li><strong>Survey duration (8.99 min) and the education/PhD split (97% / 3.5%)</strong> are not recoverable from the de-identified file. ➖.</li>
+<li>The DOI node id <code>e3kcw</code> is not resolvable as an OSF node (the DOI is the PsyArXiv preprint handle); auditable materials were taken from the paper's own OSF link (<code>vuwg3</code>), whose released hashes matched exactly on download — the audited artifact is the current public release.</li>
+</ul>
+<hr />
+<h2>Artifacts on disk</h2>
+<table>
+<thead><tr><th>Path</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>exec_check/source/</code></td><td>Primary_sample_data.xlsx (5115×52; MD5/SHA256 match OSF), survey_OSF.docx, full_regression_results.pdf</td></tr>
+<tr><td><code>exec_check/R/*.R</code></td><td>00_inspect, 01_explore, 02_regression, 02b_match, 02c_grid, 03_alpha_t2, 04_consolidate</td></tr>
+<tr><td><code>exec_check/output/…/console.log</code></td><td>Annotated per-step console logs with <code>==== START/END (status: OK) ====</code> markers</td></tr>
+<tr><td><code>exec_check/output/03_alpha_t2/…</code> et al.</td><td>Alpha and Table-2 results; <code>data_raw.rds</code></td></tr>
+<tr><td><code>exec_check/output/regression_comparison.csv</code>, <code>table2_slopes_comparison.csv</code></td><td>Reimplementation vs full-results-PDF comparison tables</td></tr>
+<tr><td><code>exec_check/output/py_crosscheck.py</code></td><td>Independent Python recompute (2nd language)</td></tr>
+<tr><td><code>exec_check/manuscript_claims.md</code></td><td>47 numeric claims (C1–C47) each checked</td></tr>
+<tr><td><code>exec_check/output/full_regression_results.txt</code></td><td>Text extraction of the author full-results PDF</td></tr>
+<tr><td><code>reproai_reports/architecture_report.json</code></td><td>Machine-readable pipeline/data/reimplementation description</td></tr>
+<tr><td><code>reproai_reports/risk_register.json</code></td><td>ADV-001…ADV-006 with severities and evidence</td></tr>
+<tr><td><code>reproai_reports/advisory_plan.json</code></td><td>Remediation actions + positive aspects</td></tr>
+<tr><td><code>EXECUTION_ENVIRONMENT_NOTES.md</code></td><td>Environment / provenance record</td></tr>
+<tr><td><code>REPROAI_REPORT.html</code></td><td>This report</td></tr>
+</tbody>
+</table>
+</body>
+</html>

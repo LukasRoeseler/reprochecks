@@ -1,0 +1,71 @@
+{
+  "package": {
+    "doi": "10.1257/aer.20190565",
+    "title": "Vulnerability and Clientelism",
+    "authors": ["Gustavo J. Bobonis", "Paul J. Gertler", "Marco Gonzalez-Navarro", "Simeon Nichter"],
+    "journal": "American Economic Review",
+    "volume_issue_pages": "112(11): 3627-3659",
+    "year": 2022,
+    "paper_type": "Empirical economics: randomized controlled trial (cisterns) + municipal rainfall shocks; panel survey of 1,308 households / 425 neighborhood clusters in 40 municipalities of semiarid Brazil; voting-machine-level electoral outcomes for 2012 municipal elections.",
+    "replication_data": {
+      "referenced_as": "Bobonis, Gertler, Gonzalez-Navarro & Nichter 2022, 'Replication Data for: Vulnerability and Clientelism'",
+      "doi": "10.3886/E173341V1",
+      "host": "ICPSR (distributor: American Economic Association publisher)",
+      "retrievability_in_audit_env": "NOT OBTAINABLE",
+      "reason": "HTTP 403 (Forbidden) returned by https://doi.org/10.3886/E173341V1, the openICPSR project view, and the AEA supplemental-appendix endpoints; ICPSR/AER bot protection + institutional-login gating. No credentials or GUI browser automation available in this session."
+    }
+  },
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI)",
+    "model_impl": "DeepSeek V4 Flash via uniGPT",
+    "rules_version": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "mode": "static audit + independent closed-form arithmetic reimplementation (internal consistency); live execution and data-driven regression re-estimation NOT possible (replication data unobtainable in environment)",
+    "host_environment": {
+      "os": "win32 (Windows PowerShell 5.1)",
+      "python": "3.8.10 (CPython, 64-bit)",
+      "r": "R 4.6.1 (2026-06-24), Rscript",
+      "working_dir": "I4R ReproAI Checks/13_aer.20190565/ReproAI/aer.20190565",
+      "originals_untouched": true
+    },
+    "scope": [
+      "Main article text + main Tables 1-5 in paper_extracted.txt",
+      "NOT in scope (unobtainable): AEA Supplemental Appendix (Tables A1-A10, Figs A1-A2), ICPSR replication data/code"
+    ]
+  },
+  "methods": {
+    "Regression models (as specified in paper)": [
+      "Eq 2: y_ihcmt = alpha_m + gamma_t + beta1*D_cm + eps (requests; cluster-level SE; municipality + year FE)",
+      "Eq 3: y_ihcmt = alpha_m + gamma_t + phi1*Z_mt + eps (rainfall shocks)",
+      "Eq 4: y_slm = alpha_lm + gamma1*TV_slm + gamma2*EV_slm + gamma3*RV_slm + eps (voting-machine level, location FE, rescaled regressors, CRVE + wild-cluster bootstrap)",
+      "Eq 5: heterogeneity by clientelist-relationship marker R (main + interaction)"
+    ],
+    "statistical_conventions_noted": [
+      "ITT (intention-to-treat) on assignment",
+      "Clustered SE: neighborhood-cluster level (requests), voting-location level (electoral) with wild-cluster bootstrap p-values allowing within-municipality correlation",
+      "Rainfall shock standardized: (Rain_imy - mean)/sigma, then standardized to mean 0, var 1 within year",
+      "KLK (Kling, Liebman, Katz 2007) standardized index construction for the overall vulnerability index"
+    ]
+  },
+  "verification_layer1_internal_consistency": {
+    "script": "exec_check/01_internal_consistency.py",
+    "checks": 50,
+    "ok": 50,
+    "mismatch": 0,
+    "output": "exec_check/output/internal_consistency.json",
+    "notes": "Confirms every checkable proportional claim, binary-SD identity sqrt(p(1-p)), coefficient-sum (main+interaction) identities, and sample/electoral bookkeeping in the article's own reported numbers. One apparent mismatch was traced to an audit-side column mis-mount (Table 5 interaction rows) and corrected; it was NOT a paper inconsistency."
+  },
+  "verification_layer2_second_language": {
+    "script": "exec_check/02_r_crosscheck.R",
+    "checks": 27,
+    "ok": 27,
+    "mismatch": 0,
+    "output": "exec_check/output/r_crosscheck.csv",
+    "language": "R 4.6.1 (cross-check of Python arithmetic)"
+  },
+  "verification_layer3_data_regressions": {
+    "status": "NOT POSSIBLE",
+    "reason": "Replication package (10.3886/E173341V1) not retrievable (HTTP 403). Tables 2-5 regression point estimates and clustered/wild-bootstrap standard errors are therefore marked ➖ (not independently re-estimated) in the numerical reproducibility tables.",
+    "what_would_reproduce": "Unknown until data obtained; paper's internal consistency is high, so no arithmetic red flag exists, but genuine re-estimation requires the ICPSR deposit."
+  }
+}

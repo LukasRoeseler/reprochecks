@@ -1,0 +1,37 @@
+==== START ReproAI audit ECTA8852 (status: in-progress) ====
+Engine: anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT
+Rules: 2026.06.27 | Audit date: 2026-09-14 | Host: win32 | R 4.6.1, Python 3.8.10
+
+[data] Located Econometric Society supplemental archive (via article browse page):
+       https://www.econometricsociety.org/publications/econometrica/2011/05/01/experimental-study-collective-deliberation
+       Downloaded 8852_data_and_programs.zip (457243 bytes) -> extracted/ (Data/BehaviorOutcomes/*.txt,
+       Data/MessageData/*.xls, File_Label_Key.docx, BasicParamOverview.docx). Instructions zip not needed for stats.
+[data] Behavior files: 10 columns per File_Label_Key: period, subject, group, type, sample(1=red,2=blue),
+       action(1=red,2=blue), groupdec(1=red,2=blue), jar(1=red,2=blue), payoff(cents), time(s).
+
+[01] Loader (Python) -> master_behavior.csv: 13311 individual decisions, 30 segment files.
+     Distinct sessions=17; SUM of session N = 549  -> paper "549 subjects"  : VERIFIED
+     Preference split: hom 189, het 261, part 99.
+
+[02] Payoffs (R): no-chat mean $9.34 (paper $9.53) ; chat mean $13.43 (paper $13.11) -> DISCREPANCY (ADV-004)
+[02] Table III no-communication panels (R): N, red-with-red, red-with-blue, wrong-jury, truejar-blue/red
+     reproduce near-exactly for ALL preferences/rules (see tableIII_recompute.csv) -> VERIFIED
+[03] Table III type splits (R): hetero red/blue partisans & partisan neutral/strong-red rows reproduce exactly -> VERIFIED
+[04] Table V (R): homogeneous red-choice freq by #red signals reproduces EXACTLY (both comm & no-comm,
+     after restricting comm hom r7 to HOM_7_27 session) -> VERIFIED
+[05] Table VI (R, deduped): point estimates reproduce for hom/het/part r5,r7 and part r9=81.8 vs 84.4 after
+     dedup. 95% CIs do NOT reproduce under stated Wald (paper narrower) -> ADV-003
+[05] DATA-INTEGRITY: PART_9_36_chat.txt has duplicated per-subject rows in periods 1-5 (540 rows vs 324
+     expected; 180 duplicate records). Face-value recompute of part r9 comm majority-red = 40% (paper 84.4%);
+     after dedup = 81.8%. -> ADV-001 (P1)
+[05] DATA/N CONSISTENCY: HOM_7_36_chat.txt (36 subjects) shipped but paper communication hom r7 N=486 matches
+     only HOM_7_27_chat (27 subjects). Footnote b says "only no-chat run" for that session -> ADV-002 (P2)
+[04] Decision times fn16: qualitative ">=20% longer against signal" VERIFIED (hom +39%, het +25%, part +27%);
+     absolute seconds (41.4/55.1/30.5; 51.3/72.2/36.7) NOT reproduced from col10 (8.5/11.9/13.2; 11.8/14.9/16.7)
+     -> ADV-005 (P3)
+[06] Table IV probit (R): homogeneous no-communication "Red sample" marginal effect reproduces EXACTLY
+     (MEM convention) = 0.814 (paper 0.814). Other hom cells close (rule7 MEM 0.259 vs 0.271; rule9 0.424 vs 0.385).
+     Chat column & other preferences not reproduced at printed precision (AME/MEM & spec differ) -> ADV-006 (P3)
+[msg] Message-coded tables (Table VII message profiles; Table VIII signals/%signals) -> not independently
+     reproducible (require the coders' manual Truthful/Lie/Nothing and signal-message categorization; xls present)
+==== START-END pipeline summary captured (status: OK) ====

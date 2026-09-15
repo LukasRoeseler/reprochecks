@@ -1,0 +1,12 @@
+suppressMessages({library(lme4); library(lmerTest)})
+setwd("C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/I4R ReproAI Checks/12_s0003055422000107/ReproAI/s0003055422000107/exec_check")
+cat("==== START (status: OK) ====\n")
+load("C:/Users/lroesele.IVV5NET/Claude_Code/ReproAI/I4R ReproAI Checks/12_s0003055422000107/ReproAI/s0003055422000107/replication/Replication_data.RData")
+newd2 <- newd[ newd$newpartyfam=="Radical Right", ]
+cat("Switzerland RRP rows (year, pfem):\n")
+print(newd2[ newd2$countryname=="Switzerland", c("partyabbrev","partyname","year","pfem_new2","lag1_mfcombined10","chgvotelagged") ])
+cat("\nunique countries in newd2 (RRP):\n")
+print(sort(unique(newd2$countryname)))
+cat("\nunique countries overall (newd):\n")
+print(sort(unique(newd$countryname)))
+cat("==== END (status: OK) ====\n")

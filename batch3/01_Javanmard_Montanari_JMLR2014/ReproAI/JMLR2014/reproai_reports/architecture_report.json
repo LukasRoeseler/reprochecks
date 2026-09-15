@@ -1,0 +1,34 @@
+{
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "paper": "Javanmard & Montanari, 'Confidence Intervals and Hypothesis Testing for High-Dimensional Regression', JMLR 15(1):2869–2909 (2014)",
+    "authors": ["Adel Javanmard", "Andrea Montanari"],
+    "doi": "none (JMLR open access; Batch III item 1)"
+  },
+  "paper_type": "Methods/theory paper (statistical machine learning): asymptotic debiased-LASSO inference, backed by synthetic + one real-data simulation",
+  "mode": "static audit + independent reimplementation (Python 3.8; analytic derivation checks + synthetic simulation, Section 5.1)",
+  "host_environment": {
+    "os": "Windows win32",
+    "python": "3.8.10",
+    "numpy": "1.24.4",
+    "scipy": "1.10.1",
+    "R": "4.6.1 (2026-06-24 ucrt)",
+    "r_packages": {"glmnet": "5.0", "quadprog": "1.5.8"}
+  },
+  "shipped_code": false,
+  "shipped_data": false,
+  "code_availability_statement": "Paper §1.1 states an R implementation is at http://www.stanford.edu/~montanar/sslasso/; no supplementary material, no seed, no data are shipped with the JMLR article. JMLR does not require code.",
+  "architecture": {
+    "method": "Debiased LASSO: theta_u = theta_n + (1/n) M X^T (Y - X theta_n); M solves min m^T Sigma_hat m s.t. ||Sigma_hat m - e_i||_inf <= mu (Eq 4, Algorithm 1); sigma from scaled LASSO; CI = theta_u_i ± Phi^-1(1-alpha/2) sigma_hat sqrt([M Sigma_hat M^T]_ii/n); p-value Pi = 2(1-Phi(sqrt(n)|theta_u_i|/(sigma_hat sqrt([MSM^T]_ii)))",
+    "simulation_protocol": "circulant design (Eq 56); theta0=b on random support of size s0; W~N(0,1); 20 noise realizations, fixed design & coefficients; lambda=4 sigma_hat sqrt(2 log p/n); scaled-LASSO lambda_tilde=10 sqrt(2 log p/n); mu=2 sqrt(log p/n); alpha=0.05"
+  },
+  "reimplementation_notes": [
+    "All Table-1 rows have n > p, so Sigma_hat = X^T X / n is invertible and the convex program (4) (mu = 2 sqrt(log p/n)) was solved exactly as a box-constrained QP in u = Sigma_hat m; each row u_i in [e_i ± mu]. Entrywise feasibility |M Sigma_hat - I|_inf <= mu confirmed (0.16 = mu).",
+    "M = Sigma_hat^{-1} is NOT the optimizer: problem (4) minimizes variance, so the QP solution has smaller [M Sigma_hat M^T]_ii than Sigma_hat^{-1}; both were computed and compared.",
+    "sigma_hat implemented as an alternating approximation to the Sun-Zhang scaled LASSO (df-corrected residual). Documented limitation: for strong signals this yields sigma_hat ~ sqrt(1 + theta0^T Sigma theta0) (e.g. 1.86 for b=0.5), inflating CI widths and lowering active-coordinate coverage in finite n. Exact author sigma_hat not reproducible without code.",
+    "Single fresh random design realization per configuration, NO author seed; bit-for-bit identity is not expected or claimed."
+  ],
+  "data_flow": "paper_extracted.txt (claim inventory) -> exec_check/run_sim.py (derivation checks + simulation) -> exec_check/output/simulation_results.json + simulation_report.txt -> report"
+}

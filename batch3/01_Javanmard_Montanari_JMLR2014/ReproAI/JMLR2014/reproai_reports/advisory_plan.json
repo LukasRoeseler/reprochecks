@@ -1,0 +1,50 @@
+{
+  "audit": {
+    "engine": "anomalyco/opencode (ReproAI) — DeepSeek V4 Flash via uniGPT",
+    "rules": "2026.06.27",
+    "audit_date": "2026-09-14",
+    "paper": "Javanmard & Montanari, JMLR 15(1):2869–2909 (2014)"
+  },
+  "recommendations": {
+    "P1": {
+      "JM-001": {
+        "action": "Deposit full reproduction kit",
+        "steps": [
+          "Archive the sslasso R implementation (or port to a JMLR-compatible supplement) with a stable URL/DOI.",
+          "Freeze a fixed RNG seed and declare the design/coefficient generation sequence.",
+          "Disclose the exact scaled-LASSO sigma_hat estimator formula and iterations.",
+          "Report active-coordinate coverage in a regime with s0 strictly o(sqrt(n)/log p) to match the asymptotic guarantee.",
+          "Guide: JMLR accepts web appendices / OSF; upload riboflavin data + preprocessing."
+        ]
+      }
+    },
+    "P2": {
+      "JM-002": {
+        "action": "Make interval length protocol stable and b-invariant",
+        "steps": [
+          "State whether sigma_hat is recomputed per realization and how; verify length constancy across b on author code.",
+          "Provide the variance estimator [M Sigma_hat M^T]_ii values for a representative realization."
+        ]
+      },
+      "JM-003": {
+        "action": "Ship real-data and competitor-method artifacts",
+        "steps": [
+          "Attach riboflavin dataset (n=71, p=4088) and exact hdi package call scripts.",
+          "Pin R/hdi versions used for Table 2 columns."
+        ]
+      }
+    },
+    "P3": {
+      "JM-004": {
+        "action": "Export figure coordinates",
+        "steps": [
+          "Include the generated Q-Q and p-value-CDF coordinates or generator script so Figures 1-4 are auditable."
+        ]
+      }
+    }
+  },
+  "verification_responsibilities": {
+    "auditor_config_fix": "Re-run with the author's exact scaled-LASSO sigma_hat and M (from sslasso) rather than the box-QP approximation to confirm length/coverage values.",
+    "reduced_cost": "A one-configuration rerun with corrected sigma_hat is the next step if the author code becomes available."
+  }
+}
