@@ -43,7 +43,12 @@ OK="#2e7d32"; PAR="#f9a825"; BAD="#c62828"; TECH="#ef6c00"
 
 # ---- unit-chart helper: one rectangle per study, stacked per category, WITH x/y axes ----
 import matplotlib.patches as mpatches
-def unit_chart(ax, cats, vals, colors, square=0.7, per_col_max=14, gap=0.12):
+def _nice_step(v):
+    for s in (1,2,5,10,20,25,50,100):
+        if v/s <= 8:
+            return s
+    return 10
+def unit_chart(ax, cats, vals, colors, square=0.8, per_col_max=14, gap=0.12):
     # each category = a column of one rectangle per study, counted on the y-axis
     for k, n in enumerate(vals):
         n = int(n)
@@ -55,11 +60,13 @@ def unit_chart(ax, cats, vals, colors, square=0.7, per_col_max=14, gap=0.12):
             rect = mpatches.Rectangle((xx, yy), square, square, facecolor=colors[k],
                                       edgecolor="white", linewidth=0.6, alpha=0.92)
             ax.add_patch(rect)
-    maxrows = max((int(v)//per_col_max + (1 if int(v)%per_col_max else 0))*1 for v in vals) if vals else 1
+    maxrows = max((int(v)//per_col_max + (1 if int(v)%per_col_max else 0)) for v in vals) if vals else 1
+    top = maxrows*per_col_max
     ax.set_xlim(-0.3, len(cats)+0.3)
-    ax.set_ylim(0, maxrows*per_col_max*(square+gap))
+    ax.set_ylim(0, top*(square+gap)+gap)
     ax.set_xticks(range(len(cats))); ax.set_xticklabels(cats, fontsize=9)
-    ax.set_yticks(np.arange(0, maxrows*per_col_max+1))
+    step = _nice_step(top)
+    ax.set_yticks(np.arange(0, top+1, step))
     ax.set_ylim(0, int(ax.get_ylim()[1])+1)
     ax.set_ylabel("Number of studies", fontsize=10)
     ax.spines[['top','right']].set_visible(False)
@@ -87,20 +94,20 @@ fig.savefig(os.path.join(OUT,"fig1_funnel.png"), dpi=150, bbox_inches="tight"); 
 # ============================================================ Figure 2: open data (unit chart, one rectangle per study)
 mp_od = sum(1 for s in mp_aud if str(s.get("open_data","")).lower() in ("yes","y"))
 mp_od_na = len(mp_aud)-mp_od
-fig, axes = plt.subplots(1,2, figsize=(14,5), gridspec_kw={"width_ratios":[1,1]})
+fig, axes = plt.subplots(1,2, figsize=(13,6.5), gridspec_kw={"width_ratios":[1,1]})
 # meta-psychology
 ax=axes[0]
 cats=["Open\ndata","Data\nN/A"]
 vals=[mp_od, mp_od_na]
 cols=[OK,"#b0bec5"]
-unit_chart(ax, cats, vals, cols)
+unit_chart(ax, cats, vals, cols, per_col_max=40)
 ax.set_title(f"Meta-Psychology open data (n={len(mp_aud)})\nOpen data present: {mp_od} ({round(100*mp_od/len(mp_aud))}%)", fontsize=12, fontweight="bold")
 # nhb
 ax=axes[1]
 cats=["Direct\nlink","Statement\nonly","No\navail."]
 vals=[nhb_p3, nhb_p2, nhb_p1]
 cols=[OK,PAR,BAD]
-unit_chart(ax, cats, vals, cols)
+unit_chart(ax, cats, vals, cols, per_col_max=100)
 ax.set_title(f"Nature Human Behavior data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
 # single shared legend
 handles=[mpatches.Patch(facecolor=OK, label=f"Open data / direct link ({mp_od}+{nhb_p3})"),
@@ -109,7 +116,7 @@ handles=[mpatches.Patch(facecolor=OK, label=f"Open data / direct link ({mp_od}+{
          mpatches.Patch(facecolor="#b0bec5", label=f"Data N/A (simulation) ({mp_od_na})")]
 fig.suptitle("Open data availability by journal — each small square is one audited study", fontsize=13, fontweight="bold")
 fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=10)
-fig.tight_layout(rect=[0.02,0.10,1,0.90]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
+fig.tight_layout(rect=[0.02,0.07,1,0.93]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # ============================================================ Figure 3: outcomes (unit chart, one rectangle per study)
 fig, axes = plt.subplots(1,2, figsize=(14,5.2), gridspec_kw={"width_ratios":[1,1]})
@@ -178,12 +185,19 @@ def box_with_jitter(ax, groups, labels, color_map, ylog=False):
         xs = np.random.default_rng(pos).uniform(pos-0.18, pos+0.18, size=len(grp))
         ax.scatter(xs, grp, s=22, color=color_map.get(labels[pos], "#333"), alpha=0.7, edgecolor="white", linewidth=0.4)
         if grp:
-            ax.annotate(f"med={statistics.median(grp):g}", (pos, np.percentile(grp,100)),
+            # label the median just above the box (not at the very top) so it does not hit the title
+            top = np.percentile(grp, 100)
+            med = statistics.median(grp)
+            ax.annotate(f"med={med:g}", (pos, top),
                         ha="center", va="bottom", fontsize=9, fontweight="bold")
     ax.set_xticks(positions); ax.set_xticklabels(labels, fontsize=9)
     if ylog:
         ax.set_yscale("symlog")
+    ax.set_ylim(bottom=0)
     ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
+    # reserve headroom at the top so median labels stay below the title
+    y0, y1 = ax.get_ylim()
+    ax.set_ylim(0, y1*1.08)
 
 fig, axes = plt.subplots(1,3, figsize=(15,5))
 # Overall: MP vs NHB
