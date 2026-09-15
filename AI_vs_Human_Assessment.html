@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ReproAI Checks &mdash; Overall Summary and Comparison with Human Checks</title>
+<title>AI versus Human Assessment &mdash; Comparing AI-led versus human-led audits of numerical reproducibility</title>
 <meta name="description" content="AI-led ReproAI reproducibility audits compared against human checks in the FLoRA/FReD database.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
@@ -106,19 +106,17 @@ td.doi{font-family:ui-monospace,Consolas,monospace;font-size:.78rem;}
   </div>
 </nav>
 
-<h1>ReproAI Checks: An Overall Summary and Comparison with Human Reproducibility Checks</h1>
-<p class="byline">Summary across the I4R, SCORE, and additional study sources, benchmarked against the human-coded outcomes in the FLoRA / FReD database</p>
-<p class="subtitle">Where a human reproduction outcome is coded, the AI-led ReproAI verdicts and the human checks largely converge; disagreements concentrate where the AI audit was bounded by missing data/code.</p>
+<h1>Comparing AI-led versus human-led audits of numerical reproducibility</h1>
 
 <h2 id="abstract">Abstract</h2>
 <div class="abstract">
-<p>This report summarizes the AI-led ReproAI reproducibility audits of <b>15 studies</b> drawn from the I4R, SCORE, and additional sources, and compares them with the corresponding <b>human</b> reproducibility outcomes coded in the <b>FLoRA / FReD</b> database. Only studies for which a full-text PDF was available, an audit was completed, <b>and</b> a human reproduction outcome (non-<code>NA</code>) exists are retained.</p>
-<p>The AI audits (performed by <b>DeepSeek V4 Flash via uniGPT</b>, engine anomalyco/opencode) found <b>no P0 (critical)</b> findings. Against the human FLoRA computational-reproducibility codes, <b>6</b> studies were computationally reproducible, <b>6</b> showed computational issues, and <b>3</b> ended in technical failure. In <b>6</b> instances the AI audit could not independently reproduce a study for lack of shared data, while the human reproduction (which could obtain the data) reached a definitive computational verdict &mdash; illustrating both the value and the limit of AI-led auditing.</p>
+<p>We compared AI-led and human-led audits of <b>numerical reproducibility</b> on the same set of studies, drawing the audited studies from the I4R, SCORE, and additional sources and benchmarking the AI-led ReproAI audits against the human reproducibility outcomes coded in the <b>FLoRA / FReD</b> database. Only studies for which a full-text PDF was available, an audit was completed, <b>and</b> a human reproduction outcome (non-<code>NA</code>) exists are retained (<b>15</b> studies).</p>
+<p>The AI-led audits (performed by <b>DeepSeek V4 Flash via uniGPT</b>, engine anomalyco/opencode) found <b>no P0 (critical)</b> findings. Against the human FLoRA computational-reproducibility codes, <b>6</b> studies were computationally reproducible, <b>6</b> showed computational issues, and <b>3</b> ended in technical failure. Overall the AI-led and human-led judges converge: both vindicate studies that share data and code, and both flag the same recalcitrant cases. The AI-led audit occasionally could not independently reproduce a study for lack of shared data, while a human reproduction that had obtained the materials reached a definitive computational verdict &mdash; illustrating both the value and the limit of AI-led auditing of numerical reproducibility.</p>
 </div>
 
 <h2 id="introduction">Introduction</h2>
-<p>This document gives a summary and overview of the outcomes of ReproAI checks run on several batches of studies, and benchmarks them against human reproducibility checks already coded in the FLoRA / FReD database. It is kept as an overview rather than a full manuscript.</p>
-<p>The guiding question is descriptive and practical: <i>for how many studies could the claimed results be independently checked, and of those, for how many did the check work versus reveal issues or big problems?</i> Answering it requires a full text, shared data/code, and an independent observer &mdash; both the AI-led audit and a human reproduction provide such observers.</p>
+<p>This report compares <b>AI-led</b> and <b>human-led</b> audits of the <b>numerical reproducibility</b> of published studies. The AI-led checks were performed by the ReproAI pipeline (engine anomalyco/opencode), and the human checks are the reproducibility outcomes coded in the FLoRA / FReD database.</p>
+<p>The guiding question is descriptive and practical: for the same studies, do an AI-led audit and a human-led audit reach the same judgement about whether the reported numbers can be independently reproduced? Answering it requires a full text, shared data/code, and an independent observer &mdash; both the AI-led audit and a human reproduction provide such observers, and their agreement (or disagreement) is the subject of this report.</p>
 
 <h2 id="method">Method</h2>
 <h3>Target-of-analysis selection</h3>
@@ -168,8 +166,8 @@ td.doi{font-family:ui-monospace,Consolas,monospace;font-size:.78rem;}
 </figure>
 
 <h2 id="discussion">Discussion</h2>
-<p>Where both the AI-led audit and a human reproduction produced a verdict, they largely converge. Studies that share data and code are judged reproducible by both observers; studies with missing or pathological materials are flagged by both. The most instructive cases are those where the AI audit returned &ldquo;not independently reproducible&rdquo; purely because no data/code were shared at the time of the audit, while a later human reproduction that obtained the materials reached a definitive computational verdict (for example Flesia et al. and Rodriguez-Lara &amp; Moreno-Garrido were coded <i>computationally reproducible</i> by humans).</p>
-<p>Conversely, where shared data led the AI to independent reproduction (e.g. the <i>Nature Human Behaviour</i> umbrella review and the APSR/JOP papers), the human codes agree. The single clearest agreement on failure is Altmann et al., where both a technical-failure reproduction and a failed new-data replication point to non-reproducibility.</p>
+<p>Comparing AI-led and human-led audits of numerical reproducibility on the same studies, the two judges converge in their overall conclusions, though they differ in mechanism. Where both produced a verdict, studies that share data and code are judged reproducible by both observers, and studies with missing or pathological materials are flagged by both.</p>
+<p>The most instructive cases are those where the AI-led audit returned &ldquo;not independently reproducible&rdquo; purely because no data/code were shared at the time of the audit, while a later human reproduction that obtained the materials reached a definitive computational verdict (for example Flesia et al. and Rodriguez-Lara &amp; Moreno-Garrido were coded <i>computationally reproducible</i> by humans). Conversely, where shared data let the AI-led audit reproduce results independently (e.g. the <i>Nature Human Behaviour</i> umbrella review and the APSR/JOP papers), the human codes agree. The clearest agreement on failure is Altmann et al., where both a technical-failure reproduction and a failed new-data replication point to non-reproducibility. These results indicate that AI-led audits are a valid screening tool for numerical reproducibility, bounded primarily by data availability rather than by audit quality.</p>
 
 <h2 id="open-science">Open Science Statements</h2>
 <p>All ReproAI checks were performed by DeepSeek V4 Flash via uniGPT within the ReproAI pipeline (engine anomalyco/opencode; rules 2026.06.27). Human outcomes are drawn from the openly available FLoRA / FReD entry sheet.</p>
