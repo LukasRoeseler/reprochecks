@@ -433,6 +433,9 @@ var STATUS_LABEL = { "reproduced":"Reproduced","partial":"Partially reproduced",
 var STATUS_COLOR = { "reproduced":"#2e7d32","partial":"#f9a825","not_reproduced":"#c62828","technical":"#ef6c00","not_checked":"#757575" };
 function outcomeLabel(s){
   if(s.journal && s.journal.indexOf("Meta")===0) return STATUS_LABEL[s.status]||s.status;
+  // NHB papers with genuine code re-execution
+  if(s.reexec && s.reexec.flag==="reexec") return "Genuinely re-executed: Reproduced";
+  if(s.reexec && s.reexec.flag==="reexec-partial") return s.reexec.short || "Genuinely re-executed: partial";
   // NHB: availability-based outcome (NOT a code re-execution)
   if(s.severity && s.severity.indexOf("P3")===0) return "Availability: direct data/code link";
   if(s.severity && s.severity.indexOf("P2")===0) return "Availability: statement only, no link";
@@ -441,6 +444,8 @@ function outcomeLabel(s){
 }
 function outcomeColor(s){
   if(s.journal && s.journal.indexOf("Meta")===0) return {"reproduced":"green","partial":"amber","not_reproduced":"red","technical":"orange","not_checked":"gray"}[s.status]||"gray";
+  if(s.reexec && s.reexec.flag==="reexec") return "green";
+  if(s.reexec && s.reexec.flag==="reexec-partial") return "amber";
   if(s.severity && s.severity.indexOf("P3")===0) return "green";
   if(s.severity && s.severity.indexOf("P2")===0) return "amber";
   return "red";
