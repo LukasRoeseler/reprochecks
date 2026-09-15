@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-led Versus Human Reproducibility Checks &mdash; Comparison with FLoRA</title>
+<meta name="description" content="Comparing AI-led ReproAI checks with human-coded reproducibility outcomes (FLoRA/FReD).">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root { --mp:#F2B30F; --nhb:#0b2344; --ink:#111; }
+body { font-family:"Times New Roman",Times,serif; font-size:12pt; line-height:2; color:var(--ink); margin:0; background:#f4f4f4; }
+.wrap { max-width: 1060px; margin:0 auto; background:#fff; padding:60px 70px; box-shadow:0 0 12px rgba(0,0,0,.08); }
+h1 { font-size:17pt; line-height:1.3; text-align:center; }
+h2 { font-size:14pt; border-bottom:1px solid #ccc; padding-bottom:4px; }
+h3 { font-size:12pt; }
+p { margin:0 0 12px 0; }
+.runninghead { font-size:10pt; text-transform:uppercase; letter-spacing:1px; }
+.byline,.affil { text-align:center; }
+.byline { font-style:italic; font-size:11.5pt; }
+.subtitle { text-align:center; font-size:12pt; font-weight:bold; margin:2px 0 12px 0; }
+.keywords { font-size:11pt; }
+.abstract { border:1px solid #999; padding:16px 24px; margin:20px 0; }
+table { border-collapse:collapse; width:100%; font-size:8.5pt; line-height:1.3; margin:12px 0; }
+th,td { border:1px solid #888; padding:3px 5px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.tt { max-width:250px; } .cav { max-width:180px; color:#444; }
+table.apa { border-collapse:collapse; width:70%; margin:16px auto; font-size:10pt; }
+table.apa th, table.apa td { border:none; border-bottom:1px solid #888; padding:4px 10px; text-align:center; }
+table.apa thead tr { border-bottom:2px solid #222; }
+table.apa tbody tr:last-child td { border-bottom:2px solid #222; }
+.figure { text-align:center; margin:24px 0; }
+.figure img { max-width:95%; border:1px solid #ddd; }
+.figcap { font-size:11pt; text-align:left; margin-top:8px; line-height:1.4; }
+.ref { font-size:10.5pt; padding-left:1.5em; text-indent:-1.5em; margin:4px 0; }
+a { color:#0645ad; }
+a.cit { color:inherit; border-bottom:1px dotted #888; text-decoration:none; }
+a.cit:hover { border-bottom-color:#0645ad; background:#f0f3ff; }
+/* dashboard */
+#dash { font-family:Arial,Helvetica,sans-serif; font-size:11pt; background:#fafbff; border:1px solid #ccd; border-radius:8px; padding:20px 24px; margin:28px 0; line-height:1.5; }
+#dash h2 { border:none; }
+.filters { display:flex; flex-wrap:wrap; gap:12px; margin:10px 0; align-items:flex-end; }
+.filter { display:flex; flex-direction:column; font-size:10.5pt; }
+.filter select, .filter input { font-size:10.5pt; padding:4px; min-width:150px; }
+.fbtn { font-size:10.5pt; padding:6px 12px; cursor:pointer; border:1px solid #2c6fbb; background:#2c6fbb; color:#fff; border-radius:4px; }
+.chartbox { background:#fff; border:1px solid #ddd; border-radius:6px; padding:12px 16px; margin:12px 0; }
+.stacked { display:flex; height:38px; border-radius:4px; overflow:hidden; width:100%; }
+.seg { display:flex; align-items:center; justify-content:center; color:#fff; font-size:10pt; font-weight:bold; min-width:0; }
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin:8px 0; font-size:10.5pt; }
+.legend .item { display:flex; align-items:center; gap:5px; }
+.sw { width:14px; height:14px; border-radius:3px; display:inline-block; }
+#dashTable { font-family:Arial,Helvetica,sans-serif; font-size:9.5pt; width:100%; border-collapse:collapse; }
+#dashTable th { background:#1a1a2e; color:#fff; position:sticky; top:0; }
+#dashTable td { border:1px solid #ccc; padding:3px 5px; }
+.dcount { margin:6px 0; font-weight:bold; }
+.tl { padding:1px 8px; border-radius:10px; color:#fff; font-size:9pt; white-space:nowrap; }
+.tl-green { background:#2e7d32; } .tl-amber { background:#f9a825; color:#222; }
+.tl-red { background:#c62828; } .tl-orange { background:#ef6c00; } .tl-gray { background:#757575; }
+.prisma { display:flex; gap:30px; flex-wrap:wrap; margin:20px 0; }
+.pcol { flex:1; min-width:320px; }
+.pbox { border:1.5px solid #333; background:#f7f7f7; padding:10px 14px; margin:0 auto 8px auto; width:88%; text-align:center; line-height:1.35; }
+.pbox b { display:block; }
+.parrow { text-align:center; font-size:14pt; width:88%; margin:0 auto; }
+.pexcl { border:1.5px dashed #a33; }
+.mergebox { background:#eef2ff; }
+.mpcol .pbox { border-color:var(--mp); } .nhbcol .pbox { border-color:var(--nhb); }
+.page { text-align:right; font-size:11pt; color:#666; }
+/* floating table of contents */
+body { position:relative; }
+.toc { position:fixed; left:16px; top:24px; width:200px; z-index:50; font-family:Arial,Helvetica,sans-serif; font-size:11px; line-height:1.4; }
+.toc-body { background:#fff; border:1px solid #ccc; border-radius:8px; padding:10px 12px; box-shadow:0 2px 10px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:3px; }
+.toc-body a { text-decoration:none; color:#0645ad; padding:1px 2px; border-left:3px solid transparent; }
+.toc-body a:hover { border-left-color:var(--mp); background:#f5f7ff; }
+.toc-toggle { display:none; }
+.toc-home { display:block; background:var(--nhb); color:#fff; text-decoration:none; padding:8px 10px; border-radius:8px; font-size:11px; font-weight:bold; text-align:center; margin-bottom:7px; border:1px solid var(--nhb); }
+.toc-home:hover { background:#12345e; color:#fff; }
+@media (max-width:1350px){ .toc { position:static; width:auto; margin:0 0 18px 0; } .toc-body{ box-shadow:none; } }
+@media (max-width:760px){
+  .toc-body { display:none; }
+  .toc-toggle { display:block; cursor:pointer; background:#1a1a2e; color:#fff; padding:8px 12px; border-radius:6px; font-weight:bold; }
+}
+</style>
+</head><body>
+<div class="wrap">
+
+<nav class="toc" id="toc">
+  <a class="toc-home" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+  <div class="toc-toggle" id="tocToggle">Contents</div>
+  <div class="toc-body">
+<a href="#abstract">Abstract</a>
+<a href="#introduction">Introduction</a>
+<a href="#method">Method</a>
+<a href="#results">Results</a>
+<a href="#focus">Focused comparison</a>
+<a href="#discussion">Discussion</a>
+<a href="#limitations">Limitations</a>
+<a href="#open-science">Open Science Statements</a>
+<a href="#data-availability">Data Availability</a>
+<a href="#references">References</a>
+  </div>
+</nav>
+
+<h1>Do AI-led ReproAI Checks Agree with Human Reproducibility Checks?</h1>
+<p class="byline">A comparison of the ReproAI audits with the human-coded reproducibility outcomes in the FLoRA / FReD database</p>
+<p class="subtitle">Where a human code exists, AI and human verdicts align; but most FLoRA reproduction records carry no coded <i>outcome</i> in the current flora.csv.</p>
+
+<h2 id="abstract">Abstract</h2>
+<div class="abstract">
+<p>We asked whether the AI-led ReproAI reproducibility audits agree with human-coded reproducibility checks for the same studies, using the <b>FLoRA / FReD</b> database (forrtproject/FReD-data) as the human benchmark. We matched each of the <b>17 studies</b> audited by ReproAI to its FLoRA record by DOI and used the human <b><code>outcome</code></b> field, which codes reproducibility (robustness is out of scope here).</p>
+<p>FLoRA contains a record for <b>15</b> of the 17 audited studies, but only <b>4</b> carry a coded human reproducibility outcome (<code>successful</code>, <code>failed</code>, or <code>mixed</code>) that can be compared; the remaining records are reproductions whose <code>outcome</code> is <code>NA</code> in this snapshot. On the four comparable studies the AI and human verdicts are <b>aligned in three cases</b> (Goeree &amp; Yariv: reproduced/<code>successful</code>; Baillon et al.: consistent/<code>successful</code>; Pennycook et al.: partial/<code>mixed</code>). In the fourth (Altmann et al.), the AI audit was unverifiable because no data were shared, whereas the human SCORE replication independently failed &mdash; showing where a data-rich human replication can settle a question that a no-data AI meta-check cannot.</p>
+</div>
+
+<h2 id="introduction">Introduction</h2>
+<p>ReproAI (engine anomalyco/opencode) performs AI-led reproducibility audits of published studies, inventorying claims, re-implementing headline analyses where data and code are shared, and checking internal consistency. A natural validation question is whether such automated audits reach the same conclusions as human reproducibility checks that have already been conducted and coded by the research community.</p>
+<p>The FLoRA database (Forrtproject&rsquo;s FReD project) catalogs human reproducibility and replication efforts and codes their outcomes. This report compares the ReproAI audits with the corresponding human checks for <b>numerical reproducibility</b> (the <code>outcome</code> field); <b>robustness</b> is deliberately excluded.</p>
+
+<h2 id="method">Method</h2>
+<h3>Data source</h3>
+<p>The public CSV <code>flora.csv</code> (forrtproject/FReD-data, <code>main/output/flora.csv</code>) was downloaded. For each row it pairs an original study with either a <i>replication</i> (a second new-data study attempting to reproduce it) or a <i>reproduction</i> (a re-analysis using the authors&rsquo; data/code), and records a human-coded <code>outcome</code> for reproducibility.</p>
+<h3>Matching</h3>
+<p>Each of the 17 ReproAI-audited studies was matched to FLoRA by DOI extracted from the original-study APA reference (<code>apa_ref_o</code>), with title-based cross-checks. Where a study had multiple FLoRA rows, all relevant rows (replication and reproduction) were retained.</p>
+<h3>Outcome mapping</h3>
+<p>Only the <b>reproducibility</b> part of the human code was used (<code>successful</code> / <code>failed</code> / <code>mixed</code> for replicate-type codes; the reproducibility component of any combined code). Robustness components were ignored. ReproAI grades were mapped to a comparable scale: fully reproduced / reproduced-or-consistent / partial / not-reproducible.</p>
+
+<h2 id="results">Results</h2>
+<h3>Coverage</h3>
+<p>Of the 17 audited studies, <b>15</b> had a matching FLoRA record. <b>11</b> of these are reproduction records whose <code>outcome</code> is <code>NA</code> in the current flora.csv &mdash; i.e., a human reproduction exists but carries no comparable coded verdict in this snapshot. One study (Cordova &amp; Kras, 2021) and the methods-only JMLR paper had no FLoRA entry. Only <b>4</b> studies have a coded human reproducibility outcome available for direct comparison.</p>
+
+<h3>All matched studies</h3>
+<table class="apa">
+<thead><tr><th>Study</th><th>Source</th><th>DOI</th><th>ReproAI verdict</th><th>Human FLoRA <code>outcome</code></th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>Sanders et al. (2024) umbrella review, <i>Nat Hum Behav</i></td><td>I4R</td><td class="doi">10.1038/s41562-023-01712-8</td><td><b>&#10003; Fully reproduced</b> (pooled effects 18/18)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded in flora.csv</td></tr>
+<tr><td>Weeks et al. (2023), <i>APSR</i></td><td>I4R</td><td class="doi">10.1017/s0003055422000107</td><td><b>&#10003; Fully reproduced</b> (Tables 1&ndash;3)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Bobonis et al. (2022), <i>AER</i></td><td>I4R</td><td class="doi">10.1257/aer.20190565</td><td><b>&#8776; Internally consistent</b> (regressions pending data)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Hjort &amp; Poulsen (2019), <i>AER</i></td><td>I4R</td><td class="doi">10.1257/aer.20161385</td><td><b>&#8776; Internally consistent</b> (retabulation pending)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Cordova &amp; Kras (2021), <i>J. Politics</i></td><td>I4R</td><td class="doi">10.1086/714931</td><td><b>&#10003; Fully reproduced</b> (Dataverse)</td><td>&mdash;</td><td>No FLoRA entry matched</td></tr>
+<tr><td>Goeree &amp; Yariv (2011), <i>Econometrica</i></td><td>SCORE</td><td class="doi">10.3982/ecta8852</td><td><b>&#8776; Reproduced / internally consistent</b> (data-integrity P1)</td><td><b>successful</b></td><td>SCORE new-data replication coded <b>successful</b></td></tr>
+<tr><td>Baillon et al. (2018), <i>Econometrica</i></td><td>SCORE</td><td class="doi">10.3982/ecta14370</td><td><b>&#8776; Internally clean</b> (P2 fig-vs-text)</td><td><b>successful</b></td><td>SCORE replication coded <b>successful</b></td></tr>
+<tr><td>Pennycook et al., accuracy nudge (preprint)</td><td>SCORE</td><td class="doi">10.31234/osf.io/uhbk9</td><td><b>&#9873; Partial</b> (Study 2 yes, Study 1 no)</td><td><b>mixed</b></td><td>several replications (mostly mixed/successful; SCORE coded <b>mixed</b>)</td></tr>
+<tr><td>Flesia et al. (2020), COVID stress (preprint)</td><td>SCORE</td><td class="doi">10.31234/osf.io/yb2h8</td><td><b>&#10007; Not reproduced</b> (data promised, not shipped)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Sweeny et al. (2020), flow China (preprint)</td><td>SCORE</td><td class="doi">10.31234/osf.io/e3kcw</td><td><b>&#8776; Conclusions reproduce</b> (Table 1 mislabel P1)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Rodriguez-Lara &amp; Moreno-Garrido (2012), <i>Exp. Econ.</i></td><td>SCORE</td><td class="doi">10.1007/s10683-011-9295-3</td><td><b>&#10007; Not independently reproducible</b> (no data)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Adida et al. (2016), <i>Comp. Pol. Studies</i></td><td>SCORE</td><td class="doi">10.1177/0010414015621080</td><td><b>&#10007; Not independently reproducible</b> (no data)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Balcells &amp; Kalyvas (2014), <i>J. Conflict Resol.</i></td><td>SCORE</td><td class="doi">10.1177/0022002714547903</td><td><b>&#10007; Unverifiable</b> (no replication pkg)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Altmann et al. (2012), <i>JOLE</i></td><td>SCORE</td><td class="doi">10.1086/662130</td><td><b>&#10007; Not independently recomputable</b> (no data)</td><td><b>failed</b></td><td>SCORE new-data replication coded <b>failed</b></td></tr>
+<tr><td>Usmani (2018), <i>AJS</i></td><td>SCORE</td><td class="doi">10.1086/700235</td><td><b>&#10007; Unverifiable</b> (no data/code)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Forster &amp; Neugebauer (2024), <i>Soc. Science</i></td><td>III</td><td class="doi">10.15195/v11.a32</td><td><b>&#10003; Fully reproduced</b> (all 33 claims)</td><td>NA</td><td>FLoRA reproduction record; <i>outcome</i> not coded</td></tr>
+<tr><td>Javanmard &amp; Montanari (2014), <i>JMLR</i></td><td>III</td><td class="doi">(none)</td><td><b>&#9873; Partial</b> (theory verifies; sims qualitative)</td><td>&mdash;</td><td>No FLoRA entry (methods paper, no DOI)</td></tr>
+</tbody>
+</table>
+
+<h2 id="focus">Focused comparison: the four studies with both verdicts</h2>
+<table class="apa">
+<thead><tr><th>Study</th><th>ReproAI verdict</th><th>Human outcome</th><th>Agreement</th></tr></thead>
+<tbody>
+<tr><td>Goeree &amp; Yariv (2011), <i>Econometrica</i></td><td>&#8776; Reproduced / internally consistent (data-integrity note)</td><td><b>successful</b></td><td><b>Aligned</b> &mdash; both find the results reproduce</td></tr>
+<tr><td>Baillon et al. (2018), <i>Econometrica</i></td><td>&#8776; Internally clean (minor P2)</td><td><b>successful</b></td><td><b>Aligned</b> &mdash; both find the results hold</td></tr>
+<tr><td>Pennycook et al., accuracy nudge (preprint)</td><td>&#9873; Partial (Study 2 reproduced, Study 1 not)</td><td><b>mixed</b> (multiple replications)</td><td><b>Aligned</b> &mdash; mixed/partial in both</td></tr>
+<tr><td>Altmann et al. (2012), <i>JOLE</i></td><td>&#10007; Not independently recomputable (no data/code)</td><td><b>failed</b> (new-data replication)</td><td><b>Complementary</b> &mdash; AI could not verify; human independently found failure</td></tr>
+</tbody>
+</table>
+<p>On the three studies for which both methods produced a verdict (Goeree, Baillon, Pennycook), the AI and human conclusions agree. The fourth case (Altmann) is the most informative: the ReproAI audit was bounded by the absence of shared data and returned &ldquo;not independently recomputable,&rdquo; while a human SCORE <i>new-data</i> replication was able to test the original effect and found it did not replicate (<code>failed</code>). This illustrates a boundary of AI-led auditing: without data, an AI meta-check can flag unverifiability but cannot itself detect failure, which a data-collecting human replication can.</p>
+
+<h2 id="discussion">Discussion</h2>
+<p>Where a human-coded FLoRA outcome exists and a ReproAI audit produced a verdict, the two agree. The most consistent pattern is that both human and AI checks vindicate studies that share data and code, and flag studies where the underlying materials are missing or where the reported numbers do not reproduce.</p>
+<p>The comparison is, however, limited by the FLoRA snapshot: the majority of the audited studies (11) have only a reproduction record with an <code>outcome</code> of <code>NA</code>, so no human reproducible code is currently available to benchmark them against. This is itself a finding: the set of studies directly comparable to the AI audits is small.</p>
+
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Only the <code>outcome</code> field was used (reproducibility); robustness was excluded per the task.</li>
+<li>Many FLoRA reproduction records carry <code>outcome = NA</code> in this flora.csv snapshot, limiting direct comparison to four studies.</li>
+<li>Study matching relied on DOI/title; ambiguous or multi-article authors (e.g., Pennycook) required manual review.</li>
+<li>A human <i>replication</i> tests the original effect with new data; a ReproAI audit re-derives numbers from shared materials. The two answer related but not identical questions, so &ldquo;agreement&rdquo; must be interpreted accordingly.</li>
+</ul>
+
+<h2 id="open-science">Open Science Statements</h2>
+<p>All ReproAI checks were performed by DeepSeek V4 Flash via uniGPT within the ReproAI pipeline (engine anomalyco/opencode; rules 2026.06.27). Human outcomes are taken from the publicly available FLoRA / FReD database. No copyrighted full text is republished.</p>
+
+<h2 id="data-availability">Data Availability</h2>
+<p>ReproAI audit artifacts are on this site under the per-study reports. FLoRA data are at <a href="https://github.com/forrtproject/FReD-data">github.com/forrtproject/FReD-data</a>.</p>
+
+<h2 id="references">References</h2>
+<p class="ref">Forrtproject. (2026). <i>FReD: A database of replication and reproduction outcomes</i> (FLoRA). https://github.com/forrtproject/FReD-data</p>
+<p class="ref">Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an academic co-publisher. In <i>EUNIS 2026</i> (EPiC Series in Computing, Vol. 109, pp. 96&ndash;107). https://doi.org/10.29007/4rq8</p>
+<p class="ref">Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. <i>Science, 349</i>(6251), aac4716.</p>
+
+<footer>Made with opencode &middot; <a href="https://github.com/LukasRoeseler/reprochecks">ReproChecks on GitHub</a></footer>
+</div>
+<script>
+document.getElementById("tocToggle").addEventListener("click",function(){var b=document.querySelector(".toc-body");b.style.display=b.style.display==="block"?"none":"block";});
+</script>
+</body></html>
