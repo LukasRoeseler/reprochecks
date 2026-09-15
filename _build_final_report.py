@@ -103,6 +103,52 @@ _nhb_cost = int(len(nhb_ft)*_APC_NHB)
 _nhb_cost_str = f"{_nhb_cost:,}"
 _apc_str = f"{_APC_NHB:,.0f}"
 
+# ---- NHB non-available data/code table (statement-only + none) ----
+_NA_PREFIX = r'full text (pdf) retrieved and claims audited \| '
+def _nhb_na_reason(s):
+    sev = s.get("severity","")
+    c = _re.sub(r'^full text \(pdf\) retrieved and claims audited \| ','',(s.get("caveat") or ""),flags=_re.I)
+    c = _re.sub(r'^data availability stated, no direct link:\s*','',c,flags=_re.I)
+    cl = c.lower()
+    if sev == "P1" or 'no data availability statement' in cl:
+        return "No data availability statement"
+    if 'on reasonable request' in cl or 'available upon request' in cl:
+        return "Available on request from authors"
+    if any(k in cl for k in ('consent','irb','ethical','data-protection','data protection','restriction','restricted','cannot be shared','not publicly','law','do not per','not permitted')):
+        return "Ethical/legal restriction (consent, IRB, data protection)"
+    if any(k in cl for k in ('biobank','nda','hcp','register','application','approval','third-party','third party','access','dryad','dataverse','osf','figshare','zenodo','github','repository','pgc','controlled')):
+        return "Third-party / restricted repository (application/approval needed)"
+    if any(k in cl for k in ('supplement','included in this','included in the','source data','data files necessary','data for')):
+        return "Source data only in paper/supplement"
+    if any(k in cl for k in ('https','available at','available from','available through','downloadable','publicly available','open science')):
+        return "URL/repository named, no direct machine-downloadable link"
+    return "Data not directly downloadable"
+_nhb_na = [s for s in nhb_ft if s.get("severity") in ("P1","P2")]
+def _e(x):
+    return str(x).replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace('"',"&quot;")
+def _na_avail_tally():
+    from collections import Counter as _C
+    t = _C()
+    for s in _nhb_na:
+        t[_nhb_na_reason(s)] += 1
+    return t
+_na_tally = _na_avail_tally()
+_na_tally_html = "<br>".join(f"{k}: {v}" for k,v in _na_tally.most_common())
+_nhb_na_rows = "\n".join(
+    "<tr><td>" + _e(s.get("year","")) + "</td>"
+    + "<td><a href=\"MetaPsych_vs_NHB/" + _e(s["id"]) + "/\" target=\"_blank\" title=\"Open ReproAI report\">" + _e(s["id"]) + "</a></td>"
+    + "<td class=\"tt\">" + _e(s["title"]) + "</td>"
+    + "<td>" + (('<a href="https://doi.org/' + _e(s["doi"]) + '" target="_blank">' + _e(s["doi"]) + "</a>") if s.get("doi") else "&mdash;") + "</td>"
+    + "<td>" + ("No statement" if s.get("severity")=="P1" else "Statement only") + "</td>"
+    + "<td class=\"cav\">" + _e(_nhb_na_reason(s)) + "</td></tr>"
+    for s in sorted(_nhb_na, key=lambda x:(x.get("year",""), x["id"])))
+_nhb_na_count = len(_nhb_na)
+# MP: numbers mismatch (distinct numbers come out) tallies come from re-execution outcomes
+_mp_nums = {  # conceptual split for MP where re-execution happened
+    "Reproduced": mp_ok, "Partially reproduced (some numbers differ)": mp_par,
+    "Not reproduced (numbers differ)": mp_fail, "Technical failure (code could not run)": mp_tech,
+}
+
 for s in included:
     s["report"] = "MetaPsych_vs_NHB/" + s["id"] + "/"
 data_js = json.dumps(included, ensure_ascii=False).replace("</", "<\\/")
@@ -325,7 +371,7 @@ body { position:relative; }
 <p class="figcap"><b>Figure 1.</b> Open data availability by journal, shown as the share (percentage) of audited studies within each journal, with the exact count in parentheses at each bar tip &mdash; this makes the two journals comparable despite the small <i>Meta-Psychology</i> corpus. Note that several <i>Meta-Psychology</i> studies are simulations in which raw data are not applicable, so no-data should not be read as a transparency failure.</p></div>
 
 <h3>For how many did the check work, and how many had issues or big problems?</h3>
-<p>For <i>Meta-Psychology</i>, where a genuine computational reproduction was possible, @MPOK@ studies reproduced near-exactly and @MPPAR@ reproduced only partially; @MPFAIL@ did not reproduce and @MPTECH@ hit technical blockers. These are genuinely re-ran analyses, so &ldquo;reproduced&rdquo; is a strong certification. For <i>NHB</i>, the audit established data/code availability rather than re-execution: @NHBP3@ offered a working direct link (the check usable), @NHBP2@ offered only a statement (usable data not directly reachable &mdash; an issue), and @NHBP1@ offered no availability at all (a bigger problem). Figure&nbsp;2 contrasts these two outcome schemes.</p>
+<p>For <i>Meta-Psychology</i>, where a genuine computational reproduction was possible, @MPOK@ studies reproduced near-exactly and @MPPAR@ reproduced only partially; @MPFAIL@ did not reproduce and @MPTECH@ hit technical blockers. These are genuinely re-ran analyses, so &ldquo;reproduced&rdquo; is a strong certification; for these <i>Meta-Psychology</i> studies the data and code were available, so any failure falls under the &ldquo;different numbers come out&rdquo; category (partially reproduced or not reproduced) or a technical blocker, rather than &ldquo;data could not be shared.&rdquo; For <i>NHB</i>, the audit established data/code availability rather than re-execution: @NHBP3@ offered a working direct link (the check usable), @NHBP2@ offered only a statement (usable data not directly reachable &mdash; an issue), and @NHBP1@ offered no availability at all (a bigger problem). These <i>NHB</i> cases are predominantly &ldquo;data could not be shared&rdquo; availability barriers; because the <i>NHB</i> check did not re-execute the code, no &ldquo;different numbers come out&rdquo; verdicts are reported for it (Table&nbsp;1). Figure&nbsp;2 contrasts these two outcome schemes.</p>
 <div class="figure"><img src="fig3_outcomes.png" alt="Outcomes by journal">
 <p class="figcap"><b>Figure 2.</b> Outcomes of the audit for each journal, shown as the share (percentage) of audited studies within each journal with the exact count at each bar tip: for <i>Meta-Psychology</i>, how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, how many articles gave a direct working link, a statement only, or no availability. Because the <i>Meta-Psychology</i> corpus is small (n&nbsp;=&nbsp;14), percentages are reported alongside exact counts so the two are not misleadingly compared.</p></div>
 
@@ -346,6 +392,14 @@ body { position:relative; }
 <p>We complemented the reproducibility audit with a bibliometric and cost analysis across the same @@MPA@@ <i>Meta-Psychology</i> and @@NHBFT@@ <i>NHB</i> studies (Study&nbsp;2). Citation counts were retrieved from the OpenAlex scholarly database for each audited article by its DOI (OpenAlex, 2026). Across the audited studies, <i>NHB</i> is far more cited than <i>Meta-Psychology</i>: its articles accrued @@NHBCSUM@@ citations in total (median&nbsp;@@NHBCMED@@), versus @@MPCSUM@@ (median&nbsp;@@MPCMED@@) for <i>Meta-Psychology</i>. Figure&nbsp;4 compares the citation distributions (on a symlog scale) between the two journals overall and broken down by audit outcome. Citation counts do not track the reproducibility ranking we observed in Study&nbsp;1: the journal with the stronger reproducibility practices is the one with far fewer citations, and within each journal citation numbers are broadly similar across reproducibility outcomes.</p>
 <div class="figure"><img src="fig5_citations.png" alt="Citations by journal and outcome">
 <p class="figcap"><b>Figure 4.</b> Citation numbers (OpenAlex), shown on a symlog scale. Left: overall comparison between <i>Meta-Psychology</i> and <i>NHB</i>. Middle: <i>Meta-Psychology</i> citations split by audit outcome. Right: <i>NHB</i> citations split by data-availability outcome. Dashed labels give each group&rsquo;s median.</p></div>
+<p>To characterise the @@NHBNA@@ <i>NHB</i> articles whose data/code were not directly available (the 55 &ldquo;statement only&rdquo; plus the 1 with no statement), Table&nbsp;1 lists each one with the reason recorded in its audit. We distinguish two conceptually different reasons a study may not be reproducible: (a)&nbsp;<b>data or code could not be shared</b> &mdash; an availability barrier, where the material exists but is not directly reachable or obtainable; and (b)&nbsp;<b>different numbers come out</b> &mdash; a numerical failure, where, despite available data and code, re-execution yields different results from those reported. These are different problems with different remedies.</p>
+<table id="naTable">
+<thead><tr><th>Year</th><th>Study</th><th>Title</th><th>DOI</th><th>Availability</th><th>Reason (from audit)</th></tr></thead>
+<tbody>@@NHB_NA_TABLE@@
+</tbody>
+</table>
+<p class="tabnote"><em>Table 1.</em> The @@NHBNA@@ audited <i>NHB</i> articles for which the data and/or code were not directly machine-downloadable. The reason shown is summarised from each article&rsquo;s data-availability statement as recorded in the full-text audit. There are no entries under &ldquo;different numbers come out&rdquo; for these <i>NHB</i> articles because the full-text <i>NHB</i> audit recorded data/code availability but did not re-execute the code; the &ldquo;different numbers come out&rdquo; category is instead captured by the <i>Meta-Psychology</i> re-execution audits (see below).</p>
+<p class="tabnote"><em>Availability reasons for the @@NHBNA@@ non-directly-downloadable <i>NHB</i> articles.</em><br>@@NHB_NA_TALLY@@</p>
 <p class="tabnote"><em>Data source and caveat.</em> Citation counts were obtained from the OpenAlex database via its public API using each article&rsquo;s DOI. OpenAlex is not absolutely comprehensive: citation indices vary by service, and recent or less-indexed work may be undercounted. Citation counts here should therefore be read as approximate and are best used for coarse, cross-journal comparison rather than precise per-article figures. The retrieval script is shared in the project repository so the analysis can be re-run.</p>
 
 <h3>Estimated publication costs (APCs)</h3>
@@ -527,6 +581,9 @@ repl = {
     "@@MPCMED@@": str(_st.median(_mp_cites)),
     "@@NHBCSUM@@": str(sum(_nhb_cites)),
     "@@NHBCMED@@": str(_st.median(_nhb_cites)),
+    "@@NHBNA@@": str(_nhb_na_count),
+    "@@NHB_NA_TABLE@@": _nhb_na_rows,
+    "@@NHB_NA_TALLY@@": _na_tally_html,
     "@@APCNHB@@": _apc_str,
     "@@NHBCOST@@": _nhb_cost_str,
     "@@EXTRA_REFS@@": _extra_refs_html,
