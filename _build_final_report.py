@@ -103,8 +103,9 @@ _nhb_cost = int(len(nhb_ft)*_APC_NHB)
 _nhb_cost_str = f"{_nhb_cost:,}"
 _apc_str = f"{_APC_NHB:,.0f}"
 
-# ---- NHB non-available data/code table (statement-only + none) ----
-_NA_PREFIX = r'full text (pdf) retrieved and claims audited \| '
+# ---- NHB data/code reasons: studies where the audit could NOT be run (not direct-link) ----
+# Reclassify: if source data are in the paper/supplement they ARE downloadable, so they are
+# treated as available (not a non-availability reason) and excluded from the barrier tally.
 def _nhb_na_reason(s):
     sev = s.get("severity","")
     c = _re.sub(r'^full text \(pdf\) retrieved and claims audited \| ','',(s.get("caveat") or ""),flags=_re.I)
@@ -118,31 +119,26 @@ def _nhb_na_reason(s):
         return "Ethical/legal restriction (consent, IRB, data protection)"
     if any(k in cl for k in ('biobank','nda','hcp','register','application','approval','third-party','third party','access','dryad','dataverse','osf','figshare','zenodo','github','repository','pgc','controlled')):
         return "Third-party / restricted repository (application/approval needed)"
-    if any(k in cl for k in ('supplement','included in this','included in the','source data','data files necessary','data for')):
-        return "Source data only in paper/supplement"
+    if any(k in cl for k in ('supplement','included in this','included in the','source data','data files necessary','data for','available within the article','are provided in the')):
+        return "AVAILABLE (data in paper/supplement)"
     if any(k in cl for k in ('https','available at','available from','available through','downloadable','publicly available','open science')):
         return "URL/repository named, no direct machine-downloadable link"
     return "Data not directly downloadable"
-_nhb_na = [s for s in nhb_ft if s.get("severity") in ("P1","P2")]
+def _nhb_na_is_barrier(s):
+    return _nhb_na_reason(s) != "AVAILABLE (data in paper/supplement)"
+_nhb_na = [s for s in nhb_ft if s.get("severity") in ("P1","P2") and _nhb_na_is_barrier(s)]
 def _e(x):
     return str(x).replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace('"',"&quot;")
-def _na_avail_tally():
-    from collections import Counter as _C
-    t = _C()
-    for s in _nhb_na:
-        t[_nhb_na_reason(s)] += 1
-    return t
-_na_tally = _na_avail_tally()
-_na_tally_html = "<br>".join(f"{k}: {v}" for k,v in _na_tally.most_common())
-_nhb_na_rows = "\n".join(
-    "<tr><td>" + _e(s.get("year","")) + "</td>"
-    + "<td><a href=\"MetaPsych_vs_NHB/" + _e(s["id"]) + "/\" target=\"_blank\" title=\"Open ReproAI report\">" + _e(s["id"]) + "</a></td>"
-    + "<td class=\"tt\">" + _e(s["title"]) + "</td>"
-    + "<td>" + (('<a href="https://doi.org/' + _e(s["doi"]) + '" target="_blank">' + _e(s["doi"]) + "</a>") if s.get("doi") else "&mdash;") + "</td>"
-    + "<td>" + ("No statement" if s.get("severity")=="P1" else "Statement only") + "</td>"
-    + "<td class=\"cav\">" + _e(_nhb_na_reason(s)) + "</td></tr>"
-    for s in sorted(_nhb_na, key=lambda x:(x.get("year",""), x["id"])))
-_nhb_na_count = len(_nhb_na)
+# ---- APA-style summary table of reasons ----
+from collections import Counter as _C
+_na_tally = _C(_nhb_na_reason(s) for s in _nhb_na)
+_na_total = sum(_na_tally.values())
+_na_tally_apa_rows = "\n".join(
+    "<tr><td class=\"tt\">" + _e(k) + "</td><td style=\"text-align:center\">" + str(v)
+    + "</td><td style=\"text-align:center\">" + f"{100*v/_na_total:.1f}%"
+    + "</td></tr>" for k,v in _na_tally.most_common())
+_nhb_na_count = _na_total
+_nhb_direct = len(nhb_ft) - _nhb_na_count
 # MP: numbers mismatch (distinct numbers come out) tallies come from re-execution outcomes
 _mp_nums = {  # conceptual split for MP where re-execution happened
     "Reproduced": mp_ok, "Partially reproduced (some numbers differ)": mp_par,
@@ -206,6 +202,10 @@ table { border-collapse:collapse; width:100%; font-size:8.5pt; line-height:1.3; 
 th,td { border:1px solid #888; padding:3px 5px; vertical-align:top; text-align:left; }
 th { background:#eee; }
 .tt { max-width:250px; } .cav { max-width:180px; color:#444; }
+table.apa { border-collapse:collapse; width:70%; margin:16px auto; font-size:10pt; }
+table.apa th, table.apa td { border:none; border-bottom:1px solid #888; padding:4px 10px; text-align:center; }
+table.apa thead tr { border-bottom:2px solid #222; }
+table.apa tbody tr:last-child td { border-bottom:2px solid #222; }
 .figure { text-align:center; margin:24px 0; }
 .figure img { max-width:95%; border:1px solid #ddd; }
 .figcap { font-size:11pt; text-align:left; margin-top:8px; line-height:1.4; }
@@ -266,6 +266,7 @@ body { position:relative; }
   <div class="toc-toggle" id="tocToggle">Contents</div>
   <div class="toc-body">
     <a href="#abstract">Abstract</a>
+    <a href="#introduction">Introduction</a>
     <a href="#dash">Dashboard</a>
     <a href="#method">Method</a>
     <a href="#results">Results</a>
@@ -286,7 +287,7 @@ body { position:relative; }
 
 <h2 id="abstract">Abstract</h2>
 <div class="abstract">
-<p>We asked which publishing model is the more reproducible: the scholar-led, Diamond Open-Access journal <i>Meta-Psychology</i> or the commercially published <i>Nature Human Behavior</i> (<i>NHB</i>), for their 2019 and 2020 volumes. For <i>Meta-Psychology</i> we re-ran @@MPA@@ computational reproduction audits; for <i>NHB</i> we audited the full text of @@NHBFT@@ empirical articles. Of the @@MPA@@ <i>Meta-Psychology</i> audits, @@MPOK@@ reproduced near-exactly and @@MPPAR@@ partially. Across the @@NHBFT@@ <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed direct, machine-downloadable data/code links, @@NHBP2@@ (@@NHBP2PCT@@%) supplied availability statements without direct links, and @@NHBP1@@ gave no statement. In a companion bibliometric analysis (Study&nbsp;2), the audited <i>NHB</i> articles had accrued @@NHBCSUM@@ citations versus @@MPCSUM@@ for <i>Meta-Psychology</i>, but <i>NHB</i>&rsquo;s estimated article-processing charges were &euro;@@NHBCOST@@ compared with &euro;0 for <i>Meta-Psychology</i>. Overall, <i>NHB</i> is highly cited and expensive, but its reproducibility is much lower. All audits were performed by the DeepSeek&nbsp;V4&nbsp;Flash large language model (Radas, Risse, &amp; Vogl, 2026).</p>
+<p>We asked which publishing model is the more reproducible: the scholar-led, Diamond Open-Access journal <i>Meta-Psychology</i> or the commercially published <i>Nature Human Behavior</i> (<i>NHB</i>), for their 2019 and 2020 volumes. For <i>Meta-Psychology</i> we re-ran @@MPA@@ computational reproduction audits; for <i>NHB</i> we audited the full text of @@NHBFT@@ empirical articles. Of the @@MPA@@ <i>Meta-Psychology</i> audits, @@MPOK@@ reproduced near-exactly and @@MPPAR@@ partially. Across the @@NHBFT@@ <i>NHB</i> articles, @@NHBP3@@ (@@NHBP3PCT@@%) exposed direct, machine-downloadable data/code links, @@NHBP2@@ (@@NHBP2PCT@@%) supplied availability statements without direct links, and @@NHBP1@@ gave no statement; only @@NHBNADIRECT@@ had usable data/code on which a numerical check could in practice be run. In a companion bibliometric analysis (Study&nbsp;2), the audited <i>NHB</i> articles had accrued @@NHBCSUM@@ citations versus @@MPCSUM@@ for <i>Meta-Psychology</i>, but <i>NHB</i>&rsquo;s estimated article-processing charges were &euro;@@NHBCOST@@ compared with &euro;0 for <i>Meta-Psychology</i>. Overall, <i>NHB</i> is highly cited and expensive, but its reproducibility is much lower. All audits were performed by the DeepSeek&nbsp;V4&nbsp;Flash large language model (Radas, Risse, &amp; Vogl, 2026).</p>
 </div>
 <p class="keywords"><strong>Keywords:</strong> reproducibility, open science, open data, open code, publishing, Meta-Psychology, Nature Human Behavior</p>
 
@@ -322,6 +323,9 @@ body { position:relative; }
 
 
 
+<h2 id="introduction">Introduction</h2>
+<p>Reproducibility is a cornerstone of cumulative science, yet journals differ in how they support it. In this article we ask which publishing model &mdash; scholar-led, Diamond open access (<i>Meta-Psychology</i>) or commercially published (<i>Nature Human Behavior</i>) &mdash; is the more reproducible. We report two studies. <b>Study&nbsp;1</b> is a reproducibility audit comparing the two journals for their 2019 and 2020 volumes. <b>Study&nbsp;2</b> complements this with citation (OpenAlex) and estimated cost (APC) analyses and reflects on what &ldquo;reproducibility&rdquo; means when the underlying data or code cannot be obtained. Both journals are young: each launched in 2017, so the audited years cover their third and fourth volumes.</p>
+
 <h2 id="method">Method</h2>
 <h3>Target-of-analysis selection (PRISMA-style flow)</h3>
 <p>The parallel PRISMA-style flows below show how the set of audited studies was determined for each journal. Both begin at the journal, restrict to 2019 and 2020, apply exclusions (non-empirical records, then records for which the data/code needed to re-execute the analysis was not available, or the full text could not be retrieved), and end with the reduced sample in which an AI checked the reproduced results against the reported results. Both journals are young: each launched in 2017, so the 2019 and 2020 audits cover their third and fourth volumes, respectively.</p>
@@ -349,17 +353,21 @@ body { position:relative; }
     <div class="parrow">&#8595;</div>
     <div class="pbox pexcl"><b>Excluded &mdash; full text not retrievable</b>Subscription paywall &nbsp;(n = @NHBMETA@)</div>
     <div class="parrow">&#8595;</div>
-    <div class="pbox mergebox"><b>Results check</b>An AI checked reproduced results against the reported results<br><b>@NHBFT@ audited</b></div>
+    <div class="pbox"><b>Full text retrieved</b>&nbsp;(n = @NHBFT@)</div>
+    <div class="parrow">&#8595;</div>
+    <div class="pbox pexcl"><b>Excluded &mdash; data/code not directly available</b>Statement only or none &nbsp;(n = @NHBNA@)</div>
+    <div class="parrow">&#8595;</div>
+    <div class="pbox mergebox"><b>Results check</b>Numerical check runnable (direct data/code link)<br><b>@NHBNADIRECT@ audited</b></div>
   </div>
 </div>
-<p class="tabnote"><em>PRISMA-style flow.</em> For <i>NHB</i>, @NHBMETA@ empirical articles are not included because the journal&rsquo;s subscription paywall prevented PDF retrieval; these received no full-text audit and are excluded from this report. For <i>Meta-Psychology</i>, the full text of all records is openly available; 4 records were excluded because they are non-empirical and/or the data and code needed to re-execute the analysis were not available (the reproduction audit was therefore not feasible), so the remaining @MPA@ were audited.</p>
+<p class="tabnote"><em>PRISMA-style flow.</em> For <i>NHB</i>, @NHBMETA@ empirical articles are not included because the journal&rsquo;s subscription paywall prevented PDF retrieval; these received no full-text audit and are excluded from this report. Of the @NHBFT@ articles whose full text was retrieved, @NHBNA@ supplied only a statement (or none) so the data/code were not directly downloadable and the numerical re-check could not be run; the remaining @NHBNADIRECT@ with a direct data/code link are those on which the numerical results check could be run (Figures&nbsp;3 and&nbsp;5). For <i>Meta-Psychology</i>, the full text of all records is openly available; 4 records were excluded because they are non-empirical and/or the data and code needed to re-execute the analysis were not available (the reproduction audit was therefore not feasible), so the remaining @MPA@ were audited.</p>
 
 <h3>ReproAI audit procedure</h3>
 <p>ReproAI audits combine manuscript claim extraction, data/code-availability assessment, and&mdash;where the data and code are available&mdash;independent re-execution or verification against the reported numbers. Severity is graded P1 (critical) to P3 (minor). All audits in this report were re-performed and authored entirely by the DeepSeek&nbsp;V4&nbsp;Flash large language model, served through the on-premises uniGPT platform (<a class="cit" href="#ref-radas" title="Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform - Two years of on-premises LLM operations.">Radas et al., 2026</a>), running within the ReproAI pipeline on the opencode engine. For <i>Meta-Psychology</i>, @MPA@ audits re-ran shipped code and verified results against the manuscript. For <i>NHB</i>, audits ran against the PDF&rsquo;s reported numbers and recorded data/code availability for the @NHBFT@ articles whose full text could be retrieved.</p>
 <h3>Transparency of authorship</h3>
 <p>This document is an output of a large language model (DeepSeek&nbsp;V4&nbsp;Flash, served via uniGPT, running on the anomalyco/opencode engine). The prose, figures, dashboard, HTML, and every ReproAI verdict in the individual audit reports were generated automatically by that model.</p>
 
-<h2 id="results">Results</h2>
+<h2 id="results">Results (Study 1)</h2>
 <h3>Audit funnel and full-text coverage</h3>
 <p>We first establish, journal by journal, how many articles existed, how many were empirical, and how many could be audited (Figure&nbsp;1). <i>Meta-Psychology</i> published 21 records across Volumes 3 and 4; @MPA@ of these could be audited because their full text and the underlying data and code are openly available, while 4 records were excluded as non-empirical or because the data/code needed for a reproduction audit were not available. <i>NHB</i> published 164 records; 150 were empirical and, of these, the full text of @NHBFT@ (@@NHBFTPCT@@%) could be retrieved and audited, while the remaining @NHBMETA@ could not be included because full text was unavailable.</p>
 <div class="figure"><img src="fig1_funnel.png" alt="Audit funnel">
@@ -371,18 +379,25 @@ body { position:relative; }
 <p class="figcap"><b>Figure 2.</b> Open data availability by journal, shown as the share (percentage) of audited studies within each journal, with the exact count in parentheses at each bar tip &mdash; this makes the two journals comparable despite the small <i>Meta-Psychology</i> corpus. Note that several <i>Meta-Psychology</i> studies are simulations in which raw data are not applicable, so no-data should not be read as a transparency failure.</p></div>
 
 <h3>For how many did the check work, and how many had issues or big problems?</h3>
-<p>For <i>Meta-Psychology</i>, where a genuine computational reproduction was possible, @MPOK@ studies reproduced near-exactly and @MPPAR@ reproduced only partially; @MPFAIL@ did not reproduce and @MPTECH@ hit technical blockers. These are genuinely re-ran analyses, so &ldquo;reproduced&rdquo; is a strong certification; for these <i>Meta-Psychology</i> studies the data and code were available, so any failure falls under the &ldquo;different numbers come out&rdquo; category (partially reproduced or not reproduced) or a technical blocker, rather than &ldquo;data could not be shared.&rdquo; For <i>NHB</i>, the audit established data/code availability rather than re-execution: @NHBP3@ offered a working direct link (the check usable), @NHBP2@ offered only a statement (usable data not directly reachable &mdash; an issue), and @NHBP1@ offered no availability at all (a bigger problem). These <i>NHB</i> cases are predominantly &ldquo;data could not be shared&rdquo; availability barriers; because the <i>NHB</i> check did not re-execute the code, no &ldquo;different numbers come out&rdquo; verdicts are reported for it (Table&nbsp;1). Figure&nbsp;3 contrasts these two outcome schemes.</p>
+<p>For <i>Meta-Psychology</i>, where a genuine computational reproduction was possible, @MPOK@ studies reproduced near-exactly and @MPPAR@ reproduced only partially; @MPFAIL@ did not reproduce and @MPTECH@ hit technical blockers. These are genuinely re-ran analyses, so &ldquo;reproduced&rdquo; is a strong certification; for these <i>Meta-Psychology</i> studies the data and code were available, so any failure falls under the &ldquo;different numbers come out&rdquo; category (partially reproduced or not reproduced) or a technical blocker, rather than &ldquo;data could not be shared.&rdquo; For <i>NHB</i>, the audit established data/code availability rather than re-execution: only the @NHBNADIRECT@ articles with a direct, machine-downloadable link could in principle be re-run, whereas @NHBP2@ offered only a statement and @NHBP1@ no availability at all &mdash; these @NHBNA@ &ldquo;data could not be shared&rdquo; availability barriers could not be re-run (Table&nbsp;1). Figure&nbsp;3 therefore plots, for each journal, only the studies on which the audit could actually be run: for <i>Meta-Psychology</i> all @MPA@ re-executions are shown and split by outcome, and for <i>NHB</i> the @NHBNADIRECT@ runnable studies are shown.</p>
 <div class="figure"><img src="fig3_outcomes.png" alt="Outcomes by journal">
-<p class="figcap"><b>Figure 3.</b> Outcomes of the audit for each journal, shown as the share (percentage) of audited studies within each journal with the exact count at each bar tip: for <i>Meta-Psychology</i>, how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, how many articles gave a direct working link, a statement only, or no availability. Because the <i>Meta-Psychology</i> corpus is small (n&nbsp;=&nbsp;14), percentages are reported alongside exact counts so the two are not misleadingly compared.</p></div>
+<p class="figcap"><b>Figure 3.</b> Reproducibility outcomes for the studies where the audit could be run, with one square per study: for <i>Meta-Psychology</i> (n&nbsp;=&nbsp;@MPA@), how many reproductions worked (reproduced), partially reproduced, or failed/technical; for <i>NHB</i>, the @NHBNADIRECT@ audited articles with usable data/code (@NHBP3@ direct link + @NHBNADIRECT_MINUS3@ in the paper/supplement) on which a numerical check could run &mdash; the remaining @NHBNA@ articles supplied only a statement (or none) and could not be re-run, so they appear in Figure&nbsp;2 and are summarised in Table&nbsp;1 rather than here.</p></div>
+<p>Because the availability reasons differ in kind, we distinguish two conceptually different reasons a study may not be reproducible: (a)&nbsp;<b>data or code could not be shared</b> &mdash; an availability barrier, where the material exists but is not directly reachable or obtainable; and (b)&nbsp;<b>different numbers come out</b> &mdash; a numerical failure, where, despite available data and code, re-execution yields different results from those reported. These are different problems with different remedies. The <i>NHB</i> cases above fall under (a): the full-text check recorded data/code availability without re-executing code, so no &ldquo;different numbers come out&rdquo; verdicts are reported for <i>NHB</i>. The &ldquo;different numbers come out&rdquo; category is instead captured by the <i>Meta-Psychology</i> re-execution audits (partially reproduced or not reproduced). Table&nbsp;1 summarises the recorded reasons behind the @NHBNA@ <i>NHB</i> availability barriers (excluding those whose data are available in the paper or supplement, which are downloadable and therefore not barriers).</p>
+<table class="apa" id="naTable">
+<thead><tr><th>Reason data/code not directly available</th><th>n</th><th>%</th></tr></thead>
+<tbody>@@NHB_NA_TABLE@@
+</tbody>
+</table>
+<p class="tabnote"><em>Table 1.</em> Distribution of the recorded reasons why data/code were not directly machine-downloadable across the @NHBNA@ such <i>NHB</i> articles (the statement-only and no-statement cases, excluding those whose data are available in the paper/supplement). Percentages are of these @NHBNA@ articles.</p>
 
 <h3>Distribution of the number of claims</h3>
 <p>The two audits differ in depth: <i>Meta-Psychology</i> reproductions re-ran shipped code and therefore audited far more claims per article (median&nbsp;@@MPCLAIMS_MED@@; range @@MPCLAIMS_MIN@@&ndash;@@MPCLAIMS_MAX@@ full claims), whereas the <i>NHB</i> checks verified the key reported numbers against the PDF (median&nbsp;@@NHBCLAIMS_MED@@; range @@NHBCLAIMS_MIN@@&ndash;@@NHBCLAIMS_MAX@@ full claims). Figure&nbsp;4 shows the distribution of the full (integer) number of claims audited per article for each journal, with the median marked by a dashed line.</p>
 <div class="figure"><img src="fig4_claims_hist.png" alt="Distribution of the number of claims">
 <p class="figcap"><b>Figure 4.</b> Histograms of the number of claims audited per article, for <i>Meta-Psychology</i> (left) and <i>Nature Human Behavior</i> (right), plotted as full numbers with the median indicated by a dashed line. The <i>Meta-Psychology</i> audits re-ran full analyses and consequently audited more claims per article (median&nbsp;@@MPCLAIMS_MED@@) than the <i>NHB</i> verifications (median&nbsp;@@NHBCLAIMS_MED@@).</p></div>
 
-<h2 id="discussion">Discussion</h2>
+<h2 id="discussion">Discussion (Study 1)</h2>
 <p>The scholar-led journal in our sample (<i>Meta-Psychology</i>) performs well on the transparency metrics we measured. Its editorial policies couple publication to the deposition of data and code, and its reproducibility reviews&mdash;which we re-performed here with independent code re-execution&mdash;publicly certify what does and does not reproduce. Of the fourteen re-audited articles, twelve reproduced near-exactly and two reproduced only partially, underscoring that the mandated openness plus re-execution (here by a deep LLM) makes verification concrete, while confirming that genuinely independent re-execution remains the gold standard.</p>
-<p>The commercial journal in our sample (<i>NHB</i>) nearly always meets the letter of its data-availability requirement, but @@NHBP2PCT@@% of audited articles stop at a statement, and only @@NHBP3PCT@@% expose direct, machine-downloadable links. Because the full text is paywalled, only @@NHBFT@@ of the 150 <i>NHB</i> empirical articles could be checked against the actual PDF; the remaining @@NHBMETA@@ could not be included. Full-text access is a prerequisite for genuine verification, and its absence is itself a transparency cost. Where data/code were not directly linked, the reasons recorded in the audits were usually practical rather than intentionally hidden: data were most often placed in third-party or restricted repositories that require a separate application or approval (e.g., biobanks, data archives, register data), withheld for ethical or legal reasons such as consent and data-protection law, provided &ldquo;on reasonable request&rdquo; from the corresponding author, or embedded only as source data in the paper or supplement. Such data are typically technically shareable but are not immediately machine-downloadable, which is a real but often logistical barrier to reproducibility.</p>
+<p>The commercial journal in our sample (<i>NHB</i>) nearly always meets the letter of its data-availability requirement, but @@NHBP2PCT@@% of audited articles stop at a statement, and only @@NHBP3PCT@@% expose direct, machine-downloadable links. Because the full text is paywalled, only @@NHBFT@@ of the 150 <i>NHB</i> empirical articles could be checked against the actual PDF; the remaining @@NHBMETA@@ could not be included. Full-text access is a prerequisite for genuine verification, and its absence is itself a transparency cost. Where data/code were not immediately machine-downloadable (Table&nbsp;1), the reasons recorded in the audits were usually practical rather than intentionally hidden: data were most often placed in third-party or restricted repositories that require a separate application or approval (e.g., biobanks, data archives, register data), withheld for ethical or legal reasons such as consent and data-protection law, provided &ldquo;on reasonable request&rdquo; from the corresponding author, or named via a URL without a direct machine-downloadable file. Where the data were instead embedded in the paper or its supplement, we treated them as available, since they are directly downloadable from the article. Either way, such material is typically technically shareable but is not immediately machine-downloadable in a ready-to-run form, which is a real but often logistical barrier to reproducibility.</p>
 <p>Within this comparison, the scholar-led journal in our sample sets a higher and more verifiable bar for reproducibility than the commercial journal in our sample. We do not claim that this generalizes to all scholarly-led or all commercially published journals: the two here represent only one instance of each publishing model, and future research should examine whether these findings extend to other journals of each type.</p>
 <p>For researchers publishing meta-psychological findings, <i>Meta-Psychology</i> and <i>NHB</i> exemplify two ends of a quality&ndash;quantity trade-off. <i>Meta-Psychology</i> emphasises quality: it publishes fewer articles, but with openly available data and code that are independently audited. <i>NHB</i> emphasises quantity: it publishes many articles, but with more limited reproducibility and verification because full text and, often, data are not openly reachable. We caution that the journals publish different content types, the <i>Meta-Psychology</i> corpus is small, and the <i>Meta-Psychology</i> outcome is a reproduction certification whereas the <i>NHB</i> outcome is an availability audit, so the two are not directly commensurable.</p>
 <p>Because both journals are young, their 2019 and 2020 volumes fall within their first few years of publication. Extending this audit to more recent years would be valuable, as the reproducibility-relevant policies of each journal &mdash; and, for <i>NHB</i>, the degree to which data-availability statements translate into direct, working links &mdash; may have changed over time. However, the accompanying citation analyses (Study&nbsp;2) are less informative for recent work: newly published articles have had comparatively little time to accrue citations, so citation counts from the latest volumes should be interpreted with particular caution or revisited once those articles have matured.</p>
@@ -391,16 +406,10 @@ body { position:relative; }
 <h3>Citing behaviour (OpenAlex)</h3>
 <p>We complemented the reproducibility audit with a bibliometric and cost analysis across the same @@MPA@@ <i>Meta-Psychology</i> and @@NHBFT@@ <i>NHB</i> studies (Study&nbsp;2). Citation counts were retrieved from the OpenAlex scholarly database for each audited article by its DOI (OpenAlex, 2026). Across the audited studies, <i>NHB</i> is far more cited than <i>Meta-Psychology</i>: its articles accrued @@NHBCSUM@@ citations in total (median&nbsp;@@NHBCMED@@), versus @@MPCSUM@@ (median&nbsp;@@MPCMED@@) for <i>Meta-Psychology</i>. Figure&nbsp;5 compares the citation distributions (on a symlog scale) between the two journals overall and broken down by audit outcome. Citation counts do not track the reproducibility ranking we observed in Study&nbsp;1: the journal with the stronger reproducibility practices is the one with far fewer citations, and within each journal citation numbers are broadly similar across reproducibility outcomes.</p>
 <div class="figure"><img src="fig5_citations.png" alt="Citations by journal and outcome">
-<p class="figcap"><b>Figure 5.</b> Citation numbers (OpenAlex), shown on a symlog scale. Left: overall comparison between <i>Meta-Psychology</i> and <i>NHB</i>. Middle: <i>Meta-Psychology</i> citations split by audit outcome. Right: <i>NHB</i> citations split by data-availability outcome. Dashed labels give each group&rsquo;s median.</p></div>
-<p>To characterise the @@NHBNA@@ <i>NHB</i> articles whose data/code were not directly available (the 55 &ldquo;statement only&rdquo; plus the 1 with no statement), Table&nbsp;1 lists each one with the reason recorded in its audit. We distinguish two conceptually different reasons a study may not be reproducible: (a)&nbsp;<b>data or code could not be shared</b> &mdash; an availability barrier, where the material exists but is not directly reachable or obtainable; and (b)&nbsp;<b>different numbers come out</b> &mdash; a numerical failure, where, despite available data and code, re-execution yields different results from those reported. These are different problems with different remedies.</p>
-<table id="naTable">
-<thead><tr><th>Year</th><th>Study</th><th>Title</th><th>DOI</th><th>Availability</th><th>Reason (from audit)</th></tr></thead>
-<tbody>@@NHB_NA_TABLE@@
-</tbody>
-</table>
-<p class="tabnote"><em>Table 1.</em> The @@NHBNA@@ audited <i>NHB</i> articles for which the data and/or code were not directly machine-downloadable. The reason shown is summarised from each article&rsquo;s data-availability statement as recorded in the full-text audit. There are no entries under &ldquo;different numbers come out&rdquo; for these <i>NHB</i> articles because the full-text <i>NHB</i> audit recorded data/code availability but did not re-execute the code; the &ldquo;different numbers come out&rdquo; category is instead captured by the <i>Meta-Psychology</i> re-execution audits (see below).</p>
-<p class="tabnote"><em>Availability reasons for the @@NHBNA@@ non-directly-downloadable <i>NHB</i> articles.</em><br>@@NHB_NA_TALLY@@</p>
+<p class="figcap"><b>Figure 5.</b> Citation numbers (OpenAlex), shown on a symlog scale. Left: overall comparison between <i>Meta-Psychology</i> and <i>NHB</i>. Middle: <i>Meta-Psychology</i> citations split by reproducibility outcome. Right: <i>NHB</i> citations for the @@NHBNADIRECT@@ articles with usable data/code (the only ones on which the audit could run). Dashed labels give each group&rsquo;s median.</p></div>
 <p class="tabnote"><em>Data source and caveat.</em> Citation counts were obtained from the OpenAlex database via its public API using each article&rsquo;s DOI. OpenAlex is not absolutely comprehensive: citation indices vary by service, and recent or less-indexed work may be undercounted. Citation counts here should therefore be read as approximate and are best used for coarse, cross-journal comparison rather than precise per-article figures. The retrieval script is shared in the project repository so the analysis can be re-run.</p>
+
+
 
 <h3>Estimated publication costs (APCs)</h3>
 <p>We also estimated the economic cost of publishing each journal&rsquo;s articles. <i>Meta-Psychology</i> is a Diamond Open-Access journal and charges no article-processing charge (APC), so its @@MPA@@ audited studies cost approximately &euro;0. <i>NHB</i> is a commercial journal that applies an APC for open-access publication; using a conservative per-article estimate of &euro;@@APCNHB@@ (typical of commercial Nature-portfolio journals, adjustable in the shared script), the @@NHBFT@@ audited articles correspond to an estimated total of approximately &euro;@@NHBCOST@@. This contrast illustrates that the reproducibility advantages of the scholar-led, Diamond-OA model come at minimal direct publication cost to authors, whereas the commercial model&rsquo;s higher citation counts are accompanied by substantial estimated article-processing charges.</p>
@@ -582,8 +591,10 @@ repl = {
     "@@NHBCSUM@@": str(sum(_nhb_cites)),
     "@@NHBCMED@@": str(_st.median(_nhb_cites)),
     "@@NHBNA@@": str(_nhb_na_count),
-    "@@NHB_NA_TABLE@@": _nhb_na_rows,
-    "@@NHB_NA_TALLY@@": _na_tally_html,
+    "@@NHBNADIRECT@@": str(_nhb_direct),
+    "@@NHBNADIRECT_MINUS3@@": str(_nhb_direct - nhb_p3),
+    "@@NHB_NA_TABLE@@": _na_tally_apa_rows,
+    "@@NHB_NA_TALLY@@": ("<br>".join(f"{k}: {v}" for k,v in _na_tally.most_common())),
     "@@APCNHB@@": _apc_str,
     "@@NHBCOST@@": _nhb_cost_str,
     "@@EXTRA_REFS@@": _extra_refs_html,

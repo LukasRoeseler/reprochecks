@@ -27,44 +27,43 @@ nhb_p3 = sum(1 for s in nhb_ft if s["severity"]=="P3")
 nhb_p2 = sum(1 for s in nhb_ft if s["severity"]=="P2")
 nhb_p1 = sum(1 for s in nhb_ft if s["severity"]=="P1")
 nhb_p3pct = round(100*nhb_p3/len(nhb_ft)); nhb_p2pct = round(100*nhb_p2/len(nhb_ft))
+# runnable set = direct P3 link OR data available in paper/supplement (downloadable); mirrors the report reclassification
+def _is_barrier(s):
+    c=(s.get("caveat") or "").lower()
+    if s.get("severity")=="P1": return True
+    if any(k in c for k in ('supplement','included in this','included in the','source data','data files necessary','data for','available within the article','are provided in the')):
+        return False
+    return True
+nhb_direct = sum(1 for s in nhb_ft if not _is_barrier(s))
 
 MP_C = "#F2B30F"
 NHB_C = "#0b2344"
 OK="#2e7d32"; PAR="#f9a825"; BAD="#c62828"; TECH="#ef6c00"
 
 
-# ---- unit-chart helper: one rectangle per study ----
-def unit_chart(ax, cats, vals, colors, square=0.88, per_row=16, gap=0.15):
-    x0, y0 = 0.5, 0.5
-    ci = 0  # current cat index
-    placed = [0]*len(cats)
-    def col_of(k):
-        return colors[k]
-    # rectangles
-    import matplotlib.patches as mpatches
-    for k in range(len(cats)):
-        n = int(vals[k])
+# ---- unit-chart helper: one rectangle per study, stacked per category, WITH x/y axes ----
+import matplotlib.patches as mpatches
+def unit_chart(ax, cats, vals, colors, square=0.7, per_col_max=14, gap=0.12):
+    # each category = a column of one rectangle per study, counted on the y-axis
+    for k, n in enumerate(vals):
+        n = int(n)
         for i in range(n):
-            r = placed[k]
-            xx = x0 + (r % per_row)*(square+gap)
-            yy = y0 + (r // per_row)*(square+gap)
-            rect = mpatches.Rectangle((xx,yy), square, square, facecolor=col_of(k),
+            r = i % per_col_max            # row within column
+            col = i // per_col_max         # wrap into extra columns
+            xx = k + 0.05 + col*(1.02)
+            yy = r*(square+gap)
+            rect = mpatches.Rectangle((xx, yy), square, square, facecolor=colors[k],
                                       edgecolor="white", linewidth=0.6, alpha=0.92)
             ax.add_patch(rect)
-            placed[k]+=1
-    rows = int(max((v-1)//per_row for v in vals if v) + 1) if any(vals) else 1
-    ax.set_xlim(0, x0+per_row*(square+gap))
-    ax.set_ylim(0, y0+rows*(square+gap))
-    ax.set_aspect("equal")
-    ax.axis("off")
-
-def unit_legend(ax, entries):
-    import matplotlib.patches as mpatches
-    handles=[]
-    for label,color in entries:
-        handles.append(mpatches.Patch(facecolor=color, edgecolor="white", label=label))
-    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0,0),
-              frameon=False, fontsize=10)
+    maxrows = max((int(v)//per_col_max + (1 if int(v)%per_col_max else 0))*1 for v in vals) if vals else 1
+    ax.set_xlim(-0.3, len(cats)+0.3)
+    ax.set_ylim(0, maxrows*per_col_max*(square+gap))
+    ax.set_xticks(range(len(cats))); ax.set_xticklabels(cats, fontsize=9)
+    ax.set_yticks(np.arange(0, maxrows*per_col_max+1))
+    ax.set_ylim(0, int(ax.get_ylim()[1])+1)
+    ax.set_ylabel("Number of studies", fontsize=10)
+    ax.spines[['top','right']].set_visible(False)
+    ax.grid(axis="y", alpha=0.3)
 
 
 # ============================================================ Figure 1: funnel
@@ -91,43 +90,50 @@ mp_od_na = len(mp_aud)-mp_od
 fig, axes = plt.subplots(1,2, figsize=(14,5), gridspec_kw={"width_ratios":[1,1]})
 # meta-psychology
 ax=axes[0]
-cats=["Open data","Data N/A (sim.)"]
+cats=["Open\ndata","Data\nN/A"]
 vals=[mp_od, mp_od_na]
 cols=[OK,"#b0bec5"]
-unit_chart(ax, cats, vals, cols, per_row=10)
+unit_chart(ax, cats, vals, cols)
 ax.set_title(f"Meta-Psychology open data (n={len(mp_aud)})\nOpen data present: {mp_od} ({round(100*mp_od/len(mp_aud))}%)", fontsize=12, fontweight="bold")
-unit_legend(ax, list(zip([f"Open data ({mp_od})","Data N/A (simulation) ({mp_od_na})"],cols)))
 # nhb
 ax=axes[1]
-cats=["Direct link","Statement only","No avail."]
+cats=["Direct\nlink","Statement\nonly","No\navail."]
 vals=[nhb_p3, nhb_p2, nhb_p1]
 cols=[OK,PAR,BAD]
-unit_chart(ax, cats, vals, cols, per_row=16)
+unit_chart(ax, cats, vals, cols)
 ax.set_title(f"Nature Human Behavior data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
-unit_legend(ax, list(zip([f"Direct data/code link ({nhb_p3})","Statement only ({nhb_p2})","No availability ({nhb_p1})"],cols)))
+# single shared legend
+handles=[mpatches.Patch(facecolor=OK, label=f"Open data / direct link ({mp_od}+{nhb_p3})"),
+         mpatches.Patch(facecolor=PAR, label=f"Statement only ({nhb_p2})"),
+         mpatches.Patch(facecolor=BAD, label=f"No availability ({nhb_p1})"),
+         mpatches.Patch(facecolor="#b0bec5", label=f"Data N/A (simulation) ({mp_od_na})")]
 fig.suptitle("Open data availability by journal — each small square is one audited study", fontsize=13, fontweight="bold")
-fig.tight_layout(rect=[0.02,0.05,1,0.93]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
+fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=10)
+fig.tight_layout(rect=[0.02,0.10,1,0.90]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # ============================================================ Figure 3: outcomes (unit chart, one rectangle per study)
-fig, axes = plt.subplots(1,2, figsize=(15,5.5), gridspec_kw={"width_ratios":[1,1]})
+fig, axes = plt.subplots(1,2, figsize=(14,5.2), gridspec_kw={"width_ratios":[1,1]})
 ax=axes[0]
 cats=["Reproduced","Partially","Not\nreproduced","Technical"]
-mp_vals=[mp_ok, mp_par+mp_na, mp_bad, mp_tech]
+mp_vals=[mp_ok, mp_par, mp_bad, mp_tech]
 cols=[OK,PAR,BAD,TECH]
-unit_chart(ax, cats, mp_vals, cols, per_row=10)
-ax.set_title(f"Meta-Psychology outcomes (n={len(mp_aud)})\nReproduced: {mp_ok} · Partial: {mp_par+mp_na} · Not reprod.: {mp_bad} · Technical: {mp_tech}", fontsize=12, fontweight="bold")
-unit_legend(ax, list(zip(["Reproduced","Partially reproduced","Not reproduced","Technical failure"],
-                         [OK,PAR,BAD,TECH])) + [(f"({mp_ok}/{mp_par+mp_na}/{mp_bad}/{mp_tech})", "#ffffff")])
+unit_chart(ax, cats, mp_vals, cols)
+ax.set_title(f"Meta-Psychology outcomes (n={len(mp_aud)})\nReproduced: {mp_ok} · Partial: {mp_par} · Not reprod.: {mp_bad} · Technical: {mp_tech}", fontsize=12, fontweight="bold")
+# NHB: only include studies where the numerical check could run (direct data/code link, n = nhb_direct)
 ax=axes[1]
-cats=["Direct\nlink","Statement\nonly","No\navailability"]
-nhb_vals=[nhb_p3, nhb_p2, nhb_p1]
-cols=[OK,PAR,BAD]
-unit_chart(ax, cats, nhb_vals, cols, per_row=18)
-ax.set_title(f"Nature Human Behavior availability outcome (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
-unit_legend(ax, list(zip(["Direct data/code link","Statement only","No availability"],
-                         [OK,PAR,BAD])) + [(f"({nhb_p3}/{nhb_p2}/{nhb_p1})", "#ffffff")])
-fig.suptitle("For how many did the check work, and how many had issues? — each small square is one audited study", fontsize=13, fontweight="bold")
-fig.tight_layout(rect=[0.02,0.05,1,0.93]); fig.savefig(os.path.join(OUT,"fig3_outcomes.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
+cats=["Check\ncould run"]
+vals=[nhb_direct]
+cols=[OK]
+unit_chart(ax, cats, vals, cols, per_col_max=18)
+ax.set_title(f"Nature Human Behavior (audit runnable only, n={nhb_direct})\nOf {len(nhb_ft)} audited: {nhb_direct} had usable data/code ({nhb_p3} direct link + {nhb_direct-nhb_p3} in paper/supplement);\n{nhb_p2-(nhb_direct-nhb_p3)} statement-only and {nhb_p1} none could not be re-run", fontsize=11, fontweight="bold")
+# single shared legend
+handles=[mpatches.Patch(facecolor=OK, label="Reproduced / check could run"),
+         mpatches.Patch(facecolor=PAR, label="Partially reproduced"),
+         mpatches.Patch(facecolor=BAD, label="Not reproduced"),
+         mpatches.Patch(facecolor=TECH, label="Technical failure")]
+fig.suptitle("Reproducibility outcomes — each small square is one audited study where the audit could be run", fontsize=13, fontweight="bold")
+fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=10)
+fig.tight_layout(rect=[0.02,0.10,1,0.90]); fig.savefig(os.path.join(OUT,"fig3_outcomes.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # ============================================================ Figure 4: claims histograms (integers + medians)
 fig, axes = plt.subplots(1,2, figsize=(12.5,5))
@@ -192,14 +198,12 @@ for lab in ["Reproduced","Partially reproduced"]:
     g=[s["cites"] for s in mp_aud if s["outcome"]==lab]
     mp_group.append(g); mp_lab.append(lab)
 box_with_jitter(axes[1], mp_group, mp_lab, {"Reproduced":OK,"Partially reproduced":PAR}, ylog=True)
-axes[1].set_title("Meta-Psychology: citations by outcome", fontsize=12, fontweight="bold")
-# NHB by outcome
-nhb_group=[]; nhb_lab=[]
-for lab in ["Direct data/code link","Statement only","No availability"]:
-    g=[s["cites"] for s in nhb_ft if s["outcome"]==lab]
-    nhb_group.append(g); nhb_lab.append(lab)
-box_with_jitter(axes[2], nhb_group, nhb_lab, {"Direct data/code link":OK,"Statement only":PAR,"No availability":BAD}, ylog=True)
-axes[2].set_title("NHB: citations by data availability", fontsize=12, fontweight="bold")
+axes[1].set_title("Meta-Psychology: citations by reproducibility outcome", fontsize=12, fontweight="bold")
+# NHB: citations for the studies where the audit could run (usable data/code only)
+nhb_runnable_set = [s for s in nhb_ft if not _is_barrier(s)]
+box_with_jitter(axes[2], [ [s["cites"] for s in nhb_runnable_set] ],
+                ["NHB (audit runnable)"], { "NHB (audit runnable)":OK }, ylog=True)
+axes[2].set_title(f"NHB: citations (audit runnable, n={len(nhb_runnable_set)})", fontsize=12, fontweight="bold")
 fig.suptitle("Is reproducibility linked to citation numbers? (Study 2)", fontsize=14, fontweight="bold")
 fig.tight_layout(rect=[0,0,1,0.93]); fig.savefig(os.path.join(OUT,"fig5_citations.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
