@@ -33,6 +33,40 @@ NHB_C = "#0b2344"
 OK="#2e7d32"; PAR="#f9a825"; BAD="#c62828"; TECH="#ef6c00"
 
 
+# ---- unit-chart helper: one rectangle per study ----
+def unit_chart(ax, cats, vals, colors, square=0.88, per_row=16, gap=0.15):
+    x0, y0 = 0.5, 0.5
+    ci = 0  # current cat index
+    placed = [0]*len(cats)
+    def col_of(k):
+        return colors[k]
+    # rectangles
+    import matplotlib.patches as mpatches
+    for k in range(len(cats)):
+        n = int(vals[k])
+        for i in range(n):
+            r = placed[k]
+            xx = x0 + (r % per_row)*(square+gap)
+            yy = y0 + (r // per_row)*(square+gap)
+            rect = mpatches.Rectangle((xx,yy), square, square, facecolor=col_of(k),
+                                      edgecolor="white", linewidth=0.6, alpha=0.92)
+            ax.add_patch(rect)
+            placed[k]+=1
+    rows = int(max((v-1)//per_row for v in vals if v) + 1) if any(vals) else 1
+    ax.set_xlim(0, x0+per_row*(square+gap))
+    ax.set_ylim(0, y0+rows*(square+gap))
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+def unit_legend(ax, entries):
+    import matplotlib.patches as mpatches
+    handles=[]
+    for label,color in entries:
+        handles.append(mpatches.Patch(facecolor=color, edgecolor="white", label=label))
+    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0,0),
+              frameon=False, fontsize=10)
+
+
 # ============================================================ Figure 1: funnel
 fig, axes = plt.subplots(1,2, figsize=(12,5.2))
 for ax,(name,c_fun,stages) in zip(axes,
@@ -51,51 +85,49 @@ fig.suptitle("Audit funnel: how many articles existed, were empirical, and could
 fig.tight_layout(rect=[0,0,1,0.95])
 fig.savefig(os.path.join(OUT,"fig1_funnel.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
-# ============================================================ Figure 2: open data (percentage)
+# ============================================================ Figure 2: open data (unit chart, one rectangle per study)
 mp_od = sum(1 for s in mp_aud if str(s.get("open_data","")).lower() in ("yes","y"))
 mp_od_na = len(mp_aud)-mp_od
-def pct_txt(count, denom):
-    return f"{count}\n({round(100*count/denom)}%)"
-fig, ax = plt.subplots(figsize=(9.5,5))
-cats=["Open data present","Data N/A (simulation)","Statement only","No availability"]
-mp_vals=[mp_od, mp_od_na, 0, 0]
-nhb_vals=[nhb_p3, 0, nhb_p2, nhb_p1]
-x=np.arange(len(cats)); w=0.38
-b1=ax.bar(x-w/2, [100*v/len(mp_aud) for v in mp_vals], w, label="Meta-Psychology (audited, n=%d)"%len(mp_aud), color=MP_C)
-b2=ax.bar(x+w/2, [100*v/len(nhb_ft) for v in nhb_vals], w, label="NHB (full-text audited, n=%d)"%len(nhb_ft), color=NHB_C)
-for i,(v1,v2) in enumerate(zip(mp_vals,nhb_vals)):
-    if v1>0: ax.annotate(pct_txt(v1,len(mp_aud)), (i-w/2, 100*v1/len(mp_aud)+1.5), ha="center", fontsize=9, fontweight="bold", color="#8a6d00")
-    if v2>0: ax.annotate(pct_txt(v2,len(nhb_ft)), (i+w/2, 100*v2/len(nhb_ft)+1.5), ha="center", fontsize=9, fontweight="bold", color=NHB_C)
-ax.set_xticks(x); ax.set_xticklabels(cats, fontsize=10)
-ax.set_ylabel("Percentage of audited studies (%)"); ax.set_ylim(0,100)
-ax.set_title("Open data availability by journal (share of audited studies)", fontsize=13, fontweight="bold")
-ax.legend(); ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
-fig.tight_layout(); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
+fig, axes = plt.subplots(1,2, figsize=(14,5), gridspec_kw={"width_ratios":[1,1]})
+# meta-psychology
+ax=axes[0]
+cats=["Open data","Data N/A (sim.)"]
+vals=[mp_od, mp_od_na]
+cols=[OK,"#b0bec5"]
+unit_chart(ax, cats, vals, cols, per_row=10)
+ax.set_title(f"Meta-Psychology open data (n={len(mp_aud)})\nOpen data present: {mp_od} ({round(100*mp_od/len(mp_aud))}%)", fontsize=12, fontweight="bold")
+unit_legend(ax, list(zip([f"Open data ({mp_od})","Data N/A (simulation) ({mp_od_na})"],cols)))
+# nhb
+ax=axes[1]
+cats=["Direct link","Statement only","No avail."]
+vals=[nhb_p3, nhb_p2, nhb_p1]
+cols=[OK,PAR,BAD]
+unit_chart(ax, cats, vals, cols, per_row=16)
+ax.set_title(f"Nature Human Behavior data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
+unit_legend(ax, list(zip([f"Direct data/code link ({nhb_p3})","Statement only ({nhb_p2})","No availability ({nhb_p1})"],cols)))
+fig.suptitle("Open data availability by journal — each small square is one audited study", fontsize=13, fontweight="bold")
+fig.tight_layout(rect=[0.02,0.05,1,0.93]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
-# ============================================================ Figure 3: outcomes (percentage)
-fig, axes = plt.subplots(1,2, figsize=(12.5,5))
+# ============================================================ Figure 3: outcomes (unit chart, one rectangle per study)
+fig, axes = plt.subplots(1,2, figsize=(15,5.5), gridspec_kw={"width_ratios":[1,1]})
 ax=axes[0]
 cats=["Reproduced","Partially","Not\nreproduced","Technical"]
 mp_vals=[mp_ok, mp_par+mp_na, mp_bad, mp_tech]
 cols=[OK,PAR,BAD,TECH]
-vals_p=[100*v/len(mp_aud) for v in mp_vals]
-b=ax.bar(cats, vals_p, color=cols, alpha=0.9)
-for i,v,raw in zip(range(len(cats)),vals_p,mp_vals):
-    if raw>0: ax.annotate(pct_txt(raw,len(mp_aud)), (i, v+1.2), ha="center", fontsize=10, fontweight="bold")
-ax.set_title("Meta-Psychology outcomes (n=%d)"%len(mp_aud), fontsize=12, fontweight="bold")
-ax.set_ylim(0,105); ax.set_ylabel("Percentage of audited studies (%)"); ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
+unit_chart(ax, cats, mp_vals, cols, per_row=10)
+ax.set_title(f"Meta-Psychology outcomes (n={len(mp_aud)})\nReproduced: {mp_ok} · Partial: {mp_par+mp_na} · Not reprod.: {mp_bad} · Technical: {mp_tech}", fontsize=12, fontweight="bold")
+unit_legend(ax, list(zip(["Reproduced","Partially reproduced","Not reproduced","Technical failure"],
+                         [OK,PAR,BAD,TECH])) + [(f"({mp_ok}/{mp_par+mp_na}/{mp_bad}/{mp_tech})", "#ffffff")])
 ax=axes[1]
 cats=["Direct\nlink","Statement\nonly","No\navailability"]
 nhb_vals=[nhb_p3, nhb_p2, nhb_p1]
 cols=[OK,PAR,BAD]
-vals_p=[100*v/len(nhb_ft) for v in nhb_vals]
-b=ax.bar(cats, vals_p, color=cols, alpha=0.9)
-for i,v,raw in zip(range(len(cats)),vals_p,nhb_vals):
-    if raw>0: ax.annotate(pct_txt(raw,len(nhb_ft)), (i, v+1.2), ha="center", fontsize=10, fontweight="bold")
-ax.set_title("Nature Human Behavior availability outcome (n=%d)"%len(nhb_ft), fontsize=12, fontweight="bold")
-ax.set_ylim(0,105); ax.set_ylabel("Percentage of articles (%)"); ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
-fig.suptitle("For how many did the check work, and how many had issues or big problems? (share of audited studies)", fontsize=13, fontweight="bold")
-fig.tight_layout(rect=[0,0,1,0.95]); fig.savefig(os.path.join(OUT,"fig3_outcomes.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
+unit_chart(ax, cats, nhb_vals, cols, per_row=18)
+ax.set_title(f"Nature Human Behavior availability outcome (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
+unit_legend(ax, list(zip(["Direct data/code link","Statement only","No availability"],
+                         [OK,PAR,BAD])) + [(f"({nhb_p3}/{nhb_p2}/{nhb_p1})", "#ffffff")])
+fig.suptitle("For how many did the check work, and how many had issues? — each small square is one audited study", fontsize=13, fontweight="bold")
+fig.tight_layout(rect=[0.02,0.05,1,0.93]); fig.savefig(os.path.join(OUT,"fig3_outcomes.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # ============================================================ Figure 4: claims histograms (integers + medians)
 fig, axes = plt.subplots(1,2, figsize=(12.5,5))
@@ -113,6 +145,12 @@ for ax, vals, name, color, bins in panels:
     ticks = [t for t in ax.get_xticks() if float(t).is_integer()]
     ax.set_xticks(ticks)
     ax.set_xlabel("Number of claims audited per article (full numbers)"); ax.set_ylabel("Number of studies")
+    # force integer-only y ticks (no fractional 'Number of studies' values)
+    ymax = ax.get_ylim()[1]
+    yticks = np.arange(0, ymax+1).astype(int)
+    if yticks[-1] < ymax:
+        yticks = np.append(yticks, int(np.ceil(ymax)))
+    ax.set_yticks(yticks)
     ax.grid(axis="y", alpha=0.3); ax.spines[['top','right']].set_visible(False)
 fig.suptitle("Distribution of the number of claims audited per article (dashed line = median)", fontsize=14, fontweight="bold")
 fig.tight_layout(rect=[0,0,1,0.95]); fig.savefig(os.path.join(OUT,"fig4_claims_hist.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
