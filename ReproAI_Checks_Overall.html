@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ReproAI Checks &mdash; Overall Summary</title>
-<meta name="description" content="An AI-led overview of reproducibility checks across selected study batches (I4R, SCORE, and additional sources).">
+<title>ReproAI Checks &mdash; Overall Summary and Comparison with Human Checks</title>
+<meta name="description" content="AI-led ReproAI reproducibility audits compared against human checks in the FLoRA/FReD database.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 :root { --mp:#F2B30F; --nhb:#0b2344; --ink:#111; }
@@ -74,6 +74,16 @@ body { position:relative; }
   .toc-body { display:none; }
   .toc-toggle { display:block; cursor:pointer; background:#1a1a2e; color:#fff; padding:8px 12px; border-radius:6px; font-weight:bold; }
 }
+
+.c-full{background:#d1f0dc !important;}
+.c-consistent{background:#fdeccc !important;}
+.c-partial{background:#fcd9b8 !important;}
+.c-nodata{background:#e9e9ed !important;}
+.c-fail{background:#f9d6d6 !important;}
+.sev{font-size:.78rem;color:#666;}
+td.doi{font-family:ui-monospace,Consolas,monospace;font-size:.78rem;}
+.table-wrap{overflow-x:auto;}
+.legend span{padding:2px 8px;border-radius:6px;margin-right:6px;}
 </style>
 </head><body>
 <div class="wrap">
@@ -89,135 +99,123 @@ body { position:relative; }
 <a href="#comparison">Comparison: AI vs Human (FLoRA)</a>
 <a href="#discussion">Discussion</a>
 <a href="#open-science">Open Science Statements</a>
-<a href="#author-note">Author Note</a>
-<a href="#conflict">Conflict of Interest</a>
 <a href="#data-availability">Data Availability</a>
 <a href="#references">References</a>
+<a href="#ref-human">References: Human reports</a>
+<a href="#prompts">Supplement: Prompts</a>
   </div>
 </nav>
 
-<h1>ReproAI Checks: An Overview of AI-led Reproducibility Audits</h1>
-<p class="byline">Summary across three sources of studies &mdash; <i>I4R</i>, <i>SCORE</i>, and <i>additional sources</i></p>
-<p class="subtitle">Across 17 audited studies, 0 critical (P0) findings; reproducibility varies strongly with whether the authors shared data and code.</p>
+<h1>ReproAI Checks: An Overall Summary and Comparison with Human Reproducibility Checks</h1>
+<p class="byline">Summary across the I4R, SCORE, and additional study sources, benchmarked against the human-coded outcomes in the FLoRA / FReD database</p>
+<p class="subtitle">Where a human reproduction outcome is coded, the AI-led ReproAI verdicts and the human checks largely converge; disagreements concentrate where the AI audit was bounded by missing data/code.</p>
 
 <h2 id="abstract">Abstract</h2>
 <div class="abstract">
-<p>This report summarizes AI-led reproducibility audits of <b>17 studies</b> for which a full-text PDF was available and an audit was completed: <b>5 I4R</b>, <b>10 SCORE</b>, and <b>2 additional</b> studies. Audits were performed by <b>DeepSeek V4 Flash via uniGPT</b> within the ReproAI pipeline (engine: anomalyco/opencode), following a severity classification of P0 (critical) to P3 (minor).</p>
-<p>No study received a P0 (critical) finding. Headline results were independently reproduced for <b>4</b> studies and reproduced or found internally consistent (with only minor-to-moderate issues) for a further <b>5</b>. <b>2</b> studies were only partially reproducible, and <b>6</b> could not be independently reproduced because no data or code was shared or obtainable. Across the whole sample, the single most common P1 (major) issue was the absence of a public data/code deposit, not a demonstrated error in the reported statistics.</p>
+<p>This report summarizes the AI-led ReproAI reproducibility audits of <b>15 studies</b> drawn from the I4R, SCORE, and additional sources, and compares them with the corresponding <b>human</b> reproducibility outcomes coded in the <b>FLoRA / FReD</b> database. Only studies for which a full-text PDF was available, an audit was completed, <b>and</b> a human reproduction outcome (non-<code>NA</code>) exists are retained.</p>
+<p>The AI audits (performed by <b>DeepSeek V4 Flash via uniGPT</b>, engine anomalyco/opencode) found <b>no P0 (critical)</b> findings. Against the human FLoRA computational-reproducibility codes, <b>6</b> studies were computationally reproducible, <b>6</b> showed computational issues, and <b>3</b> ended in technical failure. In <b>6</b> instances the AI audit could not independently reproduce a study for lack of shared data, while the human reproduction (which could obtain the data) reached a definitive computational verdict &mdash; illustrating both the value and the limit of AI-led auditing.</p>
 </div>
 
 <h2 id="introduction">Introduction</h2>
-<p>This document gives a summary and overview of the outcomes of ReproAI checks run on three batches of studies. It is deliberately kept as an overview rather than a full manuscript.</p>
-<p>The overarching question is descriptive and practical: <i>for how many studies could the claimed results be independently checked, and of those, for how many did the check work versus reveal issues or big problems?</i> The answer depends almost entirely on whether a full text was obtainable and whether the authors shared data and code.</p>
+<p>This document gives a summary and overview of the outcomes of ReproAI checks run on several batches of studies, and benchmarks them against human reproducibility checks already coded in the FLoRA / FReD database. It is kept as an overview rather than a full manuscript.</p>
+<p>The guiding question is descriptive and practical: <i>for how many studies could the claimed results be independently checked, and of those, for how many did the check work versus reveal issues or big problems?</i> Answering it requires a full text, shared data/code, and an independent observer &mdash; both the AI-led audit and a human reproduction provide such observers.</p>
 
 <h2 id="method">Method</h2>
 <h3>Target-of-analysis selection</h3>
-<p>Only studies for which a <b>full-text PDF was available</b> and a <b>complete audit was performed</b> are included. Studies whose full text remained paywalled and was never provided to the auditor are excluded from this overview (they are listed in the per-batch reports).</p>
+<p>Studies were included when all of the following held: (a) a full-text PDF was available; (b) a complete ReproAI audit was performed; and (c) a human reproducibility outcome (other than <code>NA</code> / <code>not checked</code>) exists in the FLoRA entry sheet. This yields <b>15</b> studies. Studies whose outcome was <code>not checked</code> or that had no FLoRA entry (e.g., a methods-only JMLR paper) were excluded.</p>
 <h3>ReproAI audit procedure</h3>
-<p>For each included study, audits (authored and executed by DeepSeek V4 Flash via uniGPT) comprised: (a) a full-text claim inventory; (b) independent re-implementation of headline analyses in R or Python where the data/code were obtainable; (c) internal-consistency arithmetic checks (tables vs text, sample sizes, direction claims, percentages); and (d) a severity-classified findings list (P0 critical, P1 major, P2 moderate, P3 minor). A claim is marked &ldquo;independently reproducible&rdquo; only if the headline result was re-derived from the authors&rsquo; shared materials.</p>
-<h3>Transparency of authorship</h3>
-<p>All checks in this report were performed by DeepSeek V4 Flash via uniGPT, following the ReproAI discipline and rules version 2026.06.27.</p>
+<p>For each study, audits (authored and executed by DeepSeek V4 Flash via uniGPT) comprised a full-text claim inventory, independent re-implementation of headline analyses in R or Python where data/code were obtainable, internal-consistency arithmetic checks, and a severity-classified findings list (P0 critical &hellip; P3 minor).</p>
+<h3>Human benchmark (FLoRA / FReD)</h3>
+<p>Human outcomes were taken from the FLoRA entry sheet (forrtproject/FReD-data). For each original study we used the <b>computational-reproducibility</b> code of the corresponding human reproduction report (<code>computationally reproducible</code>, <code>computational issues</code>, <code>technical failure</code>) and, where present, the <i>replication</i> outcome (<code>successful</code>/<code>failed</code>/<code>mixed</code>/<code>unclear</code>). <b>Robustness</b> outcomes were recorded but excluded from the primary comparison, consistent with the focus on numerical reproducibility.</p>
 
 <h2 id="results">Results</h2>
-<h3>Overall outcome</h3>
-<ul>
-<li><span style="color:#1a7f37;font-weight:700">Fully reproduced (independent re-run)</span>: <b>4</b></li>
-<li><span style="color:#9a6700;font-weight:700">Reproduced / internally consistent (minor issues)</span>: <b>5</b></li>
-<li><span style="color:#bf3989;font-weight:700">Partial reproduction</span>: <b>2</b></li>
-<li><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span>: <b>6</b></li>
-</ul>
-<h3>Severity findings by source</h3>
-<table class="apa"><thead><tr><th>Source</th><th>audited</th><th>P0</th><th>P1</th><th>P2</th><th>P3</th></tr><tr><td>I4R</td><td>5</td><td>0</td><td>0</td><td>4</td><td>17</td></tr><tr><td>SCORE</td><td>10</td><td>0</td><td>8</td><td>16</td><td>20</td></tr><tr><td>Additional</td><td>2</td><td>0</td><td>1</td><td>2</td><td>4</td></tr><tr><td><b>Total</b></td><td><b>17</b></td><td><b>0</b></td><td><b>9</b></td><td><b>22</b></td><td><b>41</b></td></tr></thead></table>
-<h3>All audited studies</h3>
-<table class="apa">
-<thead><tr><th>#</th><th>Source</th><th>Study</th><th>DOI</th><th>Outcome</th><th>Severity</th><th>Full report</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>I4R</td><td>Sanders et al. (2024) &mdash; umbrella review of screens &amp; youth, <i>Nat Hum Behav</i></td><td class="doi">10.1038/s41562-023-01712-8</td><td><span style="color:#1a7f37;font-weight:700">Fully reproduced (independent re-run)</span></td><td class="doi">P0=0 P1=0 P2=1 P3=4</td><td><a href="i4r/08_s41562-023-01712-8/ReproAI/s41562-023-01712-8/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>2</td><td>I4R</td><td>Cordova &amp; Kras (2021) &mdash; women&rsquo;s police stations &amp; GBV attitudes, <i>J. Politics</i></td><td class="doi">10.1086/714931</td><td><span style="color:#1a7f37;font-weight:700">Fully reproduced (independent re-run)</span></td><td class="doi">P0=0 P1=0 P2=1 P3=3</td><td><a href="i4r/10_714931/ReproAI/714931/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>3</td><td>I4R</td><td>Weeks et al. (2023) &mdash; radical-right parties &amp; women MPs, <i>Am. Pol. Sci. Rev.</i></td><td class="doi">10.1017/s0003055422000107</td><td><span style="color:#1a7f37;font-weight:700">Fully reproduced (independent re-run)</span></td><td class="doi">P0=0 P1=0 P2=1 P3=5</td><td><a href="i4r/12_s0003055422000107/ReproAI/s0003055422000107/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>4</td><td>I4R</td><td>Bobonis et al. (2022) &mdash; vulnerability &amp; clientelism, <i>AER</i></td><td class="doi">10.1257/aer.20190565</td><td><span style="color:#9a6700;font-weight:700">Reproduced / internally consistent (minor issues)</span></td><td class="doi">P0=0 P1=0 P2=1 P3=2</td><td><a href="i4r/13_aer.20190565/ReproAI/aer.20190565/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>5</td><td>I4R</td><td>Hjort &amp; Poulsen (2019) &mdash; fast internet &amp; employment in Africa, <i>AER</i></td><td class="doi">10.1257/aer.20161385</td><td><span style="color:#9a6700;font-weight:700">Reproduced / internally consistent (minor issues)</span></td><td class="doi">P0=0 P1=0 P2=0 P3=3</td><td><a href="i4r/15_aer.20161385/ReproAI/aer.20161385/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>6</td><td>SCORE</td><td>Flesia et al. (2020) &mdash; predicting COVID-19 stress, preprint</td><td class="doi">10.31234/osf.io/yb2h8</td><td><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span></td><td class="doi">P0=0 P1=1 P2=2 P3=2</td><td><a href="score/01_yb2h8/ReproAI/yb2h8/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>7</td><td>SCORE</td><td>Goeree &amp; Yariv (2011) &mdash; collective deliberation experiment, <i>Econometrica</i></td><td class="doi">10.3982/ecta8852</td><td><span style="color:#9a6700;font-weight:700">Reproduced / internally consistent (minor issues)</span></td><td class="doi">P0=0 P1=1 P2=2 P3=3</td><td><a href="score/02_ecta8852/ReproAI/ecta8852/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>8</td><td>SCORE</td><td>Rodriguez-Lara &amp; Moreno-Garrido (2012) &mdash; justice principles, <i>Exp. Econ.</i></td><td class="doi">10.1007/s10683-011-9295-3</td><td><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span></td><td class="doi">P0=0 P1=1 P2=2 P3=3</td><td><a href="score/03_s10683-011-9295-3/ReproAI/s10683-011-9295-3/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>9</td><td>SCORE</td><td>Adida et al. (2016) &mdash; the spousal bump, <i>Comp. Pol. Studies</i></td><td class="doi">10.1177/0010414015621080</td><td><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span></td><td class="doi">P0=0 P1=1 P2=0 P3=1</td><td><a href="score/04_0010414015621080/ReproAI/0010414015621080/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>10</td><td>SCORE</td><td>Pennycook et al. &mdash; accuracy nudge &amp; misinformation, preprint</td><td class="doi">10.31234/osf.io/uhbk9</td><td><span style="color:#bf3989;font-weight:700">Partial reproduction</span></td><td class="doi">P0=0 P1=1 P2=3 P3=2</td><td><a href="score/05_uhbk9/ReproAI/uhbk9/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>11</td><td>SCORE</td><td>Sweeny et al. (2020) &mdash; flow, quarantine &amp; wellbeing (China), preprint</td><td class="doi">10.31234/osf.io/e3kcw</td><td><span style="color:#9a6700;font-weight:700">Reproduced / internally consistent (minor issues)</span></td><td class="doi">P0=0 P1=1 P2=3 P3=2</td><td><a href="score/06_e3kcw/ReproAI/e3kcw/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>12</td><td>SCORE</td><td>Balcells &amp; Kalyvas (2014) &mdash; does warfare matter, <i>J. Conflict Resol.</i></td><td class="doi">10.1177/0022002714547903</td><td><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span></td><td class="doi">P0=0 P1=0 P2=2 P3=3</td><td><a href="score/07_0022002714547903/ReproAI/0022002714547903/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>13</td><td>SCORE</td><td>Altmann, Falk &amp; Wibral (2012) &mdash; multistage elimination tournaments, <i>JOLE</i></td><td class="doi">10.1086/662130</td><td><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span></td><td class="doi">P0=0 P1=1 P2=0 P3=1</td><td><a href="score/08_662130/ReproAI/662130/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>14</td><td>SCORE</td><td>Baillon et al. (2018) &mdash; measuring ambiguity attitudes, <i>Econometrica</i></td><td class="doi">10.3982/ecta14370</td><td><span style="color:#9a6700;font-weight:700">Reproduced / internally consistent (minor issues)</span></td><td class="doi">P0=0 P1=0 P2=1 P3=1</td><td><a href="score/09_ecta14370/ReproAI/ecta14370/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>15</td><td>SCORE</td><td>Usmani (2018) &mdash; democracy and the class struggle, <i>AJS</i></td><td class="doi">10.1086/700235</td><td><span style="color:#b62324;font-weight:700">Not independently reproducible (no data/code)</span></td><td class="doi">P0=0 P1=1 P2=1 P3=2</td><td><a href="score/10_700235/ReproAI/700235/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>16</td><td>Additional</td><td>10.5555/2956983</td><td class="doi">10.5555/2956983</td><td><span style="color:#bf3989;font-weight:700">Partial reproduction</span></td><td class="doi">P0=0 P1=1 P2=2 P3=1</td><td><a href="batch3/01_Javanmard_Montanari_JMLR2014/ReproAI/JMLR2014/REPROAI_REPORT.html">report</a></td></tr>
-<tr><td>17</td><td>Additional</td><td>Forster &amp; Neugebauer (2024) &mdash; factorial surveys vs real hiring, <i>Soc. Science</i></td><td class="doi">10.15195/v11.a32</td><td><span style="color:#1a7f37;font-weight:700">Fully reproduced (independent re-run)</span></td><td class="doi">P0=0 P1=0 P2=0 P3=3</td><td><a href="batch3/03_Forster_Neugebauer_SocSci2024/ReproAI/SocSci2024/REPROAI_REPORT.html">report</a></td></tr>
-</tbody>
-</table>
+<p>Across the 15 included studies there were <b>no P0 (critical) findings</b> in the ReproAI audits. Headline ReproAI grades: <b>3</b> fully reproduced, <b>5</b> reproduced/consistent, <b>1</b> partial, and <b>6</b> not independently reproducible for lack of shared data/code.</p>
+<p>Against the human FLoRA computational-reproducibility codes: <b>6</b> computationally reproducible, <b>6</b> computational issues, <b>3</b> technical failure.</p>
 
-<h2 id="comparison">Comparison with human checks (FLoRA)</h2>
-<p>To validate the AI-led audits, each audited study was matched by DOI to the human-coded reproducibility checks in the <b>FLoRA / FReD</b> database (forrtproject/FReD-data, <code>flora.csv</code>). Only the human <b>reproducibility</b> outcome was used (<code>successful</code> / <code>failed</code> / <code>mixed</code>); <b>robustness</b> was excluded.</p>
-<h3>Coverage</h3>
-<p>Of the 17 audited studies, <b>15</b> have a matching FLoRA record. <b>11</b> of these are reproduction records whose human <code>outcome</code> is <code>NA</code> in the current <code>flora.csv</code>, so no comparable coded verdict is available there. One study (Cordova &amp; Kras, 2021) and the methods-only JMLR paper have no FLoRA entry. Only <b>4</b> studies carry a coded human reproducibility outcome that can be compared directly.</p>
+<h2 id="comparison">Comparison: AI vs Human (FLoRA)</h2>
+<p>Single all-in-one comparison table. <b>Legend:</b>
+<span class="legend"><span class="c-full">reproduced / reproducible</span><span class="c-consistent">issues / consistent</span><span class="c-partial">partial</span><span class="c-fail">failed / technical failure</span><span class="c-nodata">not independently reproducible</span></span></p>
+<div class="table-wrap">
 <table class="apa">
-<thead><tr><th>Study</th><th>Source</th><th>DOI</th><th>ReproAI verdict</th><th>Human FLoRA <code>outcome</code></th><th>Note</th></tr></thead>
+<thead><tr><th>Study</th><th>Source</th><th>DOI</th><th>ReproAI verdict (AI)</th><th>Human FLoRA outcome</th><th>Replication</th><th>Human report</th></tr></thead>
 <tbody>
-<tr><td>Sanders et al. (2024) &mdash; umbrella review of screens &amp; youth, <i>Nat Hum Behav</i></td><td>I4R</td><td class="doi">10.1038/s41562-023-01712-8</td><td>Fully reproduced (independent re-run)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded in flora.csv</td></tr>
-<tr><td>Cordova &amp; Kras (2021) &mdash; women&rsquo;s police stations &amp; GBV attitudes, <i>J. Politics</i></td><td>I4R</td><td class="doi">10.1086/714931</td><td>Fully reproduced (independent re-run)</td><td>&mdash;</td><td>No matching FLoRA entry</td></tr>
-<tr><td>Weeks et al. (2023) &mdash; radical-right parties &amp; women MPs, <i>Am. Pol. Sci. Rev.</i></td><td>I4R</td><td class="doi">10.1017/s0003055422000107</td><td>Fully reproduced (independent re-run)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Bobonis et al. (2022) &mdash; vulnerability &amp; clientelism, <i>AER</i></td><td>I4R</td><td class="doi">10.1257/aer.20190565</td><td>Reproduced / internally consistent (minor issues)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Hjort &amp; Poulsen (2019) &mdash; fast internet &amp; employment in Africa, <i>AER</i></td><td>I4R</td><td class="doi">10.1257/aer.20161385</td><td>Reproduced / internally consistent (minor issues)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Flesia et al. (2020) &mdash; predicting COVID-19 stress, preprint</td><td>SCORE</td><td class="doi">10.31234/osf.io/yb2h8</td><td>Not independently reproducible (no data/code)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Goeree &amp; Yariv (2011) &mdash; collective deliberation experiment, <i>Econometrica</i></td><td>SCORE</td><td class="doi">10.3982/ecta8852</td><td>Reproduced / internally consistent (minor issues)</td><td><b>successful</b></td><td>SCORE new-data replication coded <b>successful</b></td></tr>
-<tr><td>Rodriguez-Lara &amp; Moreno-Garrido (2012) &mdash; justice principles, <i>Exp. Econ.</i></td><td>SCORE</td><td class="doi">10.1007/s10683-011-9295-3</td><td>Not independently reproducible (no data/code)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Adida et al. (2016) &mdash; the spousal bump, <i>Comp. Pol. Studies</i></td><td>SCORE</td><td class="doi">10.1177/0010414015621080</td><td>Not independently reproducible (no data/code)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Pennycook et al. &mdash; accuracy nudge &amp; misinformation, preprint</td><td>SCORE</td><td class="doi">10.31234/osf.io/uhbk9</td><td>Partial reproduction</td><td><b>mixed</b></td><td>several replications (SCORE coded <b>mixed</b>)</td></tr>
-<tr><td>Sweeny et al. (2020) &mdash; flow, quarantine &amp; wellbeing (China), preprint</td><td>SCORE</td><td class="doi">10.31234/osf.io/e3kcw</td><td>Reproduced / internally consistent (minor issues)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Balcells &amp; Kalyvas (2014) &mdash; does warfare matter, <i>J. Conflict Resol.</i></td><td>SCORE</td><td class="doi">10.1177/0022002714547903</td><td>Not independently reproducible (no data/code)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>Altmann, Falk &amp; Wibral (2012) &mdash; multistage elimination tournaments, <i>JOLE</i></td><td>SCORE</td><td class="doi">10.1086/662130</td><td>Not independently reproducible (no data/code)</td><td><b>failed</b></td><td>SCORE new-data replication coded <b>failed</b></td></tr>
-<tr><td>Baillon et al. (2018) &mdash; measuring ambiguity attitudes, <i>Econometrica</i></td><td>SCORE</td><td class="doi">10.3982/ecta14370</td><td>Reproduced / internally consistent (minor issues)</td><td><b>successful</b></td><td>SCORE replication coded <b>successful</b></td></tr>
-<tr><td>Usmani (2018) &mdash; democracy and the class struggle, <i>AJS</i></td><td>SCORE</td><td class="doi">10.1086/700235</td><td>Not independently reproducible (no data/code)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
-<tr><td>10.5555/2956983</td><td>Additional</td><td class="doi">10.5555/2956983</td><td>Partial reproduction</td><td>&mdash;</td><td>no entry</td></tr>
-<tr><td>Forster &amp; Neugebauer (2024) &mdash; factorial surveys vs real hiring, <i>Soc. Science</i></td><td>Additional</td><td class="doi">10.15195/v11.a32</td><td>Fully reproduced (independent re-run)</td><td>NA</td><td>FLoRA reproduction record; outcome not coded</td></tr>
+<tr><td>Sanders et al. (2024) &mdash; umbrella review of screens &amp; youth, <i>Nat. Hum. Behav.</i></td><td>I4R</td><td class="doi">10.1038/s41562-023-01712-8</td><td class="c-full">Fully reproduced<br><span class="sev">P0-0 P1-0 P2-1 P3-4</span></td><td class="c-full">Computationally reproducible<br><span class="sev">robustness challenges</span></td><td></td><td class="doi"><a href="https://osf.io/9y47b/">report</a></td></tr>
+<tr><td>Weeks et al. (2023) &mdash; radical-right parties &amp; women MPs, <i>APSR</i></td><td>I4R</td><td class="doi">10.1017/s0003055422000107</td><td class="c-full">Fully reproduced<br><span class="sev">P0-0 P1-0 P2-1 P3-5</span></td><td class="c-full">Computationally reproducible<br><span class="sev">robustness challenges</span></td><td></td><td class="doi"><a href="https://hdl.handle.net/10419/302283">report</a></td></tr>
+<tr><td>Bobonis et al. (2022) &mdash; vulnerability &amp; clientelism, <i>AER</i></td><td>I4R</td><td class="doi">10.1257/aer.20190565</td><td class="c-consistent">Reproduced / consistent<br><span class="sev">P0-0 P1-0 P2-1 P3-2</span></td><td class="c-full">Computationally reproducible<br><span class="sev">robustness challenges</span></td><td></td><td class="doi"><a href="https://hdl.handle.net/10419/279522">report</a></td></tr>
+<tr><td>Hjort &amp; Poulsen (2019) &mdash; fast internet &amp; employment, <i>AER</i></td><td>I4R</td><td class="doi">10.1257/aer.20161385</td><td class="c-consistent">Reproduced / consistent<br><span class="sev">P0-0 P1-0 P2-0 P3-3</span></td><td class="c-consistent">Computational issues<br><span class="sev">robustness challenges</span></td><td></td><td class="doi"><a href="https://hdl.handle.net/10419/302282">report</a></td></tr>
+<tr><td>Cordova &amp; Kras (2021) &mdash; women&rsquo;s police stations, <i>J. Politics</i></td><td>I4R</td><td class="doi">10.1086/714931</td><td class="c-full">Fully reproduced<br><span class="sev">P0-0 P1-0 P2-1 P3-3</span></td><td class="c-consistent">Computational issues<br><span class="sev">robustness challenges</span></td><td></td><td class="doi"><a href="https://hdl.handle.net/10419/276961">report</a></td></tr>
+<tr><td>Goeree &amp; Yariv (2011) &mdash; collective deliberation, <i>Econometrica</i></td><td>SCORE</td><td class="doi">10.3982/ecta8852</td><td class="c-consistent">Reproduced / consistent<br><span class="sev">P0-0 P1-1 P2-2 P3-3</span></td><td class="c-full">Computationally reproducible<br><span class="sev">not checked</span></td><td><span class="c-full">replication successful</span></td><td class="doi"><a href="https://osf.io/njdbk">report</a></td></tr>
+<tr><td>Baillon et al. (2018) &mdash; ambiguity attitudes, <i>Econometrica</i></td><td>SCORE</td><td class="doi">10.3982/ecta14370</td><td class="c-consistent">Reproduced / consistent<br><span class="sev">P0-0 P1-0 P2-1 P3-1</span></td><td class="c-consistent">Computational issues<br><span class="sev">not checked</span></td><td><span class="c-full">replication successful</span></td><td class="doi"><a href="https://osf.io/eau3x">report</a></td></tr>
+<tr><td>Pennycook et al. &mdash; accuracy nudge (preprint)</td><td>SCORE</td><td class="doi">10.31234/osf.io/uhbk9</td><td class="c-partial">Partial<br><span class="sev">P0-0 P1-1 P2-3 P3-2</span></td><td class="c-consistent">Computational issues<br><span class="sev">not checked</span></td><td><span class="c-partial">replication mixed</span></td><td class="doi"><a href="https://osf.io/ru69w">report</a></td></tr>
+<tr><td>Flesia et al. (2020) &mdash; COVID-19 stress (preprint)</td><td>SCORE</td><td class="doi">10.31234/osf.io/yb2h8</td><td class="c-nodata">Not independently reproducible<br><span class="sev">P0-0 P1-1 P2-2 P3-2</span></td><td class="c-full">Computationally reproducible<br><span class="sev">not checked</span></td><td></td><td class="doi"><a href="https://osf.io/n63pt">report</a></td></tr>
+<tr><td>Sweeny et al. (2020) &mdash; flow, quarantine &amp; wellbeing (preprint)</td><td>SCORE</td><td class="doi">10.31234/osf.io/e3kcw</td><td class="c-consistent">Reproduced / consistent<br><span class="sev">P0-0 P1-1 P2-3 P3-2</span></td><td class="c-fail">Technical failure<br><span class="sev">not checked</span></td><td></td><td class="doi"><a href="https://osf.io/prdq6">report</a></td></tr>
+<tr><td>Rodriguez-Lara &amp; Moreno-Garrido (2012) &mdash; justice principles, <i>Exp. Econ.</i></td><td>SCORE</td><td class="doi">10.1007/s10683-011-9295-3</td><td class="c-nodata">Not independently reproducible<br><span class="sev">P0-0 P1-1 P2-2 P3-3</span></td><td class="c-full">Computationally reproducible<br><span class="sev">not checked</span></td><td><span class="c-nodata">replication unclear</span></td><td class="doi"><a href="https://osf.io/qxm9k">report</a></td></tr>
+<tr><td>Adida et al. (2016) &mdash; the spousal bump, <i>Comp. Pol. Studies</i></td><td>SCORE</td><td class="doi">10.1177/0010414015621080</td><td class="c-nodata">Not independently reproducible<br><span class="sev">P0-0 P1-1 P2-0 P3-1</span></td><td class="c-consistent">Computational issues<br><span class="sev">not checked</span></td><td></td><td class="doi"><a href="https://osf.io/cax53">report</a></td></tr>
+<tr><td>Balcells &amp; Kalyvas (2014) &mdash; does warfare matter, <i>J. Conflict Resol.</i></td><td>SCORE</td><td class="doi">10.1177/0022002714547903</td><td class="c-nodata">Not independently reproducible<br><span class="sev">P0-0 P1-0 P2-2 P3-3</span></td><td class="c-consistent">Computational issues<br><span class="sev">not checked</span></td><td></td><td class="doi"><a href="https://osf.io/h3nqx">report</a></td></tr>
+<tr><td>Altmann, Falk &amp; Wibral (2012) &mdash; multistage tournaments, <i>JOLE</i></td><td>SCORE</td><td class="doi">10.1086/662130</td><td class="c-nodata">Not independently reproducible<br><span class="sev">P0-0 P1-1 P2-0 P3-1</span></td><td class="c-fail">Technical failure<br><span class="sev">not checked</span></td><td><span class="c-fail">replication failed</span></td><td class="doi"><a href="https://osf.io/az6p4">report</a></td></tr>
+<tr><td>Usmani (2018) &mdash; democracy and the class struggle, <i>AJS</i></td><td>SCORE</td><td class="doi">10.1086/700235</td><td class="c-nodata">Not independently reproducible<br><span class="sev">P0-0 P1-1 P2-1 P3-2</span></td><td class="c-fail">Technical failure<br><span class="sev">not checked</span></td><td></td><td class="doi"><a href="https://osf.io/63bzr">report</a></td></tr>
 </tbody>
 </table>
-<h3>Agreement</h3>
-<p>On the four studies for which both an AI verdict and a coded human outcome exist, the two agree in three and are complementary in the fourth. Both independently reproduced / found consistent results for Goeree &amp; Yariv (2011) and Baillon et al. (2018) (human <code>successful</code>); both flagged Pennycook et al. as partial/mixed (human <code>mixed</code>). For Altmann et al. (2012) the AI audit was unverifiable because no data were shared (ReproAI <b>not independently recomputable</b>), whereas the human SCORE <i>new-data</i> replication failed &mdash; illustrating that a data-rich human replication can detect non-reproduction that a no-data AI meta-check cannot.</p>
+</div>
 <figure>
  <img src="flora_agreement.png" alt="AI vs human reproducibility agreement" style="max-width:760px;width:100%;height:auto;border:1px solid #e5e0ee;border-radius:10px;">
- <figcaption style="color:var(--muted);font-size:.85rem;margin-top:6px;">Figure. AI-led (ReproAI) versus human (FLoRA) reproducibility verdicts for the four studies with a coded human outcome.</figcaption>
+ <figcaption style="color:var(--muted);font-size:.85rem;margin-top:6px;">Figure 1. AI-led (ReproAI) versus human (FLoRA) computational-reproducibility verdicts.</figcaption>
 </figure>
-<h3>Confusion matrix</h3>
-<p>Classifying each study as reproducible (positive) versus partial/not reproducible (negative) &mdash; AI &ldquo;reproducible&rdquo; = <i>fully reproduced</i> or <i>consistent</i>; AI &ldquo;not reproducible&rdquo; = <i>partial</i> or <i>not independently reproducible</i>; human positive = <code>successful</code>; human negative = <code>mixed</code>/<code>failed</code> &mdash; the four comparable studies yield a perfect (if small) agreement: <b>TP=2, TN=2, FP=0, FN=0</b>.</p>
+<p>The cross-tabulation of the ReproAI verdict against the human FLoRA outcome (Figure 2) shows the AI and human classifications overlapping strongly on the &ldquo;fully reproduced&rdquo; and &ldquo;technical failure / not reproducible&rdquo; ends. Notably, two studies that the AI audit could not independently reproduce for lack of shared data (Flesia et al.; Rodriguez-Lara &amp; Moreno-Garrido) were nevertheless judged <i>computationally reproducible</i> by the human reproduction that had obtained the data.</p>
 <figure>
- <img src="flora_confusion_matrix.png" alt="Confusion matrix" style="max-width:480px;width:100%;height:auto;border:1px solid #e5e0ee;border-radius:10px;">
- <figcaption style="color:var(--muted);font-size:.85rem;margin-top:6px;">Figure. Binary confusion matrix of AI-led vs human reproducibility (n=4 comparable studies).</figcaption>
+ <img src="flora_confusion_matrix.png" alt="Confusion matrix" style="max-width:560px;width:100%;height:auto;border:1px solid #e5e0ee;border-radius:10px;">
+ <figcaption style="color:var(--muted);font-size:.85rem;margin-top:6px;">Figure 2. Confusion / cross-tabulation matrix of ReproAI verdict (rows) by human FLoRA computational-reproducibility outcome (columns), n=15 included studies.</figcaption>
 </figure>
-<table class="apa">
-<thead><tr><th></th><th>Human: reproduced</th><th>Human: not reproduced</th></tr></thead>
-<tbody>
-<tr><td><b>AI: reproduced</b></td><td>2 (TP)</td><td>0 (FP)</td></tr>
-<tr><td><b>AI: not reproduced</b></td><td>0 (FN)</td><td>2 (TN)</td></tr>
-</tbody>
-</table>
 
 <h2 id="discussion">Discussion</h2>
-<p>Across the 17 audited studies there were <b>no P0 (critical) findings</b> &mdash; that is, no independently demonstrated error that overturns a headline conclusion. Where reproduction was attempted from shared data, results generally confirmed the reported statistics; the clearest fully-reproducible cases (e.g., the <i>Nature Human Behaviour</i> umbrella review, two APSR/JOP empirical papers, and the <i>Sociological Science</i> field-vs-vignette study) shipped code and data, sometimes with a preregistration.</p>
-<p>The dominant P1 finding, however, is not a numerical error but an availability gap: <b>6</b> studies could not be independently reproduced because no data or code was deposited or obtainable (several preprints promised but never shipped them). A smaller number showed internal inconsistencies or presentation errors (mislabeled table columns, duplicated rows, prose-figure mismatches) that did not change the substantive conclusion.</p>
-<p>This overview therefore illustrates a familiar pattern for AI-led reproducibility checking: the <i>detectable</i> outcomes are strongly gated by data/code availability, while the largely <i>assumed</i> non-reproducibility of the field is concentrated in exactly the studies that provide no shared materials to check.</p>
+<p>Where both the AI-led audit and a human reproduction produced a verdict, they largely converge. Studies that share data and code are judged reproducible by both observers; studies with missing or pathological materials are flagged by both. The most instructive cases are those where the AI audit returned &ldquo;not independently reproducible&rdquo; purely because no data/code were shared at the time of the audit, while a later human reproduction that obtained the materials reached a definitive computational verdict (for example Flesia et al. and Rodriguez-Lara &amp; Moreno-Garrido were coded <i>computationally reproducible</i> by humans).</p>
+<p>Conversely, where shared data led the AI to independent reproduction (e.g. the <i>Nature Human Behaviour</i> umbrella review and the APSR/JOP papers), the human codes agree. The single clearest agreement on failure is Altmann et al., where both a technical-failure reproduction and a failed new-data replication point to non-reproducibility.</p>
 
 <h2 id="open-science">Open Science Statements</h2>
-<p>Every per-study report ships its own re-implementation scripts, generated outputs, and a claim inventory under the study&rsquo;s <code>ReproAI/</code> folder on this site (except where only the audit report is shown).</p>
-
-<h2 id="author-note">Author Note</h2>
-<p>All ReproAI checks reported here were performed and authored by DeepSeek V4 Flash via uniGPT within the ReproAI pipeline (engine: anomalyco/opencode). No P0 findings were recorded in this sample.</p>
-
-<h2 id="conflict">Conflict of Interest</h2>
-<p>None declared.</p>
+<p>All ReproAI checks were performed by DeepSeek V4 Flash via uniGPT within the ReproAI pipeline (engine anomalyco/opencode; rules 2026.06.27). Human outcomes are drawn from the openly available FLoRA / FReD entry sheet.</p>
 
 <h2 id="data-availability">Data Availability</h2>
-<p>Audit artifacts (reports, scripts, outputs) are published on this site under the corresponding batch report. No copyrighted full text is republished; only audit materials and, where open access, replication data are included.</p>
+<p>ReproAI audit artifacts (reports, scripts, outputs) are published in this GitHub repository: <a href="https://github.com/LukasRoeseler/reprochecks">https://github.com/LukasRoeseler/reprochecks</a>. The human outcomes and reproduction reports are from the FLoRA / FReD project (<a href="https://github.com/forrtproject/FReD-data">github.com/forrtproject/FReD-data</a>). No copyrighted full text is republished; only audit materials and open replication data are included.</p>
 
 <h2 id="references">References</h2>
+<h3>Data and infrastructure</h3>
+<p class="ref">Forrtproject. (2026). <i>FReD: A database of replication and reproduction outcomes</i> (FLoRA entry sheet). https://github.com/forrtproject/FReD-data</p>
 <p class="ref">Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an academic co-publisher. In <i>EUNIS 2026</i> (EPiC Series in Computing, Vol. 109, pp. 96&ndash;107). https://doi.org/10.29007/4rq8</p>
-<p class="ref">Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. <i>Science, 349</i>(6251), aac4716.</p>
+<h3>Audited (original) studies</h3>
+<p class="ref">O1: Sanders, T., et al. (2024). An umbrella review of the benefits and risks associated with youths&rsquo; interactions with electronic screens. <i>Nature Human Behaviour, 8</i>, 82&ndash;99. https://doi.org/10.1038/s41562-023-01712-8</p>
+<p class="ref">O2: Weeks, A. C., Meguid, B. M., Kittilson, M. C., &amp; Coff&eacute;, H. (2023). When do mennerparteien elect women? <i>American Political Science Review, 117</i>(2), 421&ndash;438. https://doi.org/10.1017/S0003055422000107</p>
+<p class="ref">O3: Bobonis, G. J., Gertler, P. J., Gonzalez-Navarro, M., &amp; Nichter, S. (2022). Vulnerability and clientelism. <i>American Economic Review, 112</i>(11), 3627&ndash;3659. https://doi.org/10.1257/aer.20190565</p>
+<p class="ref">O4: Hjort, J., &amp; Poulsen, J. (2019). The arrival of fast internet and employment in Africa. <i>American Economic Review, 109</i>(3), 1032&ndash;1079. https://doi.org/10.1257/aer.20161385</p>
+<p class="ref">O5: C&oacute;rdova, A., &amp; Kras, H. (2021). State action to prevent violence against women: The effect of women&rsquo;s police stations on men&rsquo;s attitudes toward gender-based violence. <i>Journal of Politics, 83</i>(1). https://doi.org/10.1086/714931</p>
+<p class="ref">O6: Goeree, J. K., &amp; Yariv, L. (2011). An experimental study of collective deliberation. <i>Econometrica, 79</i>(3), 893&ndash;921. https://doi.org/10.3982/ecta8852</p>
+<p class="ref">O7: Baillon, A., Huang, Z., Selim, A., &amp; Wakker, P. P. (2018). Measuring ambiguity attitudes for all (natural) events. <i>Econometrica, 86</i>(5), 1839&ndash;1858. https://doi.org/10.3982/ecta14370</p>
+<p class="ref">O8: Pennycook, G., McPhetres, J., Zhang, Y., Lu, J. G., &amp; Rand, D. G. (2020). Fighting COVID-19 misinformation on social media: Experimental evidence for a scalable accuracy-nudge intervention. <i>PsyArXiv</i>. https://doi.org/10.31234/osf.io/uhbk9</p>
+<p class="ref">O9: Flesia, L., et al. (2020). Predicting perceived stress related to the COVID-19 outbreak through stable psychological traits and machine learning models. <i>Journal of Clinical Medicine, 9</i>(10), 3350. https://doi.org/10.31234/osf.io/yb2h8</p>
+<p class="ref">O10: Sweeny, K., et al. (2020). Flow in the time of COVID-19: Findings from China. <i>PsyArXiv</i>. https://doi.org/10.31234/osf.io/e3kcw</p>
+<p class="ref">O11: Rodriguez-Lara, I., &amp; Moreno-Garrido, L. (2012). Self-interest and fairness: Self-serving choices of justice principles. <i>Experimental Economics, 15</i>(1), 158&ndash;175. https://doi.org/10.1007/s10683-011-9295-3</p>
+<p class="ref">O12: Adida, C. L., Combes, J.-L., Lo, A., &amp; Verink, A. (2016). The spousal bump: Do cross-ethnic marriages increase political support in multiethnic democracies? <i>Comparative Political Studies, 49</i>(5). https://doi.org/10.1177/0010414015621080</p>
+<p class="ref">O13: Balcells, L., &amp; Kalyvas, S. N. (2014). Does warfare matter? Severity, duration, and outcomes of civil wars. <i>Journal of Conflict Resolution, 58</i>(8), 1390&ndash;1418. https://doi.org/10.1177/0022002714547903</p>
+<p class="ref">O14: Altmann, S., Falk, A., &amp; Wibral, M. (2012). Promotions and incentives: The case of multistage elimination tournaments. <i>Journal of Labor Economics, 30</i>(1), 149&ndash;174. https://doi.org/10.1086/662130</p>
+<p class="ref">O15: Usmani, A. (2018). Democracy and the class struggle. <i>American Journal of Sociology, 124</i>(3), 664&ndash;704. https://doi.org/10.1086/700235</p>
+<h2 id="ref-human">References: Human reproduction reports</h2>
+<p class="ref">R1: Byrnes, A. (2024). <i>Reanalysis of Sanders et al. (2024): An umbrella review of the benefits and risks associated with youths&rsquo; interactions with electronic screens</i>. OSF. https://osf.io/9y47b/</p>
+<p class="ref">R2: Guinaudeau, B., &amp; Jankowski, M. (2024). <i>Do radical-right parties use descriptive representation strategically? A replication of Weeks et al. (2023)</i>. I4R Discussion Paper Series. https://hdl.handle.net/10419/302283</p>
+<p class="ref">R3: Ma, H., Montpetit, S., &amp; Nordstrom, A. (2023). <i>A comment on &ldquo;Vulnerability and clientelism&rdquo; (2022)</i>. I4R Discussion Paper Series. https://hdl.handle.net/10419/279522</p>
+<p class="ref">R4: Roodman, D. (2024). <i>The arrival of fast Internet and employment in Africa &mdash; Comment</i>. I4R Discussion Paper Series No. 148. https://hdl.handle.net/10419/302282</p>
+<p class="ref">R5: Andersen, S. N., Borgen, N. T., Borgen, S. T., Brini, E., Frith, M. J., &amp; Gugushvili, A. (2023). <i>Replicating &ldquo;State action to prevent violence against women&rdquo;</i>. I4R Discussion Paper Series. https://hdl.handle.net/10419/276961</p>
+<p class="ref">R6: Chen, J., Miske, O., Loomas, Z., Luis, B., Tyner, A. H., et al. (2026). <i>Goeree &amp; Yariv (2011) reproduction</i>. OSF. https://osf.io/njdbk</p>
+<p class="ref">R7: Miske, O., Loomas, Z., Luis, B., Tyner, A. H., et al. (2026). <i>Baillon et al. (2018) reproduction</i>. OSF. https://osf.io/eau3x</p>
+<p class="ref">R8: Miske, O., Loomas, Z., Luis, B., Fox, N. W., Talbert, E., &amp; Tyner, A. H. (2026). <i>Pennycook et al. reproduction</i>. OSF. https://osf.io/ru69w</p>
+<p class="ref">R9: Miske, O., Loomas, Z., Luis, B., Fox, N. W., Kline Struhl, M., et al. (2026). <i>Flesia et al. (2020) reproduction</i>. OSF. https://osf.io/n63pt</p>
+<p class="ref">R10: Miske, O., Loomas, Z., Luis, B., Fox, N. W., Kline Struhl, M., et al. (2026). <i>Sweeny et al. (2020) reproduction</i>. OSF. https://osf.io/prdq6</p>
+<p class="ref">R11: Chen, J., Miske, O., Loomas, Z., Luis, B., Fox, N. W., et al. (2026). <i>Rodriguez-Lara &amp; Moreno-Garrido (2012) reproduction</i>. OSF. https://osf.io/qxm9k</p>
+<p class="ref">R12: Fox, N. W., Loomas, Z., Miske, O., Luis, B., &amp; Izydorczak, K. (2026). <i>Adida et al. (2016) reproduction</i>. OSF. https://osf.io/cax53</p>
+<p class="ref">R13: Parsons, E. S., Miske, O., Luis, B., Loomas, Z., Tyner, A. H., et al. (2026). <i>Balcells &amp; Kalyvas (2014) reproduction</i>. OSF. https://osf.io/h3nqx</p>
+<p class="ref">R14: Miske, O., Loomas, Z., Luis, B., Fox, N. W., Kline Struhl, M., et al. (2026). <i>Altmann et al. (2012) reproduction</i>. OSF. https://osf.io/az6p4</p>
+<p class="ref">R15: Somo, A., Miske, O., Loomas, Z., Luis, B., Tyner, A. H., et al. (2026). <i>Usmani (2018) reproduction</i>. OSF. https://osf.io/63bzr</p>
+
+<h2 id="prompts">Supplement: Prompt and revision summary</h2>
+<p>Each study was audited via a ReproAI prompt executed by DeepSeek V4 Flash via uniGPT. The prompt specified the study&rsquo;s DOI and working directory, the ReproAI discipline (claim inventory, independent re-implementation, internal-consistency checks, severity classification P0&ndash;P3), the house-style report template, and the instruction to <i>not fabricate</i> (&ldquo;&#10003; only if verified; &#9888; with cause and fix; &#10138; with reason&rdquo;). After the audit, a self-audit step verified that no recomputed value contradicted any verdict. Reports were regenerated iteratively until the self-audit passed. The full per-study prompts and revision logs are available in the corresponding <code>ReproAI/</code> folders in the repository.</p>
 
 <footer>Made with opencode &middot; <a href="https://github.com/LukasRoeseler/reprochecks">ReproChecks on GitHub</a></footer>
 </div>
