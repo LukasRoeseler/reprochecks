@@ -1,0 +1,53 @@
+N= 964 
+
+=== Perceived inequality model m1 (felm) ===
+
+Call:
+   felm(formula = financial_needs.z ~ inc_ineq_8020ratio_log.z *      income_dollar_percap.z | 0 | 0 | county, data = data) 
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.8257 -0.6981 -0.1222  0.6562  2.7839 
+
+Coefficients:
+                                                  Estimate Cluster s.e. t value
+(Intercept)                                      0.0002201    0.0277079   0.008
+inc_ineq_8020ratio_log.z                         0.0588704    0.0271925   2.165
+income_dollar_percap.z                          -0.4258666    0.0322214 -13.217
+inc_ineq_8020ratio_log.z:income_dollar_percap.z -0.0480730    0.0284479  -1.690
+                                                Pr(>|t|)    
+(Intercept)                                       0.9937    
+inc_ineq_8020ratio_log.z                          0.0306 *  
+income_dollar_percap.z                            <2e-16 ***
+inc_ineq_8020ratio_log.z:income_dollar_percap.z   0.0914 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9026 on 952 degrees of freedom
+  (8 Beobachtungen als fehlend gel+Âscht)
+Multiple R-squared(full model): 0.1895   Adjusted R-squared: 0.1869 
+Multiple R-squared(proj model): 0.1895   Adjusted R-squared: 0.1869 
+F-statistic(full model, *iid*):74.18 on 3 and 952 DF, p-value: < 2.2e-16 
+F-statistic(proj model): 61.37 on 3 and 393 DF, p-value: < 2.2e-16 
+
+
+
+=== Manual slope of perceived inequality at income levels (lmer unstd) ===
+Rscript.exe : boundary (singular) fit: see help('isSingular')
+In Zeile:16 Zeichen:210
++ ... \s2r.R" -Encoding ascii; & $r "$env:TEMP\opencode\s2r.R" 2>&1 | Out-S ...
++                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (boundary (singu...p('isSingular'):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Warnmeldungen:
+1: Some predictor variables are on very different scales: consider rescaling. 
+You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability. 
+2: Some predictor variables are on very different scales: consider rescaling. 
+You may also use (g)lmerControl(autoscale = TRUE) to improve numerical stability. 
+coef ineq = 0.1415625  inter = -1.737381e-06 
+slope at income 29466 = 0.0904
+slope at income 43301 = 0.0663
+slope at income 57136 = 0.0423
+med inc = 43301.27  low=med-.5sd  29466.38 
+
