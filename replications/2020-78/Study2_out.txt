@@ -1,0 +1,251 @@
+===== STUDY 2 ANALYSIS =====
+
+Total rows: 602 
+
+--- FULL SAMPLE PEARSON CORRELATIONS ---
+
+H1.1 sit~seis:
+Call:corr.test(x = data$sit, y = data$seis, use = "pairwise", method = "pearson")
+Correlation matrix 
+[1] -0.68
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H1.2 sit~redist:
+Call:corr.test(x = data$sit, y = data$redist, use = "pairwise", method = "pearson")
+Correlation matrix 
+[1] 0.63
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H2.1 disp~seis:
+Call:corr.test(x = data$disp, y = data$seis, use = "pairwise", method = "pearson")
+Correlation matrix 
+[1] 0.3
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H2.2 disp~redist:
+Call:corr.test(x = data$disp, y = data$redist, use = "pairwise", method = "pearson")
+Correlation matrix 
+[1] -0.2
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+--- CONTROLLING FOR IDEOLOGY ---
+
+Call:
+lm(formula = seis ~ sit + ideology, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.2483 -0.6045 -0.0925  0.5508  4.1047 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  4.90007    0.19974   24.53   <2e-16 ***
+sit         -0.84212    0.04317  -19.51   <2e-16 ***
+ideology     0.22643    0.02022   11.20   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9481 on 599 degrees of freedom
+Multiple R-squared:  0.5592,	Adjusted R-squared:  0.5577 
+F-statistic: 379.9 on 2 and 599 DF,  p-value: < 2.2e-16
+
+
+
+Call:
+lm(formula = redist ~ sit + ideology, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.36388 -0.36227  0.01085  0.37777  2.12560 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.01877    0.12001  16.822  < 2e-16 ***
+sit          0.43527    0.02594  16.780  < 2e-16 ***
+ideology    -0.09661    0.01215  -7.952 9.16e-15 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.5696 on 599 degrees of freedom
+Multiple R-squared:  0.4575,	Adjusted R-squared:  0.4557 
+F-statistic: 252.6 on 2 and 599 DF,  p-value: < 2.2e-16
+
+
+
+Call:
+lm(formula = seis ~ disp + ideology, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.5922 -0.7272 -0.1293  0.6871  3.8738 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.98783    0.16875   5.854 7.92e-09 ***
+disp         0.18300    0.05290   3.459  0.00058 ***
+ideology     0.33617    0.02558  13.143  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.2 on 599 degrees of freedom
+Multiple R-squared:  0.2933,	Adjusted R-squared:  0.2909 
+F-statistic: 124.3 on 2 and 599 DF,  p-value: < 2.2e-16
+
+
+
+Call:
+lm(formula = redist ~ disp + ideology, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.10135 -0.36133  0.04051  0.43324  1.58952 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.91203    0.09695  40.351   <2e-16 ***
+disp        -0.03994    0.03039  -1.314    0.189    
+ideology    -0.16273    0.01470 -11.074   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.6897 on 599 degrees of freedom
+Multiple R-squared:  0.2048,	Adjusted R-squared:  0.2021 
+F-statistic: 77.13 on 2 and 599 DF,  p-value: < 2.2e-16
+
+
+--- ATTENTION CHECK (attn.check==2) SUBSET ---
+  x freq
+1 1   64
+2 2   83
+3 3   49
+4 4  155
+5 5   59
+6 6   97
+7 7   54
+8 8   38
+9 9    3
+Passed attention n: 576 
+
+H1.1 sit~seis:
+Call:corr.test(x = data2$sit, y = data2$seis, use = "pairwise", method = "pearson")
+Correlation matrix 
+[1] -0.69
+Sample Size 
+[1] 576
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H1.2 sit~redist:
+Call:corr.test(x = data2$sit, y = data2$redist, use = "pairwise", 
+    method = "pearson")
+Correlation matrix 
+[1] 0.63
+Sample Size 
+[1] 576
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H2.1 disp~seis:
+Call:corr.test(x = data2$disp, y = data2$seis, use = "pairwise", method = "pearson")
+Correlation matrix 
+[1] 0.3
+Sample Size 
+[1] 576
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H2.2 disp~redist:
+Call:corr.test(x = data2$disp, y = data2$redist, use = "pairwise", 
+    method = "pearson")
+Correlation matrix 
+[1] -0.22
+Sample Size 
+[1] 576
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+--- NONPARAMETRIC (spearman) FULL SAMPLE ---
+
+H1.1 sit~seis:
+Call:corr.test(x = data$sit, y = data$seis, use = "pairwise", method = "spearman")
+Correlation matrix 
+[1] -0.67
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H1.2 sit~redist:
+Call:corr.test(x = data$sit, y = data$redist, use = "pairwise", method = "spearman")
+Correlation matrix 
+[1] 0.63
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H2.1 disp~seis:
+Call:corr.test(x = data$disp, y = data$seis, use = "pairwise", method = "spearman")
+Correlation matrix 
+[1] 0.3
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+
+H2.2 disp~redist:
+Call:corr.test(x = data$disp, y = data$redist, use = "pairwise", method = "spearman")
+Correlation matrix 
+[1] -0.21
+Sample Size 
+[1] 602
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option

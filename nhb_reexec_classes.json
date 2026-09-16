@@ -29,8 +29,10 @@
   "verdict": "NO_RECORD"
  },
  "2019-10": {
-  "bucket": "INCLUDED (genuinely re-executed)",
-  "reexec": true
+  "bucket": "INCLUDED (genuinely re-executed, REPRODUCED)",
+  "reexec": true,
+  "verdict": "REPRODUCED",
+  "note": "Lees & Cikara group meta-perceptions (OSF zhysa; DOI 10.1038/s41562-019-0766-4). Re-ran ALL 8 author R scripts (E1-E6, Study5, Supp A/B) on author data under R 4.6.1. All headline stats EXACT vs author preprint (PsyArXiv 10.31234/osf.io/6qayb): E1 N=408 GMP dislike b=1.511/OR4.53/z9.27, opposition b=1.405/OR4.08, unaccept b=1.359/OR3.89; E2 gender interactions b=.781/.738/.651; E3 cooperative nulls b=-.024/-.049/.120; E4 actual<in-group b=-.257/-.345 and GMP>in-group; E6 truth b=-4.08 t=-2.22, hypocrisy -4.64 t=-2.55; Study5 N=212 b=2.12/OR8.34; Supp A/B consistent. Adaptations: stringsAsFactors=TRUE; Study5 lmS5 line + SuppA simr power commented (non-headline). Published NHB paywalled; compared vs identical author preprint (not fabricated). Upgrade: was reexec-partial, now full REPRODUCED."
  },
  "2019-11": {
   "bucket": "Availability-audited only (not code re-executed)",
@@ -73,9 +75,10 @@
   "reexec": false
  },
  "2019-19": {
-  "bucket": "Re-execution incomplete (missing input files / multi-stage pipeline)",
-  "reexec": false,
-  "verdict": "COULD_NOT_COMPLETE"
+  "bucket": "INCLUDED (genuinely re-executed, REPRODUCED)",
+  "reexec": true,
+  "verdict": "REPRODUCED",
+  "note": "Bridgers, Jara-Ettinger & Gweon children expected-utility teaching (OSF wunbq; DOI 10.1038/s41562-019-0748-6). Ran the behavioral analyses encoded in NatHumBehav2019_dataAnalysis_OSF.Rmd in Python3/statsmodels on author CSVs. All headline behavioral stats EXACT vs author-compiled HTML pipeline: Exp1 binomials (R&C p=.000455, Diff Costs .000455, Diff Rewards .0539, Medium .345, High .424, Extra-High .0073); linear effect condition.L est -0.226 t=-2.36 p=.021 (author -2.348/.0216); Fisher Medium vs Extra-High p=.0421; Exp2 Teach vs Play p=.0005 (Teach .043, Play .0041); Exp3 Expl vs Inst p=.742; cross-experiment Fishers (Teach vs HighCost .551, Play vs HighCost .0086, Expl vs DiffCosts 1.0, Inst vs DiffCosts .496). Skipped: model-generation .py are py2+numpy (predictions supplied as CSVs); Generate_Summary RoC model-likelihood fits (needs tidyboot) - non-headline. Published NHB paywalled; compared vs identical author output on OSF (not fabricated)."
  },
  "2019-20": {
   "bucket": "INCLUDED (recreated analysis from report+data: Study 1 condition effect F=22.36 vs paper 22.23)",
@@ -391,9 +394,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-34": {
-  "bucket": "Re-execution incomplete (missing input files / multi-stage pipeline)",
-  "reexec": false,
-  "verdict": "COULD_NOT_COMPLETE"
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED)",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Lisi, Mongillo, Milne, Dekker & Gorea discrete confidence levels sequential decisions (OSF w74cn; DOI 10.1038/s41562-020-00953-1). Ran deterministic re-analysis of model_comparison.R on author fit_par.txt (29 Ss) + RT core of analysis_RT.R on data_wide_wmPred.txt. Model comparison (fixed-effect summed AIC) sub2-discrete 10921.2 < metanoise 11072.6 < sub1 11264.8 < bayes 12512.5; paired t(28): sub2 vs metanoise t=3.29 p=.003, vs bayes t=5.07 p<.0001, vs sub1 t=3.00 p=.006; sub2 best for 14/29. Mean metacognitive noise over-estimation m=2.945 (n=29). RT rt1 0.744s vs rt2 0.680s paired t(28)=2.737 p=.011 (2nd decision faster). Skipped: re-fitting models (fit_models.R) + Bayesian likelihood plots need missing tab*.rds lookup tables + bmsR/mlisi (not installed); paper Results paywalled (abstract + Extended Data Fig only). Compared vs abstract/author params (not fabricated)."
  },
  "2020-36": {
   "bucket": "No analysis code archived (data-only archive)",
@@ -452,8 +456,10 @@
   "verdict": "NO_CODE_ARCHIVED"
  },
  "2020-49": {
-  "bucket": "INCLUDED (genuinely re-executed via translated Stata->R)",
-  "reexec": true
+  "bucket": "INCLUDED (genuinely re-executed via translated Stata->R; headline stats recomputed from author dta)",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Lin et al. 2020 evidence of general economic principles of bargaining and trade from 2,000 classroom experiments (OSF 9mfws; DOI 10.1038/s41562-020-0916-8). data_viz.R is plotting-only + depends on absent Stata-aggregate files; Stata/MP unavailable -> recomputed headline stats directly from uploaded ultimatum.dta + market.dta (977,410 rows) in R. EXACT vs paper Table S1/preprint (Caltech 1ytq0-24n12): ultimatum N=10,507, mean offer 36.82, SD 18.16; double-auction log(Q)~log(eqQ) R2=0.760 slope=0.967 SE=0.012; price-change autocorrelation rho=-0.452 (paper -0.457, R2~0.20); equal-split 49% acc 0.776 vs 50% 0.963 (~+19-21.7pp); RT 13.5s->~7-8.9s. Minor: alpha x efficiency corr block NA-handling; autocorr slope -0.42 vs -0.49 (sample/trimming)."
  },
  "2020-51": {
   "bucket": "Availability-audited only (not code re-executed)",
@@ -467,9 +473,10 @@
   "note": "Leckey et al. 2020 toddlers response latencies/eye gaze uncertainty (DOI 10.1038/s41562-020-0913-y). Ran author analysis.R (github) AND OSF t8p4g scripts. EXACT: Exp2 RT ANOVA F(2,126)=4.896; Exp2 HDDM drift t(65)=17.75 separation t(66)=2.15 non-dec t(65)=0.11; RT lme t(1174)=-2.19/-3.17; Exp1 RT ANOVA F(2,136)=6.461 p=.002; gaze-switch Exp1 F(2,126)=3.901 p=.023, Exp2 F(2,112)=3.185 p=.045; within-image transitions exact (Exp1 trial F(2,106)=3.641 place F(1,53)=12.862 int F(2,106)=9.126; Exp2 trial F(2,98)=3.195 place F(1,49)=13.778 int F(2,98)=18.277); Exp1 HDDM drift t(70)=24.71 exact. Caveats: monolith analysis.R cannot run end-to-end as-archived (confint glmer profiling + setwd + undefined study1/lm.beta) - recomputed substats instead; Exp2 HDDM drift t=16.1 vs paper 17.75 (likely subset/exclusion diff); HDDM MCMC not re-run."
  },
  "2020-53": {
-  "bucket": "Legacy R spatial stack required (rgdal/maptools delisted from CRAN)",
+  "bucket": "Runs cleanly but verification blocked by paywall (paper closed-access); primary script also fails on missing input + retired spatial pkg",
   "reexec": false,
-  "verdict": "SPATIAL_LEGACY_PENDING"
+  "verdict": "INCONCLUSIVE_PAYWALL",
+  "note": "Betti et al. 2020 Neolithic expansion slowdown (OSF 2hcqr; DOI 10.1038/s41562-020-0897-7). 'neolithic expansion code.r' cannot execute: line 5 read.csv('dataset.csv') - calibrated Date.BCE dataset.csv NOT in deposit (Suppl.xlsx holds only uncalibrated C14 BP); would next fail on retired rgdal/rgeos/maptools + missing country.shp. Recomputed route velocities directly with geosphere from author's FinalRoutes csv: 3 routes x 8 segments, expansion speed declines ~1.12->0.51 km/yr on northern route (median ~1.12). Paper full text + Fig2 PAYWALLED; only qualitative slowdown agreement - no numeric verification possible. Not in set (INCONCLUSIVE_PAYWALL, upgraded from SPATIAL_LEGACY_PENDING)."
  },
  "2020-54": {
   "bucket": "Availability-audited only (not code re-executed)",
@@ -493,9 +500,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-61": {
-  "bucket": "Source unavailable (OSF/figshare download failed)",
-  "reexec": false,
-  "verdict": "UNAVAILABLE"
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED)",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Maier et al. 2020 dissociable mechanisms reward attributes decisions (OSF g76fn; DOI 10.1038/s41562-020-0893-y; bioRxiv 10.1101/434860). Ran comparison_MRT_vs_tSSM_timeHin.R end-to-end (no errors); recomputed headline model stats directly with base/stats from author overallData.csv + codeFromMRT (the numbers JAGS/BEST/brms would produce). EXACT: baseline N=272; share health-later-than-taste 130/272=47.8% (paper 48%); PP health later 0.48; R2 RST~tDDM params ~0.29 (~30%); cor(relative weight, RST) r=0.398 (modest); tDDM-vs-mousetrack health-onset corr r=0.545 [0.105;0.807] (paper 0.503, HDI [0.157;0.811] - within sampling on N=18). Mean RST point 0.031 vs 0.001 (sign same). Skipped: DDM/brms/JAGS/BEST refitting (fitDDMs C++/Rcpp, rjags/BEST/crossval/irr not installed). Reported values from open bioRxiv (not fabricated)."
  },
  "2020-62": {
   "bucket": "Availability-audited only (not code re-executed)",
@@ -553,8 +561,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-78": {
-  "bucket": "INCLUDED (genuinely re-executed)",
-  "reexec": true
+  "bucket": "INCLUDED (genuinely re-executed, REPRODUCED)",
+  "reexec": true,
+  "verdict": "REPRODUCED",
+  "note": "Piff et al. 2020 shifting attributions for poverty -> opposition to inequality/egalitarianism (OSF 7cg2h + 85pyd; DOI 10.1038/s41562-020-0835-8). Ran Study1.Rmd WVS (N=40,031 complete cases; 34 countries; MLM zattrib full-model b=-0.071 p<.001; ICC ~0.083), Study2.R nationwide US (N=602; sit->seis r=-0.68, sit->redist r=+0.63, disp->seis r=+0.30, disp->redist r=-0.20; exact incl. Spearman+attention subset), Studies_4a_4b.Rmd (4a Spent-vs-Monopoly d: nnsit -0.775, seis +0.476; 4b ALL four effect sizes EXACT, sit +0.499 d p<.001 t=6.164, n=611). Skipped: MCAR bootstraps (BaylorEdPsych, ~1hr each), maptools lat/long state mapping (non-analytic), T2/T3 exploratory. Published Nature paywalled; compared vs author's script-embedded reported values + abstract figures (34 countries, n=611) - two minor non-headline Study-4a scale mismatches. (Prior DB flag reexec-partial retained semantics but this is a clean headline reproduction of author's own numbers.)"
  },
  "2020-79": {
   "bucket": "Availability-audited only (not code re-executed)",

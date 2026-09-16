@@ -1,0 +1,160 @@
+===== STUDY 1 ANALYSIS (WVS cross-national) =====
+
+WVS initial n: 77129 
+
+--- counts per country clusters wrt -4 (not asked) ---
+Pakistan rows where ideology==-4: 6355 
+Pakistan total rows: 733 
+Complete cases n: 40031 
+
+--- z-score transform ---
+
+--- Simple regression zineq~zattrib ---
+
+Call:
+lm(formula = zineq ~ zattrib, data = wvs)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.79802 -0.77978  0.06866  0.74749  1.42631 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  5.574e-15  4.983e-03     0.0        1    
+zattrib     -7.722e-02  4.983e-03   -15.5   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.997 on 40029 degrees of freedom
+Multiple R-squared:  0.005963,	Adjusted R-squared:  0.005938 
+F-statistic: 240.1 on 1 and 40029 DF,  p-value: < 2.2e-16
+
+
+--- Multiple regression with controls ---
+
+Call:
+lm(formula = zineq ~ zattrib + zideol + zsex + zage + zeduc + 
+    zinclad + zrelig.import, data = wvs)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.2688 -0.7566  0.0598  0.7993  1.9800 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    3.752e-15  4.887e-03   0.000   1.0000    
+zattrib       -5.727e-02  4.945e-03 -11.581  < 2e-16 ***
+zideol         1.195e-01  4.924e-03  24.275  < 2e-16 ***
+zsex          -9.058e-03  4.896e-03  -1.850   0.0643 .  
+zage          -1.236e-02  5.021e-03  -2.462   0.0138 *  
+zeduc          1.337e-01  5.281e-03  25.313  < 2e-16 ***
+zinclad        3.819e-02  5.181e-03   7.372 1.71e-13 ***
+zrelig.import -2.406e-02  4.901e-03  -4.909 9.17e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9777 on 40023 degrees of freedom
+Multiple R-squared:  0.04429,	Adjusted R-squared:  0.04412 
+F-statistic:   265 on 7 and 40023 DF,  p-value: < 2.2e-16
+
+
+--- Merge country-level data ---
+gini describe:
+   vars     n mean   sd median trimmed  mad  min  max range skew kurtosis se
+X1    1 32064 0.41 0.11    0.4    0.41 0.12 0.26 0.63  0.37 0.39    -0.94  0
+gdpcap describe:
+   vars     n    mean      sd median trimmed     mad min   max range skew
+X1    1 39880 6777.46 9506.84   2666 4558.91 3109.01 263 34875 34612 1.79
+   kurtosis    se
+X1     1.88 47.61
+
+--- NULL MODEL (zineq~1, random ~1|S003A) ---
+Linear mixed-effects model fit by maximum likelihood
+  Data: wvs 
+     AIC      BIC   logLik
+  110489 110514.8 -55241.5
+
+Random effects:
+ Formula: ~1 | S003A
+        (Intercept)  Residual
+StdDev:   0.2879902 0.9594195
+
+Fixed effects:  zineq ~ 1 
+                  Value  Std.Error    DF    t-value p-value
+(Intercept) -0.01615016 0.04279758 39985 -0.3773616  0.7059
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.39125493 -0.77014612  0.08513048  0.83397588  2.14890285 
+
+Number of Observations: 40031
+Number of Groups: 46 
+ICC recomputed from sqrt SDs: 0.08265531 
+
+--- MODEL1 (zineq~zattrib, random ~1|S003A) ---
+Linear mixed-effects model fit by maximum likelihood
+  Data: wvs 
+       AIC      BIC    logLik
+  110154.1 110188.5 -55073.03
+
+Random effects:
+ Formula: ~1 | S003A
+        (Intercept)  Residual
+StdDev:   0.2886435 0.9553832
+
+Fixed effects:  zineq ~ zattrib 
+                  Value  Std.Error    DF    t-value p-value
+(Intercept) -0.01734578 0.04289097 39984  -0.404416  0.6859
+zattrib     -0.09255196 0.00503155 39984 -18.394307  0.0000
+ Correlation: 
+        (Intr)
+zattrib 0.002 
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.55714260 -0.75418583  0.09084066  0.81893626  2.24508347 
+
+Number of Observations: 40031
+Number of Groups: 46 
+
+--- MODEL2 full (random ~1|country) ---
+Linear mixed-effects model fit by maximum likelihood
+  Data: wvs 
+       AIC      BIC    logLik
+  88248.09 88348.59 -44112.04
+
+Random effects:
+ Formula: ~1 | country
+        (Intercept)  Residual
+StdDev:   0.2793627 0.9555429
+
+Fixed effects:  zineq ~ zattrib + zideol + zsex + zage + zeduc + zinclad + zrelig.import +      zgini + zgdpcap 
+                    Value  Std.Error    DF    t-value p-value
+(Intercept)   -0.01057870 0.05578415 32023  -0.189636  0.8496
+zattrib       -0.07119684 0.00565790 32023 -12.583618  0.0000
+zideol         0.10462003 0.00543172 32023  19.260953  0.0000
+zsex          -0.01165118 0.00537530 32023  -2.167541  0.0302
+zage          -0.01477523 0.00573148 32023  -2.577908  0.0099
+zeduc          0.08976762 0.00618525 32023  14.513171  0.0000
+zinclad        0.08205534 0.00636245 32023  12.896817  0.0000
+zrelig.import  0.00296278 0.00593695 32023   0.499041  0.6178
+zgini          0.02600693 0.05209044    31   0.499265  0.6211
+zgdpcap       -0.14483175 0.08184387    31  -1.769610  0.0866
+ Correlation: 
+              (Intr) zattrb zideol zsex   zage   zeduc  zincld zrlg.m zgini 
+zattrib        0.008                                                        
+zideol        -0.001  0.095                                                 
+zsex          -0.001 -0.024  0.000                                          
+zage          -0.003 -0.010  0.005  0.036                                   
+zeduc          0.004 -0.006  0.036  0.014  0.185                            
+zinclad       -0.008  0.066 -0.014  0.047  0.056 -0.361                     
+zrelig.import  0.000 -0.001  0.002 -0.016  0.010  0.026  0.024              
+zgini          0.166  0.000 -0.004 -0.001  0.016 -0.003  0.006  0.002       
+zgdpcap        0.468  0.015  0.004 -0.003 -0.014  0.003 -0.019 -0.009 -0.026
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.78056329 -0.75835625  0.08756768  0.80308354  2.39068942 
+
+Number of Observations: 32064
+Number of Groups: 34 

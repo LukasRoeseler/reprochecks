@@ -1,0 +1,40 @@
+﻿AUDIT LOG - OSF node 2hcqr (Betti et al. 2020 NHB, neolithic expansion)
+=====================================================================
+NHB paper: Climate shaped how Neolithic farmers and European hunter-gatherers interacted
+after a major slowdown from 6,100 BCE to 4,500 BCE
+Nat Hum Behav 4(10):1004-1010 (2020), published 06 Jul 2020
+DOI: 10.1038/s41562-020-0897-7   (OpenAlex W3031717151; PMID 32632332)
+
+ENVIRONMENT
+- R 4.6.1 (2026-06-24); Windows
+- Available: data.table, readxl, sf, sp, geosphere (geosphere installed for this audit)
+- UNAVAILABLE (retired from CRAN): rgdal, rgeos, maptools  ==> primary blocker
+
+PRIMARY SCRIPT: 'neolithic expansion code.r'
+- Generates Neolithic expansion routes (segments.axes) from dataset.csv (columns Lat,Long,Site,Country,Date.BCE)
+  using convex hulls of sites in 100-yr bins + distm (geosphere) + spTransform (Lambert LCC via rgdal).
+- REQUIRED inputs NOT in deposit: dataset.csv (calibrated Date.BCE), country.shp.
+- Provided xlsx 'Suppl. data 1' = 1448 rows with UNcalibrated C14 BP (no Date.BCE column).
+- RUN RESULT: fatal at line 5 read.csv('dataset.csv') - file not found. Would next fail on
+  library(rgdal)/library(rgeos)/library(maptools) (retired) and readShapePoly(country.shp) (missing).
+
+ROUTE OUTPUT (provided by authors in CRW.zip): FinalRoutes_19.09.2019_to_slowdown.csv
+  27 points, 3 routes (1,2,3) x 9 points (8 segments each).
+RECOMPUTED (this audit, base+geosphere distHaversine):
+  Route | total_km | vel (km/yr) declining along route
+  all    | ~2673-2788 | 1.118 -> 1.120 -> 1.116 -> 1.333 -> 0.859 -> 0.661 -> ... -> ~0.51-1.8
+  Routes share a trunk then branch; terminal legs ~0.51-0.66 km/yr (slowdown toward N Europe).
+  Median segment velocity ~1.12 km/yr; declining at higher latitudes.
+  (These are the expansion speeds consistent with the paper's 'slowdown' narrative.)
+
+HEADLINE STATISTIC (paper)
+- Axis-specific Neolithic expansion speeds and slowdown on 3 of 4 axes when crossing the
+  same climatic (growing-degree-day, GDD) threshold. Exact values are in PAYWALLED Fig.2/text.
+- Source: https://www.nature.com/articles/s41562-020-0897-7 (abstract only; closed access;
+  Full text = paywall; figures not OCR-able, model lacks image input).
+
+VERDICT: INCONCLUSIVE_PAYWALL
+  - Primary script could not execute (retired packages rgdal/rgeos/maptools on R 4.6.1 +
+    missing dataset.csv/country.shp) -> would normally be TECHNICAL_FAILURE.
+  - Provided route data recomputes to ~0.66-1.12 km/yr declining, matching the qualitative
+    slowdown claim, but exact paper values are paywalled so no quantitative match assessment.
