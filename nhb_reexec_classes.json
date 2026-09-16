@@ -407,9 +407,10 @@
   "verdict": "NO_ANALYSIS_SCRIPTS"
  },
  "2020-39": {
-  "bucket": "Long-duration compute (bootstrap/Monte-Carlo prohibitive)",
+  "bucket": "Runs cleanly but verification blocked by paywall (paper closed-access)",
   "reexec": false,
-  "verdict": "RUN_IN_PROGRESS"
+  "verdict": "INCONCLUSIVE_PAYWALL",
+  "note": "Yamada 2020 advocacy/lawyers. Author E1.R recomputes cleanly on author CSV (N=386 after the script's attention/exclusion; full R=1000 bootstrap run too slow, reduced-bootstrap variant completes). Recomputed stats internally consistent (GlobalEval interaction F(1,382)=0.30 NS; TSc Moral x Innocence/Guilt b=+/-1.264 t=3.55; TSb ORs ~9.9/0.10) but paper's reported numbers are paywalled so no numeric verification possible. Experiments E2-E7 not re-run."
  },
  "2020-40": {
   "bucket": "No analysis code archived (data-only archive)",
@@ -456,9 +457,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-52": {
-  "bucket": "Technical partial (model ran; CIs not finalised)",
+  "bucket": "PARTIAL re-execution (R: Experiment 2 reproduces exactly; Experiment 1 not recomputable as-archived)",
   "reexec": false,
-  "verdict": "TECHNICAL_PARTIAL"
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Leckey 2020 toddlers. Ran author analysis.R on author CSVs to completion (fix: confint Wald + QuantPsyc::lm.beta on a marginally-nonconverged glmer; no reported statistic changed). Exp2 EXACT: HDDM drift t(65)=17.75, separation t(66)=2.15, non-decision t(65)=0.11; RT lme t(1174)=-2.19/-3.17; RT ANOVA F(2,126)=4.896. Exp1 not recomputable: script lines 78-82 overwrite the Study-1 subset with Study-2 for TS and ET, so as-written it analyses only Exp2 (Exp1 data present but discarded). HDDM (Python) not run."
  },
  "2020-53": {
   "bucket": "Legacy R spatial stack required (rgdal/maptools delisted from CRAN)",
@@ -575,9 +577,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-84": {
-  "bucket": "Technical failure during re-execution (R segfault)",
+  "bucket": "BLOCKED (missing dependency: Functions.R was never shipped in the OSF package)",
   "reexec": false,
-  "verdict": "TECHNICAL_FAILURE"
+  "verdict": "BLOCKED_MISSING_DEPENDENCY",
+  "note": "Bakker 2020 conservatives/liberals threats. Driver Science_replication_file.R sources Functions.R, which is not in the OSF package (node d5g72) nor anywhere locally; fails at line 4. Earlier 'R segfault' label was a misdiagnosis of this missing-file condition. No recomputed statistics possible as distributed."
  },
  "2020-85": {
   "bucket": "Availability-audited only (not code re-executed)",
