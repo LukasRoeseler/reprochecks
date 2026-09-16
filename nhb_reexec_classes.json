@@ -380,9 +380,10 @@
   "verdict": "NO_CODE_ARCHIVED"
  },
  "2020-31": {
-  "bucket": "Re-execution incomplete (missing input files / multi-stage pipeline)",
-  "reexec": false,
-  "verdict": "COULD_NOT_COMPLETE"
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED)",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Fischer, Jaidka & Lelkes 2020 auditing local news presence on Google News (DOI 10.1038/s41562-020-00954-0). Ran author R (gini_index.R using reldist alternative) on present Reproduction Data RData/csv. REPRODUCED: total responses 12,290,428 = abstract 12.29M; aggregate Gini of outlet counts 0.817 (paper 0.82); one-tailed Wilcoxon national-vs-local W=242 p=8.45e-07 (paper W=242 p<.001, EXACT); top-3 outlet share 16.1% (paper 16.4%). Not rebuildable: headline Fig3 supply/demand bigglm regression - source_timestamp_conversion.csv and county_turnout_estimates.csv confirmed TRULY ABSENT (verified vs OSF API + full local tree) + biglm/fischeR/tidycensus/UNC circulation data not installed/present. Verified missing, not a code failure."
  },
  "2020-33": {
   "bucket": "Availability-audited only (not code re-executed)",
@@ -463,7 +464,7 @@
   "bucket": "PARTIAL re-execution (R: Experiment 2 reproduces exactly; Experiment 1 not recomputable as-archived)",
   "reexec": false,
   "verdict": "PARTIAL_REPRODUCED",
-  "note": "Leckey 2020 toddlers. Ran author analysis.R on author CSVs to completion (fix: confint Wald + QuantPsyc::lm.beta on a marginally-nonconverged glmer; no reported statistic changed). Exp2 EXACT: HDDM drift t(65)=17.75, separation t(66)=2.15, non-decision t(65)=0.11; RT lme t(1174)=-2.19/-3.17; RT ANOVA F(2,126)=4.896. Exp1 not recomputable: script lines 78-82 overwrite the Study-1 subset with Study-2 for TS and ET, so as-written it analyses only Exp2 (Exp1 data present but discarded). HDDM (Python) not run."
+  "note": "Leckey et al. 2020 toddlers response latencies/eye gaze uncertainty (DOI 10.1038/s41562-020-0913-y). Ran author analysis.R (github) AND OSF t8p4g scripts. EXACT: Exp2 RT ANOVA F(2,126)=4.896; Exp2 HDDM drift t(65)=17.75 separation t(66)=2.15 non-dec t(65)=0.11; RT lme t(1174)=-2.19/-3.17; Exp1 RT ANOVA F(2,136)=6.461 p=.002; gaze-switch Exp1 F(2,126)=3.901 p=.023, Exp2 F(2,112)=3.185 p=.045; within-image transitions exact (Exp1 trial F(2,106)=3.641 place F(1,53)=12.862 int F(2,106)=9.126; Exp2 trial F(2,98)=3.195 place F(1,49)=13.778 int F(2,98)=18.277); Exp1 HDDM drift t(70)=24.71 exact. Caveats: monolith analysis.R cannot run end-to-end as-archived (confint glmer profiling + setwd + undefined study1/lm.beta) - recomputed substats instead; Exp2 HDDM drift t=16.1 vs paper 17.75 (likely subset/exclusion diff); HDDM MCMC not re-run."
  },
  "2020-53": {
   "bucket": "Legacy R spatial stack required (rgdal/maptools delisted from CRAN)",
@@ -538,7 +539,8 @@
  },
  "2020-74": {
   "bucket": "PARTIAL re-execution (Study1 BRFSS; Study3 Stata .do has no data file -> cannot run)",
-  "reexec": false
+  "reexec": false,
+  "note": "Jachimowicz et al. 2020 higher economic inequality financial hardship community buffer (DOI 10.1038/s41562-020-0849-2). Ran author Rmd chunks on author data for all archived studies (OSF a3qy8). EXACT betas: Study1 BFRSS 0.031 (paper 0.031); Study2 gini_zip 0.1033 (0.103); Study4 0.2226 (0.223); Study5 0.0842 (0.084); Study6 Uganda 0.1317 (0.132); cross-study mean(b_ineq)=0.0963 reproduces headline 0.10 s.d. (N=1,029,900). Not recomputable: Study3 (HILDA .do) and Study S1 (Gallup) - data intentionally not archived (paper-confirmed), not a code failure. (Prior note: Study1 BRFSS mixed model b=-0.0305 s.e. 0.0028 t=-10.77.)"
  },
  "2020-76": {
   "bucket": "No analysis code archived (data-only archive)",
