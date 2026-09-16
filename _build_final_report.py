@@ -523,6 +523,19 @@ recreated directly from the paper&rsquo;s reported Methods (lmer, Kenward-Roger)
   condition main effect: F(2, 504) = 22.36, P &lt; 0.001   -> paper: F(2, 463) = 22.23, P &lt; 0.001 (np2 = 0.09)   [F matches near-exactly]
   time effect F = 14.7 (P &lt; 0.001); time x condition interaction F = 57.9 (P &lt; 0.001)   [both significant as reported]
   (df differ 504 vs 463 because the wide archive cannot reproduce the exact listwise exclusions)
+
+<span style="color:#7d3c98;font-weight:bold">[2019-45] Leong et al., &ldquo;Neurocomputational mechanisms underlying motivated seeing&rdquo; &mdash; R (author R scripts run on author AllData.csv + model_outputs; HDDM/MATLAB analyses pending)</span>
+Core behavioral GLMM (probit, Choice ~ Cat_n_z + Con*Pred + (Con*Pred|Sub), N=4800, 30 subj):
+  Coop condition, Pred1 (B, want-to-see bias):  B = 0.330, z = 2.52, p = 0.0119  -> paper: B = 0.33, p = 0.012   [EXACT]
+  Comp condition, Pred1:                         B = -0.466, z = -4.44, p &lt; 0.001
+  Main model interaction ConCoop:Pred1:          B = 0.805, z = 3.34, p = 0.00083  -> paper: B = 0.81        [EXACT]
+  Performance x motivational bias (rlm):         slope -0.31, t = -3.25
+DDM parameter correlation (Fig3):  cor(z, drift_bias) = 0.289999, t(28)=1.60, p=0.12  -> paper: r = 0.290      [EXACT]
+  Posterior (trace all):  P(z_bias&gt;0)=0.969, P(v_bias&gt;0)=0.991  (paper: both &gt;95%)         [matches]
+NAcc regression (Fig6):  accumbens ~ scale(z) + scale(drift_bias):
+  scale(z) = 0.473, t=2.71, p = 0.0115 (significant)  vs  scale(drift_bias) = 0.065, t=0.37, p = 0.71 (ns)
+  -> paper: "regression coefficient for zbias was significant but that for vbias was not"   [reproduces]
+(HDDM model-stat claims B=2.19 and r=0.69, and RT/MATLAB Fig4/Fig7/recovery analyses, not yet run in R)
 </div>
 <p class="tabnote"><em>Cross-language note.</em> These are genuine re-executions: each R translation was run on the author&rsquo;s archived data, and the translated output reproduced the paper&rsquo;s reported headline statistic (exact where the paper reported a rounded chi-square/t). Translation code and outputs are recorded in the runbook (<code>NHB_REEXECUTION.md</code>) and in the re-execution ledger.</p>
 
