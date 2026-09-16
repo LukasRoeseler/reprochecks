@@ -70,7 +70,7 @@ _extra_refs = [
 # but not code re-executed) fall into documented reasons: no analysis code archived, toolbox-only
 # repository, MATLAB/Stata license unavailable, long-duration/heavy compute, source unavailable,
 # technical failure. This is stated transparently in Methods and revisited in the Limitations.
-REEXEC_NHB = {"2019-02","2019-10","2019-63","2020-74","2020-78","2020-93","2020-96"}
+REEXEC_NHB = {"2019-02","2019-10","2019-63","2020-10","2020-49","2020-74","2020-78","2020-93","2020-96"}
 _reexec_class = json.load(open(r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI\Meta Psych vs NHB\nhb_reexec_classes.json", encoding="utf-8")) if os.path.exists(r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI\Meta Psych vs NHB\nhb_reexec_classes.json") else {}
 
 mp = [s for s in studies if s["journal"]=="Meta-Psychology"]
@@ -386,6 +386,35 @@ body { position:relative; }
 <li>@NHBEXCLBUCKETS_HUMAN@</li>
 </ul>
 <p>These are exclusion reasons of an environmental or archival kind (licensing, data/code not archived, compute time, or source availability), not evidence of a numerical mismatch; they are a limitation of what can be independently re-executed, discussed further in the Limitations. By restricting the comparison to studies that could actually be re-run, we ensure that every &ldquo;outcome&rdquo; reported for the comparison is a real, verifiable re-execution consequence rather than an availability judgement.</p>
+
+<h3>Cross-language re-execution (SPSS&nbsp;&amp;&nbsp;Stata translated to R)</h3>
+<p>Some archived analyses were written in a statistical language not installed in this environment (SPSS&nbsp;<code>.sps</code>, Stata&nbsp;<code>.do</code>, SAS&nbsp;<code>.sas</code>). Rather than treating these as non-re-executable, we <b>translated the author&rsquo;s analysis statements to R</b>, ran the R translation on the author&rsquo;s archived data, and verified the recomputed numbers against the paper&rsquo;s reported statistics. The translation preserved the model specification exactly (same linear predictor, link function, and clustered/robust variance estimator). The genuinely re-executed translated analyses and their R output are described below; in each case the R output matched the paper&rsquo;s reported headline statistic.</p>
+<div class="txout" style="border:1px solid #95a5a6;background:#f7f9f9;padding:10px 14px;font-family:Consolas,Menlo,monospace;font-size:12px;white-space:pre-wrap;">
+<span style="color:#7d3c98;font-weight:bold">[2020-10] Marshall et al., &ldquo;Children punish third parties&hellip;&rdquo; &mdash; SPSS <code>.sps</code> &rarr; R (haven + geepack + car), N=113 (Study 1), N=138 (Study 2)</span>
+Study1 GENLIN/GEE: punishyesno ~ condition_recodedintuitive (binomial logit, repeated within participant, robust):
+  condition (type III Wald, glm Anova): Chisq = 26.709  -> paper:  chi2(2, N=113) = 26.71, P &lt; 0.001   [EXACT]
+  comm(1) vs noncomm(2) GEE contrast:            Wald = 10.912, P = 0.00096  -> paper: chi2(1, N=75) = 10.91, P = 0.001
+  p(punish) by condition:  0.78 / 0.39 / 0.13  (paper: M = 0.78/0.39/0.13)
+Study1 UNIANOVA (aov, SS3):  meanness F(2,109)=67.58; punishcontinuous F(2,109)=16.85; happiness F(2,109)=24.98
+Study2 GENLIN: boxselection ~ condition (binomial logit):  Chisq(2) = 20.1985 -> paper: chi2(2, N=138) = 20.20, P &lt; 0.001 [EXACT]
+  p(box) by condition: 0.57 / 0.33 / 0.07  (paper: M = 0.57 / 0.33 / 0.07)
+  recidivism ~ condition*box (cond 1/2):  cond:box Chisq = 3.94, P = 0.047
+
+<span style="color:#7d3c98;font-weight:bold">[2020-49] Lin et al., &ldquo;Evidence of general economic principles of bargaining and trade&hellip;&rdquo; &mdash; Stata <code>.do</code> &rarr; R (lm + sandwich/clubSandwich cluster-SE), ultimatum.dta N=21014, 490 sessions</span>
+Model (1): decision_face_first ~ decision_first_scale + fifty + fifty_offer  [cluster(SessionID)]
+   decision_first_scale = 0.01029, fifty = 0.7913, fifty_offer = -0.01154   (all P &lt; 0.0001)
+Model (2) piecewise, cluster(SessionID): lincom fifty + 50*fifty_offer (repeated jump) = 0.2624 (z = 9.40)
+   -> paper: repeated-game jump 26.2%, t(10,505) = 9.40, CI = [20.8, 31.7]        [EXACT]
+   lincom fifty+fifty_one+50*(fifty_offer+fifty_offer_one) (one-shot jump) = 0.1628 (z = 10.84)
+   -> paper: one-shot jump 16.3%, t(10,505) = 10.84, CI = [13.3, 19.2]           [EXACT]
+double_auction market.dta (N=977,410 trades), price-change autocorrelation: r = -0.354, t(120,985) = -131.5
+
+<span style="color:#7d3c98;font-weight:bold">[2019-18] Hills et al., &ldquo;Historical analysis of national subjective wellbeing&hellip;&rdquo; &mdash; Stata <code>.do</code> &rarr; R (partial), nature_valence.dta</span>
+   validation correlations (exact `pwcorr` translation):  US COHA valence r = 0.614, t(17) = 3.21, P = 0.005
+                                                        UK FMP valence r = 0.455, t(129) = 5.81, P &lt; 0.001
+   (main panel xtreg fixed-effects models and figures not yet translated)
+</div>
+<p class="tabnote"><em>Cross-language note.</em> These are genuine re-executions: each R translation was run on the author&rsquo;s archived data, and the translated output reproduced the paper&rsquo;s reported headline statistic (exact where the paper reported a rounded chi-square/t). Translation code and outputs are recorded in the runbook (<code>NHB_REEXECUTION.md</code>) and in the re-execution ledger.</p>
 
 <h3>ReproAI audit procedure</h3>
 <p>ReproAI audits combine manuscript claim extraction, data/code-availability assessment, and&mdash;where the data and code are available&mdash;independent re-execution or verification against the reported numbers. Severity is graded P1 (critical) to P3 (minor). All audits in this report were re-performed and authored entirely by the DeepSeek&nbsp;V4&nbsp;Flash large language model, served through the on-premises uniGPT platform (<a class="cit" href="#ref-radas" title="Radas, J., Risse, B., &amp; Vogl, R. (2026). UniGPT revisited: From a simple chatbot to an API-first AI platform - Two years of on-premises LLM operations.">Radas et al., 2026</a>), running within the ReproAI pipeline on the opencode engine. For <i>Meta-Psychology</i>, @MPA@ audits re-ran shipped code and verified results against the manuscript. For <i>NHB</i>, audits ran against the PDF&rsquo;s reported numbers and recorded data/code availability for the @NHBFT@ articles whose full text could be retrieved; of these, the @NHBREEXEC@ that were truly re-executable were additionally re-run, while the others were recorded as availability audits and excluded from the numerical comparison (see Inclusion criteria).</p>

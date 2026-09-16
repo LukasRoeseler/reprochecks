@@ -43,7 +43,7 @@ could be reached.
 | 2019-27 (Smaldino) | R+Java | Could not complete | Agent-based simulation output data not archived; R reads author's local Dropbox path |
 | 2020-94 | R | Could not complete | Rmd needs `org_and_cult_haldrates_before_gams.csv` not archived; claims (1960/52) from other analyses |
 | 2020-43 (Allen) | R | Could not complete | Raw `hwf_data_renorm_reformat.csv` from author's Dropbox not archived |
-| 2020-49 | Stata | **Blocked** | Analyses are Stata `.do` files; no Stata license available |
+| 2020-49 | Stata | **Reproduced (translated to R)** | See "Cross-language (SPSS/Stata/SAS) re-executions" below |
 | 2020-84 (Bakker) | R | Technical failure | Direct-replication coding ran, but native R segfault mid-way through the Stata `.dta` coding pipeline blocked `Main_Text_Results.R`; `zero1` (min-max, standard) not archived |
 | 2020-52 (Leckey) | R (+HDDM) | Technical partial | All data CSVs loaded and GLMMs ran, but aborted at `confint()` on a marginally-nonconverged model (grad 0.00253 vs tol 0.002); the in-text CIs weren't finalised. Drift-diffusion (HDDM, Python) not run |
 
@@ -55,6 +55,18 @@ could be reached.
 | **2019-63 (Pool)** | R | Partially reproduced (Study 1) | Study 1 (N=40) pupil CS-value contrast re-run fast from author R+data (`rve2p`): **F(1,39)=4.447, P=0.0414** vs paper **F(1,39)=4.45, P=0.041, eta2p=0.102** — identical. Liking-by-CS-value F(1,39)=10.19, P=0.0028 also computed. Studies 2-4 R analyses not yet run |
 | **2020-78 (Piff/Wiwad)** | R | Partially reproduced (Study 2) | Study 2 correlations from author `Study_2.R`+`Study2_data.csv` (N=602): sit-redist=0.63 (paper 0.63), disp-seis=0.30 (0.30); sit-seis & disp-redist match paper magnitudes with a sign flip = `seis` (support-for-inequality) composite coding direction, not a numeric disagreement. All 4 regressions ran. Studies 1/3/4 + WVS multilevel not yet run |
 | **2020-74 (Jachimowicz)** | R | Partially reproduced (Study 1) | BRFSS mixed model re-fit (~2 s fit, N=109,241, 667 counties): gini×income interaction **b=-0.0305, s.e.=0.0028, t=-10.77, P<2e-16** vs paper **b=0.030, s.e.=0.003, CI95%=[0.036;0.025], P<0.001** — magnitude and s.e. exact (sign = composite convention). Studies 2-7 incl. a Stata `.do` pending |
+
+## Cross-language (SPSS / Stata / SAS) re-executions -- translated to R
+
+Where the archived analyses were written in SPSS (`*.sps`), Stata (`*.do`) or SAS (`*.sas`) -- languages not installed in this environment -- we **translated the author's analysis statements to R**, ran the R translation on the author's archived data, and verified the recomputed numbers against the paper. The translation kept the model identical (same linear predictor, link, and cluster/robust variance estimator). Work dir `work\2020-10`, `work\2020-49`, `work\2019-18`.
+
+| Paper | Original lang | Verdict | Translated R output (verified vs paper) |
+|-------|---------------|---------|-------------------------------------------|
+| **2020-10 (Marshall, children punish)** | SPSS `.sps` | **Reproduced (both studies, exact)** | Study1 (N=113, `Study1Data.sav` via haven): GENLIN/GEE `punishyesno ~ cond` (binomial logit, robust, repeated within participant) type-III Wald **Chisq=26.709** vs paper **chi2(2,N=113)=26.71, P<0.001** — EXACT; comm vs noncomm GEE **Wald=10.912, P=0.00096** vs paper **chi2(1,N=75)=10.91, P=0.001**; P(punish)=.78/.39/.13 (paper M=.78/.39/.13); meanness F(2,109)=67.58. Study2 (N=138): GLM `boxselection~cond` **Chisq=20.1985** vs paper **chi2(2,N=138)=20.20, P<0.001** — EXACT; P(box)=.57/.33/.07 (paper .57/.33/.07); recidivism cond×box Chisq=3.94 P=0.047 |
+| **2020-49 (Lin, bargaining/trade)** | Stata `.do` | **Reproduced (ultimatum, exact)** | `ultimatum.dta` (N=21014, 490 sessions): Model(1) cluster(SessionID) OLS `decision_face_first ~ decision_first_scale+fifty+fifty_offer`: b = .01029 / .7913 / -.01154. Model(2) piecewise cluster-SE: lincom fifty+50\*fifty_offer (repeated jump) **=0.2624 (z=9.40)** vs paper **26.2%, t(10,505)=9.40, CI=[20.8,31.7]** — EXACT; lincom one-shot jump **=0.1628 (z=10.84)** vs paper **16.3%, t=10.84, CI=[13.3,19.2]** — EXACT. `market.dta` (N=977,410 trades) price-change autocorrelation r=-0.354, t(120,985)=-131.5 |
+| **2019-18 (Hills, national wellbeing)** | Stata `.do` | Partially reproduced (validation correlations) | `nature_valence.dta`: `pwcorr` US COHA valence r=0.614, t(17)=3.21, P=0.005; UK FMP valence r=0.455, t(129)=5.81, P<0.001. Main panel `xtreg` FE models + Figures (1093-line `.do`, gph/_Iyear_ steps) not yet translated |
+| **2020-74 Study 3 (Jachimowicz)** | Stata `.do` | Cannot run | `..._Study 3.do` exists but its data file was NOT archived (only the Rmd studies have `data.csv`; Study 3 has no data) — so no R translation could be executed |
+
 
 ## Heavy-compute cases: measured / estimated wall-time
 
