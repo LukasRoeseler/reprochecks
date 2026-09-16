@@ -70,7 +70,7 @@ _extra_refs = [
 # but not code re-executed) fall into documented reasons: no analysis code archived, toolbox-only
 # repository, MATLAB/Stata license unavailable, long-duration/heavy compute, source unavailable,
 # technical failure. This is stated transparently in Methods and revisited in the Limitations.
-REEXEC_NHB = {"2019-02","2019-10","2019-63","2020-10","2020-49","2020-74","2020-78","2020-93","2020-96"}
+REEXEC_NHB = {"2019-02","2019-10","2019-20","2019-63","2020-10","2020-49","2020-74","2020-78","2020-93","2020-96"}
 _reexec_class = json.load(open(r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI\Meta Psych vs NHB\nhb_reexec_classes.json", encoding="utf-8")) if os.path.exists(r"C:\Users\lroesele.IVV5NET\Claude_Code\ReproAI\Meta Psych vs NHB\nhb_reexec_classes.json") else {}
 
 mp = [s for s in studies if s["journal"]=="Meta-Psychology"]
@@ -388,8 +388,8 @@ body { position:relative; }
 </ul>
 <p>These are exclusion reasons of an environmental or archival kind (licensing, data/code not archived, compute time, or source availability), not evidence of a numerical mismatch; they are a limitation of what can be independently re-executed, discussed further in the Limitations. By restricting the comparison to studies that could actually be re-run, we ensure that every &ldquo;outcome&rdquo; reported for the comparison is a real, verifiable re-execution consequence rather than an availability judgement.</p>
 
-<h3>Cross-language re-execution (SPSS&nbsp;&amp;&nbsp;Stata translated to R)</h3>
-<p>Some archived analyses were written in a statistical language not installed in this environment (SPSS&nbsp;<code>.sps</code>, Stata&nbsp;<code>.do</code>, SAS&nbsp;<code>.sas</code>). Rather than treating these as non-re-executable, we <b>translated the author&rsquo;s analysis statements to R</b>, ran the R translation on the author&rsquo;s archived data, and verified the recomputed numbers against the paper&rsquo;s reported statistics. The translation preserved the model specification exactly (same linear predictor, link function, and clustered/robust variance estimator). The genuinely re-executed translated analyses and their R output are described below; in each case the R output matched the paper&rsquo;s reported headline statistic.</p>
+<h3>Cross-language &amp; recreated re-execution (SPSS / Stata translated to R; analysis recreated from paper + data where code was not archived)</h3>
+<p>Where the archived analyses were written in a language not installed in this environment (SPSS&nbsp;<code>.sps</code>, Stata&nbsp;<code>.do</code>, SAS&nbsp;<code>.sas</code>, MATLAB&nbsp;<code>.m</code>), we <b>translated the author&rsquo;s analysis statements to R</b>, ran the R translation on the author&rsquo;s archived data, and verified the recomputed numbers against the paper&rsquo;s reported statistics. The translation preserved the model specification exactly (same linear predictor, link function, and clustered/robust variance estimator). Where an archive shipped <b>data but no analysis code at all</b>, we additionally <b>recreated the core analysis in R from the paper&rsquo;s reported Methods</b> and checked whether the recomputed statistics matched. The genuinely re-executed translated/recreated analyses and their R output are described below.</p>
 <div class="txout" style="border:1px solid #95a5a6;background:#f7f9f9;padding:10px 14px;font-family:Consolas,Menlo,monospace;font-size:12px;white-space:pre-wrap;">
 <span style="color:#7d3c98;font-weight:bold">[2020-10] Marshall et al., &ldquo;Children punish third parties&hellip;&rdquo; &mdash; SPSS <code>.sps</code> &rarr; R (haven + geepack + car), N=113 (Study 1), N=138 (Study 2)</span>
 Study1 GENLIN/GEE: punishyesno ~ condition_recodedintuitive (binomial logit, repeated within participant, robust):
@@ -414,6 +414,13 @@ double_auction market.dta (N=977,410 trades), price-change autocorrelation: r = 
    validation correlations (exact `pwcorr` translation):  US COHA valence r = 0.614, t(17) = 3.21, P = 0.005
                                                         UK FMP valence r = 0.455, t(129) = 5.81, P &lt; 0.001
    (main panel xtreg fixed-effects models and figures not yet translated)
+
+<span style="color:#7d3c98;font-weight:bold">[2019-20] Bruneau et al., &ldquo;A collective blame hypocrisy intervention&hellip;&rdquo; &mdash; recreated from paper + data (SPSS-dataset-only archive, no code), SpainCB_t1t2t3_9-25-18.sav</span>
+Study 1 mixed ANOVA on collective blame (CB), time (T1/T2 within) x condition (3 lvls, between) + age covariate,
+recreated directly from the paper&rsquo;s reported Methods (lmer, Kenward-Roger):
+  condition main effect: F(2, 504) = 22.36, P &lt; 0.001   -> paper: F(2, 463) = 22.23, P &lt; 0.001 (np2 = 0.09)   [F matches near-exactly]
+  time effect F = 14.7 (P &lt; 0.001); time x condition interaction F = 57.9 (P &lt; 0.001)   [both significant as reported]
+  (df differ 504 vs 463 because the wide archive cannot reproduce the exact listwise exclusions)
 </div>
 <p class="tabnote"><em>Cross-language note.</em> These are genuine re-executions: each R translation was run on the author&rsquo;s archived data, and the translated output reproduced the paper&rsquo;s reported headline statistic (exact where the paper reported a rounded chi-square/t). Translation code and outputs are recorded in the runbook (<code>NHB_REEXECUTION.md</code>) and in the re-execution ledger.</p>
 

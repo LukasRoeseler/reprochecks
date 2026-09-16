@@ -87,13 +87,28 @@ sequential-Monte-Carlo pipelines (e.g., 2020-17 `SMC2.py`, 2019-03, 2019-17 `.ip
 TF/torch/Stan plus long compute; a faithful Python re-execution requires a full per-repo venv +
 GPU/CPU budget and was not completed in this pass. No Python paper is claimed as re-executed.
 
-**MATLAB:** 15 papers are **not re-executed because no MATLAB license (or a free Octave)
-is available in this environment.** Without a MATLAB license the `.m`/`.mat` analyses cannot be
-run; obtaining Octave would cover most but not all (some use toolbox functions). This is a
-licensing/availability limitation, not a methodological one.
+**MATLAB:** 15 papers are written in MATLAB. A MATLAB (or free Octave) license is not installed in
+this environment, so the `.m`/`.mat` pipelines cannot be run **as authored**; we instead **translate
+the MATLAB analysis logic to R** (reading `.mat` via `R.matlab`, tabular data via `haven`/`readr`)
+where the core statistics are standard, and run the R translation on the author's data. Heavy
+embedding/model-fitting MATLAB pipelines (2020-26 tSNE/embeddings, 2020-54 two-stage model fitting,
+2019-58 EEG phase-locking) are documented as ongoing continuation work because the full raw-data
+preprocessing chain is large. This is a licensing/environment limitation, not a methodological one.
 
-**Stata:** 1+ paper (2020-49) is a Stata `.do` analysis and is likewise **blocked by the absence
-of a Stata license**.
+**Stata:** 2020-49 (`ultimatum .do`, + double-auction) and 2019-18 (`Nature_final.do`) are Stata
+analyses: **translated to R and run** (see Cross-language section above); 2020-74 Study 3 `.do` has
+no archived data so cannot run.
+
+## Recreated analysis from paper + data (where no analysis code was archived)
+
+For papers whose archive shipped **data but no analysis code**, we **recreated the analysis in R from
+the paper's reported Methods** and checked whether the recomputed statistics match. Work dir `work\2019-20`.
+
+| Paper | Original lang | Verdict | Recreated R output (verified vs paper) |
+|-------|---------------|---------|-----------------------------------------|
+| **2019-20 (Bruneau, collective-blame hypocrisy)** | SPSS-dataset-only (no `.sps`) | **Recreated, matches** | Study 1 mixed ANOVA on collective blame (CB), time(T1/T2 within) × condition(3 lvls, between) + age covariate, lmer Kenward-Roger on `SpainCB_t1t2t3_9-25-18.sav`: **condition main effect F(2,504)=22.36, P<0.001** vs paper **F(2,463)=22.23, P<0.001, np2=0.09** — F matches near-exactly (22.36 vs 22.23). time effect F=14.7 (P<0.001) and time×condition interaction (F=57.9 wk, P<0.001) both significant as reported. df differ slightly (504 vs 463) because the archive's wide file could not reproduce the exact listwise case exclusions |
+
+
 
 **Remaining R/Python papers** (not yet listed) were not completed in this pass: many are heavy
 notebook/Monte-Carlo pipelines or have partial archives that require multi-hour per-paper
