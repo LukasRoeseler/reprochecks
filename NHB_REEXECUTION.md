@@ -45,6 +45,7 @@ could be reached.
 | 2020-43 (Allen) | R | Could not complete | Raw `hwf_data_renorm_reformat.csv` from author's Dropbox not archived |
 | 2020-49 | Stata | **Blocked** | Analyses are Stata `.do` files; no Stata license available |
 | 2020-84 (Bakker) | R | Technical failure | Direct-replication coding ran, but native R segfault mid-way through the Stata `.dta` coding pipeline blocked `Main_Text_Results.R`; `zero1` (min-max, standard) not archived |
+| 2020-52 (Leckey) | R (+HDDM) | Technical partial | All data CSVs loaded and GLMMs ran, but aborted at `confint()` on a marginally-nonconverged model (grad 0.00253 vs tol 0.002); the in-text CIs weren't finalised. Drift-diffusion (HDDM, Python) not run |
 
 The **Python** papers in the corpus are dominated by heavy machine-learning / notebook /
 sequential-Monte-Carlo pipelines (e.g., 2020-17 `SMC2.py`, 2019-03, 2019-17 `.ipynb`) requiring
