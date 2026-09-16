@@ -294,12 +294,13 @@ body { position:relative; }
 <!-- ================= DASHBOARD ================= -->
 <div id="dash">
 <h2>Interactive Study Dashboard</h2>
+<p class="tabnote" style="border:1px solid #f0ad4e;background:#fff8e1;padding:8px 12px;"><b>Reading the &ldquo;Outcome&rdquo; column.</b> For <i>Meta-Psychology</i>, Outcome is a <b>genuine re-execution verdict</b> (the author&rsquo;s code was downloaded and re-run). For <i>Nature Human Behavior</i>, the vast majority of papers were only <b>availability-audited and not re-executed</b>, so their Outcome is &ldquo;Not re-executed&rdquo;. The few NHB papers that were genuinely re-executed (Kristal 2019-02, Lees 2019-10, Yamada 2020-39) show a real reproduction outcome instead.</p>
 <p>Filter the full set of audited articles below. The chart and table update live. Click a study ID to open its individual ReproAI report; click a DOI to open the paper. The dashboard is self-contained and works when hosted on a static site such as GitHub Pages.</p>
 <div class="filters">
   <div class="filter"><label>Journal</label><select id="fJournal"><option value="">All</option><option>Meta-Psychology</option><option>Nature Human Behavior</option></select></div>
   <div class="filter"><label>Year</label><select id="fYear"><option value="">All</option><option>2019</option><option>2020</option></select></div>
   <div class="filter"><label>Severity</label><select id="fSev"><option value="">All</option><option>P1</option><option>P2</option><option>P3</option><option>n/a</option></select></div>
-  <div class="filter"><label>Outcome</label><select id="fStatus"><option value="">All</option><option>Reproduced</option><option>Partially reproduced</option><option>Not reproduced</option><option>Technical failure</option><option>Not checked</option></select></div>
+  <div class="filter"><label>Outcome</label><select id="fStatus"><option value="">All</option><option>MP: Reproduced</option><option>MP: Partially reproduced</option><option>MP: Not reproduced</option><option>MP: Technical failure</option><option>Genuinely re-executed: Reproduced</option><option>Genuinely re-executed: partial</option><option>Genuinely re-executed: ran (compute-bound)</option><option>Not re-executed</option><option>Not checked</option></select></div>
   <div class="filter"><label>Search</label><input id="fSearch" type="text" placeholder="title, ID, DOI..."></div>
   <button class="fbtn" id="resetBtn" type="button">Reset</button>
   <button class="fbtn" id="dlBtn" type="button" style="border-color:#0a7d33;background:#0a7d33;">&#8681; Download visible CSV</button>
@@ -318,7 +319,7 @@ body { position:relative; }
 <tbody></tbody>
 </table>
 </div>
-<p class="tabnote"><em>Column guide.</em> <b>Study:</b> click to open the individual ReproAI report for that article. <b>Severity:</b> P1 = critical, P2 = substantial, P3 = minor. <b>Open data:</b> for <i>Meta-Psychology</i>, the journal&rsquo;s open-data badge; for <i>NHB</i>, the data-availability outcome (direct link = Yes/statement only/None). <b>Open code / reproducible analysis:</b> whether the analysis code needed to re-execute the results is openly available; for <i>Meta-Psychology</i> this is the open-reproducibility badge; for <i>NHB</i>, results were checked against the reported numbers in the PDF and code availability is captured in the Open data column, so this is marked n/a. <b>Outcome:</b> green = reproduced (MP) or direct data/code link (NHB); amber = partially reproduced (MP) or statement-only (NHB); red = not reproduced (MP) or no availability (NHB); orange = technical failure (MP).</p>
+<p class="tabnote"><em>Column guide.</em> <b>Study:</b> click to open the individual ReproAI report for that article. <b>Severity:</b> P1 = critical, P2 = substantial, P3 = minor (availability severity for <i>NHB</i>). <b>Open data:</b> for <i>Meta-Psychology</i>, the journal&rsquo;s open-data badge; for <i>NHB</i>, the data-availability outcome (direct link = Yes/statement only/None). <b>Open code / reproducible analysis:</b> for <i>Meta-Psychology</i>, the open-reproducibility badge; for <i>NHB</i>, code availability is captured in the Open data column, so this is marked n/a. <b>Outcome:</b> for <i>Meta-Psychology</i> this is a <b>genuine re-execution verdict</b> (green = reproduced, amber = partially reproduced, red = not reproduced, orange = technical failure). For <i>NHB</i>, most papers were <b>only availability-audited and not re-executed</b> (shown as &ldquo;Not re-executed&rdquo;, grey); the few that were genuinely re-executed (Kristal 2019-02, Lees 2019-10, Yamada 2020-39) show a real reproduction outcome instead.</p>
 </div>
 
 
@@ -462,6 +463,21 @@ body { position:relative; }
 var STUDIES = @@DATA@@;
 var STATUS_LABEL = { "reproduced":"Reproduced","partial":"Partially reproduced","not_reproduced":"Not reproduced","technical":"Technical failure","not_checked":"Not checked" };
 var STATUS_COLOR = { "reproduced":"#2e7d32","partial":"#f9a825","not_reproduced":"#c62828","technical":"#ef6c00","not_checked":"#757575" };
+function outcomeLabel(s){
+  if(s.journal && s.journal.indexOf("Meta")===0) return STATUS_LABEL[s.status]||s.status;
+  // NHB papers with genuine code re-execution
+  if(s.reexec && s.reexec.flag==="reexec") return "Genuinely re-executed: Reproduced";
+  if(s.reexec && s.reexec.flag==="reexec-partial") return s.reexec.short || "Genuinely re-executed: partial";
+  // NHB papers NOT re-executed (only an availability audit was performed)
+  return "Not re-executed";
+}
+function outcomeColor(s){
+  if(s.journal && s.journal.indexOf("Meta")===0) return {"reproduced":"green","partial":"amber","not_reproduced":"red","technical":"orange","not_checked":"gray"}[s.status]||"gray";
+  if(s.reexec && s.reexec.flag==="reexec") return "green";
+  if(s.reexec && s.reexec.flag==="reexec-partial") return "amber";
+  // NHB papers not re-executed: neutral gray (availability, not reproduction verdict)
+  return "gray";
+}
 function escHtml(x){ return String(x==null?"":x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function fmtSev(s){ var v=s.severity; return (v==null||v==="")?"n/a":v; }
 function sevCls(s){ var v=fmtSev(s); if(v.lastIndexOf("P0",0)===0)return"P0"; if(v.lastIndexOf("P1",0)===0)return"P1"; if(v.lastIndexOf("P2",0)===0)return"P2"; if(v.lastIndexOf("P3",0)===0)return"P3"; return"na"; }
@@ -477,21 +493,29 @@ function visibleRows(){
     if(J && s.journal!==J) return;
     if(Y && s.year!==Y) return;
     if(V && sev!==V) return;
-    if(ST && STATUS_LABEL[s.status]!==ST) return;
+    if(ST && outcomeLabel(s)!==ST) return;
     if(Q){ var hay=(s.title+" "+s.id+" "+s.authors+" "+(s.doi||"")+" "+(s.caveat||"")).toLowerCase(); if(hay.indexOf(Q)<0) return; }
     rows.push(s);
   });
   return rows;
 }
 function renderChart(rows){
-  var counts={}; rows.forEach(function(s){ counts[s.status]=(counts[s.status]||0)+1; });
-  var order=["reproduced","partial","not_reproduced","technical","not_checked"];
+  var counts={};
+  rows.forEach(function(s){
+    if(s.journal && s.journal.indexOf("Meta")===0){ counts[s.status]=(counts[s.status]||0)+1; }
+    else if(s.reexec && s.reexec.flag==="reexec"){ counts["nhb.reexec"]=(counts["nhb.reexec"]||0)+1; }
+    else if(s.reexec && s.reexec.flag==="reexec-partial"){ counts["nhb.reexec_partial"]=(counts["nhb.reexec_partial"]||0)+1; }
+    else { counts["nhb.not_rerun"]=(counts["nhb.not_rerun"]||0)+1; }
+  });
+  var order=["reproduced","partial","not_reproduced","technical","not_checked","nhb.reexec","nhb.reexec_partial","nhb.not_rerun"];
   var box=document.getElementById("stacked"); box.innerHTML="";
   var total=rows.length||1;
+  var legendLbl={"reproduced":"MP: Reproduced","partial":"MP: Partially reproduced","not_reproduced":"MP: Not reproduced","technical":"MP: Technical failure","not_checked":"MP: Not checked","nhb.reexec":"NHB: re-executed (Reproduced)","nhb.reexec_partial":"NHB: re-executed (partial)","nhb.not_rerun":"NHB: not re-executed"};
+  var legendCol={"reproduced":"#2e7d32","partial":"#f9a825","not_reproduced":"#c62828","technical":"#ef6c00","not_checked":"#757575","nhb.reexec":"#2e7d32","nhb.reexec_partial":"#f9a825","nhb.not_rerun":"#9e9e9e"};
   order.forEach(function(k){
     if(!counts[k]) return;
     var seg=document.createElement("div");
-    seg.className="seg"; seg.style.background=STATUS_COLOR[k];
+    seg.className="seg"; seg.style.background=legendCol[k];
     seg.style.width=(100*counts[k]/total)+"%";
     seg.textContent=counts[k]; box.appendChild(seg);
   });
@@ -499,7 +523,7 @@ function renderChart(rows){
   order.forEach(function(k){
     if(!counts[k]) return;
     var it=document.createElement("div"); it.className="item";
-    it.innerHTML='<span class="sw" style="background:'+STATUS_COLOR[k]+'"></span> '+STATUS_LABEL[k]+' ('+counts[k]+')';
+    it.innerHTML='<span class="sw" style="background:'+legendCol[k]+'"></span> '+legendLbl[k]+' ('+counts[k]+')';
     lg.appendChild(it);
   });
 }
@@ -519,14 +543,14 @@ function openCodeLabel(s){
 function renderTable(rows){
   var tb=document.querySelector("#dashTable tbody"); tb.innerHTML="";
   rows.forEach(function(s){
-    var c={"reproduced":"green","partial":"amber","not_reproduced":"red","technical":"orange","not_checked":"gray"}[s.status]||"gray";
+    var c=outcomeColor(s);
     var idcell=s.report?'<a href="'+escHtml(s.report)+'" target="_blank" title="Open ReproAI report">'+escHtml(s.id)+'</a>':escHtml(s.id);
     var doic=s.doi?'<a href="https://doi.org/'+escHtml(s.doi)+'" target="_blank">'+escHtml(s.doi)+'</a>':'&mdash;';
     var tr=document.createElement("tr");
     tr.innerHTML='<td>'+idcell+'</td><td>'+escHtml(s.title)+'</td><td>'+doic+'</td><td><span class="badge b-'+sevCls(s)+'">'+escHtml(fmtSev(s))+'</span></td>'
       +'<td>'+escHtml(openDataLabel(s))+'</td><td>'+escHtml(openCodeLabel(s))+'</td>'
       +'<td>'+s.claims+'</td>'
-      +'<td><span class="tl tl-'+c+'">'+escHtml(STATUS_LABEL[s.status])+'</span></td><td class="cav">'+escHtml(s.caveat)+'</td>';
+      +'<td><span class="tl tl-'+c+'" title="NHB: availability audit, not code re-execution; MP: genuine re-execution">'+escHtml(outcomeLabel(s))+'</span></td><td class="cav">'+escHtml(s.caveat)+'</td>';
     tb.appendChild(tr);
   });
   document.getElementById("dcount").textContent="Showing "+rows.length+" of "+STUDIES.length+" studies"+(rows.length?"":" (no matches).");
@@ -536,7 +560,7 @@ function downloadCSV(rows){
   var lines=[cols.join(",")];
   rows.forEach(function(s){
     function q(v){ var x=String(v==null?"":v); return '"'+x.replace(/"/g,'""')+'"'; }
-    lines.push([q(s.journal),q(s.year),q(s.id),q(s.title),q(s.doi),q(fmtSev(s)),s.full_text_audited?"Yes":"No",s.claims,q(STATUS_LABEL[s.status]),q(s.agent),q(s.caveat)].join(","));
+    lines.push([q(s.journal),q(s.year),q(s.id),q(s.title),q(s.doi),q(fmtSev(s)),s.full_text_audited?"Yes":"No",s.claims,q(outcomeLabel(s)),q(s.agent),q(s.caveat)].join(","));
   });
   var blob=new Blob([lines.join("\n")],{type:"text/csv;charset=utf-8;"});
   var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="reproai_visible_studies.csv"; document.body.appendChild(a); a.click();
