@@ -592,10 +592,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-84": {
-  "bucket": "BLOCKED (missing dependency: Functions.R was never shipped in the OSF package)",
-  "reexec": false,
-  "verdict": "BLOCKED_MISSING_DEPENDENCY",
-  "note": "Bakker 2020 conservatives/liberals threats. Driver Science_replication_file.R sources Functions.R, which is not in the OSF package (node d5g72) nor anywhere locally; fails at line 4. Earlier 'R segfault' label was a misdiagnosis of this missing-file condition. No recomputed statistics possible as distributed."
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED); prior missing Functions.R blocker overcome",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Bakker et al. 2020 Conservatives/Liberals physiological threat responses (OSF d5g72; DOI 10.1038/s41562-020-0823-z; OA PMC7306406). Ran author R scripts on archived data. Functions.R (zero1, get_lower_tri, get.desc, read.dta, read.dta13) recreated - it was standard helpers; real blockers: Main_Text_Results.R load('dataset_coded.Rdata') absent + typo'd col Dlogeda_Dive (protocol1 double-t 'excitementt' vs single-t). Fixed bind_rows/NA. Direct/US/NL coding, Fig1 corr+alphas, Fig2 OLS, pooled lmer ran. Headline direct repl social conservatism~threat: b=0.0073 se 0.0147 t=0.50 p=.62 N=191 (paper b=0.01[-0.02,0.04] t=0.50 p=.62 N=191) NEAR-EXACT. All null, matches. Discr: dataset_wide.Rdata 204 vs 202 rows (pooled N 637 vs 635); NL N=70 vs 81; econ alpha 0.76 vs 0.72. Not as-shipped rerun (recreated Functions.R + fixed 2 real bugs); clean verdict PARTIAL_REPRODUCED."
  },
  "2020-85": {
   "bucket": "Availability-audited only (not code re-executed)",

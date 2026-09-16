@@ -1,0 +1,60 @@
+NHB AUDIT SUMMARY - OSF d5g72 (paper 2020-84 Bakker)
+========================================================================
+PAPER: Bakker, B.N., Schumacher, G., Gothreau, C. & Arceneaux, K. (2020)
+  "Conservatives and liberals have similar physiological responses to threats"
+  Nature Human Behaviour 4(6):613-621. DOI 10.1038/s41562-020-0823-z
+  (OA copy: PMC7306406 / https://doi.org/10.1038/s41562-020-0823-z)
+
+BLOCKER ASSESSMENT (Functions.R was never shipped)
+  NOT truly fatal. Missing Functions.R contained only a small set of helper
+  functions recovered/standard: zero1 (min-max to 0-1), get_lower_tri,
+  get.desc, read.dta (haven), read.dta13 (readstata13). Reimplemented in
+  work/d5g72/Functions.R.
+  ACTUAL blockers in the shipped pipeline (all worked around here):
+   (1) Main_Text_Results.R load("dataset_coded.Rdata") - this file is NOT in
+       the archive; pipeline cannot run verbatim (needs coded objects built by
+       first running the *coding*.R scripts in global env).
+   (2) US_conceptual_coding.R genuine typo bug: Dlogeda_Dive uses column
+       "logedab_Skydive_excitemen" (missing 't'). Protocol 1 creates double-t
+       "logedab_Skydive_excitementt" while protocols 2/3 have single-t; the
+       rbind() of Temple_study fails on unequal column counts. Fixed with
+       dplyr::bind_rows + adding NA column.
+
+WHAT RAN
+  - Direct_Replication_coding.R (dataset_wide derived vars)
+  - US_conceptual_coding.R (Temple_study, n=352)  [fixed bugs]
+  - NL_conceptual_coding.R (dataset, n=81)
+  - Figure 1 correlations + alphas, Figure 2 OLS regressions (all studies),
+    pooled lmer, conservatism-scale alphas.
+
+RECOMPUTED HEADLINE STATS (vs paper)
+  Direct replication, social conservatism ~ threat-sensitivity Index:
+    ours  b=0.0073, se=0.0147, t=0.50, p=0.62, N=191
+    paper b=0.01 [95%CI -0.02,0.04], se~0.01, t=0.50, p=.62, N=191   -> MATCH
+  Direct replication econ: b=0.0075 (ns); paper null -> MATCH
+  Ext threat index social: b=0.017 (ns); Ext disgust index: b=-0.000 (ns)
+  US conceptual social:    b=0.0064 (ns), N=338  (N=352 total, exact match)
+  NL conceptual social:    b=0.0025 (ns), N=70   (paper fig. N=81)
+  Pooled lmer social:      b=0.0067, t=0.85   (N=637; paper says 635)
+  Figure 1a direct correlations: -.04, -.04, -.30  (0/3 positive; paper: 0/3) -> MATCH
+  Conservatism alphas: 12-item social 0.797 (paper .80), econ 0.755 (paper .72),
+                        oxley_social vs social r=0.981 (paper r=.98) -> MATCH
+
+DISCREPANCY NOTES
+  - Archived dataset_wide.Rdata has 204 rows vs reported N=202 (drives pooled
+    637 vs 635; the 2-row difference). Direct-regression N=191 still exact.
+  - NL correlation/regression complete-cases N=70 vs figure caption N=81
+    (11 missing on physiological/covariates in archived NL data).
+  - econ alpha 0.755 vs reported 0.72 (minor).
+
+VERDICT: PARTIAL_REPRODUCED
+  Core headline null result (direct replication of Oxley et al.: b~0.01,
+  p=0.62) reproduced to near-exact precision, US sample N and oxley_social~
+  social r and social alpha all match. But exact pooled/NL Ns differ slightly
+  and the shipped scripts required fixing 2 genuine code bugs + re-creating
+  Functions.R, so it is NOT a clean as-shipped rerun.
+
+LOGS
+  work/d5g72/repro_run.log  (full pipeline + headline stats)
+  Scripts: Functions.R, RUN_repro.R, CHECK2.R
+  Modified archived script: US_conceptual_coding.R (documented above)
