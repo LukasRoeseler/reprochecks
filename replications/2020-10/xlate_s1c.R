@@ -1,0 +1,16 @@
+suppressMessages({library(haven);library(geepack);library(car)})
+d<-"C:/Users/LROESE~1.IVV/AppData/Local/Temp/opencode/repro_pilot/downloads/osf/ht7j6/Data"
+s1<-read_sav(file.path(d,"Study1Data.sav"))
+s1f<-as.data.frame(s1[s1$include==1 & !is.na(s1$include),])
+s1f$cond<-as.factor(s1f$condition_recodedintuitive)
+s1f$pt<-as.numeric(as.character(s1f$participantnumber))
+s1f$y<-as.numeric(as.character(s1f$punishyesno))
+# comm(1) vs noncomm(2): refit with comm as reference
+s12<-droplevels(s1f[s1f$cond %in% c(1,2),])
+s12$cond<-relevel(s12$cond,ref="1")
+gee12<-geeglm(y~cond,id=pt,data=s12,family=binomial("logit"),corstr="independence")
+print(summary(gee12)$coefficients)
+cat("OR:",exp(coef(gee12)["cond2"])," 95%CI:",exp(confint(gee12)["cond2",]),"\n")
+cat("contrast Wald chisq: ",coef(summary(gee12))["cond2","Wald"]," \n")
+cat("meanness by cond means (comm/noncomm/control):\n")
+print(round(tapply(s1f$meanness,s1f$cond,function(x)mean(x,na.rm=TRUE)),3))

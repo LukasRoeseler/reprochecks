@@ -1,0 +1,17 @@
+suppressMessages({library(haven);library(car)})
+d<-"C:/Users/LROESE~1.IVV/AppData/Local/Temp/opencode/repro_pilot/downloads/osf/ht7j6/Data"
+s2<-read_sav(file.path(d,"Study2Data.sav"))
+cat("dims",dim(s2)," cols:",paste(names(s2),collapse=", "),"\n")
+s2f<-as.data.frame(s2[s2$include==1 & !is.na(s2$include),])
+s2f$cond<-as.factor(s2f$condition)
+s2f$box<-as.numeric(as.character(s2f$boxselection))
+cat("included N:",nrow(s2f),"\n")
+cat("boxselection p by condition:\n"); print(round(tapply(s2f$box,s2f$cond,function(x)mean(x,na.rm=TRUE)),3))
+cat("\n== GENLIN boxselection ~ condition (binomial logit, Wald type3) ==\n")
+m2<-glm(box~cond,data=s2f,family=binomial()); print(Anova(m2,type=3,test.statistic="Wald")); print(summary(m2)$coefficients)
+# recidivism model (cond1/2 only)
+s12<-s2f[s2f$cond %in% c(1,2),]
+s12$box<-as.numeric(as.character(s12$boxselection)); s12$rec<-as.numeric(as.character(s12$recidivism))
+s12$cond<-droplevels(s12$cond)
+cat("\n== recidivism ~ condition*boxselection (cond 1/2) ==\n")
+mr<-glm(rec~cond*box,data=s12,family=binomial()); print(Anova(mr,type=3,test.statistic="Wald"))
