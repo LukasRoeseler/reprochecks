@@ -142,3 +142,36 @@ is claimed as re-executed unless its recomputed numbers were actually checked ag
 No NHB verdict is labelled as a code re-execution unless the author's code was actually
 downloaded, run, and the numbers independently verified. The current report does **not**
 claim this for NHB.
+
+## Methodological revisions (peer-style review, Sep 2026)
+
+Responding to a detailed external review of the report, the following were changed:
+
+- **Primary vs secondary outcome.** The headline outcome is now the fully-observable, journal-level
+  "executable analysis code archived alongside data" measure (MP 14/14 = 100%; NHB 28/128 = 22%),
+  measured on all MP audited and all NHB full-text articles. The 9-paper code re-execution comparison
+  is demoted to a secondary, explicitly exploratory analysis.
+- **2019-20 is excluded from the strict re-execution comparison.** It was a *recreation from paper +
+  data* (no author code existed), so it is reported as corroboration, not a genuine re-execution,
+  keeping the strict re-execution set at 9 NHB papers (4 reproduced, 5 partial).
+- **Inferential statistics added.** MP 12/14 vs NHB re-exec 4/9: Fisher two-sided p = 0.066 (not
+  conventionally significant); Wilson 95% CIs: MP [60%, 96%], NHB [19%, 73%].
+- **Numerical consistency audit.** Added a programmatic Counts Audit table (records -> empirical ->
+  full text -> code archived -> re-executed -> reproduced) as the single source of denominators;
+  fixed the bucket sum (118), the "a further" overlap, Table 1 denominator (56 - 7 = 49), the Figure 4
+  "79" (= 128 - 49), and stated every claims/citation denominator explicitly.
+- **COI** no longer claims he would withhold unfavourable results.
+- **Metadata.** All MP dashboard titles replaced with Crossref/DOI-resolved titles (fixing the
+  MP.2018.880 hallucination etc.); "Simnson" -> "Simonsohn"; "Leeuw, J. D." -> "de Leeuw, J. R.";
+  journal name corrected to "Nature Human Behaviour" throughout (incl. data files and dashboard).
+- **Reframed as a two-journal case study** with confound analysis (editorial policy, research domain/
+  data type, software ecosystem, article length) and terms separated (ownership vs business model vs
+  open/paywalled). Added verdict rubric, LLM-methodology/validation-status, correction-policy, CRediT,
+  and single-run-not-human-validated disclaimers.
+
+## Backlog: 2019-45 (MotivatedPerception; R, AllData.csv) — next task
+
+Recreate MotivatedPerception (misperceiving the self / motivated seeing) in R from its repo
+(ycleong/MotivatedPerception) using AllData.csv, check against the paper. Then continue the MATLAB
+heavy pipelines (2020-54, 2020-26, 2019-58) and 2020-40 (g9zkf).
+
