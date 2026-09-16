@@ -47,6 +47,28 @@ could be reached.
 | 2020-84 (Bakker) | R | Technical failure | Direct-replication coding ran, but native R segfault mid-way through the Stata `.dta` coding pipeline blocked `Main_Text_Results.R`; `zero1` (min-max, standard) not archived |
 | 2020-52 (Leckey) | R (+HDDM) | Technical partial | All data CSVs loaded and GLMMs ran, but aborted at `confint()` on a marginally-nonconverged model (grad 0.00253 vs tol 0.002); the in-text CIs weren't finalised. Drift-diffusion (HDDM, Python) not run |
 
+## Genuine re-executions added this pass (exact / magnitude-match)
+
+| Paper | Language | Verdict | Evidence |
+|-------|----------|---------|----------|
+| **2020-93 (Lucca)** | R | **Verified exact** | MaxPSI (max pulling force) `TrialNumber x Condition` interaction from author `BG.csv` + `BG_Analyses_Public.Rmd`: my Hard interaction **t=3.2217, df=143.59, b=0.1761, P=0.0016** vs paper **t(143.59)=3.22, P=0.002, b=0.18, 95%CI=[0.07;0.28]** — t and df identical, coefficient matches to rounding. TimeTrying_sqrt also declined with trial (b=-0.217, t=-6.91). N=96 infants, 288 rows, `(1\|SubjNum)` |
+| **2020-78 (Piff/Wiwad)** | R | Partially reproduced (Study 2) | Study 2 correlations from author `Study_2.R`+`Study2_data.csv` (N=602): sit-redist=0.63 (paper 0.63), disp-seis=0.30 (0.30); sit-seis & disp-redist match paper magnitudes with a sign flip = `seis` (support-for-inequality) composite coding direction, not a numeric disagreement. All 4 regressions ran. Studies 1/3/4 + WVS multilevel not yet run |
+| **2020-74 (Jachimowicz)** | R | Partially reproduced (Study 1) | BRFSS mixed model re-fit (~2 s fit, N=109,241, 667 counties): gini×income interaction **b=-0.0305, s.e.=0.0028, t=-10.77, P<2e-16** vs paper **b=0.030, s.e.=0.003, CI95%=[0.036;0.025], P<0.001** — magnitude and s.e. exact (sign = composite convention). Studies 2-7 incl. a Stata `.do` pending |
+
+## Heavy-compute cases: measured / estimated wall-time
+
+| Paper | Engine | Measured (this machine) | Estimated full run |
+|-------|--------|-------------------------|--------------------|
+| 2019-37 (Karimi) | Python homophilic BA network | N=1000→1.1 s; N=3000→11.9 s (~O(N^2.2)) | Fig 4 uses empirical nets N=6,253→280,200: ~1 min (6 k) up to **many hours-days** (120 k–280 k) per dataset, repeated over h values; Fig 2 plots replot instantly from archived `ctest_fa*/neterr_*` outputs |
+| 2020-27 (COVID SEIR) | GNU MCSim MCMC (compiled C) | not run | per-state Bayesian SEIR posteriors = **hours-days**; needs compiling `MCSim` binary; 368 scripts (Shiny app + US policy DB) |
+| 2020-17 (learning noise) | Python SMC + Cython | not run | per-subject SMC/particle-MCMC = **several hours**; Cython build of `lib_c/*.cpp` required first |
+| 2019-47 (uncertainty) | rstan / hBayesDM | not run | hierarchical Bayesian MCMC = **hours per model** × many models (Stan, C++ toolchain) |
+| 2019-55 / 2020-38 (GenomicSEM) | R + GWAS summary stats | not run | needs hundreds of GB of LDSC/GWAS summary statistics + LDSC reference; each SEM **minutes-hours**; data impractical to fetch here |
+| 2020-61 (tDCS DDM) | R/Python drift-diffusion | not run | hierarchical DDM fitting per session = **hours**; OSF source downloads timed out (unavailable) |
+| 2020-42 (info spread) | Python RMIS networks | not run | heavy on huge SF graphs; Higgs datasets (hundreds of MB) not archived |
+| 2020-53 (neolithic) | R spatial (rgdal/maptools) | not run | computationally light (convex hulls) but needs delisted legacy R spatial packages |
+| 2019-35 (vocal tract) | Rmd + agent-based sim (Java/DLL) | not run | Software1-2 Rmd light; Software3 agent-based transmission = **medium-heavy** (Windows DLLs/Java); Software2 will not fully run (withheld participant data) |
+
 The **Python** papers in the corpus are dominated by heavy machine-learning / notebook /
 sequential-Monte-Carlo pipelines (e.g., 2020-17 `SMC2.py`, 2019-03, 2019-17 `.ipynb`) requiring
 TF/torch/Stan plus long compute; a faithful Python re-execution requires a full per-repo venv +
