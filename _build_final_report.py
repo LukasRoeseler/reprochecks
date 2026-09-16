@@ -199,6 +199,7 @@ table_rows = "\n".join([srow(s) for s in included])
 template = r"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Scholarly-Led Versus Commercial Publishing: Reproducibility of Meta-Psychology and Nature Human Behavior (2019-2020)</title>
 <style>
 :root { --mp:#F2B30F; --nhb:#0b2344; --ink:#111; }
