@@ -1,0 +1,24 @@
+{
+  "grade": "CONSISTENT",
+  "sev": "P0-0 P1-0 P2-2 P3-2",
+  "data_status": "obtained",
+  "headline_verified": true,
+  "study": "Cook, N., Duprey, T., Heyes, A., & Pelli, M. (2026). The Origin of the State: Land Productivity or Appropriability? A Comment. Journal of Political Economy 134(7):2215-2220. DOI 10.1086/740225 (published comment on Mayshar, Moav & Pascali 2022, JPE 130(4):1091-1144).",
+  "reproduction_benchmark": "Cook, N., Duprey, T., Heyes, A., & Pelli, M. (2023) I4R DP No. 82 (hdl 10419/280434); human FLoRA outcome = 'computational issues'.",
+  "data_sources": [
+    "Comment's official replication package (data + Stata do-file) mirrored on OSF node ekzdg (files: DATASET_ETHNOATLAS.dta, do file.do, PaperLatLongClimate.dta), originated from Bank of Canada OAR repository record 7690.",
+    "I4R DP No. 82 full text (OA discussion paper, RWI mirror of Econstor 10419/280434).",
+    "Comment abstract + bibliographic metadata via OpenAlex (full text of JPE comment is paywalled and was NOT retrieved)."
+  ],
+  "key_findings": [
+    "Comment's own replication data and Stata code were obtained; independently re-ran all headline regressions in R (AER ivreg + cluster-robust SEs at iso level, HC1).",
+    "MAIN TABLE reproduced: OLS CerMain = 0.707 (SE 0.114, p<0.001); 2SLS = 1.170 (0.353, p=0.001); 2SLS+continent FE = 0.892 (0.450, p=0.048); 2SLS+LandProd = 1.064 (0.058); LandProd = -0.037 (p=0.672, insignificant); 2SLS+DepAgri: CerMain 0.830 (p=0.138), DepAgri 0.259 (p=0.637). N=952. Coefficients match I4R DP Table 1 exactly; SEs/p match within rounding.",
+    "CLAIM 1 (hierarchy-level pattern) verified: cereal effect on hierarchy is significant only at transitions from small/large chiefdom toward state (above-small-chiefdom p=0.039; beyond-large-chiefdom p=0.062), and insignificant at the tribal lower threshold (p=0.111) and at the very top state threshold (p=0.128). Consistent with 'holds when moving from tribe-chiefdom to state, not more broadly.'",
+    "CLAIM 2 (land productivity no effect) verified: LandProd conditional on cereals insignificant (p=0.672), confirming no land-productivity effect after controlling for cereal cultivation.",
+    "OUTLIER SENSITIVITY verified: winsorizing the cereal-advantage instrument at top 3% (exactly 31 obs, matching I4R DP) drives CerMain to insignificance (col3 p=0.112; col4 p=0.150; col5 p=0.247); trimming top 3% gives p=0.248. Sweep confirms 10% significance is fragile/lost by ~2-3% winsorization or ~1-3% trimming.",
+    "Minor discrepancy (P2): at the comment's exact stated threshold (winsorization 2.1% / trimming 1.2%) my cluster-HC1 recomputation yields p=0.090 / p=0.094 - i.e., still nominally <0.10 - so the 'significance lost at exactly 2.1%/1.2%' phrasing is borderline relative to my method; the qualitative driven-by-outliers claim holds and significance is clearly lost by 3%.",
+    "Cosmetic/red-text discrepancies between the I4R DP Table 1 and MMP's published values (P3): column 6 F-stat 16.10 vs 16.11; column 5 first-stage coefficient decimal place/SE (0.029 vs 0.068) - all small, not changing qualitative interpretation."
+  ],
+  "verdict_vs_human": "MATCH. Human FLoRA code for I4R DP No. 82 = 'computational issues' (data/code closely reproduce MMP's Table 1 main results with small, non-interpretation-changing discrepancies). My independent recomputation reproduces the comment/replication tables with only minor SE/p rounding differences and confirms both headline qualitative claims, consistent with a 'computational issues' classification (computationally reproducible, minor discrepancies).",
+  "notes": "Headline numerical claims of the comment (appropriability effect concentrated at tribe-chiefdom -> state transitions; results driven by a handful of outliers such that 10% significance is lost under modest winsorization/trimming) are independently confirmed from the comment's own data/code. The published JPE comment full text was not retrievable (paywalled); verification is based on the replication package plus the I4R DP and OpenAlex abstract. No numbers fabricated."
+}
