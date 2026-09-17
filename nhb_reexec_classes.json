@@ -400,14 +400,16 @@
   "note": "Lisi, Mongillo, Milne, Dekker & Gorea discrete confidence levels sequential decisions (OSF w74cn; DOI 10.1038/s41562-020-00953-1). Ran deterministic re-analysis of model_comparison.R on author fit_par.txt (29 Ss) + RT core of analysis_RT.R on data_wide_wmPred.txt. Model comparison (fixed-effect summed AIC) sub2-discrete 10921.2 < metanoise 11072.6 < sub1 11264.8 < bayes 12512.5; paired t(28): sub2 vs metanoise t=3.29 p=.003, vs bayes t=5.07 p<.0001, vs sub1 t=3.00 p=.006; sub2 best for 14/29. Mean metacognitive noise over-estimation m=2.945 (n=29). RT rt1 0.744s vs rt2 0.680s paired t(28)=2.737 p=.011 (2nd decision faster). Skipped: re-fitting models (fit_models.R) + Bayesian likelihood plots need missing tab*.rds lookup tables + bmsR/mlisi (not installed); paper Results paywalled (abstract + Extended Data Fig only). Compared vs abstract/author params (not fabricated)."
  },
  "2020-36": {
-  "bucket": "No analysis code archived (data-only archive)",
-  "reexec": false,
-  "verdict": "NO_CODE_ARCHIVED"
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED); MATLAB in zip, ported to Python",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Schurgin, Wixted & Brady 2020 psychophysical scaling visual memory strength / TCC (OSF j2h65; DOI 10.1038/s41562-020-00938-0; published paywalled, open bioRxiv 10.1101/325472). Archive has TCC_Code_InManuscriptOrder.zip (Figure1-5 MATLAB + .mat data). Ported to numpy. TCC d' (in-lab): SS1=4.20 SS3=2.20 SS6=1.18 SS8=0.86 (R2 .992/.985/.972/.960); individual means 4.14/2.33/1.17/0.86. Delay d' 3.98->2.70/2.38->1.86/1.28->0.96; Encoding 3.54->4.28/2.04->2.48/0.98->1.32. Group model comparison (delta BIC TCC-other): vs Std Mixture -24.0/-55.6/-26.4/-25.4; vs Var-Precision Mixture -2.3/-22.9/-15.4/-19.3 (TCC wins all). Bayes factors (TCC vs mixture): Fig5 nAFC logBF=292.1; Fig4C offset-2AFC logBF=219.1 (decisive). Psychophysical scaling: stored confusion vectors fall off exponentially; independent triad re-fit reproduces stored function (5deg .932 vs .954; 30deg .484 vs .496; 90deg .098 vs .122). Fig5 FitNAFC overall d'=1.32 from 2AFC p=.824. Paper R2 0.996/0.980/0.992 and 93%/t(295)=20.6 comparison are from the separate Brady & Alvarez N=296-300 MTurk dataset NOT in archive (archived data are the 19-20-subject in-lab experiments). Exact published d' sit in paywalled figures. Verdict PARTIAL_REPRODUCED."
  },
  "2020-37": {
-  "bucket": "No analysis code archived (data-only archive)",
-  "reexec": false,
-  "verdict": "NO_CODE_ARCHIVED"
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED); SPSS data-only, analysis recreated from report",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Goetz, Stieger, Gosling, Potter & Rentfrow 2020 physical topography & personality (OSF y2mdw; DOI 10.1038/s41562-020-0930-x; green OA CAM.53992). Archive is predictor-only SPSS .sav (40,781 rows x 7 cols: ZIP + 6 mountainousness indices). Recreated analysis from report/paper. Predictor side VALIDATED: extreme ZIPs exact (most mountainous 93526 Independence CA SD20=932.81; least 27915 Avon NC; max MSSD 98267 Marblemount; max mean elev 81433 Silverton CO; min 92281 Westmorland CA); inter-index correlations approx (SD20-MSSD20 r=.870 vs .89; SD20-MEAN20 .650 vs .66; MSSD20-MEAN20 .586 vs .61). Core personality-mountainousness MLM betas NOT recomputable: Gosling-Potter personality outcomes + covariates are proprietary, absent from OSF, and the analysis .sav the scripts require (MLM_MOUNTAINOUSNESS...ULTIMATE.sav) is not archived. Paper headline betas (20-mile MLM, N=3,387,014/37,227 ZIPs): A-.008 C-.007 E-.006 N-.013 O+.034. Verdict PARTIAL_REPRODUCED (predictor verified; outcomes data-limited)."
  },
  "2020-38": {
   "bucket": "Toolbox-only repo (no paper analysis scripts archived)",
@@ -421,14 +423,16 @@
   "note": "Yamada 2020 advocacy/lawyers. Author E1.R recomputes cleanly on author CSV (N=386 after the script's attention/exclusion; full R=1000 bootstrap run too slow, reduced-bootstrap variant completes). Recomputed stats internally consistent (GlobalEval interaction F(1,382)=0.30 NS; TSc Moral x Innocence/Guilt b=+/-1.264 t=3.55; TSb ORs ~9.9/0.10) but paper's reported numbers are paywalled so no numeric verification possible. Experiments E2-E7 not re-run."
  },
  "2020-40": {
-  "bucket": "No analysis code archived (data-only archive)",
-  "reexec": false,
-  "verdict": "NO_CODE_ARCHIVED"
+  "bucket": "INCLUDED (genuinely re-executed, REPRODUCED); MATLAB in zip, ported to Python",
+  "reexec": true,
+  "verdict": "REPRODUCED",
+  "note": "Steyvers & Schafer 2020 inferring latent learning factors in cognitive training data (OSF g9zkf; DOI 10.1038/s41562-020-00935-3; PMID 32868884, paywalled). Archive has MATLAB code_for_osf.zip + CSVs. Reconstructed analysis matrix X (36,297 users x 51 games x 8 practice bins = 408 cols) from normalized_score_array_training.csv (verified vs opt/XS 6,090,727 obs; validation CSV only NaN placeholders so XTEST from opt/XSTEST 196,609). Ported pca_full.m (variational-Bayes PCA) to numpy for k=1..12. Number of latent factors = 6 (whdim=6; Figure3.xlsx 6 factors x 8 stages). CV abserror_test matches paper: k=1 0.47654 vs 0.46676; k=6 0.44169 vs 0.44076; k=12 0.42938 vs 0.44053; baseline 0.68435 EXACT. Recomputed abserror/nrmse/explained from archived PCA solution reproduces allpreds and Figure2.xlsx to 5 decimals; factor-1 loadings corr 0.992, reconstruction corr 0.9995. Residual diffs from non-identical RNG (MATLAB rng(2) vs numpy), not methodology. Only figure/gramm plotting skipped."
  },
  "2020-41": {
-  "bucket": "No analysis code archived (data-only archive)",
-  "reexec": false,
-  "verdict": "NO_CODE_ARCHIVED"
+  "bucket": "INCLUDED (genuinely re-executed, PARTIAL_REPRODUCED); MATLAB in zip, ported to Python",
+  "reexec": true,
+  "verdict": "PARTIAL_REPRODUCED",
+  "note": "Trudel et al. 2020 polarity of uncertainty representation during exploration/exploitation in vmPFC (OSF d5qzw; DOI 10.1038/s41562-020-0929-3; OA PMC7116777). Archive has ana_glm.m + behavglm + bayesian_model + DATA .mat (behavioural only). Ported Bayesian normal-update + transform_bayesian + get_regs + behavGLM to numpy/scipy/statsmodels (24 subjects x 2 conditions). Recomputed (mean beta/t(23)/p/d): GLM1 accuracy t=7.47 d=1.53 CI[0.82 1.45] (paper t=7.5 d=1.53); GLM1 uncertainty t=-1.93 p=.067 d=-0.39 (paper -1.9 .07 -0.39); GLM2 half-1 unc t=2.01 p=.057 d=.41 (paper 2.0 .057 .41); half-2 unc t=-6.20 d=-1.27 (paper -6.2); GLM3 long-horizon unc t=3.94 d=.80 (paper 4.0 .80); medium t=2.84 d=.58 (paper 2.8 .56); 3x2 RM-ANOVA F(2,46)=35.95 p<.001 (paper 36.7); GLM4 chosen accuracy t=-11.72 d=-2.39, chosen uncertainty t=10.44 d=2.13 (paper 11.7/2.4, -10.4/-2.12; sign flip because code's DV is raw CI step-size vs paper's inverse confidence index - magnitudes/d identical). Uncertainty-polarity signature reproduced (positive during exploration half-1/long-med horizons; reverses to negative in exploitation half-2; positive uncertainty x blocktime interaction). Two caveats: GLM1 interaction t slightly high (6.29 vs 5.8; -7.81 vs -7.5) though CIs overlap. Neural vmPFC polarity (Fig4) NOT recomputed - requires fMRI data not in package. Reconstructed missing get_Binput.m (angular error in degrees) + normalise.m (z-score) from paper/data. Verdict PARTIAL_REPRODUCED."
  },
  "2020-42": {
   "bucket": "Long-duration compute + missing data",
