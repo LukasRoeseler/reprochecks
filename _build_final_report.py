@@ -658,16 +658,14 @@ function visibleRows(){
 function renderChart(rows){
   var counts={};
   rows.forEach(function(s){
-    if(s.journal && s.journal.indexOf("Meta")===0){ counts[s.status]=(counts[s.status]||0)+1; }
-    else if(s.reexec && s.reexec.flag==="reexec"){ counts["nhb.reexec"]=(counts["nhb.reexec"]||0)+1; }
-    else if(s.reexec && s.reexec.flag==="reexec-partial"){ counts["nhb.reexec_partial"]=(counts["nhb.reexec_partial"]||0)+1; }
-    else { counts["nhb.not_rerun"]=(counts["nhb.not_rerun"]||0)+1; }
+    var k=unifiedOutcome(s);
+    counts[k]=(counts[k]||0)+1;
   });
-  var order=["reproduced","partial","not_reproduced","technical","not_checked","nhb.reexec","nhb.reexec_partial","nhb.not_rerun"];
+  var order=["reproduced","partial","not_reproduced","technical","not_rerun"];
   var box=document.getElementById("stacked"); box.innerHTML="";
   var total=rows.length||1;
-  var legendLbl={"reproduced":"MP: Reproduced","partial":"MP: Partially reproduced","not_reproduced":"MP: Not reproduced","technical":"MP: Technical failure","not_checked":"MP: Not checked","nhb.reexec":"NHB: Reproduced","nhb.reexec_partial":"NHB: Partially reproduced","nhb.not_rerun":"NHB: Not re-executed"};
-  var legendCol={"reproduced":"#2e7d32","partial":"#f9a825","not_reproduced":"#c62828","technical":"#ef6c00","not_checked":"#757575","nhb.reexec":"#2e7d32","nhb.reexec_partial":"#f9a825","nhb.not_rerun":"#9e9e9e"};
+  var legendLbl={"reproduced":"Reproduced","partial":"Partially reproduced","not_reproduced":"Not reproduced","technical":"Technical failure","not_rerun":"Not re-executed"};
+  var legendCol={"reproduced":"#2e7d32","partial":"#f9a825","not_reproduced":"#c62828","technical":"#ef6c00","not_rerun":"#9e9e9e"};
   order.forEach(function(k){
     if(!counts[k]) return;
     var seg=document.createElement("div");
@@ -682,6 +680,14 @@ function renderChart(rows){
     it.innerHTML='<span class="sw" style="background:'+legendCol[k]+'"></span> '+legendLbl[k]+' ('+counts[k]+')';
     lg.appendChild(it);
   });
+}
+function unifiedOutcome(s){
+  if(s.journal && s.journal.indexOf("Meta")===0){
+    return {"reproduced":"reproduced","partial":"partial","not_reproduced":"not_reproduced","technical":"technical"}[s.status]||"not_rerun";
+  }
+  if(s.reexec && s.reexec.flag==="reexec") return "reproduced";
+  if(s.reexec && s.reexec.flag==="reexec-partial") return "partial";
+  return "not_rerun";
 }
 function dashCond(v){ var x=String(v==null?"":v); if(x.toLowerCase()==="yes")return"Yes"; if(x.toLowerCase()==="no"||x.replace(/\s/g,"")==="")return"No"; return x; }
 function openDataLabel(s){
