@@ -9,7 +9,7 @@ OUT = os.path.join(BASE, "Meta Psych vs NHB")
 d = json.load(open(os.path.join(OUT, "studies_dashboard.json"), encoding="utf-8"))
 
 mp = [s for s in d if s["journal"] == "Meta-Psychology"]
-nhb = [s for s in d if s["journal"] == "Nature Human Behavior"]
+nhb = [s for s in d if s["journal"] == "Nature Human Behaviour"]
 mp_aud = [s for s in mp if s["full_text_audited"]]
 nhb_ft = [s for s in nhb if s["full_text_audited"]]
 nhb_meta = [s for s in nhb if not s["full_text_audited"]]
@@ -27,10 +27,12 @@ nhb_p3 = sum(1 for s in nhb_ft if s["severity"]=="P3")
 nhb_p2 = sum(1 for s in nhb_ft if s["severity"]=="P2")
 nhb_p1 = sum(1 for s in nhb_ft if s["severity"]=="P1")
 nhb_p3pct = round(100*nhb_p3/len(nhb_ft)); nhb_p2pct = round(100*nhb_p2/len(nhb_ft))
-# runnable set = direct P3 link OR data available in paper/supplement (downloadable); mirrors the report reclassification
+# runnable set = direct P3 link OR data available in paper/supplement (downloadable); mirrors the report's _nhb_na_is_barrier model
 def _is_barrier(s):
+    sev = s.get("severity")
+    if sev not in ("P1","P2"):
+        return False
     c=(s.get("caveat") or "").lower()
-    if s.get("severity")=="P1": return True
     if any(k in c for k in ('supplement','included in this','included in the','source data','data files necessary','data for','available within the article','are provided in the')):
         return False
     return True
@@ -119,6 +121,15 @@ fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=
 fig.tight_layout(rect=[0.02,0.07,1,0.93]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # ============================================================ Figure 3: outcomes (unit chart, one rectangle per study)
+# NHB re-executed set: use the report's authoritative classification (REEXEC_NHB / RECREATED_NHB)
+# rather than the raw dashboard reexec flags, so the figure and the report prose always agree.
+REEXEC_NHB = {"2019-02","2019-10","2019-63","2019-17","2019-19","2019-42","2019-37","2019-45","2020-10","2020-26","2020-31","2020-34","2020-36","2020-37","2020-40","2020-41","2020-49","2020-61","2020-74","2020-78","2020-84","2020-86","2020-93","2020-96"}
+RECREATED_NHB = {"2019-20"}
+nhb_reexec = [s for s in nhb_ft if s["id"] in REEXEC_NHB]
+nhb_recreated = [s for s in nhb_ft if s["id"] in RECREATED_NHB]
+nhb_excluded = [s for s in nhb_ft if s["id"] not in REEXEC_NHB and s["id"] not in RECREATED_NHB]
+nhb_rep = sum(1 for s in nhb_reexec if (s.get("reexec") or {}).get("flag")=="reexec")
+nhb_par = sum(1 for s in nhb_reexec if (s.get("reexec") or {}).get("flag")=="reexec-partial")
 fig, axes = plt.subplots(1,2, figsize=(14,5.2), gridspec_kw={"width_ratios":[1,1]})
 ax=axes[0]
 cats=["Reproduced","Partially","Not\nreproduced","Technical"]
@@ -126,15 +137,15 @@ mp_vals=[mp_ok, mp_par, mp_bad, mp_tech]
 cols=[OK,PAR,BAD,TECH]
 unit_chart(ax, cats, mp_vals, cols)
 ax.set_title(f"Meta-Psychology outcomes (n={len(mp_aud)})\nReproduced: {mp_ok} · Partial: {mp_par} · Not reprod.: {mp_bad} · Technical: {mp_tech}", fontsize=12, fontweight="bold")
-# NHB: only include studies where the numerical check could run (direct data/code link, n = nhb_direct)
+# NHB: only genuinely re-executed studies, split by outcome
 ax=axes[1]
-cats=["Check\ncould run"]
-vals=[nhb_direct]
-cols=[OK]
+cats=["Reproduced","Partially\nreproduced"]
+vals=[nhb_rep, nhb_par]
+cols=[OK,PAR]
 unit_chart(ax, cats, vals, cols, per_col_max=18)
-ax.set_title(f"Nature Human Behavior (audit runnable only, n={nhb_direct})\nOf {len(nhb_ft)} audited: {nhb_direct} had usable data/code ({nhb_p3} direct link + {nhb_direct-nhb_p3} in paper/supplement);\n{nhb_p2-(nhb_direct-nhb_p3)} statement-only and {nhb_p1} none could not be re-run", fontsize=11, fontweight="bold")
+ax.set_title(f"Nature Human Behavior outcomes (genuinely re-executed, n={len(nhb_reexec)})\nReproduced: {nhb_rep} ({round(100*nhb_rep/len(nhb_reexec))}%) · Partially reproduced: {nhb_par}\n(remaining {len(nhb_excluded)} full-text NHB articles not code re-executed: availability audits only)", fontsize=11, fontweight="bold")
 # single shared legend
-handles=[mpatches.Patch(facecolor=OK, label="Reproduced / check could run"),
+handles=[mpatches.Patch(facecolor=OK, label="Reproduced"),
          mpatches.Patch(facecolor=PAR, label="Partially reproduced"),
          mpatches.Patch(facecolor=BAD, label="Not reproduced"),
          mpatches.Patch(facecolor=TECH, label="Technical failure")]
@@ -213,11 +224,11 @@ for lab in ["Reproduced","Partially reproduced"]:
     mp_group.append(g); mp_lab.append(lab)
 box_with_jitter(axes[1], mp_group, mp_lab, {"Reproduced":OK,"Partially reproduced":PAR}, ylog=True)
 axes[1].set_title("Meta-Psychology: citations by reproducibility outcome", fontsize=12, fontweight="bold")
-# NHB: citations for the studies where the audit could run (usable data/code only)
+# NHB: citations for the studies whose data/code are directly machine-downloadable or in paper/supplement (not an availability barrier)
 nhb_runnable_set = [s for s in nhb_ft if not _is_barrier(s)]
 box_with_jitter(axes[2], [ [s["cites"] for s in nhb_runnable_set] ],
-                ["NHB (audit runnable)"], { "NHB (audit runnable)":OK }, ylog=True)
-axes[2].set_title(f"NHB: citations (audit runnable, n={len(nhb_runnable_set)})", fontsize=12, fontweight="bold")
+                ["NHB (not availability barrier)"], { "NHB (not availability barrier)":OK }, ylog=True)
+axes[2].set_title(f"NHB: citations (data/code downloadable, n={len(nhb_runnable_set)})", fontsize=12, fontweight="bold")
 fig.suptitle("Is reproducibility linked to citation numbers? (Study 2)", fontsize=14, fontweight="bold")
 fig.tight_layout(rect=[0,0,1,0.93]); fig.savefig(os.path.join(OUT,"fig5_citations.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
