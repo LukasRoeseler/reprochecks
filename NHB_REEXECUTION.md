@@ -62,6 +62,7 @@ could be reached.
 | **2020-53 (Betti, Neolithic)** | R (legacy spatial) | INCONCLUSIVE_PAYWALL | OSF `2hcqr`. `neolithic expansion code.r` cannot execute: `dataset.csv` (calibrated Date.BCE) NOT in deposit + retired rgdal/rgeos/maptools + missing country.shp. Recomputed route velocities with geosphere from author FinalRoutes csv (declines ~1.12→0.51 km/yr northern route, median ~1.12). Paper full text + Fig2 PAYWALLED; only qualitative slowdown agreement, no numeric verification possible |
 | **2020-86 (Gluth)** | R (+JAGS/Matlab) | Partially reproduced (frequentist EXACT) | OSF `qrv2e`. Ran author `DivNorm_R_EyeTrack.R` verbatim on OSF eye/behavior data. ALL reported frequentist stats EXACT (n=37, t(36)): distractor-value→first fix t=-0.26 p=.604 d=-0.04; first-fix by option F(2,72)=14.51 p<.001 ηp²=.39 (37.0/32.4/30.6%); outlier-excl F(2,70)=16.57 ηp²=.32; option×fix F(12,432)=8.09 ηp²=.78; V3×fix t=3.65 p<.001 d=0.60; V3→gaze t=1.80 p=.040 d=0.30; gaze→choice t=-0.01 p=.497; gaze-on-choice t=7.81 p=2.9e-9 d=1.28 CI[1.45,2.47]. Skipped: JAGS hierarchical + Matlab probit/DN model-comparison (JAGS/Matlab not installed, no precomputed fit); central model-comparison claim rests on those |
 | **2020-84 (Bakker)** | R | Partially reproduced (headline near-exact) | OSF `d5g72`. Prior "missing Functions.R" blocker OVERCOME: Functions.R = only standard helpers (zero1, get_lower_tri, get.desc, read.dta, read.dta13), recreated. Real blockers fixed: Main_Text_Results.R `load('dataset_coded.Rdata')` absent + typo'd col `Dlogeda_Dive` (protocol1 double-t `..._excitementt` vs single-t) → bind_rows/NA. Ran Direct/US/NL coding, Fig1 corr+alphas, Fig2 OLS, pooled lmer. Headline direct-replication social-conservatism~threat: b=0.0073 se 0.0147 t=0.50 p=.62 N=191 (paper b=0.01[-0.02,0.04] t=0.50 p=.62 N=191) NEAR-EXACT; all null (0/3 Fig1a positive, paper 0/3); α=0.80, oxley_social r=0.98. Discr.: dataset_wide.Rdata 204 vs 202 rows (pooled N 637 vs 635); NL N=70 vs 81; econ α 0.76 vs 0.72 |
+| **2020-26 (Hebart)** | MATLAB (ported to Python) | REPRODUCED | OSF `z2784`. Ported `make_figures_behavsim.m` to numpy/scipy; ALL headline stats EXACT to 2 dp: test-set choice accuracy 64.60% (±0.23); noise ceiling 67.22% (±1.04); % performance minus chance 92.25% (±1.50); r48 model-vs-measured similarity 0.900 (CI 0.886-0.912); split-half 0.872/0.886/0.911; var explained 0.933; dims for 95-99% behaviour 6-11; dims 95-99% similarity var 9-15; category prediction 86.42%/85.97%; typicality 14/17 ρ 0.257-0.623; reproducibility dims >0.9 34/49, >0.6 46/49; rank corr 0.754 (CI 0.614-0.849, p<.001); Fig-8 r=0.846 (CI 0.792-0.888). Figure/wordcloud/tsne/mdscale parts skipped (no MATLAB); RNG seeds differ (MATLAB vs numpy) but 0 exact ties in test set so 64.60% deterministic; 5b var on 16-dims grid+interp (crossings exact 9-15). |
 
 ## Cross-language (SPSS / Stata / SAS) re-executions -- translated to R
 
@@ -164,9 +165,9 @@ Responding to a detailed external review of the report, the following were chang
   is demoted to a secondary, explicitly exploratory analysis.
 - **2019-20 is excluded from the strict re-execution comparison.** It was a *recreation from paper +
   data* (no author code existed), so it is reported as corroboration, not a genuine re-execution.
-- **Inferential statistics (exploratory re-execution).** MP 12/14 vs NHB 8/18 (as of the Sep-2026
-  OSF batch): Fisher two-sided p = 0.028 (conventionally significant at 0.05, but on a small,
-  feasibility-selected sample); Wilson 95% CIs: MP [60%, 96%], NHB [25%, 66%] (barely overlap).
+- **Inferential statistics (exploratory re-execution).** MP 12/14 vs NHB 9/19 (as of the Sep-2026
+  OSF batch): Fisher two-sided p = 0.033 (conventionally significant at 0.05, but on a small,
+  feasibility-selected sample); Wilson 95% CIs: MP [60%, 96%], NHB [27%, 68%] (barely overlap).
   These rest on a small, feasibility-selected NHB subsample and carry substantial unknown selection bias.
 - **Numerical consistency audit.** Added a programmatic Counts Audit table (records -> empirical ->
   full text -> code archived -> re-executed -> reproduced) as the single source of denominators;

@@ -362,10 +362,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-26": {
-  "bucket": "Availability-audited only (not code re-executed)",
-  "reexec": false,
-  "verdict": "NO_RECORD",
-  "note": "MATLAB (z2784) mental-representation embeddings/tSNE; data present; heavy embedding pipeline"
+  "bucket": "INCLUDED (genuinely re-executed, REPRODUCED via Python port of MATLAB)",
+  "reexec": true,
+  "verdict": "REPRODUCED",
+  "note": "Hebart, Zheng, Pereira & Baker 2020 multidimensional mental representations (OSF z2784; DOI 10.1038/s41562-020-00951-3; OA author manuscript PMC7666026). Ported make_figures_behavsim.m to Python (numpy/scipy) and ran on archived data. ALL headline stats EXACT to 2 dp: test-set choice accuracy 64.60% (±0.23); noise ceiling 67.22% (±1.04); % performance minus chance 92.25% (±1.50); r48 model-vs-measured similarity 0.900 (CI 0.886-0.912); split-half halves/reliability 0.872/0.886/0.911; variance explained 0.933; dims for 95-99% behaviour 6-11; dims for 95-99% similarity variance 9-15; category prediction 86.42%/85.97%; typicality 14/17 significant rho 0.257-0.623; reproducibility dims >0.9 34/49, >0.6 46/49; rank corr dims-vs-reproducibility 0.754 (CI 0.614-0.849, p<.001); Figure-8 similarity-from-ratings r=0.846 (CI 0.792-0.888). Only figure/wordcloud/tsne/mdscale/plot parts skipped (no MATLAB); RNG seeds differ (MATLAB vs numpy) but test set has 0 exact ties so 64.60% is deterministic; 5b similarity variance computed on a 16-dims grid + interpolation (crossings exact: 9-15). Port bug fixes documented (embedding2sim A.M-sub_i-sub_j, wordposition48 ordering, catmat index, one-sided Spearman + BH)."
  },
  "2020-27": {
   "bucket": "Long-duration compute (GNU MCSim Bayesian MCMC)",

@@ -1,0 +1,121 @@
+================================================================================
+REPRODUCTION - Hebart et al. 2020, NHB 4:1173-1185, DOI 10.1038/s41562-020-00951-3
+================================================================================
+spose_embedding_49d_sorted: (1854, 49)
+spose_sim: (1854, 1854) range 0.0528..1.0000
+triplet_testdata49: (146012, 3)
+wordposition48: (48,)
+
+================================================================================
+SECTION 1: behavior prediction on test set (Figure 2a / main text)
+================================================================================
+behav_predict_acc (100*mean(predict==1)): 64.5961
+mean(behav_predict_obj) [paper 64.60]: 64.5956
+behav_predict_acc_ci95 (1.96*std/sqrt(1854)) [paper +/-0.23]: 0.2263
+95% CI: 64.3693 .. 64.8218
+behav_predict_obj min/max: 49.558 78.140
+
+================================================================================
+SECTION 2: noise ceiling (from triplets_noiseceiling.csv)
+================================================================================
+n unique triplets: 1000
+nNC[0] (count of first triplet): 20
+noise_ceiling [paper 67.22]: 67.2208
+noise_ceiling_ci95 [paper +/-1.04]: 1.0392
+95% CI: 66.1816 .. 68.2599
+
+================================================================================
+SECTION 3: percent performance achieved (subtracting chance)
+================================================================================
+percent performance achieved [paper 92.25]: 92.2532
+bootstrap std (btstp_se) [paper +/-1.50]: 1.5137
+percent performance +/- btstp_se: 92.2532 (90.7395)
+
+================================================================================
+SECTION 4: similarity-based correlation r48 (Figure 2b)
+================================================================================
+r48 [paper 0.90]: 0.899593
+r48 95% CI [paper 0.88-0.91]: 0.8858 .. 0.9118
+split1 r [paper 0.87]: 0.8721 ; split2 r [paper 0.88]: 0.8863
+reliability48 [paper 0.91]: 0.9105
+splithalf48: 0.8794
+variance_explained48 = splithalf^2/reliability^2: 0.9329
+
+================================================================================
+SECTION 5a: dimension-reduction -> behavior prediction (Figure 6a)
+================================================================================
+mindim/maxdim behavior [paper 6-11]: 6 - 11
+behav_predict_acc (full): 64.5961 ; cutoff95 61.3663 cutoff99 63.9501
+acc_reduc (dims retained 0..49): 33.47, 41.56, 49.37, 55.29, 58.73, 60.59, 61.72, 62.44, 63.01, 63.41, 63.56, 63.80, 63.95, 64.13, 64.22, 64.34, 64.42, 64.51, 64.54, 64.57, 64.65, 64.65, 64.64, 64.62, 64.62, 64.63, 64.64, 64.64, 64.66, 64.64, 64.64, 64.64, 64.62, 64.61, 64.62, 64.61, 64.63, 64.62, 64.62, 64.62, 64.62, 64.62, 64.62, 64.61, 64.61, 64.61, 64.60, 64.59, 64.59
+
+================================================================================
+SECTION 5b: dimension-reduction -> similarity variance (Figure 6b)
+================================================================================
+Computing 49 reduced similarity matrices via vectorized embedding2sim.
+Each is O(N^3) in numpy; this is the expensive block.
+loaded cached r_reduc grid (i_dim with values): 1, 8, 16, 24, 32, 33, 34, 35, 36, 37, 40, 41, 42, 43, 44
+NOTE: r_reduc computed on a grid; missing dims interpolated in r^2 space.
+r^2 (i_dim=1..49 known): 1.0000, 0.9999, 0.9995, 0.9981, 0.9926, 0.9909, 0.9888, 0.9859, 0.9821, 0.9771, 0.9516, 0.9372, 0.9163, 0.8890, 0.8502
+r^2 reversed (dims retained 0..48): 0.850, 0.850, 0.850, 0.850, 0.850, 0.850, 0.889, 0.916, 0.937, 0.952, 0.960, 0.969, 0.977, 0.982, 0.986, 0.989, 0.991, 0.993, 0.993, 0.994, 0.995, 0.995, 0.996, 0.997, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000
+mindim2/maxdim2 similarity [paper 9-15]: 9 - 15
+i_dim where r^2 first >0.95 (reversed k=9 -> i_dim=40):
+i_dim where r^2 last <0.99 (reversed k=15 -> i_dim=34):
+
+================================================================================
+SECTION 6: predict_category (cross-validated category prediction)
+================================================================================
+n categories: 18 ; n objects: 1112
+chance: 5.56%
+Accuracy for SPoSE [paper 86.42]: 86.42%
+Accuracy for word embedding [paper 85.97]: 85.97%
+
+================================================================================
+SECTION 7: typicality vs best-matching dimension (Figure 7)
+================================================================================
+r_typicality_s: 0.584, 0.327, 0.517, 0.257, 0.456, 0.596, 0.417, 0.611, 0.179, 0.320, 0.351, -0.073, 0.533, 0.279, 0.371, 0.623, 0.623
+p_typicality_s (one-sided): 0.0000, 0.0297, 0.0000, 0.0041, 0.0248, 0.0000, 0.0000, 0.0000, 0.2460, 0.0519, 0.0226, 0.6870, 0.0000, 0.0018, 0.0155, 0.0000, 0.0000
+adj_p: 0.0000, 0.0361, 0.0000, 0.0070, 0.0325, 0.0000, 0.0000, 0.0000, 0.2614, 0.0588, 0.0320, 0.6870, 0.0000, 0.0034, 0.0240, 0.0000, 0.0000
+n significant [paper 14/17]: 14 / 17
+significant rho range [paper 0.26-0.62]: 0.257 .. 0.623
+all rho range: -0.073 .. 0.623
+one-sided 95%% CI lower: 0.475, 0.031, 0.393, 0.095, 0.066, 0.441, 0.329, 0.438, -0.242, -0.083, 0.074, -0.319, 0.340, 0.137, 0.042, 0.458, 0.430
+one-sided 95%% CI upper: 0.675, 0.570, 0.622, 0.405, 0.725, 0.717, 0.498, 0.741, 0.543, 0.633, 0.578, 0.182, 0.683, 0.410, 0.627, 0.746, 0.762
+
+================================================================================
+SECTION 8: Extended Data Figure 1 - reproducibility of dimensions
+================================================================================
+model 1: dims after removing empty=46
+model 2: dims after removing empty=43
+model 3: dims after removing empty=44
+model 4: dims after removing empty=41
+model 5: dims after removing empty=43
+model 6: dims after removing empty=42
+model 7: dims after removing empty=45
+model 8: dims after removing empty=45
+model 9: dims after removing empty=42
+model 10: dims after removing empty=42
+model 11: dims after removing empty=43
+model 12: dims after removing empty=42
+model 13: dims after removing empty=44
+model 14: dims after removing empty=42
+model 15: dims after removing empty=41
+model 16: dims after removing empty=44
+model 17: dims after removing empty=41
+model 18: dims after removing empty=41
+model 19: dims after removing empty=46
+model 20: dims after removing empty=45
+n dims >0.9: 34/49 ; >0.6: 46/49 [paper 34/49, 46/49]
+mean_reproducibility (sorted desc): 1.000, 1.000, 0.998, 0.998, 0.997, 0.997, 0.997, 0.996, 0.996, 0.995, 0.995, 0.993, 0.993, 0.992, 0.991, 0.991, 0.991, 0.990, 0.989, 0.988, 0.987, 0.987, 0.986, 0.976, 0.976, 0.975, 0.967, 0.963, 0.930, 0.926, 0.923, 0.923, 0.913, 0.903, 0.874, 0.868, 0.861, 0.832, 0.809, 0.794, 0.776, 0.726, 0.703, 0.688, 0.675, 0.670, 0.426, 0.300, 0.233
+r_rank [paper Spearman 0.75]: 0.7544
+r_rank (Pearson): 0.7544 ; Spearman: 0.7544
+permutation p (Pearson) [paper p<0.001]: 1e-05
+permutation p (Spearman): 1e-05
+r_rank 95% CI [paper 0.61-0.85]: 0.6136 .. 0.8487
+
+================================================================================
+SECTION 9: Figure 8 - similarity from human dimension ratings
+================================================================================
+r_reference [paper 0.85]: 0.8464
+randomization p [paper p<0.001]: 9.999e-05
+max r_randomization: 0.4200
+r_reference 95% CI [paper 0.80-0.89]: 0.7916 .. 0.8876
