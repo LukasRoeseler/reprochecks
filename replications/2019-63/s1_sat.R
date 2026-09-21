@@ -1,0 +1,12 @@
+suppressMessages({library(afex);library(car);library(dplyr);library(reshape2);library(plyr);library(sjstats)})
+analysis_path <- "C:/Users/LROESE~1.IVV/AppData/Local/Temp/opencode/repro_pilot/work/2019-63"
+setwd(analysis_path)
+PAV <- read.delim("Database-PAVoneUS.txt", header=T, sep='')
+PAV$ID<-factor(PAV$ID);PAV$CS<-factor(PAV$CS);PAV$group<-factor(PAV$group);PAV$phase<-factor(PAV$phase);PAV$bin<-factor(PAV$bin)
+cat("===== STUDY 1 SATIATION (bin05-07, CSpL/CSpR) =====\n")
+CHANGE<-subset(PAV, bin=='bin05'|bin=='bin06'|bin=='bin07');CHANGE_CS<-subset(CHANGE, CS=='CSpL'|CS=='CSpR')
+dm<-aggregate(CHANGE_CS$ANT_DW_congr,by=list(CHANGE_CS$ID,CHANGE_CS$phase,CHANGE_CS$group),FUN='mean');colnames(dm)<-c('ID','phase','group','ANT_DW_congr')
+fit<-aov(ANT_DW_congr~group*phase+Error(ID/phase),data=dm);cat("-- DW session:group (ID:phase) --\n");print(anova_stats(fit$`ID:phase`))
+cat("-- DW group (ID) --\n");print(anova_stats(fit$`ID`))
+pm<-aggregate(CHANGE_CS$CS_pupil,by=list(CHANGE_CS$ID,CHANGE_CS$phase,CHANGE_CS$group),FUN='mean');colnames(pm)<-c('ID','phase','group','CS_pupil')
+fit<-aov(CS_pupil~group*phase+Error(ID/phase),data=pm);cat("-- PUPIL session:group (ID:phase) --\n");print(anova_stats(fit$`ID:phase`))

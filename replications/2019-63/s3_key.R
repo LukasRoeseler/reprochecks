@@ -1,0 +1,23 @@
+suppressMessages({library(afex);library(car);library(dplyr);library(reshape2);library(plyr);library(sjstats)})
+analysis_path <- "C:/Users/LROESE~1.IVV/AppData/Local/Temp/opencode/repro_pilot/work/2019-63/Study3-PIC/ANALYSIS/R"
+setwd(analysis_path)
+PIC <- read.delim(file.path(analysis_path,'Database-PIC.txt'), header=T, sep='')
+FOOD <- read.delim(file.path(analysis_path,'Database-PIC-food.txt'), header=T, sep='')
+PIC$ID<-factor(PIC$ID);PIC$run<-factor(PIC$run);PIC$group<-factor(PIC$group);PIC$IC<-factor(PIC$IC);PIC$phase<-factor(PIC$phase)
+PIC$Cvalue[PIC$IC=='CSm']<- -1;PIC$Cvalue[PIC$IC=='congr']<- .5;PIC$Cvalue[PIC$IC=='incongr']<- .5
+PIC$Ccongr[PIC$IC=='CSm']<- 0;PIC$Ccongr[PIC$IC=='congr']<- 1;PIC$Ccongr[PIC$IC=='incongr']<- -1
+cat("===== ANTICIPATORY DWELL (run1-2) =====\n")
+vars<-names(PIC)%in%c('ID','Ccongr','ANT_DW_pav');PAV<-na.omit(PIC[vars]);pm<-aggregate(PAV$ANT_DW_pav,by=list(PAV$ID,PAV$Ccongr),FUN='mean');colnames(pm)<-c('ID','Ccongr','ANT_DW_pav');pm<-subset(pm,Ccongr!=0)
+fit<-aov(ANT_DW_pav~Ccongr+Error(ID/(Ccongr)),data=pm);cat("-- PAV ROI Ccongr --\n");print(anova_stats(fit$`ID:Ccongr`))
+vars<-names(PIC)%in%c('ID','Ccongr','ANT_DW_ins');INS<-na.omit(PIC[vars]);im<-aggregate(INS$ANT_DW_ins,by=list(INS$ID,INS$Ccongr),FUN='mean');colnames(im)<-c('ID','Ccongr','ANT_DW_ins');im<-subset(im,Ccongr!=0)
+fit<-aov(ANT_DW_ins~Ccongr+Error(ID/(Ccongr)),data=im);cat("-- INS ROI Ccongr --\n");print(anova_stats(fit$`ID:Ccongr`))
+cat("===== OUTCOME DEVALUATION =====\n")
+PRE<-subset(FOOD,phase=='pre');POST<-subset(FOOD,phase=='post')
+cat("-- hunger --\n");print(t.test(PRE$hunger,POST$hunger,paired=T))
+cat("-- pleasantness --\n");print(t.test(PRE$pleasantness,POST$pleasantness,paired=T))
+cat("===== SATIATION-INDUCED CHANGE (run2-3) =====\n")
+CHANGE<-subset(PIC,run=='2'|run=='3')
+vars<-names(CHANGE)%in%c('ID','group','phase','Ccongr','ANT_DW_ins');cn<-na.omit(CHANGE[vars]);cm<-aggregate(cn$ANT_DW_ins,by=list(cn$ID,cn$group,cn$phase,cn$Ccongr),FUN='mean');colnames(cm)<-c('ID','group','phase','Ccongr','ANT_DW_ins')
+fit<-aov(ANT_DW_ins~Ccongr*phase*group+Error(ID/(Ccongr*phase)),data=cm);cat("-- INS Ccongr:phase --\n");print(anova_stats(fit$`ID:Ccongr:phase`))
+vars<-names(CHANGE)%in%c('ID','group','phase','Ccongr','ANT_DW_pav');cn2<-na.omit(CHANGE[vars]);cp<-aggregate(cn2$ANT_DW_pav,by=list(cn2$ID,cn2$group,cn2$phase,cn2$Ccongr),FUN='mean');colnames(cp)<-c('ID','group','phase','Ccongr','ANT_DW_pav')
+fit<-aov(ANT_DW_pav~Ccongr*phase*group+Error(ID/(Ccongr*phase)),data=cp);cat("-- PAV Ccongr:phase --\n");print(anova_stats(fit$`ID:Ccongr:phase`))
