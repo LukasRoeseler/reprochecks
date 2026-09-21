@@ -123,7 +123,7 @@ fig.tight_layout(rect=[0.02,0.07,1,0.93]); fig.savefig(os.path.join(OUT,"fig2_op
 # ============================================================ Figure 3: outcomes (unit chart, one rectangle per study)
 # NHB re-executed set: use the report's authoritative classification (REEXEC_NHB / RECREATED_NHB)
 # rather than the raw dashboard reexec flags, so the figure and the report prose always agree.
-REEXEC_NHB = {"2019-02","2019-10","2019-63","2019-17","2019-19","2019-42","2019-37","2019-45","2020-10","2020-26","2020-31","2020-34","2020-36","2020-37","2020-40","2020-41","2020-49","2020-52","2020-61","2020-74","2020-78","2020-84","2020-86","2020-93","2020-96"}
+REEXEC_NHB = {"2019-02","2019-10","2019-63","2019-17","2019-18","2019-19","2019-42","2019-37","2019-45","2020-10","2020-26","2020-31","2020-34","2020-36","2020-37","2020-40","2020-41","2020-49","2020-52","2020-61","2020-74","2020-78","2020-84","2020-86","2020-93","2020-96"}
 RECREATED_NHB = {"2019-20"}
 nhb_reexec = [s for s in nhb_ft if s["id"] in REEXEC_NHB]
 nhb_recreated = [s for s in nhb_ft if s["id"] in RECREATED_NHB]
