@@ -79,7 +79,7 @@ def unit_chart(ax, cats, vals, colors, square=0.8, per_col_max=14, gap=0.12):
 fig, axes = plt.subplots(1,2, figsize=(12,5.2))
 for ax,(name,c_fun,stages) in zip(axes,
     [("Meta-Psychology",MP_C,[("All published records",MP_TOTAL),("Empirical",MP_EMP),("Full audit possible",MP_AUD)]),
-     ("Nature Human Behavior",NHB_C,[("All published records",NHB_TOTAL),("Empirical",NHB_EMP),("Full-text audit",NHB_AUD)])]):
+     ("Nature Human Behaviour",NHB_C,[("All published records",NHB_TOTAL),("Empirical",NHB_EMP),("Full-text audit",NHB_AUD)])]):
     labels=[s[0] for s in stages]; vals=[s[1] for s in stages]
     y=np.arange(len(stages))
     ax.barh(y, vals, color=c_fun, height=0.5, alpha=0.9)
@@ -110,20 +110,20 @@ cats=["Direct\nlink","Statement,\nno link","No\navail."]
 vals=[nhb_p3, nhb_p2, nhb_p1]
 cols=[OK,PAR,BAD]
 unit_chart(ax, cats, vals, cols, per_col_max=100)
-ax.set_title(f"Nature Human Behavior data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) · Stmt, no link: {nhb_p2} ({nhb_p2pct}%) · None: {nhb_p1}", fontsize=12, fontweight="bold")
+ax.set_title(f"Nature Human Behaviour data availability (n={len(nhb_ft)})\nDirect: {nhb_p3} ({nhb_p3pct}%) Â· Stmt, no link: {nhb_p2} ({nhb_p2pct}%) Â· None: {nhb_p1}", fontsize=12, fontweight="bold")
 # single shared legend
 handles=[mpatches.Patch(facecolor=OK, label=f"Direct data/code link: provided ({mp_od}+{nhb_p3})"),
          mpatches.Patch(facecolor=PAR, label=f"Statement only: says data exist, no direct link ({nhb_p2})"),
          mpatches.Patch(facecolor=BAD, label=f"No availability statement ({nhb_p1})"),
          mpatches.Patch(facecolor="#b0bec5", label=f"Data N/A (simulation) ({mp_od_na})")]
-fig.suptitle("Open data availability by journal — each small square is one audited study", fontsize=13, fontweight="bold")
+fig.suptitle("Open data availability by journal â€” each small square is one audited study", fontsize=13, fontweight="bold")
 fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=10)
 fig.tight_layout(rect=[0.02,0.07,1,0.93]); fig.savefig(os.path.join(OUT,"fig2_open_data.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
 # ============================================================ Figure 3: outcomes (unit chart, one rectangle per study)
 # NHB re-executed set: use the report's authoritative classification (REEXEC_NHB / RECREATED_NHB)
 # rather than the raw dashboard reexec flags, so the figure and the report prose always agree.
-REEXEC_NHB = {"2019-02","2019-10","2019-63","2019-17","2019-19","2019-42","2019-37","2019-45","2020-10","2020-26","2020-31","2020-34","2020-36","2020-37","2020-40","2020-41","2020-49","2020-61","2020-74","2020-78","2020-84","2020-86","2020-93","2020-96"}
+REEXEC_NHB = {"2019-02","2019-10","2019-63","2019-17","2019-19","2019-42","2019-37","2019-45","2020-10","2020-26","2020-31","2020-34","2020-36","2020-37","2020-40","2020-41","2020-49","2020-52","2020-61","2020-74","2020-78","2020-84","2020-86","2020-93","2020-96"}
 RECREATED_NHB = {"2019-20"}
 nhb_reexec = [s for s in nhb_ft if s["id"] in REEXEC_NHB]
 nhb_recreated = [s for s in nhb_ft if s["id"] in RECREATED_NHB]
@@ -136,20 +136,20 @@ cats=["Reproduced","Partially","Not\nreproduced","Technical"]
 mp_vals=[mp_ok, mp_par, mp_bad, mp_tech]
 cols=[OK,PAR,BAD,TECH]
 unit_chart(ax, cats, mp_vals, cols)
-ax.set_title(f"Meta-Psychology outcomes (n={len(mp_aud)})\nReproduced: {mp_ok} · Partial: {mp_par} · Not reprod.: {mp_bad} · Technical: {mp_tech}", fontsize=12, fontweight="bold")
+ax.set_title(f"Meta-Psychology outcomes (n={len(mp_aud)})\nReproduced: {mp_ok} Â· Partial: {mp_par} Â· Not reprod.: {mp_bad} Â· Technical: {mp_tech}", fontsize=12, fontweight="bold")
 # NHB: only genuinely re-executed studies, split by outcome
 ax=axes[1]
 cats=["Reproduced","Partially\nreproduced"]
 vals=[nhb_rep, nhb_par]
 cols=[OK,PAR]
 unit_chart(ax, cats, vals, cols, per_col_max=18)
-ax.set_title(f"Nature Human Behavior outcomes (genuinely re-executed, n={len(nhb_reexec)})\nReproduced: {nhb_rep} ({round(100*nhb_rep/len(nhb_reexec))}%) · Partially reproduced: {nhb_par}\n(remaining {len(nhb_excluded)} full-text NHB articles not code re-executed: availability audits only)", fontsize=11, fontweight="bold")
+ax.set_title(f"Nature Human Behaviour outcomes (genuinely re-executed, n={len(nhb_reexec)})\nReproduced: {nhb_rep} ({round(100*nhb_rep/len(nhb_reexec))}%) Â· Partially reproduced: {nhb_par}\n(remaining {len(nhb_excluded)} full-text NHB articles not code re-executed: availability audits only)", fontsize=11, fontweight="bold")
 # single shared legend
 handles=[mpatches.Patch(facecolor=OK, label="Reproduced"),
          mpatches.Patch(facecolor=PAR, label="Partially reproduced"),
          mpatches.Patch(facecolor=BAD, label="Not reproduced"),
          mpatches.Patch(facecolor=TECH, label="Technical failure")]
-fig.suptitle("Reproducibility outcomes — each small square is one audited study where the audit could be run", fontsize=13, fontweight="bold")
+fig.suptitle("Reproducibility outcomes â€” each small square is one audited study where the audit could be run", fontsize=13, fontweight="bold")
 fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, fontsize=10)
 fig.tight_layout(rect=[0.02,0.10,1,0.90]); fig.savefig(os.path.join(OUT,"fig3_outcomes.png"), dpi=150, bbox_inches="tight"); plt.close(fig)
 
@@ -157,7 +157,7 @@ fig.tight_layout(rect=[0.02,0.10,1,0.90]); fig.savefig(os.path.join(OUT,"fig3_ou
 fig, axes = plt.subplots(1,2, figsize=(12.5,5))
 panels = [
     (axes[0], [s["claims"] for s in mp_aud], "Meta-Psychology", MP_C, np.arange(14, 68, 4)),
-    (axes[1], [s["claims"] for s in nhb_ft], "Nature Human Behavior", NHB_C, np.arange(0, 19)),
+    (axes[1], [s["claims"] for s in nhb_ft], "Nature Human Behaviour", NHB_C, np.arange(0, 19)),
 ]
 for ax, vals, name, color, bins in panels:
     ax.hist(vals, bins=bins, color=color, edgecolor="white", alpha=0.9)

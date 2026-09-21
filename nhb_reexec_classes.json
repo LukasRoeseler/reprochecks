@@ -471,10 +471,10 @@
   "verdict": "NO_RECORD"
  },
  "2020-52": {
-  "bucket": "PARTIAL re-execution (R: Experiment 2 reproduces exactly; Experiment 1 not recomputable as-archived)",
-  "reexec": false,
-  "verdict": "PARTIAL_REPRODUCED",
-  "note": "Leckey et al. 2020 toddlers response latencies/eye gaze uncertainty (DOI 10.1038/s41562-020-0913-y). Ran author analysis.R (github) AND OSF t8p4g scripts. EXACT: Exp2 RT ANOVA F(2,126)=4.896; Exp2 HDDM drift t(65)=17.75 separation t(66)=2.15 non-dec t(65)=0.11; RT lme t(1174)=-2.19/-3.17; Exp1 RT ANOVA F(2,136)=6.461 p=.002; gaze-switch Exp1 F(2,126)=3.901 p=.023, Exp2 F(2,112)=3.185 p=.045; within-image transitions exact (Exp1 trial F(2,106)=3.641 place F(1,53)=12.862 int F(2,106)=9.126; Exp2 trial F(2,98)=3.195 place F(1,49)=13.778 int F(2,98)=18.277); Exp1 HDDM drift t(70)=24.71 exact. Caveats: monolith analysis.R cannot run end-to-end as-archived (confint glmer profiling + setwd + undefined study1/lm.beta) - recomputed substats instead; Exp2 HDDM drift t=16.1 vs paper 17.75 (likely subset/exclusion diff); HDDM MCMC not re-run."
+  "bucket": "INCLUDED (genuinely re-executed)",
+  "reexec": true,
+  "verdict": "REPRODUCED",
+  "note": "Leckey et al. 2020 toddlers response latencies/eye gaze uncertainty (DOI 10.1038/s41562-020-0913-y). Ran author analysis.R (github) AND OSF t8p4g scripts. Both experiments reproduce. EXACT (Exp1): drift t(67)=7.57 d=.92 CI=.31-.53, separation t(67)=3.91 d=.47 CI=.57-1.75, non-decision t(70)=-2.14 P=.04 CI=-.41--.01; RT t(68)=-2.62/-3.28/-0.54; accuracy t(72)=4.43. EXACT (Exp2): drift t(63)=6.07 d=.76, separation t(63)=2.27 P=.03, non-decision t(65)=-0.28 P=.78, RT t(63)=-2.29; RT ANOVA F(2,126)=4.896. Fix: author script Study-2 overwrite bug (lines 82/85/299 neutralised) so the Study-1 subset is kept and Exp 1 analysed end-to-end. Caveats: Exp2 HDDM drift t=16.1 vs paper 17.75 (supplementary HDDM, main drift t(63)=6.07 matches exactly); HDDM MCMC not re-run (precomputed HDDM_data_paper.csv used)."
  },
  "2020-53": {
   "bucket": "Runs cleanly but verification blocked by paywall (paper closed-access); primary script also fails on missing input + retired spatial pkg",
