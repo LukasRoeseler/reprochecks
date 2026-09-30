@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Wiens Dissociation Speech/Emotion Effects (MP.2019.1635)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Wiens (2021)</h1>
+<p class="sub">MP.2019.1635 &middot; <i>Meta-Psychology</i>, 5 &middot; doi:10.15626/MP.2019.1635 &middot; <i>Dissociation Between Speech and Emotion Effects in Short-Term Memory: A Data Reanalysis</i></p>
+<p><span class="verdict reproduced">Reproduced</span></p>
+
+<h2>Package audited</h2>
+<p>Wiens, S. (2021), <i>Meta-Psychology</i>, 5, MP.2019.1635 (doi: 10.15626/MP.2019.1635). Commentary / data reanalysis of Marsh et al. (2018) data on auditory distraction. Open data: N/A (preprocessed data shared by original authors); Open materials: Yes; Open and reproducible analysis: Yes. All scripts, analyses, figures and additional material at OSF: <a href="https://osf.io/xds8g/">osf.io/xds8g</a> (main analysis in <code>R_reanalysis_March/reanalysis_Marsh.Rmd</code> with data <code>Marsh_2018_raw_means.csv</code>).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>Reproduced.</strong> All reported reanalysis statistics reproduce <strong>exactly</strong> from the provided data and R code: the direct 2x2 ANOVA interaction, the three follow-up task-effect t-tests, and the Bayesian BF01 values (uniform 12.5, half-normal 16.7). The claim of a crossover (dissociation) interaction between speech and emotion effects is confirmed.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>2x2 ANOVA interaction (task x effect)</td><td>p &lt; .001</td><td>F(1,127) = 12.53, p = .00056</td><td>Match</td></tr>
+<tr><td>Speech task effect (SR-high - MI)</td><td>M = 0.06, 95% CI [0.01, 0.11], p = .011</td><td>M = 0.061 [0.014, 0.107], p = .0108</td><td>Match</td></tr>
+<tr><td>Emotion task effect (SR-high - MI)</td><td>M = -0.06, 95% CI [-0.09, -0.03], p &lt; .001</td><td>M = -0.062 [-0.095, -0.029], p = .0003</td><td>Match</td></tr>
+<tr><td>Speech - emotion contrast</td><td>M = 0.12, 95% CI [0.05, 0.19], p = .001</td><td>M = 0.123 [0.054, 0.191], p = .0006</td><td>Match</td></tr>
+<tr><td>BF01 (uniform prior)</td><td>12.5</td><td>12.50</td><td>Match</td></tr>
+<tr><td>BF01 (half-normal prior)</td><td>16.7</td><td>16.67</td><td>Match</td></tr>
+<tr><td>Speech effect, SR-high vs MI (raw)</td><td>0.061</td><td>0.061</td><td>Match</td></tr>
+<tr><td>Emotion effect, SR-high vs MI (raw)</td><td>-0.062</td><td>-0.062</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Data.</strong> <code>Marsh_2018_raw_means.csv</code> (proportion correct per subject per task) from OSF project xds8g. Columns: subject, task (SR-low, SR-high, MI), quiet, neu, pos, neg. Read with <code>read_csv2</code> (semicolon-separated, comma decimal).</p>
+<p><strong>Operationalization.</strong> Speech effect = quiet minus neutral; emotion effect = neutral minus mean(positive, negative). The direct analysis compares the two tasks SR-high (high load serial recall) and MI (missing-item) on these difference scores.</p>
+<p><strong>Methods.</strong> 2x2 mixed ANOVA via <code>ezANOVA</code> (type = 3; task between-subjects, effect within-subjects); between-subjects t-tests of task effects via <code>t.test(x, y, paired=FALSE)</code>; Bayes factors computed with Dienes's functions (<code>BF_U</code> uniform, <code>BF_t</code> half-normal and t-distributed), using the observed speech effect (0.061) to define the alternative hypothesis.</p>
+<p><strong>Agreement.</strong> Every reported statistic reproduces to the paper's rounding exactly: interaction F(1,127) = 12.53, p &lt; .001; speech task effect 0.061 [0.014, 0.107] p = .011; emotion task effect -0.062 [-0.095, -0.029] p &lt; .001; speech-emotion contrast 0.123 [0.054, 0.191] p = .001; BF01 = 12.50 (uniform) and 16.67 (half-normal), with the t-distributed prior giving 14.29 (inside the reported 12.5-16.7 range). The conclusion that the data support a dissociation (crossover interaction) is confirmed.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P3).</strong> The reanalysis uses preprocessed (subject-level mean) data shared by the original authors, not raw trial data; the reproduction therefore validates the reanalysis pipeline but not the underlying raw-data processing.</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R script: <code>wiens1635_repro.R</code>; captured output: <code>wiens1635_repro_output.txt</code> (in this folder). Data and code from the OSF project osf.io/xds8g (<code>R_reanalysis_March/reanalysis_Marsh.Rmd</code>, <code>Marsh_2018_raw_means.csv</code>, <code>BF_U_save_fig.R</code>, <code>BF_t_save_fig.R</code>).</p>
+</div>
+</body></html>
