@@ -1,0 +1,1952 @@
+
+===== PAGE 1/27 =====
+Meta-Psychology,2024,vol8,MP.2018.1479 Opendata:NotApplicable Editedby:MarcelvanAssen
+https://doi.org/10.15626/MP.2018.1479 Openmaterials:Yes Reviewedby:IngaSchwabe,AndréBeauducel
+Articletype:OriginalArticle Openandreproducibleanalysis:Yes Analysisreproducedby:LucijaBatinovi´c
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/
+How Close to the Mark Might Published Heritability Estimates Be?
+Michael Maraun1, Moritz Heene2, and Philipp Sckopke2
+1DepartmentofPsychology,SimonFraserUniversity,Burnaby,B.C.,Canada
+2DepartmentofPsychology,LudwigMaximiliansUniversität,Munich,Germany
+Thebehaviouralscientistwhorequiresanestimateofnarrowheritability,h2,willcon-
+duct a twin study, and input the resulting estimated covariance matrices into a par-
+ticular mode of estimation, the latter derived under supposition of the standard bio-
+metric model (SBM). It is known that the standard biometric model can be expected
+to misrepresent the phenotypic (genetic) architecture of human traits. The impact
+of this misrepresentation on the accuracy of h2 estimation is unknown. We aimed to
+shed some light on this general issue, by undertaking three simulation studies. In
+each, we investigated the parameter recovery performance of five modes- Falconer’s
+coefficientandtheSEMmodels,ACDE,ADE,ACE,andAE-whentheyencountereda
+constructed, non-SBM, architecture, under a particular informational input. In study
+1, the architecture was single-locus with dominance effects and genetic-environment
+covariance,andtheinputwasasetofpopulationcovariancematricesyieldedunderthe
+fourtwindesigns, monozygotic-rearedtogether, monozygotic-rearedapart, dizygotic-
+rearedtogether, anddizygotic-rearedapart; instudy2,thearchitecturewasidentical
+to that of study 1, but the informational input was monozygotic-reared together and
+dizygotic-rearedtogether;andinstudy3,thearchitecturewasmulti-locuswithdomi-
+nanceeffects,genetic-environmentcovariance,andepistaticinteractions.Theinforma-
+tionalinputwasthesameasinstudy1. Theresultssuggestthatconclusionsregarding
+the coverage of h2 must be drawn conditional on a) the general class of generating
+architectureinplay; b)specificsofthearchitecture’sparametricinstantiations; c)the
+informationalinputintoamodeofestimation;andd)theparticularmodeofestimation
+employed. Theresultsshowedthatthemorecomplicatedthegeneratingarchitecture,
+the poorer a mode’s h2 recovery performance. Random forest analyses furthermore
+revealed that, depending on the genetic architecture, h2, the dominance and locus
+additive parameter, and proportions of alleles were involved in complex interaction
+effectsimpactingonh2parameterrecoveryperformanceofamodeofestimation. Data
+andmaterials: https://osf.io/aq9sx/
+Keywords: Heritability,heritabilityestimation,standardbiometricmodel,quantitative
+genetics,structuralequationmodeling,randomforest
+HowClosetotheMarkMightPublishedHeritability als,thusreflectingallthegeneticpartsofapopulation’s
+EstimatesBe? phenotypicvariance,includingadditive,dominant,and
+geneinteractions(epistasis).
+Thescientificaimofestimatingtherelativecontribu-
+Atleastwithinthebehavioralsciences,itish2 thatis
+tions of environment and genetics to the formation of
+most commonly estimated. And, because the selection
+particular aspects of psychological phenotypes is by no
+and crossing experiments which are the basis for heri-
+meansnewtothebehavioralsciences. Atraditionalline
+tabilityestimationinthecaseofplantsandanimalsare
+ofapproachenliststhetoolsofquantitativegeneticsand
+not applicable to humans (see, e.g., Vitzthum, 2003),
+involvestheestimationofnarrow-andbroad-senseher-
+thestandardapproachtoestimationistoconductatwin
+itability (h2 and H2, respectively). The technical, quan-
+study,theyieldofwhichistwoormorecovariancema-
+titativesenseofheritabilityrelatestotheexplanationof
+trices. These matrices serve as input into either a clas-
+the variability of scores on a phenotype. In particular,
+sical coefficient, such as that of Nichols (1965) or Fal-
+h2 is the maximum proportion of phenotypic variance
+coner (1960), or a structural equation model (SEM).
+that can be accounted for by a linear function of allele
+Due most directly, it would seem, to a growing and
+counts; H2, the proportion of the phenotypic variance
+highly accessible instructional literature bearing on the
+associatedwithvariabilityinthegenotypesofindividu-
+topic (e.g., Heath et al., 1989; Neale and Maes, 2004;
+===== PAGE 2/27 =====
+2
+Rijsdijk, 2002), the latter approach to estimation has els would enable them to simultaneously estimate also
+come to be ascendant, with many recent publications gene-environment interactions and gene-environment
+featuring estimates of h2 generated through the fitting correlations (e.g., Eaves and Erkanli, 2003; He et al.,
+oflatentvariablemodels(e.g.,Afifietal.,2010;Nikolas 2016)togainfurtherinsightsintothegeneticarchitec-
+andBurt,2010;Poldermanetal.,2015seeVanHoutem tureofcomplexhumantraits.
+etal.,2013foranoverview). The fitting of incorrect models to data can serve the
+All of these approaches to the estimation of h2, the scientific enterprise in manifold ways. However, be-
+classical coefficients and SEM-based alike, are founded cause the scientific value inherent to an estimate of a
+on what is known as the Standard Biometric Model fundamentalquantitysuchash2 deriveschieflyfromits
+(SBM), also known as the standard twin design, the accuracy, it is by no means self-evident that the SBM’s
+rootsofwhichstretchbacktotheworkofFisher(1919) misrepresentation of phenotypic (genetic) architecture
+and S. Wright (1921). The SBM (see, e.g., Holzinger, is benign in the context of its role as quantitative foun-
+1929; Jinks and Fulker, 1970; Rijsdijk, 2002; Schöne- dation for the estimation of h2. At the least, it seems
+mann,1997;Vitzthum,2003)isalatentvariablemodel reasonabletoinquireastothedegreetowhichthismis-
+that portrays the dependency of phenotype upon en- representation can be expected to impact upon the ac-
+vironment and genetics in terms of a linear equation curacy of h2 estimates. The misestimation of h2 under
+and set of moment restrictions. The linear equation is presumptionoftheSBMisdiscussedasachiefcontrib-
+Z = A+D+C +E, in which A, D, C, and E are latent utortotheproblemofphantomheritability1 (Weietal.,
+variables, to which the labels additive genetic variable 2014;Zuketal.,2012).
+(A),dominancegeneticvariable(D),environmentalim- Thecentralissueofconcerninthepresentworkisthe
+pact variable (C), and non-shared environmental influ- accuracy of heritability estimates generated under pre-
+ences(E)arecommonlyattached. Themomentrestric- sumption of the SBM. From a slightly different angle,
+tions assert that all latent variables have expectations we are interested in whether the estimates of narrow-
+of zero and are pairwise uncorrelated. When the SBM sense heritability found in the pages of journal articles
+is employed in the service of h2 estimation, the domi- canbetrustedas,onthewhole,reflectingempiricalre-
+nance term is standardly omitted (Schönemann, 1997; ality. With the aim of shedding some light on this is-
+Vitzthum,2003). sue, we undertook three population-based simulation
+Recentworkofbothanempiricalandtheoreticalna- studies. In each, we constructed, quantitatively, a rea-
+ture suggests strongly that the SBM can be expected to sonable, non-SBM, architecture, on the basis of which
+beaverypoordescriptionofthevastmajorityofextant we then deduced population (twin) covariance matri-
+phenotypic (genetic) architectures. In the first place, ces. Eachrealizationoftheparametervectorassociated
+theSBMomitsfactorsthatarenowknowntobeimpor- withthearchitectureyieldsbothanumericalrealization
+tant features of many phenotypic architectures, among of each of the matrices and a known numerical value
+these,gene-environmentcorrelation(Bowles,Gintis,et of h2. The matrices serve as input into a set of modes
+al., 2001; Bronfenbrenner, 1999; Kempthorne, 1978; of estimation, each of which returns an “estimate” (or,
+Shalizi,2007),maternaleffectsrepresentingtheimpact more accurately, recovery) of h2. By running the pa-
+of the uterine and perinatal environment, and genetic, rameter vector over a selection of all possible of its re-
+multilocus, interaction (epistasis; Wei et al., 2014; Zuk alizations, we were able to produce, for each mode, an
+et al., 2012). As Vitzthum (2003, p.541) has summa- approximation to the model error distribution (i.e., the
+rized,“Assumptionsofthemodelincludenodominance distribution of differences between true and recovered
+(if estimating h2), no epistasis, no assortative mating, h2). Sideissuesonwhichwehopedtothrowsomelight
+nogenotype-environmentinteraction,andnogenotype- included: (a) the relative performances of commonly
+environment covariance...” In the second place, what employed modes of h2 estimation; and (b), relatedly,
+the SBM asserts about phenotypic architecture comes the issue of whether the newer SEM-based modes out-
+down to a linear model involving unmeasured, latent, performtheclassicalcorrelation-based.
+variables. The variables are pinned down by spartan We emphasize that, because population covariance ma-
+moment restrictions, raising the question of how much trices were offered as input to each mode under con-
+of an impact the omission of the above-mentioned ef- sideration, our results are free of the obscuring effects
+fectsmayhaveonmodelerror. Asanaside,andonthe of sampling error. Accordingly, our investigation must
+methodological side of this issue, applied researchers
+may also consider, for example, Monte Carlo Markov
+1i.e.,thephenomenonwhereinthevariantsofatraitiden-
+tifiedbygenome-wideassociationstudiesexplainonlyafrac-
+Chain models which do not rely on the strict assump-
+tion of the narrow-sense heritability indicated as inhering in
+tions of the standard biometric model. Such mod-
+thetraitbyconventional,SBM-based,estimatesofh2
+===== PAGE 3/27 =====
+3
+be distinguished from prior investigations into statisti- dition to that, epistatic interactions can also positively
+cal aspects of heritability estimation (e.g., Keller and bias h2 estimates by generating real additive variation
+Coventry,2005;Kelleretal.,2010). Ourinterestwasin as marginal effects from higher-order genetic interac-
+the h2 parameter recovery performance of modes when tions (D. M. Evans et al., 2002; W. G. Hill et al., 2008;
+these latter are offered information unadulterated by Marchinietal.,2005).
+sampling error and encounter certain non-SBM archi- While it is relatively easy to raise objections against
+tectures which can be expected to underlie empirical twin-based h2 estimates based on these sources, it is
+estimationcontexts. harder to know to what extent non-additive effects im-
+Thus, althoughourinvestigationwas, indeed, asim- pact upon h2 parameter recovery performance in the
+ulationstudy, itwasnotaconventionalone, inthatwe context of other possibly biasing genetic parameters.
+didnotsampleindividualsbut,rather,numericalinstan- Determiningtheextentofbiasingeffectsofgeneticnon-
+tiationsofparticularnon-SBMarchitectures. Hence,our additivityonthequalityofestimationofh2whiletaking
+study aims to investigate model error due to an incom- other biasing parameters into account is therefore one
+plete knowledge of the actual data-generating model. ofthemainaimsofthisarticle.
+We emphasize, furthermore, that the work described The organization of the paper is as follows: (a) In
+herein has little overlap with general critiques of her- the first sections, we offer the reader necessary techni-
+itabilityestimation(e.g.,Schönemann,1997),norwith calbackgroundtotheproblem;(b)followingwhich,in
+accounts of the pervasive misinterpretation and misuse the remainder of the paper, we address the central is-
+oftheconceptofheritability(e.g.,Vitzthum,2003). Itis sueofh2 parameterrecovery. Therein,wepresentthree
+ourbeliefthatthenearestprecedenttotheworkherein simulationstudies,eachfeaturinganassessmentoffive
+undertakenisthestudyonphantomheritabilitybyZuk modes—Falconer’scoefficientandtheACDE,ADE,ACE,
+etal.(2012). and AE structural equation models—under a particu-
+Our study is thus partly motivated by the discus- lar choice of informational input and non-SBM archi-
+sion about possible biasing effects of substantial non- tecture. The first study featured a single locus ar-
+additivegeneticvariationonh2estimation,eitherdueto chitecture with the non-SBM characteristics of domi-
+dominance (i.e., non-additivity of allelic effects within nanceeffectsandgenetic-environmentcorrelation. The
+loci) or epistasis (i.e., interactions of effects among informational input was the set of covariance matri-
+loci), or both (e.g., Eichler et al., 2010; Zuk et al., ces yielded under the four twin designs: monozygotic-
+2012). Itmust benoted, though, that currentevidence reared together, monozygotic-reared apart, dizygotic-
+suggests that the role of dominance or epistatic effects rearedtogether, anddizygotic-rearedapart, denotedas
+in human traits may be small, and most of twin data Σ (θ), Σ (θ), Σ (θ), Σ (θ). The second study
+MZ,T MZ,A DZ,T DZ,A
+areinfactconsistentwithanadditivepolygenicgenetic was identical to the first, except that the informational
+model, meaning that multiple genes influence the phe- input was reduced to only the first two of these covari-
+notypic expression of a trait. The meta-analysis by Pol- ancematrices.
+derman et al. (2015) found that 69% of investigated The third study featured a multi-locus, limiting pro-
+traits showed that the “... pattern of twin correlations cess,architecture(Zuketal.,2012),which,inaddition
+is consistent with a (...) model of the absence of envi- to dominance effects and genetic-environment correla-
+ronmentaleffectssharedbytwinpairsandthepresence tion, had the non-SBM property of epistasis (i.e., ge-
+of genetic effects that are entirely due to additive ge- netic locus-locus interaction). In particular, genome-
+neticvariation”. Thus,sharedenvironmentalaswellas wide association studies undertaken during the past
+dominance or epistatic effects in human traits seem to ten years have yielded strong indications that human
+play a smaller role than hitherto expected (e.g., Viss- traits are, as a rule, multilocus or complex (Benyamin
+cheretal.,2017foranoverview). Similarly,Zhuetal., et al., 2014; D. M. Evans, 2011; Hsu, 2014; Wei et al.,
+2015 on 79 bio-physiological human traits found little 2014). Though the detection of epistasis poses signifi-
+dominance genetic variance, with an average estimate canttechnicalchallenges(Weietal.,2014),thereexists
+of.03andamaximumvalueof.19. Ontheotherhand, now evidence that it is operative in the expression of
+things might be more complicated because the impact manyhumanphenotypes,includingAlzheimer’sdisease
+ofnon-additivegeneticvariationintwinstudiescango (Hohman et al., 2013), multiple sclerosis (Gregersen
+undertheradaroftwin-studyanalyses. Thisisbecause et al., 2006), ankylosing spondylitis (D. M. Evans,
+dominantgeneticvariationmightbemaskedbyshared 2011),breastcancer(Ritchieetal.,2001),andpsoriasis
+environmentintwinstudies(Chenetal.,2015),leading (Strange et al., 2010). As noted by Zuk et al. (2012),
+to h2 estimates that are upward-biased to an unknown "Quantitative geneticists have long known that genetic
+extent(e.g.,Chenetal.,2015;Zuketal.,2012). Inad- interactions can affect heritability calculations...". In
+===== PAGE 4/27 =====
+4
+this final study, the informational input was identical locus j-specific genotype. For the locus 1 specific geno-
+tothatofthefirst. typesA A ,A A ,andA A ,forexample,g isequalto
+1 1 1 2 2 2 1
+It was neither our aim nor was it necessary for the 0, 1, and 2, respectively. Clearly, each of the 3n geno-
+success of our investigation to construct architectures typesisuniquelyassociatedwithavalueofthen-vector
+that were, in some sense, empirically true. In fact, for g,the jthelementofwhichisg . Wedefinethegenetic
+j
+the vast majority of psychological phenotypes, little is architecturetobethescalarfunctionΨ′(g)whichmaps
+known about the associated engendering architecture. eachofthe3ngenotypes(equivalently,3ndistinctvalues
+Especiallyinlightofmanifoldfindingssuggestingofthe g∗ofg)intoagenotypicvalue;i.e.,Ψ′(g∗):g∗ ⊂Rn →R
+complex genetic architecture of certain human traits, (Lynch&Walsh,1998). Thegeneticarchitectureissaid
+all that was required was that a constructed architec- tobesinglelocusifn=1,andmultilocusotherwise.
+ture was possible. It should nevertheless be stressed The phenotypic value is the (individual level) scalar
+that there has been progress in recent years in deter- function:
+mining the genetic architecture of psychological traits Z =Ψ′(g)+γ(E) (1)
+i i i
+with studies having used more complex extended twin
+whereinγ(E) =Z −Ψ′(g)isaresidualrepresentingthe
+family designs (Fedko et al., 2021; Schwabe et al., i i i
+aggregate impact upon Z of all effects—both main and
+2017), genome-wide association studies (W. D. Hill et
+interaction—involvingtheenvironment4.
+al., 2019; Sniekers et al., 2017), or more sophisticated
+Because each i ∈ P has a set of values {g,γ(E)}, the
+methodological tools (L. M. Evans et al., 2018; Feng i
+induceddistributionofZ inPisdeterminedbythejoint
+et al., 2020; Grotzinger et al., 2019). That being said,
+distributionof{g,γ(E)}.
+ouraimwassimplytogaininsightintohowcommonly
+employed modes of h2 estimation—each derived under Fisherian Decomposition of Ψ′(g) and Population
+thesuppositionoftheSBM—canbeexpectedtoperform
+VarianceComponents
+whentheyencounterarchitecturesthatdepartfromthe
+SBMinwaysdeemedpossiblebyextantscientifictheory At the root of the quantity h2 is the variance compo-
+andresearch. nentσ2 (andallothergeneticvariancecomponents)of
+A
+H2. This variance component, called the additive vari-
+BackgroundandTheory ance, is defined on the basis of the Fisherian decompo-
+sition of Ψ′(g). In the single locus case, the Fisherian
+In this section, we offer the reader essential tech-
+decompositionis
+nical background to the problem, organized around a
+careful disambiguation of the foundational concepts of Ψ′(g )=Ψ′(g ) +δ(g ) (2)
+1 1 lin 1
+genetic architecture, Fisherian decomposition, population
+variance components, and the standard biometric model. in which Ψ′(g ) - the linear predictor of genotypic
+1 lin
+Readers interested only in the results may directly con- valueonthebasisofgenecontent-iscalledtheadditive
+sult the part of the article devoted to the simulation component, and δ(g ) - the residual, and also, because
+1
+study. therearebutthreegenotypicvalues,thequadraticfitto
+these values - the dominance component. The additive
+GeneticArchitectureandPhenotype anddominancecomponentscanbeexpressedas
+Letitbethat: Ψ′(g ) =(cid:2) a+βg (cid:3) (3)
+1 lin 1
+1. Z isaquantitativeordiseasetrait(phenotype)2
+and
+2. Each individual i belonging to a population P of
+δ(g )=Ψ′(g )−Ψ′(g ) (4)
+humanshasascoreonZ 1 1 1 lin
+2IfZ isadiseasetrait,thenitistreatedasa[0,1]dichoto-
+3. For all i ∈ P, Z depends genetically on n biallelic
+i
+mous variable given rise to by dichotomization, at τ, of an
+loci.
+underlying quantitative trait, or "liability", Z∗; i.e., if Z∗ ≥ τ,
+Let the alleles at locus 1 be {A ,A }, at locus 2,
+thenZ=1;else,Z=0(Zuketal.,2012).
+1 2
+{B ,B },atlocus3,{C ,C },etc. Itfollows,then,thatat 3Ifn=2,e.g.,theninegenotypesare: {A 1A 1B 1B 1,
+1 2 1 2
+A A B B ,A A B B ,A A B B ,A A B B ,
+eachofthenloci,threelocus-specificgenotypesarede- 1 1 1 2 1 1 2 2 1 2 1 1 1 2 1 2
+A A B B ,A A B B ,A A B B ,A A B B }
+fined(e.g.,atlocus1,{A A ,A A ,A A });andoverall, 1 2 2 2 2 2 1 1 2 2 1 2 2 2 2 2
+1 1 1 2 2 2 4Genotypic values are taken, variously, to be either theo-
+3n genotypes with respect to Z3. Define g , j = 1,...,n,
+j retical values or E(Z|g) (Lynch & Walsh, 1998). In the latter
+to be the gene content at locus j; i.e., the number of case, thefunctionΨ′(.)is, then, simplytheconditionalmean
+copies of the second allele (A 2,B 2,C 2,...) present in a function,inwhichcaseEγ(E)=0.
+===== PAGE 5/27 =====
+5
+r Be es cp ae uc st eive Ψly ′, (gin )wh aic nh dβ δ= (gσ )Ψ σ′( ag 2 g1
+1
+r), eg1 oa rn td hoα g= onµ aΨ l′ b− yβµ cog1 n.
+-
+t th ioe nl ,a ett qe ur at th iore ne (c 1o 0m )p imon pe lin et ss ta hr ae torthogonalbyconstruc-
+1 lin 1
+struction, equation (2) implies that the population ge-
+V(cid:0)Ψ′(g)(cid:1)=σ2 +σ2 +σ2 (11)
+neticvariancecanbedecomposedasfollows: A D EP
+whereinσ2 isthevarianceduetoepistasis.
+EP
+V(cid:0)Ψ′(g )(cid:1)=V(cid:0)Ψ′(g ) (cid:1)+V(δ(g ))=σ2 +σ2 (5) Wenote,forlateruse,thefactthatavectorofparam-
+1 1 lin 1 A D′ eters θ can be defined which determines the magni-
+gen
+tudesofallgeneticvariancecomponents–σ2 ,σ2 ,etc.
+whereinσ2 iscalledthedominancevariancecompo- A′ D′
+D defined under a particular architecture. The number
+nent. Symbolize P(A ) - the proportion of alleles in P
+2 (andidentities)oftheelementsofθ willdependupon
+of type A - as φ, and let it be the case that the prob- gen
+2 theparticulararchitectureinquestion. Thus,forexam-
+ability of occurrence of each of the three genotypes is
+ple, in a single locus architecture, the 3-element vector
+governed by the Hardy-Weinberg principle (see Lynch  
+a Pn (Ad 1W Aa 2l )sh =, 21 (9 19 −8 φ), )φin ,aw ndhi Pch (Ac 2as Ae 2)P =(A
+φ1
+2.A T1) he= n(1−φ)2,  φ
+a
+k
+isoneoptionforθ
+gen,inthatthethreeparameters
+σ2 σ2 it contains determine the two variance components σ2
+σ2 =β2σ2 = Ψ′(g1),g1 = Ψ′(g1),g1 (6) andσ2. A
+A g1 σ2 2φ(1−φ) D
+g1
+and
+TheQuantitiesh2, H2,andσ2
+Z
+By definition, narrow- and broad-sense heritability
+σ2 =V(cid:0)Ψ′(g )(cid:1) −σ2 (7)
+D 1 A are,respectively,
+Wecanparameterizethegenotypicvaluesasfollows:
+Ψ′(g
+1
+=0)=0,Ψ′(g
+1
+=1)=(k+1)a,andΨ′(g
+1
+=2)=2a
+h2 =
+σ2
+A (12)
+(seeLynchandWalsh,1998,p. 62). Clearly,parameter σ2
+Z
+a controls the linear rate of change of Ψ′(g ); parame-
+1 and
+ter k, the degree of nonlinearity of Ψ′(g ). Specifically,
+1
+ifk=0,thenΨ′(g )isalinearfunctionofgenecontent; V(Ψ′(g))
+1 H2 = (13)
+else, it is a quadratic function, the genotypic value for σ2
+A A (g =1) lying nonequidistant between the geno- Z
+1 2 1
+typic values for A A (g =0) and A A (g =2) (see From(1),itfollowsthat
+1 1 1 2 2 1
+Lynch and Walsh, 1998). Under the {a,k} parameteri-
+zation(Lynch&Walsh,1998),
+σ2
+Z
+=V(cid:0)Ψ′(g)(cid:1)+V(γ(E))+2σΨ′(g)γ(E) (14)
+SymbolizingV(γ(E))asσ2 ,expressions(5)and(14)
+σ2 A =2φ(1−φ)[a(1+k(1−2φ))]2 (8) implythat E′
+and
+(cid:16) (cid:17)
+σ2 =(2φ(1−φ)ak)2 (9)
+σ2
+Z
+=σ2 A+σ2 D+σ
+E
+σ E+2ρΨ′(g1) lin,γ(E)σ A+2ρ δ(g1),γ(E)σ
+D
+D (15)
+In the multilocus case, the Fisherian decomposition Forthemultilocuscase,(11)and(14)implythat
+is
+σ2 =σ2 +σ2 +σ2 +
+(cid:88)n (cid:16) (cid:17) (cid:88)n (cid:16) (cid:17) (cid:88)m (cid:18) Z A D EP (cid:19)
+Ψ′(g)=µΨ′(g)+ j=1B g j + j=1δ g j +
+l=1
+I (g)l′ (10) σ
+E
+σ E+2ρ(cid:80)n j=1B(gj),γ(E)σ A+2ρ(cid:80)n j=1δ(gj),γ(E)σ D+2ρ(cid:80)m l=1I(g)l,γ(E)σ
+EP
+(16)
+(cid:16) (cid:17)
+inwhich: B g
+j
+=Ψ′(g) linj−µΨ′(g);Ψ′(g)
+linj
+=a j+β jg j,
+isthelinearpredictorofΨ′(g)onthebasisofg
+;δ(cid:16)
+g
+(cid:17)
+=
+The rho parameters – ρΨ′(g1) lin,γ(E), ρ δ(g1),γ(E),
+Ψ′(g) − Ψ′(g) ; and the I are m = (cid:80)n
+j (cid:32)
+n
+(cid:33)j
+=
+gρ(cid:80) enn j= e1B ti( cg -j) e,γ n( vE) i, roρ n(cid:80) mn j= e1δ n( tgj c), oγ( rE r) e, laρ t(cid:80) iom l= n1I s(g .)l,γ(E) – are, of course,
+linjj (g)l r=2 r
+We observe, for later use, that a vector of parame-
+(2n−n−1)epistatic(locus-locus)interactions, therebe- (cid:104) (cid:105)
+(cid:32) (cid:33) ters θ V can be defined such that θ gen :θ V determines
+n
+ing interactionsoftherthorder,r =2..n. Because the magnitude of δ2. The number (and identities)
+r Z
+===== PAGE 6/27 =====
+6
+of the elements of θ is dependent upon the partic-
+V  
+
+u gll ea ρr
+2
+Ψl ro
+(a
+gc
+σ
+1r
+u
+)c
+2
+E
+lis
+nh ,γi
+a
+(t Ee
+r
+)cc ht
+
+u
+i
+.tr ee
+Nc
+oti un
+tere
+,q
+,
+fiu
+o
+ne
+n
+ast
+e
+lli yo
+o
+,n
+p
+t.
+hti ao
+tI
+n
+,n
+bfo
+eth
+cr
+ae
+θ
+uVc sa eis
+s
+σe
+t
+2
+Zho ief sva
+de
+ecs
+tt
+ei on rr-
+-
+TheStandardBiomet
+riρ
+cρρ
+E
+MDA (R(( oRR
+,
+dL))
+e)
+l
+forTwinData
+ρ
+δ(g1),γ(E (cid:104))
+(cid:105) (cid:16) (cid:17)
+minedby θ :θ ,so,too,ish2 H2 . Whenappliedtodatafromatwinstudy,thestandard
+gen V
+biometricmodelassumestheform
+TwinStudiesandtheCovarianceMatrixΣ (θ)
+R,L (cid:32) Z (cid:33) (cid:32) A+D+C+E (cid:33)
+= (18)
+From an examination of expressions (1 (cid:16)5) and (16) (cid:17), Z′ A′+D′+C′+E′
+itisevidentthatneithertheparameterσ2 σ2 σ2 ,σ2 ,
+(cid:16) (cid:17) A A′ D′ EP in which: (A,A′) are additive genetic variables;
+nor,consequently,h2 H2 ,canberecoveredonthebasis
+(D,D′)aredominancegeneticvariables;(C,C′)arevari-
+of the information present in the distributi (cid:16)on (cid:17)of Z. The ables representing the total impact, upon Z and Z′, re-
+researcherwhorequiresanestimateofh2 H2 mustin-
+spectively, of all environmental influences to which the
+crease the amount of information that can be brought twin pair was exposed in common; and (E,E′), vari-
+to bear on the problem, and the way he or she does ables representing the total impact of all environmen-
+this, is by collecting data under two or more twin de- tal influences to which the members were uniquely ex-
+signs. Let (Z,Z′) R,L be the set of score-pairs of twins, posed. The standard moment restrictions stipulate that
+collected under twin design {R,L}, in which R ≡ { MZ the variables: a) all have expectations of zero; and b)
+(monozygotic), DZ (dizygotic) } and L ≡ {T (reared are pairwise uncorrelated under all combinations of R
+together),A (reared apart)}. The yield from collect- and L, save for the following: if R = MZ, ρ(A,A′) =
+ing data under two or more such designs is a set of ρ(D,D′) = 1; if R = DZ, ρ(A,A′) = 0.5, ρ(D,D′) = 0.25;
+sample covariance matrices, each matrix, Σˆ R,L′, an es- andif L=T,ρ(C,C′)=1.
+timate of the corresponding population covariance ma- Itshouldbeemphasizedthatthemomentrestrictions
+(cid:32) (cid:33)
+σ2 σ (R,L)
+trixΣ = Z Z,Z′ . Thissetofsample have, to say the least, a tenuous relationship to extant
+R,L σ (R,L) σ2
+Z,Z′ Z scientific understanding. We note, in particular, that:
+covariance matrices is the input into a chosen mode of a) (A,A′) and (D,D′) are latent variables and are in no
+estimation.
+way identical to the additive and dominance compo-
+Because any particular Σ is uniquely associated
+R,L nentsyieldedbytheFisheriandecomposition,whichare
+with a particular crossing of trait Z and population P,
+orthogonalbyconstruction. b)Thegeneticcorrelations
+it is numerically engendered by the (unknown) archi-
+prescribedundertheSBMareexpectationsdeducedun-
+tecture which underlies Z within P. In particular, the
+der particular, and contentious, assumptions. c) There
+elements of any Σ are a function of three parameter
+R,L is little, if any, theoretical basis for the SBM stipulated
+v (cid:104)ectors: θ (cid:105)gen,θ V,andavectorθ C(R,L) which,jointlywith correlations involving (C,C′) and (E,E′), and the ques-
+θ gen :θ V , yields the off-diagonal element of Σ R,L′, i.e., tionability of these stipulations (that, e.g., ρ(C,C′) = 0
+σ Z,Z′(R,L). Thenumber(andidentities)oftheelements for twins reared apart) is well-documented (see, e.g.,
+of θ will, of course, depend upon the architecture Shalizi,2007;Vitzthum,2003).
+C(R,L)
+in question. In the case of a single locus architecture
+(seeSchönemann,1989,1997) ModesofEstimation
+For the purposes of the present work, a mode of
+σ (R,L)=ρ (R)σ2 +ρ (R)σ2 +ρ (R,L)σ2 (17) estimation was defined to be any strategy that takes
+Z,Z′ A A D D E E′ as input a set of sample covariance matrices produced
+in which: ρ (R)[ρ (R)] is the correlation over twin in one or more twin studies and returns a recovered
+A D
+pairs having genetic relationship R between the Ψ′(g ) value of h2. As earlier noted, we distinguish be-
+1
+lin[δ(g )]componentsofZandZ′;andρ (R,L),thecor- tween classical, correlation-based modes, such as the
+1 E (cid:0) (cid:1)
+relation over twin pairs having genetic relationship R coefficients due to Falconer, 2 ρˆ Z,Z|MZ,T −ρˆ Z,Z|DZ,T , and
+and rearing relationship L - between the γ(E) compo- Nichols,
+2(ρˆZ,Z|MZ,T−ρˆZ,Z|DZ,T)
+, and the more recent strategies
+nentsofZ andZ′. Consequently, onechoiceofθ
+C(R,L)
+is basedonSEMρˆ .Z,Z|MZ,T
+thevector
+===== PAGE 7/27 =====
+7
+TheStudy on the model: additive, dominance, common environ-
+ment, and unique environment) were fixed to be equal
+Overview
+within twin pairs and across twin designs. The four
+To any fixed set {P,Z,Ψ′(g),R,L}, there can be asso- models are graphically depicted in Figure 1. Because
+ 
+ciated a parameter vector θ ≡
+ θ θg Ven .
+We express
+t ch oe vai rn ip anu ct ein mto ata rin ca el sy ,s te hs ec so an msi pst leed sio zef s we ats so sef tp ao rp bu itl ra at rio iln
+y
+θ largeto1,000,000withinlavaan.
+C(R,L)
+the dependency of Σ and h2 upon θ as Σ (θ) and Followingestimationofmodelparameters,recovered
+R,L R,L
+h2(θ),respectively. Asθmovesoveritsparameterspace, narrow heritability was calculated as hˆ = aˆ2, where aˆ2
+yieldingnovelrealizationsθ∗,allpossibleinstantiations
+σˆ˜2
+Z
+of {P,Z,Ψ′(g),R,L} are spelled out. For each, there is
+isthesquaredrecoveredadditivefactorloading,andσˆ˜2
+Z
+an associated pair of numerical realizations of Σ (θ) istherecoveredmodel-impliedvarianceofZ (Z′).
+R,L
+and h2(θ), say, Σ (θ∗) and h2(θ∗). Our approach is
+R,L
+Analysis
+to examine the performance of particular modes in
+recovering h2(θ∗) when the informational input is a set For each study and each of the 5 simulated model
+of Σ R,L(θ∗). Let there be: a set S ≡ (cid:110){m 1,m 2,..,m t} of (cid:111)t error distributions (one for each mode), we report the
+modes of estimation; a set H(θ) ≡ Σ R,L(θ) g,g=1..f mean, standard deviation, minimum, and maximum.
+of input population covariance matrices, each matrix Fortheabsolutemodelerror|h2′−h2(θ)|distribution,we
+r
+produced under one of f twin studies undertaken; report the mean, standard deviation, and every tenth
+(cid:110) (cid:111)
+and a set R(H(θ)) ≡ h2′,h2′,..,h2′ of t (recovered) percentile point. Both our central and side issues can
+1 2 t
+narrowheritabilityvalues,wherethe sthh2′ =m (H(θ)) beadjudicatedinmanifoldways,andwefounditinfor-
+s s
+is yielded by the sth mode with informational input mative to consider each from different angles. We em-
+H(θ). To this end, we conducted three simulation ployed the mean absolute model error as a criterion of
+studies. The same five modes—Falconer’s coefficient overall recovery performance, indicating the expected
+and the four structural equation models, ACDE, ACE, closeness to the mark of the recovered values yielded
+ADE, and AE—were investigated under each. Studies byagivenmode. Thevarianceofabsolutemodelerror
+1 and 2 shared the same single locus architecture but served as a criterion of the sensitivity of the parame-
+differed in the informational input H(θ) offered to the ter recovery performance of each mode to the specific
+modes. Study 3 featured a more complex multilocus features, which vary over θ∗, of the particular architec-
+architecture. Withtheaimofimprovingreadability,we tureinplay. Finally,theminimumandmaximumofthe
+present the details of construction and results of each modelerrordistributionservedasanindicationofhow
+simulationstudyseparately. far off the mark recovered values delivered by a mode
+couldpotentiallybe. Inotherwords,howseverelycould
+amodemisrepresentthe truestateofnatureunderthe
+DataGeneration chosen genetic architectures? Just because researchers
+will, in general, be blind to the particulars of the en-
+Data simulation and analysis were undertaken us-
+gendering architectures that underlie their estimations
+ing the following R packages: data.table (Dowle et al.,
+of h2, this feature of recovery performance seems, to
+2017), doMC (Revolution Analytics & Weston, 2022),
+us, a particularly important one. To ensure that the
+dplyr (Wickham et al., 2023), foreach (Calaway et al.,
+assessment of the parameter recovery performance of
+2015), lavaan (Rosseel, 2012), psych (Revelle, 2016),
+the SEM-based modes is not confounded with the is-
+ranger (M. N. Wright& Ziegler, 2017), and mlr(Bischl
+sue of model fit, we undertook a sub-analysis in which
+etal.,2017). Thecodeanddatasetscanbedownloaded
+the former issue is assessed based on data contributed
+fromhttps://osf.io/aq9sx/.
+onlybythosesolutionsforwhichthestandardizedroot
+mean squared error of approximation (RMSEA) as the
+StructuralEquationModels(SEM)
+noncentralityparameteroftolerablemodelmisfitinthe
+Structural equation models (ACDE, ACE, ADE, and populationislessthan.065 (i.e.,instancesinwhichthe
+AE)werefitbylavaan(Rosseel,2012)withthefollow- application of a particular model to a set of input co-
+ingrestrictions: a)identificationwasachievedbyfixing variancematricesresultedinanotablygooddata-model
+thevariancesofalllatentvariablestounity;b)correla- fit).
+tions between latent variables were fixed following the Finally, with the aim of providing some insight into
+standardbiometricmodel(see(18)andthefollowing);
+5seeHuandBentler,1999.
+c)analogousfactorloadingstobeestimated(depending
+===== PAGE 8/27 =====
+8
+Figure1
+Graphicalrepresentationsofthefourstructuralequationmodels(ACDE,ACE,ADE,andAE).
+AE Model ρ MZT= 1; ρ MZA= 1; ADE Model ρ MZT= 1; ρ MZA= 1;
+ρ DZT= 0.5; ρ DZA= 0.5 ρ DZT= 0.5; ρ DZA= 0.5
+ρ = 1; ρ = 1;
+MZT MZA
+ρ = 0.25; ρ = 0.25
+DZT DZA
+1 1 1 1 1 1 1 1 1 1 1
+A E E A A D E E D A
+1 1 2 2 1 1 1 2 2 2
+aa ee ee aa a d e e d a
+Z Z Z Z
+1 2 1 2
+ACE Model ρ MZT= 1; ρ MZA= 1; ρMZT= 1; ρMZA= 1;
+ρ DZT= 0.5; ρ DZA= 0.5 ρDZT= 0.5; ρDZA= 0.5
+ρ = 1; ρ = 0.0;
+ACDE Model ρMZT= 1; ρMZA= 0.0;
+MZT MZA
+ρ = 1; ρ = 0.0
+ρDZT= 1; ρDZA= 0.0
+DZT DZA
+ρMZT= 1; ρMZA= 1;
+1 1 1 1 1 1 ρDZT= 0.25; ρDZA= 0.25
+A C E E C A
+1 1 1 2 2 2 1 1 1 1 1 1 1 1
+A1 C1 D
+1
+E1 E2 D2 C2 A2
+a c e e c a
+a c d e e d c a
+Z Z
+1 2 Z Z
+1 2
+the kinds of architectures - i.e., parametric instantia- rect impact) of a given predictor but also the impacts
+tions of {P,Z,Ψ′(g),R,L} - under which a mode deliv- upon the dependent variable of interaction effects in-
+ers its poorest h2 parameter recovery performance, we volving the predictor and other predictors. A compara-
+undertook variable importance analyses, with model tively large VIMP, then, signifies a predictor possessing
+error as the dependent variable and the six factors overallpredictiveabilityorsignificancebutdoesnotim-
+(cid:110) (cid:111)
+φ,a,k,ρΨ′(g2) lin,γ(E),ρ δ(g2),γ(E),h2 as predictors. These plyanythingabouthowthisoverallpredictiveefficacyis
+analyses were carried out using the method of random partitionedintothevariouseffects(i.e.,additiveand/or
+forest regression trees (RFRT; Jones and Linder, 2015; interaction effects) in which the given predictor is in-
+Friedman, 2001, p. 587ff; Breiman, 2001). Each anal- volved.
+ysiswasbasedon1,000trees,andvariableimportance We attempted to gain some insight into the issue of
+(VIMP) measures calculated using the permutation ac- whether a relatively large VIMP is attributable to only
+curacyimportancemode(e.g.,Strobletal.,2008). The additive(direct)effectorablendingofadditiveandin-
+readershouldkeepinmindthataVIMPforagivenpre- teractioneffectsthroughcomputationofindividualcon-
+dictor does not capture merely the additive effect (di- ditional expectation (ICE) plots, as suggested by Gold-
+===== PAGE 9/27 =====
+9
+steinetal.(2015). Thisapproachispreferabletothatof Each element of H(θ) ≡
+theclassicalpartialdependenceplot(Friedman,2001), (cid:8)Σ (θ),Σ (θ),Σ (θ),Σ (θ)(cid:9) takes a nine-
+MZ,T DZ,T MZ,A DZ,A
+which graphically represents the average partial rela- elementparametervectorθasitsargument. Asθmoves
+tionshipbetweenthepredictedvaluesonthedependent over its parameter space, yielding novel realizations
+variableandoneormorepredictors,conditionalonthe θ∗, all possible instantiations of {P,Z,Ψ′(g),R,L} are
+remaining predictors. Insofar as substantial interaction spelled out. For each realization θ∗, realizations
+effects exist, and the partial individual response rela- H(θ∗) ≡ (cid:8)Σ (θ∗),Σ (θ∗),Σ (θ∗),Σ (θ∗)(cid:9)
+MZ,T DZ,T MZ,A DZ,A
+tionship is heterogeneous, this state of affairs will be and h2(θ∗) are yielded, and, from H(θ∗), a realization
+reflectedinacrossingoftheICEcurves. R(H(θ∗)). Though any admissible realization θ∗ is pos-
+sible in nature, we selected a sample of 35 ×5 = 1,215
+SimulationStudy1 of these, generated by crossing the sets of theoretically
+(cid:110) (cid:111)
+guided selections for φ,a,k,ρ ρ h2
+Introduction Ψ′(g2) in,γ(E′ δ(g2),γ(E′
+described below. Selection was, in fact, motivated by
+In this first simulation study, we assessed the pa- imaginingthephenotypeinquestiontobepsychopathy
+rameter recovery performance of the five modes when asquantifiedbythePCL-R(Hare,1991).
+they encounter a single locus architecture with the φ: Let the A A genotype represent that of "true"
+2 2
+non-SBM properties of dominance effects and genetic- psychopaths. Estimates of the proportion of true psy-
+environment (either one or both of gene content- chopaths, P(A A ) are generally contained within the
+2 2
+environmentanddominance-environment)correlation. interval [.01,.25], see Hare (1991, 1996). This implies
+The informational input into each mode was H ≡ that h2 is contained in the interval [.1,.5], and we se-
+(cid:8)Σ MZ,T(θ),Σ DZ,T(θ),Σ MZ,A(θ),Σ DZ,A(θ)(cid:9) . lectedthevalues[.1,.3,.5].
+a: Under the a,k parameterization, a is equal to
+Detailsofconstruction.
+(µZ|g1=2−µZ|g1=0)
+(Lynch & Walsh, 1998). Because the PCL-
+2
+We employed {a,k} parameterization for the geno- R assigns scores on the interval [0,63], sensible values
+typicvaluesandparameterizedthearchitectureinterms for a are [10,20,30]. The three sensible values were
+   
+of the vectors θ gen =  φ a
+k
+, θ V =  ρΨ ρ′ δ( (g g1 h1) ) 2li ,n γ(,γ E( )E) , d t [o 4e 0r ti ,hv 2re 0ed ]e .b p Sy a oim ,r tse ha o en f ses c voo anf ld ua ip eti sp o ,l ni (c a 6a l 2ti -mo 2n )e /ao 2nf s =:th 3[e 6 0g 2 ,i , (v 2 5e ] 0n , -1[f 5 0o 0 )rm /,1 2u 0 =l ]a ,
+   
+θ
+C(MZ,T)
+=
+ ρρ DA( (M MZ Z)
+)
+,
+θ
+C(DZ,T)
+=
+ ρρ DA( (D DZ Z)
+)
+, 4 d0 is, tra in bd ut( io4 n0- o2 f0) P/ C2 L= va1 lu0 ea sr .e On no lt yb oa nse td heon ina ten ry vae lm op fir pi oca s-l
+ρ E(MZ,T) ρ E(DZ,T) sible PCL-R scores, and candidate pairs of conditional
+   
+θ
+C(MZ,A)
+=
+ ρρρ DA (M( (M
+M
+ZZ
+Z
+,A)
+)
+)
+,
+and θ
+C(DZ,A)
+=
+ ρρρ DA (D( (D
+D
+ZZ
+Z
+,A)
+)
+)
+.
+t
+tm
+h
+he
+e
+ea psn
+e
+ss yc, cot hh
+n
+oe
+d
+p,fi atr ths ht
+e
+yfo
+g
+gr
+r ro
+oth
+u
+ue
+p
+p;g
+g
+i1
+.e
+e=
+n
+.,e2
+t ti
+h( cp eas
+l
+gly ych =mo 0op sa gtt rh oay un) ptig .tr ho eu tip c, aa ln td
+o
+E E 1
+Underthischoiceof θ :i)σ2 isdeterminedas σ2 A; and k: Theredonotexist,toourknowledge,manystudies
+V Z h2 inwhichkhasdirectlybeenestimated. However,recent
+ii)σ2
+E studies (e.g., Herzig et al., 2018; Nolte et al., 2017)
+asthelargestrootofthequadraticequation
+suggest that the contributions from dominance genetic
+components are relatively small compared to the ad-
+(cid:16) (cid:17)
+0=σ2 A+σ2 D−σ2 Z+σ
+E
+σ E+ρΨ′(g1) lin,γ(E)σ A+ρ δ(g1),γ(E)σ
+D
+d sti ati nv de ing ge ,n Cet hic enco em
+t
+ap lo .n (e 2n 0t 1s.
+5)
+T shh oe wse edfin indin ag ts wn ino -t bw ai st eh d-
+undertherestrictionthat analysis that while the variance of each of 19 human
+complextraitswaslargelyduetoadditivecomponents,
+σ2 dominance components played a larger role than had
+h2 < (cid:16)
+σ2
++A σ2(cid:17) been suggested by other studies featuring fewer com-
+A D plex traits. In light of these findings, one should there-
+(whichensuresthatσ2 ispositive)and fore rather aim for a broader range of dominance de-
+E
+viation effects, although it should be noted that recent
+(cid:113) √ evidence suggests the majority of dominance effects to
+− 1−ρΨ′(g1)
+lin,γ(E)
+≤ρ
+δ(g1),γ(E)
+≤ ρΨ′(g1)
+lin,γ(E)
+be rather small compared to the additive effects. We
+thereforechosethepossiblevalues[0,.4,.8].
+(which ensures that the covariance matrix of ρΨ′(g2) lin,γ(E): A (cid:16)s one can se (cid:17)e from the relation
+{Ψ′(g 1)lin,δ(g 1),γ(E)}isgramian). V(γ(E)|g 1) = σ2
+E
+1−ρ2
+Ψ′(g2) lin,γ(E)
+, this parameter con-
+===== PAGE 10/27 =====
+10
+trols the degree of variability of the impacts of environ- models, the number of input data points, parameters
+mentonZ,conditionalonsubpopulationsofindividuals to be estimated, and degrees of freedom, were as fol-
+withidenticalgenecontent. Thereappearstobenosci- lows6 : ACDE(12,4,8), ADE(12,3,9), ACE(12,3,9), and
+entific reason why the degree of variability in impacts AE(12,2,10).
+shoulddiffermuchbetweenthegeneralpopulationand
+subpopulations with identical gene content. Thus, we Results
+choseasetofvaluesonthelowerendofthespectrum;
+ParameterRecoveryPerformanceofModes
+[0,.3,.6].
+ρ : For this parameter, we offer precisely the If the non-SBM architecture of study 1 happened
+δ(g2),γ(E)
+sameargument,andselectedthesetofvalues,[0,.1,.3]. to be underlying an empirical setting in which h2
+h2: h2 is the parameter the recovery of which is un- was being recovered, and the informational input was
+der investigation. As we would like to gain insight into (cid:8)Σ (θ),Σ (θ),Σ (θ),Σ (θ)(cid:9) , how success-
+MZ,T DZ,T MZ,A DZ,A
+the recovery capabilities of the modes under a wide fullywouldeachofthemodesbeinrecoveringthetrue
+range of possibilities, we selected the following values: h2? Our central and side issues can be addressed with
+[.1,.3,.5,.7,.9]. reference to Tables 1 and 2, which present a quantita-
+The twin correlations – ρ (MZ), ρ (MZ), ρ (DZ), tive summary of the model error and absolute model
+A D A
+ρ (DZ), ρ (MZ,T), ρ (DZ,T), ρ (MZ,A), ρ (DZ,A) – error distributions, respectively. Boxplots of the five
+D E E E E
+wereheldconstantoverrealizationsθ∗. Themagnitudes modelerrordistributionsappearinFigure2.
+ofthefourenvironmentcorrelationscanbeexpectedto How close to the mark can a narrow-sense heritability
+vary over P,Z,Ψ′(g),R,L, and is very much an empiri- recoveredvaluebeexpectedtobe? FromTable2,thean-
+cal issue. Genetic theory suggests that the first four of swer is that it depends upon the mode employed. In
+these correlations should be in the vicinity of 1, 1, .5, particular, the ordering of the modes with respect to
+and .25, respectively. Because correlations of a magni- the criterion of mean absolute model error (from best
+tude of unity are empirically implausible, we selected to worst recovery performance) was as follows: ACDE
+thefollowingsetofreasonablevalues: .97,.96,.52,.21, (.02), ADE (.04), ACE (.08), AE (.08), and Falconer
+.70, .50, .30, .05. To provide a justification for these (.10).
+values: Of course, on the estimation side of the coin, How sensitive is h2 parameter recovery performance to
+one should stick to those values that theory nominates the specifics of P,Z,Ψ′(g),R,L? The answer is that it
+as most reasonable. Just because the architecture to dependsuponthemodeemployed. Theorderingofthe
+be estimated will be unknown, there is nothing else to modes with respect to the criterion of variance of ab-
+do. However, foranygivenarchitecture, naturewillfix solute model error (from least to most sensitive) was
+thevaluesofparameters;andnatureisnotconstrained as follows: ACE (.012), AE (.012), ACDE (.022), ADE
+by best present theory. It is entirely reasonable to con- (.022),andFalconer(.142).
+struct target architectures for which, e.g., a twin corre- Howfaroffthemark(howbadlymisrepresentingofthe
+lation is set a touch less than unity. In nature, states true state of nature) can a recovered value be? The an-
+of affairs are dichotomous; either a given architecture swer,onceagain,isthatitdependsuponthemodeem-
+has a correlation of unity, or it does not. Theory does ployed. Noneofthemodesweremuchatriskofunder-
+notgovernwhichisthecase. Estimationwillalwaysbe estimatingh2,minimummodelerrorrangingfrom-0.03
+in the face of individual, particular, unknown architec- (ACDE, ADE, ACE, and AE) to -0.09 (Falconer). How-
+tures,andthetaskistoassesstheperformanceofthees- ever,allofthemweresusceptibletoyieldingsubstantial
+timators when, merely, they encounter reasonable pos- upward-biased recovered values, the ordering with re-
+sibilities. What is believed, theoretically, is already en- specttomaximummodelerrorbeingACDE(0.06),ADE
+shrinedwithintheestimationschemes;toinsistthatour (0.14),ACE(0.45),AE(0.47),andFalconer(0.66).
+modelsofrealityaccordwiththeseassumptionsisakin RelativeParameterRecoveryPerformanceofModes: On
+to insisting that the Copernican theory be by checked all of the relevant criteria, the ordering of the modes –
+throughcomparisonofacircletoacircle.
+Of the 35 × 5 = 1,215 sampled realizations of θ∗, 6Eachmatrix(twindesign)contributes3inputdatapoints;
+matrix Φ, the correlation matrix of latent variables, con-
+1,080instantiationsofthearchitecturethatsatisfiedthe
+tributesnoparameterstobeestimated(thevariancesareset
+restrictions earlier described. The set of realizations
+to unity, and off-diagonal elements are as prescribed by the
+H(θ∗) based on this set of 1,080 θ∗ served, then, as in-
+standardbiometricmodel);thenumberofloadingstobeesti-
+put into the modes. Table A1 of Appendix A shows the
+matedissimplyequaltothenumberoflettersdescribingthe
+range, over the 1,080 θ∗ , of each of the induced com- model.
+ponents σ2, σ2 , and σ2. For the structural equation
+A D E
+===== PAGE 11/27 =====
+11
+Table1
+SummaryofModelError,Study1
+h2′ −h2(θ)
+r
+n n M SD Median Mad min max
+inadm.sol.
+ACDE 805 102 .02 .02 .02 .03 -.03 .06
+ADE 805 3 .04 .02 .04 .02 -.03 .14
+ACE 805 19 .08 .10 .04 .04 -.03 .45
+AE 805 0 .08 .10 .05 .04 -.03 .47
+Falconer 805 - .10 .15 .03 .04 -.09 .66
+Note. ModelError: h2′−h2(θ);n: Totalnumberadmissiblescenarios(thosesatisfyinginequalities);n : numberof
+r inadm.sol.
+inadmissiblesolutions;Mad: Medianabsolutedeviation.
+Table2
+SummaryofAbsoluteModelError,Study1
+|h2′ −h2(θ)|
+r
+PercentilePoints
+M SD .10 .20 .30 .40 .50 .60 .70 .80 .90
+ACDE .02 .02 .00 .01 .01 .02 .02 .03 .04 .04 .05
+ADE .04 .02 .01 .02 .03 .04 .04 .05 .05 .06 .06
+ACE .08 .01 .01 .02 .03 .04 .05 .06 .14 .20 .20
+AE .08 .01 .01 .02 .03 .04 .05 .06 .07 .14 .20
+Falconer .10 .14 .02 .02 .03 .04 .05 .09 .19 .27 .27
+Note. AbsoluteModelError: |h2′−h2(θ)|
+r
+frombesttopoorestperforming–wasACDE,ADE,ACE, Table3
+AE,andFalconer.
+Do the newer SEM-based modes outperform the classi- SummaryofModelErrorforsolutionswithRMSEA<.06,
+cal, correlation-based modes? In this particular simula- Study1
+tionsetting,theanswerisanunqualifiedyes. n M SD Median Mad min max
+Parameter Recovery Performance of SEM-based
+ADE 796 .04 .02 .04 .02 -.03 .14
+Modes, for Subset of Solutions with RMSEA < 0.06:
+ACE 762 .06 .08 .04 .03 -.03 .32
+In the case of the ACDE mode, RMSEA did not exceed
+AE 790 .08 .09 .04 .03 -.03 .42
+0.06 for any of the admissible solutions. Accordingly,
+Note. n: NumberofsolutionssatisfyingtheconditionRMSEA
+Table 3 provides a summary of the parameter recovery
+<.06;Mad: Medianabsolutedeviation
+performanceofADE,ACE,andAEmodes,conditioning
+on the subset of admissible solutions for which RMSEA
+<0.06.
+impact, as listed above. The modes, however, did vary
+The high degree of similarity between the entries of
+with respect to their sensitivity to these factors, with
+Tables 1 and 3 indicates that the conclusions drawn
+thestrongestimpactbeingthatofk uponFalconer’s. In
+about parameter recovery performance are in no way
+keeping with its position as delivering the best overall
+confoundedbytheissueofmodelfit.
+parameter recovery performance, ACDE was the least
+Impact of Features of Architecture on Parameter
+affectedbythefactors. AscanbeseenfromR2valuesof
+Recovery Performance: Results of the variable impor-
+about0.94,mostofthevarianceinmodelerrorcouldbe
+tanceanalysisarepresentedinTable4.
+explained. As indicated by heterogeneous ICE curves7,
+As is apparent from the Table 4 entries, the general
+conclusionisthatonlyk,h2,andφhadnotableimpacts
+7For the sake of stringency, these multiple graphs can
+upon h2 parameter recovery performance, with the or-
+be found in the electronic supplementary material on
+dering of these factors, in respect to overall strength of https://osf.io/aq9sx/,underaCC-BY4.0license.
+===== PAGE 12/27 =====
+12
+Figure2
+Boxplotswithjittereddatapointsoftheempiricaldistributionofmodelerrorh2′ −h2(θ),Study1
+r
+AE ADE ACE ACDE Falconer
+6.0
+4.0
+2.0
+0.0
+Type of Model
+rorrE
+ledoM
+the predictor impacts of k, h2, and φ on h2 model error SimulationStudy2
+were characterized by interaction effects, particularly
+Introduction
+pronouncedforpopulationh2.
+The second study was identical to the first, ex-
+cept that the input into each mode was H ≡
+(cid:8)Σ (θ),Σ (θ)(cid:9) . The interest here was in the re-
+MZ,T DZ,T
+covery performance of the modes under this reduced
+===== PAGE 13/27 =====
+13
+Table4
+VariableImportanceAnalysis,Study1
+InputParameter
+a k φ PΨ′(g2)/lin,γ(E) P
+δ(g2),γ(E)
+h2 R2
+ACDE 0.0000 0.0008 0.0001 0.0000 0.0000 0.0002 .96
+ADE 0.0002 0.0007 0.0001 0.0000 0.0000 0.0002 .91
+ACE -0.0002 0.0141 0.0022 -0.0002 -0.0002 0.0033 .95
+AE -0.0001 0.0132 0.0023 -0.0002 -0.0002 0.0031 .95
+Falconer -0.0005 0.0338 0.0051 -0.0005 -0.0006 0.0073 .95
+Note. a: additiveparameter;k: Dominanceparameter;φ: P(A 2)orproportionofallelesoftypeA 2;PΨ′(g2)/lin,γ(E): correlation
+betweenadditivecomponentandenvironmentalimpact;P : correlationbetweendominancecomponentand
+δ(g2),γ(E)
+environmentalimpact;h2: narrowheritability;R2: MultipleR2
+informationalinput. (cid:8)Σ (θ),Σ (θ)(cid:9) . Boxplots of the five model error
+MZ,T DZ,T
+distributions appear in Figure 3. In such an empirical
+DetailsofConstruction
+setting, our central and side issues can be answered as
+For the structural equation models, the number of follows.
+input data points, parameters to be estimated, and How close to the mark can a narrow-sense heritabil-
+degrees of freedom were as follows: ACDE(6,4,2), ity recovered value be expected to be? From Table 6, the
+ADE(6,3,3),ACE(6,3,3),andAE(6,2,4). Apossiblecon- answer is that it depends on the mode employed. In
+fusion concerning the reported positive number of de- particular,theorderingofthemodesintermsofthecri-
+grees of freedom of the ACDE model might arise here. terionofmeanabsolutemodelerror(frombesttoworst
+According to Ozaki, Toyada, Iwama, Kubo, and Ando recoveryperformance)wasasfollows: ADE(0.05),ACE
+(2011),thenumberofdegreesoffreedomshouldbe-1 (0.08),AE(0.09)Falconer(0.10),andACDE(0.29).
+becausethecovariancematrixoftheobservedvariables How sensitive is h2 parameter recovery performance to
+contains three observations (one variance and two co- the specifics of P,Z,Ψ′(g),R,L? The answer is that it
+variances), but the ACDE model contains four free pa- depends on the mode employed, the ordering of the
+rameters, hence df = 3−4 = −1. However, one must modes with respect to the criterion of variance of ab-
+keep in mind that each covariance matrix of MZ and solutemodelerror(fromleasttomostsensitive),asfol-
+DZtwinsconsistsofk(k+1)/2observations(wherekis lows: ADE (0.042), ACE (0.082), AE (0.092), Falconer
+the number of observed variables). Consequently, we (0.102),andACDE(0.292).
+have2(2(2+1)/2=6observations,notthree. Therefore, How far off the mark (how badly misrepresenting of
+thecorrectnumberofdegreesoffreedominthiscaseis thetruestateofnature)canarecoveredvaluebe? Inthe
+6−4 = 2, not -1. An interesting wrinkle was that, the direction of downward-bias, the ordering of the modes
+positive degrees of freedom notwithstanding, none of (from least to most severe downward-bias) was ADE
+theACDEmodelswereidentifiedinstudy2;though,of and AE (-0.02), ACE and Falconer (-0.09), and ACDE
+course,certainfunctionsofmodelparametersmayhave (-0.88); in the direction of upward-bias (from least to
+been. Appendix B provides a formal explanation that most severe upward-bias), ACDE (0.04), ADE (0.31),
+the ACDE model is identified in study 1 and 3 but not ACE and AE (0.49), and Falconer (0.66). Evidently,
+in study 2. The non-identifiability of the ACDE model then, there exists an interaction between mode and di-
+instudy2notwithstanding,wekepttheACDEmodelto rection of model error, with ACDE susceptible to mis-
+seehowwellitwouldperformunderthisnon-identified calculate h2 as much smaller than its true value, and
+stateofaffairs. Falconer, AE, ACE, and AE, susceptible to misrepresent
+itasmuchlarger.
+Results RelativeParameterRecoveryPerformanceofModes: In
+thepresentcase,itwasmuchlessstraightforwardtode-
+ParameterRecoveryPerformanceofModes
+rive an overall parameter recovery performance order-
+Tables 5 and 6 present a quantitative summary ing of the modes. On the criteria of expected closeness
+of the model error and absolute model error distri- to the mark and sensitivity to the particulars of the ar-
+butions when the modes faced the non-SBM archi- chitectureinplay,themodeswereordered(frombestto
+tecture of study 2, and the informational input was worst) as follows: ADE, ACE, AE, Falconer, and ACDE.
+===== PAGE 14/27 =====
+14
+Table5
+SummaryofModelError,Study2
+h2′ −h2(θ)
+r
+n n M SD Median Mad min max
+inadm.sol.
+ACDE 805 0 -.29 .20 -.27 .25 -.88 .04
+ADE 805 4 .05 .04 .05 .02 -.02 .31
+ACE 805 3 .07 .11 .03 .04 -.09 .49
+AE 805 0 .09 .10 .05 .04 -.02 .49
+Falconer 805 - .09 .15 .03 .04 -.09 .66
+Note. ModelError: h2′−h2(θ);n: Totalnumberadmissiblescenarios(thosesatisfyinginequalities);n : numberof
+r inadm.sol.
+inadmissiblesolutions;Mad: Medianabsolutedeviation.
+Table6
+SummaryofAbsoluteModelError,Study2
+|h2′ −h2(θ)|
+r
+PercentilePoints
+M SD .10 .20 .30 .40 .50 .60 .70 .80 .90
+ACDE .29 .20 .04 .09 .17 .20 .27 .33 .40 .47 .56
+ADE .05 .04 .02 .03 .03 .04 .05 .05 .06 .07 .09
+ACE .08 .10 .01 .02 .02 .03 .04 .05 .08 .15 .21
+AE .09 .10 .02 .03 .04 .04 .05 .06 .09 .15 .22
+Falconer .10 .14 .01 .02 .02 .03 .04 .05 .09 .19 .27
+Note. AbsoluteModelError: |h2′−h2(θ)|
+r
+However, as noted previously, ACE, AE, and Falconer analysisarepresentedinTable8.
+weresusceptibletodeliveringlargeupward-biasedval- As is apparent from the Table 8 entries, the general
+ues. conclusion is that only k and h2 impacted upon h2 pa-
+Do the newer SEM-based modes outperform the classi- rameter recovery performance. The ordering of these
+cal, correlation-based modes? In this particular setting, factorsinrespectstrengthofimpact,was,forACDEand
+the answer depends on the criterion chosen. On most, ACE,h2 followedk,and,forallothermodes,kfollowed
+Falconer’soccupiesamid-packpositioning. Certainly,in by h2. With R2 values of about .93 most of the vari-
+this setting, it cannot be concluded unequivocally that anceinmodelerrorcouldbeexplained. Onceagain,for
+an SEM-based mode will outperform the classical Fal- all of the modes, heterogenous ICE curves for h2 and k
+coner’scoefficient. suggested that the impacts, especially of population h2,
+Parameter Recovery Performance of SEM-based wereattributabletointeractioneffects.
+Modes, for Subset of Solutions with RMSEA < 0.06:
+There were admissible solutions with an RMSEA that SimulationStudy3
+exceeded 0.06 only in the case of the ACE and AE
+Introduction
+modes. Accordingly,Table7providesasummaryofthe
+parameter recovery performance of these two modes, In this third study, we assessed the param-
+conditioning on the subset of solutions for which RM- eter recovery performance of the modes when
+SEA<0.06. they encounter a multilocus architecture with the
+Comparing Tables 5 and 7, makes clear that the non-SBM properties of dominance effects, genetic-
+conclusions we draw about parameter recovery perfor- environment (either one or both of gene content-
+manceareinnowayconfoundedbytheissueofmodel environmentanddominance-environment)correlation,
+fit. and epistasis, and the informational input is H ≡
+Impactoffeaturesofarchitectureonparameterre- (cid:8)Σ (θ),Σ (θ),Σ (θ),Σ (θ)(cid:9) .
+MZ,T DZ,T MZ,A DZ,A
+coveryperformance. Resultsofthevariableimportance
+===== PAGE 15/27 =====
+15
+Figure3
+Boxplotswithjittereddatapointsoftheempiricaldistributionofmodelerrorh2′ −h2(θ),Study2
+r
+AE ADE ACE ACDE Falconer
+5.0
+0.0
+5.0−
+Type of Model
+rorrE
+ledoM
+Table7
+SummaryofModelErrorforsolutionswithRMSEA<.06,Study2
+n M SD Median Mad min max
+ACE 778 .06 .09 .03 .03 -.09 .41
+AE 783 .08 .08 .05 .04 -.02 .49
+Note. ModelError: h2′−h2(θ);n: NumberofsolutionssatisfyingtheconditionRMSEA<.06;Mad: Medianabsolutedeviation.
+r
+===== PAGE 16/27 =====
+16
+Table8
+VariableImportanceAnalysis,Study2
+InputParameter
+a k φ PΨ′(g2)/lin,γ(E) P
+δ(g2),γ(E)
+h2 R2
+ACDE 0.0023 0.0049 0.0019 -0.0014 -0.0015 0.0585 .91
+ADE 0.0005 0.0012 0.0004 0.0000 0.0000 0.0004 .90
+ACE -0.0001 0.0187 0.0026 -0.0003 -0.0003 0.0036 .96
+AE 0.0001 0.0132 0.0027 -0.0002 -0.0002 0.0030 .95
+Falconer -0.0008 0.0516 0.0074 0.0000 -0.0004 0.0107 .95
+Note. a: additiveparameter;k: Dominanceparameter;φ: P(A 2)orproportionofallelesoftypeA 2;PΨ′(g2)/lin,γ(E): correlation
+betweenadditivecomponentandenvironmentalimpact;P : correlationbetweendominancecomponentand
+δ(g2),γ(E)
+environmentalimpact;h2: narrowheritability;R2: MultipleR2
+DetailsofConstruction • a: for j=1..3,[10,20,30];
+The number of loci, n, was set to three, and— • k: for j=1..3,[0,.2,.4];
+following Zuk et al. (2012), who provide argument as
+toits“ecologicalvalidity”—thegenotypicfunctionΨ′(g) • ρ(cid:80)3 j=1Bj,γ(E): [0,.3,.6];
+waschosentobemax(Ψ′(g ), j=1..3). Thisnon-additive
+j
+limiting process architecture (see Zuk et al., 2012) in-
+• ρ(cid:80)3 j=1δj,γ(E): [0,.1,.3];
+duces epistasis in an empirically realistic fashion. We
+employed {a,k} parameterization, once again, and pa-
+• ρ(cid:80)3 j=1lj,γ(E): [0,.2,.5];
+rameterized the architecture in terms of the following • h2: [.1,.3,.5,.7,.9];
+vectors: θ = {φ,a,k}, wherein the jth element of
+gen
+each of the 3-The vectors φ,a, and k is φ ,a , and k re- • ρ ,ρ ,ρ ,ρ ,ρ ,ρ ,ρ ,
+j j j A(MZ) D(MZ) EP(MZ) A(DZ) D(DZ) EP(DZ) E(MZ,T)
+spectively;θ
+V
+= (cid:80)(cid:80) (cid:80) 33 3j j= =1 ρ1ρ ρB δjj ,, γγ ((
+E
+/E h)) 2 ;θ
+C(MZ,T)
+= ρρρ EDA P( ( (M M MZ Z Z) ) ) ; Oftρ [ h.E 9 e( 7D , 3Z . 9, 9T ×6), , 3ρ .9 3E 5( ×M , 5.Z 5,A 2 =) ,, . 2ρ 2 ,E 1 6( ,D 5.Z 5 7,A , ,) . 2: 7 0, 5.5 s, a.3 m,. p0 l5 e] d.
+realizationsof
+
+j=1
+
+lj,γ(E)
+
+ρ E(M Z,T)
+θ∗, 2,174,537 yielded instantiations of the architecture
+ρ (MZ) ρ (DZ)
+θ
+C(MZ,A)
+=
+ρρ EDA
+P( (M MZ Z)
+),
+and θ
+C(DZ,A)
+=
+ρρ EDA
+P( (D DZ Z)
+).
+This
+θw
+se
+∗h
+t
+si eoc rh
+f vr
+es
+e
+da at ,li
+i
+ts
+z
+hfi
+a
+ee
+t
+nid
+o
+,nt ah
+s
+se
+H
+inr
+(
+pe
+θ
+us ∗t
+)
+tr ii
+b
+nc at ti
+s
+oo en
+d
+ths
+o
+ee
+n
+mar
+t
+ol hi de
+is
+er
+ss
+.d ee ts oc fri 2b ,e 1d 7. 4,T 5h 37e
+ρ (MZ,A) ρ (DZ,A)
+E E
+particularchoiceofθ impliesthat: i)σ2 isdetermined
+V z Results
+as σ2/h2; and ii) σ2 is the largest root of the quadratic
+A E
+equation, Parameterrecoveryperformanceofmodes
+0=σ2 +σ2 +σ2 +σ
+A D EP E Tables 9 and 10 present a quantitative summary of
+themodelerrorandabsolutemodelerrordistributions,
+when the modes were faced with the multilocus non-
+ 
+σ
+E
++(cid:88)3
+ρ Bj,γ(E)σ
+A+(cid:88)3
+ρ δj,γ(E)σ
+D+(cid:88)3
+ρ lj,γ(E)σ
+EP, S wB aM
+s
+(cid:8)a Σr Mc Zh ,Tit (e θc )t ,u Σr De Z,To (f θ)s ,t Σu Md Zy ,A3 (θ)a ,n Σd DZi ,An (f θo )r (cid:9)m
+.
+at Bio on xa pl loi tn spu ot
+f
+j=1 j=1 j=1
+the five model error distributions appear in Figure 4.
+under restriction that h2 < σ2 A and |Σ| ≥ 0, Insuchanempiricalsetting,ourcentralandsideissues
+
+(σ2 A+σ2 D+σ2 EP)
+
+canbeansweredasfollows.
+whereinΣ=σ
+0
+02 A
+σ
+00
+2
+B
+σ00
+2
+ρ(cid:80)ρ ρ(cid:80) (cid:80)B δjj ,, γγ (( /EE σ)) 2. ereH do vw alc ul eos be eto ext ph ee ctm edar tk oc ba en ?a Tan ba lr ero 1w 0h se hr oit wa sbi tl hit ay t,re wco itv h-
+EP lj,γ(E) E respect to the criterion of mean absolute model error,
+Realizationsofθ∗ wereproducedbycrossingthefol-
+all the SEM-based modes delivered precisely the same
+lowingsetsofparameterselections:
+parameterrecoveryperformance(.08). Falconer’scoef-
+• φ: for j=1..3,[.1,.3,.5]; ficientperformedmarginallybetter(.06).
+===== PAGE 17/27 =====
+17
+Figure4
+Boxplotswithjittereddatapointsoftheempiricaldistributionofmodelerrorh2′ −h2(θ),Study3
+r
+Note. Individualdatapoints(bluedots)arebasedonarandomselectionof5000cases.
+===== PAGE 18/27 =====
+18
+Table9
+SummaryofModelError,Study3
+h2′ −h2(θ)
+r
+n n M SD Median Mad min max
+inadm.sol.
+ACDE 1,963,413 3,312 .08 .06 .06 .05 -.90 .45
+ADE 2,174,537 98 .08 .06 .07 .05 -.30 .47
+ACE 2,174,537 4,280 .08 .06 .06 .05 -.01 .46
+AE 2,174,537 275 .08 .06 .07 .05 -.30 .47
+Falconer 2,174,537 - .05 .06 .04 .04 -.07 .48
+Note. ModelError: h2′−h2(θ);n: Totalnumberadmissiblescenarios(thosesatisfyinginequalities);n : numberof
+r inadm.sol.
+inadmissiblesolutions;Mad: Medianabsolutedeviation.
+Table10
+SummaryofAbsoluteModelError,Study3
+|h2′ −h2(θ)|
+r
+PercentilePoints
+M SD .10 .20 .30 .40 .50 .60 .70 .80 .90
+ACDE .08 .06 .02 .03 .04 .05 .06 .08 .10 .13 .17
+ADE .08 .06 .02 .03 .04 .05 .07 .08 .10 .13 .18
+ACE .08 .06 .02 .03 .04 .05 .06 .08 .10 .13 .17
+AE .08 .06 .02 .03 .04 .05 .07 .08 .10 .13 .18
+Falconer .06 .06 .01 .01 .02 .03 .04 .05 .07 .10 .15
+Note. AbsoluteModelError=|h2′−h2(θ)|
+r
+Table11
+SummaryofModelErrorforsolutionswithRMSEA<.06,Study3
+n M SD Median Mad min max
+ADE 1,963,403 .08 .06 .07 .05 -.30 .46
+AE 1,963,320 .08 .06 .07 .05 -.01 .46
+Note. n: NumberofsolutionssatisfyingtheconditionRMSEA<.06;Mad: Medianabsolutedeviation.
+How sensitive is h2 parameter recovery performance to allyis;allbutFalconerandACEweresusceptible,addi-
+the specifics of P,Z,Ψ′(g),R,L? The answer is that, the tionally,tomisrepresentitasmuchsmallerthanitactu-
+five modes were equally sensitive, the variance of each allyis.
+of the five absolute model error distributions equal to Relative parameter recovery performance of modes.
+.062. Save for the fact that Falconer’s and ACE were not sus-
+How far off the mark (how badly misrepresenting of ceptible to yielding large down-ward biases, there was
+thetruestateofnature)canarecoveredvaluebe? Inthe notmuchtochoosebetweenthemodes.
+direction of downward-bias, the ordering of the modes Do the newer SEM-based modes outperform the clas-
+(from least to most severe downward-bias) was ACE (- sical, correlation-based? When the underlying architec-
+.01), Falconer (-.07), ADE (-.30), AE (-.30), and ACDE ture is a multilocus, non-SBM, architecture of the sort
+(-.90). Inthedirectionofupward-bias,themodeswere considered,herein,theansweris,clearlynot.
+tightly packed within the .45 to .48 interval. Evidently, Parameter recovery performance of SEM-based
+allthemodesweresusceptibletomisrepresentthemag- modes, for subset of solutions with RMSEA < .06.
+nitude of heritability deriving from a multilocus archi- Only in the case of the AE and ADE modes, were there
+tecture of the present type as much larger than it actu- admissible solutions for which RMSEA exceeded .06.
+===== PAGE 19/27 =====
+19
+Accordingly,Table11providesasummaryoftheparam- heritability), and φ (proportion of alleles of type A2)
+eterrecoveryperformanceofAEandADE,conditioning had notable impacts upon h2 parameter recovery
+onthesubsetofsolutionsforwhichRMSEA<.06. performance. Average explained variance in model
+The high degree of similarity between the entries of erroracrossmodelswas.94.
+Tables9and11,indicatesthattheconclusionswedraw
+about parameter recovery performance are in no way In Study 2, the modes confronted the same 1,080
+confoundedbytheissueofmodelfit. instantiations of the single locus architecture featured
+Impactoffeaturesofarchitectureonparameterre- in study 1, but with the reduced informational input
+coveryperformance. Resultsofthevariableimportance (cid:8)Σ (θ),Σ (θ)(cid:9) . In this empirical context: a) the
+MZ,T DZ,T
+analysisarepresentedinTable12. ordering of the modes was not identical over recovery
+As is apparent from the Table 12 entries, the gen- performance criteria; b) the overall h2 recovery perfor-
+eral conclusion is that only h2 and a had notable im- manceofthemodesrangedfromabestof.05(ADE)to
+pacts upon h2 parameter recovery performance. Most a worst of .29 (ACDE); c) the sensitivity of the modes
+of the variance in model error could be explained, as to the architecture’s parametric specifics ranged from
+indicated by R2 values of about .95. For all the modes, a best of .042 (ADE) to a worst of .202 (ACDE); c) the
+ICE curves were predominantly homogeneous, largely susceptibilityofthemodestoyieldingdownward-biases
+following the same course, which indicates that these ranged from a best of -.02 (ADE and AE) to a worst
+impactswereattributablemainlytoadditiveeffects8. of -.88 (ACDE), and to upward-biases, from a best of
+.04 (ACDE) to a worst of .66 (Falconer’s); and d) there
+Discussion existed an interaction between mode and direction of
+bias, with ACDE susceptible to reporting h2 as much
+The results of our investigation suggest that con-
+smaller than its true value, and Falconer, AE, ACE and
+clusions regarding our focal issue must be drawn
+AE, susceptible to reporting it as much larger. Random
+conditional on a number of different factors: a) the
+forest analyses on the impact of genetic parameters on
+general class of generating architecture in play; b)
+the model error of h2 showed an effect of k (genetic
+specifics of the architecture’s parametric instantiations;
+dominance)andh2(populationnarrowheritability)on
+c) the informational input into a mode; and d) the
+h2 parameterrecoveryperformancewithanaverageex-
+particular mode employed. In Study 1, the modes
+plainedvarianceinmodelerroracrossmodelsof.95.
+confronted 1,080 instantiations of a single locus
+In Study 3, the informational input was
+architecture which had the non-SBM properties of (cid:8)Σ (θ),Σ (θ),Σ (θ)(cid:9) and the modes confronted
+dominance effects and either one or both of gene MZ,T DZ,T DZ,A
+a multilocus architecture with the non-SBM properties
+content-environment, and dominance-environment,
+of dominance effects, genetic-environment correlation,
+correlation. The informational input was a set of
+and epistasis. In this case: a) there was not much to
+population covariance matrices under the four twin
+choose between the modes; b) the SEM-based modes
+designs: monozygotic-reared together, monozygotic-
+hadpreciselythesameoverallh2 recoveryperformance
+reared apart, dizygotic-reared together, and dizygotic-
+rearedapart: (cid:8)Σ (θ),Σ (θ),Σ (θ),Σ (θ)(cid:9) . In (.08 mean absolute model error), with Falconer’s,
+MZ,T DZ,T MZ,A DZ,A
+marginally better at .06; c) the modes had identical
+this setting: a) on all recovery performance criteria,
+sensitivitytothearchitecture’sparametricspecifics,the
+the ordering of the modes was (from best to poorest
+variance of absolute model error being .062 for each
+performing) ACDE, ADE, ACE, AE, and Falconer’s;
+and every one of them; d) the susceptibility of the
+b) the overall h2 recovery performance delivered by
+modestoyieldingdownward-biasrangedfromabestof
+the modes (as quantified by mean absolute model
+-.01(ACE)toaworstof-.90(ACDE);andd)inrespect
+error) ranged from a best of .02 (ACDE) to a worst
+theirsusceptibilitytoyieldingupward-biases,theywere
+of .10 (Falconer’s); c) the sensitivity of the modes to
+tightly packed within the .45 to .48 interval. Random
+the architecture’s parametric specifics (quantified by
+forest analyses revealed that only h2 (population
+the variance of absolute model error) ranged from a
+heritability) and a(j) (locus j additive parameter)
+best of .022 (ACDE) to a worst of .142 (Falconer’s);
+had notable impacts upon h2 parameter recovery
+and c) the susceptibility of the modes to yielding
+performance, with an average explained variance in
+downward-biases ranged from a best of -.03 (ACDE,
+model error across models of .95. This finding is of
+ADE, and ACE) to a worst of -.09 (Falconer), and to
+particular importance because it answers one of the
+upward-biases,fromabestof.06(ACDE)toaworstof
+.66(Falconer’s). Randomforestanalysesontheimpact 8For the sake of stringency, these multiple graphs can
+ofgeneticparametersonthemodelerrorofh2 revealed be found in the electronic supplementary material on
+thatonlyk(geneticdominance),h2 (populationnarrow https://osf.io/aq9sx/,underaCC-BY4.0license.
+===== PAGE 20/27 =====
+20
+main questions of this article regarding the impact is that, although, in each of the studies, the SEM-
+of dominance genetic variation within a multilocus basedmodeswereconfrontedwitharchitectureswhich
+architecture. Given these results, non-additive genetic theymisspecified,preciousfewsolutionsweresignalled
+effects as induced by the dominance parameter k had – by the RMSEA > .06 criterion– as poorly fitting.
+no notable biasing influence on the recovery of h2, at Even when faced with the most complicated of our
+least not under the multilocus scenario of this study. architectures- the multilocus architecture of Study 3-
+Hence, dominance genetic variation did not contribute instances of misfit were registered only for the AE and
+to the missing heritability as it did not substantially ADEmodels. Thissuggests,onceagain,theinadvisabil-
+bias h2 values (see also Zhu et al., 2015 for similar ityofdependinguponempiricalfitindicestoshedlight
+conclusions). upon underlying causal structure, in general, and phe-
+Weacknowledge,ofcourse,thatwedonotknowthe notypic (genetic) architecture, in particular (c.f. Cliff,
+degree to which our constructed architectures approxi- 1983; Long, 1981; MacCallum et al., 1993; Tomarken
+mate to those extant in nature. We would remind our andWaller,2003).
+readers, however, that those who employ, in their re-
+searches, the various modes to estimate h2, do so un-
+dertheverysameblanketofuncertaintyovertheactual
+formofthegeneticarchitectureinplay. Wedonotclaim
+that the results we present are the final word on the
+performanceofeachofthemodesinestimatingh2;only
+thattheyprovideanindicationastothetrustworthiness
+oftheestimatesyieldedbyeachmodewhenencounter-
+ingseveralparadigmcases.
+We note, also, with due circumspection, given the
+smallscaleofthedesign,whatappeartobethefollow-
+ingtrends:
+1. It seems that the more complicated the generat-
+ing architecture, the less trustworthy will be the
+h2 recovered by a given mode. Even though, in
+Study 3, the poorest average model error yielded
+by a mode was only .08, all of the modes were
+susceptibletoproducingnarrow-senseheritability
+recoveredvalueswidelyoffthemark. Thismaybe
+seen as somewhat worrisome, for the reason that
+a given scientist will estimate the heritability in-
+herenttoaparticular,unknown,architecture,and
+theresultingpublicationwillpresenttothescien-
+tificcommunitythissingletakeonthemagnitude
+of heritability. The relevant question is, “how far
+off the mark might it be”; not, “how far off the
+markistheaverageofthepopulationofestimates
+fromwhichitwasdrawn.”Thisestimatewillhave
+the impact upon scientific thought; not some un-
+knownaverageofwhichitisapart;
+2. For all of the modes, save Falconer’s (which does
+not employ the additional information available
+inStudies1and3)andAE,thelessrichisthein-
+formational input, the poorer is the h2 parameter
+recoveryperformance.
+In light of the popularity of estimating h2, and other
+quantitative genetic parameters, through the fitting
+of latent variable models, an interesting sub-finding
+===== PAGE 21/27 =====
+21
+21elbaT
+3ydutS,sisylanAecnatropmIelbairaV
+retemaraPtupnI
+2R
+2h
+)E(y,jI(cid:80)
+mρ
+)E(y,jδ(cid:80)
+3ρ
+)E(y,jB(cid:80)
+3ρ
+)3(q
+)2(q
+)1(q
+)3(k
+)2(k
+)1(k
+)3(a
+)2(a
+)1(a
+1=j
+1=j
+1=j
+29.
+1300.0
+0000.0
+0000.0
+0000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+200.0
+200.0
+200.0
+EDCA
+9
+9
+9
+1
+1
+1
+6
+6
+6
+69.
+9200.0
+0000.0
+0000.0
+0000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+200.0
+200.0
+200.0
+EDA
+8
+8
+8
+1
+1
+1
+6
+6
+6
+69.
+1300.0
+0000.0
+0000.0
+0000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+200.0
+200.0
+200.0
+ECA
+8
+8
+8
+1
+1
+1
+7
+7
+7
+69.
+9200.0
+0000.0
+0000.0
+0000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+000.0
+200.0
+200.0
+200.0
+EA
+9
+9
+9
+1
+1
+1
+6
+6
+6
+59.
+0200.0
+0000.0
+0000.0
+0000.0
+100.0
+100.0
+100.0
+000.0
+000.0
+000.0
+200.0
+200.0
+200.0
+renoclaF
+1
+1
+1
+2
+2
+2
+9
+9
+9
+===== PAGE 22/27 =====
+22
+AuthorContact References
+CorrespondingAuthor: Prof. Dr. MoritzHeeneLud- Afifi, T. O., Asmundson, G. J., Taylor, S., & Jang, K. L.
+wig Maximilian University, Munich, Germany Depart- (2010). The role of genes and environment on
+mentofPsychologyLeopoldstr. 13D-80802Muenchen, trauma exposure and posttraumatic stress dis-
+Germany heene@psy.lmu.de Phone: +49-(0)89-2180- ordersymptoms:Areviewoftwinstudies.Clin-
+72514Fax: +49-(0)89-2180-99-6888 icalpsychologyreview,30(1),101–112.
+Benyamin, B., Pourcain, B., Davis, O. S., Davies, G.,
+ConflictofInterestandFunding Hansell, N. K., Brion, M.-J., Kirkpatrick, R. M.,
+Cents,R.A.,Frani´c,S.,&Miller,M.B.(2014).
+The corresponding author, Moritz Heene, was a
+Childhoodintelligenceisheritable,highlypoly-
+member of the editorial board of Meta-Psychology.
+genic and associated with FNBP1L. Molecular
+Therewasnospecificfunding.
+psychiatry,19(2),253–258.
+Bischl, B., Lang, M., Kotthoff, L., Schiffner, J., Richter,
+AuthorContributions
+J.,Jones,Z.,Casalicchio,G.,Gallo,M.,Bossek,
+Conceptualization: MichaelD.Maraun,MoritzHeene. J., Studerus, E., Judt, L., Kuehn, T., Kerschke,
+DataCuration: MoritzHeeneandPhilippSckopke. P., Fendt, F., Probst, P., Sun, X., Thomas, J.,
+Formal Analysis: Michael D. Maraun, Philipp Sckopke, Vieira, B., Beggel, L., ... Coors, S. (2017).
+andMoritzHeene. Mlr:MachineLearninginR.RetrievedMay15,
+Investigation: MichaelD.Maraun,PhilippSckopkeand 2017, from https://cran.r-project.org/web/
+MoritzHeene. packages/mlr/index.html
+Methodology: MichaelD.Maraun. Bowles, S., Gintis, H., et al. (2001). The inheritance of
+Project Administration: Michael D. Maraun, Moritz economic status: Education, class and genetics
+HeeneandPhilippSckopke. [Publisher:OxfordUniversityPressNewYork].
+Resources: MoritzHeeneandPhilippSckopke. International encyclopedia of the social and be-
+Software: PhilippSckopkeandMoritzHeene. havioralsciences:Genetics,behaviorandsociety,
+Supervision: Michael D. Maraun, Moritz Heene and 6,4132–141.
+PhilippSckopke. Breiman, L. (2001). Random forests. Machine learning,
+Validation: PhilippSckopkeandMoritzHeene. 45(1), 5–32. https://doi.org/10.1023/A:
+Visualization: MoritzHeene. 1010933404324
+Writing - Original Draft Preparation: Michael D. Bronfenbrenner,U.(1999).Naturewithnurture:Arein-
+Maraun,MoritzHeene,andPhilippSckopke. terpretationoftheevidence[Publisher:Oxford
+Writing-Review&Editing: MichaelD.Maraun,Moritz University Press New York]. Race and IQ, 153–
+Heene,andPhilippSckopke. 183.
+Calaway, R., Analytics, R., & Weston, S. (2015). Fore-
+Notice that authors are listed according to their con- ach:ProvidesForeachLoopingConstructforR.
+tributiontothework,fromthemosttotheleast. Retrieved May 15, 2017, from https://cran.r-
+project.org/web/packages/foreach/index.html
+OpenSciencePractices Chen, X., Kuja-Halkola, R., Rahman, I., Arpegård, J.,
+Viktorin, A., Karlsson, R., Hägg, S., Svensson,
+P., Pedersen, N. L., & Magnusson, P. K. E.
+(2015). Dominant Genetic Variation and Miss-
+ing Heritability for Human Complex Traits: In-
+This article earned the Open Materials badge for sightsfromTwinversusGenome-wideCommon
+makingthe materialsopenlyavailable. It hasbeenver- SNP Models. The American Journal of Human
+ified that the analysis reproduced the results presented Genetics, 97(5), 708–714. https://doi.org/10.
+inthearticle. Theentireeditorialprocess,includingthe 1016/j.ajhg.2015.10.004
+openreviews,ispublishedintheonlinesupplement. Cliff,N.(1983).Somecautionsconcerningtheapplica-
+tion of causal modeling methods. Multivariate
+behavioralresearch,18(1),115–126.
+Dowle, M., Srinivasan, A., Gorecki, J., Short, T.,
+Lianoglou, S., & Antonyan, E. (2017).
+Data.table:Extensionof’data.frame’.Retrieved
+===== PAGE 23/27 =====
+23
+May15,2017,fromhttps://cran.r-project.org/ tance. Transactions of the Royal Society of Edin-
+web/packages/data.table/index.html burgh, 52(2), 399–433. https://doi.org/10.
+Eaves, L., & Erkanli, A. (2003). Markov Chain Monte 1017/S0080456800012163
+Carlo Approaches to Analysis of Genetic and Friedman, J. H. (2001). Greedy function approxima-
+Environmental Components of Human Devel- tion: A gradient boosting machine. The Annals
+opmental Change and G × E Interaction. Be- of Statistics, 29(5). https://doi.org/10.1214/
+havior Genetics, 33(3), 279–299. https://doi. aos/1013203451
+org/10.1023/A:1023446524917 Goldstein, A., Kapelner, A., Bleich, J., & Pitkin, E.
+Eichler,E.E.,Flint,J.,Gibson,G.,Kong,A.,Leal,S.M., (2015). Peeking inside the black box: Visual-
+Moore, J. H., & Nadeau, J. H. (2010). Missing izing statistical learning with plots of individ-
+heritabilityandstrategiesforfindingtheunder- ual conditional expectation. Journal of Compu-
+lyingcausesofcomplexdisease.NatureReviews tationalandGraphicalStatistics,24(1),44–65.
+Genetics, 11, 446. http://dx.doi.org/10.1038/ Gregersen,J.W.,Kranc,K.R.,Ke,X.,Svendsen,P.,Mad-
+nrg2809 sen, L. S., Thomsen, A. R., Cardon, L. R., Bell,
+Evans, D. M. (2011). Gene-Gene Interaction and Epis- J. I., & Fugger, L. (2006). Functional epistasis
+tasis.InAnalysisofComplexDiseaseAssociation on a common MHC haplotype associated with
+Studies(pp.197–213).Elsevier. multiple sclerosis. Nature, 443(7111), 574–
+Evans, D. M., Gillespie, N. A., & Martin, N. G. 577.https://doi.org/10.1038/nature05133
+(2002).Biometricalgenetics.Biologicalpsychol- Grotzinger, A. D., Rhemtulla, M., De Vlaming, R.,
+ogy,61(1-2),33–51. Ritchie, S. J., Mallard, T. T., Hill, W. D., Ip,
+Evans,L.M.,Tahmasbi,R.,Vrieze,S.I.,Abecasis,G.R., H. F., Marioni, R. E., McIntosh, A. M., Deary,
+Das, S., Gazal, S., Bjelland, D. W., De Candia, I. J., Koellinger, P. D., Harden, K. P., Nivard,
+T. R., Goddard, M. E., Neale, B. M., Yang, J., M. G., & Tucker-Drob, E. M. (2019). Genomic
+Visscher,P.M.,&Keller,M.C.(2018).Compar- structuralequationmodellingprovidesinsights
+isonofmethodsthatusewholegenomedatato into the multivariate genetic architecture of
+estimate the heritability and genetic architec- complex traits. Nature Human Behaviour, 3(5),
+ture of complex traits. Nature Genetics, 50(5), 513–525. https://doi.org/10.1038/s41562-
+737–745. https://doi.org/10.1038/s41588- 019-0566-x
+018-0108-x Hare, R. D. (1991). The Hare psychopathy checklist-
+Falconer, D. S. (1960). Introduction to quantitative ge- revised: Manual. Multi-Health Systems, Incor-
+netics.PearsonEducationLimited. porated.
+Fedko, I. O., Hottenga, J.-J., Helmer, Q., Mbarek, H., Hare, R. D. (1996). Psychopathy: A Clinical Construct
+Huider, F., Amin, N., Beulens, J. W., Bremmer, Whose Time Has Come. Criminal Justice and
+M. A., Elders, P. J., Galesloot, T. E., Kiemeney, Behavior, 23(1), 25–54. https://doi.org/10.
+L. A., Van Loo, H. M., Picavet, H. S. J., Rut- 1177/0093854896023001004
+ters, F., Van Der Spek, A., Van De Wiel, A. M., He, L., Sillanpää, M. J., Silventoinen, K., Kaprio, J.,
+Van Duijn, C., De Geus, E. J. C., Feskens, & Pitkäniemi, J. (2016). Estimating Modifying
+E.J. M.,... Bot, M.(2021). Measurementand Effect of Age on Genetic and Environmental
+genetic architecture of lifetime depression in VarianceComponentsinTwinModels.Genetics,
+theNetherlandsasassessedbyLIDAS(Lifetime 202(4),1313–1328.https://doi.org/10.1534/
+Depression Assessment Self-report). Psycholog- genetics.115.183905
+ical Medicine, 51(8), 1345–1354. https://doi. Heath, A. C., Neale, M. C., Hewitt, J. K., Eaves, L. J., &
+org/10.1017/S0033291720000100 Fulker, D. W. (1989). Testing structural equa-
+Feng,J.,Chen,C.,Cai,Y.,Ye,Z.,Feng,K.,Liu,J.,Zhang, tionmodelsfortwindatausingLISREL.Behav-
+L., Yang, Q., Li, A., Sheng, J., Zhu, B., Yu, Z., ior Genetics, 19(1), 9–35. https://doi.org/10.
+Chen, C., Dong, Q., & Xue, G. (2020). Parti- 1007/BF01065881
+tioning heritability analyses unveil the genetic Herzig,A.F.,Nutile,T.,Ruggiero,D.,Ciullo,M.,Perdry,
+architecture of human brain multidimensional H., & Leutenegger, A.-L. (2018). Detecting the
+functional connectivity patterns. Human Brain dominance component of heritability in iso-
+Mapping,41(12),3305–3317.https://doi.org/ lated and outbred human populations [Num-
+https://doi.org/10.1002/hbm.25018 ber:1Publisher:NaturePublishingGroup].Sci-
+Fisher,R.A.(1919).XV.—TheCorrelationbetweenRel- entificReports,8(1),18048.https://doi.org/10.
+atives on the Supposition of Mendelian Inheri- 1038/s41598-018-36050-7
+===== PAGE 24/27 =====
+24
+Hill, W. D., Harris, S. E., & Deary, I. J. (2019). What rics, 34(1), 1–23. https://doi.org/10.2307/
+genome-wide association studies reveal about 2529584
+the association between intelligence and men- Long,J.S.(1981).Estimationandhypothesistestingin
+tal health. Current Opinion in Psychology, 27, linearmodelscontainingmeasurementerror:A
+25–30. https://doi.org/10.1016/j.copsyc. review of Jöreskog’s model for the analysis of
+2018.07.007 covariance structures. In P. V. Marsden (Ed.),
+Hill, W. G., Goddard, M. E., & Visscher, P. M. (2008). Linear models in social research (pp. 209–256).
+Data and Theory Point to Mainly Additive Ge- Sage.
+netic Variance for Complex Traits [Publisher: Lynch, M., & Walsh, B. (1998). Genetics and analysis of
+PublicLibraryofScience].PLOSGenetics,4(2), quantitativetraits.Sinauer.
+e1000008. https://doi.org/10.1371/journal. MacCallum,R.C.,Wegener,D.T.,Uchino,B.N.,&Fab-
+pgen.1000008 rigar, L. R. (1993). The problem of equivalent
+Hohman, T. J., Koran, M. E., Thornton-Wells, T., models in applications of covariance structure
+& for the Alzheimer’s Neuroimaging Initia- analysis. Psychological Bulletin, 114(1), 185–
+tive. (2013). Epistatic Genetic Effects among 199. https://doi.org/10.1037/0033-2909.
+Alzheimer’s Candidate Genes (M. Toft, Ed.). 114.1.185
+PLoS ONE, 8(11), e80839. https://doi.org/ Marchini, J., Donnelly, P., & Cardon, L. R. (2005).
+10.1371/journal.pone.0080839 Genome-wide strategies for detecting multiple
+Holzinger,K.J.(1929).Therelativeeffectofnatureand locithatinfluencecomplexdiseases.Naturege-
+nurture influences on twin differences. Jour- netics,37(4),413.
+nal of Educational Psychology, 20(4), 241–248. Neale, M., & Maes, H. (2004). Methodology for genetic
+https://doi.org/10.1037/h0072484 studiesoftwinsandfamilies.VirginiaCommon-
+Hsu, S. D. (2014). On the genetic architecture of in- wealthUniversity,DepartmentofPsychiatry.
+telligence and other quantitative traits. arXiv Nichols, R. C. (1965). The national merit twin study.
+preprint arXiv:1408.3421. https://arxiv.org/ Methods and goals in human behavior genetic,
+pdf/1408.3421.pdf 231–244. https : / / genepi . qimr. edu . au /
+Hu, L.-t., & Bentler, P. M. (1999). Cutoff criteria contents/p/staff/1965_Nichols_Vand_Meth&
+for fit indexes in covariance structure analy- Goals_231.pdf
+sis: Conventional criteria versus new alterna- Nikolas, M. A., & Burt, S. A. (2010). Genetic and en-
+tives. Structural Equation Modeling: A Multidis- vironmental influences on ADHD symptom di-
+ciplinary Journal, 6(1), 1–55. https://doi.org/ mensions of inattention and hyperactivity: A
+10.1080/10705519909540118 meta-analysis. Journal of Abnormal Psychology,
+Jinks, J. L., & Fulker, D. W. (1970). Comparison of the 119(1), 1–17. https://doi.org/10.1037/
+biometrical genetical, MAVA, and classical ap- a0018010
+proachestotheanalysisofthehumanbehavior. Nolte, I. M., Van Der Most, P. J., Alizadeh, B. Z., De
+PsychologicalBulletin,73(5),311–349.https:// Bakker, P. I., Boezen, H. M., Bruinenberg, M.,
+doi.org/10.1037/h0029135 Franke,L.,VanDerHarst,P.,Navis,G.,Postma,
+Keller, M. C., & Coventry, W. L. (2005). Quantifying D. S., Rots, M. G., Stolk, R. P., Swertz, M. A.,
+andAddressingParameterIndeterminacyinthe Wolffenbuttel, B. H., Wijmenga, C., & Snieder,
+Classical Twin Design. Twin Research and Hu- H. (2017). Missing heritability: Is the gap clos-
+man Genetics, 8(3), 201–213. https://doi.org/ ing?Ananalysisof32complextraitsintheLife-
+10.1375/twin.8.3.201 linesCohortStudy.EuropeanJournalofHuman
+Keller, M. C., Medland, S. E., & Duncan, L. E. (2010). Genetics, 25(7), 877–885. https://doi.org/10.
+Are Extended Twin Family Designs Worth the 1038/ejhg.2017.50
+Trouble? A Comparison of the Bias, Precision, Polderman,T.J.C.,Benyamin,B.,deLeeuw,C.A.,Sul-
+and Accuracy of Parameters Estimated in Four livan,P.F.,vanBochoven,A.,Visscher,P.M.,&
+Twin Family Models. Behavior Genetics, 40(3), Posthuma,D.(2015).Meta-analysisoftheher-
+377–393. https://doi.org/10.1007/s10519- itability of human traits based on fifty years of
+009-9320-x twin studies. Nature Genetics, 47(7), 702–709.
+Kempthorne, O. (1978). A Biometrics Invited Paper: https://doi.org/10.1038/ng.3285
+Logical,EpistemologicalandStatisticalAspects Revelle, W. (2016). psych: Procedures for Personality
+of Nature-Nurture Data Interpretation. Biomet- and Psychological Research [Retrieved from
+https://CRAN.R-project.org/package=psych.
+===== PAGE 25/27 =====
+25
+Version 1.6.9]. Northwestern University. teraction between HLA-C and ERAP1. Nature
+Evanston,Illinois,USA. Genetics,42,985–990.
+RevolutionAnalytics&Weston,S.(2022).doMC:Fore- Strobl, C., Boulesteix, A.-L., Kneib, T., Augustin, T., &
+ach Parallel Adaptor for ’parallel’. https:// Zeileis, A. (2008). Conditional variable impor-
+CRAN.R-project.org/package=doMC tance for random forests. BMC bioinformatics,
+Rpackageversion1.3.8 9(1), 307. https://doi.org/10.1186/1471-
+Rijsdijk, F. V. (2002). Analytic approaches to twin data 2105-9-307
+using structural equation models. Briefings in Tomarken,A.J.,&Waller,N.G.(2003).Potentialprob-
+Bioinformatics,3(2),119–133.https://doi.org/ lems with "well fitting" models. Journal of Ab-
+10.1093/bib/3.2.119 normal Psychology, 112(4), 578–598. https://
+Ritchie, M. D., Hahn, L. W., Roodi, N., Bailey, doi.org/10.1037/0021-843X.112.4.578
+L. R., Dupont, W. D., Parl, F. F., & Moore, Van Houtem, C., Laine, M., Boomsma, D., Ligthart, L.,
+J. H. (2001). Multifactor-Dimensionality Re- Van Wijk, A., & De Jongh, A. (2013). A review
+ductionRevealsHigh-OrderInteractionsamong and meta-analysis of the heritability of specific
+Estrogen-Metabolism Genes in Sporadic Breast phobiasubtypesandcorrespondingfears.Jour-
+Cancer. The American Journal of Human Genet- nalofAnxietyDisorders,27(4),379–388.https:
+ics, 69(1), 138–147. https://doi.org/10.1086/ //doi.org/10.1016/j.janxdis.2013.04.007
+321276 Visscher, P. M., Wray, N. R., Zhang, Q., Sklar, P., Mc-
+Rosseel, Y. (2012). lavaan: An R Package for Structural Carthy, M. I., Brown, M. A., & Yang, J. (2017).
+Equation Modeling. Journal of Statistical Soft- 10YearsofGWASDiscovery:Biology,Function,
+ware, 48(2), 1–36. https://doi.org/10.18637/ and Translation. The American Journal of Hu-
+jss.v048.i02 man Genetics, 101(1), 5–22. https://doi.org/
+Schönemann, P. H. (1989). New questions about old 10.1016/j.ajhg.2017.06.005
+heritability estimates. Bulletin of the Psycho- Vitzthum, V. J. (2003). A Number No Greater than the
+nomic Society, 27(2), 175–178. https://doi. Sum of Its Parts: The Use and Abuse of Heri-
+org/10.3758/BF03329932 tability.HumanBiology,75(4),539–558.https:
+Schönemann, P. H. (1997). On models and muddles of //doi.org/10.1353/hub.2003.0064
+heritability. Genetica, 99(2), 97–108. https:// Wei, W.-H., Hemani, G., & Haley, C. S. (2014). Detect-
+doi.org/10.1023/A:1018358504373 ing epistasis in human complex traits. Nature
+Schwabe, I., Janss, L., & Van Den Berg, S. M. (2017). ReviewsGenetics,15(11),722–733.https://doi.
+CanWeValidatetheResultsofTwinStudies?A org/10.1038/nrg3747
+Census-Based Study on the Heritability of Ed- Wickham, H., François, R., Henry, L., Müller, K., &
+ucationalAchievement.FrontiersinGenetics,8, Vaughan,D.(2023).dplyr:AGrammarofData
+160. https://doi.org/10.3389/fgene.2017. Manipulation. https://CRAN.R-project.org/
+00160 package=dplyr
+Shalizi,C.(2007).YetMoreontheHeritabilityandMal- Rpackageversion1.1.2
+leabilityofIQ[RetrievedSeptember27,2007]. Wright, M. N., & Ziegler, A. (2017). ranger: A Fast Im-
+http://bactra.org/weblog/520.html plementation of Random Forests for High Di-
+Sniekers, S., Stringer, S., Watanabe, K., Jansen, P. R., mensional Data in C++ and R. Journal of Sta-
+Coleman, J. R. I., Krapohl, E., Taskesen, E., tistical Software, 77(1), 1–17. https://doi.org/
+Hammerschlag, A. R., Okbay, A., Zabaneh, D., 10.18637/jss.v077.i01
+Amin,N.,Breen,G.,Cesarini,D.,Chabris,C.F., Wright, S. (1921). SYSTEMS OF MATING. I. THE BIO-
+Iacono, W. G., Ikram, M. A., Johannesson, METRIC RELATIONS BETWEEN PARENT AND
+M., Koellinger, P., Lee, J. J., ... Posthuma, OFFSPRING. Genetics, 6(2), 111–123. https://
+D. (2017). Genome-wide association meta- doi.org/10.1093/genetics/6.2.111
+analysis of 78,308 individuals identifies new Zhu,Z.,Bakshi,A.,Vinkhuyzen,A.A.,Hemani,G.,Lee,
+loci and genes influencing human intelligence. S.H.,Nolte,I.M.,vanVliet-Ostaptchouk,J.V.,
+Nature Genetics, 49(7), 1107–1112. https:// Snieder,H.,Esko,T.,&Milani,L.(2015).Dom-
+doi.org/10.1038/ng.3869 inancegeneticvariationcontributeslittletothe
+Strange, A., Capon, F., Donnelly, P., & Trembath, R. missing heritability for human complex traits.
+(2010).Agenome-wideassociationstudyiden- TheAmericanJournalofHumanGenetics,96(3),
+tifiesnewpsoriasissusceptibilitylociandanin- 377–385.
+===== PAGE 26/27 =====
+26
+Zuk, O., Hechter, E., Sunyaev, S. R., & Lander, E. S. 1. Let R{MZ (monozygotic), DZ (dizygotic) } and
+(2012).Themysteryofmissingheritability:Ge- L{T(rearedtogether),A(rearedapart)};
+netic interactions create phantom heritability.
+2. The input into the SEM is
+ProceedingsoftheNationalAcademyofSciences,
+(cid:8)Σ (θ),Σ (θ),Σ (θ),Σ (θ)(cid:9) ;
+109(4),1193–1198.https://doi.org/10.1073/ MZ,T DZ,T MZ,A DZ,A
+pnas.1119675109
+3. Thefourmodelimpliedcovariancematricesare;
+AppendixA (cid:34) (cid:35)
+a2+c2+d2+e2 a2+c2+d2
+Σ (θ)=
+MZ,T a2+c2+d2 a2+c2+d2+e2
+TableA1 (cid:34) a2+c2+d2+e2 a2+c2 (cid:35)
+Σ (θ)=
+MZ,A a2+c2 a2+c2+d2+e2
+Range over architectures of proportion of variance due to (cid:34) (cid:35)
+a2+c2+d2+e2 0.5a2+0.25c2+d2
+additive,dominance,andenvironmentcomponentforthe Σ (θ)=
+DZ,T 0.5a2+0.25c2+d2 a2+c2+d2+e2
+conditionssatisfyingtheinequalities,Scenarios1and2.
+(cid:34) (cid:35)
+M Min Max Range a2+c2+d2+e2 0.5a2+0.25c2
+Σ (θ)=
+Additive .45 .10 .90 .80 DZ,A 0.5a2+0.25c2 a2+c2+d2+e2
+Dominance .08 .00 .44 .44
+Environment .04 .00 .24 .24 4. Question; can the four model parameters
+{a,b,c,d} be expressed as functions of the 4 × 3
+=12inputparameters;i.e.,withrespecttheinput
+TableA2 (2) and the multi-population model (3), are the
+modelparametersidentified.
+Range over architectures of proportion of variance due to
+additive,dominance,andenvironmentcomponentforthe 5. Answer: Yes.
+conditionssatisfyingtheinequalities,Scenario3
+6. Proof.
+Min Max Range
+Additive .10 .90 .80 LetthetotalvariancebeT =a2+c2+d2+e2.
+ED no vm iroin na mn ec ne
+t
+. .0 00
+0
+.3 12 .3 12 6i. d T2 = ρ MZ,T − ρ MZ,A = √ σMZσ ,TM [1Z ,1,T ]σ[1, M2]
+Z,T[2,2]
+−
+√
+σMZ,T[1,2]
+Epistasis .00 .71 .71 σMZ,A[1,1]σMZ,A[2,2]
+(cid:16) (cid:17)
+a2+c2+d2− a2+c2
+(cid:16) (cid:17)
+AppendixB
+=a2+c2+d2−1 a2+c2
+=a2+c2+d2−a2−c2
+OntheIdentifiabilityoftheACDEModel (cid:16) (cid:17) (cid:16) (cid:17)
+= a2−a2 + c2−c2 +d2
+The following answers the question under
+=d2
+which of the scenarios realized in our study the four
+model parameters {a,b,c,d} of the ACDE model are 6ii. c2 = 2(cid:0) ρ −2ρ (cid:1) =
+identified. Theinformationalinputofthethreescenar- (cid:18) T (cid:19) MZ,A MZ,A
+iosrealizedinthestudytoestimatethemodelparame- 2 √ σMZσ ,AM [1Z ,1,A ]σ[1, M2]
+Z,A[2,2]
+−2√ σDZσ ,AD [1Z ,, 1A ][ σ1, D2]
+Z,A[2,2]
+ters{a,b,c,d}are: Hence,
+• Scenario 1; single-locus with dominance effects (cid:16) (cid:17)
+a2+c2−2 .5a2+.25c2
+and genetic-environment covariance): The infor-
+mationalinputis(cid:8)Σ ,Σ ,Σ ,Σ (cid:9) . =a2+c2−a2−.5c2
+MZ,T DZ,T MZ,A DZ,A
+(cid:16) (cid:17) (cid:16) (cid:17)
+• Scenario2;identicalarchitectureasscenario1but = a2−a2 − c2−.5c2
+theinformationalinputis(cid:8)Σ MZ,T,Σ DZ,T(cid:9) . =.5c2
+• Scenario 3 (multi-locus with dominance effects, andthereforec2 =2·.5c2.
+g tee rn ae ct ti ic o- ne sn )v .iro Tn hm een int fc oo rv ma ari ta ion nce a, la in nd pue tpi is sta (cid:8)t Σic in-
+(cid:18)
+6iii. a T2 = 4 (cid:19)ρ
+DZ,A
+− ρ
+MZ,A
+=
+Σ DZ,T,Σ MZ,A,Σ DZ,A(cid:9) . MZ,T 4 √ σDZσ ,AD [1Z ,, 1A ][ σ1, D2]
+Z,A[2,2]
+− √ σMZσ ,AM [1Z ,1,A ]σ[1, M2]
+Z,A[2,2]
+===== PAGE 27/27 =====
+27
+note,bytheway,thatthisish2. LetthetotalvariancebeT =a2+c2+d2+e2.
+Hence, Theimpliedcovariancematricesofstudy2are
+(cid:34) (cid:35)
+T a2+c2+d2
+4(cid:16) .5a2+.25c2(cid:17) −(cid:16) a2+c2(cid:17) 8i. Σ MZ,T(θ)=
+a2+c2+d2 T
+(cid:34) (cid:35)
+=2a2+b2−a2−b2
+8ii. Σ (θ)=
+T .5a2+.25c2+d2
+DZ,T .5a2+.25c2+d2 T
+=a2
+Now,
+6iv.e2 =1− a2 + c2 + d2 8iii. e2 =σ2−σ MZ,T[1,2],
+T T T T wherebyσ2 isthecommonenvironmentalvari-
+6v.T is obviously overidentified, as, under the
+ance.
+model, it is equal to 8 different input parameters (i.e.,
+the2×4=8distinctvariances). Regardingtheidentifiabilityofc2andd2weget:
+∴ up to an indeterminacy in the signs 8iv. c T2 =ρ MZ,T −2ρ DZ,T =σ MZ,T[1,2]−2σ DZ,T[1,2]
+of {a,b,c,d} [standard for all linear factor struc- Hence,intermsofmodelparameters
+tures], the 4 model parameters are identified;
+ergo, the ACDE model is identified for the input (cid:16) (cid:17)
+(cid:8)Σ (θ),Σ (θ),Σ (θ),Σ (θ)(cid:9) . Hence, the ACDE 8v. a2+c2+d2−2 .5a2+.25c2+d2
+MZ,T DZ,T MZ,A DZ,A
+(cid:16) (cid:17)
+modelisidentifiedunderscenarios1and3. Itis,how- =a2+c2+d2− a2+.5c2+2d2
+ever, not identified under scenario 2 as we can see in
+=a2+c2+d2−a2−.5c2−2d2
+thefollowing.
+(cid:16) (cid:17) (cid:16) (cid:17) (cid:16) (cid:17)
+Question: Can the four model parameters = a2−a2 + c2−.5c2 + d2−2d2
+{a,b,c,d}beexpressedasfunctionsofthe2×3=6input
+=.5c2−d2
+parametersunderscenario2;i.e.,withrespecttheinput
+(2)?
+8vi. T is obviously underidentified, as, un-
+der the model, there is no unique expression for c2.
+7. Answer: No.
+Hence,theACDEmodelisnotidentifiedwith(cid:8)Σ
+(θ),
+MZ,T
+8. Proof. Σ (θ)(cid:9) .
+DZ,T

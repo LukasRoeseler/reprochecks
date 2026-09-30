@@ -1,0 +1,914 @@
+
+===== PAGE 1/14 =====
+Opendata:NotApplicable
+Meta-Psychology,2024,vol8,MP.2023.4021 Openmaterials:Yes Editedby:RickardCarlsson
+https://doi.org/10.15626/MP.2023.4021 Opencode:NotApplicable Reviewedby:GiladFeldman,ErinM.Buchanan
+Articletype:OriginalArticle Openandreproducibleanalysis:NotApplicable Analysisreproducedby:NotApplicable
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/K9EBM
+ReproduceMe:
+Lessons from a pilot project on computational reproducibility
+Daniel H. Baker1, Mareike Berg1, Kirralise J. Hansford1,
+Bartholomew P.A. Quinn1, Federico G. Segala1, and Erin L. Warden-English1
+1DepartmentofPsychology,UniversityofYork,York,UK
+Ifascientificpaperiscomputationallyreproducible,theanalysesitreportscanbere-
+peatedindependentlybyothers. Atthepresenttimemostpapersarenotreproducible.
+However, thetoolstoenablecomputationalreproducibilityarenowwidelyavailable,
+using free and open source software. We conducted a pilot study in which we of-
+fered‘reproducibilityasaservice’withinaUKpsychologydepartmentforaperiodof
+6months. Ourrationalewasthatmostresearcherslackeitherthetimeorexpertiseto
+maketheirownworkreproducible,butmightbewillingtoallowthistobedonebyan
+independentteam. TenpaperswereconvertedintoreproducibleformatusingRmark-
+down,suchthatallanalyseswereconductedbyasinglescriptthatcoulddownloadraw
+datafromonlineplatformsasrequired,generatefigures,andproduceapdfofthefinal
+manuscript. Forsomestudiesthisinvolvedreproducinganalysesoriginallyconducted
+using commercial software. The project was an overall success, with strong support
+fromthecontributingauthorswhosawclearbenefitfromthiswork,includinggreater
+transparencyandopenness,andeaseofuseforthereader.Herewedescribeourframe-
+workforreproducibility,summarisethespecificlessonslearnedduringtheproject,and
+discuss the future of computational reproducibility. Our view is that computationally
+reproducible manuscripts embody many of the core principles of open science, and
+shouldbecomethedefaultformatforscientificcommunication.
+Keywords: computationalreproducibility;markdown;CI/CD;openscience
+Background fidence in the analytic process, allows it to be checked
+and verified (perhaps as part of a formal audit), and
+In the early days of scientific inquiry, the results of
+should reduce errors and preclude some types of aca-
+experiments and observations were recorded on paper,
+demic misconduct. Sharing of code and data makes
+andcalculationsandanalyseswereperformedbyhand.
+analyses future-proof, encourages secondary data anal-
+Journal articles aimed to provide a summary of these
+ysis, and spreads good practice across a research field.
+findings for other scientists, who implicitly trusted that
+Integrating code and data into a single self-contained
+theauthor(s)hadcommunicatedafairandaccurateac-
+repositorycanalsominimisedependenciesonlocalfiles
+count of their results. The widespread use of comput-
+anddirectorystructures,reducingtechnicalbarriersfor
+ersinthelate20th centuryupdatedmanyoftheseprac-
+re-use. Ultimately, reproducibility increases confidence
+tices. However most analyses were still performed on
+inthescientificmethodandisacornerstoneofmodern
+an individual researcher’s computer, often using closed
+open research practice. However there are some barri-
+commercial software, and code and data were rarely
+ers to widespread adoption of these approaches. Criti-
+available for scrutiny. In recent decades this has begun
+cally,generatingreproduciblemanuscriptsrequiressub-
+to change, and sharing of code and data is now com-
+stantial technical ability and time, which might not be
+monplace. Furthermore, the tools and infrastructure
+available for all researchers. In addition, reproducible
+are available to produce empirical papers that are fully
+analyses should ideally use free and open source soft-
+computationallyreproducible: alldataanalysesarecal-
+ware(FOSS)thatdoesnotrequirecommerciallicenses,
+culated from the raw data, and a formatted version of
+andcanbedownloadedbyanyonewithaninternetcon-
+thefinalpaper(e.g. apdf), includingallfigures, tables
+nection. However many researchers still use commer-
+andstatisticalresults,isautomaticallygenerated.
+cially licensed analysis software (often with their insti-
+Computational reproducibility has multiple benefits.
+tutionprovidingthelicense)thatinmanycasesinvolve
+Theanalysispipelineisfullytransparenttoreaders,re-
+graphical user interfaces that make scripting and au-
+viewers, and editors of a paper. This encourages con-
+===== PAGE 2/14 =====
+2
+tomation difficult or impossible. Finally, even for pa- Aframeworkforcomputationalreproducibility
+persthatareclaimedtobereproducible,thisisrarelya
+Our guiding principle when converting papers into
+‘frictionless’process(Crüwelletal.,2023;Hardwickeet
+a reproducible format was to keep everything as sim-
+al., 2021; Obels et al., 2020), and often becomes more
+ple as possible for the end user. Wherever practical,
+challengingovertimeasdataandsoftwarebecomeun-
+we preferred to create a single script that contained
+availableorobsolete.
+all of the manuscript text and code, rather than re-
+quiring multiple separate files that need to be run for
+Aimsandobjectives
+different parts of an analysis. Our experience (and
+We obtained funding to conduct a pilot project that of others, see Crüwell et al., 2023; Hardwicke
+(called the ‘ReproduceMe’ project) that aimed to make et al., 2021) is that complex code repositories often
+10 empirical papers in psychology and neuroscience constitute a barrier to reproducibility, as it is difficult
+fully computationally reproducible during a 6-month for the end user to work out which scripts need to be
+period (February to July 2023). Although we had seen run, and in what order. Having a single master docu-
+examplesofreproduciblemanuscriptsinthepast(apa- ment that can load in data files, packages, and other
+per by Rouder and Haaf (2018) sparked our initial en- resources as required, greatly simplified the structure
+thusiasm) these were rarely for empirical studies, per- of analysis code in most cases. We used R markdown
+haps owing to the complexity and ‘messiness’ of real (https://rmarkdown.rstudio.com/) for this project, be-
+data. Before the pilot, the first author had developed cause most members of the project team were famil-
+someofthesetechniquesbypublishingtwopapersthat iar with R, and we were aware that many of our col-
+werefullyreproducible–onelargelyinvolvingstatistics leagues use it for data analysis. However alterna-
+and simulation (Baker, 2021), and the other reporting tivesareavailableforarangeofprogrammingenviron-
+novel empirical data (Baker et al., 2021). Our key ob- ments, including Jupyter notebooks (https://jupyter.
+jectiveswere: org/), Quarto (https://quarto.org/), and MyST (https:
+//mystmd.org/).
+1. To take 10 manuscripts that were in a non-
+In keeping with this principle, we developed proce-
+reproducible format, and convert these into fully
+durestoautomatepackageinstallationanddatadown-
+reproducibledocuments
+load, removing this burden from the end user. Here
+theintentionwasthatonlythemastermarkdownscript
+2. Toincludesomestudiesinwhichtheoriginalanal-
+would be required, and this would be able to obtain
+yses used commercial software, and reproduce
+any additional files and install any software packages
+theseanalysesusingFOSSsuchasRandpython
+it needed to run the analysis. A quirk of package in-
+3. To cover a wide range of study designs and sub- stallation in the R programming language is that code
+disciplines within psychology and human neuro- to install packages (i.e. calls to the install.packages
+science function) needs to be run only once on a given sys-
+tem, after which the package is present locally and
+4. To develop training materials on using tools such
+does not need to be downloaded again. We used some
+as markdown to make papers reproducible, as
+custom code to check which packages were installed
+well as producing standardised onboarding and
+already, and only download those that were missing
+feedbackforms
+(see example in section 3.13 of the training materi-
+als linked in Appendix A). Data files were automati-
+5. To further develop our methods to include fea-
+cally downloaded frompublic repositories on theOpen
+tures such as automatic downloading of data,
+Science Framework website (https://osf.io) using the
+preservation of the computational environment,
+osfr (Wolen et al., 2020) package (see also the pip-
+andautomatedexecutiononremoteplatforms
+installable osfclient repository for a similar toolbox in
+The pilot achieved all of these objectives within the python; https://github.com/osfclient/osfclient). Again,
+fundingperiod,andwithinourbudgetof£10,000. The wewrotecodetocheckifthefileswereavailablelocally
+funds were primarily used to pay for analyst time, at andonlydownloadthemwhentheyweremissing. This
+a rate of around £17/hr (588 hours total), as well as allowsthecodetorunrobustly,butavoidsunnecessary
+for some small items of IT equipment. The training downloads.
+materialsareavailableathttps://github.com/bakerdh/ Somestudiesinvolvelargedatafilesorcomputation-
+ReproduceMe, and example onboarding and feedback allyintensiveanalyses. Itmightbethecasethatnotall
+formsaregiveninAppendicesBandC. users would wish to (or be able to) run the full analy-
+sis from scratch. We therefore found it helpful to have
+===== PAGE 3/14 =====
+3
+one or more ‘flag’ variables (usually called processdata) resourceswereavailable. Wealsoencounteredanissue
+at the start of a script to specify the level of analysis preventing versioned Rocker images running on recent
+required. Exactly how this worked differed across pa- Apple hardware (systems with an ARM rather than an
+pers,butthegeneralprinciplewasthataflagvalueof0 AMDprocessorarchitecture),whichwehopewillbere-
+would build the paper using pre-computed results and solvedinthefuture.
+pre-generated figures. Values above 0 would conduct
+differing amounts of analysis, with the highest value Step-by-stepprocess
+specifyingthatthefullanalysisshouldberunusingthe
+Ourprocessbeganwhenastudyauthormadecontact
+raw data. Analyses involving multiple stages usually
+and volunteered their paper to be made reproducible.
+savedtheresultsofeachstagetointermediatedatafiles,
+Thistypicallyhappenedoveremail,andwewouldthen
+which could also be downloaded from the OSF reposi-
+organise an initial in-person meeting between one or
+toryifrequired. Forexample,ananalysisrequiring 8GB
+moreauthors,andoneormoremembersoftheanalyst
+of raw data files, and taking over 6 hours to analyse
+team. Atthatmeeting,theanalyst(s)wouldoutlinethe
+from scratch, can instead be run using the processed
+reproducibilityprocess,andasktheauthor(s)theques-
+datafile(<1MB)inamatterofseconds. Thisalsodra-
+tions about their study summarised in the onboarding
+matically facilitated our code development, as it meant
+form in Appendix B. Assuming that everyone involved
+thatcomplexanalysesdidnotneedtoberepeatedeach
+agreedthattheworkwasfeasibleandwouldaddvalue,
+timewewantedtobuildandcheckthefinaldocument.
+wewouldthenagreeanapproximatetimescaleforcom-
+We note that R markdown also offers a ‘caching’ func-
+pletion(usuallywithintwoweeks).
+tion that is conceptually similar, but would still require
+Following the onboarding meeting, the authors
+the analyses to be run from scratch on a given system.
+would provide all required materials. Usually this in-
+Oursolutioninsteadmeansthattheprocesseddatafiles
+cludedawordprocessingfileofthemanuscripttext,any
+could be downloaded locally if required, without the
+data files, and any existing analysis code. The analysts
+full analysis (which can take many hours) needing to
+mettoscopeoutthejobrequirements,anddivideupthe
+berun.
+work. In some cases a single analyst did the majority
+Modern programming environments such as R and
+of the conversion to markdown format, in other cases
+python are actively developed and updated. Over time
+multiple analysts worked on different parts of the doc-
+these updates can break analysis code and prevent it
+ument. Files were stored on a server so that everyone
+from running. One solution is to ‘freeze’ the compu-
+had access to the latest version, though often analysts
+tational environment used for an analysis, so that the
+worked on local copies and then uploaded these to the
+same software version is always used (see Peikert &
+server.
+Brandmaier, 2021; Wiebels & Moreau, 2021). Cur-
+Conversiontomarkdownformatbeganbycreatinga
+rentlythemoststraightforwardwaytodothisistouse
+templatemarkdowndocument,andcopyingintheplain
+a ‘containerised’ computing environment, such as that
+textfromthemanuscript. Wealsoconvertedanyequa-
+provided by the Docker project (https://www.docker.
+tions and special symbols into markdown/LATEX syntax,
+com/). Docker ‘images’ specify a basic Linux operating
+and replaced all references with BIBTEX handles linking
+system, to which ‘layers’ of additional software can be
+to records in a bibliography file. Several manuscripts
+added. The container can then be run as a virtual ma-
+involvedanalysisthathadoriginallybeenconductedin
+chineonanycomputinghardware,includinglocaldesk-
+R, so we copied the original code into ‘chunks’ of code
+top computers, high-performance computing facilities,
+embeddedinthemarkdownfile. Othermanuscriptsre-
+and cloud-based services. We used the Rocker images
+quired translation of the analysis from other software
+(https://rocker-project.org/), as these add a versioned
+(such as SPSS or Stata) into R; for these we generated
+R installation, which also freezes the package versions
+the R code ourselves, by using the equivalent functions
+ataspecificdate. Containerisedenvironmentshavefur-
+in R, and inserted it into the markdown file. In both
+theradvantages,forexampletheydonotinterferewith
+cases,wethenreplacedallnumericalvaluesinthetext
+software installed locally on a machine, meaning that
+with the appropriate variables calculated by the analy-
+anend-usercanhavemultipleindependentimagesrun-
+siscode,suchthatthecorrectvalueswouldbeinserted
+ningdifferentsoftwareversions.
+when the code was executed. This was the most tech-
+Finally, we aimed for analyses to be platform invari-
+nically challenging aspect of the work, often requiring
+ant, and tested each script on multiple operating sys-
+detailed formatting of numerical values, and their in-
+tems, including Windows, Linux and Mac OS. This oc-
+sertionintotables. Whereappropriatewealsoincluded
+casionally necessitated minor modifications, for exam-
+code to generate figures in pdf format, and inserted
+ple to ensure that the required fonts and other system
+these into the final manuscript along with the figure
+===== PAGE 4/14 =====
+4
+captions. We performed detailed comparisons between ing errors or transcription issues (such as the wrong
+the submitted manuscript and the pdf file created by number being copied into a manuscript from an SPSS
+the markdown script, and resolved any discrepancies or R output). Occasionally there were situations where
+between the two as far as possible (see below for ex- an unorthodox statistical test was reported (e.g. an
+amples). ANOVA with only two levels, instead of a t-test), that
+Once the conversion process was complete, we then we thought reviewers of the paper might object to. In
+created a Docker image with the required packages, these cases we fed the suggestion to use a more stan-
+and uploaded this along with the markdown code to dard approach back to the authors. We feel that iden-
+a GitHub repository. Small data files (<100MB) were tifying such errors is an important benefit of offering
+included in the repository, and larger data sets were a service to make work reproducible, and stands apart
+storedontheOpenScienceFrameworkrepository. The from related approaches such as post-publication sta-
+markdown file included code to automatically down- tistical auditing, which might be viewed as implicitly
+load the data files, and any other required resources, if questioning the authors’ credibility or competence (see
+they were not present locally on the computer running e.g. Fiske, 2016). Error checking is most useful if it
+thecode. Wealsoincludedthescriptsandresourcefiles takesplacebeforeamanuscripthasbeensubmittedfor
+for a GitHub Actions pipeline (described below) to au- review(andcertainlybeforepublication).
+tomatically execute the code each time the repository We discovered some useful general (i.e. non-R)
+was updated, and ensured that the pdf was generated resources for converting bibliographies to the BIBTEX
+correctly. format used in markdown documents. In particu-
+The penultimate step was to test the execution of lar, we found the Reference Extractor tool by Rintze
+each paper on multiple ‘clean’ systems. We did this by Zelle(https://github.com/rmzelle/ref-extractor/)help-
+downloading the markdown file from GitHub to com- ful for manuscripts that had used Zotero to gen-
+puters running Windows, Mac OS and Linux. We then erate the references list, and the AnyStyle tool by
+executed the script and checked that the final pdf was Sylvester Keil (https://github.com/inukshuk/anystyle)
+created correctly. The GitHub Actions workflow addi- useful for plaintext bibliographies. However for
+tionally ensured that the analysis reproduced within a both of these websites it was still necessary to
+Docker container, running remotely on a Linux server. manually enter field codes for each citation in the
+Finally, the analyst team would complete the feedback markdown file (see e.g. https://rstudio.github.io/
+form in Appendix C, and provide this to the authors, visual-markdown-editing/citations.html), which was
+alongwithlinkstotheonlinematerials. somewhatlabourintensive.
+Perhaps the most exciting development was that
+Whatwentwell we learned to implement automatic execution of
+manuscriptcodeusingGitHubActions,aso-calledCon-
+Oneoftheclearestsuccessesfromtheprojectwasthe
+tinuous Integration and Continuous Delivery (CI/CD)
+strong buy-in and commitment from the authors of pa-
+platform. By including specific files in a GitHub reposi-
+perssubmittedforprocessing. Ourcontributingauthors
+tory, it can be set to automatically launch a Docker en-
+wereincompleteagreementwiththeethosofcomputa-
+vironmentonaremoteserver,andexecutespecificcode
+tionalreproducibility,andwereexceptionallyopenand
+items, each time the repository is updated. The results
+collegiateinallinteractions. Severalauthorsexpressed
+(i.e. a pdf) are then posted back into the main repos-
+their intention to make their future work reproducible,
+itory. This has several major advantages over running
+and in one case, the lead author even did much of the
+code locally. First, it places minimal requirements on
+conversion to markdown format themselves after see-
+theenduser-nocodeordataneedstobedownloaded,
+ing how we had processed their first experiment. Most
+and no software needs to be installed. Edits can even
+members of the project team have also started using
+be made through the GitHub web interface using de-
+markdown routinely in their own work. We think this
+vices on which programming languages cannot be in-
+will help to spread good practice across the discipline,
+stalled (e.g. mobile devices such as iPads), with the
+asmoreexamplesofreproduciblepapersbecomeavail-
+results becoming available shortly afterwards. Second,
+able.
+becausethecoderunsremotelyonaserver,theenviron-
+In some contexts, identifying errors in an analysis
+ment is completely standardised, and does not interact
+mightbeconsideredanegativeoutcome. Howeverdur-
+withanylocallyinstalledsoftwareorpackageversions.
+ingourreproducibilitywork,discoveringerrorsandin-
+Third,thefullhistoryisretained,includingthelogsand
+consistencieswasgenerallypositive,becauseitallowed
+console output for each build of the code. Finally, it
+the study authors to check and, if necessary, correct
+is possible to request more powerful multi-core proces-
+any mistakes. In most cases these were minor round-
+===== PAGE 5/14 =====
+5
+sors, with additional memory and storage capacity, for are not available for recent Apple Mac computers that
+complexanalyses(thoughthismayincurcharges-cur- use an ARM chip (currently the M1 and M2 proces-
+rentlyexecutingsingle-coreActionsjobsisfreeforpub- sors) - at time of writing (mid-2023) the latest build
+lic repositories). After investigating several platforms is available for this architecture, but specific R versions
+for online deployment of manuscript code, GitHub Ac- are not. Running in emulation mode does not appear
+tionsprovedtobethemostelegantandstraightforward to be possible. We hope that this situation will change
+solution currently available, with many of our work- asthenewprocessorarchitecturebecomesmorewidely
+flowsproducingapdfinaround10-15minutes. used. Finally, we attempted to use the Binder system
+(https://mybinder.org/) to host interactive versions of
+Whatdidn’tgowell amanuscriptbasedonaDockerimage. Thiswaspossi-
+bleforverysimplemanuscripts,butforpapersrequiring
+In most cases, we were able to exactly reproduce
+largenumbersofRpackagestobeinstalledorlargedata
+analyses from commercial software such as SPSS and
+files it became very slow to start, and was impractical
+Stata using R. For example, to reproduce an SPSS t-
+forourpurposes.
+test in R, we used the t.test function, and then verified
+We tested the manuscript build process on multiple
+that the results were the same as those produced by
+operating systems (Windows, Mac and Linux). Whilst
+SPSS. However some analyses did not reproduce per-
+this was almost always a smooth process, we did expe-
+fectly. These tended to involve more complex meth-
+rience occasional issues. One quite surprising discov-
+ods, such as multiple imputation (which includes a
+ery was that the widely-used Times New Roman font is
+stochastic component) and compiler average causal ef-
+not available by default in the Linux operating system
+fects (CACE) analyses (Imbens & Angrist, 1994). We
+(because the font is owned by Microsoft). The font
+think that the implementations of these methods must
+was required to render some text in Russian (Cyrillic
+differ between software packages, as although the ex-
+script), so we needed to code an exception that se-
+act numbers were not identical, the results did repli-
+lected an alternative font (Nimbus Roman) when the
+cate qualitatively (i.e. significant effects remained sig-
+script was run on a Linux system. The LuaLatex en-
+nificant). We also note that the default method in R
+gine (https://www.luatex.org/) was also required for
+forperformingfactorialANOVAusestheType1sumsof
+correctrendering. Additionally,tousesomeRpackages
+squares calculation (in which successive predictors are
+weencounteredoccasionalsystem-leveldependencyis-
+added sequentially, much like in multiple regression),
+sues, particularly when using Docker containers - in
+whereasothersoftwaresuchasSPSSreportstheType3
+most cases it was possible to add the required libraries
+sumsofsquares(inwhichallpredictorsareconsidered
+andpackagestotheDockerfile,howeverthistooksome
+simultaneously). In order to reproduce Type 3 analy-
+timetoresolve.
+ses, it was necessary to use additional packages, such
+There is an occasional glitch in the osfr package
+astheezpackage(https://cran.r-project.org/package=
+(Wolen et al., 2020), which we used for download-
+ez), or the car (companion to applied regression; Fox
+ing data stored on the Open Science Framework web-
+&Weisberg,2019)package(https://cran.r-project.org/
+site (see e.g. https://github.com/ropensci/osfr/issues/
+package=car). We also discovered a quirk of the R im-
+142). Forrepositorieswithlargenumbersoffiles,some-
+plementation of the Wilcoxon rank sum test, such that
+timesspecificindividualfilesareomittedfromthenode
+the order in which the variables are entered can affect
+listing when using the osf_ls_files function. It is not
+theteststatistic(i.e. wilcox.test(A,B)(cid:44)wilcox.test(B,A)).
+entirely clear why this occurs, but it does seem to be
+This caused some confusion in reproducing the SPSS
+consistent across time and computer for a given repos-
+results, although the p-values were the same for both
+itory, and so is unlikely to be an intermittent server er-
+orderings.
+ror. One solution might be to include a hard-coded list
+Some issues were encountered during our early
+of file identifiers rather than directly index the reposi-
+attempts at preserving the computational environ-
+tory. Alternatively, large numbers of small files can be
+ment. We initially used the renv package (https:
+contained in a zip or other archive, and decompressed
+//cran.r-project.org/package=renv) to record package
+afterdownload. Howeverthesesolutionsareratherin-
+versions. However because we were developing the
+elegant,andwehopethattheissueisresolvedinfuture
+manuscript code across multiple systems, all with dif-
+versionsofthesoftware.
+ferent package versions, the ‘snapshot’ directories be-
+WehadoccasionaldifficultieswithcertainRpackage
+cameconfusingandunwieldy. Wethereforeadvisethat
+versions when running the code on an individual ma-
+renv should only be used once the final version of a
+chine. If a user already had one version of a package
+manuscript is available, and captured on a single com-
+installed and the code required a different version, it
+puter. WealsodiscoveredthatversionedRockerimages
+===== PAGE 6/14 =====
+6
+would not run, requiring the user to uninstall a pre- sure. The paper was due to be submitted to a jour-
+vious package and reinstall a specific version. These nal special issue, and we had around 10 days to cre-
+issues can all be avoided by using Docker containers, ate the markdown version. This was greatly aided by
+which preserve and isolate the computational environ- the fact that the original R code was extremely well
+ment from other software on the host computer. We structured and commented, making it straightforward
+provideinstructionsinatextfilewithinthe‘docker’sub- to extract the relevant results. However the original
+directoryofeachGitHubrepositorythoughweacknowl- codeincludedseveralmixedeffectsmodelsthatdidnot
+edge that not everyone is able to use Docker. We think properly converge, and took a long time to run. As
+that the GitHub Actions solution may help increase ac- these were not reported in the manuscript, we com-
+cessibility in this instance, as the code is executed re- mented out these lines of code, but they remained in
+motely on a server, avoiding any local system restric- place for interested readers. The reproducible version
+tions. of the manuscript is available at: https://github.com/
+Finally,wehadhopedtocompletethereproducibility AMTdeBruin/Bilingual-switching-ageing
+processonatleastonepaperprimarilyusingpythonfor The study by Mak et al. (2023) was interesting be-
+analysis. Howevernosuitablepapersweresubmittedso cause it was a Stage 2 registered report, which already
+thiswasnotpossible. had in-principle acceptance at the journal Royal Soci-
+ety Open Science. The study concerned the effects of
+Notesonindividualpapers sleep on false memories in the classic Deese-Roediger-
+McDermottparadigm,andinvolvedalargeonlinesam-
+Thefirstpaperweconvertedwasarecentlypublished
+ple (N=488). The manuscript was written in a some-
+study by Meese and Baker (2023). It was chosen be-
+what more structured way than typical papers in psy-
+cause the analysis code was already written in R, and
+chology. The analysis had been completed using R,
+thedatafileswererelativelysmall. Thepaperdescribes
+andwasrelativelystraightforwardtoconvertintomark-
+a psychophysical study on size adaptation, and reports
+down format, despite being very sophisticated, includ-
+both inferential statistics (mostly repeated measures
+ing both frequentist and Bayesian methods, as well as
+ANOVAs) and computational modelling. The original
+supplementary simulations. Some of the analyses took
+analysis code was spread across several different files,
+alongtimetorun(around6hours),andsoweinserted
+whichwecollatedintoasinglemarkdowndocumentin
+level flags into the code so that the user could choose
+differentcodechunks. Therewassomeminorconfusion
+whether to execute the full analysis, or load in a pre-
+aroundfigurenumbering,andworkingoutwhichpieces
+computed results file. This saved substantial time dur-
+of code were required for each analysis, but ultimately
+ing development. The final reproducible manuscript is
+a reproducible manuscript was created with no major
+availableat: https://github.com/bakerdh/sleepDRM
+issues. Theworktookaround64programmer-hours,as
+The paper by Baxter and Hobson (2024) was also a
+being our first paper there was a substantial overhead
+Stage2registeredreport,onthetopicoffaceprocessing
+for most team members in learning the basics of mark-
+inautism. Mostoftheanalysishadbeenconductedus-
+down. Thefinishedreproduciblemanuscriptisavailable
+ingSPSS,andinvolvedaseriesofstepwiselinearregres-
+at: https://github.com/bakerdh/SizeAdaptation
+sions. Although functions to perform stepwise regres-
+Our second paper was a manuscript by Grigoryan et
+sionareavailableinR(i.e. thestepAICfunctionfromthe
+al.(2024)thathadnotyetbeensubmittedtoajournal.
+MASS package; Venables & Ripley, 2002), these report
+ThepaperreportsanonlinestudyinvestigatingRussian
+different statistics from the standard SPSS implemen-
+citizens’ feelings about Russia’s invasion of Ukraine in
+tation. Reproducing the analyses in the paper there-
+2022. AgainthecodehadbeenwritteninR,anddidnot
+fore required separate calculation of each linear model
+involve large data files. Analyses were primarily linear
+(i.e. each step), followed by model comparison using
+regressions, reported in tables (we learned some use-
+the anova function from the base stats package. This
+fulfeaturesofthekableExtrapackagewhentypesetting
+fullyreproducedtheanalysesreportedinthepaper,and
+these). Progress was substantially faster than for the
+canbeseeninthereproduciblemanuscriptavailableat:
+first paper, taking around 24 programmer-hours. Some
+https://github.com/bakerdh/EmotionFaceAutism
+minortechnicalissuestodowithfontsneededtobere-
+Brennan et al. (2024) report the results of six ex-
+solved so that the manuscript would build properly on
+periments using a range of techniques, to test spe-
+all operating systems. The finished manuscript is avail-
+cific hypotheses about dehumanization and character
+ableat: https://github.com/gitgrigolus/political_action
+traits. Most of the analyses were conducted in SPSS,
+A manuscript by de Bruin et al. (2023), reporting
+and these reproduced exactly in R. The figures had
+a psycholinguistic study on language switching, was
+been generated in R, and involved some ingenious so-
+noteworthy because it was converted under time pres-
+===== PAGE 7/14 =====
+7
+lutionstothelimitsoftheggplot2package. Despitebe- der of the analysis had been written using R, and so
+ing a substantial paper, we were able to complete the was straightforward to convert into markdown format.
+work relatively quickly with no major issues. The fi- Oneminordifficultyconcernedaugmentinggraphscre-
+nal markdown file is available at: https://github.com/ atedusingtheggplot2packagewithadditionaltextand
+robraonain/DualModel-Criminals other components (such as arrows) - in the original
+A study by Lee et al. (2023) compared ‘mind- version of the paper this had been done using exter-
+mindedness’ between British and South Korean moth- nal software. Our eventual solution for this was to
+ers(mind-mindednessistheextenttowhichcaregivers create a blank pdf document, and use the base plot-
+consider the mental states of infants). The analy- ting functions to add the required features, followed
+ses were originally conducted in SPSS, and primarily by the grid.arrange function from the gridExtra pack-
+used MANCOVA (multivariate analysis of covariance). age (https://cran.r-project.org/package=gridExtra) to
+We were able to reproduce the results in R, though superimpose the graphs over the top. The markdown
+we did need to use the Anova and Manova functions files are available at: https://github.com/KJHansford/
+from the car package to specify the Type 3 sums of AuditoryResizing
+squares values that are typically returned by SPSS (see The final study, by Segala et al. (2023), investi-
+the “What Didn’t Go Well” section above). We also gated binocular combination of light signals and in-
+founditquitechallengingtoextracttheresultsofthese volved analysis of several diverse data types. These in-
+tests. Although the functions were able to print the cluded EEG data, pupillometry data, and psychophysi-
+results to the command window, it was more difficult cal data, spread across four experiments, and all anal-
+to save them to a variable for automatic insertion into ysedusingR.Therawdatafortheentirestudyrequired
+the manuscript text. We used the capture.output func- around 48GB of storage space, and took many hours
+tion from the base R utils package to save the results to analyse from scratch. We therefore included a pro-
+to a string, and then extracted the appropriate val- cessdata flag with four possible values, so that users
+ues. This was substantially more complicated than ex- could choose the extent of the analysis required. We
+tracting the results of most statistical tests. The final also added an option to delete the raw data for each
+manuscriptisavailableat: https://github.com/yl2944/ participant after processing, to save storage space on
+parental-mentalization-across-cultures- capacity limited systems. We think these features will
+We processed one paper, by Larkin et al. (2024), be useful for other studies involving large amounts of
+where much of the analysis was performed in Stata raw data, such as neuroimaging studies. The analysis
+(with some additional analyses conducted in SPSS). involved Bayesian computational modelling using Stan
+The paper described a randomised controlled trial of (Carpenter et al., 2017), which took approximately 24
+a smartphone app intervention intended to increase hours to run from scratch. We added a further op-
+mind-mindednessinnewmothers. TheStatascriptwas tionflagtodeterminewhetherthemodellingshouldbe
+provided,whichmadeitpossibletoreproducetheanal- conducted, or the results loaded from a pre-generated
+yses in R. Most of the straightforward statistical tests, file. OnerestrictionoftheGitHubActionsbuildpipeline
+such as correlations, regressions and t-tests, replicated is that analyses must complete within a 6 hour time
+exactly. However there were some more sophisticated window. This means that running the full pipeline
+analyses,involvingmultipleimputationandCACEanal- from scratch was not possible within GitHub, and in-
+ysis, where the implementation appeared to differ be- stead the code would need to be downloaded and run
+tween Stata and R. Our markdown script can there- locally. The repository for this study is available at:
+fore be considered a qualitative replication, in that the https://github.com/bakerdh/PupillometryEEG
+main conclusions were unaffected (i.e. effects that
+were significant in the Stata analysis remained so in Thefutureofcomputationalreproducibility
+the R analysis), despite differences in the values cal-
+Increasingnumbersofjournalsarenowrequiringpa-
+culated. The reproducible manuscript is available at:
+pers to share analysis code (Abbasi, 2023), and many
+https://github.com/bakerdh/testbabymind
+already mandate sharing data. However simply shar-
+The paper by Hansford et al. (2024) explored multi-
+ing code and data does not guarantee computational
+sensorymodulationofillusoryfingerresizing. Theorig-
+reproducibility (Crüwell et al., 2023; Hardwicke et al.,
+inalanalysishadbeenpartlywritteninMatlab, andin-
+2021), and very few journals currently (in 2023) in-
+volved using a simple algorithm to determine the posi-
+clude reproducibility checks as part of the review pro-
+tionoftheindexfingerinstillimagesofthehand. This
+cess (Meta-Psychology being a rare exception). Making
+code was translated line-by-line into R, and was able
+anentiremanuscriptreproducibleexceedsmostcurrent
+to exactly reproduce the original results. The remain-
+journal requirements, and makes verification of repro-
+===== PAGE 8/14 =====
+8
+ducibility much more straightforward. A manuscript ticipant). An alternative solution might be to conduct
+written in markdown is self-evidently reproducible, be- the group-level analyses on preprocessed data, reduc-
+causethemarkdownfilespecifiestheanalyses,andhow ing the time and storage requirements. Alternatively,
+theoutputsarepresentedinthemanuscript. Ifthecode deployment on high performance computing facilities
+has been executed using a cloud-based service such as or cloud platforms would permit the analysis of many
+GitHub Actions, there is also a fully documented audit large data sets in parallel. We look forward to future
+trailofexactlywhathasbeendone(includingstorageof technicaldevelopmentsinthisdirection.
+the server logs for the computer that ran the analysis). Another barrier to reproducibility is that many soft-
+Wethinkthatself-evidentlyreproduciblemanuscriptsof ware packages require a commercial license, and/or
+this type should render explicit reproducibility checks cannot be scripted or automated. A substantial pro-
+either extremely straightforward, or perhaps even un- portionofscientificresearchusescommercialprogram-
+necessary. They will also greatly facilitate the process mingplatformssuchasMatlabandMathematica,often
+of formal statistical audit of manuscripts (see e.g. Nui- relying on specialist toolboxes that are only available
+jten&Wicherts,2024),thoughwenotethatouraimin in those languages. In some cases it may be possible
+thisprojectwastoreproducetheanalysesconductedby to translate code into more open languages (as we did
+each study’s authors, rather than to provide commen- for the Hansford et al. study), and we note again that
+tary on whether we thought this analysis was appro- artificialintelligencetoolsshowincreasingutilityinthis
+priate. We consider that to be the responsibility of the area. Inourpilotstudywewereabletosuccessfullyre-
+journalreviewingandeditorialprocess. produce analyses that were originally conducted using
+Despite the many benefits of reproducible commercialstatisticalpackagessuchasSPSSandStata,
+manuscripts,therewillalwaysbesometypesofanalysis byrunningequivalentanalysesinR.Furthermore,are-
+that are inherently unsuitable for making reproducible cent development with some GUI-based statistics pack-
+fromtherawdata. Forexample,studiesusingprimarily ages such as JASP (https://jasp-stats.org/) and Jamovi
+qualitative methods, and those that require manual (https://www.jamovi.org/) is that they allow analyses
+coding or processing cannot be easily replaced by to be exported as R syntax (or will do in the near fu-
+automatedmethods. Thismightincludehumanratings ture), which opens the door to automation and repro-
+of video recordings, or manual segmentation of MRI ducibility. We hope that over time more researchers
+scans, for example. In such situations, a pragmatic realise the benefits of FOSS, and move their analy-
+solution would be to take the results from the manual sis pipelines away from commercial software. We are
+stages,andusethisasthedataonwhichareproducible aware that GitHub itself is a commercial entity (cur-
+analysis is based. However, rapid progress is being rently owned by Microsoft), that might restrict its free
+made in using artificial intelligence tools, including functionalityatsomepointinthefuture,makingitless
+deeplearning,toautomaticallycodecomplexdatasuch usefulforhostingrepositorieswithoutcharge.
+as images and movies (see e.g. DeepLabCut; Mathis Our pilot project was funded for 6 months, and a
+et al., 2018). It is therefore likely that increasingly natural question is how we could continue this work
+accurate automation might replace human labour in beyond the end of that period. One option is to seek
+someareasofdataanalysis,withtheaddedbenefitthat further grant funding, so that ‘reproducibility as a ser-
+theseanalyseswillthenbecomemorereproducible. vice’ can be provided at no cost to a paper’s authors.
+We did not process any papers that used fMRI dur- However without very substantial funding this would
+ingthispilotproject. TheanalysismethodsforMRIare necessarily remain limited in reach, most likely to our
+relativelycomplex,andthereareoftendatasharingre- own department. Another option would be to charge a
+strictionsonMRIimages,primarilybecauseparticipants fee for each paper that is processed. We ran an infor-
+can in principle be identified from their scan data. We mal poll on social media that indicated relatively few
+note that the fMRI community is now embracing stan- respondentshadthefinancialresourcestopayforsuch
+dardised data formats (i.e. BIDS; Gorgolewski et al., a service. Over time this may change, and making pa-
+2016) and analysis pipelines (i.e. fMRIprep; Esteban et pers reproducible could be costed into grant propos-
+al., 2019), which will aid substantially in reproducibil- als if a commercial service were available. Alterna-
+ity. Howeveritmaynotcurrentlybefeasibletousethe tive routes to sustainability might include direct sup-
+pipelineweproposeheretoanalyselargeMRIdatasets port from academic institutions (Universities are in-
+from scratch. In particular the GitHub Actions work- creasingly assessed on open research practices), chari-
+flows have a time limit of 6 hours, and most MRI pre- ties, or national interest groups such as the UK repro-
+processing requires substantially longer (i.e. FreeSurfer ducibility network (and international equivalents). Of-
+reconstructiontypicallytakesaround12hoursperpar- fering training courses to disseminate these methods
+===== PAGE 9/14 =====
+9
+mayalsoproveuseful. Afinalpossibilityissupportfrom Supported by an Enhancing Research Culture award
+journal publishers, who should have a vested interest fromResearchEngland(viatheUniversityofYork).
+in quality control of their outputs, and in many cases
+have sufficient financial resources to make investments AuthorContributions
+inhiringtechnicallycapablestaff.
+DHB:Conceptualization,Datacuration,Formalanal-
+The pilot project made ten papers reproducible. In
+ysis, Funding acquisition, Investigation, Methodology,
+doingso,wehopethattheauthorsofthosepapershave
+Project administration, Resources, Software, Supervi-
+experienced the benefits of reproducibility, and might
+sion, Validation, Visualization, Writing - original draft,
+aimtomakemoreoftheirfutureworkreproducibleina
+andWriting-review&editing. MB:Conceptualization,
+similarway. Oftenseeinganexampleofsomethingthat
+Data curation, Formal analysis, Investigation, Method-
+is familiar helps us to put new concepts into a mean-
+ology, Resources, Software, Validation, Visualization,
+ingful framework, and we suspect this to be the case
+andWriting-review&editing. KJH:Conceptualization,
+for markdown scripting. Seeing how the analyses and
+Data curation, Formal analysis, Investigation, Method-
+reporting conventions in a particular sub-field can be
+ology, Resources, Software, Validation, Visualization,
+madereproducibleshouldthereforeserveasatemplate
+and Writing - review & editing. BPAQ: Conceptual-
+for future studies. It is also the case that all members
+ization, Data curation, Formal analysis, Investigation,
+of the project team have acquired extensive skills and
+Methodology, Resources, Software, Validation, Visual-
+experience in creating reproducible documents, and in
+ization,andWriting-review&editing. FGS:Conceptu-
+most cases have begun to apply this to our own re-
+alization, Data curation, Formal analysis, Investigation,
+search. In this way we expect that good practice will
+Methodology, Resources, Software, Validation, Visual-
+spread throughout the discipline, gradually changing
+ization, and Writing - review & editing. ELW-E: Con-
+research culture and norms around computational re-
+ceptualization, Data curation, Formal analysis, Investi-
+producibility. We believe that communication of scien-
+gation, Methodology, Resources, Software, Validation,
+tific results should be as open and transparent as pos-
+Visualization,andWriting-review&editing.
+sible, and propose that computationally reproducible
+manuscriptsarethe‘goldstandard’inrealisingthisgoal.
+OpenSciencePractices
+Thetoolstoproducethemarenowfreelyavailable,and
+we hope that the training materials we developed dur-
+ingthisproject(seeAppendixA)willhelpotherstoac-
+quirethenecessaryskillstomaketheirownworkrepro-
+ducibleinthisway.
+This article earned the Open Materials badge for
+making the materials openly available. This is a narra-
+AuthorContact
+tive paper and as such was not reproduced nor eligible
+Corresponding author, Daniel H. Baker, email: forotherbadges. Theentireeditorialprocess,including
+daniel.baker@york.ac.uk theopenreviews,ispublishedintheonlinesupplement.
+ORCIDIDs:
+DHB:0000-0002-0161-443X References
+KJH:0000-0002-5738-6843
+Abbasi, K. (2023). A commitment to act on data shar-
+BPAQ:0000-0001-8595-4433
+ing. BMJ, p1609. https://doi.org/10.1136/
+FGS:0000-0002-4982-8023
+bmj.p1609
+ELW-E:0000-0002-8926-4672
+Baker,D.H.(2021).Statisticalanalysisofperiodicdata
+inneuroscience.Neurons,Behavior,Dataanaly-
+Acknowledgments
+sis,andTheory,5(3),1–18.https://doi.org/10.
+We thank all of the study authors who contributed 51628/001c.27680
+their work to our pilot study. We also wish to thank Baker,D.H.,Vilidaite,G.,&Wade,A.R.(2021).Steady-
+Dr Lincoln Colling for showing us the Github Actions state measures of visual suppression. PLOS
+workflow. Computational Biology, 17(10), e1009507.
+https://doi.org/10.1371/journal.pcbi.1009507
+ConflictofInterestandFunding Baxter,N.,&Hobson,H.(2024).Theroleofemotional
+factors in face processing abilities in autism
+The authors declare no current conflicts of interest,
+spectrum conditions. Research in Autism Spec-
+but reserve the right to offer the services described in
+trum Disorders, 115, 102400. https://doi.org/
+the manuscript on a commercial basis in the future.
+10.1016/j.rasd.2024.102400
+===== PAGE 10/14 =====
+10
+Brennan,R.A.,Enock,F.E.,&Over,H.(2024).Attribu- Grigoryan, L., Ponizovskiy, V., Weißflog, M. I., Osin, E.,
+tionofundesirablecharactertraits,ratherthan & Lickel, B. (2024). Guilt, shame, and antiwar
+trait-based dehumanization, predicts punish- actioninanauthoritariancountryatwar.Polit-
+mentdecisions.RSocOpenSci,11(7),240087. ical Psychology, pops.12985. https://doi.org/
+https://doi.org/10.1098/rsos.240087 10.1111/pops.12985
+Carpenter, B., Gelman, A., Hoffman, M. D., Lee, D., Hansford, K. J., Baker, D. H., McKenzie, K. J., & Pre-
+Goodrich, B., Betancourt, M., Brubaker, M., ston,C.E.(2024).Multisensoryprocessingand
+Guo, J., Li, P., & Riddell, A. (2017). Stan: A proprioceptive plasticity during resizing illu-
+Probabilistic Programming Language. Journal sions. Experimental Brain Research, 242, 451–
+of Statistical Software, 76(1). https://doi.org/ 462. https://doi.org/10.1007/s00221-023-
+10.18637/jss.v076.i01 06759-7
+Crüwell,S.,Apthorp,D.,Baker,B.J.,Colling,L.,Elson, Hardwicke,T.E.,Bohn,M.,MacDonald,K.,Hembacher,
+M., Geiger, S. J., Lobentanzer, S., Monéger, J., E., Nuijten, M. B., Peloquin, B. N., deMayo,
+Patterson, A., Schwarzkopf, D. S., Zaneva, M., B. E., Long, B., Yoon, E. J., & Frank, M. C.
+& Brown, N. J. L. (2023). What’s in a Badge? (2021). Analytic reproducibility in articles re-
+A Computational Reproducibility Investigation ceivingopendatabadgesatthejournalPsycho-
+of the Open Data Badge Policy in One Issue logical Science : An observational study. Royal
+of Psychological Science. Psychological Science, SocietyOpenScience,8(1),201494.https://doi.
+34(4), 512–522. https://doi.org/10.1177/ org/10.1098/rsos.201494
+09567976221140828 Imbens, G. W., & Angrist, J. D. (1994). Identification
+de Bruin, A., Kressel, H., & Hemmings, D. (2023). and Estimation of Local Average Treatment Ef-
+A comparison of language control while fects. Econometrica, 62(2), 467. https://doi.
+switching within versus between languages org/10.2307/2951620
+in younger and older adults. Sci Rep, 13(1), Larkin, F., Oostenbroek, J., Lee, Y., Hayward, E., Fer-
+16740. https://doi.org/10.1038/s41598-023- nandez, A., Wang, Y., Mitchell, A., Li, L. Y.,
+43886-1 & Meins, E. (2024). A smartphone app effec-
+Esteban, O., Markiewicz, C. J., Blair, R. W., Moodie, tively facilitates mothers mind-mindedness: A
+C. A., Isik, A. I., Erramuzpe, A., Kent, J. D., randomized controlled trial. Child Dev, 95(3),
+Goncalves, M., DuPre, E., Snyder, M., Oya, H., 831–844.https://doi.org/10.1111/cdev.14039
+Ghosh, S. S., Wright, J., Durnez, J., Poldrack, Lee,Y.J.,Meins,E.,&Larkin,F.(2023).ParentalMen-
+R. A., & Gorgolewski, K. J. (2019). fMRIPrep: talization Across Cultures: Mind-mindedness
+A robust preprocessing pipeline for functional and Parental Reflective Functioning in British
+MRI. Nature Methods, 16(1), 111–116. https: and South Korean Mothers. PsyArXiv. https://
+//doi.org/10.1038/s41592-018-0235-4 doi.org/10.31234/osf.io/qx9mh
+Fiske, S. (2016). A call to change science’s culture of Mak, M. H. C., O’Hagan, A., Horner, A. J., & Gaskell,
+shaming. Observer, 29(9), 5–11. https://www. M. G. (2023). A registered report testing the
+psychologicalscience.org/observer/a-call-to- effect of sleep on Deese-Roediger-McDermott
+change-sciences-culture-of-shaming false memory: Greater lure and veridical recall
+Fox, J., & Weisberg, S. (2019). An R Companion to Ap- but fewer intrusions after sleep. Royal Society
+plied Regression (Third Edition). Sage. https: OpenScience,10(12),220595.https://doi.org/
+//socialsciences.mcmaster.ca/jfox/Books/ 10.1098/rsos.220595
+Companion/ Mathis, A., Mamidanna, P., Cury, K. M., Abe, T.,
+Gorgolewski, K. J., Auer, T., Calhoun, V. D., Crad- Murthy, V. N., Mathis, M. W., & Bethge, M.
+dock, R. C., Das, S., Duff, E. P., Flandin, G., (2018). DeepLabCut: Markerless pose estima-
+Ghosh, S. S., Glatard, T., Halchenko, Y. O., tionofuser-definedbodypartswithdeeplearn-
+Handwerker, D. A., Hanke, M., Keator, D., Li, ing. Nature Neuroscience, 21(9), 1281–1289.
+X., Michael, Z., Maumet, C., Nichols, B. N., https://doi.org/10.1038/s41593-018-0209-y
+Nichols, T. E., Pellman, J., ... Poldrack, R. A. Meese, T. S., & Baker, D. H. (2023). Object Image Size
+(2016). The brain imaging data structure, a IsaFundamentalCodingDimensioninHuman
+format for organizing and describing outputs Vision: New Insights and Model. Neuroscience,
+of neuroimaging experiments. Scientific Data, 514, 79–91. https://doi.org/10.1016/j.
+3(1), 160044. https://doi.org/10.1038/sdata. neuroscience.2023.01.025
+2016.44
+===== PAGE 11/14 =====
+11
+Nuijten, M. B., & Wicherts, J. M. (2024). Implement-
+ing statcheck during peer review is related to
+a steep decline in statistical-reporting inconsis-
+tencies. Advances in Methods and Practices in
+Psychological Science, 7(2). https://doi.org/
+10.1177/25152459241258945
+Obels, P., Lakens, D., Coles, N. A., Gottfried, J., &
+Green, S. A. (2020). Analysis of Open Data
+and Computational Reproducibility in Regis-
+tered Reports in Psychology. Advances in Meth-
+ods and Practices in Psychological Science, 3(2),
+229–237. https : / / doi . org / 10 . 1177 /
+2515245920918872
+Peikert,A.,&Brandmaier,A.M.(2021).AReproducible
+DataAnalysisWorkflow.QuantitativeandCom-
+putational Methods in Behavioral Sciences, 1,
+e3763.https://doi.org/10.5964/qcmb.3763
+Rouder,J.N.,&Haaf,J.M.(2018).Power,Dominance,
+andConstraint:ANoteontheAppealofDiffer-
+entDesignTraditions.AdvancesinMethodsand
+Practices in Psychological Science, 1(1), 19–26.
+https://doi.org/10.1177/2515245917745058
+Segala, F. G., Bruno, A., Martin, J. T., Aung, M. T.,
+Wade, A. R., & Baker, D. H. (2023). Differ-
+ent rules for binocular combination of lumi-
+nance flicker in cortical and subcortical path-
+ways. eLife, 12, RP87048. https://doi.org/10.
+7554/eLife.87048
+Venables,W.,&Ripley,B.(2002).ModernAppliedStatis-
+tics with S (Fourth Edition). Springer. https://
+www.stats.ox.ac.uk/pub/MASS4/
+Wiebels, K., & Moreau, D. (2021). Leveraging Contain-
+ers for Reproducible Psychological Research.
+Advances in Methods and Practices in Psycholog-
+ical Science, 4(2), 25152459211017853. https:
+//doi.org/10.1177/25152459211017853
+Wolen, A., Hartgerink, C., Hafen, R., Richards, B.,
+Soderberg, C., & York, T. (2020). Osfr: An R
+InterfacetotheOpenScienceFramework.Jour-
+nalofOpenSourceSoftware,5(46),2071.https:
+//doi.org/10.21105/joss.02071
+===== PAGE 12/14 =====
+12
+Appendices
+AppendixA
+Thetrainingmaterialsproducedaspartofthisprojectareavailableat: https://github.com/bakerdh/ReproduceMe
+AppendixB
+Template Onboarding form, which was completed at or after the initial meeting between authors and the project
+team.
+ReproduceMe Initial Scoping form
+Date of initial meeting:
+Contact author name:
+Contact author email:
+Contact author GitHub:
+Contact author OSF:
+Paper title:
+Brief overview of paper:
+Target journal (if known):
+Current status:
+Not yet submitted
+Preprint posted
+In review
+Stage 1 RR acceptance
+Accepted/published
+Manuscript written using:
+MS word
+Google docs
+Open office
+Overleaf
+LaTex
+R markdown
+Other (please specify)
+Analysis conducted using (tick all that apply):
+R
+SPSS
+SAS
+Stata
+Matlab
+Python
+Julia
+===== PAGE 13/14 =====
+13
+JASP
+Jamovi
+Other (please list)
+Are figures generated automatically, or assembled manually?
+Data format:
+CSV
+XLSX
+SPSS
+.mat
+.RData
+Python
+NIFTI
+Other (please specify)
+Approximate total data size:
+0 - 100MB
+100MB - 1GB
+1GB - 50GB
+>50GB
+If data/code are already shared online, please provide the URL(s):
+Do the data need to be modified (i.e. de-anonymised) before sharing?
+Are there any restrictions on data sharing?
+Can we convert data to a more open format if appropriate?
+Materials provided:
+Desired level of computational reproducibility:
+1 - Sharing of scripts and data online with manual download
+2 - Automated download and analysis
+3 - Full analysis pipeline (makes a pdf of the paper)
+4 - Reproducible environment
+Additional comments or requests:
+===== PAGE 14/14 =====
+14
+AppendixC
+TemplatefortheFeedbackform,providedtoauthorswhenworkhadfinished.
+ReproduceMe Final Report form
+Contact author name:
+Paper title:
+Date work completed:
+Approximate time taken (hours):
+Completed by (initials):
+Location of files:
+Level of computational reproducibility achieved:
+1 - Sharing of scripts and data online with manual download
+2 - Automated download and analysis
+3 - Full analysis pipeline (makes a pdf of the paper)
+4 - Reproducible environment
+Operating systems tested on:
+Windows
+Mac
+Linux
+Description of any serious issues encountered during the process:
+Description of any minor issues encountered during the process:
+Other comments, suggestions and feedback:
