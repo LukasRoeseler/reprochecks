@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Bartos & Maier Power or Alpha (MP.2020.2460)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Bartos &amp; Maier (2022)</h1>
+<p class="sub">MP.2020.2460 &middot; <i>Meta-Psychology</i>, 6 &middot; doi:10.15626/MP.2020.2460 &middot; <i>Power or Alpha? The Better Way of Decreasing the False Discovery Rate</i></p>
+<p><span class="verdict reproduced">Reproduced</span></p>
+
+<h2>Package audited</h2>
+<p>Bartos, F. &amp; Maier, M. (2022), <i>Meta-Psychology</i>, 6, MP.2020.2460 (doi: 10.15626/MP.2020.2460). Methods article comparing the relative efficiency of decreasing the significance level (alpha) versus increasing statistical power in reducing the false discovery rate (FDR). Open data: N/A; Open materials: Yes; Open and reproducible analysis: Yes (analysis reproduced by J. Fust).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>Reproduced.</strong> The article's closed-form FDR definition (Eq. 1) and its central claim - that for reducing the FDR, decreasing alpha is usually more efficient than increasing statistical power - reproduce exactly from the paper's own "Royal Tea Tasting Society" running example.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>False-positive proportion (P(H0)&middot;alpha)</td><td>0.05&middot;0.80 = 4%</td><td>0.04</td><td>Match</td></tr>
+<tr><td>True-positive proportion (P(H1)&middot;power)</td><td>0.19&middot;0.20 = 3.8%</td><td>0.038</td><td>Match</td></tr>
+<tr><td>Running-example FDR</td><td>0.04/(0.04+0.038) = 0.5128</td><td>0.5128</td><td>Match</td></tr>
+<tr><td>Decrease alpha to .01 (power .19)</td><td>FDR &asymp; 17.4%</td><td>0.1739</td><td>Match</td></tr>
+<tr><td>Increase power to .80 (alpha .05)</td><td>FDR &asymp; 20%</td><td>0.20</td><td>Match</td></tr>
+<tr><td>Central claim</td><td>Decreasing alpha more efficient</td><td>17.4% &lt; 20% &rarr; TRUE</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Formula.</strong> FDR = P(H<sub>0</sub>)&middot;&alpha; / [P(H<sub>0</sub>)&middot;&alpha; + (1&minus;P(H<sub>0</sub>))&middot;power] (Eq. 1).</p>
+<p><strong>Running example.</strong> P(H<sub>0</sub>) = 0.80 (four-fifths lack the ability), P(H<sub>1</sub>) = 0.20, &alpha; = 0.05, power = 0.19. False positives = 0.80&middot;0.05 = 0.04; true positives = 0.20&middot;0.19 = 0.038; FDR = 0.04/(0.04+0.038) = 0.5128 (51.3%).</p>
+<p><strong>Central claim.</strong> Holding the example parameters, decreasing &alpha; to 0.01 (power fixed at 0.19) yields FDR = 0.1739 (17.4%), whereas increasing power to 0.80 (&alpha; fixed at 0.05) yields FDR = 0.20 (20.0%). Decreasing &alpha; achieves a lower FDR, confirming the paper's conclusion that reducing &alpha; is usually the more efficient route.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P3).</strong> The running example is illustrative; the article's quantitative conclusion follows analytically from Eq. 1. The general claim is verified for this parameterisation, but the full article also relies on a review of 106 prior articles (a literature claim, not a numerical one).</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R script: <code>bartos2460_repro.R</code>; captured output: <code>bartos2460_repro_output.txt</code> (in this folder).</p>
+</div>
+</body></html>
