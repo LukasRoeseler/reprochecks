@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta-Psychology Reprochecks: Inclusion/Exclusion Criteria &amp; Flowchart</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1040px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:26px; }
+h3 { font-size:11.5pt; margin:14px 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:5px 8px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { display:inline-block; padding:3px 9px; border-radius:4px; font-size:9.5pt; font-weight:bold; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+.partial { background:#fff8e1; color:#f57f17; border:1px solid #f57f17; }
+.notreproduced { background:#ffebee; color:#c62828; border:1px solid #c62828; }
+.notchecked { background:#e3f2fd; color:#1565c0; border:1px solid #1565c0; }
+.nonempirical { background:#f0f0f0; color:#555; border:1px solid #999; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+/* Flow chart */
+.fc { margin:16px 0; }
+.node { display:block; max-width:640px; margin:0 auto; padding:9px 14px; border-radius:6px; border:2px solid #33475b; background:#fff; text-align:center; font-size:10.5pt; }
+.node.term { background:#33475b; color:#fff; border-color:#33475b; }
+.node.dec { background:#fff8e1; border-color:#e0a800; }
+.node.act { background:#e8f5e9; border-color:#43a047; }
+.node.skip { background:#f0f0f0; border-color:#999; }
+.arrow { text-align:center; font-size:14pt; line-height:1; margin:2px 0; }
+.lbl { display:inline-block; font-size:9pt; color:#555; background:#f4f4f4; border:1px solid #ccc; border-radius:3px; padding:1px 6px; margin-left:6px; }
+.branch { display:flex; justify-content:center; gap:30px; margin:2px 0; }
+.branch .col { flex:1; max-width:300px; }
+.branch .node { width:100%; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>Meta-Psychology Reprochecks: Inclusion/Exclusion Criteria &amp; Flowchart</h1>
+<p class="sub">ReproAI study &middot; Applied to <i>Meta-Psychology</i> articles (Vols 3&ndash;7 onward, published at open.lnu.se)</p>
+
+<h2>1. Study aim</h2>
+<p>For every article published in <i>Meta-Psychology</i>, we (a) retrieve the paper and its metadata, (b) determine whether it contains independently verifiable numerical claims, and (c) if so, re-implement the reported analyses to check whether the results reproduce. Non-empirical pieces are flagged and recorded but not re-run.</p>
+
+<h2>2. Inclusion criteria</h2>
+<table>
+<thead><tr><th>#</th><th>Criterion</th><th>Operational rule</th></tr></thead>
+<tbody>
+<tr><td>INC-1</td><td>Journal of record</td><td>Article is published in <i>Meta-Psychology</i> (open.lnu.se), i.e., has a DOI <code>10.15626/MP.*</code> and a journal header on page 1.</td></tr>
+<tr><td>INC-2</td><td>Volume/period</td><td>Article falls within the study window (starting Vol 3, 2019; proceeding forward by volume).</td></tr>
+<tr><td>INC-3</td><td>Full text obtainable</td><td>A PDF galley is downloadable from the journal; full text can be extracted.</td></tr>
+<tr><td>INC-4</td><td>Verifiable numerical claims</td><td>The article reports statistics/estimates derived from data, simulation, or a fully-specified worked example that can be recomputed.</td></tr>
+</tbody>
+</table>
+
+<h2>3. Exclusion criteria</h2>
+<table>
+<thead><tr><th>#</th><th>Criterion</th><th>Operational rule</th></tr></thead>
+<tbody>
+<tr><td>EXC-1</td><td>Non-empirical article type</td><td>Article type is Commentary, Editorial, Guest Editorial, Tutorial, Review Protocol, Framework/guidance, Tool/method description, or Conceptual/theoretical &rarr; no reprocheck.</td></tr>
+<tr><td>EXC-2</td><td>No verifiable numbers</td><td>Full-text audit finds no recomputable numeric claim (purely argumentative or descriptive prose).</td></tr>
+<tr><td>EXC-3</td><td>Data &amp; method unavailable</td><td>The data/code is not available AND the method cannot be independently reconstructed to a defensible degree.</td></tr>
+<tr><td>EXC-4</td><td>Descriptive/investigative only</td><td>An article with only descriptive statistics and no reproducible analysis pipeline (e.g., investigative case studies) is treated as non-empirical.</td></tr>
+</tbody>
+</table>
+
+<h2>4. Empirical vs non-empirical classification</h2>
+<p>An article is <strong>empirical</strong> (goes on to reprocheck) if it reports results that a third party could recompute, i.e. it is a: replication report, original article with data, meta-analysis, file-drawer report, or a methods/simulation article with reproducible output. An article is <strong>non-empirical</strong> (recorded, not re-run) if it is commentary, editorial, tutorial, conceptual, framework/guidance, tool description, review protocol, or descriptive without a reproducible analysis.</p>
+
+<h2>5. Outcome categories</h2>
+<table>
+<thead><tr><th>Outcome</th><th>Meaning</th><th>Visual</th></tr></thead>
+<tbody>
+<tr><td>Reproduced</td><td>All (or all load-bearing) recomputed statistics match the reported values to the reported precision.</td><td><span class="verdict reproduced">Reproduced</span></td></tr>
+<tr><td>Partially reproduced</td><td>Most statistics match, but some cannot be matched or a minor discrepancy is noted.</td><td><span class="verdict partial">Partially reproduced</span></td></tr>
+<tr><td>Not reproduced</td><td>Recomputation materially disagrees with the reported results.</td><td><span class="verdict notreproduced">Not reproduced</span></td></tr>
+<tr><td>Not checked</td><td>Classified empirical but not yet audited/reproduced.</td><td><span class="verdict notchecked">Not checked</span></td></tr>
+<tr><td>Non-empirical</td><td>No verifiable numerical claims; excluded from reprochecking.</td><td><span class="verdict nonempirical">Non-empirical</span></td></tr>
+</tbody>
+</table>
+
+<h2>6. Flowchart</h2>
+<div class="fc">
+<span class="node">START &mdash; Fetch article from <i>Meta-Psychology</i> (journal ID, DOI, PDF)</span>
+<div class="arrow">&#8595;</div>
+<span class="node act">Download PDF &amp; extract full text</span>
+<div class="arrow">&#8595;</div>
+<span class="node act">Extract metadata: article type, open data, open materials, open reproducible analysis, preregistration</span>
+<div class="arrow">&#8595;</div>
+<span class="node dec">Is the article empirical (contains recomputable numerical claims)? <span class="lbl">INC-4</span></span>
+<div class="branch">
+<div class="col"><span class="node skip">NO &rarr; Non-empirical (Commentary / Editorial / Tutorial / Conceptual / Framework / Tool / Review Protocol / Descriptive) <span class="lbl">EXC-1, EXC-2, EXC-4</span></span><div class="arrow">&#8595;</div><span class="node skip">Mark <strong>non_empirical</strong> &mdash; record, do not re-run</span></div>
+<div class="col"><span class="node">YES &rarr; Empirical (Replication / Original with data / Meta-analysis / Methods &amp; simulation)</span><div class="arrow">&#8595;</div><span class="node dec">Audit full text for verifiable numeric claims</span></div>
+</div>
+<div class="arrow">&#8595;</div>
+<span class="node dec">How can the claim be reproduced?</span>
+<div class="branch">
+<div class="col"><span class="node act">Fully-specified example / code supplied</span><div class="arrow">&#8595;</div><span class="node act">Re-implement &amp; recompute directly</span></div>
+<div class="col"><span class="node act">Requires raw dataset</span><div class="arrow">&#8595;</div><span class="node act">Fetch data (OSF/NHANES/etc.) &amp; re-run analysis</span></div>
+<div class="col"><span class="node act">Requires full method re-implementation</span><div class="arrow">&#8595;</div><span class="node act">Implement method &amp; verify output</span></div>
+</div>
+<div class="arrow">&#8595;</div>
+<span class="node dec">Do recomputed results match the reported values?</span>
+<div class="branch">
+<div class="col"><span class="node act">Yes &rarr; <strong>Reproduced</strong></span></div>
+<div class="col"><span class="node act">Mostly &rarr; <strong>Partially reproduced</strong></span></div>
+<div class="col"><span class="node skip">No &rarr; <strong>Not reproduced</strong></span></div>
+</div>
+<div class="arrow">&#8595;</div>
+<span class="node term">END &mdash; Record outcome + caveats in dataset &amp; dashboard</span>
+</div>
+
+<h2>7. Current status</h2>
+<p>Dataset: <code>mp_reprochecks.json</code> (79 Meta-Psychology entries: Vols 3&ndash;7). See the <a href="https://lukasroeseler.github.io/reprochecks/MetaPsych_Reprochecks_Dashboard.html">ReproAI dashboard</a> for the interactive, filterable view.</p>
+</div>
+</body></html>

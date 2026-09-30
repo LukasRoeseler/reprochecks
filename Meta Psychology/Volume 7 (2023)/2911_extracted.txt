@@ -1,0 +1,1335 @@
+
+===== PAGE 1/20 =====
+Opendata:NotApplicable Editedby:RickardCarlsson
+Meta-Psychology,2023,vol7,MP.2021.2911 Openmaterials:NotApplicable Reviewedby:PederIsager,JuliaRohrer
+https://doi.org/10.15626/MP.2021.2911 Openandreproducibleanalysis:NotApplicable Analysisreproducedby:NotApplicable
+Articletype:OriginalArticle Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+PublishedundertheCC-BY4.0license Preregistration:No https://doi.org/10.17605/OSF.IO/CAFU5
+Visual Argument Structure Tool (VAST) Version 1.0
+Daniel Leising, Oliver Grenke, and Marcos Cramer
+TechnischeUniversitätDresden
+WepresentthefirstversionoftheVisualArgumentStructureTool(VAST),whichmay
+beusedforjointlyvisualizingthesemantic,conceptual,empiricalandreasoningrela-
+tionshipsthatconstitutearguments. Itsprimarypurposeistopromoteexactnessand
+comprehensivenessinsystematicthinking. Thesystemdistinguishesbetweenconcepts
+and the words (“names”) that may be used to refer to them. It also distinguishes
+variouswaysinwhichconceptsmayberelatedtooneanother(causation,conceptual
+implication,prediction,transformation,reasoning),andallofthesefrombeliefsasto
+whether something IS the case and/or OUGHT to be the case. Using these elements,
+thesystemallowsforformalizationsofnarrativeargumentcomponentsatanylevelof
+vagueness vs. precision that is deemed possible and/or necessary. This latter feature
+maymakethesystemparticularlyusefulforattaininggreatertheoreticalspecificityin
+the humanities, and for bridging the gap between the humanities and the “harder”
+sciences. However, VAST may also be used outside of science, to capture argument
+structuresine.g.,legalanalyses,mediareports,beliefsystems,anddebates.
+Keywords: Modelling,Formalization,Narrative,Theory,Humanities,Science
+Introduction exactlysuchbettertheorizingmaybeachievedislargely
+missing,however(Borsboometal.,2021).
+Argument structures are ubiquitous and important:
+In the present paper, we introduce a tool devised for
+We encounter them every day, in newspaper articles,
+dealing with those problems. The tool is called VAST
+in court rulings, in political and non-political debates
+(Visual Argument Structure Tool). The core idea is to
+on and off screen, and in our own more informal con-
+visuallydisplayallrelevantcomponentsofanargument
+versations with other people, and with ourselves. In
+structureatonce,whileatthesametimeaimingforex-
+an abstract sense, most arguments are about what is
+actness. Acomprehensivedisplaywillmakeitharderto
+true, why and how things are related to one another,
+overlookordownplayrelatedclaimsmadeearlier(e.g.,
+and about whether things are good or not. Too often,
+because those previous claims do not align well with
+however,argumentsseemtorunincircles,endinstale-
+more recent ones). Visual displays may also be more
+mates,orjustfizzleoutandaregivenupupon,instead
+intuitive and easier to digest for most users, especially
+of being conclusively resolved. We argue (yes), that
+whencomparedtothealternativeofusingalgebraicex-
+thesethingshappenbecausepeopletendtolosesightof
+pressions. After all, there is a reason why so many ar-
+someoftheclaimsthattheyorothershavemadebefore.
+ticles in scientific journals as well as in the news me-
+Therefore,itisoftenadvisabletoaimforacomprehen-
+dia are accompanied by figures illustrating their main
+sive analysis of all relevant argument components. An-
+points. Furthermore, visual displays tend to be more
+otherreasonwhysomanyargumentsremainunproduc-
+parsimonious: With formulae, the same variable name
+tiveisthatthosewhoarguetendtooverlooktheactual
+will have to be written again each time it is used as an
+complexityoftheirownandothers’claims,andtherel-
+input or output of some new equation. In contrast, a
+ativevaguenessofmanyclaims.
+visual display may incorporate the variable only once,
+Interestingly, the same problems seem to plague
+andestablishalloftherelevantrelationshipswithother
+muchofthemore“narrative”theorizingthatissocom-
+variablesthrougharrowsorlinespointinginvariousdi-
+moninthehumanities,andinpsychology. Infact,there
+rections. This is how the matter is handled in VAST,
+has been no shortage of calls for better (e.g. more for-
+andalignswellwiththetypicalapproachesinStructural
+malized) theorizing in psychology, precisely to counter
+Equation Modelling (SEM), Structural Causal Models
+these shortcomings (Devezer et al., 2021; Eronen &
+(SCM) and Directed Acyclic Graphs (DAG) (Dablander,
+Bringmann, 2021; Fried, 2020; Glöckner & Betsch,
+2020; Pearl, 1995; Pearl & Mackenzie, 2018; Rohrer,
+2011;Muthukrishna&Henrich,2019;Robinaughetal.,
+2018). Thegraphicalstructuringofargumentswasalso
+2021;Smaldino,2017,2019). Concreteadviceonhow
+inspired to some extent by developments in formal ar-
+===== PAGE 2/20 =====
+2
+Visual Argument Structure Tool (VAST) Version 1.0 1
+Table 1. Components of the System
+Element Name Meaning Symbolized by Default
+Range
+Concept A feature that may apply to certain objects Frame with abstract label 0; 1
+Name A natural-language label that may be used for a concept Frame with label in quotation marks 0; 1
+Higher-Order A specific combination of elements that may - in its Frame containing two or more elements 0; 1
+Concept entirety - apply to certain objects
+Data A set of actual observations Frame with thick black edge on one side 0; 1
+IS How much X is the case Pentagon containing IS in capitals 0; 1
+OUGHT How much X ought to be the case Pentagon containing OUGHT in capitals 0; 1
+Perspective How much perspective-holder agrees with X Oval connected to IS / OUGHT 0; 1
+Containing name of perspective-holder
+Naming How appropriate it is to call X by the name Y Arrow accompanied by lowercase letter n -1; 1
+Conceptual How much thinking of something as being X also implies Arrow accompanied by lowercase letter i -1; 1
+Implication thinking of it as being Y
+Causation How reliably X will trigger Y Arrow accompanied by lowercase letter c -1; 1
+Transformation How strongly X maps onto Y Arrow accompanied by lowercase letter t -1; 1
+Prediction How well Y may be predicted from X Arrow accompanied by lowercase letter p -1; 1
+Reasoning How much X is a reason to believe Y Arrow accompanied by lowercase letter r -1; 1
+gumentation(seeBaronietal.,2018). TheSystem
+VAST overlaps significantly with all of these previ-
+In this section, we introduce the different types of
+ous approaches, and also incorporates many elements
+elements that, taken together, constitute our system in
+of formal logic, in particular logical connectives (AND,
+itsentirety. Table1listsalloftheseelementsalongside
+OR and XOR) from classical propositional logic (Bün-
+each other. To facilitate comprehension, we will use a
+ing&Lettmann,1999)inthetraditionofBoole(1854)
+varietyofexamplesalongthewaytoillustratetheirpo-
+and Frege (1879). Given that we allow truth-values
+tentialuses.
+between 0 and 1 (see below), VAST is also influenced
+bycontinuously-valuedlogics(Preparata&Yeh,1972).
+Concepts
+However,VASTiscomparativelybroaderandmoreinte-
+grativeinthatitexplicitlyaccountsforvarioustypesof Concepts are the basic building blocks of cognition.
+relationships between concepts (i.e., naming, concep- Notethatconceptsareassumedtoexistbeforelanguage
+tual implication, causation, prediction, transformation, isbeingused(seebelow)—theymayexerttheirinflu-
+and reasoning). The strength of all of these relation- enceirrespectiveofthewords(“names”,seebelow)that
+ships may be expressed in terms of the same metric, areusedtodenotethem. Aconceptassignsvaluestoob-
+as we will explain in more detail below. VAST also ac- jects. Thus, concepts are very similar to mathematical
+counts for the possibility that concepts may be applied functionsinthattheyproduceanoutputvalueforevery
+to different sets of objects, for claims as to whether input(i.e.,object). Inthemostsimplecase,thatoutput
+somethingISand/orOUGHTtobethecase,andfordif- will be dichotomous, so the concept will yield a value
+ferent perspectives on these issues. We discuss some of of either 0 or 1 for each object. Here, 1 means that
+theoverlapanddifferencesbetweenVASTandprevious the object is an exemplar of the concept, and 0 means
+toolswithasimilarscopefurtherbelow. that the object is not an exemplar of the concept. For
+instance,apersonmaylookatanumberofobjectsand
+determine whether any of them are exemplars of the
+concept that one would refer to with the word “car”.
+===== PAGE 3/20 =====
+3
+Note,however,thatmanyconceptsarenotdichotomous
+but allow for continuous variation of output values. In „Device used „Small, nocturnal
+VAST,thisvariationisusuallynormalizedtoarangebe- forhittinga ball flyinganimalwith
+in somegames“ leatherywings“
+tween0and1,tomakecomparisonsbetweendifferent
+conceptseasier. Thisbasicallyincorporatestheso-called
+n n
+“prototypeapproach”toclassification(Rosch,1978),in
+n n
+whichanobjectmaybeamoreorlesstypicalexemplar Y „Bat“ X
+ofacategory/concept/class.
+InVAST,conceptsareusuallydisplayedintheformof
+n n
+frames bearing abstract labels (e.g., X, Y, or XYZ). It is „Enraged“ Z „Furious“
+importanttonotethatthedisplayofaconceptonlysym-
+bolisestheassumedexistenceandrelevanceofacogni- Figure1
+tive process that would assign certain values to some
+objects and other values to other objects. It is agnostic Selected naming relationships. The word "bat" is a
+inregardtothedesired,assumed,ormeasureddistribu- homonym for concepts X and Y, whereas the words "fu-
+tionofthosevalues. Thequestionofwhethersomething rious"and"enraged"aresynonymsforconceptZ
+is or should be the case is the realm of IS and OUGHT
+statements,whichwillbeintroducedlater.
+Empirical data constitute a special type of concept, an IF-THEN relation: IF an object is an exemplar of the
+whichissymbolizedbyaddingathickblackedgetoone respective concept, THEN one may call this object by
+side of the respective frame. This is basically the same therespectivename.
+distinctionthatismadebetween“manifest”(measured) Figure1displayssomeexamplesofnamingrelation-
+and“latent”(imagined)variablesinStructuralEquation ships, including homonyms (the same name is used for
+Modelling(seeFigure12andtheaccompanyingtextfor different concepts) and synonyms (different names are
+anexample). used for the same concept). Note that both (a) the ap-
+propriatenessand(b)thestrengthsoftherelationships
+TypesofRelationshipsBetweenConcepts displayedinFigure1aretreatedasirrelevantfornow.
+Distinguishing between concepts and their names is
+Thenextmajorelementofthesystemistherelation-
+often necessary, because idiosyncratic word usage ac-
+ship that may exist between concepts. These are basi-
+counts for all sorts of problems (e.g., misunderstand-
+cally IF-THEN relations: IF one concept does apply (to
+ings)ineverydayarguments. Thesameissueisrelevant
+some of the relevant objects), THEN another concept
+for psychology, which continues to suffer from — often
+also applies, at least to some extent. There are differ-
+unacknowledged — jingle-fallacies (use of homonymic
+entqualitiesofsuchrelationships,however,whichmust
+theoretical concepts) and jangle-fallacies (use of syn-
+be distinguished from another. In VAST, we explicitly
+onymictheoreticalconcepts)(Block,1995).
+account for naming, implication, causation, prediction,
+transformation, and reasoning relationships, which we
+RelationshipType2: ConceptualImplication(i).
+consider to be among the most common and relevant
+ones. Specifying additional relationship types is also Conceptual implication is about the extent to which
+possible, if needed. All of this will now be explained classifying objects as exemplars of one concept implies
+inmoredetail. also categorizing the same objects as exemplars of an-
+other concept. Figure 2 displays an example. Here,
+RelationshipType1: Naming(n). when an object is considered to be a “sun”, the same
+object is also somewhat likely to be considered “hot”
+Peopletendtousewordstodenotethedifferentways
+and “bright”. Conceptual implications are symbolized
+inwhichtheythinkaboutobjects. InVAST,thesewords
+byarrowsaccompaniedbythelowercaseletteri.
+are called“names”. Toclearly distinguish conceptsand
+Figure 2 contains three different ways of displaying
+their names from one another, VAST uses abstract la-
+basically the same information. In the display on the
+bels(e.g.,C,R)fortheformerandreallanguagelabels
+left-hand side, all concepts and the relevant relation-
+inquotationmarks(e.g.,“Cat”,“Rocket”)forthelatter.
+ships between them are displayed as a part of one co-
+The relationship between a concept and a word denot-
+herentwhole. Thisisthedefaultmodethatwesuggest
+ing that concept is called a “naming relationship”. It is
+forusewithmostVASTanalyses,asitmaximisesparsi-
+symbolized by an arrow pointing from the concept to
+monywhileretainingalloftherelevantinformation. In
+the name, accompanied by the lower letter n. As with
+the middle display, the conceptual implications (typei)
+all relationship types (see above), the arrow stands for
+===== PAGE 4/20 =====
+4
+n
+„Sun“ S „Sun“
+n
+n
+B „Bright“
+n
+S
+H „Hot“
+FIMM
+i i
+S
+Sun
+H B
+i i
+n n i i
+„Hot“ „Bright“ H B Hot Bright
+Figure2
+Conceptual implications among three concepts. Left: full (default) mode in which concepts and names are connected
+within the same structure. Middle: full (default) mode with concepts separated from their names. Right: Finger-is-
+Moon-Mode (FIMM) in which concept labels reference the concepts’ names. The dashed lines symbolise that these are
+alternative ways of displaying the same set of concepts, names, and relationships, not three parts of the same VAST
+display
+amongthethreeconcepts,andthenamingrelationships toolongtobeusedasconceptlabels. Inthesecases,we
+(n) have been separated from one another. This way recommend the approach exemplified in the middle of
+ofdisplayingthingsmaysometimesbehelpfultoavoid Figure2.
+clutter. However, this approach comes at the price of As a next step, we will introduce four more types
+somewhatlowerparsimonybecauseeveryconceptnow of relationships between concepts that frequently fea-
+has to be displayed twice. In the display on the right- tureinargumentstructures. Figure3displaystheways
+handside,weuseconceptlabelsthatdirectlyreference in which they are distinguished from one another (in
+theconcepts’names. Thisiswhatwecallthe“Finger-is- terms of lowercase letters accompanying the respective
+Moon-Mode”(FIMM),asitabolishestheexplicitdistinc- arrows), along with a very simple example for each
+tionbetweensignifierandreferent. Thisconstitutesan- type. Notethat,forsimplicity,thisfigureusesFIMM,as
+otherpossiblewayofreducingclutter,butcomesatthe signalledbytheacronymintheupperright-handcorner.
+significantriskofoverlookingtheimportanceofseman-
+RelationshipType3: Causation(c).
+tics, especially (partial) homonymity, synonomity, and
+antonymity. For example, another display using FIMM
+Many important articles and books have been writ-
+could show that the concept Star has the same con-
+tenaboutcausation(Eronen&Bringmann,2021;Pearl,
+ceptual implications (Hot, Bright) as the concept Sun.
+1995; Pearl & Mackenzie, 2018; Rohrer, 2018). In
+Here,theuseofFIMMmightobscurethefactthatthisis
+VAST, we use a concept of causation that is also re-
+thecasesimplybecause“Sun”and“Star”aretwodiffer-
+flectedinhowmostexperimentaliststendtothinkabout
+entwordsfortheexactsametypeofthing(S).Tohigh-
+their research designs. This concept involves temporal
+light the risk of semantic ambiguities like this one, we
+orderasanecessaryingredient: Causesalwaysprecede
+recommend explicating when the FIMM is being used,
+effects, but never the other way round. Also, causation
+by adding the respective acronym in one corner of the
+would become evident if we were able to manipulate
+display (see Figure 2). Also, many concept names are
+the suspected cause variable and then observe subse-
+===== PAGE 5/20 =====
+5
+thevaluesofX.Notethatthisispossiblewithoutknow-
+FIMM
+inganythingaboutthemechanismunderlyingtheasso-
+c
+ciation. For example, type p relationships may ignore
+Smoking Lung Cancer
+the direction of causal effects, as in the respective ex-
+amplein Figure3: Here, aperson’s Heightpredictsthe
+Temperaturein t Temperaturein Number of Y Chromosomes that same person has, al-
+Celsius Fahrenheit thoughcertainlytheformerisnotthecauseforthelat-
+ter. Often, such predictive relationships may be found
+and described first (e.g., a certain set of symptoms ap-
+p NumberofY
+Height pearingtogetherinpatients),andonlylaterbereplaced
+Chromosomes
+by more specific explanations (e.g., in terms of a virus
+causingallofthosesymptoms).
+r
+X + 4 = 8 X = 4
+RelationshipType6: Reasoning(r).
+Figure3 This relationship type is about the conclusions that
+people draw from certain premises, on purely intellec-
+Four more types of relationships between concepts (c = tual grounds. It reflects the idea that if some concept
+causation, t = transformation, p = prediction, r = rea- applies (e.g., X + 4 = 8, see Figure 3), one may infer
+soning) thatsomeotherconcept(e.g.,X=4,seeFigure3)also
+applies. Notethatthisisnotlimitedtoconclusionsthat
+wouldgenerallyberegarded“logical”,buttojustabout
+quent changes in another variable. Note that all of this any conclusion that someone thinks they may draw. In
+concerns the ways in which we (and most people, pre- fact, VAST may be used to first explicate one person’s
+sumably)thinkaboutcausation,irrespectiveofwhether line of reasoning and then refute that reasoning based
+suchasuspectedcausallinkmayeverbeprovenordis- onsomeotherreasoning. Forexample,Petermaythink
+provedintermsofdata. Notealsothatmostcausalrela- that the results of some empirical study clearly suggest
+tionshipsbetweenconceptscouldbe—butdonothave that Y is the case, whereas Trudy may think otherwise.
+tobe—decomposedintoanumberofinterveningsteps. Such discrepancies may then be explained using VAST,
+Forexample,thecausalrelationshipinFigure3reflects byanalysingwhyexactlyPeterandTrudycometosuch
+arelativelyproximallinkbetweencause(Smoking)and different conclusions (e.g., because one of them trusts
+effect(LungCancer). Itcouldbeamendedbyinserting the authors of the study, whereas the other does not).
+TarAccumulationasamediatorthatiscausedbySmok- So-called “logical conclusions” simply constitute a spe-
+ingandthatcausesLungCancer. cial case in which certain lines of reasoning are viewed
+as(in-)defensiblebyagroupofpeople(e.g.,scientists)
+RelationshipType4: Transformation(t).
+whoendorsesomesetofreasoningrules. Thatendorse-
+mentthenservesasthepremisefordrawingconclusions
+This relationship type is used to account for situa-
+astowhether“XisreasontobelieveY”ornot—which
+tions in which the applicability of one concept may be
+isanothertyperrelationship.
+deduced from another concept by mere computation.
+The respective example in Figure 3 reflects a case in
+AdditionalRelationshipTypes.
+which one variable (Temperature in Celsius) is basi-
+cally rescaled into another variable, by multiplying the In the present paper, we only address those types of
+former’s values with a factor (1.8) and then adding a relationships between concepts that we think feature
+constant (32). The specific values for the factor and prominently in many arguments — everyday ones as
+the constant are not displayed, but could be displayed. well as scientific ones. Needless to say, the selection
+The transformation type of relationship may also be is and has to be somewhat subjective. It is relatively
+usedtoaccountforscoringprocedures,suchasthespe- easy to come up with examples of other relationship
+cific ways in which an operational measure of socio- types that may be useful to employ under certain cir-
+economicstatusisderivedfromanumberofindicators cumstances (e.g., metamorphosis (m): when X turns
+(e.g.,highestdegreeattained,annualincome). into Y over time; association (a): when thinking of X
+makes it likely to also think of Y; element of (e): when
+RelationshipType5: Prediction(p).
+X is among the ingredients that, together, constitute Y
+etc.). We assume that the principles laid out in the
+Thistypeofrelationshipisaboutknowingsomething
+following(e.g.,regardingrelationshipstrengthandthe
+about the values of Y when we know something about
+===== PAGE 6/20 =====
+6
+c „weak“
+1) X Y 6) c 1
+X
+c 0.5
+c
+2) X Y 2
+AND Z
+c *
+c
+3) X Y 3
+Y
+* Y = 2 sin(X) + 750 X
+c 0.3 c
+7) X Y
+c
+4) X OR Y
+c 0.3 c <> 0
+8) X Y
+Z
+c 0.3 c 0
+9)
+X Y
+c
+5) X * Y
+c 0.3 c ?
+10)
+X Y
+* Y = 2.45 X + Z Z
+Figure4
+Relationshipstrengthsandrelationshippatterns
+constructionofhigher-orderconcepts)willstillapplyin approachwilloftenbeappropriatewhentryingtovisu-
+these instances. In cases where a relationship between alisethestructureofanexistingargumentthathasbeen
+conceptsisassumedtoexistbuttheexactnatureofthat made using the natural language. It may also be the
+relationshipis(yet)unknown,werecommendusingthe most useful approach when a numerical specification
+letteru. seems not possible (yet). Case 1 in Figure 4 displays
+an example. Note that we rather arbitrarily added the
+RelationshipStrength letter c (causation) to all the arrows in Figure 4. This
+mayeasilybereplacedwithanyotherrelationshiptype,
+In VAST, the default interpretation of an arrow that
+as everything we say here about relationship strength
+pointsfromoneconcept(e.g.,X)toanother(e.g.,Y)is
+appliesequallytoalltypes.
+thatthisrelationshipisconsideredrelevantandpositive
+If a simple numerical quantification of relationship
+(i.e.,themoreXthemoreY).Thus,ifanarrowisabsent
+strength is wanted, we propose using normalized co-
+betweenXandY,thismeansthattherelationshipiszero
+efficients ranging from −1 to 1. “Normalized” means
+and/or that it is regarded unimportant for the present
+thatthesecoefficientsignoretheparticularscalesofthe
+analysis. So far, we did not use any further specifica-
+conceptsthattheyconnect,butratherquantifyrelation-
+tionsofrelationshipstrength,andthisapproachmaybe
+ship strength in terms of proportions of these features’
+perfectlysufficientinmanycases. Sometimes,however,
+ranges. Note that this is only possible if such a range
+such specifications will be deemed useful or even nec-
+mayreasonablybeassumedtoexist. Basedonourown
+essary. VAST allows for the use of verbal labels such as
+experience,thisseemstobethecasewithmostpsycho-
+“weak”, “strong”, “negative” etc. for this purpose. This
+===== PAGE 7/20 =====
+7
+Coeff= 1.0 Coeff= 0.5
+Max(Y) Max(Y)
+Min(Y) Min(Y)
+Min(X) Max(X) Min(X) Max(X)
+Coeff= 1.0 Coeff= 0.5 Coeff= 0.5
+Max(Y) Max(Y) Max(Y)
+Min(Y) Min(Y) Min(Y)
+Min(X) Max(X) Min(X) Max(X) Min(X) Max(X)
+Figure5
+Relationshipstrengthquantifiedintermsofdefaultcoefficientsrangingfrom-1to1. Uppertwoexamples: relationships
+betweentwodichotomousconcepts. Lowerthreeexamples: relationshipsbetweentwoordinalormetricconcepts
+logicalconcepts,however. This default coefficient of relationship strength is
+The default coefficient of relationship strength that generic enough to be applied to all types of relation-
+we propose reflects the increase in Y (expressed as a shipsbetweenconcepts(e.g.,Typep: “wearingglasses”
+percentage of the available range of that feature) that makes it 70 percent likely for a person to also be
+is associated with a “perfect” or “complete” increase in “smart”; Type r: It is 90 percent reasonable to assume
+X(i.e,anincreasethatcoversthewholeavailablerange someone“isinlovewithyou”whenthatperson“giggles
+of X, from the smallest conceivable value to the high- alotwhiletalkingtoyou”;Typec: being“obese”makes
+est conceivable value). Case 2 in Figure 4 presents an it 50 percent likely for someone to develop “Diabetes
+exampleinwhichthecoefficientis0.5. TypeII”asaconsequence).
+This type of coefficient may be applied to relation- For non-dichotomous concepts (see the lower three
+ships between dichotomous concepts as well as to re- panels of Figure 5), the default coefficient of relation-
+lationships between continuous concepts. In the for- ship strength is largely agnostic regarding the distribu-
+mer (dichotomous) case, it may be interpreted as the tionsofconcepts’values: Forexample,therelationships
+percentage of cases in which a complete change in X displayed in the middle panel and in the panel to the
+(from 0 to 1) is accompanied by a change in Y (from righthavethesamestrengthcoefficient(0.5)butinthe
+0 to 1). In the latter (continuous) case, the coefficient latter case the relationship is deterministic whereas in
+reflects the average increase on the continuous Y scale the former case it is noisier. This difference may also
+that accompanies the largest possible increase (from 0 beaccountedforinVAST,aswewilldiscussinthenext
+to1)onthecontinuousXscale(againbothexpressedin section("Noise").
+terms of percentages of the respective ranges). Figure VAST’s default coefficient of relationship strength is
+5containsanumberofexamplesshowcasingthisbroad basedonpercentagesoftherangesoftheconceptsthat
+applicability. Negativecoefficientsaretobeinterpreted the relationship connects. Sometimes, however, there
+accordingly: the more X is the case, the less Y is the may be good reasons to deviate from the default (e.g.,
+case. whenearthquakemagnitudeontheunboundedRichter
+===== PAGE 8/20 =====
+8
+scaleispartofanargument). Insuchcases,usingother
+measures of relationship strength (e.g., an exact func-
+t1
+tiontranslatingXintoY)ispossible. Astheexactfunc- „Temperaturein n n „Temperaturein
+TIC TIF
+tion connecting certain concepts will often be too long Celsius“ Fahrenheit“
+tobewrittenaboveanarrowinitsentirety, wesuggest
+t2
+placingitsomewhereelseinthedisplayandreferencing n
+p1
+n
+itusinganasterisk(e.g.,Case3inFigure4). „Body height“ BH BW „Body weight“
+Diamondsshouldbeusedwhenseveralconceptsare
+p2
+jointlyrelatedtoanotherconcept. Thisincludeslogical c1
+n n
+connectives such as AND, OR and XOR (exclusive OR), „Global warming“ GW GM „Glaciersmelting“
+as shown in Case 4 in Figure 4. When a more specific c2
+formula is needed to derive a joint output from several r1
+inputs(e.g.,ascoringprocedure),thediamondandas- „Peter hasno n n
+PNA PG „Peter isguilty“
+alibi“
+terisk elements may be combined, as shown in Case 5.
+r2
+AdiamondwithANDinsideitmayalsobeusedtosym-
+bolisetheinteractioneffectthattwoconcepts(XandY) n
+i1
+n
+„Bird“ B A „Animal“
+haveonathirdconcept(Z).Case6inFigure4displays
+thispossibilityalongwiththetwomaineffectsofXand
+i2
+YonZ,sothisisbasicallyaVAST-typedepictionoftwo-
+n i 1 n
+factorANOVA.WealsouseCase6toshowcasethepos- „Huge“ X Y „Gigantic“
+sibility of indexing coefficients (c , c , c ). Doing so is
+1 2 3
+oftenusefultofacilitatediscussionsamonganalysts.
+Figure6
+Noise
+Relationship arrows connecting concepts both ways. Use
+Sometimes, we may not only wish to display the
+of two arrows implies that the exact ways in which the
+relationship between specific concepts, but acknowl-
+concepts are related depend on direction. Use of a bidi-
+edge that there are additional unspecified influences
+rectionalarrow(asinthelastcase)impliesthatdirection
+(“noise”)ontheseconcepts,aswell. Tosymbolisethese
+does not matter. The i 1 coefficient in the latter case re-
+influences,werecommendusing“noisearrows”similar
+flectstheassumptionthatconceptsXandYareidentical
+to the ones that are used in Structural Equation Mod-
+elling (SEM). A noise arrow always points toward a
+givenconcept(i.e.,theonethatisaffectedbythenoise)
+RelationshipDirection
+but does not originate in a specific concept. Cases 7,
+8, 9 and 10 in Figure 4 provide examples. Note that, Arrows in VAST stand for IF-THEN relationships be-
+other than in Structural Equation Modelling, noise ar- tween concepts. We will now briefly address the direc-
+rowsinVASTdonotstandfortheresidualsthatremain tion into which arrows may point, and how this differs
+between observed Y values and the Y values that one betweenrelationshiptypes. Generallyspeaking,ifthere
+predicts from X. Rather, they stand for other influences is an arrow pointing from X to Y, there may also be an
+apart from X that may move the values of Y toward its arrowpointingfromYtoX.Inmostcases,theshapeof
+maximum (default, positive coefficient), or toward its the respective relationship will differ depending on its
+minimum(negativecoefficient). Case7displaysthede- direction. If both directions are of interest to the cur-
+faultsituationinwhichnoisemayleadtoanincreasein rent analysis, we recommend signalling this difference
+conceptY.Ifnoisemaymovethevaluesofaconceptin by using two separate arrows, one for each direction.
+eitherdirection,thismaybespecifiedusing“<>0”,as Figure6presentsafewexamples.
+shown in Case 8. If it is important to specify that there A few specifics need to be briefly discussed in this
+is no noise, this may be expressed using a coefficient regard: First, naming relationships are special in that
+of zero, as shown in Case 9. This expresses the idea arrows may only point from a concept to its name but
+that the only factor whose values may make a differ- not the other way round. Second, when the strengths
+ence with regard to the values of concept Y is concept ofconceptualimplications(typei)betweenXandYdif-
+X.Finally,whenaninfluencemayexistandberelevant fer depending on direction, this means that one con-
+fortheanalysis,butoneisnotreallysureyet,werecom- cept (the one that is the target of the arrow with the
+mend using a question mark as “coefficient” (see Case higher coefficient) is broader and more inclusive than
+10inFigure4). theother. Thisishighlyrelevanttoallkindsofconcep-
+===== PAGE 9/20 =====
+9
+capitals. These are connected to one or more concepts
+2 0 usingsimplelinesratherthanarrows,inordertodistin-
+INC
+guish them from relationships between concepts. The
+IS OUGHT
+specific IS- and OUGHT-values are written next to the
+respectivelines. Figure7showsaverysimpleexample.
+n
+IS and OUGHT are not concepts themselves but
+ratherdenotespecificlocationswithintherangeofval-
+„ExpectedIncreaseofaverage
+ues that a given concept may have. If IS/OUGHT is
+global temperaturein thenext
+used, specifying the metric of measurement may some-
+50 years, measuredin Kelvin“
+times be helpful (e.g., Figure 7). If it is not possible
+Figure7 orusefultospecifythismetric,werecommendexpress-
+ing IS and OUGHT values in terms of fractions of the
+AsimpleexamplewithIS-andOUGHT-statementsregard- normalized range (between 0 and 1) of the respective
+ingthesameconcept concept. If no specific value is given, we recommend
+using “applies more likely than not" (> 0.5) as the de-
+faultinterpretation.
+Note that IS may be interpreted as a measure of the
+tual hierarchies (taxonomies). Third, VAST does allow
+respective concept’s central tendency (e.g., the arith-
+forcausal(typec)arrowspointingfromXtoYandback.
+metic mean). It is possible, however, to provide whole
+This is relevant for displaying all kinds of positive and
+ranges of IS- or OUGHT-values, if a single value is
+negative feedback loops. Note that this diverges from
+deemedinsufficient.
+recommendations in the literature on Directed Acyclic
+Graphs (Rohrer, 2018). Fourth, VAST also allows for
+displaysofcircularreasoning(typer),becausethepur-
+pose of VAST is not to prescribe rules as to how one „Havinga „Beingin a
+should think, but to make visible the ways in which goodday“ goodmood“
+someonethinks. Thisincludesthepossibilityofdisplay-
+ing beliefs that others may find unconvincing or even
+c
+irrational. Fifth, we recommend using a bidirectional X Y
+arrow with an “i 1” coefficient for expressing the idea
+that X and Y are identical (see Figure 6). Likewise, a Concept Name Unit IS OUGHT
+bidirectionalarrowwithacoefficientof“i-1”wouldim- M SD M SD
+ply that one concept is the exact opposite of the other X „Havinga goodday“ % 50 10 70 10
+(e.g., between concept H named “huge” and concept T Y „Beingin a goodmood“ % 65 25 65 10
+named“tiny”).
+TheISandOUGHTelements Figure8
+In many arguments, the extent to which something
+An example of how assumed and desired concept features
+is considered to be the case and the extent to which
+maybedisplayedseparatelyinatable,toavoidclutter
+something should be the case play important roles. To
+capture these extents, VAST uses two special elements,
+Goingfurther,itmaysometimesbehelpfultospecify
+called IS and OUGHT. Both denote specific values on
+the assumed and/or desired distribution characteristics
+a given concept. They are important in a variety of
+of a concept even more. In such cases, we recommend
+ways: First, disagreements often arise because people
+providingtherespectiveinformationinaseparateTable
+start from different premises regarding the extent to
+on the side, to avoid clutter. An example is shown in
+whichsomethingISthecase(e.g.,whethervaccinesare
+Figure 8. The example tells us that, if a person (= ob-
+safe)ortheextenttowhichsomethingOUGHTtobethe
+ject)“hasagoodday”,thatpersonwillbemorelikelyto
+case (e.g., whether one should trust the government).
+also“beinagoodmood”,andthatthiseffectisacausal
+Second, discrepancies between IS and OUGHT-values
+one. The table also tells us that (a) it would be good
+on the same concept often explain why people decide
+if the average percentage of people having a good day
+to act in certain ways — often they do so in order to
+would increase (from IS: 50 to OUGHT: 70), and that
+movetheIS-valueclosertotheOUGHT-value.
+(b)thevariation(SD)inthepercentageofpeoplebeing
+InVAST,ISandOUGHTaresymbolizedbypentagons
+inagoodmoodwouldgodown(fromIS:25toOUGHT:
+which include the respective term (IS or OUGHT) in
+===== PAGE 10/20 =====
+10
+it seems necessary to not only visualise a perspective-
+Analysts: Daniel, Marcos
+holder’s lack of agreement with X but also what else
+(Y)theybelievein,thatalternativeviewwillhavetobe
+1.0 IS 0 0 IS 0.8 specified,aswell.
+Daniel HPW Marcos The specific example given in Figure 9 conveys a
+0.9 0 4 0.8 wealthofinformationatoneglance: DanielandMarcos
+OUGHT OUGHT
+n boththinkthatDanieldoesnotspendanytimestudying
+Esperanto. However, Daniel is perfectly certain about
+„Hoursper weekthatDaniel
+spendsstudyingEsperanto“ that (1.0) whereas Marcos — who cannot really know
+for sure — is a little less certain (0.8). Also, Daniel
+Figure9 is almost certain (0.9) that he should not take up any
+Esperanto-learning, whereas Marcos is also quite sure
+Different IS and OUGHT values for different perspective- thatDanielshouldspend4hoursperweeklearningEs-
+holders peranto. Making differences such as these visible may
+go a long way in explaining the different behavioural
+choicesthatpeoplemake.
+TheperspectiveelementofVASTincorporatestheim-
+10). Thelatter goalmay berooted e.g., in theassump-
+portant issue of subjective certainty, which plays a key
+tion that it is important to avoid extreme unhappiness
+role in scientific theorizing. In fact, if one plotted all
+inpeople.
+of the possible IS-values (X-axis) against a perspective-
+ThePerspectiveElement holder’s subjective certainties (Y-axis) and rescaled the
+latter such that their sum is 1, one would basically ob-
+Almost by definition, arguments tend to involve dis-
+tain a density distribution very much akin to a Bayes
+agreements between viewpoints. To account for this,
+prior. Outsideofscientifictheorizing,however,inspect-
+VAST incorporates a so-called “perspective” element
+ingentiredistributionsofpossibleIS-valuesisrelatively
+that reflects how strongly a given entity agrees with
+rare. Thus,werecommenddisplayingtheIS-valuewith
+something. This“entity”isusuallyaperson, butitmay
+the highest subjective certainty as a default. If neces-
+also be a group of people or something more abstract
+sary, alternative IS-values and their respective certain-
+likeacorporation.
+ties may be displayed in addition. The perspective fea-
+The perspective element may only be used to con-
+ture may also be used to express someone’s “hunches”
+dition IS and OUGHT statements. When used to
+(e.g.,thesuspicionthattheremaybeanotheryetunrec-
+condition an IS-statement, it reflects the extent to
+ognized factor involved in accounting for some effect).
+which a perspective-holder agrees that the given level
+This also includes suspicions as to what someone may
+of the concept applies. When used to condition an
+ormaynothavemeantbysayingsomething(i.e.,impli-
+OUGHT-statement, it reflects the extent to which the
+cations).
+perspective-holderagreesthatthisisthemostdesirable
+leveloftheconcept. Levelsofagreementmaybequanti- TheAnalystElement
+fiedusingvaluesbetween0("doesnotagreeatall")and
+Each VAST display has to be created by someone.
+1 ("agrees completely"). If a perspective-holder’s level
+Notably, the persons creating such displays are respon-
+of agreement is left unspecified, we recommend using
+sible for arranging the various concepts and their re-
+"tendstoagree"(>0.5)asthedefaultinterpretation.
+lationships with one another in the most accurate or
+If a (part of a) VAST display does not explicate who
+helpful ways possible, but not for the actual content
+the perspective-holder is, then IS and OUGHT state-
+of the respective argument. In fact, it is possible to
+ments reflect the view of the analyst who created the
+display the structure of an argument with great pre-
+display(seenextsection).
+cision while at the same time disagreeing wholeheart-
+Figure 9 showcases the use of the perspective el-
+edlywithmostorallofthepointsthatarebeingmade.
+ement in VAST: The name of the perspective-holder
+This is why we prefer to call these persons “analysts”
+is displayed inside an oval, and the strength of the
+rather than “authors”. We recommend naming the an-
+perspective-holder’s belief is again expressed using co-
+alyst who created a display in a header, as also shown
+efficients ranging from 0 to 1. Note that a value of 0
+intheupperleftcornerofFigure9. Thepersonsnamed
+would only imply a complete lack of agreement with
+asanalystsareresponsibleforthedisplayinitsentirety
+X, not the belief that the opposite of X is true. This is
+(again: irrespective of how much they agree with the
+necessary because many of the concepts that we use in
+display’s actual content). To make this point clear, we
+everyday life do not have clearly defined opposites. If
+===== PAGE 11/20 =====
+11
+Analyst: Peter
+Analyst: Imani
+Toby c c Tina
+1.0 X Y1 Z 0.5 c c
+X B Y
+IS IS
+c c n n n
+0.0 X Y2 Z 0.5
+Figure10 „Antecedent“ „Black Box“ „Consequence“
+Higher-order concepts. Here, IS and OUGHT statements
+for different perspective-holders refer to two higher-order
+concepts,eachofwhichcontainsanumberofcausalrela-
+IS
+tionshipsbetweenlower-orderconcepts
+i 1
+B 1
+c
+decided to include the same persons (Daniel and Mar- M1 M2
+cos)inFigure9,intwodifferentroles: asanalysts,and
+as perspective-holders. Altogether, the Figure tells us
+n n
+thatDanielandMarcos(analysts)agreethatDanieland
+Marcos (perspective-holders) have different views on
+howmuchtimeDanielshouldspendlearningEsperanto „Mediator 1“ „Mediator 2“
+(the specifics of their viewpoints were discussed above
+and will not be repeated here). In other words, they Figure11
+“agreetodisagree”.
+Using higher-order concepts to “zoom in” on a particular
+HigherOrderConcepts part of a VAST display. The lower part of the display de-
+tailswhatconceptBisabout
+After having introduced all of the different ways in
+which concepts may be related to one another, as well
+as the IS, OUGHT, perspective and analyst elements, it
+“zoom in” on certain parts of a display if they wish to
+is now time to introduce a final element of great im-
+elaborate on its details, or “zoom out” when they de-
+portance: In VAST, any combination of elements may
+cidetoratherignoresomeofthedetailsforsometime.
+itselfbecomea“higher-orderconcept”(HOC)andthus
+Figure 11 provides an example: The lower part of the
+be related to other (higher-order) concepts or be the
+figure“zoomsin”onthemeaningofoneoftheconcepts
+subject of IS or OUGHT statements. In this, all of the
+(B) that features in the causal chain displayed in the
+rulesexplainedsofardoapplyaswell.
+upper part of the figure. Specifically, we learn that B
+Figure10displaysaverysimpleexample. Here, two
+stands for M1 being the case (IS) and M1 eliciting M2.
+persons(TobyandTina)areportrayed(byPeter)asdis-
+Furthermore,allofthiselicitsY.
+agreeinginregardtothequestionofwhetherthecausal
+Higher-order concepts may be used to display a hi-
+effect of X on Z is mediated by Y1, or by Y2. Toby is
+erarchy of concepts that apply to different sets of ob-
+certain that the former is the case, whereas Tina is un-
+jects. So far, we abstained from explicating the sets of
+decided. Similardisplaysmaybeusedtoaccountforall
+objects that the concepts in a VAST analysis apply to.
+sortsofdifferencesbetweenviewpoints,suchasnaming
+Instead, wetacitlyassumedthatthoseobjectswerethe
+conventions(i.e.,whatitISthatagivenlabelrefersto,
+sameacrossallconcepts. Sometimes,however,specify-
+or what that label OUGHT to be used for). Such issues
+ingthesetsofobjectstowhichdifferentconceptsapply
+are as greatly relevant to contemporary psychology as
+isnecessary. WerecommendusingGreeklettersforthis
+theyweredecadesago(Block,1995).
+purpose.
+It is important to note that a higher-order concept
+Figure 12 displays a hypothetical example. Here, in-
+binds all of its components together in an inseparable
+telligence test scores and school grades were obtained
+fashion: Thehigher-orderconceptapplies(tosomeob-
+fromstudents(τ). Rememberthatthethickblackedges
+ject)ifandonlyifallofitslower-ordercomponentsap-
+oftherespectiveconceptframessymbolisethefactthat
+ply.
+these concepts were actually measured. We assume
+By using higher-order concepts, VAST users may
+===== PAGE 12/20 =====
+12
+(σ), andthatthisvariationcausallyexplainsthediffer-
+Analyst: Pam
+encebetweenp1andp2.
+SEL(σ) Discussion
+In this paper, we presented the first version of VAST,
+the Visual Argument Structure Tool. It provides a set
+c c
+of clear rules by which the ways in which people think
+and speak about things may be visually organized, in
+order to help understand those ways better. VAST may
+HOC1(σ) HOC2(σ)
+INT(τ) INT(τ) be used for constructing new arguments, as well as for
+analysing,completing,revisingand/or(partly)refuting
+existing ones. The system captures some of the key
+p 0.5 p 0.2
+1 2
+types of elements that many everyday arguments and
+scientific theories share by means of a relatively small
+GRA(τ) GRA(τ) set of graphical symbols. In our view, its appeal lies in
+itsintuitivenessandrelativeeconomy, initscapacityto
+accountforanydegreeofspecificationorrelativefuzzi-
+ness,andinitsapplicabilitytobasicallyanycontentdo-
+n
+INT(τ) 1 „Students‘ Intelligence-Test Results“ main. In the next section, we give a brief overview of
+the system’s possible uses. Depending on the material
+n
+GRA(τ) 2 „Students‘ Grades“ athand, oneorseveralofthefollowinggoalsmayplay
+a more prominent role in a VAST analysis: (a) afford
+n
+3 comprehensiveness, (b) explicate premises in terms of
+SEL(σ) „SelectivenessofSchool“
+what IS the case and what OUGHT to be case, (c) clar-
+n ifytheviewsthatdifferent(groupsof)peoplehave, in-
+4
+HOC1(σ) „Effectin School 1“
+cluding areas of (dis-)agreement, (d) identify areas of
+n under-specification,inconsistencyoroutrightcontradic-
+5
+HOC2(σ) „Effectin School 2“ tion,(e)deducedefensibleconclusions.
+PotentialUsesoftheSystem
+Figure12
+TheorySpecification.
+Useofconcepts(INT,GRA,SEL)andhigher-orderconcepts There is no shortage of complaints that the mainly
+(HOC1,HOC2)thatareappliedtodifferentsetsofobjects narrative theories which are so common in the human-
+(τvs. σ) ities and in psychology are of limited value because of
+their relative fuzziness and under-specification. At the
+same time, proposals as to how this situation may be
+improved are largely lacking, and the existing ones are
+that the students’ intelligence test scores do predict
+often relatively unspecific themselves. We think that
+their grades to some extent. Note that we use p in-
+VASTmayofferasolutiontothisproblem, fortworea-
+stead of c relationships in this display, because the two
+sons: First, a VAST analysis may help pinpoint those
+types of data are empirically related (probably because
+partsofanarrativetheorythatmayandshouldbebetter
+theybothreflectthestudents’actualcognitiveabilities),
+specified, and then aid in the specification process. We
+but the students’ test results are not the cause of their
+consider this the preferable approach compared to the
+grades.
+alternativeofrejectingnarrativetheoriesaltogether. By
+The figure also tells us that this predictive relation-
+specifying a theory better, its “empirical content” (em-
+ship is assumed to be different for students in School
+pirischer Gehalt; Glöckner and Betsch, 2011; Popper,
+1 as compared to students in School 2. We learn this
+2002, page 96) and thus ultimately its utility will be
+from comparing coefficients p1 and p2, and from how
+improved(e.g.,itwillbecomeeasiertorefute).
+the two higher-order concepts (HOC1 and HOC2) are
+Second, VAST allows for accommodating any level
+named. At this point, a new set of objects (σ) has to
+of fuzziness that seems acceptable or unavoidable at
+be introduced to distinguish the two schools from one
+present. This very much aligns with the idea of scien-
+another. Wealsolearnthatsomethingelse(SEL)named
+tific theory-development as an incremental process of
+“selectivity” is assumed to vary across the same objects
+===== PAGE 13/20 =====
+13
+gradually increasing specificity. Furthermore, by being organise the available information in the paper as to
+able to incorporate natural-language componentsof an (a)howmanyrelevantconceptsthereare(b)howthey
+argument, a VAST display may help bridge the chasm are assumed to relate to one another, (c) how they are
+that exists between the humanities and the “harder” named, (d) how they were measured, (e) how well
+sciences, with psychology dangling somewhere in be- these measurements reflect the assumed relationships
+tween. In the Appendix we provide a somewhat more betweentheconceptsofinterest,andsoon.
+complex example, showcasing an attempt to clarify the
+UseasaToolforGatheringResearchData.
+meaning of a short theory paragraph from a research
+paper. The use of VAST may also be helpful when people’s
+belief systems (e.g., so-called conspiracy theories) are
+NomenclatureIssues.
+the research domain of interest. For example, how
+Psychologyinparticularhaslongsuffered—andcon- awarearepeopleofthelogical(in-)consistencieswithin
+tinues to suffer — from significant jingle- and jangle- theirownworldviews? Whathappensifyoumakethem
+problems (Block, 1995): To this day, psychologists of- aware of the existing inconsistencies (e.g., do they add
+tenusedifferentwordstodenotethesamething,orthe new components post hoc that mitigate them)? Which
+same words to denote different things. Both practices components of people’s belief systems are particularly
+areatoddswithscientificidealsofefficiencyandparsi- hard to change (e.g., the ones that are of key im-
+mony. VASTmaybeusedtohelpimproveonthepresent portance to several intertwined belief systems)? And:
+situation quite a bit by making visible (at a glance), do people find it easier to map arguments they agree
+(a) which terms are used, (b) by whom, (c) to denote with,ascomparedtoargumentswithwhichtheydonot
+what (including the relationships among the concepts agree?
+that the terms refer to). The according displays will
+Explicating the Paths from Premises to Conclusions
+almost certainly involve naming and implication rela-
+(andBack).
+tionshipsaswellastheperspectiveelement. Forexam-
+ple: Is the thing that is called “narcissism” by author VAST may be used to derive defensible conclusions
+A the same as the thing that is called “narcissism” by from a given set of premises, or to elucidate the ways
+author B (e.g., in terms of its assumed or shown re- in which a given perceiver seems to draw conclusions
+lationships with other concepts)? To what extent are fromsuchpremises. Likewise,VASTmaybeusedtoin-
+“arrogance”,“dominance”,and“self-enhancement”just ferthepremisesuponwhichsomeexistingsetofconclu-
+differentwordsforthesamething,andisthatthesame sionswasbuilt. Often,perspectivesmaybeofparticular
+thingthatisalsocalled“narcissism”bysomescientists? importance in such analyses. This is because believing
+Andsoon. different things to be true (IS) or desirable (OUGHT)
+goes a long way in explaining wildly different conclu-
+FacilitatingScientificDiscourse.
+sions(e.g.,intermsofhowoneshouldact).
+Throughitsperspectiveelement,VASTanalysesmay
+FindingCommonGround.
+very well be used to account for the inherently social
+nature of all scientific discourse (Oreskes, 2020), as The potential use of VAST for working toward con-
+they enable an explicit and comprehensive showcasing sensual viewpoints is not limited to scientists (see
+of points of convergence or disagreement between the above). We hope that VAST may just as well be used
+views of different scholars studying the same subject. to enable more traceable and rational conversations
+We assume that scientific debates may become signifi- amongproponentsofviewpointsthatmayseemirrecon-
+cantlymoreefficientwhenmakingsourcesofdisagree- cilableatfirst(e.g.,regardingabortion,secondamend-
+mentvisibleandthenworkingthroughthem,oneafter mentrights, vaccinationetc.). Theextenttowhichthis
+another, possibly in an iterative fashion. This way, a hope is warranted will have to become the subject of
+VASTanalysismayactuallyserveasakindofroad-map futureresearch,however.
+to help guide the scientific process (e.g., in systematic
+TeachingCriticalThinkingandtheArtofArgumenta-
+attemptsatformingconsensus).
+tion.
+PeerReview.
+VAST may be used as a teaching tool, helping teach-
+VASTmayalsobeusedasatoolinpeerreview. This ers explain to students the various ways in which con-
+seems particularly promising when reviewing a paper ceptsmayberelatedtooneanother,andtheimportant
+from a research field that the reviewer is not that fa- roles that IS and OUGHT statements as well as differ-
+miliar with. In such cases, it may be helpful to first entperspectivesplayinmanyarguments. Ideally,these
+===== PAGE 14/20 =====
+14
+thingswouldbetaughtbywayofanalysingexistingar- son!Able (Van Gelder, 2002) and others (for an
+gumentstogether,orbyjointlydevelopingnewones(cf. overview of argument visualisation approaches, see
+Cullenetal.,2018). Okada et al., 2014). These other tools usually enable
+userstozoominonanypartsofaverbalargumentand
+ComparisonwithRelatedTools deducethelogicalrelationshipsamongthem. Thiscon-
+cernsreasonsfordrawingcertainconclusionsaswellas
+VAST’s intended domain of use overlaps very signif-
+objections to doing so. In VAST, these are captured us-
+icantly with those of many other systems, most promi-
+ingpositiveornegativetyperrelationships. Manytools
+nentlyDirectedAcyclicGraphs(DAG;Pearl,1995;Pearl
+account for premises that may lead to certain conclu-
+and Mackenzie, 2018; Rohrer, 2018) and Structural
+sionseitherbythemselves,orincombination. InVAST,
+Equation Modelling (SEM). Major points of conver-
+thesewouldbedistinguishedfromoneanotherinterms
+gence with these systems are obviously the display of
+of separate vs. combined (AND/OR) arrows pointing
+concepts or variables (“nodes”), and the display of re-
+toward a concept. Several tools also afford the possi-
+lationshipsbetweenthem(“edges”). InSEM,numerical
+bility of making whole strains of argument (e.g., “X is
+coefficientsareoftenusedtoexpressthestrengthsofre-
+a reason to believe Y”) the subject of further reasoning
+lationships between variables. A similar route is taken
+(e.g., “Z is a reason not to believe that X is a reason to
+when creating so-called “research maps” summarizing
+believeY”). InVAST,thisiscapturedusinghigher-order
+thetheoreticalassertionsandtheevidencespeakingfor
+concepts. Variants of IS-statements and quantifications
+or against them, for a given research field (Matiasz et
+of reasoning strength are also found in some existing
+al., 2018). From SEM, VAST has further borrowed the
+tools (e.g., Reason!Able). However, a major difference
+use of “noise arrows” to symbolise additional, unspeci-
+between these tools and VAST is that the former deal
+fiedinfluences. DivergingfromSEMconventions,how-
+exclusivelywithrelationshipsofthereasoning(r)type,
+ever, VAST uses a different default meaning for the ab-
+whereasthelatteralsoaccountsformanyotherpossible
+senceofarrowsbetweenconcepts: WhereasinSEMthis
+typesofrelationshipsbetweenconcepts,whilestillcap-
+usuallysignalsanunrelatednessofvariables,inVASTit
+turingtheirstrengthswiththesame(default)metric.
+means“unrelatedornotrelatedinwaysrelevanttothe
+currentargument”. Thisisasomewhatmoreliberalap-
+LimitationsandOutlook
+proach,andmoreinlinewithhoweverydayarguments
+arestructured,accordingtoourexperience: Whenpeo- At this early stage in the development of VAST, it is
+ple do not talk about relationships between concepts, difficulttopredicthoweagerlyitwillbepickedupand
+this usually means that they see no reason for doing eventually be used by others. We have spent signifi-
+so, but not necessarily that they assume the respective cant amounts of time over the course of approximately
+coefficienttobezero. three years developing, testing, revising and refining
+The coverage of VAST exceeds those of DAGs and thesystemthroughnumerousiterations,tryingtomake
+SEMs by a wide margin: Like DAGs and SEMs, VAST it work with analyses of diverse sets of examples both
+does cover the (measured or unmeasured) features of fromwithinscienceandoutsideofit. Weareconvinced
+objects and the relationships (causation and associa- thatthecurrentversiondoesworkreasonablywell,but
+tion) among those features. Unlike those other two we certainly expect additional improvements in the fu-
+frameworks, however, VAST also covers some more ture. To facilitate these, we encourage our readers to
+“psychological”relationshiptypessuchasnaming,con- giveitatry,toputthesystemtouseonwhateverargu-
+ceptual implication and reasoning. For this reason, the mentstheyfindinteresting,andtoletusknowaboutthe
+default coefficient of relationship strength in VAST ex- experiencestheymake. Newsmediaarticles,statements
+pressesthecovariationoftwoconceptsintermsofper- bypoliticalagents(e.g.,partiesoroffice-holders),court
+centagesofranges(e.g.,howmuchmorewillIconsider sentences, advertisements, and of course science texts
+anobjectto“beacar”ifit“hastires?”). VASTalsogoes are all fair game. Based on our own experiences, we
+beyond the aforementioned systems in that it enables predict that, like us, most readers will find this type
+an explicit accounting for assumptions as to how much of analysis intellectually challenging. We hope that the
+something IS and OUGHT to be the case, and for dif- substantialeffortthattendstobeassociatedwithspeci-
+ferencesbetweenpeopleinregardtosuchassumptions. fyingargumentstructuresthiswaywillnotdeterpeople
+Allofthisisunquestionablyofkeyimportanceformany fromtrying.
+everydayarguments. VAST analyses may be real eye-openers in regard to
+The coverage and methodology of VAST overlaps the, well, vast level of complexity that does permeate
+considerably with tools developed in philosophy, such manyargumentsbuttendstobeoverlookedwhenstick-
+as MindMup (https://maps.simoncullen.org/), Rea- ing to purely narrative ways of formulating them. In
+===== PAGE 15/20 =====
+15
+thisregard,areviewer(JuliaRohrer)alertedustoapo- and episodic context (Davachi et al., 2003; Komorowski
+tential conflict of interest, especially for scientists who et al., 2013; Davachi, 2006; Ranganath, 2010) as well
+consider using the system: Given the current incentive asintegrationofinformationoverepisodes(Schlichtinget
+structureinacademia,theremaybegood(i.e. rational) al., 2015; Davis et al., 2012; Collin et al., 2015; Milivo-
+reasonstoavoidgreaterlevelsoftheoryspecification. In jevitchetal.,2015[...]"
+fact, low levels of specification may be selected for be- Figure 13 shows a VAST display created by Daniel
+cause using them is likely to involve a lower risk of be- (analyst) to reflect the paragraph above. More specifi-
+ingprovenwrong. Ill-specifiedtheorieswillalsobeless cally,itshowswhatthisanalystthinkstheauthors(per-
+likelytoincurstrongnegativereactionsfromreviewers spective) of the paragraph are saying (IS), which is ev-
+and may be easier to “sell” to the public. All of this is erything inside the largest frame. Note that, for sim-
+true and may in fact explain part of why weak theoriz- plicity,aminorportionattheendofthenarrativepara-
+ingissopersistentinpsychologytothisday. Wedocon- graphwasexcluded,asindicatedbytheuseofbrackets
+sideritunlikelythatthepresentpaperwillinciteamass attheend(seeabove).
+movementoftheoryspecificationenthusiasts. However, Daniel used the default mode of VAST in which all
+based on our own experience with the tool, we do be- concepts and their names are separated from one an-
+lieve that for those psychologists who already are gen- other. Heidentified8relevantconceptstobeaccounted
+uinelyinterestedinimprovingonthespecificityoftheir for. Five of these (C1 to C5) reflect key sentences
+(andothers’)theorizing,usingVASTisdefinitelyworth from the paragraph, as shown in the lower part of the
+atry. Considerablygreaterclarityisusuallyachieved. figure where the respective naming relationships are
+At present, VAST merely consists of a set of concep- listed. Note that some minor inferences and modifica-
+tual distinctions and related rules for how they should tions were necessary to enable each concept name to
+bevisualized. Asthisisthecoreofthesystem,complete speak for itself. The other three concepts (L1 to L3)
+and satisfactory VAST analyses are already possible us- represent the references to the literature that also fea-
+ing any standard graphics tool, or even just paper and ture in the paragraph. These are empirical in nature,
+pencil. However, our ultimate goal is to implement the as indicated by the use of thick black edges on the re-
+system as a free web resource that will be capable of spective frames. They are also assumed to be given, as
+(a) developing VAST displays by asking users the right indicatedbytheuseofISpentagons.
+questionsand(b)checkinganygivendisplayforconsis- In this first VAST display, Daniel focuses on what he
+tencyandcompleteness. thinks is the reasoning structure in the paragraph. His
+use of VAST’s default mode along with his decision to
+Appendix: AMoreComplexExample setthenamingrelationshipsasideallowsustofullycon-
+centrate on this reasoning structure, without being dis-
+The task at hand is to clarify the meaning of the fol-
+tractedbytheactualcontentofspecificconcepts. There
+lowingtheoryparagraphfromthepaperbyThevesetal.
+isnoneedforindexingthenamingrelationshipsinthis
+(2020), using VAST. Such a clarification attempt may
+context,becausetheywillnotbeindividuallydiscussed.
+— and usually does — lead to an identification of ar-
+Daniel identified seven relevant relationships of the
+eas of underspecification, ambiguity or even contradic-
+reasoning type (r to r ): Because L1 is given (IS), we
+tion. Note, however, thatthisparticularparagraphwas 1 7
+maybelieveC1tobethecase,viar . ThisishowDaniel
+pickedfornootherreasonthanbeingarelativelytypical 1
+interpretsthefirstcitation. IfC1isthecase,wemayalso
+example of narrative theorizing in psychology (and be-
+believe C2 to be the case, via r . This is how Daniel in-
+causeitdealswiththesubjectof“concepts”,whichplay 2
+terpretsthefirst“thus”. Ifallofthisisthecase,wemay
+a key role in VAST). We do not consider this a particu-
+also believe C3 to be the case, via r . This is Daniel’s
+larlyproblematiccase,butratherjustuseittoshowcase 3
+interpretation of the second “thus”. However, this (r )
+atypicalapplicationofVAST.Thousandsofotherpara- 3
+is only true if C4 and C5 are also the case, via r and
+graphsmayhavebeenusedjustaswell. Theparagraph 4
+r . ThislatterconditioningishowDanielinterpretsthe
+from the (Theves et al., 2020) paper (page 7318) goes 5
+“due to” in the paragraph. Furthermore, L2 is given,
+likethis:
+whichisareason(viar ;reflectingthesecondcitation)
+"Concepts are organizing structures that define how 6
+to believe C4 to be the case. Finally, L3 is also given,
+contents are related to each other and can be used to
+whichisareason(viar ;reflectingthethirdcitation)to
+transfer meaning to novel input (Smith & Medin, 1981; 7
+believeC5tobethecase.
+Kemp,2010). Theirformationthusinherentlydependson
+Notethattheanalysthadtomakenumerousauxiliary
+generalizationover,andintegrationofexperiences. Thus,
+assumptionsaboutthingsthatwerenotentirelyclearin
+a role of the hippocampus in generalization seemed con-
+thenarrativeparagraphitself: Forexample,theanalyst
+siderable due to its roles in binding elements into spatial
+===== PAGE 16/20 =====
+16
+Analyst: Daniel
+IS Authors
+r r
+r r r 4 C4 6 L2 1
+1 1 2 3
+L1 C1 C2 C3
+IS r 5 r 7 IS
+C5 L3 1
+n
+“Concepts are organizing structures that define how contents are related to
+C1 n
+each other and can be used to transfer meaning to novel input.”
+L1 “Smith and Medin, 1981; Kemp, 2010”
+n
+C2 “ in[C teo gn rc ae tip ot ns ’ o] ff o er xm pea rt ii eo nn c [ e… s] .” inherently depends on generalization over, and L2 n “Davachiet al., 2003; Komorowskiet al.,
+2013; Davachi, 2006; Ranganath, 2010“
+n
+C3 “[…] a role of the hippocampus in generalization seemed considerable”
+n “Schlichting et al., 2015; Davis et al., 2012;
+L3
+n Collin et al., 2015; Milivojevitchet al., 2015“
+C4 “[hippocampus’s role] in integration of information over episodes”
+n
+C5 “[hippocampus’s role] in binding elements into spatial and episodic context”
+Figure13
+ReasoningstructureinatheoryparagraphbyThevesetal.(2020),accordingtoDaniel(analyst)
+treated all of the papers supposedly supporting a given tent of the largest frame underneath it to be inter-
+proposition as a unified whole (i.e., a single concept). changeable. To him, these two concepts have the ex-
+Alternatively,hecouldhaveusedaseparateconceptfor act same meaning, as indicated by his using a bidirec-
+eachpaper,whichwouldhavemeantthateachpaperby tional implication arrow with coefficient 1 (signalling
+itself supports the respective proposition. Also, Daniel identity). WhatDanieldoeshereisspecifythemeaning
+treatedr andr astwoentirelyseparatepathsbywhich ofahigher-orderconcept(C1)bybreakingitdowninto
+4 5
+r issupported. Alternatively,hecouldhaveinterpreted fourcomponents(C6toC9)andsomerelevantrelation-
+3
+the“aswellas”intherespectivesentencetomeanthat ships (i to i ) between them: Objects that are consid-
+2 4
+onlythecombinationofC4andC5isareasontobelieve eredexemplarsofC6(named“concepts”)arealsocon-
+C3, which he would then have had to express using an sidered exemplars of C7, C8 and C9. Note that these
+ANDdiamond. latterimplicationsuseunidirectionalarrowsonly. Note
+Needlesstosay,eachoftheseadditionalassumptions, furtherthatallofthisisexpresslyDaniel’sopinion,and
+andanyotherelementinthedisplay,maybechallenged notnecessarilysharedbytheauthorsoftheparagraph.
+anytime—butonlyiftheyaremadeexplicit, whichis This is because only Daniel is named as the analyst in
+the whole point of VAST analyses. By making specifi- thebyline,buttheoriginalauthorsoftheparagraphdo
+cation gaps and ambiguities explicit this way, a VAST not appear as perspective-holders anywhere in the fig-
+analysismayeventuallyhelpdrivetheorydevelopment. ure.
+As a next step, Daniel decides to zoom-in a bit more The second concept that the analyst chooses to
+on two of the key concepts in the paragraph. The first “zoom-in” on is C2. Figure 15 showcases the result. As
+of these is C1, which he interprets to be mostly about in the previous analysis, Daniel assumes that the con-
+conceptual implications. This is how he interprets the tent of C2 and the content of the largest frame under-
+word“are”inthisconcept’sname. Figure14showsthe neath it are mutually interchangeable (i ). Again, he
+5
+outcomeofthiszooming-in: explicatesthemeaningofaconcept(C2)bybreakingit
+DanielbelievesthecontentofC1andtheentirecon- down into a few subordinate concepts (C10, C11, and
+===== PAGE 17/20 =====
+17
+“Concepts are Analyst: Daniel
+organizing structures “[Concepts’] Analyst: Daniel
+that define how formation […]
+contents are related to n inherently depends n
+C1 C2
+each other and can be on generalization
+used to transfer over, and integration
+mean ii nn pg
+u
+t to
+.”
+novel i11 of experiences.” i 5 1
+“[Concepts’]
+n “Generalization n
+C7 “Organizing structures” C10 formation”
+i2 over [experiences]”
+n
+n i3 n “Define how contents ? c 1
+“Concepts” C6 C8 are related to each C12
+i4 other”
+AND c 0
+n “Can be used to transfer “Integration of n C11
+C9 meaning to novel input” experiences”
+Figure14
+Figure15
+“Zooming-in”inonconceptC1(ignoringcitations)
+“Zooming-in”inonconceptC2(ignoringcitations)
+C12) and some relationships among them (this time of
+thectype,whichishowDanielinterpretstheword"de- AuthorContact
+pends"inthetext).
+Corresponding Author: Daniel Leising (ORCID:
+Daniel’suseofanANDdiamondsignalsthatC12may
+0000-00001-8503-5840), Technische Universität Dres-
+onlybethecaseifC10andC11arebothgiven,butnot
+den,daniel.leising@tu-dresden.de
+if only C10 or C11 are given. This is how he interprets
+the word "and" in the text. Furthermore, the c 0 in-
+ConflictofInterestandFunding
+fluence on C12 makes it clear that there are no other
+causal pathways by which C12 may come about. This The authors state that they have no conflict of inter-
+is how Daniel interprets the word “inherently" in the est to declare. This project was not connected to any
+text. However,thequestionmarkabovethethirdarrow particularsourceofthird-partyfunding.
+pointing toward the AND diamond signals that Daniel
+isnotsurewhetheranotherinfluenceisneededtobring AuthorContributions
+aboutC12. ThisisbecausethenameofconceptC2only
+Daniel Leising: Conceptualization, Methodology, Vi-
+seems to say that C10 and C11 are necessary for C12
+sualization, Writing — Original Draft, Writing — Re-
+to happen, but not that they are sufficient. Here, the
+view & Editing; Oliver Grenke: Conceptualization,
+analysispointstoaneedforgreaterspecification.
+Methodology, Visualization, Writing — Review & Edit-
+Finally, a brief word on the sets of objects that the
+ing; Marcos Cramer: Conceptualization, Methodology,
+concepts in the three figures pertain to. These are ob-
+Visualization,Writing—Review&Editing.
+viouslynotthesame. InFigure13,theobjectsarecon-
+ceivablerealities: theonethatisdescribedasgiven(in Acknowledgments
+which certain rules apply and certain research papers
+exist), and possible alternative ones. In Figure 14, the The authors would like to thank Moritz Leistner for
+objectsareratherill-defined. Itmaybeusefultothinkof helpwithlayoutingthispaper.
+themasbeingvariouskindsofmentalphenomenahere
+OpenSciencePractices
+(e.g.,perceptions,memoriesetc.). InFigure15,theob-
+jectsmaybethoughtofasvariantsofpeople’sdevelop- This article is theoretical and as such is not eligible
+mentaltrajectories: OnlyinthoseinwhichC10andC11 for Open Science badges. The entire editorial process,
+(and maybe something else, see question mark) take including the open reviews, is published in the online
+place, will we also see C12 happening. For simplicity, supplement.
+we did not explicitly account for the different sets of
+objectsinFigures13,14,and15.
+===== PAGE 18/20 =====
+18
+References A. J. (2018). Researchmaps.org for integrat-
+ing and planning research. PLoS ONE, 13(5),
+Baroni, P., Gabbay, D., Giacomin, M., & van der Torre,
+e0195271. https://doi.org/10.1371/journal.
+L. (2018). Handbook of formal argumentation.
+pone.0195271
+CollegePublications.
+Muthukrishna, M., & Henrich, J. (2019). A problem
+Block,J.(1995).Acontrarianviewofthefive-factorap-
+intheory.NatureHumanBehaviour,3(3),221–
+proach to personality description. Psychological
+229. https://doi.org/10.1038/s41562-018-
+Bulletin, 117, 187–215. https://doi.org/10.
+0522-1
+1037/0033-2909.117.2.187
+Okada, A., Buckingham Shum, S. J., & Sherborne, T.
+Boole,G.(1854).Aninvestigationofthelawsofthought:
+(2014). Knowledge cartography: Software tools
+On which are founded the mathematical theo-
+andmappingtechniques.Springer.
+ries of logic and probabilities (Vol. 2). Walton;
+Oreskes, N. (2020). Why trust science? Princeton Uni-
+Maberly.
+versityPress.
+Borsboom,D.,vanderMaas,H.L.J.,Dalege,J.,Kievit,
+Pearl,J.(1995).Causaldiagramsforempiricalresearch.
+R.A.,&Haig,B.D.(2021).Theoryconstruction
+Biometrika, 82(4), 669–688. https://doi.org/
+methodology: A practical framework for build-
+10.1093/biomet/82.4.669
+ing theories in psychology. Perspectives on Psy-
+Pearl,J.,&Mackenzie,D.(2018).Thebookofwhy.Basic
+chologicalScience,16(4),756–766.https://doi.
+Books.
+org/10.1177/1745691620969647
+Popper, K. R. (2002). The logic of scientific discovery.
+Büning, H. K., & Lettmann, T. (1999). Propositional
+RoutledgeClassics.
+logic:Deductionandalgorithms(Vol.48).Cam-
+Preparata, F. P., & Yeh, R. T. (1972). Continuously val-
+bridgeUniversityPress.
+ued logic. Journal of Computer and System Sci-
+Cullen, S., Fan, J., van der Brugge, E., & Elga, A.
+ences, 6(5), 397–418. https://doi.org/10.
+(2018).Improvinganalyticalreasoningandar-
+1016/S0022-0000(72)80011-4
+gument understanding: A quasi-experimental
+Robinaugh, D. J., Haslbeck, J. M. B., Ryan, O., Fried,
+field study of argument visualization. npj Sci-
+E. I., & Waldorp, L. J. (2021). Invisible hands
+ence of Learning, 3, 21. https://doi.org/10.
+and fine calipers: A call to use formal theory
+1038/s41539-018-0038-5
+asatoolkitfortheoryconstruction.Perspectives
+Dablander, F. (2020). An introduction to causal infer-
+onPsychologicalScience,16(4),725–742.https:
+ence.https://doi.org/10.31234/osf.io/b3fkw
+//doi.org/10.1177/1745691620974697
+Devezer, B., Navarro, D. J., Vandekerckhove, J., &
+Rohrer, J. M. (2018). Thinking clearly about correla-
+Buzbas, E. O. (2021). The case for formal
+tions and causation: Graphical causal models
+methodology in scientific reform. Royal Society
+forobservationaldata.AdvancesinMethodsand
+Open Science, 8(3), 200805. https://doi.org/
+Practices in Psychological Science, 1(1), 27–42.
+10.1098/rsos.200805
+https://doi.org/10.1177/2515245917745629
+Eronen, M. I., & Bringmann, L. F. (2021). The the-
+Rosch, E. (1978). Principles of categorization. In E.
+orycrisisinpsychology:Howtomoveforward.
+Rosch & B. B. Lloyd (Eds.), Cognition and cat-
+Perspectives on Psychological Science, 16(4),
+egorization(pp.27–48).LawrenceErlbaumAs-
+779–788. https : / / doi . org / 10 . 1177 /
+sociates.
+1745691620970586
+Smaldino, P. (2017). Models are stupid, and we need
+Frege,G.(1879).Begriffsschrift:Einederarithmetischen
+more of them. In R. R. Vallacher, S. J. Read,
+nachgebildete formelsprache des reinen denkens.
+& A. Nowak (Eds.), Computational social psy-
+VerlagvonLouisNebert.
+chology. Routledge. https://doi.org/10.4324/
+Fried, E. I. (2020). Lack of theory building and testing
+9781315173726
+impedesprogressinthefactorandnetworklit-
+Smaldino, P. (2019). Better methods can’t make up for
+erature. Psychological Inquiry, 31(4), 271–288.
+mediocre theory. Nature, 575, 9. https://doi.
+https://doi.org/10.1080/1047840X.2020.
+org/10.1038/d41586-019-03350-5
+1853461
+Theves, S., Fernández, G., & Doeller, C. (2020). The
+Glöckner,A.,&Betsch,T.(2011).Theempiricalcontent
+hippocampus maps concept space, not feature
+of theories in judgement and decision making:
+space. The Journal of Neuroscience, 40(38),
+Shortcomingsandremedies.JudgementandDe-
+7318–7325. https : / / doi . org / 10 . 1523 /
+cisionMaking,6(8),771–721.
+JNEUROSCI.0494-20.2020
+Matiasz, N. J., Wood, J., Doshi, P., Speier, W., Beck-
+emeyer, B., Wang, W., Hsu, W., & Silva,
+===== PAGE 19/20 =====
+19
+Van Gelder, T. (2002). Argument mapping with rea-
+son! able. The American Philosophical Associa-
+tion Newsletter on Philosophy and Computers,
+2(1),85–90.
+===== PAGE 20/20 =====
+20
+CorrectionnoticeforLeisingetal. (2023)
+Dateofcorrection: 2026-08-16
+CorrectiontoVisualArgumentStructureTool(VAST)Version1.0
+ByDanielLeising,OliverGrenkeandMarcosCramer
+PublishedinMeta-Psychology,7,2023.
+https://doi.org/10.15626/MP.2021.2911
+Thefirstpublishedversionofthisarticlecontains(onpage9)a
+mistakeinthetextexplainingFigure8. Thepublishedsentence
+reads
+“Thetablealsotellsusthat(a)itwouldbegoodiftheaverage
+percentageofpeoplehavingagooddaywouldincrease(fromIS:50
+toOUGHT:70),andthat(b)thevariation(SD)inthispercentage
+wouldgodown(fromIS:25toOUGHT:10).”
+Thecorrectversionwouldbe
+“Thetablealsotellsusthat(a)itwouldbegoodiftheaverage
+percentageofpeoplehavingagooddaywouldincrease(fromIS:50
+toOUGHT:70),andthat(b)thevariation(SD)inthepercentageof
+peoplebeinginagoodmoodwouldgodown(fromIS:25to
+OUGHT:10).”
+TheauthorswouldliketothankFelixSchönbrodtforcatchingthis
+mistake.
+ThisPDFcontainsthecorrectedversion.

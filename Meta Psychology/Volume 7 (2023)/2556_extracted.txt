@@ -1,0 +1,1445 @@
+
+===== PAGE 1/18 =====
+Meta-Psychology,2023,vol7,MP.2020.2556 Opendata:NotApplicable Editedby:Danielsson,H.,Carlsson,R.
+https://doi.org/10.15626/MP.2020.2556 Openmaterials:Yes Reviewedby:Parsons,S.,Young,C.,Antonoplis,S.
+Articletype:OriginalArticle Openandreproducibleanalysis:Yes Analysisreproducedby:Batinovi´c,L.,Tobias,C.
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/8MZV3
+Comparing the vibration of effects due to model, data
+pre-processing, and sampling uncertainty on a large data set in
+personality psychology
+Simon Klau1,2, Felix D. Schönbrodt3,4, Chirag J. Patel5, John P.A. Ioannidis6,7,8,9, Anne-Laure
+Boulesteix1,4, and Sabine Hoffmann1,4
+1InstituteforMedicalInformationProcessing,Biometry,andEpidemiology,Munich,Germany
+2Leibniz-InstituteforPreventionResearchandEpidemiology−BIPS,Bremen,Germany
+3DepartmentofPsychology,Ludwig-Maximilians-UniversitätMünchen,Munich,Germany
+4LMUOpenScienceCenter,Ludwig-Maximilians-UniversitätMünchen,Munich,Germany
+5DepartmentofBiomedicalInformatics,HarvardMedicalSchool,Boston,MA,USA
+6Meta-ResearchInnovationCenteratStanford(METRICS),StanfordUniversity,Stanford,CA,USA
+7DepartmentofEpidemiologyandPopulationHealth,StanfordUniversity,Stanford,CA,USA
+8DepartmentofBiomedicalDataScience,StanfordUniversity,Stanford,CA,USA
+9DepartmentofStatistics,StanfordUniversity,Stanford,CA,USA
+Researchers have great flexibility in the analysis of observational data. If combined
+with selective reporting and pressure to publish, this flexibility can have devastating
+consequences on the validity of research findings. We extend the recently proposed
+vibrationofeffectsapproachtoprovideaframeworkcomparingthreemainsourcesof
+uncertaintywhichleadtoinstabilityinempiricalfindings,namelydatapre-processing,
+model, and sampling uncertainty. We analyze the behavior of these sources for vary-
+ingsamplesizesfortwoassociationsinpersonalitypsychology. Throughthejointin-
+vestigation of model and data pre-processing vibration, we can compare the relative
+impact of these two types of uncertainty and identify the most influential analytical
+choices. Whilealltypesofvibrationshowadecreaseforincreasingsamplesizes,data
+pre-processing and model vibration remain non-negligible, even for a sample of over
+80000participants. Theincreasingavailabilityoflargedatasetsthatarenotinitially
+recordedforresearchpurposescanmakedatapre-processingandmodelchoicesvery
+influential. Wethereforerecommendtheframeworkasatoolfortransparentreporting
+ofthestabilityofresearchfindings.
+Keywords: metascience,researcherdegreesoffreedom,stability,replicability,BigFive
+In recent years, a series of attempts to replicate re- report only one of them selected post-hoc (Simmons et
+sults of published research findings on independent al.,2011).
+datahaveshownthatthesereplicationstendtoproduce Indeed, there are a great number of implicit and ex-
+much weaker evidence than the original study (Open plicit choices that have to be made when analyzing ob-
+ScienceCollaboration,2015),leadingtowhathasbeen servational data. It is necessary to make various deci-
+referred to as a ‘replication crisis’. While there have sions when specifying a probability model to study the
+been a number of widely publicized examples of fraud associationbetweenpossiblepredictorvariablesandan
+and scientific misconduct (Ince, 2011; van der Zee et outcomeofinterest(Leamer,1983). Inadditiontopos-
+al., 2017), many researchers agree that this is not the sible choices involved in the specification of a proba-
+major problem causing the crisis (Gelman and Loken, bility model, denoted as ‘model uncertainty’ in the fol-
+2014; Ioannidis et al., 2014). Instead, the problems lowing, there are numerous judgments and decisions
+seemtobemoresubtleandpartlyduetothemultiplic- that are required prior to fitting the model to the data.
+ityofpossibleanalysisstrategies(Goodmanetal.,2016; Whenpre-processingthedata,therearemanypossibil-
+Open Science Collaboration, 2015). In this vein, there ities regarding not only the definition of predictor and
+is evidence that the instability of empirical associations outcome variables, but also data inclusion and exclu-
+canbepartlyexplainedbythefactthatresearcherstend sion criteria, and the treatment of outliers (Wicherts et
+torunseveralanalysisstrategiesonagivendataset,but al., 2016). We denote this type of uncertainty as ‘data
+===== PAGE 2/18 =====
+2
+pre-processinguncertainty’. and extraversion and physical activity, by analyzing a
+Apart from the problems arising through the mul- largeandpubliclyavailabledataset.
+tiplicity of possible analysis strategies, there seem to
+be more fundamental issues in the analysis of obser- Thevibrationofeffectsframework
+vational data that originate from the low statistical
+The vibration of effects framework to quantify the
+power which characterizes many psychological studies
+effect of model, data pre-processing, and sampling
+(Maxwell, 2004; Szucs and Ioannidis, 2017). In psy-
+uncertainty
+chology, effect sizes tend to be small and sample sizes
+aretypicallysmalltomoderate. Thiscombinationleads Thevibrationofeffectsframework(Ioannidis,2008;
+tostudieswithlowstatisticalpowerandthereforehigh Patel et al., 2015) provides researchers with a tool to
+samplinguncertaintywhenthesameanalysisstrategies assesstherobustnessoftheirresearchfindingsinterms
+areappliedtodifferentsampleswiththeaimofanswer- ofalternativeanalysisstrategies. Inparticular,itallows
+ing the same research question. High sampling uncer- the quantification of the impact of different choices on
+tainty decreases the chances of being able to replicate the stability of results, helping researchers identify the
+theresultsofstudiesthatdetectatrueeffect. mostinfluentialanalysischoices. Inthisrespect,thevi-
+In recent years, a plethora of solutions to the repli- bration of effects framework has some conceptual sim-
+cationcrisishavebeenproposedindifferentdisciplines. ilarities to specification curve analysis (Simonsohn et
+There are several approaches that allow the reporting al., 2015), multiverse analysis (Steegen et al., 2016)
+ofresultsforalargenumberofpossibleanalysisstrate- and multi-analyst experiments (Aczel et al., 2021). All
+gies(MuñozandYoung,2018;Simonsohnetal.,2015; these approaches try to assess whether results vary ac-
+Steegenetal.,2016;Young,2018),includingthevibra- cording to different specifications. In contrast to the
+tionofeffectswhichwasproposedbyIoannidis(2008) latter approaches, the vibration of effects framework
+and further developed by Patel, Burford, and Ioanni- presentstheeffectestimatesandp-valuesresultingfrom
+dis (2015), Palpacuer et al. (2019), and Klau, Hoff- a large number of analysis strategies simultaneously in
+mann,Patel,Ioannidis,andBoulesteix(2021). Alterna- a volcano plot. Moreover, vibration of effects considers
+tively, the flexibility in the choice of analysis strategies a more comprehensive set of possible strategies, while
+can be reduced before analyzing the data through pre- the specification curve and multiverse analysis include
+registration and registered reports (Chambers, 2013; astepwheretheresearcherstrytodefinewhatarerea-
+Wagenmakers et al., 2012). Similarly, the instability sonablespecifications(ataskthatisoftendifficult)and
+of empirical findings arising from sampling uncertainty multi-analystexperimentstypicallyrequestmanydiffer-
+can be assessed through resampling (Meinshausen and ent analysts to make independently their best choice
+Bühlmann, 2010; Sauerbrei et al., 2011) or sampling of the analysis strategy. While the vibration of effects
+uncertainty can be reduced by increasing the sample approach was initially proposed and applied to assess
+size (Button et al., 2013; Maxwell, 2004; Schönbrodt model uncertainty, it has recently been extended to
+and Perugini, 2013). While the solutions proposed so enable comparison of the relative impact of different
+far address important pieces of the problem by either analysis choices with measurement and sampling un-
+focusing on the multiplicity of analysis strategies or on certainty(Klauetal.,2021).
+samplinguncertainty,itisimportanttobeabletoinves- The vibration of effects framework can be used in
+tigate sampling, model, and data pre-processing uncer- the context of modeling an association of interest, i.e.,
+tainty in a common framework to understand the full when estimating the effect of a predictor of interest on
+picture. Klau, Martin-Magniette, Boulesteix, and Hoff- an outcome of interest to obtain effect estimates and
+mann (2020) rely on a resampling procedure to com- corresponding p-values, while controlling for the effect
+pare method and sampling uncertainty, but focus their ofseveralcovariates.
+application on the selection and ranking of molecular In the application of the framework by Patel et al.
+biomarkers. (2015), the authors consider the association between
+Inthiswork,weusethevibrationofeffectsapproach a predictor of interest and a survival outcome, and as-
+(Ioannidis, 2008) to assess model, data pre-processing, sess the vibration by defining a large number of mod-
+and sampling uncertainty in order to provide a tool for els which result from the inclusion or exclusion of a
+applied researchers to quantify and compare the insta- number of potential covariates. In this work, we will
+bilityofresearchfindingsarisingfromallthreesources refer to the type of vibration investigated by Patel et
+ofuncertainty. Westudythisinstabilityforvaryingsam- al. (2015)as‘modelvibration’,applytheframeworkto
+plesizesfortwoassociationsinpersonalitypsychology, subsamples of the data (Klau et al., 2021), and extend
+namely between neuroticism and relationship status, it to data pre-processing choices in order to compare
+===== PAGE 3/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 3
+model vibration to ‘sampling vibration’ and ‘data pre- respectively. Following Patel et al. (2015), we define
+processing vibration’. To quantify sampling vibration, the relative odds ratio (ROR) as the ratio of the 99th
+we use a resampling-based approach where we draw percentile and 1st percentile of the OR. The ROR pro-
+a large number of random subsets from our data set videsamorerobustandintuitivemeasureofvariability
+and fit the same model on each of these subsets. Fur- than the variance. The minimal possible value of ROR
+thermore, we fit a model for a large number of data is1,indicatingnovibrationofeffectsatall,whilelarger
+pre-processing strategies in order to assess data pre- RORvaluesindicatelargervibration.
+processingvibration. Thesechoicescould,forexample,
+include the handling of outliers, eligibility criteria, or Comparing the vibration of effects due to different
+the definition of predictor and outcome variables. Ex- types of uncertainty and identifying the most influ-
+amples for the implementation of these three types of entialanalyticalchoices
+vibration are provided in section Applying the vibration
+For an association of interest, model, data pre-
+ofeffectsframeworktotheSAPAdataset.
+processing, and sampling uncertainty can be compared
+Figure 1 shows three possible patterns of vibration
+through the vibration of effects framework. In order
+of effects generated with fictive data. Since our appli-
+toassessthevariabilityineffectestimatesandp-values
+cation of the vibration of effects will focus on binary
+for one type of vibration, the other types of vibration
+outcomes in the context of logistic regression models,
+have to be fixed to a ‘favorite’ specification. For in-
+we present these figures with odds ratios (OR) as ef-
+stance, when focusing on sampling vibration only, de-
+fect estimates. In the left panel, a regular pattern is
+cisions on a favorite model as well as a favorite data
+visualized where all effects are positive (OR > 1) and
+pre-processingchoicemustbemade.
+significant (p < 0.05). This is recognizable by a verti-
+In addition to the investigation of individual types
+cal line, where OR = 1, and a horizontal line, where p
+of vibration, the joint impact of model and data pre-
+= 0.05, illustrating the significance threshold, respec-
+processing choices on the variability of results can be
+tively. Furthermore, dotted lines provide information
+quantified. For simplicity, we will refer to the combi-
+aboutthe1st,50thand99thpercentileofresults. Such
+nationofamodelandallnecessarydatapre-processing
+aregularpatterndemonstratestherobustnessofthees-
+choicesasananalysisstrategy. Inthejointinvestigation
+timated effect to alternative model specifications, data
+of model and data pre-processing choices, the calcula-
+pre-processing options or to resampling, depending on
+tionofRORisstraightforwardandcangiveanestimate
+thetypeofvibrationthatispresented. Thesecondpanel
+for the total amount of vibration caused by the anal-
+demonstrates a pattern which is characterized by sig-
+ysis strategy. Additionally, the relative impact of data
+nificantandnon-significantresultsinbothpositiveand
+pre-processing and model choices on the vibration that
+negative directions − here, the median OR is close to
+is caused by the choice of the analysis strategy can be
+one. We refer to this pattern as the ‘Janus effect’, in
+quantified and it is possible to identify the model and
+allusion to the two-headed ancient Roman god (Patel
+datapre-processingchoicesthatexplainthelargestvari-
+etal.,2015). WhileaJanuseffectpatternindicatesthat
+ation in results. To do so, we can use a linear model in
+there is no consistent association between the predic-
+which we describe the association between the effect
+tor of interest and the outcome, the occurrence of both
+estimateofinterestasanoutcomevariable(inourcase
+positive and negative significant results can lead to re-
+thelog(OR))asafunctionoftwocategoricalcovariates,
+searchers selectively reporting a significant finding in
+indicating data pre-processing and model choices. By
+the desired direction if they try a number of possible
+performingavariancedecompositionthroughananaly-
+analysis strategies. Finally, the right panel contains a
+sisofvariance(ANOVA),wecandeterminethedatapre-
+more irregular pattern. Such a pattern can, for exam-
+processing choices and model choices that most con-
+ple,resultfromtheinclusionorexclusionofaparticular
+tribute to the total amount of vibration caused by the
+covariate, or by different choices in the definition of a
+analysisstrategy.
+covariate. By highlighting the data points referring to
+In the following section, we will give detailed ex-
+such a definition, the results can be visually connected
+amples of the application of the vibration of effects
+tothesechoices.
+framework regarding model, sampling and data pre-
+To quantify the variability in these results, Patel et
+processingchoices.
+al. (2015) propose two summary measures, namely
+relativehazardratiosandrelativep-values(RP).These
+summary measures are defined as the ratio of the 99th
+and 1st percentile of hazard ratios and the difference
+betweenthe99thand1stpercentileof-log10(p-value),
+===== PAGE 4/18 =====
+4
+Figure1
+Vibrationofeffectswithfictivedata.
+1 50 99
+1
+3 p = 0.001
+50
+2
+99
+p = 0.05
+1
+0
+0.8 1.0 1.2 1.4 1.6
+Odds Ratio
+)p(01gol−
+1 50 99
+1
+3 p = 0.001
+2
+p = 0.05
+Density 1 50
+25
+20
+15
+10
+5
+99
+0
+0.8 1.0 1.2 1.4 1.6
+Odds Ratio
+)p(01gol−
+1 50 99
+1
+3 p = 0.001
+2
+p = 0.05
+Density 1
+20 50
+10
+99
+0
+0.8 1.0 1.2 1.4 1.6
+Odds Ratio
+)p(01gol−
+Option
+1
+2
+3
+Applyingthevibrationofeffectsframeworktothe out replacement. In the application of our framework,
+SAPAdataset weconsidersixassociationsofinterest,comprisingfive
+for which we found empirical evidence in the psycho-
+Thedataandresearchquestionsofinterest
+logicalliterature. Inthepresentationofourresults, we
+For the application of the vibration of effects, we focus on the association between neuroticism and rela-
+use a large data set from the SAPA project personality tionship status and between extraversion and physical
+test (Condon et al., 2017) which is publicly available activity(RhodesandSmith,2006).
+at the Dataverse repository (https://dataverse.harvard. There is a large body of evidence on the associa-
+edu/dataverse/SAPA-Project). The sample consists of tion between neuroticism and relationship satisfaction
+126884 participants who were invited to complete an (Dyrenforth et al., 2010; Malouff et al., 2010; O’Meara
+onlinesurveybetween2013and2017inordertoeval- and South, 2019), which might for instance be ex-
+uate the structure of personality traits. The data set plained by cognitive biases in the interpretation of am-
+comprises information about a large pool of 696 per- biguous situations (Finn et al., 2013). Concerning the
+sonalityitemswhichwerecompletedbytheparticipants association between extraversion and physical activity,
+ona6-pointscalerangingfrom1(veryinaccurate)to6 Eysenck,Nias,andCox(1982)suggestedthatindividu-
+(very accurate) and a set of additional variables includ- alswithhighlevelsofextraversionwouldbemorelikely
+ing gender, age, country, job status, educational attain- to start sports and to excel in them because the bodily
+ment level, physical activity, smoking status, relation- activity would satisfy their sensation seeking behavior.
+shipstatusandbodymassindex(BMI)ofparticipants. According to Wilson and Dishman (2015), an associa-
+In this work, we use these data to assess the extent tionbetweenextraversionandphysicalactivitymayalso
+to which associations between the Big Five (agreeable- result from the fact that extraverts are more social and
+ness, conscientiousness, extraversion, neuroticism and outgoing,makingthemmoreexposedtosituationsthat
+opennesstoexperience)andthefiveoutcomevariables offer the possibility to be physically active. Additional
+physical activity, educational achievement, relationship results on the association between agreeableness and
+status, smoking habits and obesity are influenced by smoking (Malouff et al., 2006), neuroticism and obe-
+data pre-processing, model, and sampling uncertainty. sity (Gerlach et al., 2015), and conscientiousness and
+In order to investigate the behavior of the three types education (Sori´c et al., 2017) can be found in the Sup-
+of vibration with increasing sample size, we consider plementaryMaterial,togetherwithresultsonopenness
+different subsets of the original data with subset sizes and physical activity, for which no evidence of an asso-
+n ∈ {500, 5000, 15000, 50000, 84045}, where 84045 ciationcouldbefound(RhodesandSmith,2006).
+is the size of the complete data set after excluding par-
+ticipantswithmissingobservations. Lowersamplesizes
+thantheoriginalsamplesizewereobtainedbygenerat-
+ingrandomsubsamplesfromtheoriginaldataset,with-
+===== PAGE 5/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 5
+Quantifyingandcomparingtheeffectofmodel,sam- and the definition of predictor and outcome variables.
+plinganddatapre-processinguncertainty These data pre-processing choices are based on studies
+found in the literature. For a given association of in-
+We describe each association of interest through a
+terest, we fit a logistic regression model for each data
+logistic regression model in which we estimate the ef-
+pre-processingstrategy.
+fectofthepredictorofinterest(e.g.,neuroticismorex-
+Eligibilitycriteria. Theeligibilitycriteriaarebased
+traversion) on the binary outcome of interest (e.g., re-
+on the variables age, gender and the country of partic-
+lationshipstatusorphysicalactivity)toobtainoddsra-
+ipants. For age, either the full group of participants is
+tios(OR)andcorrespondingp-values,whilecontrolling
+included in the analyses (age eligibility criterion defi-
+for the effect of several covariates. As potential control
+nition 1) or a subgroup is defined by excluding partici-
+variables, we consider all variables introduced in sec-
+pantswhoareyoungerthan18(ageeligibilitycriterion
+tion The data and research questions of interest that are
+definition2),whichcanbejustifiedbytheirinabilityto
+not part of the association of interest. Forinstance, the
+legallyprovideconsent(BarchardandWilliams,2008).
+association between neuroticism and relationship sta-
+Furthermore, studies about associations involving the
+tus comprises the control variables age, gender, con-
+Big Five personality traits are often carried out on sub-
+tinent, job status, BMI, smoking, education, physical
+groupsofcountries,forinstanceasshownbyMalouffet
+activity, conscientiousness, agreeableness, extraversion
+al. (2006) and Malouff et al. (2010) for the variables
+andopenness. Fortheassociationbetweenphysicalac-
+smokingandphysicalactivity. Therefore,wedistinguish
+tivity and extraversion, we replace these two variables
+two alternative study populations based on the partici-
+inthelistofpotentialcontrolvariableswithneuroticism
+pants’ country. Either all participants are included in
+and relationship status. This results in a total number
+the analyses and continent is considered as a categori-
+of12controlvariablesforeachassociationsofinterest.
+cal control variable (country eligibility criterion defini-
+We quantify the instability of these associations
+tion1),orweincludeonlyparticipantsfromtheUnited
+through the vibration of effects framework introduced
+States, which presents the single largest country in the
+in section The vibration of effects framework to quantify
+data set. In this case (country eligibility criterion def-
+theeffectofmodel,datapre-processing,andsamplingun-
+inition 2), we exclude the control variable specifying
+certainty.
+the continent from the analyses. In total, this results
+in 2×2 = 4 possible combinations for the definition of
+Modelvibration
+eligibilitycriteria.
+In order to assess model vibration, we consider all Handlingofoutliers. Afurtherdatapre-processing
+possible combinations of control variables as described choice is the handling of outliers. A varietyof different
+intheintroductionoftheframework. FollowingPatelet outlierdefinitionscanbefoundintheliterature. Bakker
+al. (2015),wewillconsiderageandgenderasbaseline andWicherts(2014),forinstance,providealargerange
+variables which are included in every model, resulting ofz-values(whichisthenumberofstandarddeviations
+in a total number of 210 = 1024 possible models for a that a value deviates from the mean) that are used to
+givenassociationofinterest. define outliers. Furthermore, it is either possible to re-
+moveorwinsorizeoutliervalues(OsborneandOverbay,
+Samplingvibration
+2004). Here, we focus on three different choices con-
+To quantify sampling vibration, we follow the strat- cerning all continuous covariates, comprising the five
+egyofdrawingalargenumberofrandomsubsetsfrom personalitydimensions,aswellasageandBMI:Firstly,
+our data set and fitting the same logistic regression we perform no further pre-processing with these co-
+model on each of the subsets, as outlined in the in- variates (outlier definition 1). As a second option, we
+troduction of the framework. In particular, we draw delete observations with absolute z-values greater than
+1000 subsets of size 0.5n, with n as the number of ob- 2.5(outlierdefinition2). Finally,weperformwinsoriza-
+servationsfromthedatasetsdefinedinsectionThedata tion to achieve absolute z-values less than or equal 2.5
+andresearchquestionsofinterest,whichcomprisediffer- (outlierdefinition3). Therebywereplacevalueswithz
+entnumbersofobservationsthemselves. Althougheach
+>2.5by2.5,andvalueswithz<−2.5by−2.5.
+Dichotomizationofoutcomevariablesandcovari-
+subset is drawn without replacement, the observations
+ates. In the definition of the outcome variables and
+ofsubsetsoverlapbetweenrepetitions.
+covariates, we only consider the influence of different
+Datapre-processingvibration pre-processing choices for the three variables smoking
+(which is the outcome variable in the association be-
+The data pre-processing choices we are considering
+tween agreeableness and smoking, see results in the
+comprise the handling of outliers, eligibility criteria,
+SupplementaryMaterial,andacovariateinallotheras-
+===== PAGE 6/18 =====
+6
+sociations),physicalactivity(whichistheoutcomevari- items. There are a large number of different strategies
+ableintheassociationbetweenextraversionandphysi- to combine several items to a scale value. Indeed, the
+calactivityandbetweenopennessandphysicalactivity, SAPA data set contains almost 700 items that were de-
+seeresultsintheSupplementaryMaterial,andacovari- signed to assess personality, but each participant only
+ate in all other associations) and education (which is completed a subset of these items. In order to deter-
+the outcome variable in the association between con- mine a score on each of the personality dimensions, a
+scientiousnessandeducation,seeresultsintheSupple- correlationmatrix,whichisbasedonpairwisecomplete
+mentary Material, and a covariate in all other associa- cases can be analyzed through factor analysis. As the
+tions). All three variables are recorded with a certain Big Five personality traits were initially constructed as
+number of categories (nine categories for smoking, six orthogonalfactors(Saucier,2002),weconsiderorthog-
+categories for physical activity and seven categories for onalrotationtechniquesasafirstoption(factorrotation
+education) and have to be dichotomized in order to be definition 1) for the factor analysis. However, Saucier
+abletomodelthemasabinaryoutcomeinalogisticre- (2002) argues that the scales used to measure the Big
+gressionmodel. Forallthreevariables,literaturesearch Fivearenotorthogonalinpractice. Infact,amorecom-
+revealed a lack of common definitions. For smoking monoptioninfactoranalysisofthepersonalitytraitsis
+and physical activity for instance, summaries of these the use of oblique rotation techniques (factor rotation
+definitions are provided by Malouff et al. (2006) and definition 2). The assignment of items to the five per-
+Rhodes and Smith (2006), respectively. Similarly, the sonality dimensions can be realized by determining a
+term education is very ambiguous, and even the more minimalfactorloadingthathastobeachievedtoassign
+specificphraseofacademicachievementexhibitsalarge an item to a factor but there is no consensus in the lit-
+varietyofdefinitions(FanandChen,2001). Therefore, erature on an optimal cut-off value for such a minimal
+we aim at reasonable dichotomizations of our given factor loading. Here, we either choose a minimal fac-
+categories. For smoking, we either consider a defini- torloadingof0.3(factorloadingdefinition1)orof0.4
+tion based on never smokers vs. all other categories (factorloadingdefinition2). Thescoreofaparticipant
+of smoking (smoking definition 1) or based on non- can then be calculated by taking the mean score of all
+smokers(neversmokersandstudyparticipantswhodid items that were assigned to a given factor. This strat-
+notsmokethepreviousyear)versusallotherstudypar- egy might lead to missing values for some participants
+ticipants (smoking definition 2). For physical activity, on the personality dimensions as it is only reasonable
+we either assume a definition based on the two cate- to calculate such a score if there is a minimum number
+gories ‘less than once per week’ versus ‘once per week of completed items. Here, we use a required minimum
+ormore’(physicalactivitydefinition1)or,alternatively, valueof5completeditems.
+‘less than once per month’ versus ‘less than once per While there are numerous analysis strategies to de-
+week or more’ (physical activity definition 2). Finally, termine the personality score of a participant, it is not
+in the definition of education we distinguish between in the scope of this study to consider all possible anal-
+study participants with a high level of education and ysis strategies. Therefore, we limit the number of pos-
+studyparticipantswithalowlevelofeducation. Inthis sible data pre-processing strategies by only considering
+distinction,weeitherassigncurrentuniversitystudents the two choices, orthogonal vs. oblique rotation, and
+to the group with a high level of education (education meanscoresonitemsassignedtoafactorwithloadings
+definition1),becausetheywillsoonobtainauniversity greaterthan0.3or0.4. Whilethesevariabledefinitions
+degree or to the group with a low level of education arebasedontherawdatasetwithallobservations,the
+(education definition 2), as they have not obtained a other data pre-processing choices are subsequently im-
+degree yet. All other variables (job status, relationship plementedonthedatasetsofdifferentsizes.
+status, BMI) are included in the analyses without con- The combination of the definition of personality
+sidering alternative pre-processing choices. Therefore, scoreswithallotherdatapre-processingchoicesresults
+weshouldacknowledgethatthevibrationofeffectsdue in 384 different data pre-processing strategies in total.
+to pre-processing choices can be larger than what is il- These represent only a subset of a larger number of
+lustrated here. For more details on the variables which choicesthatmaybemade,intheory. However,inpracti-
+were collected in the SAPA project, we refer to Condon calterms,theyrepresentthemainchoicesthatarelikely
+etal. (2017). tobeconsidered.
+Personality scores. The definitions of the five per-
+sonality dimensions, i.e., openness to experience, con-
+scientiousness, extraversion, agreeableness, and neu-
+roticism, are based on the corresponding personality
+===== PAGE 7/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 7
+Table1
+Datapre-processingchoices
+Originalcategories Definition1(favorite) Definition2 Definition3
+Eligibilitycriteria
+Age Allparticipants Only≥18
+Country Allparticipants OnlyfromUS
+HandlingofOutliers Nopre-processing Exclusionif|z|>2.5 Winsorizationif|z|>2.5
+Dichotomizationof
+outcomeandcovariates
+Smoking Neversmokers ‘Neversmokers’ Non-smokers(‘neversmokers’
+Notinthelastyear vs. and‘notinthelastyear’)
+Lessthanonceamonth allotherparticipants vs.
+Lessthanonceaweek allotherparticipants
+1to3daysaweek
+Mostdays
+Everyday(5orlesstimes)
+Upto20timesaday
+Morethan20timesaday
+Physicalactivity Veryrarelyornever Lessthanonceaweek Lessthanonceamonth
+Lessthanonceamonth vs. vs.
+Lessthanonceaweek onceaweekormore ‘lessthanonceaweek’ormore
+1or2timesaweek
+3or5timesaweek
+Morethan5timesaweek
+Education Lessthan12years High(incl.‘currentlyin High
+Highschoolgraduate college/university’) vs.
+Currentlyincollege/university vs. low(incl.‘currentlyin
+Somecollege/university,butdidnotgraduate low college/university’)
+College/universitydegree
+Currentlyingraduateorprofessionalschool
+Graduateorprofessionalschooldegree
+Personalityscores
+Rotationtechnique Oblique Orthogonal
+Minimalfactorloading 0.3 0.4
+Comparing the vibration of effects due to different Thus, the total amount of feasible analysis strategies
+typesofuncertainty falls to 294912. Moreover, we quantify the relative im-
+pact of data pre-processing and model choices on the
+Foreachassociationofinterest,wequantifyandcom-
+vibration that is caused by the choice of the analysis
+pare model, data pre-processing, and sampling uncer-
+strategyaspreviouslydescribed.
+tainty through the vibration of effects framework for
+varying sample sizes. Our favorite data pre-processing
+Results
+choiceispre-processingwithoutanysubgroupanalysis,
+without special handling of outliers, and with variable The variability in effect estimates for one type of vi-
+definition 1 for education, smoking and physical activ- bration
+ity. Additionally, the favorite definition of the person-
+For morestable results, we repeatthe analyses ofall
+ality traits is performed with the oblique rotation tech-
+types of vibration for sample sizes of 500, 5000 and
+niqueandfactorloadingsgreaterthan0.3. Ourfavorite
+15000 ten times and average the results across the ob-
+modelchoicesimplyconsistsinthemodelthatcontains
+tainedRORs. Forthevisualizationofvibrationpatterns,
+allpotentialcontrolvariables. Furthermore,iftheaimis
+however, we choose one representative plot out of the
+to assess data pre-processing vibration or model vibra-
+total number of ten. For a sample size of 50000, we
+tion,wedefinethefulldatasetasourfavoritesample.
+considerthevariabilitybetweenRORsasnegligibleand
+Inadditiontotheinvestigationofindividualtypesof
+runtheanalysesononlyonesampleddataset.
+vibration, we will compare the joint impact of model
+Fortheassociationbetweenneuroticismandrelation-
+and data pre-processing choices on the variability of
+ship status and the association between extraversion
+results with sampling vibration. Here, the combina-
+andphysicalactivity,resultsofmeasuresquantifyingthe
+tion of data pre-processing and model choices results
+variability in effect estimates for one type of vibration
+in 1024 × 384 = 393216 analysis strategies. However,
+are visualized in Figures 2 and 3, respectively. Corre-
+not every possible combination yields useful and valid
+spondingfiguresfortheotherassociationsareprovided
+results. For instance, when we consider the data pre-
+intheSupplementaryMaterial.
+processing choice where the association of interest is
+In the upper panels, RORs are displayed against the
+only explored for participants from the US, the model
+samplesizenforthethreetypesofvibration(datapre-
+including continent as a control variable is not valid.
+===== PAGE 8/18 =====
+8
+Figure2
+Datapre-processing,model,andsamplingvibrationfordifferentsamplesizes(toppanel),andbarplotsvisualizingthe
+type of results in terms of significance of estimated effects (bottom panel) for the association between neuroticism and
+relationshipstatus.
+1.8
+1.6
+1.4
+1.2
+1.0
+500 5000 15000 50000 84045
+Sample size
+)noitarbiv
+fo
+htgnerts(
+oitaR
+sddO
+evitaleR
+Association between neuroticism and relationship status
+Type of
+vibration
+Data pre−processing
+Model
+Sampling
+1.00
+0.75
+Type of results
+0.50
+Negative significant
+Non−significant
+0.25
+Positive significant
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+processing, model, and sampling). For both associa- valueof1forlargersamplesizes.
+tions,samplingvibrationishigherthanmodelanddata InthelowerpanelsofFigures2and3,barplotspro-
+pre-processing vibration for low sample sizes (n = 500 videinformationaboutthepercentageofsignificantre-
+and n = 5000). For the lowest sample size of n = 500, sults for each sample size and each type of vibration
+the ROR quantifying sampling vibration is close to 1.8 for the three categories: „negative significant“, „non-
+(1.81 for the association between relationship status significant“, and „positive significant“. For all three
+and neuroticism and 1.77 for the association between types of vibration, most results are not significant for a
+physical activity and extraversion). For larger sample samplesizeofn=500whileforthelargersamplesizes,
+sizes,samplingvibrationdecreasesandtendstoanROR theresultsaremostlysignificant. Forthelargestsample
+of 1. Therefore, the influence of a specific sample can size, the association between neuroticism and relation-
+be expected to be negligible for sufficiently large sam- shipstatusshowsaJanuseffectwithbothnegativeand
+ple sizes. Focusing on the two other types of vibration, positive significant results for model vibration. On the
+data pre-processing vibration is larger for low sample otherhand,forsamplinganddatapre-processingvibra-
+sizesthanmodelvibration,anddecreasesforincreasing tion, only negative-significant or non-significant effects
+samplesize,however,withoutapproximatinganRORof canbeobserved.
+1. Modelvibration,incontrast,islessinfluencedbythe For the association between extraversion and phys-
+sample size. Although we observe a slight decrease for ical activity, all types of vibration yield positive signif-
+RORsquantifyingmodelvibrationforincreasingsample icant effects for sample sizes larger than 5000, which
+sizes,itislowerthansamplinganddatapre-processing is in accordance with the results from the literature
+vibration for small sample sizes and does not tend to a (Rhodes and Smith, 2006). Hence, a Janus effect can-
+===== PAGE 9/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 9
+Figure3
+Datapre-processing,model,andsamplingvibrationfordifferentsamplesizes(toppanel),andbarplotsvisualizingthe
+type of results in terms of significance of estimated effects (bottom panel) for the association between extraversion and
+physicalactivity.
+1.8
+1.6
+1.4
+1.2
+1.0
+500 5000 15000 50000 84045
+Sample size
+)noitarbiv
+fo
+htgnerts(
+oitaR
+sddO
+evitaleR
+Association between extraversion and physical activity
+Type of
+vibration
+Data pre−processing
+Model
+Sampling
+1.00
+0.75
+Type of results
+0.50
+Negative significant
+Non−significant
+0.25
+Positive significant
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+1.00
+0.75
+0.50
+0.25
+0.00
+gnilpmaS
+ledoM
+−erp
+ataD
+gnissecorp
+notbeobservedforthisassociation. andconclusionscriticallydependonthechosenanalysis
+ThevolcanoplotsinFigures4and5allowinvestigat- strategy and there is a high potential for researchers to
+ingthebehaviorofthethreetypesofvibrationinmore find contradictory findings on the same data set if they
+detailbyprovidingtheexactpatternsof-log10(p-value) makedifferentanalyticalchoices.
+andORsforthethreesamplesizesn=5000,n=15000 The volcano plots in Figure 5 for the association be-
+andn=50000. Fortheassociationbetweenneuroticism tween extraversion and physical activity show a more
+andrelationshipstatus,wecandistinguishaclearJanus regular pattern. We observe only positive associations
+effectforsamplingvibrationwithbothpositiveandneg- for all three sample sizes with only positive significant
+ative results for all three sample sizes. For model vi- resultsforn=15000andn=50000,indicatingthatthe
+bration, we initially only observe positive results for a resultsforthisassociationaremuchmorerobusttothe
+sample size of n = 5000, but with increasing sample choiceoftheanalysisstrategy.
+size, there are also results indicating a negative associ-
+ation between neuroticism and relationship status. In The relative impact of model and data pre-
+contrast, for data pre-processing vibration, we observe processing choices and the cumulative impact of
+bothpositiveandnegativenon-significantresultsforn= both
+5000 and n = 15000 whereas for a large sample size
+Results for the total amount of vibration caused by
+of n = 50000 the volcano plot clearly indicates a nega-
+model- and data pre-processing choices are visualized
+tiveassociation,eventhoughonlyaboutonethirdofthe
+inFigure6fortheassociationbetweenneuroticismand
+results are significant. In summary, for the association
+relationshipstatus, and Figure7for theassociationbe-
+betweenneuroticismandrelationshipstatus,theresults
+tween extraversion and physical activity. In these fig-
+===== PAGE 10/18 =====
+10
+Figure4
+Volcanoplotsfordifferenttypesofvibrationanddifferentsamplesizes(n)fortheassociationbetweenneuroticismand
+relationshipstatus. ThesummarymeasuresRORandRPindicaterelativeoddsratiosandrelativep-values,respectively.
+Green dots indicate results obtained with favorite model choices (middle row) and favorite data pre-processing choices
+(bottomrow).
+1 50 99
+p = 0.001
+3
+2
+1
+p = 0.05
+1
+50
+99
+0
+0.95 1.00 1.05 1.10 1.15
+Odds Ratio
+)p(01gol−
+ROR = 1.17
+RP = 1.51
+n = 5000
+1 50 99
+p = 0.001
+Density 3
+50
+40
+30
+20 2
+10
+p = 0.05 1
+1
+50
+99
+0
+0.95 1.00 1.05 1.10 1.15
+Odds Ratio
+)p(01gol−
+Sampling vibration
+ROR = 1.09
+RP = 1.22
+n = 15000
+1 50 99
+p = 0.001
+Density 3
+60
+40
+20 2 1
+p = 0.05
+1
+50
+99
+0
+0.95 1.00 1.05 1.10 1.15
+Odds Ratio
+)p(01gol−
+ROR = 1.05
+RP = 1.91
+n = 50000
+Density
+60
+40
+20
+1 50 99
+15
+10
+5
+1
+p = 0.001
+p = 0.05 50
+99
+0
+1.00 1.05 1.10
+Odds Ratio
+)p(01gol−
+ROR = 1.12
+RP = 3.71
+n = 5000
+1 50 99
+Density
+50 15
+40
+30
+20
+10 10
+1
+5
+p = 0.001
+p = 0.05 50
+99
+0
+1.00 1.05 1.10
+Odds Ratio
+)p(01gol−
+Model vibration
+ROR = 1.14
+RP = 8.15
+n = 15000
+1 50 99
+Density 1
+40 15
+30
+20
+10 10
+5
+p = 0.001
+p = 0.05 50
+99
+0
+1.00 1.05 1.10
+Odds Ratio
+)p(01gol−
+ROR = 1.12
+RP = 16.11
+n = 50000
+Density
+40
+30
+20
+10
+1 50 99
+4
+p = 0.001 3
+2
+p = 0.05
+1
+1
+5909
+0
+0.96 0.98 1.00 1.02
+Odds Ratio
+)p(01gol−
+ROR = 1.06
+RP = 0.39
+n = 5000
+1 50 99
+4
+Density
+15 p = 0.001 10 3
+5
+2
+p = 0.05
+1
+1
+5909
+0
+0.96 0.98 1.00 1.02
+Odds Ratio
+)p(01gol−
+Data pre−processing vibration
+ROR = 1.05
+RP = 0.71
+n = 15000
+1 50 99
+4
+Density
+1
+20 p = 0.001 3
+10
+2
+p = 0.05
+1 50
+99
+0
+0.96 0.98 1.00 1.02
+Odds Ratio
+)p(01gol−
+Association between neuroticism and relationship status
+ROR = 1.04
+RP = 3.25
+n = 50000
+Density
+10.0
+7.5
+5.0 2.5
+ures,thetoppanelsallowforacomparisonofthisjoint size of n = 500, sampling vibration is higher than vi-
+vibration, also referred to as vibration due to the anal- bration caused by the analysis strategy for both associ-
+ysis strategy, and sampling vibration. For a low sample ations. For a medium sample size of n = 5000, RORs
+===== PAGE 11/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 11
+Figure5
+Volcanoplotsfordifferenttypesofvibrationanddifferentsamplesizes(n)fortheassociationbetweenextraversionand
+physical activity. The summary measures ROR and RP indicate relative odds ratios and relative p-values, respectively.
+Green dots indicate results obtained with favorite model choices (middle row) and favorite data pre-processing choices
+(bottomrow).
+80 1 50 99
+60
+40
+20
+1
+50
+p = 0.05 99
+0
+1.15 1.20 1.25 1.30 1.35 1.40
+Odds Ratio
+)p(01gol−
+ROR = 1.17
+RP = 7.77
+n = 5000
+80 1 50 99
+Density
+50 40 60 30
+20
+10
+40
+1
+50 20
+99
+p = 0.05
+0
+1.15 1.20 1.25 1.30 1.35 1.40
+Odds Ratio
+)p(01gol−
+Sampling vibration
+ROR = 1.09
+RP = 13.18
+n = 15000
+80 1 50 99
+1
+Density
+80 60 50 60
+40 99
+20
+40
+20
+p = 0.05
+0
+1.15 1.20 1.25 1.30 1.35 1.40
+Odds Ratio
+)p(01gol−
+ROR = 1.05
+RP = 23.54
+n = 50000
+Density
+100
+75
+50
+25
+250 1 50 99
+200
+150
+100
+50
+1
+5909
+p = 0.05
+0
+1.24 1.28 1.32 1.36
+Odds Ratio
+)p(01gol−
+ROR = 1.10
+RP = 13.82
+n = 5000
+250 1 50 99
+Density
+50 200
+40
+30
+20 150 10
+100
+1
+50 5 90 9
+p = 0.05
+0
+1.24 1.28 1.32 1.36
+Odds Ratio
+)p(01gol−
+Model vibration
+ROR = 1.10
+RP = 38.46
+n = 15000
+250 1 50 991
+Density
+40 200
+30
+20 50 150 10
+99
+100
+50
+p = 0.05
+0
+1.24 1.28 1.32 1.36
+Odds Ratio
+)p(01gol−
+ROR = 1.10
+RP = 131.58
+n = 50000
+Density
+20
+10
+1 50 99
+100
+50
+1
+p = 0.05
+5909
+0
+1.20 1.25 1.30 1.35 1.40
+Odds Ratio
+)p(01gol−
+ROR = 1.14
+RP = 9.94
+n = 5000
+1 50 99
+Density
+10.0
+7.5 100
+5.0
+2.5
+50 1
+50
+99
+p = 0.05
+0
+1.20 1.25 1.30 1.35 1.40
+Odds Ratio
+)p(01gol−
+Data pre−processing vibration
+ROR = 1.12
+RP = 31.66
+n = 15000
+1 50 99 1
+Density
+7 6
+5 100
+4 3
+2 50
+1
+50
+99
+p = 0.05
+0
+1.20 1.25 1.30 1.35 1.40
+Odds Ratio
+)p(01gol−
+Association between extraversion and physical activity
+ROR = 1.09
+RP = 94.61
+n = 50000
+Density
+4
+3
+2
+1
+corresponding to these two types of vibration are very between relationship status and neuroticism, and 1.19
+similar (e.g. 1.18 (vibration due to the analysis strat- (vibration due to the analysis strategy) and 1.16 (sam-
+egy) and 1.17 (sampling vibration) for the association pling vibration) for physical activity and extraversion).
+===== PAGE 12/18 =====
+12
+For larger sample sizes, vibration caused by the analy- Discussion
+sis strategy is larger than sampling vibration, which, as
+Summary
+seenabove,tendstoanRORof1forthelargestsample
+size. Vibration caused by the analysis strategy, in con- Researchers have great flexibility in the analysis of
+trast, does not show obvious decrease for sample sizes observational data. If this flexibility is combined with
+larger than 5000 and remains in a range between 1.13 selective reporting and pressure to publish significant
+and 1.15 (for the association between relationship sta- results, it can have devastating consequences on the
+tus and neuroticism) and between 1.16 and 1.17 (for replicability of research findings. In this work, we ex-
+the association between physical activity and extraver- tended the vibration of effects approach, proposed by
+sion). Ioannidis (2008), to quantify and compare the impact
+Piechartsinthebottompanelsillustratetherelative ofmodelanddatapre-processingchoicesonthestabil-
+impactofmodelanddatapre-processingchoicesonthe ity of empirical associations. Through this extension,
+totalvibrationcausedbythechoiceoftheanalysisstrat- the vibration of effects framework allows identification
+egy. Due to the high computational burden of the vari- of the choices in the analysis strategy that explain the
+ancedecomposition,werandomlyselectthreeoftheten mostvariationinresultsandcomparisonsoftheimpact
+datasetsforlowsamplesizesof500,5000and15000to ofdifferentchoiceswithsamplinguncertainty.
+estimate the relative impact of data pre-processing and We illustrated three different types of vibration on
+model choices and average the results over the three the SAPA data set, considering reasonable data pre-
+selecteddatasets. processing choices and modeling strategies based on a
+Forbothassociations,therelativeimpactofdatapre- logistic regression model, focusing on two associations
+processing choices exceeds the impact of model vibra- of interest in personality psychology. We quantified
+tionforasamplesizeofn=500. Forsamplesizeslarger sampling vibration by considering the results obtained
+than 500, however, the relative model impact is larger from random subsets of the data set in use. We found
+than the relative impact due to data pre-processing. thatsamplingvibrationdecreasedwithincreasingsam-
+This is particularly pronounced in the association be- ple size and became negligible, while model and data
+tween relationship status and neuroticism, where be- pre-processingvibrationshowedaninitialdecreasewith
+tween 79.1% (n = 5000) and 89.5% (n = 50000) of increasing sample size and then remained constantly
+the total vibration can be explained by model choices. non-negligible. Considering all possible combinations
+For the association between physical activity and ex- ofmodelanddatapre-processingchoicesallowedusto
+traversion,between53.0%(n=5000)and61.7%(n= identify the decisions which had the most influence on
+50000)ofthetotalvibrationcanbeexplainedbymodel thevariabilityinresults. Inadditiontothetwoassocia-
+choices. The relative impact of data pre-processing tionspresentedinthemaintext,weshowtheresultsof
+choices is quantified by values between 35.9% (n = fourotherassociationsintheSupplement. Theseresults
+50000)and55.0%(n=500)forthisassociation. demonstratethatourfindingsarenotspecifictothetwo
+A more detailed investigation of data pre-processing examplesdiscussedinourpaper,butrelevanttoabroad
+vibration as part of the total vibration shows that the varietyofassociations,includingonewherenoevidence
+variable age has the largest impact of the data pre- foranassociationcouldbefoundintheliterature.
+processing choices on the vibration of effects for this
+association between physical activity and extraversion Limitations
+(17.5% of the total vibration for the largest sample
+When interpreting our results, it is important to
+size). However, associations in the Supplementary
+keep in mind that both model vibration and data pre-
+Material reveal that the relative impact of data pre-
+processing vibration are in reality rather elusive con-
+processing and model choices, and the variables with
+cepts as they critically depend on the number and the
+the largest impact, strongly depend on the research
+type of analysis strategies under consideration. In the-
+questionofinterest. Fortheassociationbetweeneduca-
+ory, thereareaninfinitenumberofmodelsandaninfi-
+tionandconscientiousness,forexample,forthelargest
+nite number of possible data pre-processing strategies,
+samplesize,97.8%ofthevibrationcausedbytheanal-
+so any attempt to quantify the variability in an effect
+ysis strategy can be explained by data pre-processing
+estimate resulting from every possible analysis strategy
+choices with education itself as the variable with high-
+is doomed to fail. As it is futile to quantify the vibra-
+est impact (96.1% of the total vibration explained by
+tion in results arising from every possible strategy, we
+education).
+decidedtofocusonanalysisstrategiesthatseemedrea-
+sonable to us, i.e., those that could have been selected
+===== PAGE 13/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 13
+Figure6
+Cumulative model and data pre-processing vibration (‘analysis strategy’) compared to sampling vibration (top panel),
+andrelativeimpactofmodelanddatapre-processingvibrationfordifferentsamplesizes(bottompanel)fortheassoci-
+ationbetweenneuroticismandrelationshipstatus.
+in an actual research project. While there is a firm the- possibleanalysisstrategies.
+oretical basis to predict sampling vibration, the behav- Following Patel et al. (2015), we merely focused on
+iorofmodelanddatapre-processingvibrationcritically a special type of model vibration, namely the vibration
+depends on the particular data set and the number of of effects that is due to the inclusion or exclusion of
+possiblechoicesunderconsideration. Aspointedoutby all potential control variables. Vibration of effects may
+Del Giudice and Gangestad (2021), it is not straight- be larger in situations where very complex models are
+forward to identify a set of reasonable analysis strate- involved, encompassing a very large number of control
+giesandtheinclusionofpoorlyjustifiedanalysisstrate- variables. Conversely, it may have less of an impact in
+gies in multiverse-style analyses may entail the risk of data-poorstudieswithfewvariablesmeasuredandcon-
+hiding meaningful effects in a “mass of poorly justified sidered. Furthermore,weonlyconsideredlineareffects
+alternatives”. The authors also caution against the in- and neither examined interaction terms nor mediator
+clusionofanalysisdecisionsthatarenottrulyarbitrary, variables,whichmaybeessentialinsomesettings.
+because they might, for instance, modify the research Thedefinitionofpossibledatapre-processingchoices
+questionorreducethereliabilityofvaliditywithwhich is challenging since these choices are sometimes “hid-
+keyvariablesaremeasured. Notethatthesetofconsid- den”, i.e., they are typically not discussed in great
+eredanalysisstrategiesmaysometimesalsobecritically detail in a publication and some choices are com-
+limitedbytheavailablecomputingcapacityasthecom- pletely omitted. Two recent multi-analyst experiments
+puting power needed to determine which model and (Huntington-Klein et al., 2021; Schweinsberg et al.,
+data pre-processing choices lead to the most variation 2021), in which multiple teams of researchers were
+inresultsalsodependscriticallyonthetotalnumberof asked to answer the same research question on the
+===== PAGE 14/18 =====
+14
+Figure7
+Cumulative model and data pre-processing vibration (‘analysis strategy’) compared to sampling vibration (top panel),
+andrelativeimpactofmodelanddatapre-processingvibrationfordifferentsamplesizes(bottompanel)fortheassoci-
+ationbetweenextraversionandphysicalactivity.
+same data set, found large variations in data pre- gree arbitrary but may substantially impact the results.
+processingoptionsamongthedifferentteams,including Asthemainfocusofourworkwastoillustratehowthe
+choices concerning the operationalization of key theo- vibration of effects framework can be used to quantify
+retical variables, and inclusion and exclusion criteria. and compare the impact of different sources of uncer-
+In Huntington-Klein et al. (2021), no two teams of re- tainty and to identify analytical choices that have the
+searchers reported the same sample size when analyz- mostinfluenceontheresults,itwasnotinthescopeof
+ing the same research question on the same data set our work to quantify analytical variability, for instance
+but “nearly all of the decisions driving data construc- by organizing a multi-analyst experiment to identify a
+tion would be likely omitted from a paper, or skimmed setofreasonabledatapre-processingchoices.
+overbyareader”(Huntington-Kleinetal.,2021). Since Whilethevibrationofeffectsframeworkisanimpor-
+manydatapre-processingchoicesarenottransparently tant tool to assess the robustness of empirical findings
+reportedintheliterature,itisverydifficulttodetermine formodel,datapre-processing,measurement,andsam-
+asetofreasonabledatapre-processingstepsandmulti- plinguncertainty,itisnottheonlywaytoaddressthese
+analyst experiments seem like the only naturalistic and sources of uncertainty. As pointed out by Hoffmann et
+convincingoptiontoassessthefullanalyticalvariability al. (2021),avarietyofapproacheshavebeenproposed
+onagivendataset,assumingthatthemultipleanalysts across different disciplines to reduce, report, integrate
+arereliableexperts. Whenassessingthevibrationofef- or accept model, data pre-processing, measurement,
+fectsforacertainresearchquestion,boththesetofcon- sampling, method and parameter uncertainty. Efforts
+sideredanalysisstrategiesandtheselectionof“favorite” tostandardizeanalyticaloptionsareunderwayinsome
+model and data pre-processing options are to some de- scientific fields building consensus among investigators
+===== PAGE 15/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 15
+and these efforts may result in diminishing the space icant and non-significant results could be obtained, de-
+for potential vibration of effects. Finally, we illustrated pending on the choice of the analysis strategy. In ex-
+thevibrationofeffectsframeworkinlogisticregression treme cases, it was even possible to obtain both posi-
+models, which is not standard in personality psychol- tive and negative significant associations and this phe-
+ogy. However,theframeworkcanbeadaptedwithslight nomenon persisted for a very large sample size of over
+modifications to more commonly used methods includ- 80000participants.
+ing, for instance, Gaussian regression and correlation The number of decisions which have to be made in
+analyses. the analysis of observational data becomes even more
+important when analyzing data that are not initially
+ConclusionandOutlook recorded for research purposes. While the increasing
+availability of large data sets, for instance in the form
+Whenanalyzingobservationaldata,itisnecessaryto
+of Twitter accounts (Barberá et al., 2015) or transac-
+makemodelanddatapre-processingchoiceswhichrely
+tiondata(Gladstoneetal., 2019),offerunprecedented
+on many implicit and explicit assumptions. The vibra-
+opportunities to study complex phenomena of interest,
+tion of effects framework provides investigators with a
+they also increase the number of untestable assump-
+tooltoquantifytheimpactofthesechoicesonthestabil-
+tions which must be made in the data pre-processing
+ity of results, helping them focus their attention on the
+and choice of model used to describe the data. In light
+choices that have the greatest influence and are there-
+of our results, we suggest using the vibration of effects
+fore worth further investigation or discussion. Alterna-
+framework as a tool to assess the robustness of conclu-
+tively, other frameworks could be raised and extended
+sionsfromobservationaldata.
+forthispurpose,suchasthespecificationcurveanalysis
+(Simonsohn et al., 2015) or multiverse analysis (Stee-
+AuthorContact
+gen et al., 2016). Compared to these frameworks, the
+vibrationofeffectsallowspresentingalargenumberof Correspondence concerning this article should
+effect estimates and p-values simultaneously. Further- be addressed to Simon Klau, https://orcid.org/
+more,itprovidesaquantitativeintuitivemeasureofthe 0000-0002-7857-1263.
+uncertainty in form of a ratio, and is more appropriate
+toreportsamplinguncertainty. Acknowledgements
+Toestablishourframeworkasatool,werecommend
+WethankAletheaCharltonandAnnaJacobforvalu-
+visualizingdatapre-processing,modelandsamplingvi-
+ablelanguagecorrectionsandDavidCondonforprovid-
+bration with volcano plots as we have demonstrated in
+ingthedata.
+theSupplementaryMaterialfortheassociationbetween
+neuroticism and relationship status. Moreover, the sys-
+ConflictofInterestandFunding
+tematic reporting of RORs and p-value characteristics
+for these types of vibration is a simple but informa- The authors declare that there are no conflicts of in-
+tive guideline for quantifying the stability of published terest with respect to the authorship or the publication
+results. The framework can also be useful for read- of this article. This work was funded by the Deutsche
+ers in the interpretation of these results: When used Forschungsgemeinschaft (individual grant BO3139/4-3
+as a tool to report the robustness of empirical associa- andBO3139/7-1).
+tions,ithelpsreaders(includingreviewers)tointerpret
+these results in the context of all the possible results AuthorContributions
+thatcouldhavebeenobtainedwithalternative,equally
+S.Klau, S.HoffmannandA.-L.Boulesteixdeveloped
+justified analysis strategies. When the research data of
+the study concept. S. Hoffmann and S. Klau conducted
+a publication are made publicly available, which is in-
+thestudyandwrotethemanuscript. S.Klauperformed
+creasingly common to enhance transparency, a reader
+the statistical analysis. C. J. Patel, J. P. A. Ioannidis,
+canusethevibrationofeffectsframeworktoassessthe
+F.D.SchönbrodtandA.-L.Boulesteixsubstantiallycon-
+extenttowhichtheoriginallyreportedresultsarefrag-
+tributed to the manuscript. All authors approved the
+ile or incredible because they depend on very specific
+finalversion.
+analyticaldecisions. Inthisvein,itispossibletospecify
+anumberofmodelanddatapre-processingchoicesand OpenSciencePractices
+toapplytheframeworktoassessthevariabilityineffect
+estimatesarisingfromthesepossibleanalysisstrategies.
+In our application of the framework in personality psy-
+chology, we observed many cases in which both signif-
+===== PAGE 16/18 =====
+16
+This article earned the Open Materials badge for chologicalScience,4(1),1–15.https://doi.org/
+makingthe materialsopenlyavailable. It hasbeenver- 10.1177/2515245920954925
+ified that the analysis reproduced the results presented Dyrenforth, P. S., Kashy, D. A., Donnellan, M. B., & Lu-
+in the article, with minor issues due to complexity of cas, R. E. (2010). Predicting relationship and
+analysesandcomputationaltimerequirements. Theen- life satisfaction from personality in nationally
+tire editorial process, including the open reviews, are representative samples from three countries:
+publishedintheonlinesupplement. The relative importance of actor, partner, and
+similarityeffects.JournalofPersonalityandSo-
+References cial Psychology, 99(4), 690–702. https://doi.
+org/https://doi.org/10.1037/a0020385
+Aczel, B., Szaszi, B., Nilsonne, G., van den Akker,
+Eysenck,H.J.,Nias,D.K.B.,&Cox,D.N.(1982).Sport
+O. R., Albers, C. J., van Assen, M. A. L. M.,
+andpersonality.AdvancesinBehaviourResearch
+Bastiaansen, J. A., Benjamin, D. J., Boehm,
+and Therapy, 4(1), 1–56. https://doi.org/10.
+U., Botvinik-Nezer, R., & Wagenmakers, E.-J.
+1016/0146-6402(82)90004-2
+(2021). Consensus-based guidance for con-
+Fan, X., & Chen, M. (2001). Parental involvement
+ducting and reporting multi-analyst studies
+and students’ academic achievement: A meta-
+[MetaArXiv]. https://doi.org/10.31222/osf.
+analysis. Educational Psychology Review, 13(1),
+io/5ecnh
+1–22. https : / / doi . org / 10 . 1023 / A :
+Bakker, M., & Wicherts, J. M. (2014). Outlier removal,
+1009048817385
+sumscores,andtheinflationofthetypeIerror
+Finn, C., Mitte, K., & Neyer, F. J. (2013). The
+rateinindependentsamplesttests:Thepower
+relationship–specific interpretation bias medi-
+of alternatives and recommendations. Psycho-
+ates the link between neuroticism and satisfac-
+logical Methods, 19(3), 409–427. https://doi.
+tionincouples.EuropeanJournalofPersonality,
+org/10.1037/met0000014
+27(2),200–212.https://doi.org/10.1002/per.
+Barberá, P., Jost, J. T., Nagler, J., Tucker, J. A., & Bon-
+1862
+neau,R.(2015).Tweetingfromlefttoright:Is
+Gelman, A., & Loken, E. (2014). The statisticalcrisis in
+online political communication more than an
+science.AmericanScientist,102(6),460–465.
+echo chamber? Psychological Science, 26(10),
+Gerlach,G.,Herpertz,S.,&Loeber,S.(2015).Personal-
+1531–1542. https : / / doi . org / 10 . 1177 /
+itytraitsandobesity:Asystematicreview.Obe-
+0956797615594620
+sityReviews,16(1),32–63.https://doi.org/10.
+Barchard, K. A., & Williams, J. (2008). Practical advice
+1111/obr.12235
+for conducting ethical online experiments and
+Gladstone,J.J.,Matz,S.C.,&Lemaire,A.(2019).Can
+questionnaires for United States psychologists.
+psychologicaltraitsbeinferredfromspending?
+Behavior Research Methods, 40(4), 1111–1128.
+Evidence from transaction data. Psychological
+https://doi.org/10.3758/BRM.40.4.1111
+Science, 30(7), 1087–1096. https://doi.org/
+Button, K. S., Ioannidis, J. P. A., Mokrysz, C., Nosek,
+10.1177/0956797619849435
+B. A., Flint, J., Robinson, E. S., & Munafò,
+Goodman,S.N.,Fanelli,D.,&Ioannidis,J.P.A.(2016).
+M.R.(2013).Powerfailure:Whysmallsample
+What does research reproducibility mean? Sci-
+sizeunderminesthereliabilityofneuroscience.
+ence Translational Medicine, 8(341), 341ps12–
+Nature Reviews Neuroscience, 14(5), 365–376.
+341ps12. https : / / doi . org / 10 . 1126 /
+https://doi.org/10.1038/nrn3475
+scitranslmed.aaf5027
+Chambers,C.D.(2013).Registeredreports:Anewpub-
+Hoffmann, S., Schönbrodt, F., Elsas, R., Wilson, R.,
+lishing initiative at Cortex. Cortex, 49(3), 609–
+Strasser, U., & Boulesteix, A.-L. (2021). The
+610. https://doi.org/10.1016/j.cortex.2012.
+multiplicity of analysis strategies jeopardizes
+12.016
+replicability:Lessonslearnedacrossdisciplines.
+Condon, D., Roney, E., & Revelle, W. (2017). A SAPA
+Royal Society Open Science, 8(4), 1–13. https:
+projectupdate:Onthestructureofphrasedself-
+//doi.org/10.1098/rsos.201925
+report personality items. Journal of Open Psy-
+Huntington-Klein,N.,Arenas,A.,Beam,E.,Bertoni,M.,
+chologyData,5(1),3.https://doi.org/10.5334/
+Bloem, J. R., Burli, P., Chen, N., Grieco, P.,
+jopd.32
+Ekpe, G., Pugatch, T., Saavedra, M., & Stop-
+DelGiudice,M.,&Gangestad,S.W.(2021).Atraveler’s
+nitzky, Y. (2021). The influence of hidden re-
+guide to the Multiverse: Promises, pitfalls, and
+searcher decisions in applied microeconomics.
+aframeworkfortheevaluationofanalyticdeci-
+sions.AdvancesinMethodsandPracticesinPsy-
+===== PAGE 17/18 =====
+ASSESSINGUNCERTAINTYTHROUGHTHEVIBRATIONOFEFFECTS 17
+EconomicInquiry,59(3),944–960.https://doi. Muñoz, J., & Young, C. (2018). We ran 9 billion re-
+org/10.1111/ecin.12992 gressions: Eliminating false positives through
+Ince,D.(2011).Thedukeuniversityscandal–whatcan computational model robustness. Sociological
+be done? Significance, 8(3), 113–115. https:// Methodology, 48(1), 1–33. https://doi.org/10.
+doi.org/10.1111/j.1740-9713.2011.00505.x 1177/0081175018777988
+Ioannidis, J. P. A. (2008). Why most discovered true O’Meara,M.S.,&South,S.C.(2019).Bigfivepersonal-
+associations are inflated. Epidemiology, 19(5), itydomainsandrelationshipsatisfaction:Direct
+640–648. https://doi.org/10.1097/EDE. effects and correlated change over time. Jour-
+0b013e31818131e7 nal of Personality, 87(6), 1206–1220. https://
+Ioannidis,J.P.A.,Munafo,M.R.,Fusar-Poli,P.,Nosek, doi.org/10.1111/jopy.12468
+B. A., & David, S. P. (2014). Publication and OpenScienceCollaboration.(2015).Estimatingthere-
+otherreportingbiasesincognitivesciences:De- producibility of psychological science. Science,
+tection, prevalence, and prevention. Trends in 349(6251),aac4716.https://doi.org/10.1126/
+CognitiveSciences,18(5),235–241.https://doi. science.aac4716
+org/10.1016/j.tics.2014.02.010 Osborne,J.W.,&Overbay,A.(2004).Thepowerofout-
+Klau, S., Hoffmann, S., Patel, C. J., Ioannidis, J. P. A., liers(andwhyresearchersshouldalwayscheck
+& Boulesteix, A.-L. (2021). Examining the ro- forthem).PracticalAssessment,Research&Eval-
+bustnessofobservationalassociationstomodel, uation,9(6),1–8.
+measurement and sampling uncertainty with Palpacuer, C., Hammas, K., Duprez, R., Laviolle, B.,
+the vibration of effects framework. Interna- Ioannidis, J. P. A., & Naudet, F. (2019). Vibra-
+tionalJournalofEpidemiology,50(1),266–278. tionofeffectsfromdiverseinclusion/exclusion
+https://doi.org/10.1093/ije/dyaa164 criteria and analytical choices: 9216 different
+Klau, S., Martin-Magniette, M.-L., Boulesteix, A.-L., ways to perform an indirect comparison meta-
+& Hoffmann, S. (2020). Sampling uncertainty analysis. BMC Medicine, 17(174), 1–13. https:
+versus method uncertainty: A general frame- //doi.org/10.1186/s12916-019-1409-3
+work with applications to omics biomarker se- Patel, C. J., Burford, B., & Ioannidis, J. P. A. (2015).
+lection. Biometrical Journal, 62(3), 670–687. Assessmentofvibrationofeffectsduetomodel
+https://doi.org/10.1002/bimj.201800309 specification can demonstrate the instability of
+Leamer, E. E. (1983). Let’s take the con out of econo- observational associations. Journal of Clinical
+metrics. The American Economic Review, 73(1), Epidemiology, 68(9), 1046–1058. https://doi.
+31–43. org/10.1016/j.jclinepi.2015.05.029
+Malouff, J. M., Thorsteinsson, E. B., & Schutte, N. S. Rhodes,R.E.,&Smith,N.E.I.(2006).Personalitycor-
+(2006). The five-factor model of personality relates of physical activity: A review and meta-
+and smoking: A meta-analysis. Journal of Drug analysis. British Journal of Sports Medicine,
+Education, 36(1), 47–58. https://doi.org/10. 40(12), 958–965. https://doi.org/10.1136/
+2190/9EP8-17P8-EKG7-66AD bjsm.2006.028860
+Malouff, J. M., Thorsteinsson, E. B., Schutte, N. S., Saucier, G. (2002). Orthogonal markers for orthogonal
+Bhullar, N., & Rooke, S. E. (2010). The factors:ThecaseoftheBigFive.JournalofRe-
+five-factor model of personality and relation- search in Personality, 36(1), 1–31. https://doi.
+ship satisfaction of intimate partners: A meta- org/10.1006/jrpe.2001.2335
+analysis. Journal of Research in Personality, Sauerbrei, W., Boulesteix, A.-L., & Binder, H. (2011).
+44(1), 124–127. https://doi.org/https://doi. Stability investigations of multivariable re-
+org/10.1016/j.jrp.2009.09.004 gression models derived from low-and high-
+Maxwell, S. E. (2004). The persistence of under- dimensionaldata.JournalofBiopharmaceutical
+powered studies in psychological research: Statistics, 21(6), 1206–1231. https://doi.org/
+Causes, consequences, and remedies. Psycho- 10.1080/10543406.2011.629890
+logical Methods, 9(2), 147–163. https://doi. Schönbrodt,F.D.,&Perugini,M.(2013).Atwhatsam-
+org/10.1037/1082-989X.9.2.147 plesizedocorrelationsstabilize?JournalofRe-
+Meinshausen, N., & Bühlmann, P. (2010). Stability se- search in Personality, 47(5), 609–612. https://
+lection. Journal of the Royal Statistical Society: doi.org/10.1016/j.jrp.2013.05.009
+Series B (Statistical Methodology), 72(4), 417– Schweinsberg, M., Feldman, M., Staub, N., van den
+473. https://doi.org/10.1111/j.1467-9868. Akker, O. R., van Aert, R. C. M., Van Assen,
+2010.00740.x M. A. L. M., Liu, Y., Althoff, T., Heer, J., Kale,
+===== PAGE 18/18 =====
+18
+A., & Uhlmann, E. L. (2021). Same data, dif- recent cognitive neuroscience and psychology
+ferentconclusions:Radicaldispersioninempir- literature. PLOS Biology, 15(3), 1–18. https://
+ical results when independent analysts opera- doi.org/10.1371/journal.pbio.2000797
+tionalize and test the same hypothesis. Organi- vanderZee,T.,Anaya,J.,&Brown,N.J.(2017).Statis-
+zationalBehaviorandHumanDecisionProcesses, ticalheartburn:Anattempttodigestfourpizza
+165, 228–249. https://doi.org/10.1016/j. publications from the cornell food and brand
+obhdp.2021.02.003 lab. BMC Nutrition, 3(54), 1–15. https://doi.
+Simmons,J.P.,Nelson,L.D.,&Simonsohn,U.(2011). org/10.1186/s40795-017-0167-x
+False-positive psychology: Undisclosed flexibil- Wagenmakers,E.-J.,Wetzels,R.,Borsboom,D.,vander
+ity in data collection and analysis allows pre- Maas, H. L., & Kievit, R. A. (2012). An agenda
+senting anything as significant. Psychological forpurelyconfirmatoryresearch.Perspectiveson
+Science, 22(11), 1359–1366. https://doi.org/ Psychological Science, 7(6), 632–638. https://
+10.1177/0956797611417632 doi.org/10.1177/1745691612463078
+Simonsohn, U., Simmons, J., & Nelson, L. D. (2015). Wicherts,J.M.,Veldkamp,C.L.S.,Augusteijn,H.E.M.,
+Specification curve: Descriptive and inferential Bakker, M., van Aert, R. C. M., & van Assen,
+statisticsonallreasonablespecifications.https: M.A.L.M.(2016).Degreesoffreedominplan-
+//doi.org/10.2139/ssrn.2694998 ning,running,analyzing,andreportingpsycho-
+Sori´c,I.,Penezi´c,Z.,&Buri´c,I.(2017).TheBigFiveper- logical studies: A checklist to avoid p-hacking.
+sonality traits, goal orientations, and academic Frontiers in Psychology, 7(1832), 1–12. https:
+achievement. Learning and Individual Differ- //doi.org/10.3389/fpsyg.2016.01832
+ences,54,126–134.https://doi.org/10.1016/j. Wilson,K.E.,&Dishman,R.K.(2015).Personalityand
+lindif.2017.01.024 physicalactivity:Asystematicreviewandmeta-
+Steegen, S., Tuerlinckx, F., Gelman, A., & Vanpaemel, analysis. Personality and Individual Differences,
+W. (2016). Increasing transparency through a 72, 230–242. https://doi.org/10.1016/j.paid.
+multiverse analysis. Perspectives on Psychologi- 2014.08.023
+cal Science, 11(5), 702–712. https://doi.org/ Young, C. (2018). Model uncertainty and the crisis in
+10.1177/1745691616658637 science. Socius, 4, 1–7. https://doi.org/10.
+Szucs,D.,&Ioannidis,J.P.A.(2017).Empiricalassess- 1177/2378023117737206
+mentofpublishedeffectsizesandpowerinthe
