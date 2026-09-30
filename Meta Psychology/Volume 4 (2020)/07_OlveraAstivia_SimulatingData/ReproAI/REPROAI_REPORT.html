@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Olvera Astivia Simulating Non-normal Data (MP.2019.2117)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Olvera Astivia (2020)</h1>
+<p class="sub">MP.2019.2117 &middot; <i>Meta-Psychology</i>, 4 &middot; doi:10.15626/MP.2019.2117 &middot; <i>Issues, Problems and Potential Solutions when Simulating Continuous, Non-normal Data in the Social Sciences</i></p>
+<p><span class="verdict reproduced">Reproduced</span></p>
+
+<h2>Package audited</h2>
+<p>Olvera Astivia, O. L. (2020), <i>Meta-Psychology</i>, 4, MP.2019.2117 (doi: 10.15626/MP.2019.2117). Methodological review article on simulating multivariate non-normal data. Open data: N/A (simulation methods review; no raw data); Open materials: Yes; Open and reproducible analysis: Yes (analysis reproduced by A. Kalmendal).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>This is a methodological review article, not an empirical study.</strong> It contains no load-bearing empirical findings (no substantive hypothesis is tested), but it does contain two fully-specified, verifiable R code examples whose reported numerical outputs reproduce <strong>exactly</strong> from the paper's own code, run in R 4.6.1.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Fleishman coefficients (skewness = 1, excess kurtosis = 15)</td><td>fleishman(1,15)$par = 1.534711, 0.170095, -0.306848</td><td>1.534711, 0.170095, -0.306848</td><td>Match</td></tr>
+<tr><td>Bivariate normal correlation (rho = 0.5)</td><td>cor(X) = 0.5002</td><td>cor(Z) = 0.50021</td><td>Match</td></tr>
+<tr><td>Gaussian copula correlation (Gamma + Uniform marginals)</td><td>cor(Y) = 0.4405</td><td>0.44047</td><td>Match</td></tr>
+<tr><td>Correlation shrinkage from non-linear transforms</td><td>~0.05&ndash;0.06 units</td><td>0.0597</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Example 1 (Fleishman / NORTA).</strong> The paper solves the Fleishman (1978) 3rd-order polynomial system for a target population skewness of 1 and excess kurtosis of 15, using <code>nlminb</code> from the start vector (0, 0, 1). Re-running the exact <code>fleishman</code> function reproduces the reported coefficients <code>b = 1.534711, c = 0.170095, d = -0.306848</code> (and hence <code>a = -c</code>) to all reported decimals.</p>
+<p><strong>Example 2 (Gaussian copula).</strong> The paper simulates a bivariate standard normal (<code>rho = 0.5</code>), applies the probability integral transform, then Gamma (shape 1, rate 1) and Uniform(0,1) quantile functions. Re-running the code reproduces <code>cor(Z) = 0.50021</code> and <code>cor(Y) = 0.44047</code>, giving a shrinkage of 0.0597, which matches the paper's "shrinkage of about 0.05-0.06 units" and its statement of a ~0.15-unit downward bias at the theoretically maximum correlation.</p>
+<p><strong>Agreement.</strong> Both reported numerical outputs reproduce to the paper's rounding. The article's central message - that the choice and implementation of a non-normal simulation algorithm (NORTA/Fleishman vs Gaussian copula) materially affects the resulting moments and correlations, and that these effects are often not acknowledged - is supported by the reproduced code examples.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P3).</strong> The article is a methodological review with no empirical results; the reproduction verifies the illustrative code examples, not a substantive finding.</li>
+<li><strong>ADV-002 (P3).</strong> In the Fleishman example, the sample excess kurtosis of the generated data (n = 100,000) is ~10.8 rather than the target 15; this is expected for a heavy-tailed distribution where the 4th moment is dominated by rare extremes and is consistent with the paper's own discussion of the limits of the 3rd-order polynomial method.</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R scripts: <code>olvera_fleishman.R</code>, <code>olvera_copula.R</code>; captured output: <code>olvera_fleishman_output.txt</code>, <code>olvera_copula_output.txt</code> (in this folder). Code transcribed from the paper's Blocks 2 and 3.</p>
+</div>
+</body></html>

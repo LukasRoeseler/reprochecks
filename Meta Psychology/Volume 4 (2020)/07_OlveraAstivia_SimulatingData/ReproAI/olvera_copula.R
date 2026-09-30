@@ -1,0 +1,12 @@
+set.seed(124)
+library(mvtnorm)
+rho <- .5
+Z <- rmvnorm(n = 100000, mean = c(0,0), sigma = matrix(c(1, rho, rho, 1), 2, 2))
+U <- pnorm(Z)
+y1 <- qgamma(U[, 1], shape = 1, rate = 1)
+y2 <- qunif(U[, 2], min = 0, max = 1)
+Y <- cbind(y1, y2)
+cat("cor(Z) [bivariate normal]:\n"); print(cor(Z))
+cat("cor(Y) [Gaussian copula]:\n"); print(cor(Y))
+cat("shrinkage =", cor(Z)[1,2] - cor(Y)[1,2], "\n")
+cat("paper says ~0.05-0.06 shrinkage\n")

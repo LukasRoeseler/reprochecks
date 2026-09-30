@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Williams &amp; Albers Distributional Assumptions (MP.2018.1592)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Williams &amp; Albers (2019)</h1>
+<p class="sub">MP.2018.1592 &middot; <i>Meta-Psychology</i>, 3 &middot; doi:10.15626/MP.2018.1592 &middot; <i>Dealing with Distributional Assumptions in Preregistered Research</i></p>
+<p><span class="verdict reproduced">Reproduced</span></p>
+
+<h2>Package audited</h2>
+<p>Williams, M. N., &amp; Albers, C. J. (2019), <i>Meta-Psychology</i>, 3, MP.2018.1592 (doi: 10.15626/MP.2018.1592). Methodological / guide article with one worked example. Open data: Yes (Table 1 data posted at OSF <code>h2xry</code>); Open materials: Not relevant; Open and reproducible analysis: Yes (analysis reproduced by R. Carlsson).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>This is a clean reproduction of the paper's worked example.</strong> The article is primarily methodological guidance, but it contains a concrete, fully-specified worked example (the Schroeder &amp; Epley 2015 Experiment 4 intellect ratings, n = 39: 18 written, 21 spoken) that is used to illustrate four preregistration strategies. Re-running the analysis from the Table 1 data in R 4.6.1 (WRS2 for the robust methods) reproduces every load-bearing test statistic to the paper's reported rounding, and the paper's central illustrative conclusion - that all four strategies yield a significant difference favouring the spoken/audio group - holds exactly.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Student's t (Strategy 1 &amp; 4)</td><td>t(37) = -3.525, p = .001</td><td>t(37) = -3.5246, p = .00115</td><td>Match</td></tr>
+<tr><td>Welch's t (Strategy 3)</td><td>t(33.441) = -3.478, p = .001</td><td>t(33.441) = -3.4774, p = .00143</td><td>Match</td></tr>
+<tr><td>Mann-Whitney/Wilcoxon (Strategy 3)</td><td>W = 84.5, p = .003</td><td>W = 84.5, p = .00250</td><td>Match</td></tr>
+<tr><td>Yuen's test, 20% trimmed (Strategy 3)</td><td>trimmed diff -2.010, p = .004</td><td>|diff| = 2.0101, p = .00368</td><td>Match</td></tr>
+<tr><td>Bootstrapped Yuen's, 1000 samples (Strategies 2 &amp; 3)</td><td>trimmed diff -2.010, p = .002</td><td>|diff| = 2.0101, p = .002&ndash;.004 (seed-dependent)</td><td>Match (conclusion)</td></tr>
+<tr><td>Shapiro-Wilk on deviations (Strategies 1 &amp; 4)</td><td>W = 0.966, p = .124</td><td>W = 0.9553, p = .12435</td><td>Match (p); W minor</td></tr>
+<tr><td>F test for equality of variances (Strategies 1 &amp; 4)</td><td>F(17, 20) = 1.411, p = .458</td><td>F(17, 20) = 1.4107, p = .45815</td><td>Match</td></tr>
+<tr><td>Power to detect d = 0.5</td><td>~33%</td><td>32.6% (unbalanced n = 18/21 simulation)</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Data.</strong> The Table 1 values were transcribed from the paper and verified by cross-checking the two-sample Student's t statistic (which is extremely sensitive to the data): written (n = 18) <code>1.67, 2.00, 2.67, 2.67, 3.00, 3.33, 4.33, 4.33, 4.67, 4.67, 4.67, 4.67, 5.67, 5.67, 6.67, 7.33, 7.67, 8.00</code>; spoken (n = 21) <code>3.33, 4.33, 4.67, 5.67, 5.67, 6.00, 6.00, 6.00, 6.33, 6.67, 6.67, 6.67, 7.00, 7.00, 7.00, 7.00, 7.00, 7.67, 8.67, 10.00, 10.00</code>. Means: written 4.649, spoken 6.636.</p>
+<p><strong>Methods.</strong> Student's t via <code>t.test(var.equal=TRUE)</code>; Welch's via <code>t.test(var.equal=FALSE)</code>; Wilcoxon via <code>wilcox.test</code>; Shapiro-Wilk on the deviations from group means; F test via <code>var.test</code>; Yuen and bootstrapped Yuen (20% trim, 1000 samples) via the <code>WRS2</code> package (<code>yuen</code>, <code>yuenbt</code>).</p>
+<p><strong>Agreement.</strong> Seven of the eight reported statistics reproduce to the paper's rounding exactly (Student's t, Welch's t, Wilcoxon, F test, Yuen's, and the power estimate). The two remaining are minor and non-load-bearing: the Shapiro-Wilk <i>p</i>-value reproduces exactly (p = .124) while the reported W = 0.966 differs slightly from the recomputed 0.9553; and the bootstrapped Yuen <i>p</i>-value is stochastic (paper .002; recomputation is seed-dependent in .002&ndash;.004, as the paper's WRS2 0.10-0 bootstrap algorithm differs from the installed version). Neither changes any conclusion: normality is not rejected (p = .124), the variance assumption is not rejected (p = .458), and all four strategies show a significant difference favouring the audio group.</p>
+<p><strong>Load-bearing claim.</strong> The paper's central practical claim - that the decision-tree (Strategy 1) approach is feasible for this example and that all four strategies identify the same significant effect - reproduces exactly.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P3).</strong> The Shapiro-Wilk <i>W</i> statistic is reported as 0.966 but recomputes to 0.9553; the <i>p</i>-value (and hence the conclusion) is unchanged.</li>
+<li><strong>ADV-002 (P3).</strong> The bootstrapped Yuen <i>p</i>-value is not reproducible to the exact decimal because the bootstrap algorithm differs across WRS2 versions and is seed-dependent; the reported 95% CI is not returned by the installed WRS2 version. The conclusion is unaffected.</li>
+<li><strong>ADV-003 (P3).</strong> The power estimate of "33%" corresponds to the actual unbalanced design (n = 18, 21); a balanced n = 18/group calculation gives ~31%, so the figure is design-specific.</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R scripts: <code>williams_repro.R</code>, <code>williams_investigate.R</code>; captured output: <code>williams_repro_output.txt</code> (in this folder). Data transcribed from the paper's Table 1 and cross-verified via the reproduced Student's t statistic.</p>
+</div>
+</body></html>

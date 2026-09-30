@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta-Psychology Reprocheck Dashboard</title>
+<style>
+:root { --mp:#F2B30F; --ink:#111; }
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; color:var(--ink); margin:0; background:#eef0f4; }
+.wrap { max-width: 1240px; margin:0 auto; background:#fff; padding:28px 34px; min-height:100vh; box-shadow:0 0 14px rgba(0,0,0,.10); }
+h1 { font-size:19pt; line-height:1.25; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:14pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:26px; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:7px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:14px; }
+.back:hover { background:#12345e; color:#fff; }
+#dash { font-size:11pt; line-height:1.5; }
+.filters { display:flex; flex-wrap:wrap; gap:12px; margin:12px 0; align-items:flex-end; }
+.filter { display:flex; flex-direction:column; font-size:10pt; }
+.filter label { font-weight:bold; margin-bottom:2px; }
+.filter select, .filter input { font-size:10.5pt; padding:4px; min-width:150px; border:1px solid #bbb; border-radius:4px; }
+.fbtn { font-size:10.5pt; padding:6px 12px; cursor:pointer; border:1px solid #2c6fbb; background:#2c6fbb; color:#fff; border-radius:4px; }
+.fbtn.green { border-color:#0a7d33; background:#0a7d33; }
+.chartbox { background:#fff; border:1px solid #ddd; border-radius:6px; padding:12px 16px; margin:12px 0; }
+.stacked { display:flex; height:34px; border-radius:4px; overflow:hidden; width:100%; }
+.seg { display:flex; align-items:center; justify-content:center; color:#fff; font-size:9.5pt; font-weight:bold; min-width:0; }
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin:8px 0; font-size:10pt; }
+.legend .item { display:flex; align-items:center; gap:5px; }
+.sw { width:13px; height:13px; border-radius:3px; display:inline-block; }
+#dashTable { font-family:Arial,Helvetica,sans-serif; font-size:9pt; width:100%; border-collapse:collapse; }
+#dashTable th { background:#1a1a2e; color:#fff; position:sticky; top:0; text-align:left; }
+#dashTable td { border:1px solid #ccc; padding:3px 6px; vertical-align:top; }
+.dcount { margin:8px 0; font-weight:bold; }
+.tl { padding:1px 8px; border-radius:10px; color:#fff; font-size:8.5pt; white-space:nowrap; }
+.tl-green { background:#2e7d32; } .tl-amber { background:#f9a825; color:#222; }
+.tl-red { background:#c62828; } .tl-orange { background:#ef6c00; } .tl-gray { background:#757575; }
+.tt { max-width:300px; } .cav { max-width:220px; color:#444; }
+.tabnote { font-size:9.5pt; background:#f7f7f7; border:1px solid #ddd; padding:8px 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>Meta-Psychology Reproducibility Checks Dashboard</h1>
+<p class="sub">Filterable overview of every Meta-Psychology article audited by the ReproAI pipeline. Filter below; the chart and table update live.</p>
+
+<div id="dash">
+<div class="filters">
+  <div class="filter"><label>Year</label><select id="fYear"><option value="">All</option><option>2019</option>
+<option>2020</option></select></div>
+  <div class="filter"><label>Volume</label><select id="fVol"><option value="">All</option><option>3 (2019)</option>
+<option>4 (2020)</option></select></div>
+  <div class="filter"><label>Outcome</label><select id="fOutcome"><option value="">All</option><option>Reproduced</option>
+<option>Partially reproduced</option>
+<option>Non-empirical (guidance)</option>
+<option>Non-empirical (tutorial)</option>
+<option>Non-empirical (conceptual)</option>
+<option>Non-empirical (commentary)</option>
+<option>Not checked</option></select></div>
+  <div class="filter"><label>Severity</label><select id="fSev"><option value="">All</option><option>P1</option><option>P2</option><option>P3</option><option>n/a</option></select></div>
+  <div class="filter"><label>Status</label><select id="fStatus"><option value="">All</option><option>non_empirical</option>
+<option>partial</option>
+<option>reproduced</option></select></div>
+  <div class="filter"><label>Search</label><input id="fSearch" type="text" placeholder="title, ID, authors, DOI..."></div>
+  <button class="fbtn" id="resetBtn" type="button">Reset</button>
+  <button class="fbtn green" id="dlBtn" type="button">&#8681; Download visible CSV</button>
+</div>
+
+<div class="chartbox">
+  <div style="font-weight:bold;margin-bottom:6px;">Outcome distribution of visible studies</div>
+  <div class="stacked" id="stacked"></div>
+  <div class="legend" id="legend"></div>
+</div>
+
+<div class="dcount" id="dcount"></div>
+<div style="overflow:auto; max-height:560px;">
+<table id="dashTable">
+<thead><tr><th>Study</th><th>Title</th><th>Authors</th><th>DOI</th><th>Year</th><th>Vol</th><th>Severity</th><th>Claims</th><th>Open data</th><th>Open mat.</th><th>Open repro.</th><th>Outcome</th><th>Caveat</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+<p class="tabnote"><em>Guide.</em> <b>Study:</b> click to open the individual ReproAI report. <b>Severity:</b> P1 critical, P2 substantial, P3 minor. <b>Open data / materials / reproducible analysis:</b> the journal's badges or availability coding. <b>Outcome:</b> green = reproduced, amber = partially reproduced, red = not reproduced, orange = technical failure, gray = not checked. The dashboard is self-contained and works on a static site such as GitHub Pages.</p>
+</div>
+</div>
+
+<script>
+var DATA = [{"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2017.840", "authors": "Brand", "title": "Cumulative Science via Bayesian Posterior Passing", "severity": "P2", "full_text_audited": true, "claims": 42, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Clean reproduction: all load-bearing figures reproduce exactly and method independently confirmed; exact MCMC draws not regenerable without recorded seed (P2=1, P3=3).", "open_data": "Yes", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2017.840", "report": "../Meta%20Psychology/Volume%203%20%282019%29/04_Brand_PosteriorPassing/ReproAI/Brand_PosteriorPassing_840/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.1481", "authors": "de Leeuw et al.", "title": "Similar event-related potentials to structural violations in music and language", "severity": "P2", "full_text_audited": true, "claims": 49, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Pre-registered P600 ANOVAs/BFs reproduce exactly; Monte-Carlo noise in two appendix Bayes factors + minor sample-consistency defect (P2=2, P3=2).", "open_data": "Yes", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.1481", "report": "../Meta%20Psychology/Volume%203%20%282019%29/09_deLeeuw_ERP/ReproAI/deLeeuw_ERP_1481/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.1592", "authors": "Williams & Albers", "title": "Dealing with Distributional Assumptions in Preregistered Research", "severity": "P2", "full_text_audited": true, "claims": 8, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Clean reproduction of the worked example: Student t t(37)=-3.525, Welch t(33.441)=-3.478, Wilcoxon W=84.5, F(17,20)=1.411, Yuen trimmed diff 2.010 all reproduce exactly; Shapiro-Wilk p=.124 exact (W 0.9553 vs 0.966) and bootstrapped-Yuen p seed-dependent (paper .002 vs .002-.004). Conclusion (all four strategies significant, audio group favoured) reproduces.", "open_data": "Yes", "open_materials": "Not relevant", "open_repro": "Yes", "doi": "10.15626/MP.2018.1592", "report": "../Meta%20Psychology/Volume%203%20%282019%29/06_Williams_DistributionalAssumptions/ReproAI/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "id": "MP.2018.843", "severity": "n/a", "full_text_audited": false, "claims": 0, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Non-empirical (guidance)", "caveat": "Methodological guidance article; no reproducible numerical claims.", "open_data": "N/A", "open_materials": "N/A", "open_repro": "N/A", "report": "", "status": "non_empirical", "authors": "LeBel, Vanpaemel, Cheung & Campbell", "title": "A Brief Guide to Evaluate Replications", "doi": "10.15626/MP.2018.843", "volume": "3 (2019)", "year": "2019", "_vol": "3 (2019)", "_year": "2019", "_status": "non_empirical"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.871", "authors": "Witt", "title": "Insights into Criteria for Statistical Significance from Signal Detection Analysis", "severity": "P2", "full_text_audited": true, "claims": 44, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Near-exact/bit-identical reproduction: every load-bearing AUC and the central p-vs-BF redundancy claim reproduce from the author's code (P2=1, P3=5).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.871", "report": "../Meta%20Psychology/Volume%203%20%282019%29/01_Witt_SignalDetection/ReproAI/Witt_SignalDetection_871/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.878", "authors": "Kuper & Bott", "title": "Has the evidence for moral licensing been inflated by publication bias?", "severity": "P1", "full_text_audited": true, "claims": 41, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Partially reproduced", "caveat": "Headline k=76 tables not regenerable from shipped code (definitive dataset/aggregation code never archived; P1); reported I2=.26 inconsistent with own Q(75)=175.77 (57%); overall effect d~0.27 recovers from raw data.", "open_data": "Yes", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.878", "report": "../Meta%20Psychology/Volume%203%20%282019%29/02_KuperBott_MoralLicensing/ReproAI/KuperBott_MoralLicensing_878/REPROAI_REPORT.html", "status": "partial", "_vol": "3 (2019)", "_year": "2019", "_status": "partial"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.880", "authors": "Imhoff & Messer", "title": "In search of Experimental Evidence for Secondary Antisemitism", "severity": "P2", "full_text_audited": true, "claims": 56, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Open-data claim substantiated (raw data + SPSS syntax on OSF); essentially every primary statistic reproduces; meta-analytic g~0 reproduces (P2=3, P3=2).", "open_data": "Yes", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.880", "report": "../Meta%20Psychology/Volume%203%20%282019%29/10_Imhoff_FileDrawer/ReproAI/Imhoff_FileDrawer_880/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "id": "MP.2018.892", "severity": "n/a", "full_text_audited": false, "claims": 0, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Non-empirical (tutorial)", "caveat": "Methods tutorial on computational containers; no reproducible numerical claims.", "open_data": "N/A", "open_materials": "N/A", "open_repro": "N/A", "report": "", "status": "non_empirical", "authors": "Clyburne-Sherin, Greenhalgh, Callaway & Holliday", "title": "Computational Reproducibility via Containers in Psychology", "doi": "10.15626/MP.2018.892", "volume": "3 (2019)", "year": "2019", "_vol": "3 (2019)", "_year": "2019", "_status": "non_empirical"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.895", "authors": "Witt", "title": "Graph Construction", "severity": "P2", "full_text_audited": true, "claims": 65, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Near-exact: every primary statistic in all five experiments reproduces from open data; ten secondary/transparency findings (P2=5, P3=5).", "open_data": "Yes", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.895", "report": "../Meta%20Psychology/Volume%203%20%282019%29/07_Witt_GraphConstruction/ReproAI/Witt_GraphConstruction_895/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "3 (2019)", "year": "2019", "id": "MP.2018.898", "authors": "Haverkamp", "title": "Differences of Type I error rates for ANOVA and Multilevel-Linear-Models using SAS and SPSS for repeated measures designs", "severity": "P2", "full_text_audited": true, "claims": 23, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Primary MLM-UN liberal-bias finding reproduces in direction and magnitude in independent R and Python; exact SAS/SPSS table cells unverifiable (P2=3, P3=3).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.898", "report": "../Meta%20Psychology/Volume%203%20%282019%29/05_Haverkamp_TypeIerror/ReproAI/Haverkamp_TypeIerror_898/REPROAI_REPORT.html", "status": "reproduced", "_vol": "3 (2019)", "_year": "2019", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2018.872", "authors": "Williams & Buerkner", "title": "Coding Errors Lead to Unsupported Conclusions", "severity": "P2", "full_text_audited": true, "claims": 24, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Core critique re-analysis reproduces exactly from OSF data/code in live R and independent Python; version-fragile duplicate script (P2=1, P3=1).", "open_data": "Yes", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.872", "report": "../Meta%20Psychology/Volume%204%20%282020%29/10_WilliamsBuerkner_HofmannCritique/ReproAI/WilliamsBuerkner_HofmannCritique_872/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2018.874", "authors": "Brunner & Schimmack", "title": "Estimating Population Mean Power Under Conditions of Heterogeneity and Selection for Significance", "severity": "P1", "full_text_audited": true, "claims": 17, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Partially reproduced", "caveat": "Study 1 Table 1 reproduces within Monte-Carlo error for all four methods, but shipped p-uniform function has a lower/upper-tail bug and the published code URL is dead (P1=1, P2=2, P3=2).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.874", "report": "../Meta%20Psychology/Volume%204%20%282020%29/03_Brunner_PowerHeterogeneity/ReproAI/Brunner_PowerHeterogeneity_874/REPROAI_REPORT.html", "status": "partial", "_vol": "4 (2020)", "_year": "2020", "_status": "partial"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2018.884", "authors": "Niemeyer et al.", "title": "Publication Bias in Meta-Analyses of Posttraumatic Stress Disorder Interventions", "severity": "P2", "full_text_audited": true, "claims": 52, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Table 1 and all method-vs-MA differences re-run exactly; open data/code live and functional (P2=4, P3=2).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.884", "report": "../Meta%20Psychology/Volume%204%20%282020%29/01_Niemeyer_PtsdPublicationBias/ReproAI/Niemeyer_PtsdPublicationBias_884/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2018.894", "authors": "Holtz, Daumiller & Dickhaeuser", "title": "Two Questions to Foster Critical Thinking in the Field of Psychology: Are There Any Reasons to Expect a Different Outcome, and What Are the Consequences If We Don't Find What We Were Looking For?", "severity": "n/a", "full_text_audited": false, "claims": 0, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Non-empirical (conceptual)", "caveat": "Conceptual/opinion article; no reproducible numerical claims.", "open_data": "N/A", "open_materials": "N/A", "open_repro": "N/A", "doi": "10.15626/MP.2018.894", "report": "", "status": "non_empirical", "_vol": "4 (2020)", "_year": "2020", "_status": "non_empirical"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2018.933", "authors": "Lakens & Delacre", "title": "Equivalence Testing and the Second Generation P-Value", "severity": "P2", "full_text_audited": true, "claims": 24, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Fully reproduces: full TOST/SGPV relationship reproduces in R and Python against the author's own function; prose typo + empty OSF archiving (P2=1, P3=1).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2018.933", "report": "../Meta%20Psychology/Volume%204%20%282020%29/05_Lakens_EquivalenceTesting/ReproAI/Lakens_EquivalenceTesting_933/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2019.1630", "authors": "Rousselet", "title": "Reaction Times and other Skewed Distributions", "severity": "P2", "full_text_audited": true, "claims": 56, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Exceptionally reproducible: all FLP real-data values and Table 1 reproduce exactly; illustrative M-C Table 2 not byte-reproduced (P2=1, P3=4).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2019.1630", "report": "../Meta%20Psychology/Volume%204%20%282020%29/02_Rousselet_SkewedDistributions/ReproAI/Rousselet_SkewedDistributions_1630/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2019.1992", "authors": "Hunter et al.", "title": "Multiplicity Control vs Replication", "severity": "P2", "full_text_audited": true, "claims": 16, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Refutes prior 'technical failure': OSF R code live and reproducible; 336/336 rate-cells within Monte-Carlo error (P2=1, P3=4).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2019.1992", "report": "../Meta%20Psychology/Volume%204%20%282020%29/04_Hunter_MultiplicityControl/ReproAI/Hunter_MultiplicityControl_1992/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2019.2117", "authors": "Olvera-Astivia, Heene & Lakens", "title": "Issues, Problems and Potential Solutions when Simulating Continuous, Non-normal Data in the Social Sciences", "severity": "P2", "full_text_audited": true, "claims": 4, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Methods review (no empirical findings), but both verifiable R code examples reproduce exactly: Fleishman coefficients (skew=1, kurt=15) = 1.534711, 0.170095, -0.306848; Gaussian copula cor(Y)=0.4405 (shrinkage 0.0597, paper ~0.05-0.06).", "open_data": "N/A", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2019.2117", "report": "../Meta%20Psychology/Volume%204%20%282020%29/07_OlveraAstivia_SimulatingData/ReproAI/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2019.2238", "authors": "Evans, Nosek & Navarro", "title": "What factors are most important in finding the best model of a psychological process? Comment on Navarro (2019)", "severity": "n/a", "full_text_audited": false, "claims": 0, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Non-empirical (commentary)", "caveat": "Commentary on Navarro (2019); no reproducible numerical claims.", "open_data": "N/A", "open_materials": "N/A", "open_repro": "N/A", "doi": "10.15626/MP.2019.2238", "report": "", "status": "non_empirical", "_vol": "4 (2020)", "_year": "2020", "_status": "non_empirical"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2019.2266", "authors": "Francis & Thunell", "title": "Excess success in “Don’t count calorie labeling out: Calorie counts on the left side of menu items lead to lower calorie food choices”", "severity": "P2", "full_text_audited": true, "claims": 29, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Reproduced", "caveat": "Excess-success result (replication probability 0.014) fully reproduces from author R code and independent Python; provenance/hygiene findings (P2=2, P3=1).", "open_data": "No", "open_materials": "Yes", "open_repro": "Yes", "doi": "10.15626/MP.2019.2266", "report": "../Meta%20Psychology/Volume%204%20%282020%29/11_FrancisThunell_CalorieExcessSuccess/ReproAI/FrancisThunell_CalorieExcess_2266/REPROAI_REPORT.html", "status": "reproduced", "_vol": "4 (2020)", "_year": "2020", "_status": "reproduced"}, {"journal": "Meta-Psychology", "volume": "4 (2020)", "year": "2020", "id": "MP.2020.2560", "authors": "Hanel", "title": "Conducting High Impact Research with Limited Financial Resources (While Working From Home)", "severity": "n/a", "full_text_audited": false, "claims": 0, "agent": "DeepSeek V4 Flash (uniGPT)", "outcome": "Non-empirical (tutorial)", "caveat": "Tutorial on conducting research with limited resources; no reproducible numerical claims.", "open_data": "N/A", "open_materials": "N/A", "open_repro": "N/A", "doi": "10.15626/MP.2020.2560", "report": "", "status": "non_empirical", "_vol": "4 (2020)", "_year": "2020", "_status": "non_empirical"}];
+var colors = {"Reproduced":"#2e7d32","Partially reproduced":"#f9a825","Not reproduced":"#c62828","Technical failure":"#ef6c00","Not checked":"#757575","Not audited":"#757575","Not re-executed":"#9e9e9e","Non-empirical (guidance)":"#5c6bc0","Non-empirical (tutorial)":"#5c6bc0","Non-empirical (conceptual)":"#5c6bc0","Non-empirical (commentary)":"#5c6bc0"};
+var outcomes = ["Reproduced", "Partially reproduced", "Non-empirical (guidance)", "Non-empirical (tutorial)", "Non-empirical (conceptual)", "Non-empirical (commentary)", "Not checked"];
+function cls(o){
+  var m=o.toLowerCase();
+  if(m.indexOf('reproduced')===0) return 'green';
+  if(m.indexOf('partially')===0) return 'amber';
+  if(m.indexOf('not reproduced')===0) return 'red';
+  if(m.indexOf('technical')===0) return 'orange';
+  if(m.indexOf('non-empirical')===0) return 'gray';
+  return 'gray';
+}
+function render(){
+  var yr=document.getElementById('fYear').value;
+  var vol=document.getElementById('fVol').value;
+  var oc=document.getElementById('fOutcome').value;
+  var sev=document.getElementById('fSev').value;
+  var st=document.getElementById('fStatus').value;
+  var q=document.getElementById('fSearch').value.toLowerCase();
+  var rows=DATA.filter(function(s){
+    if(yr && s.year!==yr) return false;
+    if(vol && s.volume!==vol) return false;
+    if(oc && s.outcome!==oc) return false;
+    if(sev && s.severity!==sev) return false;
+    if(st && s.status!==st) return false;
+    if(q){ var hay=(s.title+' '+s.id+' '+s.authors+' '+s.doi).toLowerCase(); if(hay.indexOf(q)<0) return false; }
+    return true;
+  });
+  // chart
+  var cnt={}; rows.forEach(function(s){ cnt[s.outcome]=(cnt[s.outcome]||0)+1; });
+  var total=rows.length;
+  var svg=''; var legend='';
+  outcomes.forEach(function(o){
+    var n=cnt[o]||0; if(n===0) return;
+    var pct=(n/total*100);
+    svg+='<div class="seg" style="width:'+pct+'%;background:'+(colors[o]||'#757575')+'">'+n+'</div>';
+    legend+='<div class="item"><span class="sw" style="background:'+(colors[o]||'#757575')+'"></span>'+o+' ('+n+')</div>';
+  });
+  document.getElementById('stacked').innerHTML=svg;
+  document.getElementById('legend').innerHTML=legend;
+  document.getElementById('dcount').textContent='Visible: '+total+' of '+DATA.length+' Meta-Psychology reprochecks';
+  // table
+  var tb=document.getElementById('dashTable').querySelector('tbody');
+  var h='';
+  rows.forEach(function(s){
+    var rep=s.report||'';
+    var idc=rep ? '<a href="'+rep.replace(/ /g,'%20')+'" target="_blank">'+esc(s.id)+'</a>' : esc(s.id);
+    var doi=s.doi ? '<a href="https://doi.org/'+esc(s.doi)+'" target="_blank">'+esc(s.doi)+'</a>' : 'n/a';
+    h+='<tr><td>'+idc+'</td><td class="tt">'+esc(s.title)+'</td><td>'+esc(s.authors)+'</td><td>'+doi+'</td><td>'+esc(s.year)+'</td><td>'+esc(s.volume)+'</td><td>'+esc(s.severity)+'</td><td>'+esc(s.claims)+'</td><td>'+esc(s.open_data)+'</td><td>'+esc(s.open_materials)+'</td><td>'+esc(s.open_repro)+'</td><td><span class="tl tl-'+cls(s.outcome)+'">'+esc(s.outcome)+'</span></td><td class="cav">'+esc(s.caveat)+'</td></tr>';
+  });
+  tb.innerHTML=h;
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function reset(){
+  document.getElementById('fYear').value=''; document.getElementById('fVol').value='';
+  document.getElementById('fOutcome').value=''; document.getElementById('fSev').value='';
+  document.getElementById('fStatus').value=''; document.getElementById('fSearch').value='';
+  render();
+}
+document.getElementById('resetBtn').onclick=reset;
+document.getElementById('dlBtn').onclick=function(){
+  var rows=document.getElementById('dashTable').querySelectorAll('tbody tr');
+  var lines=['Study,Title,Authors,DOI,Year,Volume,Severity,Claims,Open data,Open materials,Open reproducible,Outcome,Caveat'];
+  rows.forEach(function(r){
+    var c=r.querySelectorAll('td'); var row=[];
+    for(var i=0;i<c.length;i++){ var t=c[i].innerText.replace(/"/g,'""'); row.push('"'+t+'"'); }
+    lines.push(row.join(','));
+  });
+  var blob=new Blob([lines.join('\n')],{type:'text/csv'}); var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='metapsych_reprochecks.csv'; a.click();
+};
+['fYear','fVol','fOutcome','fSev','fStatus'].forEach(function(id){document.getElementById(id).onchange=render;});
+document.getElementById('fSearch').oninput=render;
+render();
+</script>
+</body></html>
