@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Hussey Streamline p-hacking (MP.2020.2529)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+.partial { background:#fff8e1; color:#f57f17; border:1px solid #f57f17; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Hussey (2021)</h1>
+<p class="sub">MP.2020.2529 &middot; <i>Meta-Psychology</i>, 5 &middot; doi:10.15626/MP.2020.2529 &middot; <i>A method to streamline p-hacking</i></p>
+<p><span class="verdict reproduced">Reproduced</span> <span style="font-size:10pt;color:#555">(trivially, by construction)</span></p>
+
+<h2>Package audited</h2>
+<p>Hussey, I. (2021), <i>Meta-Psychology</i>, 5, MP.2020.2529 (doi: 10.15626/MP.2020.2529). Guest editorial presenting a satirical "p-hacking" inference procedure with a simulation in the appendix. Open data: No; Open materials: No; Open and reproducible analysis: Yes (analysis reproduced by A. Kalmendal).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>The reported simulation result reproduces exactly.</strong> Running the paper's own appendix R code yields <strong>100% congruence</strong> between the proposed "p_ointless" metric and traditional p-hacking. This is, however, true <em>by construction</em>: both procedures always produce a "publishable" (<i>p</i> &lt; .05) result, so their conclusions always agree.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Simulation size</td><td>10,000 cases</td><td>10,000</td><td>Match</td></tr>
+<tr><td>Congruence of p_ointless vs p-hacked</td><td>100% of cases</td><td>100% (10,000/10,000)</td><td>Match</td></tr>
+<tr><td>p_ointless range</td><td>runif(1,0,0.0499) &rarr; always &lt; .05</td><td>range ~0.00001&ndash;0.0499, always &lt; .05</td><td>Match</td></tr>
+<tr><td>Traditional p (hacked)</td><td>p = 0.049 &lt; .05</td><td>0.049 &lt; .05 = TRUE</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Method.</strong> The appendix supplies the function <code>simulation()</code> in which <code>p_ointless &lt;- runif(1,0,0.0499)</code> (always &lt; 0.05, hence always "publishable") is compared against a fixed <code>p &lt;- 0.049</code> (also &lt; 0.05, hence always "publishable"). The result is <code>mean(replicate(10000, simulation()))</code>.</p>
+<p><strong>Agreement.</strong> Exactly 100% congruence (10,000/10,000). The claim "the results of p_ointless and traditional p-hacked results are congruent in 100% of cases" is reproduced exactly.</p>
+<p><strong>Interpretation.</strong> The result is trivially true: both strategies always yield <i>p</i> &lt; .05, so they always agree. This is the article's satirical point (any procedure that always produces a significant result is "100% effective"). No empirical data is involved; the article is a demonstration/editorial.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P3).</strong> The "reproduction" confirms the arithmetic of the simulation, but the simulation is intentionally degenerate (both arms always significant by construction), so this is a satire demonstration rather than a substantive empirical result.</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R script: <code>hussey2529_repro.R</code>; captured output: <code>hussey2529_repro_output.txt</code> (in this folder). Code transcribed from the article's appendix.</p>
+</div>
+</body></html>
