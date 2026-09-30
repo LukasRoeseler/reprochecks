@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Williams Levels of Measurement (MP.2019.1916)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Williams (2021)</h1>
+<p class="sub">MP.2019.1916 &middot; <i>Meta-Psychology</i>, 5 &middot; doi:10.15626/MP.2019.1916 &middot; <i>Levels of measurement and statistical analyses</i></p>
+<p><span class="verdict reproduced">Reproduced</span></p>
+
+<h2>Package audited</h2>
+<p>Williams, M. N. (2021), <i>Meta-Psychology</i>, 5, MP.2019.1916 (doi: 10.15626/MP.2019.1916). Methods article on Stevens' levels of measurement, containing a fully-specified worked example (life satisfaction of four participants). Open data: N/A (illustrative example, no raw data); Open materials: N/A; Open and reproducible analysis: Yes (analysis reproduced by A. Kalmendal).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>This is a clean reproduction of the paper's worked example.</strong> The article's central illustrative claim - that a Student's <i>t</i> test on ordinal data produces different results depending on the (arbitrary) coding rule used, whereas the Mann-Whitney U test is invariant across monotonic transformations - reproduces <strong>exactly</strong> from the paper's own example data.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Coding rule 1: mean difference</td><td>2</td><td>2</td><td>Match</td></tr>
+<tr><td>Coding rule 1: Student's t</td><td>t(2) = 2.83, p = .106</td><td>t(2) = 2.8284, p = .1056</td><td>Match</td></tr>
+<tr><td>Coding rule 2: mean difference</td><td>1000.5</td><td>1000.5</td><td>Match</td></tr>
+<tr><td>Coding rule 2: Student's t</td><td>t(2) = 894.87, p &lt; .001</td><td>t(2) = 894.87, p &lt; .001</td><td>Match</td></tr>
+<tr><td>Mann-Whitney U (both rules)</td><td>p = .33 (identical)</td><td>W = 4, p = .3333 (both rules)</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Data.</strong> Pet owners: Hakim (very satisfied), Jeff (moderately satisfied); non-owners: Sarah (moderately dissatisfied), Ming (very dissatisfied). <strong>Coding rule one:</strong> very dissatisfied = 1, moderately dissatisfied = 2, moderately satisfied = 3, very satisfied = 4 (pet [4, 3]; non-pet [2, 1]; mean diff = 2). <strong>Coding rule two:</strong> very dissatisfied = 0, moderately dissatisfied = 1, moderately satisfied = 1000, very satisfied = 1002 (pet [1002, 1000]; non-pet [1, 0]; mean diff = 1000.5).</p>
+<p><strong>Methods.</strong> Student's <i>t</i> via <code>t.test(var.equal=TRUE)</code>; Mann-Whitney U via <code>wilcox.test</code>.</p>
+<p><strong>Agreement.</strong> All four reported statistics reproduce to the paper's rounding exactly: rule 1 <i>t</i>(2) = 2.83 (<i>p</i> = .106), rule 2 <i>t</i>(2) = 894.87 (<i>p</i> &lt; .001), and the Mann-Whitney U <i>p</i> = .33, identical across both coding rules. The article's central point - that parametric statistics on ordinal data are coding-rule-dependent while rank-based tests are invariant - is demonstrated exactly as reported.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P3).</strong> The worked example is a didactic illustration with n = 2 per group; the statistics are exact but the example is not an empirical study.</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R script: <code>williams1916_repro.R</code>; captured output: <code>williams1916_repro_output.txt</code> (in this folder). Data transcribed from the paper's worked example.</p>
+</div>
+</body></html>
