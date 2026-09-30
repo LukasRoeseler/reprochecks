@@ -1,0 +1,910 @@
+
+===== PAGE 1/20 =====
+Meta-Psychology, 2022, vol 6, MP.2020.2595, Open data: Not Applicable Edited by: Rickard Carlsson
+https://doi.org/10.15626/MP.2020.2595 Open materials: Yes Reviewed by: Sacha Epskamp, Ulrich Schimmack
+Article type: Tutorial Open and reproducible analysis: Yes Analysis reproduced by: Marco Lauriola
+Published under the CC-BY4.0 license Open reviews and editorial process: Yes All supplementary files can be accessed at the OSF project
+Preregistration: No page: https://doi.org/10.17605/OSF.IO/H9DV5
+A Tutorial in Longitudinal Measurement Invariance and
+Cross-lagged Panel Models Using Lavaan
+Sean P. Mackinnon
+Dalhousie University
+Robin Curtis Roisin M. O’Connor
+Dalhousie University Concordia University
+In longitudinal studies involving multiple latent variables, researchers often seek to pre-
+dict how iterations of latent variables measured at early time points predict iterations
+measured at later time points. Cross-lagged panel modeling, a form of structural equa-
+tion modeling, is a useful way to conceptualize and test these relationships. However,
+prior to making causal claims, researchers must first ensure that the measured con-
+structs are equivalent between time points. To do this, they test for measurement invar-
+iance, constructing and comparing a series of increasingly strict and parsimonious mod-
+els, each making more constraints across time than the last. This comparison process,
+though challenging, is an important prerequisite to interpretation of results. Fortunately,
+testing for measurement invariance in cross-lagged panel models has become easier,
+thanks to the wide availability of R and its packages. This paper serves as a tutorial in
+testing for measurement invariance and cross-lagged panel models using the lavaan
+package. Using real data from an openly available study on perfectionism and drinking
+problems, we provide a step-by-step guide of how to test for longitudinal measurement
+invariance, conduct cross-lagged panel models, and interpret the results. Original data
+source with materials: https://osf.io/gduy4/. Project website with data/syntax for the
+tutorial: https://osf.io/hwkem/.
+Keywords: cross-lagged panel; lavaan; measurement invariance; R; tutorial; perfection-
+ism; social anxiety
+The proliferation of R as a free and versatile pro- students with a basic understanding of R, confirma-
+gramming language and analytic tool, coupled with tory factor analysis, and structural equation model-
+the increasing power of modern computers, has ling, we seek to present the material in such a way
+made possible a great range of new statistical tests that parts of it may be useful to researchers at a
+for students and professionals across varied disci- range of levels. Readers unfamiliar with structural
+plines. However, the learning curve for R is steep, equation modelling might start with Ullman (2006),
+and many statistical topics are so specialized that which is a relatively accessible introduction.
+they lack coherent step-by-step guides with accom-
+panying syntax. This paper and its accompanying
+Measurement Invariance
+OSF page (https://osf.io/hwkem/) demonstrate
+the process of selecting, running, and evaluating
+Much of the time in psychology, we do not meas-
+cross-lagged panel models with the lavaan package
+ure the construct of interest directly, but rather in-
+in R, using real data from an open-access source.
+fer it through a series of items associated with it.
+While our target audience for this paper is graduate
+===== PAGE 2/20 =====
+2
+MACKINNON ET AL.
+Such constructs are called latent variables, such as the level of invariance. We can further subdivide MI
+drinking motives (Mackinnon et al., 2017) and per- according to four levels (Widaman & Reise, 1997;
+fectionism (Rice, Loscalzo, Giannini, & Rice, 2020).1 Widaman et al., 2010). The least stringent level of in-
+Confirmatory factor analysis (CFA) is a statistical variance, referred to as configural invariance, allows
+technique that allows us to test whether clusters of factor loadings, item intercepts, and residual vari-
+items in our measure are indeed reflective of the la- ances to vary across waves. This establishes that the
+tent construct to which we have assigned them. same factor structure applies across waves (i.e., the
+When studying constructs over time, we admin- same number of latent variables with the same items
+ister the same measurement instruments repeat- loading on each factor). The next level is metric –
+edly. To make logical claims about how latent varia- sometimes called weak2 – invariance and constrains
+bles change across time, we must first establish that factor loadings to equality across waves. This estab-
+our instruments are measuring the construct con- lishes that items do not become more (or less) rep-
+sistently over time. Measurement invariance (MI) is resentative of the latent construct at different
+upheld in a study when “participants across all [time measurement occasions. That is, as factor loadings
+periods] interpret the individual questions, as well get larger, they are stronger indicators of the latent
+as the underlying latent factor, in the same way" variable; metric invariance proposes that items do
+(Van de Schoot et al, pp. 1 - 2). If MI is not upheld, not vary in how representative they are of the con-
+then the nature of the latent construct changes from struct over time. The following level is scalar invari-
+over time, making comparisons across measure- ance, and constrains not only factor loadings, but
+ment occasions difficult. Since the proposal of MI as also item intercepts to equality across waves. Con-
+a concept thirty years ago (Byrne, Shavelson, and straining item intercepts to equality establishes that
+Muthen, 1989), researchers have considered MI an the mean levels of the underlying items themselves
+important quality to check for in longitudinal stud- do not vary significantly between time periods. That
+ies incorporating latent variables. In simpler terms, is, if scalar invariance is violated it means that the
+a fundamental problem in longitudinal measure- interpretation of the absolute value of a score
+ment is that the mere passage of time (or the act of changes as time goes on. It is analogous to how $100
+observing one’s own thoughts through repeated today does not have the same value as it did 100
+measurement) can sometimes change how people years ago. Using a psychological example, a lack of
+interpret questionnaire items. To make compari- scalar invariance might make it appear that means
+sons over time, we want MI to ensure that the na- are increasing over time when it is really that par-
+ture of the construct has not changed substantially ticipants are changing how they interpret the re-
+over time. sponse scale over time. The final level is residual in-
+To use CFA to test for MI, researchers first set up variance, and constrains factor loadings, item inter-
+a set of nested model comparisons; essentially, a se- cepts, and residual variances to equality across
+ries of CFA models with increasingly strict con- waves. Residual variance represents the degree to
+straints on equality over time. More strict and par- which the model deviated from the actual data due
+simonious models allow fewer parameters to vary to external factors. Fixing residual item variation to
+over time for the same latent construct. Broadly equality across waves therefore establishes that any
+speaking, the parameters we are concerned with external factors (e.g., unmeasured variables that are
+are: 1) factor loadings, which show how representa- changing over time and predicting variation in the
+tive each item is of its latent factor; 2) intercepts, measured latent construct) also display minimal
+which relate to the mean levels of each item; and 3) change over time (Van de Schoot et al., 2012).
+residual variances, which represent the other unex- Why does this matter? Without accounting for
+plained influences predicting item responses be- MI, researchers may misinterpret the causes behind
+sides latent variables. The most parsimonious model observed effects. For instance, in an investigation of
+that maintains adequate CFA fit indices determines student narcissism levels between the 1990s to
+1 These two papers also serve as good templates for re- hand, Widaman et al. (2012) and Wu et al. (2007) opt for
+porting measurement invariance results for a beginning the terms “weak,” “strong,” and “strict” in referring to the
+learner. same concepts.
+2 Terminology for model strictness can vary. In this pa-
+per, we follow Van de Schoot et al. (2012) in using the
+terms “metric,” “scalar,” and “residual.” On the other
+===== PAGE 3/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 3
+2010s, Wetzel et al. (2017) examined MI to check the is that the traditional cross-lagged panel model does
+validity of prior findings suggesting that narcissism not properly disentangle within-person processes
+is increasing among today’s youth (Twenge & Camp- (e.g., state-like, day-to-day change) from between-
+bell, 2009). In a three-wave model incorporating re- person processes (e.g., trait-like, stability from day-
+sponses from more than 50,000 students, Wetzel et to-day). As a result, traditional cross-lagged panel
+al. found nonequivalence in several aspects of the models can produce incorrect results for statistical
+measurement of narcissism on the Narcissistic Per- significance, which relationship is larger, and even
+sonality Inventory. Specifically, facets of leadership the sign/direction of the relationship (Hamaker et
+and vanity were not invariant, suggesting that stu- al., 2015)! As a potential solution to these issues,
+dents’ interpretations of questions pertaining to Hamaker et al. (2015; see also Mulder & Hamaker,
+these aspects were changing over time, a feature of 2020 for the extension to multiple indicators, as
+the data not previously acknowledged in Twenge & used in this paper) introduces the random inter-
+Campbell’s (2009) study. When accounting for this cepts cross-lagged panel model, which properly ac-
+partial nonequivalence, their model actually sug- counts for the stable, trait-like nature of many con-
+gested a decrease in narcissism over time. Checking structs. Thus, though the bulk of the paper will focus
+for MI is thus an important practice prior to inter- on the traditional cross-lagged panel model, we also
+preting longitudinal results. present code and interpretation for a random inter-
+cepts cross-lagged panel model.3
+Cross-lagged Panel Models
+MI in Cross-lagged Panel Models
+Another important aspect of longitudinal studies
+are directional effects between variables over time. When testing for MI in CLPMs, model complexity
+Researchers can use cross-lagged panel models and number of participants can also have an impact
+(CLPM) to investigate how well different variables on interpretations. The greater the number of waves
+predict future iterations of each other, helping to and items, the more complex the model will be, and
+make stronger causal claims by establishing tem- the greater the number of participants needed to fa-
+poral precedence (Cole and Maxwell, 2003). Results cilitate reliable testing. This is generally true of
+can sometimes help clarify the direction of relation- structural equation models in general (Kyriazos,
+ships in a way cross-sectional correlations cannot. 2018). The configural model estimates the greatest
+For example, Mackinnon (2012) found a small posi- number of parameters and is thus the least parsimo-
+tive correlation between perceived social support nious model. To simplify the problem of longitudinal
+and school grades cross-sectionally; however, a studies slightly in each wave, actual scores of par-
+cross-lagged panel model suggested that higher ticipants will differ somewhat from the model’s pre-
+grades led to more social support, rather than the diction, but the same participants are responding to
+reverse, contrary to common belief. This study used the measure each time, creating non-independence
+a three-wave design over several years, but diary of observations across waves. We model this non-
+studies using more waves over shorter time periods independence as a covariance between the residuals
+are also common (e.g., Sherry & Hall, 2009). of the same items among waves (see the annotated
+Cross-lagged panel models are one attempt to syntax file that accompanies this paper). It is a rea-
+make stronger causal claims with longitudinal data. sonable a-priori assumption to expect the magni-
+However, it is important to note that cross-lagged tude of covariances between residuals across waves
+panel models have been criticized quite early on to be similar. It is common for researchers to fix re-
+(e.g., Rogosa, 1980) and more recently by Hamaker, sidual covariance to equality across waves.4 Fixing
+Kuiper, & Grasman (2015). The crux of the criticism these values to equality is thus often theoretically
+3 Readers should also note that the random intercepts 4 Another common set of constraints used in longitudinal
+cross-lagged panel model requires a minimum of three data is an first-order autoregressive or AR(1) correlated
+measurement occasions, unlike the traditional cross- error structure. That is, a set of constraints that predict
+lagged panel model, which is identifiable with only two. the covariances will get smaller as the time lags increase
+(i.e., constructs measured more closely in time should be
+more strongly related).
+===== PAGE 4/20 =====
+4
+MACKINNON ET AL.
+justified and helps reduce the total number of pa- Method
+rameters estimated by the configural model (Cole
+and Maxwell, 2003)5. Prior to setting up and testing Dataset
+the final structural equation model, it is useful to
+Our study uses a simplified version of the dataset
+map out the predicted relationship between varia-
+published by Mackinnon et al. (2021). We first
+bles as figures.
+trimmed and reformatted the dataset to contain
+The dataset used in this study derives from a 21-
+only the variables of interest (see Appendix A). The
+day diary study investigating perfectionism, motiva-
+abridged dataset contains responses given by 251
+tions for drinking, and alcohol-related problems. It
+participants for two latent variables (PSP, composed
+is open-access, and all data are free to download at
+of three items; and SSA, composed of seven items)
+https://osf.io/hwkem/. For the purpose of this pa-
+across five days (days seven through eleven of the
+per, our key latent variables of interest are: 1) per-
+study). PSP items were measured using a 7-point
+fectionistic self-presentation (PSP), which (as oper-
+scale from 1 to 7. SSA items were measured using a
+ationalized in these data) measures an individual’s
+5-point scale from 0 to 4.
+desire to hide their imperfections; and 2) and state
+Beyond trimming the dataset to only the varia-
+social anxiety (SSA), which measures transitory feel-
+bles of interest, we also converted the data to wide
+ings of anxiety associated social situations. PSP was
+format (in which every participant receives a unique
+first proposed an aspect of perfectionism by Hewitt
+row, and each variable receives a unique column)
+et al. (2003), whereas SSA was proposed as measure
+from long format (in which every data point receives
+of social anxiety by Kashdan and Steger (2006). For
+a unique row, with participants and categorical var-
+a recent study using these data discussing the rela-
+iables recurring across rows) For a simple illustra-
+tion between PSP and SSA in more detail, please see
+tion of this pertaining to SSA and PSP values across
+Kehayes and Mackinnon (2019). To make the exam-
+days, see Figure 1. This format conversion aided in
+ple easier to follow we focus on only 5 of the 20 days
+setting up the code for our later models.
+perfectionistic self-presentation and social anxiety
+were measured (arbitrarily, days 7-11). Thus, in the
+present example we first (a) establish longitudinal
+measurement invariance over 5 days and then (b)
+test a cross-lagged panel model. In general, think of
+the measurement invariance portion as a necessary
+first step to proceed with hypothesis testing in the
+cross-lagged panel model. Though theory suggests
+that perfectionism would cause social anxiety rather
+than the reverse, we do not concern ourselves with
+formally testing confirmatory hypotheses in this pa-
+Figure 1. Examples of Wide Vs. Long Format in PSP
+per – even though the cross-lagged panel model
+and SSA Values Across Two Days
+would be the spot where hypotheses about direc-
+tionality of relationships are formally tested in a tra-
+Data Analysis Strategy
+ditional paper. Instead, we focus on the technical,
+analytical aspects with the goal of teaching readers This section describes our strategy for compar-
+how to conduct the analysis. ing and selecting models. Our goal was to compare
+nested versions of our CLPM, using CFA, to deter-
+mine the most appropriate parameters for our final
+structural model. We sought to use the simplest
+model (i.e., model estimating the fewest parameters)
+that maintained a good fit for our data, while also
+5 Note that measurement invariance between independ- ers interested in measurement invariance for independ-
+ent groups using multi-group modelling (e.g., comparing ent groups can take advantage of the measurementInvar-
+men, women, and nonbinary groups) is comparatively iance() function in lavaan for convenience functions that
+simpler than measurement invariance in the longitudinal are much shorter than the code in this tutorial
+context because of this correlated error structure. Read- (https://lavaan.ugent.be/tutorial/groups.html), even
+though the core principles are the same.
+===== PAGE 5/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 5
+making good theoretical sense. Because lavaan al-
+configural.v1 <-
+lows undefined parameters to vary freely by default,
+'
+simpler models are those with more constraints de-
+# PSP factor loadings defined
+fined; thus, somewhat counterintuitively, more par-
+simonious models appear more complicated in the
+PSP.7 =~ NA*psp1.7 + psp2.7 + psp3.7
+code. In constructing our models through lavaan, we
+PSP.8 =~ NA*psp1.8 + psp2.8 + psp3.8
+relied upon four key operators: 1) =~ , which is used
+PSP.9 =~ NA*psp1.9 + psp2.9 + psp3.9
+for factor loadings, and can be thought of as “is
+PSP.10 =~ NA*psp1.10 + psp2.10 + psp3.10
+measured by;” 2) ~ , which is used for regression for-
+PSP.11 =~ NA*psp1.11 + psp2.11 + psp3.11
+mulas, and can be thought of as “is regressed on;” 3)
+~~ , which is used for defining variance and residual
+# PSP variance constrained to 1
+covariance, and can be thought of as “varies with;”
+and 4) ~ 1, which is a special notation for defining in-
+PSP.7 ~~ 1*PSP.7
+tercepts. Within any given formula, labels may be as-
+PSP.8 ~~ 1*PSP.8
+signed to terms using the asterisk (*). Any items to
+PSP.9 ~~ 1*PSP.9
+which the same label is applied are fixed to equality
+PSP.10 ~~ 1*PSP.10
+in the model’s calculations. To better understand
+PSP.11 ~~ 1*PSP.11
+the full definitions of each model below, we recom-
+mend referring to Figures 2-5, which show simpli-
+# SSA factor loadings defined
+fied versions of each model with their respective
+constraints. It may also be useful to simultaneously
+SSA.7 =~ NA*ssa1.7 + ssa2.7 + ssa3.7 + ssa4.7 + ssa5.7 +
+follow along with our annotated code on our OSF
+ssa6.7 + ssa7.7
+page.
+SSA.8 =~ NA*ssa1.8 + ssa2.8 + ssa3.8 + ssa4.8 + ssa5.8
+Our approach involves five steps total: (a) config-
++ ssa6.8 + ssa7.8
+ural model; (b) metric model; (c) scalar model; (d) re-
+SSA.9 =~ NA*ssa1.9 + ssa2.9 + ssa3.9 + ssa4.9 + ssa5.9
+sidual model; and (e) structural model. Notably, in
++ ssa6.9 + ssa7.9
+the first four steps we use covariances (~~) rather
+SSA.10 =~ NA*ssa1.10 + ssa2.10 + ssa3.10 + ssa4.10 +
+than regressions (~) for relationships between vari-
+ssa5.10 + ssa6.10 + ssa7.10
+ables. In the fifth step, we do a true cross-lagged
+SSA.11 =~ NA*ssa1.11 + ssa2.11 + ssa3.11 + ssa4.11 +
+panel model where temporal directionality of rela-
+ssa5.11 + ssa6.11 + ssa7.11
+tionships is assumed (e.g., day 7 predicting day 8).
+This choice has no impact on the overall fit indices,
+# SSA variance constrained to 1
+but it is worth noting that the relationships between
+variables in the first four steps are more akin to bi-
+SSA.7 ~~ 1*SSA.7
+variate correlations (albeit, corrected for measure-
+SSA.8 ~~ 1*SSA.8
+ment unreliability), while the last step is the true test
+SSA.9 ~~ 1*SSA.9
+of hypotheses with paths allowing for stronger
+SSA.10 ~~ 1*SSA.10
+causal inferences than correlations by adjusting for
+SSA.11 ~~ 1*SSA.11
+past-day levels of each variable.
+'
+Configural Model. We began by defining our configu-
+configural.model <- paste(configural.v1, errorstruc-
+ral model. Excluding the correlated error structure, the
+ture, sep = ' ', collapse = NULL)
+full configural model is as follows:
+===== PAGE 6/20 =====
+6
+MACKINNON ET AL.
+Figure2
+Configural Model (2 days only).
+Note. Ovals represent the latent variables. Rectangles labeled represent the measured items, with their corresponding
+factor loadings shown as arrows to the latent variables. Triangles represent the item intercepts, and circles represent the
+residuals. Double-headed arrows represent covariances. In the configural model, we allowed factor loadings, item inter-
+cepts, and residual variances to vary freely across waves. The model tested in the tutorial uses 5 days of data; to reduce
+visual clutter, this diagram shows only the first two days of data.
+For this and all subsequent models, we first de- Note that in the code above, we use the ~~ oper-
+fined the factor loadings of our latent variables. By ator to correlate PSP.7 with itself, which effectively
+default in lavaan, the first factor loading for each la- defines its variance6, which we set to 1 with the op-
+tent variable would normally be constrained to 1, erator 1*. Though not shown in the code snippet
+whereas the variance of each latent variable would above, we also constrained our residual covariances
+be unconstrained. However, as a matter of prefer- to equality across waves, as justified in the previous
+ence, we invert these settings, allowing each latent section. We achieved this by assigning unique labels
+variable’s first factor loading to vary freely, achieved (e.g., “psp1cov”) to the defined covariance parame-
+through the “NA*” in the code above, while con- ters of each residual across all days in the study, for
+straining the variance of each latent variable to 1, example:
+achieved through the addition of the code below. By
+# Here “psp1cov” is a label, while “psp1.7” and
+overriding this default setting, we can more easily
+“psp1.8” are variables.
+constrain the factor loadings to equality in later
+psp1.7 ~~ psp1cov*psp1.8
+models.
+6 This seems unintuitive but makes sense when you con- “covarying something with itself” refers to the cell on the
+sider that lavaan works with variance-covariance matri- diagonal, or the variance for that variable.
+ces, which places variances on the diagonal. Thus,
+===== PAGE 7/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 7
+The final part of the code using “paste” merely labels (e.g., “psp1f*”) to all five iterations of each fac-
+combines two vectors of characters together (i.e., tor (e.g., “psp1.7”, “psp1.8”, etc.) within our factor
+the error structure and the configural model). Be- loading definition section, for example:
+cause the correlated error structure is 108 lines of
+code, it would be tedious to re-write this every time.
+# Here “psp1f”, “psp2f”, and “psp3f” are labels, while
+Thus, we instead save the error structure as an ob-
+the terms to the right of these labels are variables.
+ject named “errorstructure” and append it to each
+PSP.7 =~ psp1f*psp1.7 + psp2f*psp2.7 + psp3f*psp3.7
+model to make the code shorter.
+PSP.8 =~ psp1f*psp1.8 + psp2f*psp2.8 + psp3f*psp3.8
+Having defined our model, we used it to run our
+first CFA using the code below:
+In the code snippet above, you might read it as: “PSP
+items psp1.7, psp2.7 and psp3.7 (i.e., items from day
+configural.fit <- cfa(configural.model,
+7) all load on the latent factor called PSP.7. PSP items
+data = model.test.dat,
+psp1.8, psp2.8 and psp3.8 (i.e., items from day 8) all
+estimator = "MLR",
+load on the latent factor called PSP.8. The factor
+se = "robust",
+loadings for psp item 1 at both day 7 and day8 is given
+missing = "ML",
+the label ‘psp1f’. Since they have the same label, they
+std.lv = TRUE)
+are constrained to be equal to each other.”
+Note that for this and all future analyses, we added
+the line “std.lv = TRUE.” This automatically fixes the
+variance of factors to 1, rather than their factor load-
+ings, which is the default setting in lavaan. Because
+we will be predicting good model fits after imposing
+equality of factor loadings in our testing of measure-
+ment invariance, it is better to fix factor variance to
+1 in this manner. As for the other code statements:
+“data = model.test.dat” calls our dataset for use in
+the model; “estimator = ‘MLR’” sets our model’s esti-
+mation method to maximum likelihood estimation
+with robust standard errors; “se = ‘robust’” similarly
+implements robust standard errors in the estima-
+tion; “missing = ‘ML’” implements full information
+maximum likelihood estimation for missing data.
+Standard practice for comparing nested models dic-
+tates that investigators establish increasingly strict
+levels of invariance, stopping once a model fails to
+display adequate fit criteria. In our Results section,
+we discuss our model fit indices in more detail.
+Within this section, however, we will simply
+acknowledge whether fit criteria were met and
+move on to test all 4 levels of invariance for peda-
+gogical purposes.
+Metric Model. Having found evidence for config-
+ural invariance in our latent variables, we moved on
+to check for metric invariance. In this model, in ad-
+dition to the constraints applied to our configural
+model, we constrained factor loadings to equality
+across waves. We achieved this by assigning unique
+===== PAGE 8/20 =====
+8
+MACKINNON ET AL.
+Figure 3
+Metric Model (2 days only).
+Note. In our metric model, we fixed factor loadings to equality across waves, as shown by letters A – J (and matching
+colors) in this simplified diagram. Factor loadings that share the same letter and color are constrained to equality. The
+model tested in the tutorial uses 5 days of data; to reduce visual clutter, this diagram shows only the first two days of data.
+Scalar Model. We then moved on to check for
+scalar invariance. In this model, in addition to the
+constraints applied to our metric model, we fixed
+item intercepts to equivalence across waves. We
+achieved this by applying a single label (e.g., psp1i) to
+all five iterations of an item’s intercept. For example:
+# Here psp1i is a label, while the 1 refers to the in-
+tercept of the variable on the left side of the ~.
+psp1.7 ~ psp1i*1
+psp1.8 ~ psp1i*1
+===== PAGE 9/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 9
+Figure 4
+Scalar Model (2 days only).
+Note. In our scalar model, we additionally fixed item intercepts to equality across waves, as shown by letters K-T (and
+matching colors) in this diagram. Intercepts that share a letter and color are constrained to equality. The model tested in
+the tutorial uses 5 days of data; to reduce visual clutter, this diagram shows only the first two days of data.
+the models and compared their fit indices using the
+Residual Model. Finally, we applied our most rig- code below:
+orous set of constraints in our residual model. In this
+round(cbind(configural.error=inspect(configural.fit,
+model, in addition to the constraints applied to our
+'fit.measures'),
+scalar model, we constrained the residual error of
+metric=inspect(metric.fit, 'fit.measures'),
+each factor to equality across waves. Once again, we
+scalar=inspect(scalar.fit, 'fit.measures'),
+did this by applying the same label (e.g., “psp1u”) to
+residual=inspect(residual.fit,
+each iteration of a given residual across waves. For
+'fit.measures')),3)
+example:
+anova(configural.fit, metric.fit)
+# Here “psp1u” is a label, while “psp1.8” is a variable. anova(metric.fit, scalar.fit)
+psp1.7 ~~ psp1u*psp1.7 anova(scalar.fit, residual.fit)
+psp1.8 ~~ psp1u*psp1.8
+Here, the inspect() function extracts the fit indices
+Model Selection. Having thus defined our nested from the specified models, the cbind() function
+models, we next compare all of their fit indices at places each extracted item into a dataframe, and the
+once and select the best candidate for our subse- round(…,3) function rounds all values to three deci-
+quent structural equation model (SEM). We grouped
+===== PAGE 10/20 =====
+10
+MACKINNON ET AL.
+mal places. The anova() functions are a shorter ver-
+sion to get key statistics: AIC, BIC, and a chi-squared
+difference test. We discuss the fit indices and selec-
+tion process in the next section. After selecting our
+residual model as our preferred choice, we set up
+and ran our SEM. In addition to the constraints of
+our residual model, our SEM defined regression
+paths between our latent variables, using simple la-
+bels to fix them across days (see Figure 6).
+SSA.8 ~ A*SSA.7 + C*PSP.7
+PSP.8 ~ D*SSA.7 + B*PSP.7
+Figure 5
+Residual Model (2 days only).
+Note. In our residual model, we additionally fixed residual variances to equality across waves, as shown by letters U-DD
+(and matching colors) in this diagram. Residual variances that share a letter and color are constrained to equality. The
+model tested in the tutorial uses 5 days of data; to reduce visual clutter, this diagram shows only the first two days of data.
+===== PAGE 11/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 11
+Bayesian information criterion (BIC) are compara-
+tive fit measures. They provide an independent
+Results
+value for assessing each model’s fit, which makes
+most sense when compared between models. The
+Fit Indices
+lower the value, the better the fit, with differences
+The fit indices7 for each of our four models (con- of 6 or greater typically constituting strong evidence
+figural, metric, scalar, and residual) are shown in Ta- of model difference (Raftery, 1995). Both use a likeli-
+ble 1. Number of estimated parameters is self-ex- hood function in conjunction with the number of es-
+planatory. For the sake of model parsimony, we timated parameters and the sample size to assess
+sought to estimate the fewest possible number of model fit, with BIC implementing a slightly higher
+parameters, while still using a model that maintains penalty for more complex models. Due to this dif-
+a good fit for our data. ference, AIC values preferred our scalar model,
+The Comparative Fit Index (CFI) and Tucker whereas BIC values preferred our residual model in
+Lewis Index (TLI) compare the given proposed Table 1.
+model to the null model. Both prioritize the average Log-likelihood ratio tests (sometimes called “chi-
+correlation of variables within the proposed model, squared difference tests”) are also a popular way to
+and their results are highly correlated. However, TLI compare models, though they tend to be overly sen-
+places an additional emphasis on model parsimony, sitive in the same ways the chi-squared test for
+implementing a modest penalty for each additional model fit is. The log-likelihood ratio test compares
+estimated parameter. These fit indices are nega- the loglikelihood of two models and produces a test
+tively biased, meaning that the resultant value for statistic that has a χ2 distribution when the null hy-
+poor-fitting models tends to be lower. For both CFI pothesis is true. A statistically significant p-value in-
+and TLI, values between .90 and .95 are considered dicates that the less parsimonious model should be
+marginally acceptable, whereas values above .95 are chosen. A non-significant p-value suggests that we
+considered good. Cheung & Rensvold (2002) suggest should default to the most parsimonious model. In
+that a ΔCFI of -.01 or more suggests that the model Table 1, the loglikelihood ratio test prefers the met-
+with the largest CFI should be chosen; otherwise, ric model.
+prefer the more parsimonious model. Using this cri-
+Model Comparison
+terion, the residual model would be preferred.
+On the other hand, two popular positively biased
+As shown in Table 1, the fit indices for each of our
+(meaning the lower the value, the better the fit)
+models were generally favorable, but due to the dif-
+measures of fit are the Root Mean Square Error of
+ferences in index calculations just described, differ-
+Approximation (RMSEA) and the Standardized Root
+ent indices preferred different models. In case of
+Mean Square Residual (SRMR). The RMSEA applies a
+such potential conflicts, we therefore recommend
+penalty for model complexity according to the ratio
+the researcher decide which model aspect they
+between the chi-square and degrees of freedom.
+deem most important (e.g., goodness of fit, number
+Models with fewer degrees of freedom are penalized
+of estimated parameters, sample size), and decide a
+more strongly, and values of .06 to .08 or lower gen-
+priori which fit index to use to determine their final
+erally indicate an acceptable level of fit. SRMR,
+model. For a more in-depth (but challenging) review
+meanwhile, calculates the difference between the
+of these issues, see Lin, Huang, & Weng (2017). We
+observed correlation and predicted correlation,
+tend to prefer ΔBIC as an a-priori criterion, but
+with no penalty for model complexity. As with
+there is a great deal of variability among different
+RMSEA, SRMR values should be no greater than .08.
+analysts on this point. Failing this, you might choose
+To our knowledge, these are not commonly used for
+the model recommended most often out of the 4
+nested model comparisons, though it is important
+choices (loglikelihood ratio, AIC, ΔBIC, ΔCFI). While
+than any final selected model still fit well by this cri-
+we are not formally hypothesis testing in this paper,
+terion. The Akaike information criterion (AIC) and
+we chose to continue with the model with the best
+7 This paper does not seek to fully explain the mathemat- view of the features prioritized by each. For a more sub-
+ics behind each fit index, but rather to give a brief over- stantive description of fit indices, and for a list of further
+reading, please see Kenny (2015).
+===== PAGE 12/20 =====
+12
+MACKINNON ET AL.
+BIC score (the residual model). Given that it was not provided in the Appendix, within Tables A1, A2, and
+significantly worse than our scalar model by most A3, respectively.
+common metrics, our residual represented the best
+trade-off between model fit and model complexity.
+Factor loadings, unstandardized intercepts, and un-
+standardized residual variances for each model are
+Table 1
+Nested Model Fit Indices
+Model
+Configural Metric Scalar Residual
+No. of Estimated Parameters 205 165 125 85
+Raw Loglikelihood -12632 -12651 -12685 -12741
+Δ χ2, p-value N/A 54.829, .059 67.585, .004 67.151, .005
+Robust CFI 0.953 0.952 0.950 0.946
+Raw AIC 25674 25633 25619 25652
+Δ AIC N/A -41 -14 +33
+Raw BIC 26397 26215 26060 25951
+Δ BIC N/A -182 -155 -109
+Robust RMSEA 0.048 0.048 0.048 0.049
+SRMR 0.054 0.058 0.059 0.059
+Note. Bold font indicates preferred model/s according to index. Chi-square difference test (i.e., log likelihood ratio tests)
+values are calculated between the current column model and the preceding column model – e.g., the value listed for the
+metric model column compares the metric model to the configural model. AIC and BIC are calculated as the difference
+from the preceding model – e.g., the residual model AIC is 33 greater than the scalar model AIC, while the scalar model is
+14 less than metric AIC.
+we do not explore this further (as this is an idiosyn-
+Structural Model for Traditional CLPM cratic feature of this sample dataset, rather than the
+general approach most people would be taking), but
+Using the constraints defined in our residual
+it is worth mentioning – it probably means that the
+model, we conclude by testing the structural model.
+relationships of interest are not confined to a 1-day
+In this model, we estimate regressions instead of co-
+time lag, and that they can influence relationships
+variances. We also include only relationships from
+on a longer time frame. This model had R2 values
+time t to time t+1. That is, relationships from time t
+ranging from .38 to .63. Figure 6 shows our latent
+to t+2, t+3 and so on are omitted. One may wish to
+variables across the five days, and 95% confidence
+include these as well, but for pedagogical purposes
+intervals for the path values. As shown in the figure,
+here we will focus only on these pathways and will
+previous-day perfectionistic self-presentation
+constrain relationships between variables at time
+strongly predicted next-day perfectionistic self-
+lags greater than +1 to be zero. This model fit the
+presentation. Similarly, previous-day social anxiety
+data ok, but the model fit is worse relative to the CFA
+strongly predicted next-day social anxiety. Mean-
+model, χ2(1276) = 2139, p < .001, Robust CFI = 0.93,
+while, each latent variable’s cross-lagged path pre-
+Robust TLI = 0.93, RMSEA = 0.05, SRMR = 0.23. No-
+dicting the opposite variable was weaker but still
+tably, the SRMR index suggests considerably worse
+non-zero and statistically significant. This kind of
+fit than the other measures here. This probably
+pattern (large autoregressive paths, small cross-
+means we should investigate whether more paths
+lagged paths) is typical of most cross-lagged panel
+should be added (e.g., the cross-lagged paths from
+models with adequate statistical power.
+time t to time t+1). For brevity’s sake in this tutorial,
+===== PAGE 13/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 13
+Figure 6
+Structural Model for the Traditional Cross-lagged Panel Model.
+Note. Day-to-day paths were fixed to equality. All paths and covariances are shown as unstandardized 95% confidence
+intervals. Much is omitted from this diagram, including the factor loadings and correlated error structure that is depicted
+in Figures 2-5. All pathways are statistically significant at p < .05.
+Excepting the chi-squared statistic and SRMR,
+Random Intercepts Cross-Lagged Panel Model this model fit the data reasonably well, χ2(1225) =
+1884, p < .001, Robust CFI = 0.94, Robust TLI = 0.94,
+Though the above summarizes the traditional
+RMSEA = 0.05, SRMR = 0.16. Figure 8 shows the 95%
+cross-lagged panel model approach, we will also
+CIs for the path coefficients of interest. Here, we
+briefly review the multiple indicator random inter-
+have a different pattern of results. The auto-regres-
+cepts cross-lagged panel model described by
+sive paths now represent within-person carry-over
+Mulder & Hamaker (2020). This model makes four
+effects (Mulder & Hamaker, 2020). For perfection-
+primary changes: (a) the correlated residual struc-
+istic self-presentation, when people experience ele-
+ture is omitted; (b) random intercepts are specified
+vated perfectionism scores relative to their own ex-
+for each indicator; (c) the random intercepts are al-
+pected score, they are more likely to experience el-
+lowed to covary together; (d) the latent means for all
+evated perfectionism scores relative to their own
+latent variables from the second time point onwards
+expected score at the next occasion as well. In com-
+are freed8. See Figure 7 for a visual depiction of this
+parison, within-person carry-over effects were in-
+model. Please note that the RI-CLPM can only be es-
+conclusive (i.e., non-significant) for social anxiety.
+timated with 3 or more time points; the diagram in
+Moreover, the cross-lagged paths now suggest that
+Figure 7 is for pedagogical purposes and presents
+perfectionistic self-presentation predicts increases
+only two time points due to the practical require-
+in social anxiety over time, but not the reverse. In-
+ments of creating an image with a font size large
+terestingly, this result is more in line with theoreti-
+enough to read! See the online supplementary ma-
+cal predictions in this research area.
+terials for the statistical syntax of the full model.
+8 Mulder & Hamaker (2020) note “…if we would not freely strong factorial invariance, but also specify a model in
+estimate the latent means, we would not only specify which there cannot be mean changes over time” (pg. 8).
+===== PAGE 14/20 =====
+14
+MACKINNON ET AL.
+Figure 7
+The Random-Intercepts Cross-Lagged Panel Model (2 days only).
+Note. This model adds random intercepts (RI1-RI10; red), covariances between the random intercepts (orange), and frees
+the latent means from the second time point onwards (i21 and i22; blue). Please note that the RI-CLPM can only be esti-
+mated with 3 or more time points; this diagram is for pedagogical purposes and presents only two time points to ensure
+the font size is still legible.
+===== PAGE 15/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 15
+Figure 8
+Coefficients of Interest for the Random Intercepts Cross-Lagged Panel Model.
+Note. Day-to-day paths were fixed to equality. All paths and covariances are shown as unstandardized 95% confidence
+intervals. Much is omitted from this diagram, including the factor loadings and random intercepts that are depicted in
+Figure 7. Black solid lines are statistically significant at p < .05. Grey dotted lines are non-significant p > .05.
+Discussion they will use when determining their final model. It
+is worth noting that the structural models had poor
+To re-cap, we used confirmatory factor analysis fit based on the SRMR index, which is probably due
+to test two related variables for measurement invar- to constraining some paths to zero that still evince
+iance across five waves, using four increasingly re- a positive relationship. If this were an a-priori crite-
+strictive nested models: configural, metric, scalar, rion used for assessing model fit in a research paper,
+and residual. After selecting our residual model as you would need to investigate the source of this
+the simplest that maintained good fit, we applied its misfit further. Remember, SRMR differs from RMSEA
+constraints to a structural equation model, allowing insomuch as it has no penalty for model complexity;
+us to quantify the cross-lagged relationships of our to the extent that you value model parsimony in
+two variables across days. model selection, you might prefer to use RMSEA as
+Interestingly, not all our fit indices preferred the your selection tool instead.
+same model. The loglikelihood ratio tests preferred In our case, the final model conformed to the
+the metric model, as this test tends to prefer less strictest level of measurement invariance. However,
+parsimonious models. Meanwhile, our CFI preferred in some studies, this will not be the case. Scalar in-
+the residual model based on Cheung & Rensvold’s variance is typically sufficient for general data anal-
+(2002) criteria. AIC preferred the scalar model, due ysis, as it indicates that participants do not vary
+to its higher parsimony coupled with good overall greatly across waves in the ways they interpret and
+fit. On the other hand, BIC, our final deciding crite- answer questions. However, should only metric in-
+rion, placed a higher emphasis on parsimony, and variance be upheld, researchers must qualify any
+therefore preferred our residual model. There are subsequent results by acknowledging that, although
+two main take-away points here. First, the relatively the latent factors are loaded similarly across waves,
+good fits of all of our models across indices suggest individual interpretations of the items may change
+that our theoretical reasons for investigating this over time. For more examples of this, see Steenkamp
+relationship between variables were most likely & Baumgartner (1998). It is also worth noting that
+sound. Second, while researchers may wish to re- this method for testing MI in CLPMs works best on
+port multiple fit indices in their papers, it is im- models with a low to moderate number of waves. For
+portant that they decide beforehand which index a 20-day diary study, it may be more pragmatic for
+===== PAGE 16/20 =====
+16
+MACKINNON ET AL.
+researchers to instead implement multi-level mod- Roisin O’Connor assisted with editing the writing
+elling techniques or multilevel structural equation in the manuscript and editing/reviewing the tuto-
+modelling. rial materials.
+Though the present tutorial dataset is ill-suited
+for examining differences in latent means, it is worth
+Open Science Practices
+noting that scalar invariance is often a preliminary
+step towards examining differences between means.
+That is, most substantive research questions on lon-
+gitudinal data are not about the measurement invar-
+iance per se, but rather about regression/covari-
+ance and mean differences over time. Though longi-
+tudinal latent mean differences are beyond the This article earned the Open Materials badge for
+scope of this tutorial, readers interested in learning making the materials openly available. It is a tutorial
+more might read Bishop, Christian & Cole (2015) for that used data from a published study, and as such
+three approaches for modelling latent growth has no (new) collected data. It was not pre-regis-
+curves with multiple indicators. Moreover, Breitsohl tered. It has been verified that the analysis repro-
+(2019) is an excellent tutorial for converting com- duced the results presented in the article. The entire
+mon experimental designs (e.g., ANOVA) to SEM editorial process, including the open reviews, is
+frameworks. published in the online supplement.
+Author Contact
+References
+Correspondence concerning this article should
+be addressed to Sean P. Mackinnon. Email: mackin-
+non.sean@dal.ca. Bishop, J., Geiser, C., & Cole, D. A. (2015). Modeling
+http://orcid.org/0000-0003-0921-9589 latent growth with multiple indicators: A
+comparison of three approaches. Psycho-
+logical Methods, 20(1), 43-62.
+Conflict of Interest and Funding
+https://doi.org/10.1037/met0000018
+Breitsohl, H. (2019). Beyond ANOVA: An introduction
+The authors have no conflict of interest to de-
+to structural equation models for experi-
+clare. The data used for this tutorial was collected
+mental designs. Organizational Research
+with the help of a Social Sciences and Humanities
+Methods, 22(3), 649-677.
+Research Council Insight Development Grant
+https://doi.org/10.1177/1094428118754988
+[#430-2016-00805].
+Byrne, B. M., Shavelson, R. J., & Muthen, B. O. (1989).
+Testing for equivalence of factor covariance
+and mean structures: The issue of partial
+Author Contributions
+measurement invariance. Psychological Bul-
+letin, 105(3), 456-466.
+Authors are in order of most to least contribu-
+https://doi.org/10.1037/0033-
+tion.
+2909.105.3.456
+Sean Mackinnon took the lead role in conceptu-
+Cheung, G. W., & Rensvold, R. B. (2002). Evaluating
+alizing the tutorial, supervised Robin’s work as part
+goodness-of-fit indexes for testing meas-
+of his Ph.D. comprehensives, edited the first draft
+urement invariance. Structural Equation
+manuscript and code, wrote original sections, cre-
+Modeling, 9(2), 233-255.
+ated the figures, analyzed the data with the Random
+https://doi.org/10.1207/S15328007SEM09
+Intercepts CLPM.
+02_5
+Robin Curtis created the majority of the R Syntax
+Cole, D., & Maxwell, S. (2003). Testing mediational
+and online appendices for our OSF page, excluding
+models with longitudinal data: Questions
+the Random Intercepts model. He also took a lead
+and tips in the use of structural equation
+role in writing the first draft of the manuscript.
+modeling. Journal of Abnormal Psychol-
+ogy, 112(4), 558-577.
+===== PAGE 17/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 17
+https://doi.org/10.1037/0021- Mackinnon, S. P., Ray, C. M., Firth, S. M., & O’Connor,
+843X.112.4.558 R. M. (2021). Data from “Perfectionism, Neg-
+Hamaker, E. L., Kuiper, R. M., & Grasman, R. P. (2015). ative Motives for Drinking, and Alcohol-Re-
+A critique of the cross-lagged panel model. lated Problems: A 21-day Diary Study”. Jour-
+Psychological Methods, 20(1), 102-116. nal of Open Psychology Data, 9: 1, pp. 1–6.
+http://dx.doi.org/10.1037/a0038889 doi: https://doi.org/10.5334/jopd.44
+Hewitt, P. L., Flett, G. L., Sherry, S. B., Habke, M., Par- Mulder, J. D., & Hamaker, E. L. (2020). Three exten-
+kin, M., Lam, R. W., ... Stein, M. B. (2003). The sions of the random intercept cross-lagged
+interpersonal expression of perfection: Per- panel model. Structural Equation Modeling,
+fectionistic self-presentation and psycho- 1-11.
+logical distress. Journal of Personality and https://doi.org/10.1080/10705511.2020.178
+Social Psychology, 84(6), 1303–1325. 4738
+10.1037/0022-3514.84.6.1303. Raftery, A. (1995). Bayesian model selection in social
+Kashdan, T., & Steger, M. (2006). Expanding the to- research. Sociological Methodology, 25, 111-
+pography of social anxiety: An experience- 163. https://doi.org/10.2307/271063
+sampling assessment of positive emotions, Rice, S. P., Loscalzo, Y., Giannini, M., & Rice, K. G.
+positive events, and emotion suppression. (2020). Perfectionism in Italy and the USA:
+Psychological Science, 17(2), 120-128. Measurement invariance and implications
+https://doi.org/10.1111/j.1467- for cross-cultural assessment. European
+9280.2006.01674.x Journal of Psychological Assessment, 36,
+Kehayes, I.-L. L., & Mackinnon, S. P. (2019). Investi- 207-211.
+gating the relationship between perfection- https://doi.org/10.1027/1015-
+istic self-presentation and social anxiety us- 5759/a000476
+ing daily diary methods: A replication. Colla- Rogosa, D. (1980). A critique of cross-lagged corre-
+bra: Psychology, 5(1), 33. lation. Psychological Bulletin, 88(2), 245–258.
+https://doi.org/10.1525/collabra.257 https://doi.org/10.1037/0033-
+Kenny, D. A. (2015). Measuring Model Fit. 2909.88.2.245
+http://www.davidakenny.net/cm/fit.htm Sherry, S., & Hall, P. (2009). The perfectionism model
+Kyriazos, T. (2018) Applied psychometrics: sample of binge eating: Tests of an integrative
+size and sample power considerations in model. Journal of Personality and Social Psy-
+factor analysis (EFA, CFA) and SEM in gen- chology, 96(3), 690-709.
+eral. Psychology, 9, 2207-2230. https://doi.org/1010.1037/a0014528
+https://doi.org/10.4236/psych.2018.98126. Steenkamp, J., & Baumgartner, H. (1998). Assessing
+Lin, L. C., Huang, P. H., & Weng, L. J. (2017). Selecting measurement invariance in cross-national
+path models in SEM: A comparison of model Consumer Research. Journal of Consumer
+selection criteria. Structural Equation Mod- Research, 25(1), 78-107.
+eling, 24, 855-869. https://doi.org/10.1086/209528
+https://doi.org/10.1080/10705511.2017.136 Twenge, J. M., & Campbell, W. K. (2009). The narcis-
+3652 sism epidemic: Living in the age of entitle-
+Mackinnon, S. (2012). Perceived social support and ment. New York, NY: Atria.
+academic achievement: Cross-lagged panel Ullman, J. B. (2006). Structural equation modeling:
+and bivariate growth curve analyses. Journal Reviewing the basics and moving forward.
+of Youth and Adolescence, 41(4), 474-485. Journal of Personality Assessment, 87(1), 35-
+https://doi.org/10.1007/s10964-011-9691-1 50.
+Mackinnon, S. P., Couture, M-E., Cooper, M. L., Van de Schoot, R., Lugtig, P., & Hox, J. (2012). A
+Kuntsche, E., O’Connor, R. M., Stewart, S. H., checklist for testing measurement invari-
+& the DRINC Team. (2017). Cross-cultural ance. European Journal of Developmental
+comparisons of drinking motives in 10 coun- Psychology, 9(4), 486-492.
+tries: Data from the DRINC Project. Drug https://doi.org/10.1080/17405629.2012.68
+and Alcohol Review, 36, 721-730. 6740
+https://doi.org/10.1111/dar.12464.
+===== PAGE 18/20 =====
+18
+MACKINNON ET AL.
+Wetzel, E., Brown, A., Hill, P., Chung, J., Robins, R., &
+Roberts, B. (2017). The narcissism epidemic
+is dead; long live the narcissism epidemic.
+Psychological Science, 28(12), 1833-1847.
+https://doi.org/10.1177/0956797617724208
+Widaman, K., Ferrer, E., & Conger, R. (2010). Factorial
+invariance within longitudinal structural
+equation models: Measuring the same con-
+struct across time. Child Development Per-
+spectives, 4(1), 10-18.
+https://doi.org/10.1111/j.1750-
+8606.2009.00110.x
+Widaman, K. F., & Reise, S. P. (1997). Exploring the
+measurement invariance of psychological
+instruments: Applications in the substance
+use domain. In K. J. Bryant, M. Windle, & S.
+G. West (Eds.), The science of prevention:
+Methodological advances from alcohol and
+substance abuse research (pp. 281–324).
+Washington, DC: American Psychological
+Association.
+===== PAGE 19/20 =====
+A TUTORIAL IN LONGITUDINAL MEASUREMENT INVARIANCE AND CROSS-LAGGED PANEL MODELS USING LAVAAN 19
+Appendix A: Supplementary Tables
+Table A1
+Factor Loadings
+Configural Metric Scalar Residual
+psp1 0.84 - 0.88 (1.62 - 1.75) 0.86 (1.68) 0.63 (1.68) 0.86 (1.68)
+psp2 0.93 - 0.96 (1.89 - 2.08) 0.95 (1.99) 0.90 (1.99) 0.95 (1.98)
+psp3 0.89 - 0.92 (1.73 - 1.96) 0.91 (1.87) 0.89 (1.87) 0.91 (1.86)
+ssa1 0.85 - 0.90 (1.01 - 1.06) 0.87 (1.04) 0.87 (1.04) 0.87 (1.04)
+ssa2 0.87 - 0.92 (1.11 - 1.18) 0.90 (1.14) 0.90 (1.14) 0.90 (1.14)
+ssa3 0.89 - 0.93 (1.11 - 1.21) 0.91 (1.16) 0.90 (1.15) 0.90 (1.15)
+ssa4 0.85 - 0.94 (1.03 - 1.12) 0.90 (1.13) 0.90 (1.13) 0.90 (1.13)
+ssa5 0.85 - 0.91 (1.06 - 1.15) 0.88 (1.12) 0.88 (1.12) 0.88 (1.11)
+ssa6 0.72 - 0.81 (0.87 - 0.99) 0.75 (0.93) 0.75 (0.93) 0.75 (0.92)
+ssa7 0.60 - 0.67 (0.64 - 0.75) 0.62 (0.68) 0.62 (0.68) 0.63 (0.68)
+Note. Values are formatted as “standardized (unstandardized).” Value ranges (min-max) are provided for the configural
+model because factor loadings varied by day. For the latter three models, factor loadings were constrained to equality
+across days. However, for the metric and scalar models, standardized factor loading scores still fluctuated very slightly
+across days, because variances differed across days. This will be typical in most real data. Therefore, arithmetic mean
+values are provided for standardized scores in the metric and scalar models, just for ease of presentation in the table. In
+the residual model, residual error was also constrained to equality across days, which resulted in no fluctuation of stand-
+ardized scores.
+Table A2
+Unstandardized Intercepts
+Configural Metric Scalar Residual
+psp1 3.63 - 3.94 3.63 - 3.94 3.75 3.76
+psp2 3.49 - 3.74 3.49 - 3.75 3.64 3.64
+psp3 3.28 - 3.66 3.28 - 3.66 3.47 3.48
+ssa1 1.53 - 1.64 1.53 - 1.64 1.60 1.61
+ssa2 1.39 - 1.56 1.39 - 1.56 1.52 1.52
+ssa3 1.31 - 1.53 1.31 - 1.53 1.44 1.44
+ssa4 1.40 - 1.64 1.40 - 1.64 1.54 1.54
+ssa5 1.31 - 1.47 1.32 - 1.47 1.41 1.41
+ssa6 1.09 - 1.23 1.09 - 1.23 1.16 1.16
+ssa7 0.97 - 1.10 0.97 - 1.10 1.01 1.02
+Note. Ranges are provided for the configural and metric models, for which intercepts varied by day. For the latter two
+models, intercepts were fixed across days.
+===== PAGE 20/20 =====
+20
+MACKINNON ET AL.
+Table A3
+Unstandardized Residual Variances.
+Model
+Configural Metric Scalar Residual
+psp1 0.89 - 1.11 0.87 - 1.11 0.89 - 1.12 1.00
+psp2 0.34 - 0.57 0.33 - 0.57 0.34 - 0.57 0.44
+psp3 0.67 - 0.80 0.68 - 0.82 0.67 - 0.80 0.74
+ssa1 0.26 - 0.38 0.26 - 0.38 0.26 - 0.38 0.33
+ssa2 0.23 - 0.40 0.23 - 0.40 0.23 - 0.40 0.31
+ssa3 0.22 - 0.35 0.22 - 0.35 0.22 - 0.36 0.30
+ssa4 0.18 - 0.41 0.18 - 0.41 0.18 - 0.41 0.30
+ssa5 0.27 - 0.44 0.26 - 0.44 0.27 - 0.44 0.37
+ssa6 0.54 - 0.76 0.53 - 0.76 0.54 - 0.76 0.66
+ssa7 0.68 - 0.77 0.68 - 0.76 0.68 - 0.77 0.73
+Note. In the residual model, residual error was constrained to equality across days. For all other models, the range of
+values across the five days is provided.

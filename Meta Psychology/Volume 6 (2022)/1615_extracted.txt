@@ -1,0 +1,1098 @@
+
+===== PAGE 1/15 =====
+Meta-Psychology,2022,vol6,MP.2019.1615 Opendata:NotApplicable Editedby:FelixD.Schönbrodt
+https://doi.org/10.15626/MP.2019.1615 Openmaterials:Yes Reviewedby:WilliamsM.,Dienes,Z.
+Articletype:Originalarticle Openandreproducibleanalysis:Yes Analysisreproducedby:CounsellA.,Batinovi´cL.
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/6WPN4
+Testing ANOVA Replications by Means of the
+Prior Predictive p-Value.
+M.A.J. Zondervan-Zwijnenburg
+Department of Methodology & Statistics, Utrecht University, The Netherlands
+A.G.J. van de Schoot
+Department of Methodology & Statistics, Utrecht University, The Netherlands; Optentia
+Research Program, North-West University, South Africa
+H.J.A. Hoijtink
+Department of Methodology & Statistics, Utrecht University, The Netherlands
+Abstract
+In the current study, we introduce the prior predictive p-value as a method to test replication of an analysis of
+variance(ANOVA).Thepriorpredictive p-valueisbasedonthepriorpredictivedistribution. Ifweusetheoriginal
+study to compose the prior distribution, then the prior predictive distribution contains datasets that are expected
+given the original results. To determine whether the new data resulting from a replication study deviate from the
+datainthepriorpredictivedistribution,weneedtocalculateateststatisticforeachdataset. Weproposetouse F¯,
+whichmeasurestowhatdegreetheresultsofadatasetdeviatefromaninequalityconstrainedhypothesiscapturing
+the relevant features of the original study: H . The inequality constraints in H are based on the findings of the
+RF RF
+original study and can concern, for example, the ordering of means and interaction effects. The prior predictive
+p-value consequently tests to what degree the new data deviates from predicted data given the original results,
+consideringthefindingsoftheoriginalstudy. Weexplainthecalculationofthepriorpredictive p-valuestepbystep,
+elaborate on the topic of power, and illustrate the method with examples. The replication test and its integrated
+power and sample size calculator are made available in an R-package and an online interactive application. As
+such, the current study supports researchers that want to adhere to the call for replication studies in the field of
+psychology.
+Keywords: ANOVA,comparisonofmeans,poweranalysis,priorpredictive p-value,replicationstudy
+Introduction the latest “crisis in confidence” in the field of psychol-
+ogy, the call to conduct replication studies is stronger
+than ever (Anderson & Maxwell, 2016; Asendorpf et
+New studies conducted to replicate earlier original
+al., 2013; Cumming, 2014; Earp & Trafimow, 2015;
+studiesareoftenreferredtoasreplicationstudies. After
+===== PAGE 2/15 =====
+2
+Ledgerwood, 2014; Open Science Collaboration, 2012, theexactrelevantfeaturestobeevaluated. However,if
+2015; Pashler & Wagenmakers, 2012; Schmidt, 2009; there is reason to test another feature, it is possible to
+Verhagen & Wagenmakers, 2014), and large replica- let the relevant features deviate from the claims in the
+tion projects such as the Reproducibility Project Psy- original study. The relevant features of original studies
+chology (Open Science Collaboration, 2015), Repro- willbecapturedintheformofaninformativehypothe-
+ducibility Project: Cancer Biology (RP:CB) (Errington sis (Hoijtink, 2012), which is specified using inequality
+et al., 2019), and Many Labs projects (Ebersole et al., constraintsamongthemeansoftheANOVAmodel. We
+2016; Klein et al., 2014; Klein et al., 2018) have been propose to evaluate the replication of these hypotheses
+launched. Asaresult,methodologyonconductingrepli- withthepriorpredictive p-value(Box,1980).
+cationstudieshasreceivedincreasingattention(seefor The prior predictive p-value was not introduced to
+example Anderson and Maxwell, 2016; Asendorpf et testreplication. Itwasoriginallypresentedasamethod
+al., 2013; Brandt et al., 2014; Schmidt, 2009). There to test whether the current data is unexpected given
+is, however, no standard methodology to determine priorexpectationsconcerningtheparametervaluesofa
+whetherareplicationissuccessfulornot(OpenScience statisticalmodel. Adisadvantageofthepriorpredictive
+Collaboration,2015). check to test model fit is that it is leaves undetermined
+whetherthepriorexpectationsabouttheparameterval-
+Theresultsofanoriginalstudyarereplicatedwhena
+uesorthemodelassumptionsareincorrect. Hence,asa
+new study corroborates the original findings. A com-
+modeltestthepriorpredictivecheckhasbeenreplaced
+mon and intuitive method to assess whether a result
+bytheposteriorpredictivecheck(Gelmanetal.,1996),
+is replicated is ‘vote-counting’. Vote-counting is assess-
+whichdoesnotmakepriorassumptionsaboutexpected
+ing whether the new effect is statistically significant
+parametervalues,butinsteadusestheposteriorresults
+and in the same direction as the significant effect in
+giventhecurrentdata.
+the original study (Anderson & Maxwell, 2016; Simon-
+Withrespecttotestingreplication,however,theprior
+sohn,2015). Vote-counting,however,hasseriousshort-
+predictive check is a good method for three reasons.
+comings. First of all, it is a dichotomous evaluation
+First, instead of non-empirical prior expectations, we
+that does not take into account the magnitude of dif-
+use the posterior distribution of the model parameters
+ferences between effect-sizes of the original and new
+given the original data as the prior distribution. Con-
+study (Asendorpf et al., 2013; Simonsohn, 2015). Sec-
+sequently, we have a well-founded and clear-cut prior.
+ondly,eachoftheeffectsizesbeingsignificantdoesnot
+Second, the prior predictive check uses a distribution
+imply that both effect sizes are the same, nor does one
+of datasets (i.e., the prior predictive distribution) that
+significant effect and one non-significant effect imply
+are expected given the prior (i.e., the posterior of the
+that both effects are different (Gelman & Stern, 2006;
+originalstudy). Inthismanner,thepriorpredictivedis-
+Nieuwenhuis et al., 2011). Stated otherwise, vote-
+tributiontakesintoaccountthatresultsinanewdataset
+countingdoesnotformallytestwhetheraresultisrepli-
+- resulting from a replication study - may deviate from
+cated(Anderson&Maxwell,2016;Verhagen&Wagen-
+theoriginalresultsbecauseofrandomvariationinstead
+makers,2014). Thirdly,underpoweredreplicationstud-
+of meaningful differences. According to our definition,
+ies are less likely to replicate significance, which can
+a study replicates if the new dataset is drawn from the
+leadtomisleadingconclusions(Asendorpfetal., 2013;
+samepopulationastheoriginaldataset. Third,theprior
+Cumming, 2008; Hedges & Olkin, 1980; Simonsohn,
+predictive check uses a ‘relevant checking function’ for
+2015).
+whichweproposeF¯ (Silvapulle&Sen,2005,p. 38-39).
+Inthecurrentstudy,weaddressthefollowingreplica- ThestatisticF¯ capturesthedeviancefromaconstrained
+tionresearchquestion: “Doesthenewstudyfailtorepli- hypothesis that we base on the findings of the origi-
+caterelevantfeaturesoftheoriginalstudy?”. Forexam- nal study. As a result, we can check whether the new
+ple, the result of an original ANOVA study is: Group study significantly fails to replicate relevant features of
+A > Group B > Group C. The finding can be: “Group theoriginalstudy,whiletakingvariationintoaccount.
+A performs better than group B, which performs better
+than group C”; “Group A performs better than group B
+and C”; or “Group A and B perform better than group
+C”. The ‘relevant features’ subordinate to the replica-
+tion test always have to be in line with the original re-
+sult (i.e., Group A > Group B > Group C) for the test
+to function properly. If the purpose of the replication
+test is to put the proclaimed theory by the original to
+thetest,thentheclaimsoftheoriginalstudydetermine
+===== PAGE 3/15 =====
+3
+1elbaT
+mehTsserddAotsdohteMdnasnoitseuQhcraeseRnoitacilpeR
+ecnerefeR
+gnitteS
+dohteM
+snoitseuQralimiSdnaydutStnerruCnoitseuQhcraeseRnoitacilpeR
+ydutstnerruC
+AVONA,tset-t
+eulav-p
+evitciderproirP
+?ydutslanigiroehtfoserutaeftnaveleretacilperotliafydutswenehtseoD
+)6102(llewxaMdnanosrednA
+noitalerroc,tset-t
+-reffidroflavretniecnedfinoC
+?ydutslanigiroehtfoezistceffeehtetacilperotliafydutswenehtseoD
+sezistceffeniecne
+)6102(.latelitaP
+noitalerroc
+lavretninoitciderP
+)6102(llewxaMdnanosrednA
+tset-t
+tsetecnelaviuqE
+?ydutslanigiroehtfoezistceffeehtetacilperydutswenehtseoD
+)4102(srekamnegaWdnanegahreV
+tset-t
+rotcafseyaB
+)8102(smraH
+AVONA
+rotcafseyaB
+)8102(.lateyL
+asledomFB
+rotcafseyaB
+ecnerefeR
+gnitteS
+dohteM
+snoitseuQhcraeseRnoitacilpeRrehtO
+)7102(.latenamsraM
+bnoitalerroc,tset-t
+rotcafseyaB
+?ydutsnoitacilperehtnitnesbarotneserptceffeehtsI
+)5102(nhosnomiS
+ctset-t
+tsetepocseleT
+?eziselbatcetedafonoitalupopehtnids’nehoCsI
+)5102(noitaroballoCecneicSnepO
+noitalerroc,tset-t
+-reffidroflavretniecnedfinoC
+?ydutswenehtotnosirapmocniemertxeezistceffelanigiroehtsI
+sezistceffeniecne
+)6102(llewxaMdnanosrednA
+tset-t
+-reva
+rof
+lavretni
+ecnedfinoC
+?noitalupopehtnids’nehoCsitahW
+ezistceffeega
+)7102(nessAnaVdnatreAnaV
+tset-t
+sisylana-atemdirbyH
+?noitalupopehtni)saibnoitacilbuprofdetcerroc(ezistceffeehtsitahW
+.detupmocebnacrotcafseyaBahcihwrofsledomllAa
+.sngisedlatnemirepxenommoctsomotsezilareneg)8102(.lateyLybnoitazilautpecnocerehTb
+.detcudnocebnacsisylanarewopahcihwrofledomynaotelbacilppatub,gnittestset-tehtnidenialpxesitsetepocseletehTc
+===== PAGE 4/15 =====
+4
+Table 1 shows how our research question and pro- wherethedensityofthedata
+posedmethodrelatetootherreplicationresearchques-
+tionsandassociatedmethodsthathavebeenproposed. (cid:89)J (cid:89)njo 1 −(yijo−µjo)2
+Our method addresses a question similar to that in An- f(y o|µ o,σ2 o)= √ e 2σ2 o (3)
+2πσ
+j=1 i=1 o
+derson and Maxwell (2016), Harms (2018), Ly et al.
+(2018),VerhagenandWagenmakers(2014)andPatilet andthestandardpriordistribution,
+al.(2016),butnowenablesresearcherstoevaluatethe
+replication of relevant features of an original ANOVA 1
+h(µ ,σ2)∝ , (4)
+study. ThebottompanelofTable1showsotherreplica- o o σ2
+o
+tion research questions that will not be pursued in this
+thatis,auniformprioronthemeansandJeffrey’sprior
+paper. The reader interested in these questions, should
+on the variance. The prior distribution for the analysis
+consultthegivenreferences.
+of the original data is uninformative, that is, the poste-
+Thegoalofthispaperistointroducethepriorpredic-
+rior distribution is completely determined by the orig-
+tive p-value as a method to test replication of relevant
+inal data in order to match the results of the original
+features of original ANOVA studies. In the first section,
+study. If the original study used a Bayesian analysis,
+weprovideastepbystepintroductionofthepriorpre-
+the priors should match those of the original study in
+dictive p-value as included in the ANOVAreplication
+ordertoreproducetheoriginalstudyresults. Giventhe
+R-package and the online interactive application (see
+observed original results, the prior distribution for fu-
+osf.io/6h8x3). In the second section, we discuss the
+ture parameters h(µ ,σ2) = h(µ ,σ2 ) = g(µ ,σ2|y ).
+statistical power of the prior predictive p-value. In the r r sim sim o o o
+With the prior predictive p-value, we then test H :
+third section, we explain how to use and interpret the 0
+µ ,σ2 ∼ h(µ ,σ2). H states that µ ,σ2 follow the dis-
+priorpredictive p-valuebymeansofaworkflow. Inthe r r r r 0 r r
+tributionofthepriorforµ ,σ2. Looselyformulated, H
+fourth section, we use several studies from the Repro- r r 0
+states that the parameters in the new data are in line
+ducibility Project Psychology (Open Science Collabora-
+withourexpectationsgiventheoriginalresults.
+tion, 2012) to demonstrate the use of the prior predic-
+TotestH ,weobtaindatasetsthataretobeexpected
+tive p-value. Thepaperendswithadiscussionandcon- 0
+given the original data. Using this prior we simulate
+clusionsection.
+data y thataretobeexpectedgiventheresultsofthe
+sim
+originalstudy:
+PriorPredictive p-Value
+(cid:90)
+TheevaluationofthereplicationofanANOVAstudy f(y sim)= f(y sim|µ sim,σ2 sim)h(µ sim,σ2 sim)dµ sim,σ2 sim),
+by means of the prior predictive p-value (Box, 1980) (5)
+consistsofthreestepsthatwillbeexplainedbelow. where f(y ) is the prior predictive distribution of the
+sim
+data. Note that f(y |µ ,σ2 ) is the counterpart of
+sim sim sim
+Step1: PriorPredictiveDistributionoftheData Equation 3 for dataset sim instead of o. Datasets yt
+sim
+for t = 1,...,T, where T denotes the number of samples
+TheANOVAmodelisgivenby: from the prior predictive distribution, are obtained by
+sampling µt ,σt from h(µ ,σ ) = g(µ ,σ |y ), and
+y ijd =µ jd+(cid:15) ijd (1) subsequents li ym simsim ulating yt sim fromsim f(y |µo t ,o σto ) (cf.
+sim sim sim sim
+(cid:15)
+ijd
+∼N(0,σ2 d), Equation 3). Datasets yt
+sim
+have sample sizes n 1r,...,n Jr,
+becausethepredicteddataneedstobecomparedtothe
+wherey ijd isobservationi=1,...,n jd ingroup j=1,...,J newdata y r thathassamplesizesn 1r,...,n Jr.
+for dataset d ∈ {o,r,sim}, where o denotes the original The steps in the following sections elaborate how
+data,rdenotesthenewdata,andsimdenotessimulated new data y r can be compared to the T data matrices
+data, the latter will be introduced towards the end of sampled from f(y sim) that are to be expected given H 0
+this section. Furthermore, µ is the mean of group j using a test-statistic that evaluates relevant features of
+jd
+in dataset d, (cid:15) is the error term, and σ2 is the pooled theoriginaldata.
+ijd d
+varianceoverall J groups.
+Step2: TestStatisticEvaluatingRelevantFeatures
+TheoriginalANOVAresultscanbesummarizedinthe
+posterior distribution of the parameters: g(µ o,σ2 o|y o), We propose to use F¯ (Silvapulle & Sen, 2005, p. 38-
+whereµ o =[µ 1o,...,µ Jo]and y o includesallobservations 39) as a test-statistic to evaluate how much the pre-
+y ijo: dicted data and the observed data deviate from an in-
+g(µ ,σ2|y )∝ f(y |µ ,σ2)h(µ ,σ2), (2) equality constrained hypothesis capturing the relevant
+o o o o o o o o
+===== PAGE 5/15 =====
+5
+featuresoftheoriginalstudy H : which H is to be evaluated. For example, an orig-
+RF RF
+inal study shows that y¯ < y¯ < y¯ . This finding
+RSS −RSS 1o 2o 3o
+F¯ y d = d,HRF S2 d,Hu, (6) m (µay ,µlea )d <t µo H oR rF: Hµ 1 :d µ< <µ 2 (d µ< ,µµ 3d ), . b Wu ht ica hlso ext ao ctH feR aF -:
+d 1d 2d 3d RF 1d 2d 3d
+tures should be covered in H can be guided by the
+RF
+where RSS d,Hu denotes the residual sum of squares in conclusions of the original study. For example, if in the
+dataset d ∈ {r,sim} for the unrestricted hypothesis H u: originalstudyitisconcludedthatatreatmentcondition
+µ 1d,...,µ Jd, leads to better outcomes than two control conditions,
+the most logical specification of the relevant features
+(cid:88)
+RSS = (y −y¯ )2, (7) is H : (µ ,µ )< µ . Alternatively,
+d,Hu ijd jd RF controlAd controlBd Treatmentd
+ij if in the original study it is concluded that treatment
+A is better than treatment B, which is better than the
+wherey¯ denotesthemeanforgroup jindatasetd. S2 control condition, a logical relevant feature hypothesis
+jd d
+denotesthemeansquarederror, would be: H : µ > µ > µ . It
+RF TreatmentAd TreatmentBd Controld
+mayalsooccurthattheresearcherconductingtherepli-
+S2 = RSS d,Hu, (8) cation test has an interest to evaluate a claim that is
+d N−J not in the original study, but could be made based on
+its results. In all cases, the researcher conducting the
+where N = (cid:80)J n ,and replicationtestshouldsubstantiatethechoicesmadein
+jr
+j=1 the formulation of H RF with results from the original
+study. Itisgoodpracticetoalsopre-register H . Inthe
+RF
+(cid:88)
+RSS = (y −µ˜ )2, (9) ExamplesSection,wedemonstratefortwostudieshow
+d,HRF ijd jd
+the original study is linked to H . First, however, we
+ij RF
+explainhowthepriorpredictive p-valueiscalculated.
+where
+Step3: p-value
+(cid:88)
+µ˜ d =[µ˜ jd,...,µ˜ Jd]=argmin (y ijd−µ jd)2. (10) The third and final step is to compute the prior pre-
+µ˜ d∈HRF ij dictivep-value. WhenwecalculateF¯
+yt
+foreachdataset
+sim
+yt obtained in Step 1 with respect to F¯ as defined
+µ˜ thus contains the set of parameter estimates that sim
+d in Step 2, a sampling-based representation of the prior
+minimize the residual sum of squares for y under the
+constraintsimposedby H RF. F¯
+y
+isthescaledd difference predictive distribution of the test statistic f(F¯ y sim) is ob-
+d tained. Consequently,
+between the residual sum of squares under the con-
+s fotr ra yint us nim dep ro Hsed
+.
+Ab sy HH RF isa un nd rt eh se trir ce ts ei dd ,u Fa ¯lsu qm uao nf tis fiq eu sa tr he es p= P(F¯ ysim ≥ F¯ y r|H 0)= (11)
+d u u y d 1 (cid:88)T
+mis Tfi ht eo hf yy pd ow thit eh sisH cR aF. pturingtherelevantfeaturesofthe T t=1 I(F¯ yt sim ≥ F¯ y r),
+original data, H , is of the form Rµ > 0, where R is a
+RF d where H denotes “Replication”, that is: H : µ ,σ2 ∼
+K×Jrestrictionmatrix,Jdenotesthenumberofgroups 0 0 r r
+h(µ ,σ2). Furthermore, I is an indicator function that
+intheANOVAstudy,andK thenumberofrestrictionsin r r
+takes on the value 1 if the argument is true and 0 oth-
+H ,whileµ isthemeanvectoroflength J.
+RF d erwise.
+Examples of constraints that can be applied under
+AsillustratedinFigure1,thepriorpredictive p-value
+Rµ >0are:
+r indicates how exceptional the observed statistic for the
+• S foim rapl pe ao irrd j,er j(cid:48).constraints: µ jd > µ j(cid:48)d, or µ jd < µ j(cid:48)d ibn sue Pw
+ti (o
+Fd ¯nat fa (F, ≥¯F y¯
+s
+Fiy ¯mr ),
+.
+|i Hs Thc )o
+e
+,m
+ts
+hhp aaa tdr ie
+e
+sd
+d
+,tt
+a
+ho
+r
+eei at ps
+ro
+ip onr ri to
+h
+pr
+e
+rep
+r
+dr ie
+g
+icd
+h
+ti
+t
+ic vst ei iv
+d
+pe
+e
+-vd
+o
+ai fs lut F¯r eyi-
+r
+.
+• Interactioneffects: (µ ABd -µ AB(cid:48)d)>(µ A(cid:48)Bd -µ A(cid:48)B(cid:48)d), If they psim rior py rr ed0 ictive p-value is significant, we reject
+fora2×2contingencytable.
+replicationoftherelevantfeaturesoftheoriginalstudy
+by the new data. Note that the focus is on rejecting
+The constraints in H should be based on the find-
+RF
+replication of the original results and not on rejecting
+ings of the original study, which implies and requires
+H initselfforthenewstudy.1
+that H is always in agreement with the results of the RF
+RF
+original study (i.e., F¯ y
+o
+= 0). The results of the orig- 1TotestH RFwerecommendHoijtinketal.(2019),Vanbra-
+inal study alone are usually not enough to determine bantetal.(2015).
+===== PAGE 6/15 =====
+6
+F
+yd
+ycneuqerF
+0 10 20 30 40
+0052
+0002
+0051
+0001
+005
+0
+( )
+f F
+ysim
+F
+yr
+prior predictive p−value
+Figure1. Anillustrationofthepriorpredictive p-value.
+(cid:82)
+Uniformity. To determine the significance of a p- f(F¯ )dF¯ = α, which completes
+value by comparing it to some preselected value α, the
+F¯ ysim>F¯ ysim,1−α y sim y sim
+theproof.
+p-value needs to be uniformly distributed if H is true.
+0
+Onlywhenthep-valueisuniform,αisequaltothenom-
+With constraints of the form Rµ > 0, however,
+inal Type I error. We will demonstrate that this is true r
+f(F¯ )willoftenbediscrete. When f(F¯ )isdiscrete,
+f ao nr dth ite isp tr rio ur ep ur ped toic sti ov me ep- αval iu fe f(i Ff ¯f(F )¯ y is sim d) ii ss cc reo tn et .inuous, they psim rior predictive p-value is not unifoy rs mim for all α ∈
+0 y sim [0,1]. Forexample, letusobtaing(µ ,σ2|y )=h(µ ,σ2)
+A p-valueisuniformif: o o o r r
+foranoriginalstudywithy¯ =1,y¯ =2,y¯ =3,s2 =5,
+1o 2o 3o o
+and n = 50, with n = 50 and H : µ < µ < µ .
+P(p≤α|H )≤αforallα∈[0,1], (12) jo jr RF 1r 2r 3r
+0 Subsequently, we simulate yt for t = 1,...,100,000, and
+r
+wherepdenotesap-valuefrom f(p|H 0),thatis,thenull- calculate the prior predictive p-value for each yt r. The
+distributionofthe p-values. result is f(p|H 0), which is plotted in Figure 2a. In Fig-
+The following three steps proof that Equation 12 ure 2a, we see a thick vertical line that indicates a set
+holds for the prior predictive p-value when f(F¯ ) is of p-values with exactly the same value, namely 1.00.
+y
+continuous: sim This set of equal p-values results from the fact that
+H : µ < µ < µ is true for a substantial number
+RF 1r 2r 3r
+1. iP s(p the< teα s| tH -s0 t) at= istiP c( rF¯ ey nr d> eriF n¯ gy sim p,1− vα i| aH 0 p), =w Ph (e F¯re
+y
+F¯ >y r o eqf ud aa lta tose 0ts ay nt r dc ta hu esi an sg soth cie ata es dso pc ri ia ot red prF e¯ dyt r ict to ivb ee p-e vx aa lc ut ely
+s
+F¯ y |H 0) and F¯ y ,1−α is the 1-αth percentile ofsim the tobeexactlyequalto1(seeFigure2b). Generally,how-
+disr
+tribution
+f(Fs¯im
+y sim|H 0). ever, there exists an α 0 for which f(p|H 0) is uniform
+2. P(F¯ > F¯ |H ) =
+(cid:82)
+f(F¯ |H )dF¯ ,
+(Meng, 1994), since all values in f(F¯ ysim) other than 0
+y r y sim,1−α 0 F¯ yr>F¯ ysim,1−α y r 0 y r will occur in a continuous fashion. Thus, α is uniform
+where f(F¯ |H )denotesthedistributionofF¯ un- for α ∈ [0,α ]. If the preselected α < α , α is equal
+y 0 y 0 0
+r r
+der H . to the nominal Type I error. α can be computed as
+0 0
+1− P(f(F¯ ) = 0). For example, α ≥ .05 if no more
+y 0
+3. For the situations considered in this pa- than 95% s oim f F¯ is exactly 0. It would be exceptional
+y
+per it holds (cid:82) that f(F¯ y r|H 0) = f(F¯ y sim), if more than 95si %m of F¯ y = 0, but it could occur with
+therefore F¯ yr>F¯ ysim,1−α f(F¯ y r|H 0)dF¯ y r = extremelylowpowerintsi hm eoriginalstudyandanunspe-
+===== PAGE 7/15 =====
+7
+p
+ycneuqerF
+0.0 0.2 0.4 0.6 0.8 1.0
+00006
+00004
+00002
+0
+Fyr
+(a) f(p|H ).
+0
+ycneuqerF
+0 5 10 15 20 25
+00006
+00004
+00002
+0
+(b) f(F¯ ).
+ysim
+Figure2. Uniformityofthepriorpredictive p-valuefor H RF: µ 1r <µ 2r <µ 3r.
+cific H . Avisualizationof f(F¯ )canhelptoroughly SimulationStudy
+RF ysim
+estimate α . For the discrete f(F¯ ) considered here
+53%of f(F¯0 )=0andα =.47(Fiy gsim ure2b). Toillustratethepowerofthepriorpredictive p-value,
+y sim 0 weconductedasimulationstudyinwhichwevariedthe
+In the next section, we deal with another important
+effect size in the original study f , the sample size for
+property of null hypothesis significance testing meth- o
+theoriginalstudyn ,thesamplesizeforthenewstudy
+ods: Power. jo
+n , the relevant feature of interest H , and the popu-
+jr RF
+lation under the alternative hypothesis H as specified
+Power a
+inTable2. Foreachcellinthesimulationstudy,10,000
+Power is the probability to reject the null hypothesis samplesweredrawnfromH andpowerwascalculated
+a
+(ofreplication)withapreselectedαwhennotthenull, accordingtoEquation13.
+but an alternative hypothesis is true. Researchers typ- The results of the simulation study are provided in
+ically pursue a power of .80. Let us denote power by Table 3. As expected, power generally increases with
+γ. increasing effect sizes, increasing sample sizes, and in-
+γ= P(p<α|H ), (13) creasingdeviationbetween y o and H a. Thereare, how-
+a
+ever,someexceptions: Withsmall f andlown ,larger
+= P(F¯ > F¯ |H ), o jo
+y r y sim,1−α a n jr onlyemphasizethenoiseintheoriginalstudymore
+where H is the population under the alternative hy- and do not lead to an increase in power. Similarly,
+a
+pothesis for which replication is to be rejected. Note a more specific H RF does not always increase power.
+thatanypopulationforwhichH isnottruecanqualify Givenoriginalstudieswithsmallersamplesandsmaller
+0
+torejectreplication. Thepopulationusedisdetermined effectsizes,h(µ ,σ2)issouninformativethatmorespe-
+r r
+by the theoretical context in which the replication test cific H RF are only more inaccurate under H 0, and F¯ y
+r
+takesplace. Thepopulationwithµ =....=µ isaspe- needstobeextremelylargetorejectthenull.
+1a Ja
+cial population that is generally considered to display Table 3 also shows that the power on the edge (i.e.,
+a non-effect in ANOVA studies. Hence, µ
+1a
+= .... = µ
+Ja
+the power for H a1) is insufficient for original studies
+seemsanaturaldefaultchoiceforthepopulationunder with small and medium effect sizes (γ < .60 in all
+thealternativehypothesis. Asabestguessforµ jaandσ2
+a
+cells). With medium f o, power is only sufficient if the
+inapoweranalysis,thegrandmeany¯ andvarianceσ2 new study originates from a population in which the
+o o
+oftheoriginalstudycanbeused. Thepopulationunder means are ordered differently (e.g., H a2). For original
+the alternative hypothesis with µ = .... = µ is on the studies with large effect sizes and group sample sizes
+1a Ja
+edgeofH : itdeviatesminimallyfromH ,hence,the in the original studies with at least 50 participants per
+RF RF
+associated γ will be a lower limit. Power will increase group, power can be sufficient under H a1. Power levels
+when the population under the alternative hypothesis off, however, for H RF1 and H RF2 at .67, and .83 respec-
+is more different from H RF than in the population with tively. Underµ 1a =µ 2a =µ 3a,H RF1: µ 1r <(µ 2r,µ 3r)istrue
+equalmeans,forexample,whenthemeansareordered in 1 of the situations by chance. Consequently, power
+3
+differently. cannotexceed1−1 =.67. ForH : µ <µ <µ , 1 of
+3 RF2 1r 2r 3r 6
+===== PAGE 8/15 =====
+8
+Table2
+SimulationSampleStatisticsforOriginalStudyandPopulationValuesunder H
+a
+y H
+o a
+f y¯ y¯ y¯ s2 f µ µ µ σ2
+o 1o 2o 3o o a 1a 2a 3a a
+.10 -0.12 0.00 0.12 1.00 0 0.00 0.00 0.00 1.00
+.25 -0.31 0.00 0.31 1.00 .10 0.00 -0.24 0.00 1.00
+.40 -0.49 0.00 0.49 1.00
+Note. Effect size f as introduced by Cohen (1988, p. 274-275).
+Othersimulationfactors: n ∈20,50,100. H : µ <(µ ,µ ),H : µ <µ <µ .
+jd RF1 1d 2d 3d RF2 1d 2d 3d
+Table3
+Power
+H |H H |H H |H H |H
+RF1 a1 RF2 a1 RF1 a2 RF2 a2
+n n n n
+jr jr jr jr
+f n 20 50 100 20 50 100 20 50 100 20 50 100
+o jo
+.10 20 .03 .01 .00 .02 .00 .00 .11 .08 .05 .08 .04 .02
+.10 50 .08 .06 .03 .06 .04 .02 .21 .31 .36 .19 .22 .28
+.10 100 .11 .12 .10 .09 .10 .08 .26 .45 .62 .25 .39 .52
+.25 20 .13 .10 .06 .09 .05 .01 .33 .40 .45 .25 .26 .23
+.25 50 .25 .32 .37 .20 .26 .26 .48 .73 .88 .43 .62 .81
+.25 100 .30 .46 .57 .29 .44 .55 .54 .83 .96 .53 .79 .94
+.40 20 .32 .41 .41 .27 .26 .21 .59 .78 .89 .49 .64 .75
+.40 50 .49 .66 .67 .45 .68 .83 .74 .93 .98 .69 .93 .99
+.40 100 .55 .66 .67 .57 .83 .83 .77 .93 .97 .77 .98 .99
+Textincellswithγ≥.80isboldface.
+TextincellswithamaximumγinrelationtothespecificH |H isitalic.
+RF a
+the combinationsunder H are inline withreplication ishardorevenimpossible.
+a1
+by chance. Hence, power cannot exceed 1− 1 = .83. If Underpowered original studies may result in non-
+6
+we move further from the edge of H RF, as we do with significant prior predictive p-values that have a high
+H a2,powerincreases. Thus,thepowerofthepriorpre- probability of being Type II errors (Morey & Lakens,
+dictive p-value considering an H RF with three or fewer 2019). Therefore, only reporting the prior predictive
+order constraints will almost never be high if the true p-value is not enough, the probability of a Type II er-
+means are equal, but can be high if there is a different ror (i.e., 1-γ) given the population under the alterna-
+orderinginrealityascomparedtotheonein H RF. tive hypothesis should be communicated to the reader
+as well. The next section elaborates on the computa-
+The results demonstrate that imprecise estimates
+tionofpowerandtherequiredsamplesizeforsufficient
+(i.e.,largestandarderrorsleadingtoalowinformative
+statistical power. The Workflow and Examples sections
+prior)intheoriginalstudyleadtolowpower,especially
+explain how researchers should incorporate prior pre-
+on the edge of H . This is as true for the prior predic-
+RF
+dictive p-values and power. One of the examples will
+tive p-value as it is for other approaches. For example,
+alsodemonstraterejectedreplicationdespitelowpower
+in a classical ANOVA study with three groups with 20
+ontheedgeof H .
+participants each, power is <.10, <.40, and <.80 for 0
+small,medium,andlargeeffectsizesrespectively;are-
+sult that was already pointed out in Cohen (1988, p. PowerandSampleSizeDetermination
+313). Zondervan-Zwijnenburg and Rijshouwer (2020)
+demonstrates the application of different methods to Ashighlightedintheprevioussectionsandinthelit-
+evaluate replication, within the context of small sam- erature (e.g., Brandt et al., 2014; Simonsohn, 2015),
+ples. Not a single method is unaffected by small sam- power is an important characteristic of a convincing
+ple sizes. As highlighted by Morey and Lakens (2019) replication study. It is thus important that researchers
+andPatiletal.(2016): Replicationcanonlyberejected can calculate the power of the prior predictive check,
+based on the findings of the original study, and when and can determine the sample size for a new study
+these findings are highly imprecise due to large stan- such that the replication test has high statistical power.
+dard deviations and small sample sizes, rejecting them Therefore, the ANOVAreplication R-package and the
+===== PAGE 9/15 =====
+9
+online interactive application (see osf.io/6h8x3) in- Workflow
+cludeapowerandsamplesizecalculator.
+Toclarifytheproceduretoobtainthepriorpredictive
+Given the vector with group sample sizes in the new
+p-value,theworkflowisdepictedinFigure3.
+study n,h(µ ,σ2), H , H ,andα,thepowerγiscalcu-
+r r r a RF Step1. Thefirststeps(1a-1c)onlyrequiretheorig-
+latedasfollows:
+inalstudy. Step1aistoderivetherelevantfeaturetobe
+1. Following Step 1 and 2 of the prior predictive evaluated in the test statistic from the findings of the
+check, t = 1,...,T datasets are simulated from original study. Next, the population for which replica-
+f(F¯
+y
+sim),and F¯
+y sim,1−α
+canbecalculated. tionshouldberejected(i.e.,H a)canbedefined. Whatis
+theorderingofthemeansinthispopulationandwhatis
+2. Given µ , σ , t = 1,...,T datasets are simulated theeffectsizeinthatordering? H canbeapopulation
+a a a
+from f(F¯ |H ) with sample sizes n. Following in which all means are equal, but it does not have to
+y a r
+r
+Step 2 of the prior predictive check, for each be. Step1cistoobtainthedataoftheoriginalstudy,or
+dataset F¯ iscalculated. reconstructthedatabasedonreportedmeans,standard
+y
+r
+deviations and group sample sizes. If the new study is
+3. γ= P(F¯ y
+r
+> F¯ y sim,1−α|H a)= notyetconducted,thesecondstepistocalculatethere-
+1
+(cid:88)T quiredsamplesizepergroupforthenewstudytoreject
+T I(F¯ yt r ≥ F¯ y sim,1−α), replicationwithsufficientpower(i.e.,γ).
+t=1 Step 2. The sample sizes calculation can be con-
+ducted with the sample.size.calc function in the
+As default choice for µ , we recommend to use y¯ for
+a o ANOVAreplicationpackage. Ifthefunctioncannotfind
+eachgroup. Withthissetting,thepoweriscalculatedto
+a (reasonable) group sample size for which γ is suffi-
+reject replication in case of equal group means. As de-
+cient,thisimpliesthattheoriginalstudyisnotsuitedfor
+faultchoiceforσ ,werecommendthepooledstandard
+a
+replication testing with the prior predictive p-value for
+deviationoftheoriginalstudy.
+thespecified H : itsconclusionsaretoovague(i.e.,the
+Todeterminetherequiredsamplesizetorejectrepli- a
+standard errors are too wide) to reject replication if H
+cation with sufficient power, we use an iterative proce- a
+is true. There is still a chance that the prior predictive
+dure. In addition to h(µ ,σ2), H , H , α, we use the
+r r a RF p-value turns out significant, especially if the observed
+following information to calculate the required sample
+data is more extreme than most samples from H , but
+size: a target power level γ˜; a small margin covering a
+the researcher should consider whether collecting data
+acceptable values around the target power γ , be-
+margin with such a low probability of a meaningful result is
+causethecalculatedpowermaynotbeexactlyequalto
+ethicallyacceptable.
+thetargetpower; astartingvalueforthegroupsample
+Step 3. As a third step, the prior predic-
+size n ; a maximum number of iterations Q ; and a
+jr0 max
+tive p-value can be computed with the function
+maximumtotalsamplesizeforthenewstudyN . Our
+default values are: γ˜ = .825, γ = .025, αrma =x .05, prior.predictive.check. Thepowerassociatedtothe
+margin
+n =20, Q =10,and N =600. sample size of the new study can be calculated with
+jr0 max rmax
+power.calc. Notethatitisnotapost-hocpoweranaly-
+sis,asthedefinitionofH isunrelatedtothenewstudy.
+1. Ineveryiterationq,γ iscalculatedgivenn . a
+q jrq
+Hence, thepowertorejectreplicationfor H canbein-
+a
+2. When q > 1, n is determined by regressing sufficient (i.e., larger than 1- the preset Type II error
+jrq+1
+{γ ,...,γ}on{n ,...,n }withalinearorquadratic rateβ),whilethepriorpredictive p-valueisstatistically
+1 i jr1 jrq
+(only if q = 3) function. In case of a linear significant,orviceversa. Figure3assistsininterpreting
+regression, the linear regression coefficient β is the resulting p-value, considering the statistical power
+1
+the power increase per subject. Subsequently, to reject replication for H a, unless F¯ y is exactly 0. If
+r
+n =(γ −γ˜)/β +n . Incaseofregressionwith the new study perfectly meets the features of the orig-
+aj qrq u+1 adratq icfunct1 ion,j nrq jrq+1 iscalculatedbysolving inal study as described in H RF, F¯ y r will be 0 and the
+thepolynomial: γ˜ =β +β n +β2n . priorpredictive p-value1.00. Insuchacase,weconfirm
+0 1 jrq+1 2 jrq+1
+replicationoftherelevantfeaturesintheoriginalstudy
+3. Repeat step (1) and (2) until γ ∈ [γ˜ −γ ,γ˜ + ascapturedin H , irrespectiveofpower. Theoretically
+q margin RF
+γ ] (i.e., power is sufficient), or γ ≈ γ it is possible that F¯ = 0, while the new study is an
+margin q−1 q y
+r
+(i.e., power does not increase anymore up to two extreme sample from a population in which H is not
+RF
+decimal points), or n = n (i.e, the sample true. That, however, is not under consideration here,
+jrq−1 jrq
+size does not change anymore), or q = Q , or as our question was whether the observed new study
+max
+ΣJ n = N . replicates, or fails to replicate, relevant features of the
+j=1 jrq max
+===== PAGE 10/15 =====
+10
+1a. Relevant Features in H
+RF
+Replication is not rejected,
+Replication is rejected. despite sufficient power to
+1b. Define H
+a
+Report γfor H a. do so. Report γfor H a.
+1c. Original data
+yes no Replication is rejected despite
+low power. The observed data
+yes
+is more extreme than H.
+y collected? ppp< α? a
+r
+no yes yes
+2. Calculate required sample no
+3. Prior Predictive p-value + γ γ≥ 1 -β? ppp< . α?
+size for y
+r
+no
+no no
+n = ∞? 𝐹" =0?
+jr 𝒚𝑟 Replication is not rejected. Report γand
+emphasize that the Type II error is 1-γfor
+yes yes
+H. Optional: go back to 2. to see if a larger
+a
+The original study is not new study could resolve the power issue, or
+suited for replication testing The new study matches H . if the original study and its conclusions are
+RF
+with the prior predictive p Replication is confirmed. not specific enough to test replication at all.
+1.
+Original
+Study
+Figure3. Thepriorpredictive p-valueworkflow.
+originalstudy. ied the impact of self-regulation resources on confir-
+Incaseofanon-significantresultincombinationwith matory information processing. According to the the-
+lowpower,theresearchershouldemphasizetheproba- ory, people who have low self-regulation resources
+bilitythatnotrejectingreplicationisaTypeIIerror,and (i.e.,depletedparticipants)willpreferinformationthat
+it is advised to conduct a replication study with larger matches their initial standpoint. An ego-threat condi-
+n . The required sample size per group can again be tion was added, because the literature proposes that
+jr
+calculated with the sample.size.calc function in the ego-threat affects decision relevant information pro-
+ANOVAreplicationpackage. Iftherequiredn isexces- cessing, although the direction of this effect is not
+jr
+sive given H , it may be an inevitable conclusion that clear. To determine which relevant feature of the re-
+a
+theoriginalstudyisnotsuitedforreplicationtestingby sults (see Table 4) should be tested for replication,
+means of the prior predictive p-value. If replication is we follow the original findings: “Planned contrasts
+rejecteddespitelowpower,itimpliesthattheobserved revealed that the confirmatory information processing
+newdatasetdeviatesmorefromH thanmostdatasets tendencies of participants with reduced self-regulation
+RF
+under H . With sufficient statistical power, it is still in- resources [...] were stronger than those of nonde-
+a
+formative to notify the reader of the achieved power pleted [...] and ego threatened participants [...]”
+and/or the probability of a Type II error given the pop- Fischer et al. (2008, p. 387). This translates to:
+ulationunder H . H : µ > (µ ,µ )
+a RF lowself-regulation,r highself-regulation,r ego-threatened,r
+(Workflow Step 1a). We want to reject replication
+when all means in the population are equal. That is:
+Examples
+H : µ = (µ =µ )
+a lowself-regulation,r highself-regulation,r ego-threatened,r
+To illustrate the use of the prior predictive check to (Workflow Step 1b). We simulate the original data
+assesswhetherrelevantANOVAfeaturesarereplicated, based on the means, standard deviations and sample
+we two selected replication studies that were part of sizes reported in Fischer et al. (2008) (Workflow Step
+the Reproducibility Project Psychology initiated by the 1c). As the replication study is already conducted by
+Open Science Collaboration (2012, 2015). All calcu- Galliani (2015) (see Table 4 for results), we do not
+lations can be performed with the ANOVAreplication calculate the required sample size to test replication
+R-package(Zondervan-Zwijnenburg,2018). (Workflow Step 2), and proceed to calculate the prior
+The first study is Fischer et al. (2008), who stud- predictive p-valueandthepowerofthereplicationtest
+===== PAGE 11/15 =====
+11
+Table4
+Descriptive Statistics for Confirmatory Information Processing from the Original Study: Fischer et al. (2008), and the
+NewStudy: Galliani(2015)
+Lowself-regulation Highself-regulation Ego-threatened
+Study n M (SD) n M (SD) n M (SD)
+Original 28a 0.36(1.08) 28a -0.19(0.53) 28a -0.18(0.81)
+New 48 -0.07(0.45) 47 -0.05(0.47) 45 0.13(0.64)
+aOnlythetotalsamplesizeof85wasprovidedinFischeretal.(2008).
+Table5
+Z-scores of Participants’ Mean Estimates from the Original Study: Janiszewski and Uy (2008), and the New Study:
+Chandler(2015)
+LowMotivationtoAdjust HighMotivationtoAdjust
+PreciseAnchor RoundedAnchor PreciseAnchor RoundedAnchor
+Study n M(SD) n M(SD) n M(SD) n M(SD)
+Original 14 -0.76(0.17) 15 -0.23(0.48) 15 -0.04(0.28) 15 0.98(0.41)
+New 30 -0.35(0.23) 30 -0.18(0.37) 30 0.20(0.34) 30 0.35(0.44)
+(Workflow Step 3). The resulting prior predictive p- sizesreportedinJaniszewskiandUy(2008)(Workflow
+value was .003 with γ = .66, indicating that we reject Step 1c). As the replication study is already conducted
+replication, despite limited power. The ordering in the by Chandler (2015), we do not calculate the required
+new data by Galliani (2015) results in an extreme F¯ sample size to test replication (Workflow Step 2), and
+score compared to the predicted data. Figure 4 illus- proceedtocalculatethepriorpredictive p-valueandthe
+trates this conclusion: Over 90% of the predicted data power of the replication test (Workflow Step 3). The
+scores perfectly in line with H , but the new study by resulting prior predictive p-value is 1.00. The data ob-
+RF
+Galliani(2015)deviatesfrom H andscoresintheex- tained by Chandler (2015) were perfectly in line with
+RF
+treme0.3%ofthepredicteddata. Thereplicationofthe theH describingtheeffectasobservedbyJaniszewski
+RF
+originalstudyconclusionsisthusrejected. andUy(2008). Therefore,wedonothavefurthercon-
+ThesecondstudyisJaniszewskiandUy(2008),who cerns about the obtained power. Hence, we conclude
+studied numerical judgements with five experiments. that the results of Janiszewski and Uy (2008) with re-
+More specifically, they study the impact of precision of spectto H :
+RF
+ananchor,andmotivationtoadjustfromtheanchoron
+(µ >µ )&
+judgementbias. Thegroupmeans,standarddeviations, lowmotivation,round,r lowmotivation,precise,r
+andsamplesizesofexperiment4aintheoriginalstudy (µ >µ )
+highmotivation,round,r highmotivation,precise,r
+byJaniszewskiandUy(2008)andthereplicationstudy
+arereplicatedbyChandler(2015).
+by Chandler (2015) are provided in Table 5. We find
+TheotherconclusionthatJaniszewskiandUy(2008)
+thatbasedontheseresults, JaniszewskiandUy(2008)
+drawisaboutthepresenceofaninteractioneffectofad-
+draw two conclusions. “First, a precise anchor results
+justment motivation and anchor rounding: “The differ-
+in less adjustment than a rounded anchor” (p. 126).
+enceintheamountofadjustmentbetweentherounded-
+For experiment 4a, which was replicated by Chandler
+and precise-anchor conditions increased as the motiva-
+(2015),thisconclusiontranslatesto H :
+RF
+tion to adjust went from low [...] to high” (p. 125).
+(µ >µ )& TheresultsandconclusionsofJaniszewskiandUywith
+lowmotivation,round,r lowmotivation,precise,r
+respecttoexperiment4atranslateto H :
+(µ >µ ) RF
+highmotivation,round,r highmotivation,precise,r
+(µ >µ )&
+(WorkflowStep1a). Wewanttorejectreplicationwhen lowmotivation,round,r lowmotivation,precise,r
+(µ >µ )&
+allmeansinthepopulationareequal. Thatis: H : highmotivation,round,r highmotivation,precise,r
+a
+(µ −µ )<
+lowmotivation,round,r lowmotivation,precise,r
+µ =µ =
+lowmotivation,round,r lowmotivation,precise,r (µ −µ ).
+highmotivation,round,r highmotivation,precise,r
+µ =µ
+highmotivation,round,r highmotivation,precise,r
+The prior predictive p-value related to this H is .014
+RF
+(Workflow Step 1b). We simulate the original data with γ = .87. Thus, we reject replication of the interac-
+based on the means, standard deviations and sample tioneffect.
+===== PAGE 12/15 =====
+12
+F
+y
+ycneuqerF
+0 5 10 15
+0008
+0006
+0004
+0002
+0
+Figure4. Thepriorpredictive p-valueforthereplicationofFischeretal. (2008)byGalliani(2015). Thehistogram
+barsrepresentF¯ forthepredicteddata. ThethicklineontheleftrepresentsF¯ forthepredicteddatathatareexactly
+0(i.e.,over90%ofthetotal),whereastheredlinerepresents F¯ forGalliani(2015).
+Discussion&Conclusion canbeevaluatedandmeanscanbeconstrainedequalto
+specific values. Even though constraints of these forms
+The goal of the current paper was to introduce the can be evaluated with the R-package and in the online
+prior predictive check as a manner to test replication application, theyarenotemphasizedinthecurrentpa-
+of ANOVA features. With the prior predictive check re- per because they will less often directly relate to the
+searcherscanfindananswertothequestion: “Doesthe findingsofanoriginalstudy.
+newstudyfailtoreplicaterelevantfeaturesoftheorig- The prior predictive p-value is generalizable to sta-
+inal study?” Identifying a non-replication may make tistical models other than the ANOVA as well. That
+us wonder about the representativeness of the origi- is, for any model a predictive distribution can be ob-
+nal study, the new study, and the comparability of both tained,constrainedhypothesescanbeconstructed,and
+studies. Or, as stated by Simonsohn (2015, p. 9) “Sta- a test-statistic evaluating the constraints can be calcu-
+tistical techniques help us identify situations in which lated. The test as currently provided can already be
+something other than chance has occurred. Human used for the repeated measures ANOVA by means of
+judgment, ingenuity, andexpertiseareneededtoknow contrastweights(see,forexample,FurrandRosenthal,
+whathasoccurredinstead.” 2003). With contrast weights a score for each partic-
+Inthecurrentpaper,wediscussedthepriorpredictive ipant can be calculated indicating to what degree the
+p-value for the ANOVA setting. For the ANOVA setting, participant follows the expected pattern. Subsequently,
+we explained how to test relevant features of the form the replication of relevant features of these contrast
+Rµ > 0. Technically, however, the relevant features scores over groups can be tested. A pre-print introduc-
+r
+evaluated by the ANOVAreplication R-package, how- tiontotestreplicationwiththepriorpredictive p-value
+ever,canalsobeoftheform Rµ > randSµ = s,where for structural equation models has been published at
+r r
+rand sarevectorsoflengthK containingtheconstants https://psyarxiv.com/uvh5s.
+inH ,andSisaK×JrestrictionmatrixlikeR. Accord- Inthecurrentpaper, weintroducedthepriorpredic-
+RF
+ingly,minimum(effectsize)differencesbetweenmeans tive p-value as a new tool to quantify replication fail-
+===== PAGE 13/15 =====
+13
+ure or success to the meta-scientific toolbox. With the Acknowledgements
+prior predictive p-value we test whether the new study
+WewouldliketothankMeta-Psychologyeditordr. Fe-
+significantly deviates from our expectations based on
+lix Schönbrodt, and reviewers dr. Matt Williams and
+the original study. Other methods to evaluate repli-
+dr. Zoltan Dienes for their helpful feedback on this
+cation research questions with are included in Table 1
+manuscript.
+and demonstrated in Zondervan-Zwijnenburg and Ri-
+The first and third author are supported by the Con-
+jshouwer (2020). Two features of the prior predictive
+sortiumIndividualDevelopment(CID),whichisfunded
+p-value to test replication stand out. First, the prior
+through the Gravitation program of the Dutch Ministry
+predictive p-valuemakesuseofapredictivedistribution
+ofEducation,Culture,andScienceandtheNetherlands
+given the original study results. The new study results
+Organization for Scientific Research (NWO grant num-
+are compared to the predicted data. A Bayes factor on
+ber024.001.003). Thesecondauthorissupportedbya
+the other hand, weighs the evidence for two compet-
+VIDI grant from the Netherlands Organization for Sci-
+inghypothesesinthenewstudyasitactuallyoccurred,
+entificResearch(NWOgrantnumber452.14.006).
+butdoesnottakestudyvariationintoaccount. Second,
+to compare the new study with the predicted data, we
+OpenSciencePractices
+consider relevant features of the original study. While
+most other methods evaluate the replication of a sim-
+ple effect size, relevant features can be any constraint
+or set of constraints of the form Rµ > 0, which seam-
+r
+lesslyconnectstotheresearchobjectiveofmostANOVA
+This article earned the Open Materials badge for
+studies. WiththeANOVAreplicationR-packageinclud-
+making the materials openly available. This article is a
+ing a vignette as a tutorial, and the interactive applica-
+methods article and did not include any new data, and
+tion (see osf.io/6h8x3), we provide researchers with
+it was not pre-registered. It has been verified that the
+an easy to use test for replication of ANOVA features.
+analysisreproducedtheresultspresentedinthearticle.
+The availability of the prior predictive p-value to test
+Theentireeditorialprocess,includingtheopenreviews,
+replications can further promote the trend to conduct
+ispublishedintheonlinesupplement.
+morereplicationstudiesinthefieldofpsychology.
+References
+AuthorContact
+Anderson, S. F., & Maxwell, S. E. (2016). There’s
+Correspondence concerning this article should be more than one way to conduct a replication
+addressed to Mariëlle Zondervan-Zwijnenburg, De- study: Beyond statistical significance. Psycho-
+partment of Methods and Statistics, Utrecht Uni- logical Methods, 21(1), 1–12. https://doi
+versity, Padualaan 14, 3584CH Utrecht. E-mail: .org/10.1037/met0000051
+M.A.J.Zwijnenburg@uu.nl. Asendorpf,J.B.,Conner,M.,DeFruyt,F.,DeHouwer,J.,
+Denissen,J.J.,Fiedler,K.,...,&Wicherts,J.M.
+ConflictofInterestandFunding (2013). Recommendations for increasing repli-
+cability in psychology. European Journal of Per-
+Addastatementaboutconflictofinterest. Ifyouhave sonality, 27(2), 108–119. https://doi.org/
+noconflictofinteresttodeclare,pleasestatethat. Adda 10.1002/per.1919
+statementabouthowtheresearchwasfunded. Ifthere Box, G. E. (1980). Sampling and Bayes’ inference in
+wasnospecificfundingpleasestatethat. scientific modelling and robustness. Journal of
+the Royal Statistical Society. Series A (General),
+AuthorContributions 143(4),383–430.https://doi.org/10.2307/
+2982063
+MZ and HH were involved in the initial research de- Brandt, M. J., IJzerman, H., Dijksterhuis, A., Farach,
+sign. MZdraftedandrevisedthearticleincollaboration F.J.,Geller,J.,Giner-Sorolla,R.,Grange,J.A.,
+withHH.MZdevelopedtheinteractiveapplication,con- ..., & Van’t Veer, A. (2014). The replication
+ductedthesimulationstudies,andconductedtheanaly- recipe: What makes for a convincing replica-
+ses. RSprovidedadditionalfeedback,andevaluatedthe tion?JournalofExperimentalSocialPsychology,
+interactive application. All authors approved the final 50, 217–224. https://doi.org/10.1016/j
+manuscript. Thefirstauthor(MZ)wasthemainauthor .jesp.2013.10.005
+and the last author (HH) was the main supervisor on
+thisproject.
+===== PAGE 14/15 =====
+14
+Chandler, J. (2015). Replication of Janiszewski & Uy Gelman,A.,&Stern,H.(2006).Thedifferencebetween
+(2008, PS, study 4b). Open Science Frame- “significant” and “not significant” is not itself
+work.osf.io/aaudl statistically significant. The American Statisti-
+Cohen, J. (1988). Statistical power analysis for the cian, 60(4), 328–331. https://doi.org/10
+behavioral sciences (2nd ed.). Hillsdale, NJ, .1198/000313006x152649
+Lawrence Erlbaum Associates. https://doi Harms, C. (2018). A bayes factor for replications of
+.org/10.4324/9780203771587 anovaresults.TheAmericanStatistician.https:
+Cumming,G.(2008).Replicationandpintervals:pval- //doi.org/10.1080/00031305.2018.1518787
+ues predict the future only vaguely, but confi- Hedges, L. V., & Olkin, I. (1980). Vote-counting meth-
+dence intervals do much better. Perspectives on odsinresearchsynthesis.PsychologicalBulletin,
+PsychologicalScience,3(4),286–300.https:// 88(2), 359. https://doi.org/10.1037/0033
+doi.org/10.1111/j.1745-6924.2008.00079 -2909.88.2.359
+.x Hoijtink,H.(2012).Informativehypotheses:Theoryand
+Cumming,G.(2014).Thenewstatistics:Whyandhow. practiceforbehavioralandsocialscientists.CRC
+Psychological Science, 25(1), 7–29. https:// Press.https://doi.org/10.1201/b11158
+doi.org/10.1177/0956797613504966 Hoijtink, H., Mulder, J., van Lissa, C., & Gu, X. (2019).
+Earp, B. D., & Trafimow, D. (2015). Replication, falsifi- Atutorialontestinghypothesesusingthebayes
+cation,andthecrisisofconfidenceinsocialpsy- factor. Psychological Methods, 24(5), 539–556.
+chology.FrontiersinPsychology,6,621.https: https://doi.org/10.1037/met0000201
+//doi.org/10.3389/fpsyg.2015.00621 Janiszewski,C.,&Uy,D.(2008).Precisionoftheanchor
+Ebersole, C. R., Atherton, O. E., Belanger, A. L., Skul- influences the amount of adjustment. Psycho-
+borstad, H. M., Allen, J. M., Banks, J. B., logical Science, 19(2), 121–127. https://doi
+Baranski, E., Bernstein, M. J., Bonfiglio, D. B., .org/10.1111/j.1467-9280.2008.02057.x
+Boucher,L.,Brown,E.R.,Budiman,N.I.,Cairo, Klein, R. A., Ratliff, K. A., Vianello, M., Adams, R. B.,
+A. H., Capaldi, C. A., Chartier, C. R., Chung, Bahnık,Š.,Bernstein,M.J.,Bocian,K.,Brandt,
+J. M., Cicero, D. C., Coleman, J. A., Conway, M.J.,Brooks,B.,Brumbaugh,C.C.,Cemalcilar,
+J. G., ... Nosek, B. A. (2016). Many labs Z., Chandler, J., Cheong, W., Davis, W. E., De-
+3: Evaluating participant pool quality across vos,T.,Eisner,M.,Frankowska,N.,Furrow,D.,
+the academic semester via replication. Journal Galliani,E.M.,... Nosek,B.A.(2014).Investi-
+of Experimental Social Psychology, 67, 68–82. gating variation in replicability: A ’many labs’
+https://doi.org/10.1016/j.jesp.2015 replication project. Social Psychology, 45(3),
+.10.012 142–152. https://doi.org/10.1027/1864
+Errington, T., Tan, F., Lomax, J., Perfito, N., Iorns, E., -9335/a000178
+Gunn,W.,&Lehman,C.(2019).Reproducibility Klein, R. A., Vianello, M., Hasselman, F., Adams, B. G.,
+project:Cancerbiology.osf.io/e81xl Adams,R.B.,Alper,S.,Aveyard,M.,Axt,J.R.,
+Fischer, P., Greitemeyer, T., & Frey, D. (2008). Self- Babalola, M. T., Bahnık, Š., Batra, R., Ber-
+regulation and selective exposure: The impact kics, M., Bernstein, M. J., Berry, D. R., Bialo-
+of depleted self-regulation resources on con- brzeska, O., Binan, E. D., Bocian, K., Brandt,
+firmatory information processing. Journal of M. J., Busching, R., ... Nosek, B. A. (2018).
+Personality and Social Psychology, 94(3), 382. Many labs 2: Investigating variation in replica-
+https://doi.org/10.1037/0022-3514.94 bility across samples and settings. Advances in
+.3.382 Methods and Practices in Psychological Science,
+Furr,R.M.,&Rosenthal,R.(2003).Repeated-measures 1(4), 443–490. https://doi.org/10.1177/
+contrasts for "multiple-pattern" hypotheses. 2515245918810225
+Psychological Methods, 8(3), 275–293. https: Ledgerwood, A. (2014). Introduction to the special
+//doi.org/10.1037/1082-989X.8.3.275 section on advancing our methods and prac-
+Galliani,E.(2015).ReplicationreportofFischer,Greite- tices.PerspectivesonPsychologicalScience,9(3),
+meyer,andFrey(2008,JPSP,study2).https: 275–277. https://doi .org/10 .1177/
+//osf.io/j8bpa 1745691613513470
+Gelman, A., Meng, X.-L., & Stern, H. (1996). Posterior Ly, A., Etz, A., Marsman, M., & Wagenmakers, E.-J.
+predictiveassessmentofmodelfitnessviareal- (2018). Replication bayes factors from evi-
+izeddiscrepancies.StatisticaSinica,6(4),733– dence updating. Behavior Research Methods, 1–
+760.
+===== PAGE 15/15 =====
+15
+11. https://doi.org/10.3758/s13428-018 Schmidt, S. (2009). Shall we really do it again? The
+-1092-x powerful concept of replication is neglected in
+Marsman, M., Schönbrodt, F. D., Morey, R. D., Yao, Y., the social sciences. Review of General Psychol-
+Gelman, A., & Wagenmakers, E.-J. (2017). A ogy, 13(2), 90–100. https://doi .org/10
+Bayesian bird’s eye view of ‘replications of im- .1037/a0015108
+portant results in social psychology’. Royal So- Silvapulle,M.J.,&Sen,P.K.(2005).Constrainedstatis-
+cietyOpenScience,4(1),160426.https://doi tical inference: Order, inequality, and shape con-
+.org/10.1098/rsos.160426 straints (Vol. 912). John Wiley & Sons. https:
+Meng, X.-L. (1994). Posterior predictive p-values. The //doi.org/10.1002/9781118165614
+Annals of Statistics, 22(3), 1142–1160. https: Simonsohn, U. (2015). Small telescopes detectability
+//doi.org/10.1214/aos/1176325622 and the evaluation of replication results. Psy-
+Morey,R.D.,&Lakens,D.(2019).Whymostofpsychol- chological Science, 26(5), 559–569. https://
+ogy is statistically unfalsifiable. https://doi doi.org/10.1177/0956797614567341
+.org/10.5281/zenodo.838685 Van Aert, R. C., & Van Assen, M. A. (2017). Examining
+Nieuwenhuis, S., Forstmann, B. U., & Wagenmakers, reproducibilityinpsychology:Ahybridmethod
+E.-J.(2011).Erroneousanalysesofinteractions for combining a statistically significant origi-
+inneuroscience:Aproblemofsignificance.Na- nal study and a replication. Behavior Research
+tureNeuroscience,14(9),1105–1107.https:// Methods, 1–25. https://doi.org/10.3758/
+doi.org/10.1038/nn.2886 s13428-017-0967-6
+10.1038/nn.2886 Vanbrabant,L.,VandeSchoot,R.,&Rosseel,Y.(2015).
+Open Science Collaboration. (2012). An open, large- Constrained statistical inference: Sample-size
+scale,collaborativeefforttoestimatetherepro- tables for ANOVA and regression. Frontiers in
+ducibility of psychological science. Perspectives Psychology, 5, 1565. https://doi .org/10
+onPsychologicalScience,7(6),657–660.https: .3389/fpsyg.2014.01565
+//doi.org/10.1177/1745691612462588 Verhagen, J., & Wagenmakers, E.-J. (2014). Bayesian
+OpenScienceCollaboration.(2015).Estimatingthere- tests to quantify the result of a replication at-
+producibility of psychological science. Science, tempt.JournalofExperimentalPsychology:Gen-
+349(6251). https://doi .org/10 .1126/ eral, 143(4), 1457–1475. https://doi.org/
+science.aac4716 10.1037/a0036731
+Pashler, H., & Wagenmakers, E.-.-.-J. (2012). Editors’ Zondervan-Zwijnenburg, M. A. J. (2018). ANOVArepli-
+introduction to the special section on replica- cation: Test ANOVA replications by means of
+bility in Psychological Science: A crisis of con- the prior predictive p-value [R package version
+fidence? Perspectives on Psychological Science, 1.1.3].Rpackageversion1.1.3.https://CRAN
+7(6), 528–530. https://doi.org/10.1177/ .R-project.org/package=ANOVAreplication
+1745691612465253 Zondervan-Zwijnenburg, M. A. J., & Rijshouwer, D.
+Patil,P.,Peng,R.D.,&Leek,J.T.(2016).Whatshould (2020).Testingreplicationwithsmallsamples:
+researchersexpectwhentheyreplicatestudies? Applications to anova. In R. van de Schoot &
+A statistical view of replicability in psychologi- M.Miocevic(Eds.),Smallsamplesizesolutions:
+calscience.PerspectivesonPsychologicalScience, Aguideforappliedresearchersandpractitioners.
+11(4), 539–544. https://doi.org/10.1177/ Routledge.
+1745691616646366

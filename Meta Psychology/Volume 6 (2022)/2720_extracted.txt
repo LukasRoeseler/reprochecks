@@ -1,0 +1,952 @@
+
+===== PAGE 1/14 =====
+Meta-Psychology,2022,vol6,MP.2021.2720 Opendata:NotApplicable Editedby:DaniëlLakens
+https://doi.org/10.15626/MP.2021.2720 Openmaterials:Yes Reviewedby:JosephHilgard,ErikvanZwet
+Articletype:OriginalArticle Openandreproducibleanalysis:Yes Analysisreproducedby:AndréKalmendal
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/V2KW5
+Z-curve 2.0:
+Estimating Replication and Discovery Rates
+František Bartoš
+University of Amsterdam; Faculty of Arts, Charles University
+Ulrich Schimmack
+University of Toronto, Mississauga
+Abstract
+Selection for statistical significance is a well-known factor that distorts the published literature and challenges the
+cumulative progress in science. Recent replication failures have fueled concerns that many published results are
+false-positives. Brunner and Schimmack (2020) developed z-curve, a method for estimating the expected replica-
+tionrate(ERR)–thepredictedsuccessrateofexactreplicationstudiesbasedonthemeanpowerafterselectionfor
+significance. This article introduces an extension of this method, z-curve 2.0. The main extension is an estimate
+oftheexpecteddiscoveryrate(EDR)–theestimateofaproportionthatthereportedstatisticallysignificantresults
+constitute from all conducted statistical tests. This information can be used to detect and quantify the amount
+of selection bias by comparing the EDR to the observed discovery rate (ODR; observed proportion of statistically
+significant results). In addition, we examined the performance of bootstrapped confidence intervals in simulation
+studies. Based on these results, we created robust confidence intervals with good coverage across a wide range of
+scenariostoprovideinformationabouttheuncertaintyinEDRandERRestimates. Weimplementedthemethodin
+thezcurveRpackage(Bartoš&Schimmack,2020).
+Keywords: PublicationBias,SelectionBias,ExpectedReplicationRate,ExpectedDiscoveryRate,File-Drawer,Power,
+MixtureModels
+It has been known for decades that the published ported by a large number of statistically significant re-
+record in scientific journals is not representative of all sults(Rosenthal,1979).
+studies that are conducted. For a number of reasons, Some sciences (e.g., experimental psychology) tried
+most published studies are selected because they re- toreducetheriskoffalse-positiveresultsbydemanding
+ported a theoretically interesting result that is statis- replication studies in multiple-study articles (c.f., Weg-
+tically significant; p < .05 (Rosenthal & Gaito, 1964; ner, 1992). However, internal replication studies pro-
+Scheel et al., 2021; Sterling, 1959; Sterling et al., vided a false sense of replicability because researchers
+1995). This selective publishing of statistically signifi- used questionable research practices to produce suc-
+cantresultsintroducesabiasinthepublishedliterature. cessful internal replications (Francis, 2014; John et al.,
+At the very least, published effect sizes are inflated. In 2012; Schimmack, 2012). The pervasive presence of
+the most extreme cases, a false-positive result is sup- publication bias at least partially explains replication
+===== PAGE 2/14 =====
+2
+failures in social psychology (Open Science Collabo- pectedtoproduceapproximately50statisticallysignifi-
+ration, 2015; Pashler & Wagenmakers, 2012; Schim- cant results. The actual frequency will approach 50.8%
+mack,2020;Schimmack,2012)medicine(Begley&El- asthestudyisrepeatedinfinitely.
+lis, 2012; Prinz et al., 2011), and economics (Camerer Unconditional power extends the concept of power
+etal.,2016;Chang&Li,2015). to studies where the null-hypothesis is true. Typically,
+In meta-analyses, the problem of publication bias is power is a conditional probability assuming a non-zero
+usually addressed by one of the different methods for effect size (i.e., the null-hypothesis is false). However,
+itsdetectionandasubsequentadjustmentofeffectsize the long-run relative frequency of statistically signifi-
+estimates. However, many of them (Egger et al., 1997; cant results is also known when the null-hypothesis is
+Ioannidis & Trikalinos, 2007; Schimmack, 2012) per- true. Inthiscase,thelong-runrelativefrequencyisde-
+form poorly under conditions of heterogeneity (Renke- termined by the significance criterion, alpha. With al-
+witz & Keiner, 2019), whereas others employ a meta- pha=5%,weexpectthat5outof100studieswillpro-
+analyticmodelassumingthatthestudiesareconducted duce a statistically significant result. We use the term
+on a single phenomenon (e.g., Hedges, 1992; Maier et unconditional power to refer to the long-run frequency
+al., 2022; Vevea&Hedges, 1995). Moreover, whilethe of statistically significant results without conditioning
+aforementioned methods test for publication bias (re- on a true effect. When the effect size is zero and alpha
+turn a p-value or a Bayes factor), they usually do not is 5%, unconditional power is 5%. As we only consider
+provide a quantitative estimate of selection bias. An unconditionalpowerinthisarticle,wewillusetheterm
+exception would be the publication probabilities/ratios powertorefertounconditionalpower,justlikeCanadi-
+estimates from selection models (e.g., Hedges, 1992). ansusethetermhockeytorefertoicehockey.
+Maximum likelihood selection models work well when Mean(unconditional)powerisasummarystatistic
+the distribution of effect sizes is consistent with model ofstudiesthatvaryinpower. Meanpowerissimplythe
+assumptions, but can be biased when the distribution arithmeticmeanofthepowerofindividualstudies. For
+when the actual distribution does not match the ex- example, two studies with power = 0.4 and power =
+pected distribution (e.g., Brunner & Schimmack, 2020; 0.6,haveameanpowerof0.5.
+Hedges, 1992; Vevea & Hedges, 1995). Brunner and Discovery rate is a relative frequency of statistically
+Schimmack(2020)introducedanewmethodthatdoes significant results. Following Sori´c (1989), we call sta-
+not require a priori assumption about the distribution tistically significant results discoveries. For example, if
+of effect sizes. The z-curve method uses a finite mix- 100 studies produce 36 statistically significant results,
+ture model to correct for selection bias. We extended the discovery rate is 36%. Importantly, the discovery
+z-curve to also provide information about the amount ratedoesnotdistinguishbetweentrueorfalsediscover-
+of selection bias. To distinguish between the new and ies. If only false-positive results were reported, the dis-
+old z-curve methods, we refer to the old z-curve as z- coveryratewouldbe100%,butnoneofthediscoveries
+curve 1.0 and the new z-curve as z-curve 2.0. Z-curve wouldreflectatrueeffect(Rosenthal,1979).
+2.0hasbeenimplementedintheopenstatisticprogram Selection bias is a process that favors the publica-
+R as the zcurve package that can be downloaded from tionofstatisticallysignificantresults. Consequently,the
+CRAN(Bartoš&Schimmack,2020). published literature has a higher percentage of statis-
+Before we introduce z-curve 2.0, we would like to tically significant results than was among the actually
+introduce some key statistical terms. We assume that conducted studies. It results from significance testing
+readers are familiar with the basic concepts of sta- that creates two classes of studies separated by the sig-
+tistical significance testing; normal distribution, null- nificance criterion alpha. Those with a statistically sig-
+hypothesis, alpha, type-I error, and false-positive result nificant result, p < .05, where the null-hypothesis is re-
+(seeBartoš &Maier, In press, fordiscussion ofsomeof jected, and those with a statistically non-significant re-
+thoseconceptsandtheirrelation). sult, where the null-hypothesis is not rejected, p > .05.
+Selection for statistical significance limits the popula-
+Glossary tion of all studies that were conducted to the popula-
+tion of studies with statistically significant results. For
+Powerisdefinedasthelong-runrelativefrequencyof
+example,iftwostudiesproduce p-valuesof.20and.01,
+statistically significant results in a series of exact repli-
+onlythestudywiththe p-value.01isretained. Selection
+cationstudieswiththesamesamplesizewhenthenull-
+bias is often called publication bias. Studies show that
+hypothesis is false. For example, in a study with two
+authors are more likely to submit findings for publica-
+groups (n = 50), a population effect size of Cohen’s
+tionwhentheresultsarestatisticallysignificant(Franco
+d =0.4has50.8%powertoproduceastatisticallysignif-
+etal.,2014)
+icant result. Thus, 100 replications of this study are ex-
+===== PAGE 3/14 =====
+3
+Observeddiscoveryrate(ODR)isthepercentageof and 5 false-positive results, for a total of 105 statisti-
+statisticallysignificantresultsinanobservedsetofstud- cally significant results. The expected discovery rate is
+ies. For example, if 100 published studies have 80 sta- (1×100+0.05×100)/(100+100) = 105/200 = 52.5%
+tistically significant results, the observed discovery rate whichcorrespondstotheobserveddiscoveryratewhen
+is 80%. The observed discovery rate is higher than the allconductedstudiesarereported.
+truediscoveryratewhenselectionbiasispresent. So far, we have assumed that there is no selection
+Expected discovery rate (EDR) is the mean power bias. However, let us now assume that 50 of the 95
+before selection for significance; in other words, the statistically non-significant results are not reported. In
+mean power of all conducted studies with statistically this case, the observed discovery rate increased from
+significant and non-significant results. As power is the 105/200 to 105/150 = 70%. The discrepancy between
+long-runrelativefrequencyofstatisticallysignificantre- the EDR, 52.5%, and the ODR, 70%, provides quantita-
+sults, the mean power before selection for significance tiveinformationabouttheamountofselectionbias.
+is the expected relative frequency of statistically signif- As shown, the EDR provides valuable information
+icant results. As we call statistically significant results about the typical power of studies and about the pres-
+discoveries, we refer to the expected percentage of sta- ence of selection bias. However, it does not provide in-
+tistically significant results as the expected discovery formation about the replicability of the statistically sig-
+rate. Forexample,ifwehavetwostudieswithpowerof nificant results. The reason is that studies with higher
+0.05and0.95,weareexpecting1statisticallysignificant power are more likely to produce a statistically sig-
+resultandanEDRof50%,(0.95+0.05)/2=0.50. nificant result in replications (Brunner & Schimmack,
+Expectedreplicationrate(ERR)isthemeanpower 2020; Miller, 2009). The main purpose of z-curve 1.0
+afterselectionforsignificance,inotherwords,themean was to estimate the mean power after selection for sig-
+power of only the statistically significant studies. Fur- nificance to predict the outcome of exact replication
+thermore, since most people would declare a replica- studies. Intheexample,only5ofthe100falsehypothe-
+tion successful only if it produces a result in the same seswerestatisticallysignificant. Incontrast,all100tests
+direction, we base ERR on the power to obtain a sta- ofthetruehypothesiswerestatisticallysignificant. This
+tistically significant result in the same direction. Us- means that the mean power after selection for signifi-
+ing the prior example, we assume that the study with cance is (5×0.025+100×1)/(5+100) = 100.125/105 ≈
+5% power produced a statistically non-significant re- 95.4%,whichistheexpectedreplicationrate.
+sult and the study with 95% power produced a statis-
+tically significant result. In this case, we end up with FormalIntroduction
+only one statistically significant result with 95% power.
+Unfortunately,thereisnostandardsymbolforpower,
+Subsequently,themeanpowerafterselectionforsignif-
+whichisusuallydenotedas1−β,withβbeingtheprob-
+icance is 95% (there is almost zero chance that a study
+abilityofatype-IIerror. Weproposetouseepsilon,ϵ,as
+with95%powerwouldproducereplicationwithanout-
+a Greek symbol for power because one Greek word for
+comeintheoppositedirection). Basedonthisestimate,
+power starts with this letter (ϵξoνσια). We further add
+we would predict that 95% of exact replications of this
+subscript1or2,dependingonwhetherthedirectionof
+study with the same sample size, and therefore with
+the outcome is relevant or not. Therefore, ϵ denotes
+95% power, will be statistically significant in the same 2
+power of a study regardless of the direction of the out-
+direction.
+come and ϵ denotes power of a study in a specified
+As mean power after selection for significance pre- 1
+direction.
+dictstherelativefrequencyofstatisticallysignificantre-
+TheEDR,
+sultsinreplicationstudies,wecallittheexpectedrepli-
+cationrate. TheERRalsocorrespondstothe“aggregate (cid:80)K ϵ
+replicationprobability”discussedbyMiller(2009). EDR= k=1 2,k , (1)
+K
+is defined as the mean power (ϵ ) of a set of K stud-
+NumericalExample 2
+ies, independent on the outcome direction. Following
+Before introducing the formal model, we illustrate Brunner and Schimmack (2020), the expected replica-
+the concepts with a fictional example. In the exam- tion rate (ERR) is defined as the ratio of mean squared
+ple, researchers test 100 true hypotheses with 100% power and mean power of all studies, statistically sig-
+power (i.e., every test of a true hypothesis produces nificant and non-significant ones. We modify the def-
+p < .05) and 100 false hypotheses (H 0 is true) with inition here by taking the direction of the replication
+5% power which is determined by alpha = .05. Conse- studyintoaccount. Themeansquarepowerinthenom-
+quently,theresearchersobtain100truepositiveresults inator is used because we are computing the expected
+===== PAGE 4/14 =====
+4
+relativefrequencyofstatisticallysignificantstudiespro- quency(33.3%each). Itisnoteworthythatallfourden-
+duced by a set of already statistically significant stud- sity distributions have different shapes. While Figure 1
+ies – if a study produces a statistically significant result illustrateshowdifferencesinpowerproducedifferences
+with probability equal to its power, the chance that the in the shape of the distributions, z-curve works back-
+same study will again be significant is power squared. wardandusestheshapeofthedistributiontoestimate
+The mean power in the denominator is used because power.
+we are restricting our selection to only already statisti- Although z-curve can be used to fit the distributions
+cally significant studies which are produced at the rate in the first row, we assume that the observed distribu-
+corresponding to their power (see also Miller, 2009). tion of all z-statistics is distorted by the selection bias.
+The ratio simplifies by omitting division by K in both Even if some statistically non-significant p-values are
+thenominatoranddenominatorto: reported, their distribution is subject to unknown se-
+lection effects. Therefore, by default z-curve assumes
+ERR= (cid:80) kK =1ϵ 2,k×ϵ 1,k , (2) that selection bias is present and uses only the distri-
+(cid:80)K
+ϵ bution of statistically significant results. This changes
+k=1 2,k
+thedistributionsofz-statisticstofoldednormaldistribu-
+which can also be read as a weighted mean power,
+tions that are truncated at the z-statistic corresponding
+where each power is weighted by itself. The weights
+to the significance criterion, which is typically z = 1.96
+originate from the fact that studies with higher power
+for p = .05 (two-tailed). The second row in Figure 1
+are more likely to produce statistically significant re-
+showsthesetruncatedfoldednormaldistributions. Im-
+sults. The weighted mean power of all studies is there-
+portantly,studieswithdifferentlevelsofpowerproduce
+fore equal to the unweighted mean power of the stud-
+different distributions despite the truncation. The dif-
+ies selected for significance (ksig; cf. Brunner & Schim-
+ferentshapesoftruncateddistributionsmakeitpossible
+mack,2020).
+to estimate power by fitting a model to the truncated
+Ifwehaveasetofstudieswiththesamepower(e.g.,
+distribution.
+setofexactreplicationswiththesamesamplesize)that
+The third row of Figure 1 illustrates the EDR as a
+test for an effect with a z-test, the p-values converted
+proportion of statistically significant studies from all
+toz-statisticsfollowanormaldistributionwithmeanµ
+z conducted studies. We use Equation 3 to re-express
+and a standard deviation equal to 1. Using an alpha
+EDR (Equation 1), which equals the mean uncondi-
+level α, the power is the tail area of a standard normal
+tional power, of a set of K heterogeneous studies using
+distribution (Φ) centered over a mean, (µ ) on the left
+z themeansofsamplingdistributionsoftheirz-statistics,
+andrightsideofthez-statisticscorrespondingtoalpha,
+µ ,
+−1.96and1.96(withtheusualalpha=.05), z,k
+(cid:80)K
+ϵ
+ϵ =1−Φ(1.96−µ )+Φ(−1.96−µ ), (3) EDR= k=1 2,z,k . (5)
+2,z z z K
+or the tail area on the right side of the z-statistics Z-curvemakesitpossibletoestimatetheshapeofthe
+corresponding to alpha, when we are also considering distribution in the region of statistically non-significant
+whetherthedirectionalityoftheeffect, results on the basis of the observed distribution of sta-
+tisticallysignificantresults. Thatis,afterfittingamodel
+ϵ 1,z =1−Φ(1.96−µ z). (4) to the grey area of the curve, it extrapolates the full
+distribution.
+Two-sided p-values do not preserve the direction of
+ThefourthrowofFigure1visualizesadistributionof
+thedeviationfromnullandwecannotknowwhethera
+expectedz-statisticsifthestatisticallysignificantstudies
+z-statisticcomesfromtheloweroruppertailofthedis-
+were to be exactly replicated (not depicting the small
+tribution. Therefore, we work with absolute values of
+proportion of results in the opposite direction than the
+z-statistics, changing their distribution from normal to
+original, significant, result). Thefulllinehighlightsthe
+folded normal distribution (Elandt, 1961; Leone et al.,
+portionofstudiesthatwouldproduceastatisticallysig-
+1961).
+nificantresult,withthedistributionofstatisticallynon-
+Figure 1 illustrates the key concepts of z-curve with
+significant studies drawn using the dashed line. An ex-
+various examples. The first three density plots in the
+act replication with the same sample size of the stud-
+first row show the sampling distributions for studies
+withlow(ϵ = 0.3),medium(ϵ = 0.5),andhigh(ϵ = 0.8) ies in the grey area in the second row is not expected
+to reproduce the truncated distribution again because
+power, respectively. The last density plots illustrate
+truncation is a selection process. The replication distri-
+the distribution that is obtained for a mixture of stud-
+butionisnottruncatedandproducesstatisticallysignif-
+ies with low, medium, and high power with equal fre-
+===== PAGE 5/14 =====
+5
+Power 0.3 0.5 0.8 mixture
+0.45
+0.30
+All
+0.15
+0.00
+0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6
+0.45
+0.30
+Significant
+0.15
+0.00
+0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6
+0.45
+0.30
+EDR
+0.15
+0.00
+0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6
+0.45
+Theoretical 0.30
+replication 0.15
+0.00
+0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6
+0.45
+0.30
+ERR
+0.15
+0.00
+0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6
+Figure1. Density(y-axis)ofz-statistics(x-axis)generatedbystudieswithdifferentpowers(columns)acrossdifferent
+stagesofthepublicationprocess(rows). Thefirstrowshowsadistributionofz-statisticsfromz-testshomogeneous
+inpower(thefirstthreecolumns)orbytheirmixture(thefourthcolumn). Thesecondrowshowsonlystatistically
+significant z-statistics. The third row visualizes EDR as a proportion of statistically significant z-statistics out of
+all z-statistics. The fourth row shows a distribution of z-statistics from exact replications of only the statistically
+significantstudies(dashedlinefornon-significantreplicationstudies). ThefifthrowvisualizesERRasaproportion
+ofstatisticallysignificantexactreplicationsoutofstatisticallysignificantstudies.
+icant and non-significant results. By modeling the se- Z-curve2.0
+lection process, z-curve predicts the non-truncated dis-
+Z-curve is a finite mixture model (Brunner & Schim-
+tributionsinthefourthrowfromthetruncateddistribu-
+mack, 2020). Finite mixture models leverage the fact
+tionsinthesecondrow.
+that an observed distribution of statistically significant
+ThefifthrowofFigure1visualizesERRasapropor-
+z-statistics is a mixture of K truncated folded normal
+tion of statistically significant exact replications in the
+distribution with means µ and standard deviations 1.
+expected direction from a set of the previously statis- z,k
+Insteadoftryingtoestimateµ ofeverysingleobserved
+tically significant studies. The ERR (Equation 2) of a z,k
+z-statistic, a finite mixture model approximates the ob-
+set of heterogeneous studies can be again re-expressed
+serveddistributionbasedonKstudieswithasmallerset
+using Equations 3 and 4 with the means of sampling
+of J truncated folded normal distributions, f(z;θ), with
+distributionsoftheirz-statistics,
+J < K components,
+(cid:80)K
+ϵ ×ϵ
+ERR= k=1 2,z,k 1,z,k . (6) (cid:88)J
+(cid:80)K ϵ f(z;θ)= π f (z;θ ). (7)
+k=1 2,z,k j j[a,b] j
+j=1
+===== PAGE 6/14 =====
+6
+Each mixture component j approximates a propor- run 20 searches with randomly selected starting values
+tionofπ observedz-statisticswithaprobabilitydensity andterminatethealgorithminthefirst100iterations,or
+j
+function, f , of truncated folded normal distribution ifthecriterionfallsbelow10−3. Wethenselecttheout-
+j[a,b]
+withparametersθ –ameanµ andstandarddeviation comewiththehighestlikelihoodvalueandcontinueun-
+j z,j
+equal to 1. For example, while actual studies may vary til1000iterationsoracriterionvalueof10−5isreached.
+in power from 40% to 60%, a mixture model may rep- Tospeedupthefittingprocess,weoptimizedtheproce-
+resentallofthesestudieswithasinglecomponentwith dureusingRcpp(Eddelbuettel&François,2011).
+50%power. Information about point estimates should be accom-
+Z-curve 1.0 used three components with varying paniedbyinformationaboutuncertaintywheneverpos-
+means. Extensive testing showed that varying means sible. The most common way to do so is by providing
+produced poor estimates of the EDR. Therefore, we confidenceintervals. Wefollowedthecommonpractice
+switchedtomodelswithfixedmeansandincreasedthe ofusingbootstrappingtoobtainconfidenceintervalsfor
+numberofcomponentstoseven. Thesevencomponents mixturemodels(Ujehetal.,2016). Asbootstrappingis
+areequallyspacedbyonestandarddeviationfromz=0 a resource-intensive process, we used 500 samples for
+(power = alpha) to 6 (power ≈ 1). As power for z- thesimulationstudies. Usersofthez-curvepackagecan
+statistics greater than 6 is essentially 1, it is not neces- usemoreiterationstoanalyzeactualdata.
+sarytomodelthedistributionofz-statisticsgreaterthan
+6,andallz-statisticsgreaterthan6areassignedapower Simulations
+value of 1 (Brunner & Schimmack, 2020). The power
+Brunner and Schimmack (2020) compared several
+valuesimpliedbythe7componentsare0.05,0.17,0.50,
+methods for estimating mean power and found that z-
+0.85, 0.98, 0.999, 0.99997. We also tried a model with
+curve performed better than three competing methods.
+equalspacingofpower,andwetriedmodelswithfewer
+However, these simulations were limited to the estima-
+or more components, but neither did improve perfor-
+tion of the ERR. Here we present new simulation stud-
+manceinsimulationstudies. Weusethemodelparame-
+ies to examine the performance of z-curve as a method
+terestimatestocomputetheestimatedEDRandERRas
+to estimate the EDR as well. One simulation directly
+theweightedaverageofseventruncatedfoldednormal
+simulated power distributions, the other one simulated
+distributionscenteredoverz=0to6,
+t-tests. Wereportthedetailedresultsofbothsimulation
+studies in a Supplement. For the sake of brevity, we
+(cid:88)J focus on the simulation of t-tests because readers can
+E(cid:100)DR≈ πˆ ×ϵ , (8) more easily evaluate the realism of these simulations.
+j 2,z,j
+j=1 Moreover,mosttestsinpsychologyaret-testsor F-tests
+(cid:80)J πˆ ×ϵ ×ϵ and Brunner and Schimmack (2020) already showed
+E(cid:100)RR≈ j= (cid:80)1 Jj
+πˆ
+2 ×,z, ϵj 1,z,j . that the numerator degrees of freedom of F-tests do
+j=1 j 2,z,j not influence results. Thus, the results for t-tests can
+begeneralizedto F-testsandz-tests.
+CurveFitting
+Thesimulationwasacomplex4×4×4×3×3design
+Z-curve 1.0 used an unorthodox approach to find with 576 cells. The first factor of the design that was
+the best fitting model that required fitting a truncated manipulated was the mean effect size with Cohen’s ds
+kernel-densitydistributiontothestatisticallysignificant rangingfrom0to0.6(0,0.2,0.4,0.6). Thesecondfactor
+z-statistics (Brunner & Schimmack, 2020). This is a inthedesignwasheterogeneityineffectsizeswassimu-
+non-trivial step that may produce some systematic bias latedwithanormaldistributionaroundthemeaneffect
+in estimates. Z-curve 2.0 makes it possible to fit the size with SDs ranging from 0 to 0.6 (0, 0.2, 0.4, 0.6).
+modeldirectlytotheobservedz-statisticsusingthewell- Preliminary analysis with skewed distributions showed
+established expectation maximization (EM) algorithm noinfluenceofskew. Thethirdfactorofthedesignwas
+thatiscommonlyusedtofitmixturemodels(Dempster sample size for between-subject design with N = 50,
+etal.,1977;Lee&Scott,2012). UsingtheEMalgorithm 100, and 200. The fourth factor of the design was the
+has the advantage that it is a well-validated method to percentage of true null-hypotheses that ranged from 0
+fitmixturemodels. Itisbeyondthescopeofthisarticle to 60% (0%, 20%, 40%, 60%). The last factor of the
+to explain the mechanics of the EM algorithm (Bishop, design was the number of studies with sets of k = 100,
+2006,e.g.,),butitisimportanttopointoutsomeofits 300,and1,000statisticallysignificantstudies.
+potentiallimitations. Themainlimitationisthatitmay Eachcellofthedesignwasrun100timesforatotalof
+terminate the search for the best fit before the best fit- 57,600 simulations. For the main effects of this design
+tingmodelhasbeenfound. Inordertopreventthis,we there were 57,600/4 = 14,400 or 57,600/3 = 19,200
+===== PAGE 7/14 =====
+7
+simulations. Even for two-way interaction effects, the biases were found when effect sizes were large, het-
+number of simulations is sufficient, 57,600/16 = 3,600. erogeneity was low, and sample sizes were small. The
+For higher interactions the design may be underpow- largestbiaswasfoundforCohen’sd =0.6,SD=0,and
+ered to detect smaller effects. Thus, our simulation N =50. Inthiscondition,ERRwas4.41(SE =0.11)
+MCMC
+studymeetsrecommendationsforsamplesizesinsimu- percentage points lower than the true replication rate.
+lationstudiesformaineffectsandtwo-wayinteractions, The finding that z-curve performs worse with low het-
+but not for more complex interaction effects (Morris et erogeneity replicates findings by Brunner and Schim-
+al., 2019). Thecodeforthesimulationsisaccessibleat mack (2020). One reason could be that a model with
+https://osf.io/r6ewt/. seven components can easily be biased when most pa-
+rameters are zero. The fixed components may also cre-
+Evaluation ate a problem when true power is between two fixed
+levels. Although a bias of 4 percentage points is not
+For a comprehensive evaluation of z-curve 2.0 esti-
+ideal, it also does not undermine the value of a model
+mates,wereportbias(i.e.,meandistancebetweenesti-
+thathasverylittlebiasacrossawiderangeofscenarios.
+matedandtruevalues),rootmeansquareerror(RMSE;
+The number of studies had a two-way interaction
+quantifying the error variance of the estimator), and
+with effect size, z = 3.8, but bias in the 12 cells of the
+confidence interval coverage (Morris et al., 2019). To
+4×3 design was always less than 2 percentage points.
+check the performance of the z-curve across different
+Overall,theseresultsconfirmthefairlygoodlargesam-
+simulationsettings,weanalyzedtheresultsofthefacto-
+pleaccuracyoftheERRestimates.
+rialdesignusinganalysesofvariance(ANOVAs)forcon-
+We used logistic regression to examine patterns in
+tinuousmeasuresandlogisticregressionfortheevalua-
+thecoverageofthe95%confidenceintervals. Thistime
+tion of confidence intervals (0 = true value not in the
+a statistically significant four-way interaction emerged
+interval, 1 = true value in the interval). The analy-
+foreffectsize,heterogeneityofeffectsizes,samplesize,
+sis scripts and results are accessible at https://osf.io/
+and the percentage of true null-hypotheses, z = 10.94.
+r6ewt/.
+Problems mirrored the results for bias. Coverage was
+low when there were no true null-hypotheses, no het-
+Results
+erogeneity in effect sizes, large effects, and small sam-
+WestartwiththeERRbecauseitisessentiallyacon- ple sizes. Coverage was only 31.3% (SE = 2.68)
+MCMC
+ceptual replication study of Brunner and Schimmack whenthepercentageoftrueH was0,heterogeneityof
+0
+(2020)simulationstudieswithz-curve1.0. effect sizes was 0, the effect size was Cohen’s d = 0.6,
+ERR. Visual inspection of the z-curves ERR esti- andthesamplesizewas N =50.
+matesplottedagainstthetrueERRvaluesdidnotshow In statistics, it is common to replace confidence in-
+any pathological behavior due to the approximation by tervals that fail to show adequate coverage with con-
+afinitemixturemodel(Figure2). fidence intervals that provide good coverage with real
+Figure 2 shows that even with k = 100 studies, z- data; these confidence intervals are often called robust
+curve estimates are clustered close enough to the true confidence intervals (Royall, 1996). We suspected that
+values to provide useful predictions about the replica- lowcoveragewasrelatedtosystematicbias. Whencon-
+bility of sets of studies. Overall bias was less than fidence intervals are drawn around systematically bi-
+one percentage point, −0.88 (SE MCMC = 0.04). This ased estimates, they are likely to miss the true effect
+confirms that z-curve has high large-sample accuracy size by the amount of systematic bias, when sampling
+(Brunner & Schimmack, 2020). RMSE decreased from errorpushesestimatesinthesamedirectionasthesys-
+5.14(SE MCMC = 0.03)percentagepointswithk = 100to tematic bias. To increase coverage, it is therefore nec-
+2.21(SE MCMC = 0.01)percentagepointswithk = 1,000. essary to take systematic bias into account. We created
+Thus, even with relatively small sample sizes of 100 robust confidence intervals by adding three percentage
+studies, z-curve can provide useful information about points on each side. This is very conservative because
+theERR. thebiasanalysiswouldsuggestthatonlyadjustmentin
+TheAnalysisofVariance(ANOVA)showednostatisti- onedirectionisneeded.
+callysignificant5-wayinteractionor4-wayinteractions. Thelogisticregressionanalysisstillshowedsomesta-
+Astrongthree-wayinteractionwasfoundforeffectsize, tisticallysignificantvariationincoverage. Themostno-
+heterogeneity of effect sizes, and sample size, z = 9.42. tablefindingwasa2-wayinteractionforeffectsizeand
+Despitethehighstatisticalsignificance,effectsizeswere sample size, z = 4.68. However, coverage was at 95%
+small. Out of the 36 cells of the 4×3×3 design, 32 or higher for all 12 cells of the design. Further inspec-
+cellsshowedlessthanonepercentagepointbias. Larger tionshowedthatthemainproblemremainedscenarios
+===== PAGE 8/14 =====
+8
+100 300 1000
+1.0 1.0 1.0
+0.8 0.8 0.8
+0.6 0.6 0.6
+0.4 0.4 0.4
+0.2 0.2 0.2
+0.0 0.0 0.0
+0.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0
+Figure2. Estimated(y-axis)vs. true(x-axis)ERRinsimulationUacrossadifferentnumberofstudies.
+with high effect sizes (d = 0.6) and no heterogeneity selectionbias.
+(SD=0), butevenwithsmallheterogeneity, SD=0.2, The main consequence of high RMSE is that confi-
+thisproblemdisappeared. Wethereforerecommendex- denceintervalsareexpectedtobewide. Thenextanal-
+tendingconfidenceintervalsbythreepercentagepoints. ysis examined whether confidence intervals have ade-
+This is the default setting in the z-curve package, but quate coverage. This was not the case; coverage =
+thepackageallowsresearcherstochangethesesettings. 87.3% (SE = 0.14). We next used logistic regres-
+MCMC
+Moreover, in meta-analyses of studies with low hetero- sion to examine patterns in coverage in our simulation
+geneity, alternative methods that are more appropri- design. Anotable3-wayinteractionbetweeneffectsize,
+ate for homogeneous methods (e.g., selection models; sample size, and percentage of true H was present,
+0
+Hedges, 1992) may be used or the number of compo- z = 3.83. While the pattern was complex, not a single
+nentscouldbereduced. cellofthedesignshowedcoverageover95%.
+EDR. Visual inspection of EDRs plotted against the As before, we created robust confidence intervals by
+true discovery rates (Figure 3) showed a noticeable in- extending the interval. We settled for an extension by
+crease in uncertainty. This is to be expected as EDR fivepercentagepoints. The3-wayinteractionremained
+estimates require estimation of the distribution for sta- statistically significant, z = 3.36. Now 43 of the 48 cells
+tisticallynon-significantz-statisticssolelyonthebasisof showed coverage over 95%. For reasons that are not
+thedistributionofstatisticallysignificantresults. clear to us, the main problem occurred for an effect
+Despite the high variability in estimates, they can be size of Cohen’s d = 0.4 and no true H , independent
+0
+useful. With the observed discovery rate in psychol- of sample size. While improving the performance of z-
+ogy being often over 90% (Sterling, 1959), many of curve remains an important goal and future research
+these estimates would alert readers that selection bias might find better approaches to address this problem,
+is present. A bigger problem is that the highly variable for now, we recommend using z-curve 2.0 with these
+EDRestimatesmightlackthepowertodetectselection robust confidence intervals, but users can specify more
+biasinsmallsetsofstudies. conservativeadjustments.
+Across all studies, systematic bias was small, 1.42
+(SE = 0.08) for 100 studies, 0.57 (SE = 0.06) ApplicationtoRealData
+MCMC MCMC
+for300studies, 0.16(SE = 0.05)percentagepoints
+MCMC It is not easy to evaluate the performance of z-curve
+for 1000 studies. This shows that the shape of the dis-
+2.0 estimates with actual data because selection bias is
+tribution of statistically significant results does provide
+ubiquitous and direct replication studies are fairly rare
+valid information about the shape of the full distribu-
+(Zwaan et al., 2018). A notable exception is the Open
+tion. ConsistentwithFigure3,RMSEvalueswerelarge
+ScienceCollaborationprojectthatreplicated100studies
+and remained fairly large even with larger number of
+fromthreepsychologyjournals(OpenScienceCollabo-
+studies, 11.70 (SE = 0.11) for 100 studies, 8.88
+MCMC ration, 2015). This unprecedented effort has attracted
+(SE = 0.08) for 300 studies, 6.49 (SE = 0.07)
+MCMC MCMC attention within and outside of psychological science
+percentage points for 1000 studies. These results show
+andthearticlehasalreadybeencitedover1,000times.
+how costly selection bias is because more precise esti-
+The key finding was that out of 97 statistically signifi-
+mates of the discovery rate would be available without
+===== PAGE 9/14 =====
+9
+100 300 1000
+1.0 1.0 1.0
+0.8 0.8 0.8
+0.6 0.6 0.6
+0.4 0.4 0.4
+0.2 0.2 0.2
+0.0 0.0 0.0
+0.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0 0.0 0.2 0.4 0.6 0.8 1.0
+Figure3. Estimated(y-axis)vs. true(x-axis)EDRacrossadifferentnumberofstudies.
+cantresults, includingmarginallysignificantones, only highly cited articles by social psychologists with a high
+36 replication studies (37%) reproduced a statistically H-Index (k = 2,208; Schimmack, 2021). The ERR es-
+significantresultinthereplicationattempts. timates were 44%, 95% CI [35,52]%, and 51%, 95% CI
+Thisfindinghasproducedawiderangeofreactions. [45,56]%. The two estimates do not differ significantly
+Often the results are cited as evidence for a replication from each other, but both estimates are considerably
+crisisinpsychologicalscience,especiallysocialpsychol- higher than the actual discovery rate in the OSC repli-
+ogy (Schimmack, 2020). Others argue that the replica- cationproject,25%,95%CI[13,37]%. Wepostponethe
+tion studies were poorly carried out and that many of discussionofthisdiscrepancytothediscussionsection.
+theoriginalresultsarerobustfindings(Bressan,2019). The EDRs estimates were 16%, 95% CI [5,32]%, and
+This debate mirrors other disputes about failures to 14%,95%CI[7,23]%. Again,bothoftheestimatesover-
+replicate original results. The interpretation of replica- lap and do not significantly differ. At the same time,
+tion studies is often strongly influenced by researchers’ the EDR estimates are much lower than the ODRs in
+a priori beliefs. Thus, they rarely settle academic dis- these two data sets (90%, 89%). The z-curve analysis
+putes. Z-curve analysis can provide valuable informa- ofpublishedresultsinsocialpsychologyshowsastrong
+tion to determine whether an original or a replication selectionbiasthatexplainsreplicationfailuresinactual
+study is more trustworthy. If a z-curve analysis shows replication attempts. Thus, the z-curve analysis reveals
+no evidence for selection bias and a high ERR, it is that replication failures cannot be attributed to prob-
+likely that the original result is credible and the repli- lems of the replication attempts. Instead, the low EDR
+cationfailureisafalsenegativeresultorthereplication estimates show that many non-significant original re-
+study failed to reproduce the original experiment. On sultsaremissingfromthepublishedrecord.
+theotherhand,ifthereisevidenceforselectionbiasand
+theERRislow,replicationfailuresareexpectedbecause Discussion
+theoriginalresultswereobtainedwithquestionablere-
+A previous article introduced z-curve as a viable
+searchpractices.
+method to estimate mean power after selection for sig-
+Another advantage of z-curve analyses of published
+nificance (Brunner & Schimmack, 2020). This is a use-
+results is that it is easier to obtain large representative
+ful statistic because it predicts the success rate of exact
+samples of studies than to conduct actual replication
+replication studies. We therefore call this statistic the
+studies. To illustrate the usefulness of z-curve analy-
+expected replication rate. Studies with a high replica-
+ses, we focus on social psychology because this field
+tion rate provide credible evidence for a phenomenon.
+hasreceivedthemostattentionfrommeta-psychologists
+In contrast, studies with a low replication rate are un-
+(Schimmack, 2020). We fitted z-curve 2.0 to two stud-
+trustworthyandrequireadditionalevidence.
+ies of published test statistics from social psychology
+We extended z-curve 1.0 in two ways. First, we im-
+and compared these results to the actual success rate
+plemented the expectation maximization algorithm to
+intheOpenScienceCollaborationproject(k=55).
+fit the mixture model to the observed distribution of
+One sample is based on Motyl et al. (2017) assess-
+z-statistics. This is a more conventional method to fit
+mentofthereplicabilityofsocialpsychology(k = 678).
+mixture models. We found that this method produces
+The other sample is based on the coding of the most
+===== PAGE 10/14 =====
+10
+good estimates, but it did not eliminate some of the BiasDetectionMethods
+systematic biases that were observed with z-curve 1.0.
+In theory, bias detection is as old as meta-analysis.
+More important, we extended z-curve to estimate the
+The first bias test showed that Mendel’s genetic experi-
+mean power before selection for significance. We call
+mentswithpeashadlesssamplingerrorthanastatisti-
+this statistic the expected discovery rate because mean
+cal model would predict (Pires & Branco, 2010). How-
+powerpredictsthepercentageofstatisticallysignificant
+ever,whenmeta-analysisemergedasawidelyusedtool
+resultsforasetofstudies. WefoundthatEDRestimates
+to integrate research findings, selection bias was often
+havesatisfactorylargesampleaccuracy,butvarywidely
+ignored. Psychologists focused on fail-safe N (Rosen-
+in smaller sets of studies. This limits the usefulness for
+thal, 1979), which did not test for the presence of bias
+meta-analysisofsmallsetsofstudies,butaswedemon-
+and often led to false conclusions about the credibility
+strated with actual data, the results are useful when a
+of a result (Ferguson & Heene, 2012). The most com-
+large set of studies is available. The comparison of the
+mon tools to detect bias rely on correlations between
+EDRandODRcanalsobeusedtoassesstheamountof
+effect sizes and sample size. A key problem with this
+selection bias. A low EDR can also help researchers to
+approachisthatitoftenhaslowpowerandthatresults
+realize that they test too many false hypotheses or test
+are not trustworthy under conditions of heterogeneity
+truehypotheseswithinsufficientpower.
+(Inzlicht et al., 2015; Renkewitz & Keiner, 2019). The
+In contrast to Miller (2009), who stipulates that es-
+tests are also not useful for meta-analysis of heteroge-
+timatingtheERR(“aggregatedreplicationprobability”)
+neoussetsofstudieswhereresearchersuselargersam-
+isunattainableduetoselectionprocesses, Brunnerand
+ples to study smaller effects, which also introduces a
+Schimmack (2020) z-curve 1.0 addresses the issue by
+correlation between effect sizes and sample sizes. Due
+modelingtheselectionforsignificance.
+totheselimitations,evidenceofbiashasbeendismissed
+Finally, we examined the performance of boot-
+as inconclusive (Cunningham & Baumeister, 2016; In-
+strappedconfidenceintervalsinsimulationstudies. We
+zlicht&Friese,2019).
+found that coverage for 95% confidence intervals was
+It is harder to dismiss evidence of bias when a set
+sometimesbelow95%. Toimprovethecoverageofcon-
+ofpublishedstudieshasmorestatisticallysignificantre-
+fidenceintervals,wecreatedrobustconfidenceintervals
+sults than the power of the studies warrants; that is,
+that added three percentage points to the confidence
+theODRexceedstheEDR(Sterlingetal.,1995). Aside
+interval of the ERR and five percentage points to the
+fromz-curve2.0,therearetwootherbiasteststhatrely
+confidenceintervaloftheEDR.
+on a comparison of the ODR and EDR to evaluate the
+WedemonstratetheusefulnessoftheEDRandconfi-
+presence ofselection bias, namely theTest ofExcessive
+denceintervalswithanexamplefromsocialpsychology.
+Significance(TES;Ioannidis&Trikalinos,2007)andthe
+We find that ERR overestimates the actual replicability
+IncredibilityTest(IT;Schimmack,2012).
+in social psychology. We also find clear evidence that
+Z-curve 2.0 has several advantages over the existing
+powerinsocialpsychologyislowandthathighsuccess
+methods. First, TES was explicitly designed for meta-
+rates are mostly due to selection for significance. It is
+analysis with little heterogeneity and may produce bi-
+noteworthythatwhiletheMotyletal.(2017)datasetis
+ased results when heterogeneity is present (Renkewitz
+representativeforsocialpsychology,Schimmack(2021)
+&Keiner, 2019). Second, boththeTESandtheITtake
+datasetsampledhighlyinfluentialarticles. Thefactthat
+observed power at face value. As observed power is
+bothsamplingproceduresproducedsimilarresultssug-
+inflatedbyselectionforsignificance, thetestshavelow
+geststhatstudiesbyeminentresearchersorstudieswith
+powertodetectselectionforsignificance,unlessthese-
+high citation rates are no more replicable than other
+lectionbiasislarge. Finally,TESandITrelyon p-values
+studiespublishedinsocialpsychology.
+to provide information about bias. As a result, they do
+Z-curve 2.0 does provide additional valuable infor-
+not provide information about the amount of selection
+mationthatwasnotprovidedbyz-curve1.0. Moreover,
+bias.
+z-curve2.0isavailableasanR-package, makingiteas-
+Z-curve 2.0 overcomes these problems by correcting
+ierforresearcherstoconductz-curveanalyses(Bartoš&
+the power estimate for selection bias, providing quan-
+Schimmack,2020). Thisarticleprovidesthetheoretical
+titative evidence about the amount of bias by compar-
+background for the use of the z-curve package. Subse-
+ingtheODRandEDR,andbyprovidingevidenceabout
+quently,wediscusssomepotentiallimitationsofz-curve
+statisticalsignificancebymeansofaconfidenceinterval
+2.0 analysis and compare z-curve 2.0 to other methods
+around the EDR estimate. Thus, z-curve 2.0 is a valu-
+thataimtoestimateselectionbiasorpowerofstudies.
+abletoolformeta-analysts,especiallywhenanalyzinga
+largesampleofheterogenousstudiesthatvarywidelyin
+designs and effect sizes. As we demonstrated with our
+===== PAGE 11/14 =====
+11
+example, the EDR of social psychology studies is very - 56% CI range), the actual success rate was only 25%,
+low. Thisinformationisusefulbecauseitalertsreaders 95%CI[13,37]%. Thus,itisimportanttoexaminewhy
+to the fact that not all p-values below .05 reveal a true z-curveestimatesarehigherthantheactualreplication
+andreplicablefinding. rateintheOSCproject.
+Nevertheless,z-curvehassomelimitations. Onelimi- One possible explanation is that there is a prob-
+tationisthatitdoesnotdistinguishbetweensignificant lem with the replication studies. Social psychologists
+results with opposite signs. In the presence of multi- quickly criticized the quality of the replication studies
+ple tests of the same hypothesis with opposite signs, (Gilbertetal.,2016). Inresponse,thereplicationteam
+researchers can exclude inconsistent significant results conductedthenewreplicationsofcontestedreplication
+and estimate z-curve on the basis of significant results studies. Based on the effect sizes in these much larger
+with the correct sign. However, the selection of tests replication studies, not a single original study would
+bythemeta-analystintroducesadditionalselectionbias, have produced statistically significant results (Ebersole
+whichhastobetakenintoaccountinthecomparisonof et al., 2020). It is therefore unlikely that the quality
+theEDRandODR.Anotherlimitationistheassumption of replication studies explains the low success rate of
+that all studies used the same alpha criterion (.05) to replicationstudiesinsocialpsychology.
+select for significance. This possibility can be explored A more interesting explanation is that social psy-
+by conducting multiple z-curve analyses with different chological phenomena are not as stable as boiling dis-
+selection criteria (e.g., .05, .01). The use of lower se- tilled water under tightly controlled laboratory condi-
+lectioncriteriaisalsousefulbecausesomequestionable tions. Rather, effect sizes vary across populations, ex-
+research practices produce a cluster of just significant perimenters,timesofday,andamyriadofotherfactors
+results. However, all statistical methods can only pro- thataredifficulttocontrol(Stroebe&Strack,2014). In
+duceestimatesthatcomewithsomeuncertainty. When this case, selection for significance produces additional
+severeselectionbiasispresent,newstudiesareneeded regression to the mean because statistically significant
+toprovidecredibleevidenceforaphenomenon. resultswereobtainedwiththehelpoffavorablehidden
+moderatorsthatproducedlargereffectsizesthatareun-
+PredictingReplicationOutcomes likelytobepresentagaininadirectreplicationstudy.
+The worst-case scenario is that studies that were se-
+Since 2011, many psychologists have learned that
+lected for significance are no more powerful than stud-
+published significant results can have a low replication
+iesthatproducedstatisticallynon-significantresults. In
+probability (Open Science Collaboration, 2015). This
+this case, the EDR predicts the outcome of actual repli-
+makes it difficult to trust the published literature, es-
+cation studies. Consistent with this explanation, the
+pecially older articles that report results from studies
+actual replication rate of 25%, 95% CI [13,37]%, was
+withsmallsamplesthatwerenotpre-registered. Should
+highly consistent with the EDR estimates of 16%, 95%
+these results be disregarded because they might have
+CI [5,32]%, and 14%, 95% CI [7,23]%. More research
+been obtained with questionable research practices?
+is needed once more replication studies become avail-
+Should results only be trusted if they have been repli-
+able to see how closely actual replication rates are to
+catedinanew,ideallypre-registered,replicationstudy?
+the EDR and the ERR. For now, they should be con-
+Orshouldwesimplyassumethatmostpublishedresults
+sidered the worst and the best possible scenarios and
+are probably true and continue to treat every p-value
+actual replication rates are expected to fall somewhere
+below.05asatruediscovery?
+betweenthesetwoestimates.
+Theappealofz-curveisthatwecanusethepublished
+A third possibility for the discrepancy is that ques-
+evidence to distinguish between credible and “incredi-
+tionable research practices change the shape of the z-
+ble” (biased) statistically significant results. If a meta-
+curveinwaysthataredifferentfromasimpleselection
+analysisshowslowselectionbiasandahighreplication
+model. For example, if researchers have several statis-
+rate, the results are credible. If a meta-analysis shows
+tically significant results and pick the highest one, the
+highselectionbiasandalowreplicationrate,theresults
+selectionmodelunderestimatestheamountofselection
+areincredibleandrequireindependentverification.
+that occurred. This can bias z-curve estimates and in-
+As appealing as this sounds, every method needs to
+flate the ERR and EDR estimates. Unfortunately, it is
+bevalidatedbeforeitcanbeappliedtoanswersubstan-
+also possible that questionable research practices have
+tivequestions. Thisisalsotrueforz-curve2.0. Weused
+theoppositeeffectandthatERRandEDRestimatesun-
+the results from the OSC replicability project for this
+derestimate the true values. This uncertainty does not
+purpose. Theresultssuggestthatz-curvepredictionsof
+underminetheusefulnessofz-curveanalyses. Ratherit
+replicationratesmaybeoverlyoptimistic. Whiletheex-
+shows how questionable research practices undermine
+pectedreplicationratewasbetween44%and51%(35%
+===== PAGE 12/14 =====
+12
+thecredibilityofpublishedresults. Z-curve2.0doesnot Mr. Bartoš implemented the EM version of the method
+alleviate the need to reform research practices and to andconductedtheextensivesimulationstudies.
+ensurethatallresearchersreporttheirresultshonestly.
+OpenSciencePractices
+Conclusion
+Z-curve 1.0 made it possible to estimate the replica-
+tionrateofasetofstudiesonthebasisofpublishedtest
+results. Z-curve 2.0 makes it possible to also estimate
+This article earned the Open Materials badge for
+the expected discovery rate; that is, how many tests
+makingthe materialsopenlyavailable. It hasbeenver-
+were conducted to produce the statistically significant
+ified that the analysis reproduced the results presented
+results. The EDR can be used to evaluate the presence
+inthearticle. Theentireeditorialprocess,includingthe
+andamountofselectionbias. Althoughtherearemany
+openreviews,ispublishedintheonlinesupplement.
+methods that have the same purpose, z-curve 2.0 has
+several advantages over these methods. Most impor-
+References
+tantly, it quantifies the amount of selection bias. This
+information is particularly useful when meta-analyses Bartoš, F., & Maier, M. (In press). Power or alpha?
+report effect sizes based on methods that do not con- Thebetterwayofdecreasingthefalsediscovery
+siderthepresenceofselectionbias. rate.https://doi.org/10.31234/osf.io/ev29a
+Bartoš, F., & Schimmack, U. (2020). zcurve: An R
+AuthorContact package for fitting z-curves [R package version
+1.0.0]. https://CRAN.R-project.org/package=
+František Bartoš; f.bartos96@gmail.com; Depart-
+zcurve
+ment of Psychological Methods, University of Amster-
+Begley, C. G., & Ellis, L. M. (2012). Raise standards for
+dam; Department of Arts, Faculty of Arts, Charles Uni-
+preclinicalcancerresearch.Nature,483(7391),
+versity;ORCID:0000-0002-0018-5573
+531–533.https://doi.org/10.1038/483531a
+Ulrich Schimmack; ulrich.schimmack@utoronto.ca;
+Bishop, C. M. (2006). Pattern recognition and machine
+Department of Psychology; University of Toronto, Mis-
+learning.Springer.
+sissauga;ORCID:0000-0001-9456-5536
+Bressan, P. (2019). Confounds in “failed” replications.
+FrontiersinPsychology,10.https://doi.org/10.
+Acknowledgments
+3389/fpsyg.2019.01884
+Access to computing and storage facilities owned by Brunner, J., & Schimmack, U. (2020). Estimating pop-
+partiesandprojectscontributingtotheNationalGridIn- ulation mean power under conditions of het-
+frastructureMetaCentrumprovidedundertheprogram erogeneityandselectionforsignificance.Meta-
+“Projects of Large Research, Development, and Innova- Psychology, 4. https://doi.org/10.15626/MP.
+tionsInfrastructures”(CESNETLM2015042), isgreatly 2018.874
+appreciated. WewouldliketothankMaximilianMaier, Camerer, C. F., Dreber, A., Forsell, E., Ho, T.-H., Huber,
+ErikW.vanZwet,andLeonardoTozziforvaluablecom- J., Johannesson, M., Kirchler, M., Almenberg,
+mentsonadraftofthismanuscript. J., Altmejd, A., Chan, T., et al. (2016). Eval-
+uating replicability of laboratory experiments
+DataAvailabilityStatement in economics. Science, 351(6280), 1433–1436.
+https://doi.org/10.1126/science.aaf0918
+Supplementary materials are accessible at https://
+Chang, A. C., & Li, P. (2015). Is economics research
+osf.io/r6ewt/ and the R-package is accessible at https:
+replicable? Sixty published papers from thir-
+//cran.r-project.org/web/packages/zcurve/.
+teenjournalssay“usuallynot”.FinanceandEco-
+nomics Discussion Series 2015-083. http://dx.
+ConflictofInterestandFunding
+doi.org/10.17016/FEDS.2015.083
+No conflict of interest to report. This work was not Cunningham,M.R.,&Baumeister,R.F.(2016).Howto
+supportedbyaspecificgrant. makenothingoutofsomething:Analysesofthe
+impact of study sampling and statistical inter-
+AuthorContributions
+pretation in misleading meta-analytic conclu-
+sions. Frontiers in Psychology, 7, 1639. https:
+Most of the ideas in the manuscript were developed
+//doi.org/10.3389/fpsyg.2016.01639
+jointly. The main idea behind the z-curve method and
+its density version was developed by Dr. Schimmack.
+===== PAGE 13/14 =====
+13
+Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Inzlicht, M., Gervais, W., & Berkman, E. (2015). Bias-
+Maximum likelihood from incomplete data via correction techniques alone cannot determine
+the EM algorithm. Journal of the Royal Statis- whether ego depletion is different from zero:
+tical Society: Series B (Methodological), 39(1), Commentary on Carter, Kofler, Forster, & Mc-
+1–22. https://doi.org/10.1111/j.2517-6161. Cullough, 2015. Kofler, Forster, & McCullough.
+1977.tb01600.x http://dx.doi.org/10.2139/ssrn.2659409
+Ebersole, C. R., Mathur, M. B., Baranski, E., Bart- Ioannidis, J. P., & Trikalinos, T. A. (2007). An ex-
+Plange, D.-J., Buttrick, N. R., Chartier, C. R., ploratory test for an excess of significant find-
+Corker, K. S., Corley, M., Hartshorne, J. K., IJz- ings.ClinicalTrials,4(3),245–253.https://doi.
+erman, H., et al. (2020). Many Labs 5: Test- org/10.1177/1740774507079441
+ing pre-data-collection peer review as an in- John, L. K., Loewenstein, G., & Prelec, D. (2012). Mea-
+tervention to increase replicability. Advances in suring the prevalence of questionable research
+Methods and Practices in Psychological Science, practices with incentives for truth telling. Psy-
+3(3), 309–331. https://doi.org/10.1177/ chologicalScience,23(5),524–532.https://doi.
+2515245920958687 org/10.1177/0956797611430953
+Eddelbuettel, D., & François, R. (2011). Rcpp: Seam- Lee, G., & Scott, C. (2012). Em algorithms for mul-
+less R and C++ integration. Journal of statis- tivariate Gaussian mixture models with trun-
+tical software, 40, 1–18. https://doi.org/10. catedandcensoreddata.ComputationalStatis-
+18637/jss.v040.i08 tics & Data Analysis, 56(9), 2816–2829. https:
+Egger, M., Smith, G. D., Schneider, M., & Minder, C. //doi.org/10.1016/j.csda.2012.03.003
+(1997).Biasinmeta-analysisdetectedbyasim- Leone, F. C., Nelson, L. S., & Nottingham, R. (1961).
+ple, graphical test. BMJ, 315(7109), 629–634. The folded normal distribution. Technometrics,
+https://doi.org/10.1136/bmj.315.7109.629 3(4), 543–550. https://doi.org/10.1080/
+Elandt, R. C. (1961). The folded normal distribution: 00401706.1961.10489974
+Two methods of estimating parameters from Maier,M.,Bartoš,F.,&Wagenmakers,E.-J.(2022).Ro-
+moments. Technometrics, 3(4), 551–562. https: bust Bayesian meta-analysis: Addressing publi-
+//doi.org/10.2307/1266561 cationbiaswithmodel-averaging.Psychological
+Ferguson,C.J.,&Heene,M.(2012).Avastgraveyardof Methods.10.1037/met0000405
+undead theories: Publication bias and psycho- Miller,J.(2009).Whatistheprobabilityofreplicatinga
+logical science’s aversion to the null. Perspec- statistically significant effect? Psychonomic Bul-
+tives on Psychological Science, 7(6), 555–561. letin & Review, 16(4), 617–640. https://doi.
+https://doi.org/10.1177/1745691612459059 org/10.3758/PBR.16.4.617
+Francis, G. (2014). The frequency of excess success for Morris, T. P., White, I. R., & Crowther, M. J. (2019).
+articles in Psychological Science. Psychonomic Using simulation studies to evaluate statistical
+Bulletin & Review, 21(5), 1180–1187. https:// methods. Statistics in Medicine, 38(11), 2074–
+doi.org/10.3758/s13423-014-0601-x 2102.https://doi.org/10.1002/sim.8086
+Franco, A., Malhotra, N., & Simonovits, G. (2014). Motyl, M., Demos, A. P., Carsel, T. S., Hanson, B. E.,
+Publication bias in the social sciences: Unlock- Melton, Z. J., Mueller, A. B., Prims, J., Sun, J.,
+ing the file drawer. Science, 345(6203), 1502– Washburn, A. N., Wong, K. M., et al. (2017).
+1505. https://doi.org/10.1126/science. Thestateofsocialandpersonalityscience:Rot-
+1255484 ten to the core, not so bad, getting better, or
+Gilbert,D.,King,G.,Pettigrew,S.,&Wilson,T.(2016). gettingworse?JournalofPersonalityandSocial
+Commenton“Estimatingthereproducibilityof Psychology,113(1),34–58.https://doi.org/10.
+psychologicalscience”.Science,351,1037.http: 1037/pspa0000084
+//dx.doi.org/10.1126/science.aad7243 OpenScienceCollaboration.(2015).Estimatingthere-
+Hedges,L.V.(1992).Modelingpublicationselectionef- producibility of psychological science. Science,
+fects in meta-analysis. Statistical Science, 246– 349(6251).
+255. https://doi.org/10.1214/SS%5C% Pashler, H., & Wagenmakers, E.-.-J. (2012). Editors’ in-
+2F1177011364 troduction to the special section on replicabil-
+Inzlicht,M.,&Friese,M.(2019).Thepast,present,and ity in psychological science: A crisis of con-
+futureofegodepletion.SocialPsychology.https: fidence? Perspectives on Psychological Science,
+//doi.org/10.1027/1864-9335/a000398 7(6), 528–530. https://doi.org/10.1177/
+1745691612465253
+===== PAGE 14/14 =====
+14
+Pires,A.M.,&Branco,J.A.(2010).Astatisticalmodel Sori´c,B.(1989).Statistical“discoveries”andeffect-size
+toexplaintheMendel—Fishercontroversy.Sta- estimation. Journal of the American Statistical
+tistical Science, 545–565. https://doi.org/10. Association, 84(406), 608–610. https://doi.
+1214/10-STS342 org/10.2307/2289950
+Prinz, F., Schlange, T., & Asadullah, K. (2011). Believe Sterling, T. D. (1959). Publication decisions and their
+it or not: How much can we rely on published possible effects on inferences drawn from tests
+data on potential drug targets? Nature Reviews of significance—or vice versa. Journal of the
+Drug Discovery, 10(9), 712–712. https://doi. American Statistical Association, 54(285), 30–
+org/10.1038/nrd3439-c1 34. https://doi.org/10.1080/01621459.1959.
+Renkewitz,F.,&Keiner,M.(2019).Howtodetectpubli- 10501497
+cationbiasinpsychologicalresearch.Zeitschrift Sterling, T. D., Rosenbaum, W. L., & Weinkam, J. J.
+für Psychologie, 227(4), 261–279. https://doi. (1995). Publication decisions revisited: The ef-
+org/10.1027/2151-2604/a000386 fect of the outcome of statistical tests on the
+Rosenthal, R. (1979). The file drawer problem and tol- decision to publish and vice versa. The Ameri-
+erance for null results. Psychological Bulletin, can Statistician, 49(1), 108–112. https://doi.
+86(3), 638–641. https://doi.org/10.1037/ org/10.1080/00031305.1995.10476125
+0033-2909.86.3.638 Stroebe,W.,&Strack, F.(2014).Theallegedcrisisand
+Rosenthal, R., & Gaito, J. (1964). Further evidence the illusion of exact replication. Perspectives on
+for the cliff effect in interpretation of levels of Psychological Science, 9(1), 59–71. http://dx.
+significance. Psychological Reports, 15(2), 570. doi.org/10.1177/1745691613514450
+https://doi.org/10.2466/pr0.1964.15.2.570 Ujeh, C., Satitvipawee, P., Sillabutra, J., Soontornpipit,
+Scheel, A. M., Schijen, M. R., & Lakens, D. (2021). An P., Kitidamrongsuk, P., & Viwatwongkasem,
+excess of positive results: Comparing the stan- C. (2016). Bootstrapping with R to deter-
+dard psychology literature with registered re- mine variances of mixture model estimates in
+ports.AdvancesinMethodsandPracticesinPsy- predicting confidence intervals for population
+chologicalScience,4(2),1–12.https://doi.org/ sizes. Procedia Computer Science, 86, 216–219.
+10.1177/25152459211007467 https://doi.org/10.1016/j.procs.2016.05.103
+Schimmack, U. (2020). The Replicability Index is the Vevea, J. L., & Hedges, L. V. (1995). A general linear
+mostpowerfultooltodetectpublicationbiasin modelforestimatingeffectsizeinthepresence
+meta-analyses. https://replicationindex.com/ ofpublicationbias.Psychometrika,60(3),419–
+2020/01/01/the-replicability-index-is-the- 435.https://doi.org/10.1007/BF02294384
+most-powerful-tool-to-detect-publication-bias- Wegner, D. M. (1992). The premature demise of the
+in-meta-analyses/ soloexperiment.PersonalityandSocialPsychol-
+Schimmack, U. (2021). Rotten to the core II: A repli- ogy Bulletin, 18(4), 504–508. https://doi.org/
+cation and extension of Motyl et al. https:// 10.1017/S0140525X17001972
+replicationindex.com/2021/03/10/rotten-to- Zwaan, R. A., Etz, A., Lucas, R. E., & Donnellan, M. B.
+the-core-ii-a-replication-and-extension-of- (2018).Makingreplicationmainstream.Behav-
+motyl-et-al/ ioral and Brain Sciences, 41, 120. https://doi.
+Schimmack, U. (2012). The ironic effect of significant org/10.1017/S0140525X17001972
+results on the credibility of multiple-study arti-
+cles. Psychological Methods, 17(4), 551. https:
+//doi.org/10.1037/a0029487

@@ -1,0 +1,1234 @@
+
+===== PAGE 1/20 =====
+Opendata:NotApplicable Editedby:ErinMBuchanan
+Meta-Psychology,2022,vol6,MP.2021.3078 Openmaterials:NotApplicable Reviewedby:NatalyBeribisky,DanielBaker
+https://doi.org/10.15626/MP.2021.3078 Openandreproducibleanalysis:NotApplicable Analysisreproducedby:NotApplicable
+Articletype:Tutorial Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+PublishedundertheCC-BY4.0license Preregistration:No https://doi.org/10.17605/OSF.IO/J5V26
+Power to the People: A Beginner’s Tutorial to
+Power Analysis using jamovi
+James E Bartlett
+SchoolofPsychologyandNeuroscience,UniversityofGlasgow,UK
+Sarah J Charles
+DepartmentofPsychology,InstituteofPsychiatry,Psychology&Neuroscience,King’sCollegeLondon,UK
+Abstract
+Authors have highlighted for decades that sample size justification through power analysis is the exception rather
+than the rule. Even when authors do report a power analysis, there is often no justification for the smallest effect
+size of interest, or they do not provide enough information for the analysis to be reproducible. We argue one
+potential reason for these omissions is the lack of a truly accessible introduction to the key concepts and decisions
+behind power analysis. In this tutorial targeted at complete beginners, we demonstrate a priori and sensitivity
+power analysis using jamovi for two independent samples and two dependent samples. Respectively, these power
+analyses allow you to ask the questions: “How many participants do I need to detect a given effect size?”, and
+“WhateffectsizescanIdetectwithagivensamplesize?”. Weemphasisehowpoweranalysisismosteffectiveasa
+reflective process during the planning phase of research to balance your inferential goals with your resources. By
+theendofthetutorial,youwillbeabletounderstandthefundamentalconceptsbehindpoweranalysisandextend
+themtomoreadvancedstatisticalmodels.
+Keywords: Poweranalysis,effectsize,tutorial,apriori,sensitivity,jamovi
+Introduction not the only way to justify your sample size (see Lak-
+ens,2022),butdespiteincreasedattentiontostatistical
+“Ifheisatypicalpsychologicalresearcher,notonlyhas
+power, it is still rare to find articles that justified their
+he exerted no prior control over his risk of committing a
+samplesizethroughpoweranalysis(Chen&Liu,2019;
+typeIIerror,buthewillhavenoideawhatthemagnitude
+Guo et al., 2014; Larson & Carbine, 2017). Even for
+ofthisriskis.”(Cohen,1965,pg. 96)1
+those that do report a power analysis, there are often
+Fordecadesresearchershavehighlightedthatempir-
+other problems such as poor justification for the effect
+icalresearchhaschronicallylowstatisticalpower(But-
+size, misunderstandingstatisticalpower, ornotmaking
+ton et al., 2013; Cohen, 1962; Sedlmeier & Gigeren-
+the power analysis reproducible (Bakker et al., 2020;
+zer 1989). This means that the study did not include
+Beribisky et al., 2019; Collins & Watt, 2021). There-
+enough participants to reliably detect a realistic effect
+fore,wepresentabeginner’stutorialwhichoutlinesthe
+size (see Table 1 for a definition of key terms). One
+method to avoid low statistical power is to calculate 1We are aware of the problem with using gendered lan-
+how many participants you need for a given effect size guage like in the original quote. Despite this issue, we think
+in a process called “power analysis”. Power analysis is thequotestillresonates.
+===== PAGE 2/20 =====
+2
+key decisions behind power analysis and walk through Brysbaert, 2019; Perugini et al., 2018), but from our
+how it applies to t-tests for two independent samples perspective, previous tutorials move too quickly from
+andtwodependentsamples. Weexpectnobackground beginner to advanced concepts. In research methods
+knowledgeaswewillexplainthekeyconceptsandhow curricula, educators only briefly cover power analysis
+tointeractwiththesoftwareweuse. acrossintroductoryandadvancedcourses(Sestiretal.,
+Before beginning the tutorial, it is important to ex- 2021; TARG Meta-Research Group, 2020). In their as-
+plain why we need power analysis. There is a negative sessment of researcher’s understanding of power anal-
+relationshipbetweenthesamplesizeofastudyandthe ysis, Collins and Watt (2021) advise that clearer ed-
+effectsizethestudycanreliablydetect. Holdingevery- ucational materials should be available. In response,
+thing else constant, a larger study can detect smaller ourapproachispresentingabeginner’stutorialthatcan
+effect sizes, and conversely, a smaller study can only support both students and established researchers who
+detect larger effect sizes. A study can be described as areunfamiliarwithpoweranalysis.
+underpowerediftheeffectsizeyouaretryingtodetect We have split our tutorial into three parts starting
+issmallerthantheeffectsizeyourstudyhastheability witharecapofthestatisticalconceptsunderlyingpower
+todetect. analysis. There are common misconceptions around
+Ifwepublishedorsharedtheresultsofallthestudies useful types of power analysis (Beribisky et al., 2019),
+we ever conducted, underpowered research would be so it is important to outline what we are trying to
+less of a problem. We would just see more statistically achieve. Inparttwo,weoutlinethedecisionsyoumust
+non-significant findings. However, since there is publi- make when performing a power analysis, like choosing
+cationbiasthatfavourssignificantfindings(Dwanetal., your alpha, beta, and smallest effect size of interest.
+2008;Francoetal.,2014),underpoweredstudieswarp We then present a walk-through in part three on per-
+whole fields of research (Button et al., 2013). Imag- forming a priori and sensitivity power analyses for two
+ine five research groups were interested in the same independent samples and two dependent samples. Ab-
+topic and performed a similar study using 50 partici- solutebeginnersunfamiliarwithpoweranalysisshould
+pants each. The results from the first four groups were start with part one, while readers with a general un-
+notstatisticallysignificant,butthefifthgroupbychance derstanding of power analysis can start with part two.
+observed a larger effect size which was statistically sig- We conclude with recommendations for future reading
+nificant. We know that non-significant findings are less thatoutlinespoweranalysisformoreadvancedstatisti-
+likelytobepublished(Francoetal., 2014), soonlythe caltests.
+fifth group published their findings which happened to
+observealargerstatisticallysignificanteffect. PartOne: TheStatisticsBehindPowerAnalysis
+Now imagine you wanted to build on this research
+TypeIandTypeIIErrors
+andtoinformyourstudy, youreviewtheliterature. All
+youfindisthefifthstudyreportingalargerstatistically The dominant theory of statistics in psychology is
+significant effect, and you use thateffect size toinform known as “frequentist” or “classical” statistics. Power
+your study, meaning you recruit a smaller sample than analysis is used within this framework where proba-
+ifyouexpectedasmallereffectsize. Ifstudiessystemat- bility is assigned to “long-run” frequencies of observa-
+icallyusesmallsamplesizes,onlylargermoreunrealis- tions (many things happening over time). In contrast,
+ticeffectsizesarepublished,andsmallermorerealistic Bayesian statistics uses another theory of probability
+effect sizes are hidden. Moreover, researchers tend to that can be applied to individual events through com-
+havepoorintuitionsaboutstatisticalpower,wherethey bining prior belief with a likelihood function2. In this
+underestimate what sample size they need for a given article, we are only covering the frequentist approach
+effect size (Bakker et al., 2016). In combination, this where the “long-run” probability is the basis of where
+meansresearcherstendtopowertheirstudiesforunre- yougetp-valuesfrom.
+alisticallylargeeffectsizesandthinktheyneedasample Researchers often misinterpret the information pro-
+size which would be too small to detect more realistic vided by p-values (Goodman, 2008). In our follow-
+effect sizes (Etz & Vandekerckhove, 2016). In short, ing explanations, we focus on the Neyman-Pearson ap-
+systematically underpowered research is a problem as proach(Lakens,2021),wheretheaimofthefrequentist
+it warps researchers’ understanding of both what con- branch of statistics is to help you make decisions and
+stitutes a realistic effect size and what an appropriate limit the number of errors you will make in the long-
+samplesizeis. run(Neyman,1977). Theformaldefinitionofap-value
+A power analysis tutorial article is nothing new.
+2SeeKruschkeandLiddell,(2018)forhowpoweranalysis
+Therearecomprehensiveguidestopoweranalysis(e.g.,
+appliestoBayesianstatistics.
+===== PAGE 3/20 =====
+3
+byCohen(1994)istheprobabilityofobservingaresult as a fixed standard of evidence. Fisher - one of the pi-
+at least as extreme as the one observed, assuming the oneers of hypothesis testing - commented that he ac-
+nullhypothesis(thereisnoeffect)istrue. Thismeansa cepted 5% as a low standard of evidence across re-
+small p-value (closer to 0) indicates the results are un- peated findings (Goodman, 2008). Fisher (1926) em-
+likelyifthenullhypothesisistrue,whilealargep-value phasised that individual researchers should consider
+(closer to 1) indicates the results are more likely if the whichalphaisappropriateforthestandardofevidence
+nullistrue. in their study, but this nuance has been lost over time.
+The probabilities do not relate to individual studies For example, Bakker et al. (2020) reported that for
+buttellyoutheprobabilityattachedtotheprocedureif studies that specifically mention alpha, 91% of power
+yourepeateditmanytimes. So,ap-valueof.05means analyses use 5%. This shows how, in psychology, alpha
+that, if you were to keep taking lots of samples from issynonymouswith5%anditisrareforresearchersto
+the population, and the null hypothesis was true, the useadifferentalphavalue.
+chanceoffindingaresultatleastasextremeastheone Theoppositeproblemiswherewesaythereisnotan
+wehaveseenis5%,or1in20. So,thiscanbephrased effect when there actually is one. This is known as a
+as “if we conducted an infinite number of studies with type II error (said, type two error) or a false negative.
+the same design as this, 5% of all of the results would In the Neyman-Pearson approach, this is the second el-
+be at least this extreme”. The reason to use long-run ementofusinghypothesistestingtohelpusmakedeci-
+probability, is that any single measurement comes with sions. InadditiontoalphalimitinghowmanytypeIer-
+itthepossibilityofsomekindof‘error’,orunaccounted rors(falsepositives)wearewillingtomake,wesetbeta
+for variance that are not assumed in our hypotheses. to limit how many type II errors (false negatives) we
+For example, the researcher’s reaction times, the tem- are willing to make. Beta (sometimes written as “β”) is
+perature of the room, the participant’s level of sleep, theprobabilityofconcludingthereisnotaneffectwhen
+thebrightnessofthescreensonequipmentbeingused, there really is one. This is normally set at .20 (20%),
+etc. could all cause slight changes to the accuracy of whichmeanswearewillingtomakeatypeIIerror20%
+themeasureswemake. Inthelong-run,thesearelikely ofthetimeinthelong-run. Bysettingthesetwovalues,
+averagedout. wearestatingrulestohelpusmakedecisionsandtrying
+We used a p-value of .05 as an example because an tolimithowoftenwewillbewronginthelong-run. We
+alpha value of .05 tends to be used as the cut-off point will consider how you can approach these decisions in
+in psychology to conclude “we are happy to say that parttwo.
+thisresultisunlikely/surprisingenoughtomakeanote
+of”. Alpha(sometimeswrittenas“α”)istheprobability One-andtwo-tailedtests
+of concluding there is an effect when there is not one,
+In significance testing, we describe the null hypoth-
+known as a type I error (said, type one error) or false
+esis as a probability distribution centred on zero. We
+positive. This is normally set at .05 (5%) and it is the
+can reject the null hypothesis if our observed result is
+threshold we look at for a significant effect. Setting al-
+greater than a critical value determined by our alpha
+pha to .05 means we are willing to make a type I error
+value. The area after the critical value creates a rejec-
+5%ofthetimeinthelong-run. IntheNeyman-Pearson
+tion region in the outer tails of the distribution. If the
+approach, we create cutoffs to help us make decisions
+observed result is in this rejection region, we conclude
+(Lakens, 2021). We want to know if we can reject the
+thedatawouldbeunlikelyassumingthenullhypothesis
+null hypothesis and conclude we have observed some
+istrue,andrejectthenullhypothesis.
+kind of effect. By setting alpha, we are saying the p-
+There are two ways of stating the rejection region.
+valueforthisstudymustbesmallerthanalphatoreject
+These are based on the type of alternative hypothesis
+the null hypothesis. If our p-value is larger than alpha,
+weareinterestedin. Therearetwotypesofalternative
+we cannot reject the null hypothesis. This is where the
+hypotheses: (1) non-directional, and (2) directional. A
+term“statisticalsignificance”comesfrom. Asascientific
+non-directional hypothesis is simply a statement that
+community,wehavecometothegroupconclusionthat
+there will be any effect, irrespective of the direction of
+this cut-off point is enough to say “the null hypothesis
+the effect, e.g., ‘Group A is different from Group B’. In
+may not be true” and we understand that in the long-
+contrasttothis,theassumednull-hypothesisis‘GroupA
+run, we would be willing to make a mistake 5% of the
+isnotdifferentfromGroupB’.GroupAcouldbesmaller
+timeifthenullwasreallytrue.
+thanGroupB,orGroupAcouldbebiggerthanGroupB.
+It is important to understand that the cut-off of 5%
+Inbothsituations,thenullhypothesiscouldberejected.
+appears immutable now for disciplines like psychology
+A directional hypothesis, on the other hand, is a state-
+thatroutinelyuse5%foralpha,butitwasnevermeant
+mentthattherewillbeaspecificeffect,e.g.,‘GroupAis
+===== PAGE 4/20 =====
+4
+biggerthanGroupB’.Now,theassumednullhypothesis statement. Howmuchdoesalcoholslowdownreaction
+is‘GroupAisnotbiggerthanGroupB’.Inthisinstance time? Is one drop of alcohol enough or do you need
+even if we find evidence that Group B is bigger than toconsumeafullkegofbeerbeforeyourreactiontime
+GroupA,thenullhypothesiscouldnotberejected. decreasesbyjust1millisecond? Thesmallesteffectsize
+Thisiswherethenumberoftailsinatestcomesin. In ofinterestoutlineswhateffectsizeyouwouldconsider
+atwo-tailedtest(alsoknownasanon-directionaltest), practicallymeaningfulforyourresearchquestion.
+whenalphaissetto5%,therearetwoseparate2.5%ar- Effect sizes can be expressed in two ways: as an un-
+eastocreatearejectionregioninboththepositiveand standardised effect, or as a standardised effect. An un-
+negativetails. Together,thetwotailscreateatotalarea standardisedeffectsizeisexpressedintheoriginalunits
+of5%. Tobestatisticallysignificant,theobservedresult ofmeasurement. Forexample,ifyoucompleteaStroop
+can be in either the positive or negative rejection re- task, you measure response times to congruent and in-
+gions. GroupAcouldbehigherthangroupB,orgroup congruent colour words in milliseconds. The mean dif-
+BcouldbehigherthangroupA,youarejustinterested ference in response time to congruent and incongruent
+inadifferenceinanydirection. conditions is an unstandardised effect size and will re-
+Inaone-tailedtest(alsoknownasadirectionaltest), main consistent across studies. This means you could
+there is just one larger area totalling 5% to create a sayonestudyreportingameandifferenceof106mshad
+rejection region in either the positive or negative tail alargereffectthanastudyreportingameandifference
+(depending on the direction you are interested in). To of79ms.
+be statistically significant, the critical value is slightly Unstandardised effect sizes are easy to compare if
+smaller,buttheresultmustbeinthedirectionyoupre- themeasurementunitsareconsistent,butinpsychology
+dicted. This means you would only accept a result of we do not always have easily comparable units. Many
+‘group A is bigger than group B’ as significant. You subdisciplines use Likert scales to measure an effect of
+couldstillfindthatgroupBisbiggerthangroupA,but interest. For example, in mental health research, one
+no matter how big the difference is, you cannot reject mightbeinterestedinhowmuchanxietysomeoneexpe-
+the null hypothesis as it is contrary to your directional rienceseachweek(participantsareoftengivenoptions
+prediction. suchas“notatall”,“alittle”,“neitheralittlenoralot”,
+“a lot”, and “all the time”). These responses are not in
+StatisticalPower easilyinterpretablemeasurementsbut,asscientists,we
+would still like to provide a numerical value to explain
+Statistical power is defined as the probability of cor-
+whataneffectmeans3.
+rectly deciding to reject the null hypothesis when the
+This is where standardised effect sizes are useful as
+null hypothesis is not true. In plain English: the like-
+theyallowyoutocompareeffectsacrosscontexts,stud-
+lihood of successfully detecting an effect that is actu-
+ies,orslightlydifferentmeasures. Forexample,ifstudy
+ally there (see Baguley, 2009 for other lay definitions).
+oneusedafive-pointscaletomeasureanxietybutstudy
+When we have sufficient statistical power, we are mak-
+twousedaseven-pointscale,adifferenceoftwopoints
+ing the study sensitive enough to avoid making too
+on each scale has a different interpretation. A stan-
+many type II errors. Statistical power is related to beta
+dardised effect size allows you to convert these differ-
+where it is 1-β and typically expressed as a percentage.
+ences into common measures, making it easier to com-
+Ifweuseabetavalueof.20,thatmeansweareaiming
+pareresultsacrossstudiesusingdifferentunitsofmea-
+tohavestatisticalpowerof80%(1-.20=.80=80%).
+surement. There are many types of standardised effect
+EffectSize sizes,suchasCohen’sdorη2 (said,etasquared),which
+we use in different contexts (see Lakens, 2013 for an
+Forstatisticalpower,wespokeabout“detectinganef- overview). In this tutorial, we mainly focus on Cohen’s
+fectthatisactuallythere”. Thefinalpieceofthepower d as the standardised mean difference as it is the effect
+analysispuzzleisthesmallesteffectsizeofinterest. An size used in jamovi, the software we use in part three
+effectsizecanbedefinedasanumberthatexpressesthe below. Althoughtherearedifferentformulas,Cohen’sd
+magnitude of a phenomenon relevant to your research is normally the mean difference divided by the pooled
+question(Kelley&Preacher,2012). Dependingonyour standarddeviation. Thismeansitrepresentsthediffer-
+research question, this includes the difference between ence between groups or conditions, expressed as stan-
+groups or the association between variables. For ex- darddeviationsinsteadoftheoriginalunitsofmeasure-
+ample, you could study the relationship between how
+much alcohol you drink and reaction time. We could 3Note, we use this as an example of measurements with
+say “alcohol has the effect of slowing down reaction different scales, but it is normally better to analyse ordinal
+time”. However, there is something missing from that datawithordinalmodels(seeBürkner&Vuorre,2019).
+===== PAGE 5/20 =====
+5
+ment. ingpoweranalysis: alpha,beta,samplesize,effectsize,
+Standardised and unstandardised effect sizes each andone-ortwo-tailedtests. Forease,wehaveprovided
+have their strengths and weaknesses (Baguley, 2009). a summary of these concepts, their meaning, and how
+Unstandardised effect sizes are easier to interpret, par- we often use them in Table 1. It takes time to appreci-
+ticularly for lay readers who would find it easier to un- atetheinterrelationshipbetweentheseconcepts,sowe
+derstand a difference of 150ms instead of 0.75 stan- recommend using the interactive visualisation by Mag-
+dard deviations. However, it can be harder to com- nusson(https://rpsychologist.com/d3/nhst/).
+pare unstandardised effect sizes across studies when
+there are different measurement scales. Standardised Typesofpoweranalysis
+effect sizes help with this as they convert measures to
+Asthefourmainconceptsbehindpoweranalysisare
+standardised units, making it easier to compare effect
+related,wecancalculateoneastheoutcomeifwestate
+sizes across studies. However, the standardisation pro-
+theotherthree. Themostcommontypesofpoweranal-
+cess can cause problems, as effect sizes can change de-
+ysisrelatingtotheseoutcomesare(1)apriori,(2)sen-
+pendingonwhetherthedesignwaswithin-orbetween-
+sitivity, and (3) post-hoc. If we want sample size as
+subjects,ifthemeasuresareunreliable,andifsampling
+the outcome, we use a priori power analysis to deter-
+affects the variance of the measures through restrict-
+minehowmanyparticipantsweneedtoreliablydetect
+ing the values to a smaller range of the scale (Bagu-
+agivensmallesteffectsizeofinterest,alpha,andpower.
+ley, 2009). Similarly, the frame of reference is impor-
+Alternatively,ifwewanttheeffectsizeastheoutcome,
+tant when interpreting standardised effect sizes. When
+wecanusesensitivitypoweranalysistodeterminewhat
+classifying the magnitude of standardised effects, Co-
+effect size we can reliably detect given a fixed sample
+hen (1988, pg. 25) specifically says “the terms "small,"
+size,alpha,andpower.
+"medium," and "large" are relative, not only to each
+Thereisalsopost-hocpoweranalysisifwewantsta-
+other, but to the area of behavioural science or even
+tistical power as the outcome given an observed effect
+more particularly to the specific content and research
+size,samplesize,andalpha. Post-hocpoweranalysisis
+method being employed in any given investigation”.
+anattractiveidea,butitshouldnotbereportedasites-
+Cohen emphasised that the qualitative labels (“small”,
+sentiallyexpressesthep-valueinadifferentway. There
+“medium,” and “large”) are arbitrarily applied to spe-
+isadirectrelationshipbetweenobservedpowerandthe
+cific values, and should be applied differently to differ-
+p-value of your statistical test, where a p-value of .05
+ent fields. This means that interpretation should not
+meansyourobservedpoweris50%(Lakens,2022). Re-
+simplyfollowrulesofthumbthatwereestablishedout-
+member,probabilityinfrequentiststatisticsdoesnotap-
+side of the research field of interest. Although the soft-
+plytoindividualevents,sousingtheobservedeffectsize
+ware we introduce in part three relies on standardised
+in a single study ignores the role of the smallest effect
+effect sizes, Baguley (2009) emphasises it is better to
+size of interest in the long-run. As post-hoc power is
+focus on interpreting unstandardised effect sizes wher-
+uninformative,weonlyfocusonaprioriandsensitivity
+everpossible.
+poweranalysisinthistutorial.
+To bring this back to statistical power (successfully
+detectingatrueeffect),thebiggeraneffectis,theeasier
+PartTwo: DecisionMakinginPowerAnalysis
+it is to detect. In the anxiety example, we could com-
+paretheeffectsoftwotypesoftherapy. Ifthedifference Nowthatyouarefamiliarwiththeconcepts,weturn
+between therapy A and therapy B was, on average, 3 ourfocustodecisionmakinginpoweranalysis. Inpart
+points on an anxiety scale, it would be easier to detect one,wedefinedthemaininputsusedinpoweranalysis,
+than if the average difference between therapy A and but now you must decide on a value for each one. Set-
+therapy B was 1 point. The smaller decrease of 1 point tingyourinputsisthemostdifficultpartofpoweranal-
+would be harder to detect than the larger decrease of ysis as you must understand your area of research and
+3 points. You would need to test more people in each be able to justify your choices (Lakens, 2022). Power
+therapy group to successfully detect this weaker effect analysisisareflectiveprocessthatismosteffectivedur-
+becauseofthegreaterlevelofoverlapbetweenthetwo ing the planning stage of research, meaning that you
+setsoftherapyoutcomes. Itisthisprinciplethatallows must balance your inferential goals (what you want to
+us to say that the bigger the effect size, the easier it is find out) with the resources you have available (time,
+todetect. Inotherwords,ifyouhavethesamenumber money, equipment, etc.). In this part, we will outline
+of participants, statistical power increases as the effect different strategies for choosing a value for alpha, be-
+sizeincreases. ta/power, one- or two-sided tests, your smallest effect
+Wehavenowcoveredthefivemainconceptsunderly- sizeofinterest,andyoursamplesize.
+===== PAGE 6/20 =====
+6
+Table1
+Tableshowingthebasicconceptsunderlyingpoweranalysis,whattheymean,andhowtheyareoftenused.
+Concept Whatitis Howitisoftenused
+Alpha(α) Cut-off value for how frequently we are will- Thisistraditionallysetto.05(5%ofthetime),
+ingtoacceptafalse-positive. but it is often set to lower thresholds in dis-
+ciplines like physics. The lower alpha is, the
+fewer false-positives there will be in the long-
+run.
+Beta(β) Cut-off value for how frequently we are will- Inpsychology,thisisusuallysetto.20(20%of
+ingtoacceptafalse-negative. thetime),implicitlysuggestingfalsenegatives
+are less of a concern than false positives. The
+lower beta is, the fewer false-negatives there
+willbeinthelong-run.
+Power Thechancesofdetectinganeffectthatexists. The opposite of beta, power is how likely you
+(1-β) aretodetectagiveneffectsize. Thisisusually
+setto.80(80%ofthetime). Thehigherpower
+is, the more likely you are to successfully de-
+tectatrueeffectifitisthere.
+Effectsize A number that expresses the magnitude of a Unstandardisedeffect sizesexpress thediffer-
+phenomenon relevant to your research ques- ence or relationship in the original units of
+tion. measurement,suchasmilliseconds. Standard-
+ised effect-sizes express the difference or re-
+lationship in standardised units, such Cohen’s
+d. Higher absolute effect sizes mean a larger
+differenceorstrongerrelationship.
+One-tailed When the rejection region in null hypothesis If you have a (ideally preregistered) clear di-
+test significance testing is limited to one tail in a rectionalprediction,one-tailedtestsmeanyou
+positiveornegativedirection. wouldonlyrejectthenullhypothesisifthere-
+sult was in the direction you predicted. The
+observed result may be in the extreme of the
+opposite tail, but you would still fail to reject
+thenullhypothesis.
+Two-tailed When the rejection region in null hypothesis If you would accept a result in any direction,
+test significance testing is present in the extremes youcanuseatwo-tailedtesttorejectthenull
+ofboththepositiveandnegativetailarea. hypothesis if the observed result is in the ex-
+tremesofeitherthepositiveornegativetail.
+apriori Howmanyparticipantsdoweneedtoreliably We tend to use the term ‘a priori’ in front of a
+power detect a given smallest effect size of interest, power analysis that is conducted before data
+analysis alpha,andpower? is collected. This is because we are deducing
+the number of participants from information
+wealreadyhave.
+Sensitivity Whateffectsizecouldwedetectwithourfixed We use a sensitivity power analysis when we
+power samplesize,alpha,anddesiredpower? alreadyknowhowmanyparticipantswehave
+analysis (e.g.,usingsecondarydata,oraccesstoarare
+population). We use this type of analysis to
+evaluate what effect sizes we can reliably de-
+tect.
+===== PAGE 7/20 =====
+7
+Alpha poweranalysis.
+Aiming for 80% power was largely a pragmatic ap-
+The first input to set is your alpha value. Tradition-
+proach, so you may argue it is not high enough. Co-
+ally, we use .05 to say we are willing to accept making
+hen (1965) explicitly stated that you should ignore his
+a type I error up to 5% of the time. There is nothing
+suggestion of 80% if you have justification for another
+special about using an alpha of .05, it was only a brief
+value. Setting beta to .20 means you are willing to ac-
+suggestion by Fisher (1926) for what felt right, but he
+cept a type II error 20% of the time. This implicitly
+emphasised you should justify your alpha for each ex-
+means type II errors are four times less serious than
+periment. Decades of tradition mean the default alpha
+type I errors when alpha is set to .05. To match the
+issetto.05,buttherearedifferentapproachesyoucan
+error rates, Bakker et al. (2020) found the next most
+taketoargueforadifferentvalue.
+commonvaluewas95%power(beta=.05),butitonly
+You could start with the traditional alpha of .05 but
+represented19%ofpoweranalysesintheirsample.
+adjust it for multiple comparisons. For example, if
+Earlier,wementionedworkingwithrarepopulations.
+youwereplanningonperformingfourrelatedtestsand
+Manysuchpopulations(suchasthosewithraregenetic
+wanted to correct for multiple comparisons, you could
+conditions) may receive specialist care or support. If
+usethiscorrectedalphavalueinyourpoweranalysis. If
+one were to assess the effectiveness of this specialist
+you used the Bonferroni-Holm method (Cramer et al.,
+care/support, then not finding an effect that does exist
+2016), the most stringent alpha value would be set as
+(a type II error) might lead to this support being taken
+.0125insteadof.05. Usingthisloweralphavaluewould
+away. Insuchcircumstances,youcouldarguethattype
+require more participants to achieve the same power,
+II errors are just as important to avoid, if not more im-
+butyouwouldensureyourmorestringenttesthadyour
+portant, than type I errors. As such, in these circum-
+desiredlevelofstatisticalpower.
+stances,youmightwanttoincreaseyourpower(havea
+Alternatively, you could argue your study requires
+lowerbetavalue),toavoidundueharmtoavulnerable
+deviating from the traditional .05 alpha value. One
+population.
+approach is to switch between a .05 alpha for sugges-
+Deciding on the beta value for your own study
+tivefindingsanda.005alphaforconfirmatoryfindings
+will involve a similar process to justifying your alpha.
+(Benjaminetal.,2018). Thismeansifyouhaveastrong
+You must decide what your inferential goals are and
+prediction, or one that has serious theoretical implica-
+whether80%powerisenough,knowingyoucouldmiss
+tions,youcouldargueyourstudyrequiresamorestrin-
+out on a real effect 20% of the time. However, if you
+gent alpha value. Theoretical physicists take this ap-
+increase power to 90% or 95%, it will require more
+proachofusingamorestringentvalueevenfurther,and
+participants, so you must perform a cost-benefit anal-
+useanalphavalueof.0000003(knownas‘fivesigma’).
+ysisbasedonhoweasyitwillbetorecruityoursample
+Thereasonforhavingsuchastringentalphalevelisthat
+(Lakens,2022).
+tomakechangestoourunderstandingofphysicswould
+have knock-on effects to all other sciences, so avoiding
+One-andtwo-tailedtests
+falsepositivesisoftheutmostimportance. Anotherap-
+proach is to justify your bespoke alpha for each study Intestscomparingtwovalues,suchasthedifference
+(Lakensetal.,2018). Theargumenthereisyoushould between two groups or the relationship between two
+performacost-benefitanalysistodetermineyouralpha variables,youcanchooseaone-ortwo-tailedtest. Lak-
+based on how difficult it is to recruit your sample. See ens (2016a) argued one-tailed tests are underused and
+MaierandLakens(2021)foraprimeronjustifyingyour offer a more efficient procedure. As the rejection re-
+alpha. gion is one 5% area (instead of two 2.5% areas), the
+critical value is smaller, so holding everything else con-
+Beta stant,youneedfewerparticipantsforastatisticallysig-
+nificantresult. One-tailedtestsalsoofferamoresevere
+Beta also has a traditional value: most studies aim
+testofahypothesissincetheobservedresultmustreach
+forabetaof.20,meaningtheywant80%power. Cohen
+the rejection region in the hypothesised direction. The
+(1965) suggested the use of 80% as he felt that type II
+p-value in your test may be smaller than alpha, but if
+errors are relatively less serious than type I errors. At
+the result is in the opposite direction to what you pre-
+the time of writing, 80% power would lead to roughly
+dicted, you still cannot reject the null hypothesis. This
+doublethesamplesizesthanthestudieshecritiquedin
+means one-tailed tests can be an effective option when
+his review (Cohen, 1962). Aiming for 80% power has
+youhaveastrongdirectionalprediction.
+proved influential as Bakker et al. (2020) found it was
+One-tailed tests are not always appropriate though,
+the most common value researchers reported in their
+soitisimportantyouprovideclearjustificationforwhy
+===== PAGE 8/20 =====
+8
+you are more interested in an effect in one direction about whether the results in the meta-analysis are sim-
+and not the other (Ruxton & Neuhäuser, 2010). If you ilar to your planned study. Sometimes, meta-analyses
+would be interested in an effect in either a positive or will report a broad meta-analysis amalgamating all the
+negative direction, then a two-tailed test would be bet- results, then report moderator analyses for the type
+ter suited. One-tailed tests have also been a source of of studies they include, so you could check whether
+suspicion since they effectively halve the p-value. For there is an estimate restricted to methods similar to
+example, Wagenmakers et al. (2011) highlighted how your study. We also know meta-analyses can report
+somestudiestook advantageofanopportunisticuseof inflated effect sizes due to publication bias (Lakens,
+one-tailedtestsfortheirresultstobestatisticallysignif- 2022), meaning you can look for a more conservative
+icant. This means one-tailed tests are most convincing estimate such as the lower bound of the confidence in-
+whencombinedwithpreregistration(seeKathawallaet tervalaroundtheaverageeffectoriftheauthorsreport
+al. (2021) if preregistration is a procedure you are un- abias-correctedaverageeffect.
+familiar with) as you can demonstrate that you had a Second, there may be one key study you are mod-
+cleardirectionalhypothesisandplannedtotestthathy- elling your project on. You could use their effect size
+pothesiswithaone-tailedtest. to inform your power analysis, but as Panzarella et al.
+(2021)warn,effectsizesarebestinterpretedincontext,
+Effectsize so question how similar your planned methods are. As
+a result from a single study, there will be uncertainty
+In contrast to alpha and beta, there is not one tradi-
+around their estimate, so think about the width of the
+tionalvalueforyourchoiceofeffectsize. Manystudies
+confidence interval around their effect size and use a
+approach power analysis with a single effect size and
+conservativeestimate.
+valueforpowerinmind,butaswewilldemonstratein
+Finally, you can consult effect size distributions. The
+part three, power exists along a curve. In most cases,
+most popular guidelines are from Cohen (1988) who
+you do not know what the exact effect size is, or you
+argued you should use d = 0.2 for new areas of re-
+would not need to study it. The effect size you use is
+search as the measures are likely to be imprecise, 0.5
+essentiallytheinflectionpointforwhicheffectsizesyou
+forphenomenaobservabletothenakedeye,and0.8for
+wantsufficientpowertodetect. Ifyouwant80%power
+differences you hardly need statistics to detect. Cohen
+for an effect of Cohen’s d = 0.40, you will be able to
+(1988)explicitlywarnedtheseguidelineswerefornew
+detecteffectsof0.40with80%power. Youwillhavein-
+areas of research, when there was nothing else to go
+creasingly higher levels of power for effects larger than
+on. But, like many heuristics, the original suggestions
+0.40, but increasingly lower levels of power for effects
+have lost their nuance and are now taken as a ubiqui-
+smallerthan0.40. Thismeansitisimportanttothinkof
+tous ‘rule of thumb’. It is important to consider what
+your smallest effect size of interest, as you are implicitly
+effectsizesmeanforyoursubjectarea(Baguley,2009),
+saying you do not care about detecting effects smaller
+but researchers seldom critically choose an effect size.
+thanthisvalue.
+An analysis of studies that did justify their effect size
+Themostdifficultpartofanaprioripoweranalysisis
+found that the majority of studies simply cited Cohen’s
+justifyingyoursmallesteffectsizeofinterest. Choosing
+suggestedvalues(Bakkeretal.,2020). Relyingonthese
+an effect size to use in power analysis and interpreting
+rulesofthumbcanleadtostrangeinterpretations,such
+effectsizesinyourstudyrequiressubjectmatterexper-
+as paradoxes where even incredibly small effect sizes
+tise (Panzarella et al., 2021). You must decide what
+(usingCohen’sruleofthumb)canbemeaningful. Abel-
+effectsizesyouconsiderimportantormeaningfulbased
+son(1985)foundthatanR2 of.003wastheeffectsize
+on your understanding of the measures and designs in
+ofthemostsignificantcharacteristicpredictingbaseball
+your area. For example, is there a relevant theory that
+success (batting average). In context, then, an R2 of
+outlinesexpectedeffects;whathavestudiestestingsim-
+.003isclearlymeaningful,soitisimportanttointerpret
+ilar hypotheses found; what are the practical implica-
+effect sizes in context rather than apply broad general-
+tionsoftheresults? Someofthesedecisionsaredifficult
+isations. If you must rely on effect size distributions,
+to make and all the strategies are not always available,
+there are articles which are sub-field specific. For ex-
+but there are different sources of information you can
+ample, Gignac and Szodorai (2016) collated effects in
+consult for choosing and justifying your smallest effect
+individual differences research and Szucs and Ioanni-
+sizeofinterest(Lakens,2022).
+dis(2021)outlinedeffectsincognitiveneurosciencere-
+First, you could identify a meta-analysis relevant to
+search.
+yourareaofresearchwhichsummarisestheaverageef-
+Effect size distributions can be useful to calibrate
+fect across several studies. If you want to use the es-
+yourunderstandingofeffectsizesindifferentareasbut
+timate to inform your power analysis, you must think
+===== PAGE 9/20 =====
+9
+they are not without fault. Panzarella et al. (2021) on conducting is informative, or if it would be uninfor-
+demonstrated that in the studies that cited effect size mative, you would have the opportunity to change the
+distributions, most used them to directly interpret the design or use more precise measures to produce larger
+effect sizes they observed in their study (e.g., “in this effectsizes.
+studywefounda‘large’effect,whichmeans...”). How-
+ever, as seen in Abelson’s paradox, small effects in one PartThree: PowerAnalysisusingjamovi
+context can be meaningful in another context. Effect
+For this tutorial, we will be using the open source
+sizedistributionscanhelptounderstandthemagnitude
+software jamovi (2021). Although it currently offers a
+ofeffectsizeswithinandacrosssubjectareas,butcom-
+limited selection for power analysis, it is perfect for an
+paringyourobservedeffectsizetoanamalgamationof
+introductionforthreereasons. First,itisfreeandacces-
+effects across all of psychology leads to a loss in nu-
+sible on a wide range of devices. Historically, G*Power
+ance. If you have no other information, effect size dis-
+(Faul et al., 2009) was a popular choice, but it is no
+tributions can help to inform your smallest effect size
+longerunderactivedevelopmentwhichpresentsacces-
+ofinterest,butwhenitcomestointerpretationitisim-
+sibility issues. Second, the output in jamovi contains
+portant to put your effect size in context compared to
+written guidance on how to interpret the results and
+studiesinvestigatingasimilarresearchquestion.
+emphasises underrepresented concepts like power ex-
+With these strategies in mind, it is important to con-
+isting along a curve. Finally, Bakker et al. (2020) ob-
+sider what represents the smallest effect size of inter-
+servedauthorsoftenfailtoprovideenoughinformation
+est for your specific study. It is the justification that is
+to reproduce their power analysis. In jamovi, you save
+important as there is no single right or wrong answer.
+your output and options in one file, meaning you can
+Poweranalysisisalwaysacompromisebetweendesign-
+sharethisfiletobefullyreproducible. Combined,these
+inganinformativestudyanddesigningafeasiblestudy
+featuresmakejamovitheperfectsoftwaretouseinthis
+fortheresourcesatyourdisposal. Youcouldalwaysset
+tutorial.
+youreffectsizetod=0.05,butthesamplesizerequired
+To download jamovi to your computer, navi-
+wouldoftenbeunachievableandeffectsthissmallmay
+gate to the download page (https://www.jamovi.org/
+not be practically meaningful. Therefore, you must ex-
+download.html) and install the solid version to be the
+plainandjustifywhatrepresentsthesmallesteffectsize
+most stable. Once you open jamovi, click Modules (in
+ofinterestforyourareaofresearch.
+thetopright,Figure1ainred),clickjamovilibrary(Fig-
+ure 1a in blue), and scroll down in the Available tab
+Samplesize
+until you see jpower and click INSTALL (Figure 1b in
+The final input you can justify is your sample size. green). This is an additional module written by Morey
+You may be constrained by resources or the population andSelkerwhichappearsinyourjamovitoolbar.
+youstudy,meaningyouknowthesamplesizeandwant Inthefollowingsections,imaginewearedesigninga
+toknowwhateffectsizesyoucoulddetectinasensitiv- studytobuildonIrvingetal. (2022)whotestedanin-
+itypoweranalysis. tervention to correct statistical misinformation. Partici-
+Lakens(2022)outlinedthattwostrategiesforsample pantsreadanarticleaboutanewfictionalstudywhere
+sizejustificationincludemeasuringanentirepopulation one passage falsely concludes watching TV causes cog-
+andresourceconstraints. Ifyoustudyaspecificpopula- nitive decline. In the correction group, participants re-
+tion, suchasparticipantswithararegeneticcondition, ceive an extra passage where the fictional researcher
+you might know there are only 30 participants in your explains they only reported a correlation, not a causal
+country which you regularly study, placing a limit on relationship. In the no-correction group, the extra pas-
+the sample size you can recruit. Alternatively, in many sagejustexplainsthefictionalresearcherwasnotavail-
+studentprojects,thetimeormoneyavailabletoconduct able to comment. Irving et al. then tested participants’
+researchislimited,sothesamplesizemaybeinfluenced comprehension of the story and coded their answers
+by resource constraints. You might have £500 for re- for mistaken causal inferences. They expected partic-
+cruitment and if you pay them £10 for an hour of their ipants in the correction group to make fewer causal
+time,youonlyhaveenoughmoneyfor50participants. inferences than those in the no-correction group, and
+In both scenarios, you start off knowing what your foundevidencesupportingthispredictionwithaneffect
+sample size will be. This does not mean you can ig- size equivalent to Cohen’s d = 0.64, 95% CI = [0.28,
+nore statistical power, but it changes from calculating 0.99]. Inspired by their study, we want to design an
+thenecessarysamplesizetodetectagiveneffectsize,to experiment to correct another type of misinformation
+whateffectsizeyoucandetectwithagivensamplesize. inarticles.
+This allows you to decide whether the study you plan Irving et al. (2022) themselves provide an excellent
+===== PAGE 10/20 =====
+10
+Figure 1. Opening jamovi and managing your additional modules. Click modules (a in red), jamovi library (a in
+blue) to manage your modules, and scroll down to install jpower (b in green) to be able to follow along to the
+tutorial.
+example of explaining and justifying the rationale be- completemultipleconditionsinsteadofbeingallocated
+hind their power analysis, so we will walk through the toseparategroups.
+decision making process and how it changes the out-
+puts. For our smallest effect size of interest, our start- TwoIndependentsamples
+ing point is the estimate of d = 0.64. However, it is
+A priori power analysis in independent samples.
+worth consulting other sources to calibrate our under-
+Ifyouopenjamovi,youshouldhaveanewwindowwith
+standingofeffectsinthearea,suchasIrvingetal. citing
+no data or output. For an independent samples t-test,
+a meta-analysis by Chan et al. (2017). For debunking,
+makesureyouareontheanalysestab,clickonjpower,
+theaverageeffectacross30studieswasd=1.14,95%
+and select Independent Samples T-Test. This will open
+CI = [0.68, 1.61], so we could use the lower bound of
+thewindowshowninFigure2.
+the confidence interval, but this may still represent an
+Wewillstartbycalculatingpoweraprioriforaninde-
+overestimate. Irving et al. used the smallest effect (d
+pendent samples t-test. On the left side, you have your
+= 0.54) from the studies most similar to their design
+inputs and on the right side, you have the output from
+which was included in the meta-analysis. As a value
+yourchoices. Dependingonthetypeofanalysisyouse-
+slightly smaller than the other estimates, we will also
+lect under Calculate, one of the inputs will be blanked
+usethisasthesmallesteffectofinterestforourstudy.
+outingrey. Thismeansitistheparameteryouwantas
+Nowwehavesettledonoursmallesteffectsizeofin-
+theoutputontherightsideandyouwillnotbeableto
+terest,wewillused=0.54inthefollowingdemonstra-
+edit it. To break down the main menu options in this
+tions. Westartwithaprioriandsensitivitypoweranal-
+window:
+ysis for two independent samples, exploring how the
+outputschangeaswealterinputslikealpha,power,and
+• Calculate: Your choice of calculating one of
+thenumberoftailsinthetest. Foreachdemonstration,
+(a) the minimum number of participants (N per
+weexplainhowyoucantransparentlyreportthepower
+group) needed for a given effect size, (b) what
+analysis to your reader. We then repeat the demon-
+yourpowerisgivenaspecificeffectsizeandsam-
+strations for two dependent samples to show how you
+ple size, or (c) the smallest effect size that you
+require fewer participants when the same participants
+couldreliablydetectgivenafixedsamplesize.
+===== PAGE 11/20 =====
+11
+Figure2. Defaultsettingsforanindependentsamplest-testusingthejpowermoduleinjamovi.
+• Minimally-interesting effect size: This is thestan- one direction or you would be interested in any
+dardisedeffectsizeknownasCohen’sd. Herewe significantresult.
+canspecifyoursmallesteffectsizeofinterest.
+For this example, our smallest effect size of interest
+• Minimum desired power: This is our long-run will be d = 0.54 following our discussion of building
+power. Poweristraditionallysetat.80(80%)but on Irving et al. (2022). We can enter the following
+someresearchersarguethatthisshouldbehigher inputs: effectsized=0.54, alpha=.05, power=.90,
+at.90(90%)or.95(95%). Thedefaultsettingin relativesizeofgroup2togroup1=1, andtwo-tailed.
+jpoweris.90(90%)butseeparttwoforjustifying YoushouldgettheoutputinFigure3. Thefirsttable“A
+thisvalue. Priori Power Analysis” tells us that to detect our small-
+esteffectsizeofinterest,wewouldneedtwogroupsof
+• Nforgroup1: Thisinputiscurrentlyblankedout
+74 participants (N = 148) to achieve 90% power in a
+as in this example we are calculating the mini-
+two-tailedtest.
+mumsamplesize,buthereyouwoulddefinehow
+Injamovi,itisclearhowstatisticalpowerexistsalong
+manyparticipantsareinthefirstgroup.
+a curve. The second table in Figure 3 “Power by Ef-
+• Relativesizeofgroup2togroup1: Ifthisissetto fectSize”showsuswhatrangeofeffectsizeswewould
+1,thesamplesizeiscalculatedbyspecifyingequal likely detect with 74 participants per group. We would
+group sizes. You can specify unequal group sizes have 80-95% power to detect effect sizes between d
+by changing this input. For example, 1.5 would = 0.46-0.60. However, we would only have 50-80%
+mean group 2 is 1.5 times larger than group 1, power to detect effects between d = 0.32-0.46. This
+whereas 0.5 would mean group 2 is half the size shows our smallest effect size of interest could be de-
+ofgroup1. tected with 90% power, but smaller effects have lower
+powerandlargereffectswouldhavehigherpower.
+• α (type I error rate): This is your long-run type
+Thisisalsoreflectedinthepowercontourplot,which
+one error rate which is conventionally set at .05.
+is reported by default (Figure 4). If you cannot see
+Seeparttwoforstrategiesonjustifyingadifferent
+the plot, make sure the “Power contour plot” option is
+value.
+ticked under Plots and scroll down in the Results win-
+• Tails: Isthetestone-ortwo-tailed? Youcanspec- dowasitisincludedatthebottom. Thelevelofpower
+ify whether you are looking for an effect in just you choose is the black line that curves from the top
+===== PAGE 12/20 =====
+12
+Figure 4. A power contour to show how as the effect
+size decreases (smaller values on the y-axis), the num-
+Figure 3. priori power analysis results for a two-tailed berofparticipantsrequiredtodetecttheeffectincreases
+independentsamplest-testusingd=0.54asthesmall- (highervaluesonthex-axis). Ourdesiredlevelof90%
+esteffectsizeofinterest. Wewouldneed74participants powerisindicatedbytheblackcurvedline.
+pergroup(N=148)for90%power.
+ipants per group (for a two-tailed test; alpha =
+left to the bottom right. For our effect size, we travel .05). Thiswouldbe38fewerparticipantsthanour
+alongthehorizontalblacklineuntilwereachthecurve, firstestimate,saving19hoursofdatacollection.
+andthedownarrowtellsusweneed74participantsper
+group. For larger effectsas you travelup the curve, we Itisimportanttobalancecreatinganinformativeex-
+would need fewer participants and for smaller effects periment with the resources available. Therefore, it is
+downthecurvewewouldneedmoreparticipants. crucialthat,wherepossible,youperformapoweranal-
+Now that we have explored how many participants ysis in the planning phase of a study as you can make
+we would need to detect our smallest effect size of in- these kinds of decisions before you recruit any partici-
+terest,wecanaltertheinputstoseehowthenumberof pants. Youcanmakefewertypeone(decreasingalpha)
+participantschanges. Whereverpossible,itisimportant ortypetwo(increasingpower)errors,butyoumustre-
+to perform a power analysis before you start collecting cruitmoreparticipants.
+data, as you can explore how changing the inputs im- IntheoriginalpoweranalysisbyIrvingetal. (2022),
+pactsyoursamplesize. they used inputs of d = 0.54, alpha = .05, power =
+.95,andone-tailedforadirectionalprediction,andthey
+• Tail(s): If you change the number of tails to one,
+aimed for two groups of 75 (N = 150) participants. In
+this decreases the number of participants in each
+thesedemonstrations,wearewalkingthroughchanging
+groupfrom74to60. Thissavesatotalof28par-
+the inputs to see how it affects the output, but you can
+ticipants (14 in each group). If your experiment
+lookattheirarticleforagoodexampleofjustifyingand
+takes 30 minutes per participant, that is saving
+reportingapoweranalysis.
+you 14 hours’ worth of work or cost while still
+How can this be reported? Bakker et al. (2020)
+providingyourexperimentwithsufficientpower.
+warned that only 20% of power analyses contained
+• α: If you change α to .01, we would need 104 enough information to be fully reproducible. To report
+participants in each group (for a two-tailed test), yourpoweranalysis,thereaderneedsthefollowingfour
+60 more participants than our first estimate and keypiecesofinformation:
+30morehoursofdatacollection.
+• Thetypeoftestbeingconducted,
+• Minimum desired power: If we decreased power
+to the traditional 80%, we would need 55 partic- • Thesoftwareusedtocalculatepower,
+===== PAGE 13/20 =====
+13
+• Theinputsthatyouused,and
+• Whyyouchosethoseinputs.
+FortheoriginalexampleinFigure3,wecouldreport
+it like this: “To detect an effect size of Cohen’s d = 0.54
+with 90% power (alpha = .05, two-tailed), the jpower
+moduleinjamovisuggestswewouldneed74participants
+per group (N = 148) for an independent samples t-test.
+Similar to Irving et al. (2022), the smallest effect size of
+interestwassettod=0.54,butweusedatwo-tailedtest
+aswewerelesscertainaboutthedirectionoftheeffect.”
+Thisprovidesthereaderwithalltheinformationthey
+would need in order to reproduce the power analysis
+andensureyouhavecalculateditaccurately. Thestate-
+mentalsoincludesyourjustificationforthesmallestef-
+fect size of interest. Please note there is no single ‘cor-
+rect’ way to report a power analysis. Just be sure that
+youhavethefourkeypiecesofinformation.
+Sensitivity power analysis in independent sam-
+ples. Selecting the smallest effect size of interest for
+Figure 5. Sensitivity power analysis results for an inde-
+an a priori power analysis would be an effective strat-
+pendentsamplest-testwhenthereisafixedsamplesize
+egy if you wanted to calculate how many participants
+of 40 per group (N = 80). We would be able to detect
+youneedwhendesigningyourstudy. Nowimagineyou
+aneffectsizeofd=0.73with90%power.
+already knew the sample size or had access to a pop-
+ulation of a known size. In this scenario, you would
+conduct a sensitivity power analysis. This would tell
+you what effect sizes your study would be powered to but we would have greater than 90% power to detect
+detect for a given alpha, power, and sample size. This effectsizeslargerthand=0.73.
+is helpful for interpreting your results as you can out- To acknowledge how power exists along a curve, we
+line what effect sizes your study was sensitive to and also get a second type of graph. We now have a power
+whicheffectswouldbetoosmallforyoutoreliablyde- curve (Figure 6) with the x-axis showing the potential
+tect. If you change the “Calculate” input to Effect size, effectsizeandthey-axisshowingwhatthepowerwould
+“Minimally-interesting effect size” will now be greyed beforthatpotentialeffectsize. Ifthisplotisnotvisible
+out. in the output, make sure you have “Power curve by ef-
+Imaginewehadfinishedcollectingdataandweknew fect size” ticked in the Plots options. This tells us how
+we had 40 participants in each group but did not con- powerchangesastheeffectsizeincreasesordecreases,
+duct a power analysis when designing the study. If we withourotherinputsheldconstant.
+enter40forNforgroup1,1forrelativesizeofgroup2 At90%power,wecandetecteffectsizesofd=0.73
+to group 1, alpha = .05, power = .90, and two-tailed, or larger. If we follow the black curve towards the bot-
+wegettheoutputinFigure5. tom left, power decreases for smaller effect sizes. This
+The first table in Figure 5 “A Priori Power Analysis” showsthatoncewehaveafixedsamplesize,powerex-
+tells us that the study is sensitive to detect effect sizes istsalongacurvefordifferenteffectsizes. Wheninter-
+of d = 0.73 with 90% power (note, the table is still re- preting your results, it is important you have sufficient
+ferredtoasapriori,despiteitbeingasensitivitypower statistical power to detect the effects you do not want
+analysis. This is a quirk of the software. Do not worry, tomissouton. Ifthesensitivitypoweranalysissuggests
+it is running a sensitivity analysis). This helps us to youwouldmisseffectsyouwouldconsidermeaningful,
+interpret the results if we did not plan with power in you would need to calibrate your expectations of how
+mind or we had a rare sample. The second table in informativeyourstudyis.
+Figure 5 “Power by Effect Size” shows we would have How can this be reported? We can also state the
+80-95% power to detect effect sizes between d = 0.63- resultsofasensitivitypoweranalysisinareport. Ifyou
+0.82,but50-80%powertodetecteffectsizesbetweend didnotperformanaprioripoweranalysis,youcouldre-
+=0.44-0.63. Astheeffectsizegetssmaller,thereisless portthisinthemethodtocommentonyourfinalsample
+chance of detecting it with 40 participants per group, size. If you are focusing on interpreting how informa-
+===== PAGE 14/20 =====
+14
+have four inputs as we do not need to worry about the
+ratio of group 2 to group 1. In a paired samples t-test,
+every participant must contribute a value for each con-
+dition. If we repeat the inputs from our independent
+samples t-test a priori power analysis (d = 0.54, alpha
+= .05, power = .90, two-tailed), your window should
+looklikeFigure8.
+The table “A Priori Power Analysis” suggests we
+would need 39 participants to achieve 90% power to
+detectoursmallesteffectsizeofinterest(d=0.54)in-
+spiredbyIrvingetal. (2022). Wewouldneed109fewer
+participantsthanourfirstestimate,saving54.5hoursof
+datacollectionassumingyourexperimenttakes30min-
+utes. We also have the second table “Power by Effect
+Size” to show how power changes for different effect
+sizeranges.
+Beforewemoveontohowtoreportthepoweranal-
+ysis, we will make a note of the important lesson that
+Figure 6. A power curve to show how as the effect size usingawithin-subjectsdesignwillalwayssaveyoupar-
+decreases(smallervaluesonthex-axis),wewouldhave ticipants. The reason for this is that instead of every
+lessstatisticalpower(lowervaluesonthey-axis)forour participantcontributingjustonevalue(whichmayhave
+fixedsamplesize. Ourdesiredlevelof90%powerisin- measurement error because of extraneous variables),
+dicated by the intersection of the black horizontal line they are contributing two values (one to each condi-
+andtheblackcurvedline. tion). Theerrorcausedbymanyoftheextraneousvari-
+ables(suchastheirage,eyesight,strength,oranyother
+participant-specificvariablethatmightcauseerror)are
+tiveyourresultsare, youcouldexploreitinthediscus- the same for both conditions for the same person. The
+sion. Muchlikeanaprioripoweranalysis,therearekey less error in our measurements there is, the more sure
+detailsthatmustbeincludedtoensureitisreproducible we can be that the results we see are due to our ma-
+andinformative. FortheexampleinFigure5,youcould nipulation. As within-participants designs lower the
+report: amount of error compared to between-participants de-
+“Thejpowermoduleinjamovisuggestsanindependent sign, they need fewer participants to achieve the same
+samples t-test with 40 participants per group (N = 80) amount of power. The amount of error accounted for
+wouldbesensitivetoeffectsofCohen’sd=0.73with90% inawithin-participantsdesignmeansyouneedapprox-
+power (alpha = .05, two-tailed). This means the study imatelyhalfthenumberofparticipantsyouneedtode-
+would not be able to reliably detect effects smaller than tect the same effect size in a between-subjects design
+Cohen’sd=0.73”. (Lakens,2016b). Whenyouaredesigningastudy,think
+As with an a priori power analysis, there are multi- about whether you could convert the design to within-
+plewaysyoucandescribethesensitivitypoweranalysis subjectstomakeitmoreefficient.
+with the example above demonstrating one way of do- While it helps save on participants, it is not always
+ing so. The main goal is to communicate the four key possible, or practical, to use a within-subjects design.
+pieces of information to ensure your reader could re- For example, in the experiment we are designing here,
+produce the sensitivity power analysis and confirm you participantsareshowntwoversionsofanewsstorywith
+calculateditaccurately. asubtlemanipulation. Abetween-subjectsdesignmight
+be a better choice as participants are randomised into
+Twodependentsamples one of two groups and they do not see the alternative
+manipulation. This means participants would find it
+A priori power analysis in dependent samples.
+more difficult to work out the aims of the study and
+Nowwewilldemonstratehowyoucanconductapower
+changetheirbehaviour. Inawithin-subjectsdesignyou
+analysis for a within-subjects design. This time, you
+would need at least two versions of the news story to
+need to select Paired Samples T-Test from the jpower
+createone‘correction’conditionandone‘nocorrection’
+menutogetawindowlikeFigure7.
+condition. This means participants would experience
+The inputs are almost identical to what we used for
+both conditions and they could work out the aims of
+the independent samples t-test, but this time we only
+===== PAGE 15/20 =====
+15
+Figure7. Defaultsettingsforapairedsamplest-testusingthejpowermoduleinjamovi.
+thestudyandpotentiallychangetheirbehaviour. Inad- in mind or had a limited sample. The second table in
+dition, you would need to ensure the two versions of Figure 9 “Power by Effect Size” shows we would have
+the news story were different enough that participants 80-95% power to detect effect sizes between d = 0.53-
+didnotsimplyprovidethesameanswer,butcomparable 0.68, but 50-80% power to detect effect sizes between
+enough to ensure you are not introducing a confound. d = 0.37-0.53. As the effect size gets smaller, there
+This is another example of where thinking of statistical is less chance of detecting it with 30 participants, but
+power in the design stage of research is most useful. wewouldhavegreaterthan90%powertodetecteffect
+You can decide whether a within- or between-subjects sizeslargerthand=0.61.
+designisbestsuitedtoyourprocedure. Howcanthisbereported? FortheexampleinFig-
+Howcanthisbereported? FortheexampleinFig- ure 9, you could report: “The jpower module in jamovi
+ure 8, you could report: “To detect an effect size of Co- suggests a paired samples t-test with 30 participants
+hen’sd=0.54with90%power(alpha=.05,two-tailed), wouldbesensitivetoeffectsofCohen’sd=0.61with90%
+the jpower module in jamovi suggests we would need 39 power (alpha = .05, two-tailed). This means the study
+participants for a paired samples t-test. Similar to Irving would not be able to reliably detect effects smaller than
+et al. (2022), the smallest effect size of interest was set Cohen’sd=0.61”.
+tod=0.54,butweusedatwo-tailedtestaswewereless
+certainaboutthedirectionoftheeffect.”. Conclusion
+Sensitivity power analysis in dependent samples.
+In this tutorial, we demonstrated how to perform a
+Ifyouchange“Calculate”toEffectsize,wecanseewhat
+power analysis for both independent and paired sam-
+effect sizes a within-subjects design is sensitive enough
+plest-testsusingthejpowermoduleinjamovi. Weout-
+to detect. Imagine we sampled from 30 participants
+lined two of the most useful types of power analysis:
+without performing an a priori power analysis. Setting
+(1) a priori, for when you want to know how many
+the inputs to power = .90, N = 30, alpha = .05, and
+participants you need to detect a given effect size, and
+two-tailed;youshouldgettheoutputinFigure9.
+(2) sensitivity, for when you want to know what effect
+The“APrioriPowerAnalysis”tableshowsusthatthe
+sizes you can detect with a given sample size. We also
+designwouldbesensitivetodetectaneffectsizeofd=
+emphasisedthekeyinformationyoumustreporttoen-
+0.61 with 90% power using 30 participants. This helps
+sure power analyses are reproducible. Our aim was to
+ustointerprettheresultsifwedidnotplanwithpower
+provide a beginner’s tutorial to learn the fundamental
+===== PAGE 16/20 =====
+16
+concepts of power analysis, so you can build on these
+lessonsandapplythemtomorecomplicateddesigns.
+There are three key lessons to take away from this
+tutorial. First,youcanplantomakefewertypeone(de-
+creasing alpha) or type two (increasing power) errors,
+butitwillcostmoreparticipantsassumingyouwantto
+detect the same effect size. Second, using a one-tailed
+test offers a more severe test of a hypothesis and re-
+quires fewer participants to achieve the same level of
+power. Finally, using a within-subjects design requires
+fewerparticipantsthanabetween-subjectsdesign.
+Poweranalysisisareflectiveprocess,anditisimpor-
+tanttokeepthesethreelessonsinmindwhendesigning
+yourstudy. Designinganinformativestudyisabalance
+between your inferential goals and the resources avail-
+able to you (Lakens, 2022). That is why we framed
+changes in the inputs around how many hours of data
+collection your study would take assuming it lasted 30
+minutes. You will rarely have unlimited resources as
+a researcher, either from the funding body supporting
+your research, or from the number of participants in
+Figure 8. A priori power analysis results for a paired your population of interest. Planning your study with
+samplest-testusingd=0.54asthesmallesteffectsize statistical power in mind provides you with the most
+of interest. We would need 39 participants for 90% flexibilityasyoucanmakedecisions,likeconsideringa
+power. one-tailedtestorusingawithin-subjectsdesign,before
+youcanpreregisterandconductyourstudy.
+Thenumberofparticipantsrequiredforasufficiently
+powered experiment might have surprised you. De-
+pending on the inputs and design, we needed between
+39 and 208 participants to detect the same small-
+est effect size of interest (d = 0.54) to build on Irv-
+ing et al. (2022). For resource-limited studies like
+student dissertations or participant-limited studies on
+rare populations, getting so many participants may
+be unachievable. As a result, changing to a within-
+participantsdesign, orchangingtheotherinputsmight
+be needed, where possible. In circumstances where
+within-participantsdesignsarenotpossible,andchang-
+inginputs(e.g.,alpha)doesnotwork,youcanstillcon-
+duct the study, providing you adjust your expectations
+andmaketheresultsavailable. Ifyoudomakeyourre-
+sultsavailable,whileyoursamplesizemaybetoosmall
+in isolation to detect your smallest effect size of inter-
+est,yourresultscanthenbecollatedintometa-analyses
+providingtheyareavailabletootherresearchers.
+Alternative solutions include studying larger effect
+sizes, and/or focusingon ‘team science’. Cohen(1973)
+quippedthatinsteadofchasingsmallereffects,psychol-
+ogy should emulate older sciences by creating larger
+Figure 9. Sensitivity power analysis results for a paired
+effects through stronger manipulations or using more
+samples t-test when there is a fixed sample size of 30
+precisemeasurements. Alternatively,ifyoucannotcon-
+participants. We would be able to detect an effect size
+duct an informative study individually, you could pool
+ofd=0.61with90%power.
+resources and engage in team science. For example,
+===== PAGE 17/20 =====
+17
+student dissertations can benefit from projects where is the flexibility to simulate your own bespoke power
+multiplestudentsworktogether,witheachstudentcon- analysis. Thestartingpointissimulatingadatasetwith
+tributingonecomponentandcollectingdataforalarger known attributes - like the mean and standard devi-
+network/project (Creaven et al., 2021; Wagge et al., ation of each group or correlation between variables
+2019), or labs across the world pool their resources to- - and applying your statistical test. You then repeat
+gether (Moshontz et al., 2018). In the past, students this simulation process many times and store the p-
+have been encouraged to work on a project by them- values from each iteration. As probability in frequen-
+selves to gain experience conducting a science experi- tist statistics relates to long-run frequencies, you cal-
+mentbythemselves. However,encouragingstudentsto culate what percentage of those p-values were lower
+workingroupsmaynowbejustasuseful,assuchgroup than your alpha, providing your statistical power. See
+work reflects the paradigm shift towards ‘team science’ Quandt(2020)andSleegers(2021)fordemonstrations
+seen in the wider research community in recent years of simulation applied to power analysis in R and the
+(Wuchtyetal.,2007). summer school workshop series organised by PsyPAG
+To conclude our tutorial, we present a list of re- (https://simsummerschool.github.io/).
+sources you can refer to for additional applications of Simulation approaches also scale to more advanced
+power analysis. We limited our tutorial to two inde- techniques such as accounting for the number of trials
+pendentsamplesandtwopairedsamplesformaximum in a task instead of solely the number of participants
+accessibility, so it is important to outline resources for (Bakeretal.,2021)ormixed-effectsmodels,whichare
+additionaldesigns. growing in popularity in psychology. Power analysis
+proceduresformixedeffectsmodelsrelyonsimulation,
+G*Power soseeBrysbaertandStevens(2018),DeBruineandBarr
+(2021),andKumleetal. (2021)forguidance.
+Although G*Power (Faul et al., 2009) is no longer
+in active development, it supports power analysis for
+AuthorContact
+a range of statistical tests, such as correlation, non-
+parametrictests,andANOVA.Thereisalongercompan- ORCiD JEB: 0000-0002-4191-5245; Email JEB:
+ion guide to this manuscript that walks through power james.bartlett@glasgow.ac.uk;ORCiDSJC:0000-0002-
+analysisforcorrelationandANOVA(Bartlett,2021). 3559-1141;EmailSJC:sarah.charles@kcl.ac.uk.
+Superpower ConflictofInterestandFunding
+G*PowercancalculatepowerforANOVAmodels,but We have no conflicts of interest to disclose. Writing
+itdoesnotaccuratelyscaletofactorialANOVAandpair- thisarticlewasnotsupportedbyanyfundingsources.
+wise comparisons. To target these limitations, Lakens
+andCaldwell(2021)developedanRpackageandShiny AuthorContributions
+appcalledSuperpower. Superpowerprovidesmoreflex-
+Conceptualization (JEB, SJC); Writing - Original
+ibility and scales up to factorial ANOVA as you enter
+Draft(JEB,SJC);Writing-Review&Editing(JEB;SJC);
+meansandstandarddeviationspercellforyoursmallest
+Visualization(JEB;SJC).JEBplacedfirstduetooriginal
+effectsizesofinterest. Forguidance,seeourcompanion
+conceptualization, butfully sharedauthorshipbetween
+guidefortheShinyapp(Bartlett,2021)andtheauthors’
+JEBandSJC.
+ebookfortheRpackage(Caldwelletal.,2021).
+OpenSciencePractices
+pwrRpackage
+This article is theoretical and as such provides no
+IfyouuseR,thepwrpackage(Champelyetal.,2020)
+newdataormaterials,andwasnotpre-registered. The
+supports many of the same tests as G*Power such as t-
+entire editorial process, including the open reviews, is
+tests, correlation, and regression. The arguments are
+publishedintheonlinesupplement.
+alsosimilartoG*power’sinputs,suchasomittingoneof
+numeratoranddenominatordegreesoffreedom,effect
+References
+sizeas f2,alpha,orpowerforyourdesiredoutput.
+Abelson, R. P. (1985). A variance explanation paradox:
+Simulation When a little is a lot. Psychological Bulletin,
+97(1), 129–133. https://doi.org/10.1037/
+Packages like pwr are user-friendly as they only re-
+0033-2909.97.1.129
+quire you to define inputs to calculate power analyt-
+ically, but one of the benefits of a programme like R
+===== PAGE 18/20 =====
+18
+Baguley, T. (2009). Standardized or simple effect size: 2(1), 77–101. https://doi.org/10.1177/
+Whatshouldbereported?BritishJournalofPsy- 2515245918823199
+chology, 100(3), 603–617. https://doi.org/10. Button, K. S., Ioannidis, J. P. A., Mokrysz, C., Nosek,
+1348/000712608X377117 B. A., Flint, J., Robinson, E. S. J., & Munafò,
+Baker, D. H., Vilidaite, G., Lygo, F. A., Smith, A. K., M.R.(2013).Powerfailure:Whysmallsample
+Flack, T. R., Gouws, A. D., & Andrews, T. J. sizeunderminesthereliabilityofneuroscience.
+(2021). Power contours: Optimising sample Nature Reviews Neuroscience, 14(5), 365–376.
+size and precision in experimental psychology https://doi.org/10.1038/nrn3475
+and human neuroscience. Psychological Meth- Caldwell, A. R., Lakens, D., & Parlett-Pelleriti, C. M.
+ods, 26(3), 295–314. https://doi.org/http: (2021). Power Analysis with Superpower. Re-
+//dx.doi.org/10.1037/met0000337 trieved November 23, 2021, from https://
+Bakker, M., Hartgerink, C. H. J., Wicherts, J. M., & van aaroncaldwell.us/SuperpowerBook/
+der Maas, H. L. J. (2016). Researchers’ Intu- Champely, S., Ekstrom, C., Dalgaard, P., Gill, J.,
+itions About Power in Psychological Research. Weibelzahl, S., Anandkumar, A., Ford, C., Vol-
+PsychologicalScience,27(8),1069–1077.https: cic, R., & Rosario, H. D. (2020). Pwr: Ba-
+//doi.org/10.1177/0956797616647519 sic Functions for Power Analysis. Retrieved
+Bakker, M., Veldkamp, C. L. S., Akker, O. R. v. d., As- November 23, 2021, from https://CRAN.R-
+sen,M.A.L.M.v.,Crompvoets,E.,Ong,H.H., project.org/package=pwr
+& Wicherts, J. M. (2020). Recommendations Chan, M.-P. S., Jones, C. R., Hall Jamieson, K., &
+in pre-registrations and internal review board Albarracín, D. (2017). Debunking: A Meta-
+proposals promote formal power analyses but Analysis of the Psychological Efficacy of Mes-
+do not increase sample size. PLoS ONE, 15(7), sagesCounteringMisinformation.Psychological
+e0236079. https://doi.org/10.1371/journal. Science, 28(11), 1531–1546. https://doi.org/
+pone.0236079 10.1177/0956797617714579
+Bartlett, J. E. (2021). Introduction to Power Analysis: Chen, L.-T., & Liu, L. (2019). Content Analysis of
+A Guide to G*Power, jamovi, and Superpower. Statistical Power in Educational Technology
+https://osf.io/zqphw/ Research: Sample Size Matters. International
+Benjamin, D. J., Berger, J. O., Johannesson, M., Nosek, Journal of Technology in Teaching and Learn-
+B. A., Wagenmakers, E.-J., Berk, R., Bollen, ing,15(1),49–75.RetrievedJuly8,2021,from
+K. A., Brembs, B., Brown, L., Camerer, C., Ce- https://eric.ed.gov/?id=EJ1276088
+sarini, D., Chambers, C. D., Clyde, M., Cook, Cohen, J. (1962). The statistical power of abnormal-
+T. D., De Boeck, P., Dienes, Z., Dreber, A., social psychological research: A review. The
+Easwaran, K., Efferson, C., ... Johnson, V. E. Journal of Abnormal and Social Psychology,
+(2018).Redefinestatisticalsignificance.Nature 65(3), 145–153. https://doi.org/10.1037/
+HumanBehaviour,2(1),6–10.https://doi.org/ h0045186
+10.1038/s41562-017-0189-z Cohen,J.(1965).SomeStatisticalIssuesinPsychologi-
+Beribisky,N.,Davidson,H.,&Cribbie,R.A.(2019).Ex- calResearch.InW.BenjaminB(Ed.),Handbook
+ploringperceptionsofmeaningfulnessinvisual ofclinicalpsychology.McGraw-Hill.
+representationsofbivariaterelationships.PeerJ, Cohen, J. (1973). Statistical Power Analysis and Re-
+7,e6853.https://doi.org/10.7717/peerj.6853 search Results. American Educational Research
+Brysbaert, M. (2019). How Many Participants Do We Journal, 10(3), 225–229. https://doi.org/10.
+Have to Include in Properly Powered Experi- 2307/1161884
+ments? A Tutorial of Power Analysis with Ref- Cohen, J. (1988). Statistical power analysis for the be-
+erence Tables. Journal of Cognition, 2(1), 16. havioral sciences (2nd ed.). Lawrence Erlbaum
+https://doi.org/10.5334/joc.72 Associates.
+Brysbaert, M., & Stevens, M. (2018). Power Analysis Cohen, J. (1994). The earth is round (p<.05). Amer-
+andEffectSizeinMixedEffectsModels:ATuto- ican Psychologist, 49(12), 997–1003. https://
+rial. Journal of Cognition, 1(1), 9. https://doi. doi.org/10.1037/0003-066X.49.12.997
+org/10.5334/joc.10 Collins, E., & Watt, R. (2021). Using and Understand-
+Bürkner,P.-C.,&Vuorre,M.(2019).OrdinalRegression ing Power in Psychological Research: A Survey
+Models in Psychology: A Tutorial. Advances in Study.Collabra:Psychology,7(1),28250.https:
+Methods and Practices in Psychological Science, //doi.org/10.1525/collabra.28250
+===== PAGE 19/20 =====
+19
+Cramer, A. O. J., van Ravenzwaaij, D., Matzke, D., Ste- viewofthereportingofsamplesizecalculations
+ingroever, H., Wetzels, R., Grasman, R. P. P. P., and corresponding data components in obser-
+Waldorp, L. J., & Wagenmakers, E.-J. (2016). vational functional magnetic resonance imag-
+Hidden multiplicity in exploratory multiway ing studies. NeuroImage, 86, 172–181. https:
+ANOVA:Prevalenceandremedies.Psychonomic //doi.org/10.1016/j.neuroimage.2013.08.012
+Bulletin&Review,23(2),640–647.https://doi. Irving, D., Clark, R. W. A., Lewandowsky, S., & Allen,
+org/10.3758/s13423-015-0913-5 P. J. (2022). Correcting statistical misinforma-
+Creaven, A.-M., Button, K., Woods, H., & Nordmann, tionaboutscientificfindingsinthemedia:Cau-
+E. (2021). Maximising the educational and re- sationversuscorrelation.JournalofExperimen-
+search value of the undergraduate dissertation tal Psychology. Applied. https://doi.org/10.
+in psychology. Retrieved April 4, 2022, from 1037/xap0000408
+https://psyarxiv.com/deh93/ Kathawalla, U.-K., Silverstein, P., & Syed, M. (2021).
+DeBruine, L. M., & Barr, D. J. (2021). Understand- Easing Into Open Science: A Guide for Gradu-
+ing Mixed-Effects Models Through Data Simu- ate Students and Their Advisors. Collabra: Psy-
+lation.AdvancesinMethodsandPracticesinPsy- chology, 7(18684). https://doi.org/10.1525/
+chological Science, 4(1), 2515245920965119. collabra.18684
+https://doi.org/10.1177/2515245920965119 Kelley, K., & Preacher, K. J. (2012). On effect size. Psy-
+Dwan,K.,Altman,D.G.,Arnaiz,J.A.,Bloom,J.,Chan, chological Methods, 17(2), 137–152. https://
+A.-W., Cronin, E., Decullier, E., Easterbrook, doi.org/10.1037/a0028086
+P. J., Elm, E. V., Gamble, C., Ghersi, D., Ioan- Kruschke, J. K., & Liddell, T. M. (2018). The Bayesian
+nidis, J. P. A., Simes, J., & Williamson, P. R. New Statistics: Hypothesis testing, estimation,
+(2008).SystematicReviewoftheEmpiricalEv- meta-analysis, and power analysis from a
+idence of Study Publication Bias and Outcome Bayesian perspective. Psychonomic Bulletin &
+Reporting Bias. PLoS ONE, 3(8), e3081. https: Review, 25(1), 178–206. https://doi.org/10.
+//doi.org/10.1371/journal.pone.0003081 3758/s13423-016-1221-4
+Etz, A., & Vandekerckhove, J. (2016). A Bayesian Per- Kumle, L., Võ, M. L.-H., & Draschkow, D. (2021). Es-
+spective on the Reproducibility Project: Psy- timating power in (generalized) linear mixed
+chology(D.Marinazzo,Ed.).PLoSONE,11(2), models:AnopenintroductionandtutorialinR.
+1–12. https://doi.org/10.1371/journal.pone. Behavior Research Methods, 53(6), 2528–2543.
+0149794 https://doi.org/10.3758/s13428-021-01546-0
+Faul,F.,Erdfelder,E.,Buchner,A.,&Lang,A.-G.(2009). Lakens, D. (2013). Calculating and reporting effect
+Statistical power analyses using G*Power 3.1: sizes to facilitate cumulative science: A practi-
+Tests for correlation and regression analyses. cal primer for t-tests and ANOVAs. Frontiers in
+Behavior Research Methods, 41(4), 1149–1160. Psychology, 4. https://doi.org/10.3389/fpsyg.
+https://doi.org/10.3758/BRM.41.4.1149 2013.00863
+Fisher, R. A. (1926). The Arrangement of Field Experi- Lakens, D. (2021). The Practical Alternative to the p
+ments.JournaloftheMinistryofAgriculture,33, ValueIstheCorrectlyUsedpValue.Perspectives
+503–515. onPsychologicalScience,16(3),639–648.https:
+Franco,A.,Malhotra,N.,&Simonovits,G.(2014).Pub- //doi.org/10.1177/1745691620958012
+lication bias in the social sciences: Unlocking Lakens, D. (2022). Sample Size Justification. Collabra:
+the file drawer. Science. https://doi.org/10. Psychology, 8(1), 33267. https://doi.org/10.
+1126/science.1255484 1525/collabra.33267
+Gignac, G. E., & Szodorai, E. T. (2016). Effect Lakens, D. (2016a). One-sided tests: Efficient and Un-
+size guidelines for individual differences re- derused. Retrieved March 29, 2022, from http:
+searchers.PersonalityandIndividualDifferences, //daniellakens.blogspot.com/2016/03/one-
+102, 74–78. https://doi.org/10.1016/j.paid. sided-tests-efficient-and-underused.html
+2016.06.069 Lakens, D. (2016b). Why Within-Subject Designs Re-
+Goodman,S.(2008).Adirtydozen:Twelvep-valuemis- quire Fewer Participants than Between-Subject
+conceptions. Seminars in Hematology, 45(3), Designs. Retrieved November 21, 2021, from
+135–140. https : / / doi . org / 10 . 1053 / j . http://daniellakens.blogspot.com/2016/11/
+seminhematol.2008.04.003 why-within-subject-designs-require-less.html
+Guo, Q., Thabane, L., Hall, G., McKinnon, M., Goeree, Lakens, D., Adolfi, F. G., Albers, C. J., Anvari, F., Apps,
+R.,&Pullenayegum,E.(2014).Asystematicre- M. A. J., Argamon, S. E., Baguley, T., Becker,
+===== PAGE 20/20 =====
+20
+R.B.,Benning,S.D.,Bradford,D.E.,Buchanan, Ruxton, G. D., & Neuhäuser, M. (2010). When should
+E.M.,Caldwell,A.R.,VanCalster,B.,Carlsson, we use one-tailed hypothesis testing? Methods
+R.,Chen,S.-C.,Chung,B.,Colling,L.J.,Collins, inEcologyandEvolution,1(2),114–117.https:
+G. S., Crook, Z., ... Zwaan, R. A. (2018). Jus- //doi.org/10.1111/j.2041-210X.2010.00014.x
+tifyyouralpha.NatureHumanBehaviour,2(3), Sedlmeier, P., & Gigerenzer, G. (1989). Do Studies of
+168–171. https://doi.org/10.1038/s41562- Statistical Power Have an Effect on the Power
+018-0311-x ofStudies?PsychologicalBulletin,105(2),309–
+Lakens, D., & Caldwell, A. R. (2021). Simulation- 316.
+Based Power Analysis for Factorial Analy- Sestir, M. A., Kennedy, L. A., Peszka, J. J., &
+sis of Variance Designs. Advances in Methods Bartley, J. G. (2021). New Statistics, Old
+and Practices in Psychological Science, 4(1), Schools: An Overview of Current Introduc-
+2515245920951503.https://doi.org/10.1177/ tory Undergraduate and Graduate Statistics
+2515245920951503 Pedagogy Practices. Teaching of Psychology,
+Larson,M.J.,&Carbine,K.A.(2017).Samplesizecal- 00986283211030616. https://doi.org/10.
+culationsinhumanelectrophysiology(EEGand 1177/00986283211030616
+ERP) studies: A systematic review and recom- Sleegers, W. (2021). Simulation-based power analyses.
+mendations for increased rigor. International https://willemsleegers.com/content/posts/9-
+Journal of Psychophysiology, 111, 33–41. https: simulation-based-power-analyses/simulation-
+//doi.org/10.1016/j.ijpsycho.2016.06.015 based-power-analyses.html
+Maier, M., & Lakens, D. (2021). Justify Your Alpha: A Szucs, D., & Ioannidis, J. P. A. (2021). Correction:
+PrimeronTwoPracticalApproaches.Retrieved Empirical assessment of published effect sizes
+June 24, 2021, from https://psyarxiv.com/ andpowerintherecentcognitiveneuroscience
+ts4r6/ andpsychologyliterature.PLOSBiology,19(3),
+Moshontz, H., Campbell, L., Ebersole, C. R., IJzerman, e3001151. https://doi.org/10.1371/journal.
+H.,Urry,H.L.,Forscher,P.S.,Grahe,J.E.,Mc- pbio.3001151
+Carthy,R.J.,Musser,E.D.,Antfolk,J.,Castille, TARG Meta-Research Group. (2020). Statistics educa-
+C. M., Evans, T. R., Fiedler, S., Flake, J. K., tion in undergraduate psychology: A survey of
+Forero, D. A., Janssen, S. M. J., Keene, J. R., UK course content. https://doi.org/10.31234/
+Protzko,J.,Aczel,B.,... Chartier,C.R.(2018). osf.io/jv8x3
+ThePsychologicalScienceAccelerator:Advanc- The jamovi Project. (2021). Jamovi. https://www.
+ing Psychology Through a Distributed Collabo- jamovi.org
+rative Network. Advances in Methods and Prac- Wagenmakers, E.-J., Wetzels, R., Borsboom, D., & van
+tices in Psychological Science, 1(4), 501–515. der Maas, H. L. J. (2011). Why psychologists
+https://doi.org/10.1177/2515245918797607 must change the way they analyze their data:
+Neyman, J. (1977). Frequentist Probability and Fre- Thecaseofpsi:CommentonBem(2011).Jour-
+quentist Statistics. Synthese, 36(1), 97–131. nalofPersonalityandSocialPsychology,100(3),
+http://www.jstor.org/stable/20115217 426–432.https://doi.org/10.1037/a0022790
+Panzarella, E., Beribisky, N., & Cribbie, R. A. (2021). Wagge,J.R.,Brandt,M.J.,Lazarevic,L.B.,Legate,N.,
+Denouncing the use of field-specific effect size Christopherson, C., Wiggins, B., & Grahe, J. E.
+distributions to inform magnitude. PeerJ, 9, (2019). Publishing Research With Undergrad-
+e11383.https://doi.org/10.7717/peerj.11383 uate Students via Replication Work: The Col-
+Perugini, M., Gallucci, M., & Costantini, G. (2018). A laborative Replications and Education Project.
+Practical Primer To Power Analysis for Simple FrontiersinPsychology,10.https://doi.org/10.
+Experimental Designs. International Review of 3389/fpsyg.2019.00247
+Social Psychology, 31(1). https://doi.org/10. Wuchty, S., Jones, B. F., & Uzzi, B. (2007). The In-
+5334/irsp.181 creasing Dominance of Teams in Production
+Quandt, J. (2020). Power Analysis by Data Simulation ofKnowledge.Science,316(5827),1036–1039.
+inR-PartI.RetrievedApril1,2022,fromhttps: https://doi.org/10.1126/science.1136099
+//julianquandt.com/post/power-analysis-by-
+data-simulation-in-r-part-i/

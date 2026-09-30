@@ -1,0 +1,1234 @@
+
+===== PAGE 1/18 =====
+Meta-Psychology,2022,vol6,MP.2020.2573 Opendata:NotApplicable Editedby:RickardCarlsson
+https://doi.org/10.15626/MP.2020.2573 Openmaterials:Yes Reviewedby:DaniëlLakens,BrentonWiernik
+Articletype:Tutorial Openandreproducibleanalysis:Yes Analysisreproducedby:LucijaBatinovi´c
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/3C6HU
+Designing Studies and Evaluating Research
+Results: Type M and Type S Errors for Pearson
+Correlation Coefficient
+Giulia Bertoldo
+Department of Developmental Psychology and Socialisation, University of Padova,
+Padova, Italy
+Claudio Zandonella Callegher
+Department of Developmental Psychology and Socialisation, University of Padova,
+Padova, Italy
+Gianmarco Altoè
+Department of Developmental Psychology and Socialisation, University of Padova,
+Padova, Italy
+Abstract
+It is widely appreciated that many studies in psychological science suffer from low statistical power. One of the
+consequences of analyzing underpowered studies with thresholds of statistical significance is a high risk of finding
+exaggerated effect size estimates, in the right or the wrong direction. These inferential risks can be directly quan-
+tifiedintermsofTypeM(magnitude)errorandTypeS(sign)error,whichdirectlycommunicatetheconsequences
+ofdesignchoicesoneffectsizeestimation. Givenastudydesign, TypeMerroristhefactorbywhichastatistically
+significant effect is on average exaggerated. Type S error is the probability to find a statistically significant result
+intheoppositedirectiontotheplausibleone. Ideally,theseerrorsshouldbeconsideredduringaprospectivedesign
+analysis in the design phase of a study to determine the appropriate sample size. However, they can also be con-
+sidered when evaluating studies’ results in a retrospective design analysis. In the present contribution, we aim to
+facilitatetheconsiderationsoftheseerrorsintheresearchpracticeinpsychology. Forthisreason,weillustratehow
+to consider Type M and Type S errors in a design analysis using one of the most common effect size measures in
+psychology: Pearsoncorrelationcoefficient. WeprovidevariousexamplesandmaketheRfunctionsfreelyavailable
+toenableresearcherstoperformdesignanalysisfortheirresearchprojects.
+Keywords: Correlationcoefficient,TypeMerror,TypeSerror,Designanalysis,Effectsize
+===== PAGE 2/18 =====
+2
+Introduction only if their p-values are lower than α), effect size ex-
+aggeration is a corollary consequence of low statistical
+Psychological science is increasingly committed to
+powerthatmightnotbeevidentatfirst. Thispointcan
+scrutinizing its published findings by promoting large-
+behighlightedconsideringtheTypeM(magnitude)and
+scale replication efforts, where the protocol of a previ-
+TypeS(sign)errorscharacterizingastudydesign(Gel-
+ous study is repeated as closely as possible with a new
+man&Carlin,2014). Givenastudydesign(i.e.,sample
+sample (Camerer et al., 2016; Camerer et al., 2018;
+size, statistical test directionality, α level and plausible
+Ebersole et al., 2016; Klein et al., 2014; Klein et al.,
+effect size formalization), Type M error, also known as
+2018;OpenScienceCollaboration,2015). Interestingly,
+Exaggeration Ratio, indicates the factor by which a sta-
+manyreplicationstudiesfoundsmallereffectsthanorig-
+tistically significant effect would be, on average, exag-
+inals (Camerer et al., 2018; Open Science Collabora-
+gerated. Type S error indicates the probability to find
+tion,2015)andamongmanypossibleexplanations,one
+astatisticallysignificanteffectintheoppositedirection
+relates to a feature of study design: statistical power.
+to the one considered plausible. The analysis that re-
+In particular, it is plausible for original studies to have
+searchers perform to evaluate the Type M and Type S
+lower statistical power than their replications. In the
+errors in their research practice is called design analy-
+case of underpowered studies, we are usually aware of
+sis, given the special focus posed into considering the
+the lower probability of detecting an effect if this ex-
+design of a study (Altoè et al., 2020; Gelman & Carlin,
+ists, but the less obvious consequences on effect size
+2014).
+estimation are often neglected. When underpowered
+Both errors are defined starting from a reasoned
+studies are analyzed using thresholds, such as statisti-
+guess on the plausible magnitude and direction of the
+cal significance levels, effects passing such thresholds
+effect under study, which is called plausible effect size
+have to exaggerate the true effect size (Button et al.,
+(Gelman & Carlin, 2014). A plausible effect size is an
+2013; Gelman et al., 2017; Ioannidis, 2008; Ioannidis
+assumption the researchers make about which is the
+et al., 2013; Lane & Dunlap, 1978). Indeed, as will
+expected effect in the population. This should not be
+be extensively shown below, in underpowered studies
+based on some noisy results from a pilot study but,
+only large effects correspond to values that can reject
+rather, it could derive from an extensive evaluation of
+the null hypothesis and be statistically significant. As
+theliterature(e.g.,theoreticalorliteraturereviewsand
+aconsequence, iftheoriginalstudywasunderpowered
+meta-analyses). When considering the published liter-
+and found an exaggerated estimate of the effect, the
+ature to define the plausible effect size, however, it is
+replicationeffectwilllikelybesmaller.
+important to take into account the presence of publica-
+The concept of statistical power finds its natural de-
+tion bias (Franco et al., 2014) and consider techniques
+velopment in the Neyman-Pearson framework of statis-
+foradjustingforthepossibleinflationofeffectsizeesti-
+tical inference and this is the framework that we adopt
+mates(Andersonetal.,2017). Forexampleif,aftertak-
+in this contribution. Contrary to the Null Hypothesis
+ingintoaccountpossibleinflations,allthemainresults
+Significance Testing (NHST), the Neyman-Pearson ap-
+inagiventopic,consideringaspecificexperimentalde-
+proachrequirestodefineboththeNullHypothesis(i.e.,
+signindicatethatthecorrelationrangesbetweenr=.15
+usually, but not necessarily, the absence of an effect)
+andr=.25,wecouldreasonablychooseasplausibleef-
+and the Alternative Hypothesis (i.e., the magnitude of
+fect size a value within this range. Or even better, we
+the expected effect). Further discussion on the Ney-
+couldconsidermultiplevaluestoevaluatetheresultsin
+man and Pearson approach and a comparison with the
+differentscenarios. Notethatthedefinitionoftheplau-
+NHSTisavailableinAltoèetal.(2020)andGigerenzer
+sible effect size is inevitably highly context-dependent
+et al. (2004). When conducting hypothesis testing, we
+soanyattempttoprovidereferencevalueswouldnotbe
+usually consider two inferential risks: the Type I error
+useful, instead, it would prevent researchers from rea-
+(i.e., the probability α of rejecting the Null Hypothe-
+soning about the phenomenon of interest. Even in ex-
+sis if this is true) and the Type II error (i.e., the prob-
+tremecaseswherenopreviousinformationisavailable,
+ability β of not rejecting the Null Hypothesis if this is
+whichwouldquestiontheexploratory/confirmatoryna-
+false). Then, statistical power is defined as the proba-
+ture of the study, researchers could still evaluate which
+bility1-βoffindingastatisticallysignificantresultifthe
+effectwouldbeconsideredrelevant(e.g.,fromaclinical
+Alternative Hypothesis is true. All this leads to a nar-
+oreconomicperspective)anddefinetheplausibleeffect
+row focus on statistical significance in hypothesis test-
+sizeaccordingtoit.
+ing, overlooking another important aspect of statistical
+Whydotheseerrorsmatter? TheconceptsofTypeM
+inference,namely,theeffectsizeestimation.
+and Type S errors allow enhancing researchers’ aware-
+Wheneffectsizeestimationisconditionedonthesta-
+ness of a complex process such as statistical inference.
+tistical significance (i.e., effect estimates are evaluated
+===== PAGE 3/18 =====
+3
+Strictly speaking, Design Analysis used in the design and how to conduct one; analysis of Type S and Type
+phase of a study provides similar information as the M errors when varying alpha levels and hypothesis di-
+classical power analysis, indeed, to a given level of rectionality. Moreover, the two appendices present fur-
+power there is a corresponding Type M and Type S therimplicationsofdesignanalysisforPearsoncorrela-
+errors. However, it is a valuable conceptual frame- tion (Appendix A) and an extensive illustration of the
+work that can help researchers to understand the im- R functions for design analysis for Pearson correlation
+portant role of statistical power both when designing (AppendixB).
+a new study or when evaluating previous results from
+the literature. In particular, it highlights the unwanted TypeMandTypeSerrors
+(and often overlooked) consequences on effect estima-
+Pearson correlation coefficient is a standardized ef-
+tion when filtering for statistical significance in under-
+fect sizemeasure indicatingthe strengthand thedirec-
+powered studies. In these scenarios, there is not only
+tion of the relationship between two continuous vari-
+a lower probability of rejecting the null when it is ac-
+ables (Cohen, 1988; Ellis, 2010). Even though the cor-
+tually false but, even more importantly, any significant
+relation coefficient is widely known, we briefly go over
+result would most likely lead to a misleading overes-
+its main features using an example. Imagine that we
+timation of the actual effect. The exaggeration of ef-
+were interested to measure the relationship between
+fect sizes, in the right or the wrong direction, has im-
+anxiety and depression in a population and we plan a
+portant implications on a theoretical and applied level.
+study with n participants, where, for each participant,
+On a theoretical level, studies’ designs with high Type
+we measure the level of anxiety (i.e., variable X) and
+M and Type S errors can foster distorted expectations
+the level of depression (i.e., variable Y). At the end of
+on the effect under study, triggering a vicious cycle for
+the study, we will have n pairs of values X and Y. The
+the planning of future studies. This point is relevant
+correlation coefficient helps us answer the questions:
+also for the design of replication studies, which could
+how strong is the linear relationship between anxiety
+turn out to be underpowered if they do not take into
+and depression in this population? Is the relationship
+accountpossibleinflationsoftheoriginaleffect(Button
+positiveornegative? Correlationrangesfrom-1to+1,
+et al., 2013). When studies are used to inform policy-
+indicatingrespectivelytwoextremescenariosofperfect
+making and real-world interventions, implications can
+negative relationship and perfect positive relationship1
+go beyond the academic research community and can
+Sincethecorrelationcoefficientisadimensionlessnum-
+impactsocietyatlarge. Inthesesettings,wecouldassist
+ber,itisasignaltonoiseratiowherethesignalisgiven
+toa“hypeanddisappointmentcycle”(Gelman,2019b),
+by the covariance between the two variables (cov(x,y))
+where true effects turn out to be much less impressive
+and the noise is expressed by the product between the
+than expected. This can produce undesirable conse-
+standarddeviationsofthetwovariables(S S ;seeFor-
+x y
+quences on people’s lives, a consideration that invites
+mula1). Inthiscontribution,followingtheconventional
+researchers to assume responsibility in effectively com-
+standards,wewillusethesymbolρtoindicatethecor-
+municatingtherisksrelatedtoeffectsquantification.
+relation in the population and the symbol r to indicate
+To our knowledge, Type M (magnitude) and Type S
+thevaluemeasuredinasample.
+(sign) errors are not widely known in the psychologi-
+cal research community but their consideration during cov(x,y)
+r= . (1)
+the research process has the potential to improve cur- S S
+x y
+rent research practices, for example, by increasing the
+Magnitudeandsignaretwoimportantfeatureschar-
+awarenessthatdesignchoiceshaveonpossiblestudies’
+acterizingPearsoncorrelationcoefficientandeffectsize
+results. In a previous work, we illustrated Type M and
+measuresingeneral. And,whenestimatingeffectsizes,
+TypeSerrorsusingCohen’s’dasameasureofeffectsize
+errors could be committed exactly regarding these two
+(Altoè et al., 2020). The purpose of the present con-
+aspects. Gelman and Carlin (2014) introduced two in-
+tributionistofurtherincreasethefamiliaritywithType
+dexestoquantifytheserisks:
+M and Type S errors, considering another common ef-
+fect size measures in psychology: Pearson correlation
+• Type M error, where M stands for magnitude,
+coefficient, ρ. We aim to provide an accessible intro-
+is also called Exaggeration Ratio - the factor by
+ductiontotheDesignAnalysisframeworkandenhance
+whichastatisticallysignificanteffectisonaverage
+the understanding of Type M and Type S errors using
+exaggerated.
+several educational examples. The rest of this article
+is organized as follows: introduction to Type M and 1Correlationindicatesarelationshipbetweenvariablesbut
+Type S errors; description of what is a design analysis doesnotimplycausation. Wedonotdiscussthisrelevantas-
+pectherebutwerefertheinterestedreaderto(Rohrer,2018).
+===== PAGE 4/18 =====
+4
+• TypeSerror,sign-theprobabilitytofindastatis- techniques (see for example O’Hagan, 2019) and con-
+tically significant result in the opposite direction sultingliteraturereviewsandmeta-analysis,alwaystak-
+totheplausibleone. ingintoaccountthepresenceofeffectsizesinflationin
+thepublishedliterature(Anderson, 2019). Giventhese
+Note that, differently from the other inferential errors,
+premises,itisimportanttostressthataplausibleeffect
+TypeMerrorisnotaprobabilitybutratheraratioindi-
+sizeshouldnotbedeterminedbyconsideringtheresults
+catingtheaveragepercentageofinflation.
+ofasinglestudy,giventhehigh-levelofuncertaintyas-
+How are these errors computed? In the next para-
+sociated with this effect size estimate. The idea is that
+graphs, we approach this question preferring an intu-
+theplausibleeffectsizeshouldapproximatethetrueef-
+itiveperspective. Foraformaldefinitionoftheseerrors,
+fect, which - although never known - can be thought
+we refer the reader to Altoè et al. (2020), Gelman and
+of as “that which would be observed in a hypotheti-
+Carlin(2014),andLuetal.(2018). Takeasanexample
+cal infinitely large sample” (Gelman & Carlin, 2014, p.
+thepreviousfictitiousstudyontherelationshipbetween
+642). For a more exhaustive description of plausible
+anxiety and depression and imagine we decide to sam-
+effectsize,werefertheinterestedreadertoAltoèetal.
+ple 50 individuals (sample size, n = 50) and to set the
+(2020)andGelmanandCarlin(2014).
+α level to 5% and to perform a two-tailed test. Based
+Before we proceed, it is worth noting that there are
+on theoretical considerations, we expect the plausibly
+other recent valuable tools that start from different
+truecorrelationinthepopulationtobequitestrongand
+premises for designing and evaluating studies. Among
+positive which we formalize as ρ = .50. To evaluate
+others,werefertheinterestedreadertomethodswhich
+the Type M and Type S errors in this research design,
+start from the definition of the smallest effect size of
+imaginerepeatingthesamestudymanytimeswithnew
+interest(SESOI;foratutorial,seeLakens,Scheel,etal.,
+samplesdrawnfromthesamepopulationand,foreach
+2018).
+study, registertheobservedcorrelation(r)andthecor-
+respondingp-value. DesignAnalysis
+The first step to compute Type M error is to select
+only the observed correlation coefficients that are sta- Researchers can consider Type M and Type S errors
+tistically significant in absolute value (for the moment, in their practice by performing a design analysis (Altoè
+we do not care about the sign) and to calculate their et al., 2020; Gelman & Carlin, 2014). Ideally, a design
+mean. Type M error is given by the ratio between this analysis should be performed when designing a study.
+mean (i.e., mean of statistically significant correlation In this phase, it is specifically called prospective design
+coefficients in absolute value) and the plausible effect analysis and it can be used as a sample size planning
+hypothesizedatthebeginning,whichinthisexampleis strategy where statistical power is considered together
+ρ = .50. Thus, given a study design, Type M error tells withTypeMandTypeSerrors. However,designanaly-
+us what is the average overestimation of an effect that siscanalsobebeneficialtoevaluatetheinferentialrisks
+isstatisticallysignificant. instudiesthathavealreadybeenconductedandwhere
+TypeSerroriscomputedastheproportionofstatisti- the study design is known. In these cases, Type M and
+callysignificantresultsthathavetheoppositesigncom- TypeSerrorscansupportresultsinterpretationbycom-
+paredtotheplausibleeffectsize. Inthepresentexample municatingtheinferentialrisksinthatresearchdesign.
+wehypothesizedapositiverelationship,specificallyρ= Whendesignanalysishappensatthislaterstage,ittakes
+.50. Then,TypeSerroristheratiobetweenthenumber the name of retrospective design analysis. Note that ret-
+of times we observed a negative statistically significant rospective design analysis should not be confused with
+result and the total number of statistically significant post-hoc power analysis. A retrospective design analy-
+results. Inotherwords,TypeSerrorindicatestheprob- sisdefinestheplausibleeffectsizeaccordingtoprevious
+ability to obtain a statistically significant result in the resultsintheliteratureorotherinformationexternalto
+oppositedirectiontotheonehypothesized. the study, whereas the post-hoc power analysis defines
+The central and possibly most difficult point in this the plausible effect size based on the observed results
+process is reasoning on what could be the plausible inthestudyanditisawidely-deprecatedpractice(Gel-
+magnitude and direction of the effect of interest. This man,2019a;Goodman&Berlin,1994).
+critical process, which is central also in traditional In the following sections, we illustrate how to per-
+power analysis, is an opportunity for researchers to ag- form prospective and retrospective design analysis us-
+gregate,formalizeandincorporatepriorinformationon
+the phenomenon under investigation (Gelman & Car-
+lin, 2014). What is plausible can be determined on
+theoretical grounds, using expert knowledge elicitation
+===== PAGE 5/18 =====
+5
+ing some examples. We developed two R functions2 to othertwoplayerswerefictitious,andparticipantswere
+perform design analysis for Pearson correlation, which actually playing against a computer program. Players
+are available at the page https://osf.io/9q5fr/. The hadtotossavirtualballamongeachotherinthreecon-
+function to perform a prospective design analysis is ditions: social inclusion, explicit social exclusion and
+pro_r(). It requires as input the plausible effect size implicit social exclusion. In the social inclusion condi-
+(rho), the statistical power (power), the directional- tion, the participant regularly received the ball. In the
+ity of the test (alternative) which can be set as: explicit social exclusion condition the participant was
+“two.sided”, “less” or “greater”. Type I error rate told that, due to technical problems, he was not going
+(sig_level)issetasdefaultat5%andcanbechanged to play that round. In the implicit social exclusion con-
+bytheuser. Thepro_r()functionreturnsthenecessary dition, the participant experienced being intentionally
+samplesizetoachievethedesiredstatisticalpower,Type left out from the game by the other two players. At
+M error rate, the Type S error probability, and the criti- the end of the experiment, each participant completed
+calvalue(s)abovewhichastatisticallysignificantresult aself-reportmeasureregardingtheirperceiveddistress
+canbefound. Thefunctiontoperformretrospectivede- whentheywereintentionallyleftoutbytheotherplay-
+signanalysisisretro_r(). Itrequiresasinputtheplau- ers. Considering only the implicit social exclusion con-
+sible effect size, the sample size used in the study, and dition, a correlation coefficient was estimated between
+the directionality of the test that was performed. Also the measure of distress and neural activity in the Ante-
+inthiscase,TypeIerrorrateissetasdefaultat5%and riorCingulateCortex. Assuggestedbythelargeandsta-
+can be changed by the user. The function retro_r() tisticallysignificantcorrelationcoefficientbetweenper-
+returnstheTypeMerrorrate,theTypeSerrorprobabil- ceiveddistressandactivityintheACC,r=.88,p<.005
+ity,andthecriticalvalue(s)3. Forfurtherdetailsregard- (Eisenberger et al., 2003, p. 291), authors concluded
+ing the R functions refer to Appendix B. All code and thatsocialandphysicalpainseemtosharesimilarneu-
+materials are also available in a CodeOcean Capsule at ralunderpinnings.
+https://codeocean.com/capsule/7935517. Before proceeding to the retrospective design analy-
+sis, we refer the interested reader to some background
+CaseStudy history regarding this study. This was one of the many
+studies included in the famous paper “Puzzlingly High
+TofamiliarizethereaderwithTypeMandTypeSer-
+Correlations in fMRI Studies of Emotion, Personality,
+rors, we start our discussion with a retrospective de-
+andSocialCognition”(Vuletal.,2009)whichraisedim-
+sign analysis of a published study. However, the ideal
+portant issues regarding the analysis of neuroscientific
+temporal sequence in the research process would be to
+data. Inparticular,thispapernotedthatthemagnitude
+perform a prospective design analysis in the planning
+of correlation coefficients between fMRI measures and
+stage of a research project. This is the time when the
+behavioural measures were beyond what could be con-
+design is being laid out and useful improvements can
+sideredplausible. Werefertheinterestedreaderalsoto
+be made to obtain more robust results. In this contri-
+thecommentarybyYarkoni(2009),whonotedthatthe
+bution, the order of presentation aims first, to provide
+implausibly high correlations in fMRI studies could be
+an understanding of how to interpret Type M and Type
+largelyexplainedbythelowstatisticalpowerofexperi-
+Serrors,andthendiscusshowtheycouldbetakeninto
+ments.
+account. Thefollowingcasestudywaschosenforillus-
+Aretrospectivedesignanalysisshouldstartwiththor-
+trativepurposesonlyand,bynomeansourobjectiveis
+oughreasoningontheplausiblesizeanddirectionofthe
+to judge the study beyond illustrating an application of
+effectunderstudy. Toproducevalidinferences,alotof
+how to calculate Type M and Type S errors on a pub-
+attention should be devoted to this point by integrat-
+lishedstudy.
+ing external information. For the sake of this example,
+We consider the study published in Science by Eisen-
+we turn to the considerations made by Vul and Pashler
+bergeretal.(2003)entitled: “DoesRejectionHurt? An
+fMRIStudyofSocialExclusion”. Theresearchquestion 2An R-package was subsequently developed and now is
+originated from the observation that the Anterior Cin- available on CRAN, PRDA: Conduct a Prospective or Ret-
+gulate Cortex (ACC) is a region of the brain known to rospective Design Analysis https://cran.r-project.org/web/
+be involved in the experience of physical pain. Could packages/PRDA/index.html. PRDAcontainsotherfeatureson
+painfrom socialstimuli, suchas socialexclusion, share DesignAnalysis,thatarebeyondtheaimofthepresentpaper.
+similar neural underpinnings? To test this hypothesis, 3Critical value is the name usually employed in hypothe-
+13participantswererecruitedandeachonehadtoplay sestestingwithintheNeyman-Pearsonframework. Inthere-
+a virtual game with other two players while undergo- searchpractice,thisisalsoknownastheMinimalStatistically
+DetectableEffect(Cooketal.,2014;Phillipsetal.,2001)
+ingfunctionalMagneticResonanceImaging(fMRI).The
+===== PAGE 6/18 =====
+6
+(2017)whosuggestedcorrelationsbetweenpersonality region of acceptance of the null hypothesis. Therefore,
+measuresandneuralactivitytobelikelyaroundρ=.25. itisimpossibletosimultaneouslyfindastatisticallysig-
+Acorrelationof ρ = .50wasdeemedplausiblebutopti- nificant result and estimate an effect close to the plau-
+misticandacorrelationofρ=.75wasconsideredtheo- sible one (ρ = .25). The figure represents the so-called
+reticallyplausiblebutunrealistic. Winner’s curse: “the ‘lucky’ scientist who makes a dis-
+covery is cursed by finding an inflated estimate of that
+RetrospectiveDesignAnalysis effect”(Buttonetal.,2013).
+Toperformaretrospectivedesignanalysisonthecase
+study, we need information on the research design and
+the plausible effect size. Based on the previous consid-
+erations, we set the plausible effect size to be ρ = .25.
+Informationonthesamplesizewasnotavailableinthe
+original study (Eisenberger et al., 2003) and was re-
+trieved from Vul et al. (2009) to be n = 13. The α level
+and the directionality of the test were not reported in
+the original study, so for the purpose of this example,
+we will consider α = .05 and a two-tailed test. Given
+thisstudydesign,whataretheinferentialrisksinterms
+ofeffectsizeestimation?
+We can use the R function retro_r(), whose inputs Figure 1. Input and Output of the function retro_r()
+andoutputsaredisplayedinFigure1. Inthisstudy,the
+for retrospective design analysis. Case study: Eisen-
+statistical power is .13, that is to say, there is a 13%
+berger et al. (2003). The plausible correlation coeffi-
+probability to reject the null hypothesis, if an effect of cient is ρ = .25, the sample size is 13, and the statis-
+at least ρ = |.25| exists. Consider this point together tical test is two-tailed. The option seed allows setting
+with the results obtained in the experiment: r = .88,
+the random number generator to obtain reproducible
+p < .005 (Eisenberger et al., 2003, p. 291). It is clear
+results.
+that, even though the probability to reject the null hy-
+pothesis is low (power of 13%), this event could hap-
+pen. Andwhenitdoeshappen,itistemptingtobelieve
+ProspectiveDesignAnalysis
+that results are even more remarkable (Gelman & Lo-
+ken, 2014). However, this design comes with serious Ideally, Type M and Type S errors should be consid-
+inferentialrisksfortheestimationofeffectsizes,which eredinthedesignphaseofastudyduringthedecision-
+could be grasped by presenting Type M and Type S er- makingprocessregardingtheexperimentalprotocol. At
+rors. Aglanceattheirvaluecommunicatesthatitisnot this stage, prospective design analysis can be used as a
+impossible to find a statistically significant result, but sample size planning strategy which aims to minimize
+when it does happen, the effect sizes could be largely TypeMandTypeSerrorsintheupcomingstudy.
+overestimated - Type M = 2.58 - and maybe even in Imaginethatwewerepartoftheresearchteaminthe
+the wrong direction - Type S = .03. The Type M error previous case study exploring the relationship between
+rate of 2.58 indicates that a statistically significant cor- activity in the Anterior Cerebral Cortex and perceived
+relation is on average about two and a half times the distress. When drafting the research protocol, we face
+plausible value. In other words, statistically significant the inevitable discussion on how many participants we
+results emerging in such a research design will on av- are going to recruit. This choice depends on available
+erage overestimate the plausible correlation coefficient resources, type of study design, constraints of various
+by160%. TheTypeSerrorof.03suggeststhatthereis nature and, importantly, the plausible magnitude and
+a three percent probability to find a statistically signifi- directionofthephenomenonthatwearegoingtostudy.
+cant result in the opposite direction, in this example, a Aspreviouslymentioned,decidingonaplausibleeffect
+negativerelationship. size is a fundamental step which requires great effort
+In this research design, the critical values above and should not be done by trying different values only
+which a statistically significant result is declared corre- toobtainamoredesirablesamplesize. Instead,propos-
+spond to r = ±.55 (Figure 1). These values are high- ingaplausibleeffectsizeiswheretheexpertknowledge
+lighted in Figure 2 as the vertical lines in the sampling oftheresearchercanbeformalizedandcangreatlycon-
+distributionofcorrelationcoefficientsunderthenullhy- tributetotheinformativenessofthestudythatisbeing
+pothesis. Noticethattheplausibleeffectsizeliesinthe planned. For the sake of these examples, we adopt the
+===== PAGE 7/18 =====
+7
+H0: ρ=0 H1: ρ=.25
+-1.0 -0.8 -0.6 -0.4 -0.2 0.0 0.2 0.4 0.6 0.8 1.0
+ρ
+Figure2. Winner’scourse. H =NullHypothesis,H =AlternativeHypothesis. Whensamplesize,directionalityof
+0 1
+thetestandTypeIerrorprobabilityareset,alsothesmallesteffectsizeabovewhichispossibletofindastatistically
+significant result is set. In this case, the plausible effect size, ρ = .25, lies in the region where it is not possible to
+rejectH (theregiondelimitedbythetwoverticallines). Thus,itisimpossibletosimultaneouslyfindastatistically
+0
+significant result and an effect close to the plausible one. In other words, a statistically significant effect must
+exaggeratetheplausibleeffectsize.
+previous consideration and we suppose that common ρ = .35. In both scenarios, the Type M error remains
+agreement is reached on a plausible correlation coeffi- about 1.12, which reflects the more general point that
+cient to be around ρ = .25. Finally, we would like to for80%power,TypeMerrorisaround1.10. Inallthese
+leave open the possibility to explore whether the rela- scenarios, Type S error is close to zero, hence not wor-
+tionship goes in the opposite direction to the one hy- risome.
+pothesized,sowedecidetoperformatwo-tailedtest.
+Wecanimplementtheprospectivedesignanalysisus-
+ing the function pro_r() which inputs and outputs are
+displayed in Figure 3. About 125 participants are nec-
+essary to have 80% probability to detect an effect of at
+leastρ=±.25ifitactuallyexists. Withthissamplesize,
+the Type S error is minimized and approximates zero.
+Inthisstudydesign,theTypeMerroris1.11indicating
+thatstatisticallysignificantresultsareonaverageexag-
+gerated by 11%. It is possible to notice that the critical
+values are r = ±.18, further highlighting that our plau-
+sibleeffectsizeisactuallyincludedamongthosevalues
+thatleadtotheacceptanceofthealternativehypothesis.
+Figure3. Input andOutputofthefunction pro_r() for
+Inadesignanalysis,itisadvisabletoinvestigatehow
+prospective design analysis. Plausible correlation coef-
+the inferential risks would change according to differ-
+ficientisρ=.25,statisticalpoweris80%andthestatis-
+entscenariosintermsofstatisticalpowerandplausible
+tical test is two-tailed. The option seed allows setting
+effectsize. ChangesinboththesefactorsimpactTypeM
+the random number generator to obtain reproducible
+and Type S errors. For example, maintaining the plau-
+sible correlation of ρ = .25, if we decrease statistical results.
+powerfrom.80to.60only76participantsarerequired
+(see Table 1). However, this is associated with an in-
+Table1
+creased Type M error rate from 1.11 to 1.28. That is
+Prospective design analysis in different scenarios of plau-
+to say, with 76 subjects the plausible effect size will be
+sibleeffectsizeandstatisticalpower.
+on average overestimated by 28%. Alternatively, imag-
+ρ Power SampleSize TypeM TypeS Criticalrvalue
+ine that we would like to maintain a statistical power
+of 80%, what happens if the plausible effect size is 0.25 0.6 76 1.280 0 ±0.226
+0.15 0.8 344 1.116 0 ±0.106
+slightly larger or smaller? The necessary sample size
+0.35 0.8 60 1.115 0 ±0.254
+wouldspiketo344foraρ = .15anddecreaseto60for
+Note: Inallcases,alternative="two.sided"andsig_level=.05.
+===== PAGE 8/18 =====
+8
+ρ=.25 ρ=.50 ρ=.75
+1.0 1.0 1.0
+0.8 0.8 0.8
+0.6 0.6 0.6
+0.4 0.4 0.4
+0.2 0.2 0.2
+0.0 0.0 0.0
+0 50 100 150 200 0 25 50 75 100 0 10 20 30 40
+n n n
+4.0 2.0
+1.30
+3.4 1.8
+1.24
+2.8 1.6
+1.18
+2.2 1.4 1.12
+1.6 1.2 1.06
+1.0 1.0 1.00
+0 50 100 150 200 0 25 50 75 100 0 10 20 30 40
+n n n
+0.30 0.15
+0.04
+0.24 0.12
+0.03
+0.18 0.09
+0.02
+0.12 0.06
+0.06 0.03 0.01
+0.00 0.00 0.00
+0 50 100 150 200 0 25 50 75 100 0 10 20 30 40
+n n n
+rewoP
+M
+epyT
+S
+epyT
+Figure4. HowTypeM,TypeSandStatisticalpowervaryasafunctionofsamplesizeinthreedifferentscenariosof
+plausibleeffectsize(ρ=.25,ρ=.50,ρ=.75). Notethat,forthesakeofinterpretability,wedecidedtousedifferent
+scalesforboththex-axisandy-axisinthethreescenariosofplausibleeffectsize.
+For completeness, Figure 4 summarizes the relation- thatTypeMandTypeSerrorsbringaddedvalueduring
+shipbetweenstatisticalpower,TypeMandTypeSerrors the design phase of a research protocol because they
+asafunctionofsamplesizeinthreescenariosofplausi- facilitate a connection between how a study is planned
+blecorrelationcoefficients. Wedisplaythethreevalues and how results will actually be evaluated. That is to
+thatVulandPashler(2017)consideredforcorrelations say, final results will comprise of a test statistics with
+betweenfMRImeasuresandbehaviouralmeasureswith an associated p-value and effect size measure. If the
+differentdegreesofplausibility. Aneffectofρ=.75was interest is maximizing the accuracy with which effects
+deemed theoretically plausible but unrealistic, ρ = .50 will be estimated, then Type M and Type S errors di-
+wasmoreplausiblebutoptimistic,andρ=.25wasmore rectlycommunicatetheconsequencesofdesignchoices
+likely. Thecurvesillustrateageneralpoint: TypeMand oneffectsizeestimation.
+TypeSerrorincreasewithsmallersamplesizes,smaller
+plausible effect sizes and lower statistical power. Also, VaryingαlevelsandHypothesesDirectionality
+thefigureshowsthatstatisticalpower,TypeMandType
+So far, we did not discuss two other important de-
+S errors are related to each other: as power increases,
+cisions that researchers have to take when designing
+TypeMandTypeSerrorsdecrease.
+a study: statistical significance threshold or α level,
+Atfirst, itmightseemthatTypeMandTypeSerrors
+and directionality of the statistical test, one-tailed or
+are redundant with the information provided by statis-
+two-tailed. In this section, we illustrate how different
+tical power. Even though they are related, we believe
+===== PAGE 9/18 =====
+9
+choicesregardingtheseaspectsimpactTypeMandType andlowerTypeMerrorrates(Figure5). Asanexample,
+Serrors. letusconsiderthedifferencesbetweenatwo-tailedtest
+Alothasbeenwrittenregardingtheautomaticadop- andaone-tailedtestinthepreviouscasestudy. Wecan
+tionofaconventionalαlevelof5%(e.g.,Gigerenzeret perform a new prospective design analysis (Figure 6)
+al., 2004; Lakens, Adolfi, et al., 2018). This practice is with a plausible correlation of ρ = .25, 80% statistical
+increasinglydiscouraged,andresearchersareinvitedto power,butthistimesettingtheargumentalternative
+thinkaboutthebesttrade-offbetweenαlevelandstatis- in the R function to “greater”. A comparison of the
+tical power, consideringthe aim of the study andavail- twoprospectivedesignanalyses,Figure3andFigure6,
+able resources. The α level impacts Type M and Type suggests that the same Type M error rate of about 10%
+S errors as much as it impacts statistical power. Every- is guaranteed with 94 participants, instead of the 125
+thing else equal, Type M error increases with decreas- subjectsnecessarywithatwo-tailedtest. NotethatType
+ing α level (i.e., negative relationship), whereas Type Serrorisnotpossibleindirectionalstatisticaltests. In-
+S error decreases with decreasing α level (i.e., positive deed, all the statistically significant results are obtain-
+relationship). Tofurtherillustratetherelationbetween ableonlyinthehypothesizeddirection,nottheopposite
+TypeMerrorandαlevel, letustakeasanexamplethe one.
+previous case study with a sample of 13 participants, Valid conclusions require decisions on test direction-
+plausibleeffectsizeρ = .25andtwo-tailedtest. Table2 ality and α level to be taken a priori, not while data
+shows that by lowering the α level from 10% to .10%, are being analyzed (Cohen, 1988). These decisions
+thecriticalvaluesmovefromr = ±.48tor = ±.80. This can take place during a prospective design analysis,
+suggeststhat,withthesenewhigherthresholds,theex- which aligns with the increasing interest in psycho-
+aggerationofeffectswillbeevenmorepronouncedbe- logical science to transparently communicate and jus-
+causeeffectshavetobeevenlargertopasssuchhigher tify design choices through studies’ preregistration in
+criticalvalues. Instead,therelationshipbetweenTypeS public repositories (e.g., Open Science Framework; As-
+error and α level can be clarified thinking that by low- predicted.com). Preregistration of studies’ protocol is
+eringthestatisticalsignificancethreshold,wearebeing particularly valuable for researchers endorsing an er-
+more conservative to falsely reject the null hypothesis ror statistics philosophy of science, where the evalu-
+in general which implies that we are also being more ation of research results takes into account the sever-
+conservative to falsely reject the null hypothesis in the ity with which claims are tested (Lakens, 2019; Mayo,
+wrongdirection. 2018). Severity depends on the degree to which a re-
+search protocol tries to falsify a claim. For example, a
+Table2 one-tailed statistical test provides greater severity than
+How changes in α level impact Power, Type M error, Type atwo-tailedstatisticaltest. AsnotedbyLakens(2019),
+Serrorandcriticalvalues. preregistrationisimportanttoopenlyshareaprioride-
+α-level Power TypeM TypeS Criticalrvalue cisions, such as test-directionality, providing valuable
+0.100 0.212 2.369 0.040 ±0.476 informationforresearchersinterestedinevaluatingthe
+0.050 0.127 2.583 0.028 ±0.553 severityofresearchclaims.
+0.010 0.035 2.977 0.011 ±0.684
+0.005 0.021 3.088 0.014 ±0.726
+PublicationBiasandSignificanceFilter
+0.001 0.005 3.340 0.000 ±0.801
+Note: Inallcases,ρ=.25,n=13,andalternative="two.sided". Onaconcludingnote,wewouldliketoclarifythere-
+lationship of Design Analysis with publication bias and
+Another important choice in study design is the di-
+thestatisticalsignificancefilter.
+rectionality of the test (i.e., one-tailed or two-tailed).
+WhilepublicationbiasandTypeMandTypeSerrors
+Design analysis invites reasoning on the plausible ef-
+are related, they operate at two different levels. Pub-
+fect size and hypothesizing the direction of the effect,
+lication bias refers to a publication system that favours
+not only its magnitude. So why should a researcher
+statistically significant results over non-statistically sig-
+perform non-directional statistical tests when there is
+nificant findings. This phenomenon alone cannot ex-
+a hypothesized direction? Performing a two-tailed test
+plainthepresenceofexaggeratedeffects. Imagineifall
+leaves open the possibility to find an unexpected re-
+studiesintheliteraturewereconductedwithhighstatis-
+sult in the opposite direction (Cohen, 1988), a possi-
+tical power, then statistically significant findings would
+bility which may be of special interest for preliminary
+probably not be so extreme. The problem of exagger-
+exploratorystudies. However,inmoreadvancedstages
+ated effect sizes in the literature can be explained only
+of a research program (i.e., confirmatory study), direc-
+by a combination of publication bias with studies that
+tional hypotheses benefit from higher statistical power
+have low statistical power. As previously shown, statis-
+===== PAGE 10/18 =====
+10
+Two-tailedtest One-tailedtest
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+0 50 100 150 200
+n
+rewoP
+4.0
+3.4
+2.8
+2.2
+1.6
+1.0
+0 50 100 150 200
+n
+MepyT
+Figure 5. Comparison of Type M error rate and Power level between one-tailed and two-tailed test with ρ = .25,
+α=.05. n=samplesize.
+quantify the possible exaggeration. Furthermore, their
+consideration protects against another possible pitfall.
+Wheninastudyastatisticallysignificantresultisfound
+andtheassociatedeffectsizeestimateislarge,thefind-
+ingcouldbeinterpretedasrobustandimpressive. How-
+ever,thisinterpretationisnotalwaysappropriate. Here,
+the missing piece of information is statistical power. If
+power is considered, researchers would realize that a
+large effect was found in a context where there was a
+low probability to find it. But this interpretation is not
+explicitly stating an important aspect: in these condi-
+tions, the only way to find a statistically significant re-
+Figure6. Input andOutputofthefunction pro_r() for
+sult is by overestimating the true effect. On the con-
+prospective design analysis. Plausible correlation coef-
+trary,thisconsequencebecomesimmediatelyclearonce
+ficientisρ=.25,statisticalpoweris80%andthestatis-
+TypeMandTypeSerrorsareconsideredretrospectively.
+ticaltestisone-tailed.
+Similarly, considering Type M and Type S prospectively
+favoursreasoningintermsofeffectsizeratherthanthe
+probabilityofrejectingthenullhypothesiswhensetting
+ticalpowerandTypeMandTypeSerrorsarerelatedto thesamplesizeinadesignanalysis.
+eachother: lowstatisticalpowercorrespondstohigher
+TypeMandTypeSerrors. DiscussionandConclusion
+The critical element is the application of the statisti-
+Inthescientificcommunity,itisquitewidespreadthe
+calsignificancefilterwithouttakingintoaccountstatis-
+idea that the literature is affected by a problem with
+tical power. Design Analysis per se does not solve this
+effectsizeexaggeration. Thisissueisusuallyexplained
+issuebut,instead,itallowsustorecognizeitsproblem-
+intermsofstudies’lowstatisticalpowercombinedwith
+aticconsequences. Inthesamewayasstatisticalpower
+theuseofthresholdsofstatisticalsignificance(Buttonet
+is a characteristic of a study design, so are Type M and
+al., 2013; Ioannidis, 2008; Ioannidis et al., 2013; Lane
+TypeSerrors,however,thetwoarequalitativelydiffer-
+& Dunlap, 1978; Yarkoni, 2009; Young et al., 2008).
+entintermsofthekindofreasoningtheyfavour. Statis-
+Statistically significant results can be obtained even in
+ticalpowerisdefinedintermsofprobabilityofrejecting
+underpowered studies and it is precisely in these cases
+theNullhypothesisand,eventhoughthisisbasedonan
+that we should worry the most about issues of overes-
+effectsizeofinterest,therelationship“lowpower-high
+timation. Type M and Type S errors quantify and high-
+possibilityofexaggeration”maynotbestraightforward
+light the inferential risks directly in terms of effect size
+foreveryone. Instead,TypeMandTypeSerrorsdirectly
+estimation, which are implied by the concept of statis-
+===== PAGE 11/18 =====
+11
+tical power but might not be recognizable outright. So tant factors were not considered in this contribution.
+far, only a handful of papers explicitly mentioned Type For example, the validity and reliability of measure-
+MandTypeSerrors(Altoèetal.,2020;Gelman,2018; mentsshouldbeattheforefrontinresearchdesign,and
+Gelman&Carlin,2013,2014;Gelmanetal.,2017;Gel- carefulplanningoftheentireresearchprotocolisofut-
+man & Tuerlinckx, 2000; Lu et al., 2018; Vasishth et most importance. Future works could tackle some of
+al., 2018). With the broader goal of facilitating their these shortcomings for example, including an analysis
+consideration in psychological science, in the present ofthequalityofmeasurementontheestimatesofType
+contribution we illustrated how Type M and Type S er- M and Type S errors. Also, we believe that it would
+rors are considered in a design analysis using one of be valuable to provide extension of design analysis for
+the most common effect size measures in psychology, other common effect size measures with the develop-
+Pearsoncorrelationcoefficient. ment of statistical software packages that could be di-
+Peculiar to design analysis is the focus on the im- rectlyusedbyresearchers. Moreover,designanalysison
+plications of design choices on effect sizes estimation Pearsoncorrelationcanbeeasilyextendedtothemulti-
+rather than statistical significance only. We illustrated variate case where multiple predictors are considered.
+how Type M and Type S errors can be taken into ac- Lastly, design analysis is not limited to the Neyman-
+countwithaprospectivedesignanalysis. Intheplanning Pearson framework but can be considered also within
+stage of a research project, design analysis has the po- otherstatisticalapproachessuchasBayesianapproach.
+tential to increase researchers’ awareness of the conse- Futureworkscouldimplementdesignanalysistoevalu-
+quences that their sample size choices have on uncer- ate the inferential risks related to the use of Bayes Fac-
+tainty about final estimates of the effects. This favours torsandBayesianCredibilityIntervals.
+reasoninginsimilartermstothoseinwhichresultswill Summarizing, choices regarding studies’ design im-
+be evaluated, that is to say, effect size estimation. But pact effect size estimation and Type M (magnitude) er-
+understanding the inferential risks in a study design is ror and Type S (sign) error allow to directly quantify
+also beneficial once results are obtained. We presented theseinferentialrisks. Theirconsiderationinaprospec-
+retrospective design analysis on a published study, and tivedesignanalysisincreasesawarenessofwhatarethe
+the same process can be useful for studies in general, consequencesofsamplesizechoicereasoninginsimilar
+especially those ending without the necessary sample terms to those used in results evaluation. Instead, ret-
+sizetomaximizestatisticalpowerandminimizeTypeM rospectivedesignanalysisprovidesfurtherguidanceon
+and Type S errors. In all cases, presenting their values interpretingresearchresults. Morebroadly,designanal-
+effectivelycommunicatestheuncertaintyoftheresults. ysisremindsresearchersthatstatisticalinferenceshould
+In particular, Type M and Type S errors put a red flag start before data collection and does not end when re-
+when results are statistically significant, but the effect sultsareobtained.
+size could be largely overestimated and in the wrong
+direction. Finally, both prospective and retrospective AuthorContact
+designanalysisfavourscumulativescienceencouraging
+GiuliaBertoldo: 0000-0002-6960-3980ClaudioZan-
+theincorporationofexpertknowledgeinthedefinition
+donella Callegher:0000-0001-7721-6318 Gianmarco
+oftheplausibleeffectsizes.
+Altoè: 0000-0003-1154-9528
+ItisimportanttoremarkthatevenifDesignAnalysis
+Corresponding author: Gianmarco Altoè, Depart-
+isbasedonthedefinitionofaplausibleeffectsize,abest
+ment of Developmental Psychology and Socialization,
+practiceshouldbetoconductmultipleDesignAnalyses
+UniversityofPadova,ViaVenezia8,35131Padova,Italy
+by considering different scenarios which include differ-
+gianmarco.altoe@unipd.it
+ent plausible effect sizes and levels of power to max-
+imize the informativeness of both a prospective and a
+ConflictofInterestandFunding
+retrospectiveanalysis.
+To make design analysis accessible to the research Wehavenoknownconflictofinteresttodisclose.
+community, we provide the R functions to perform
+prospective design analysis and retrospective design AuthorContributions
+analysis for Pearson correlation coefficient https://osf.
+GB and GA conceived the original idea. GB drafted
+io/9q5fr/togetherwithashortguideonhowtousethe
+the paper. CZ contributed to the development of the
+R functions and a summary of the examples presented
+original idea and drafted sections of the manuscript.
+inthiscontribution(AppendixB).
+CZ and GA wrote the R functions. All authors took
+Finally, prospective design analysis could contribute
+care of the statistical analyses and contributed to the
+to better research design, however many other impor-
+===== PAGE 12/18 =====
+12
+manuscript revision, read, and approved the submitted Camerer, C. F., Dreber, A., Holzmeister, F., Ho, T.-H.,
+version. Huber, J., Johannesson, M., Kirchler, M., Nave,
+G., Nosek, B. A., Pfeiffer, T., Altmejd, A., But-
+OpenSciencePractices trick,N.,Chan,T.,Chen,Y.,Forsell,E.,Gampa,
+A., Heikensten, E., Hummer, L., Imai, T., ...
+Wu, H. (2018). Evaluating the replicability of
+social science experiments in Nature and Sci-
+ence between 2010 and 2015. Nature Human
+This article earned the Open Materials badge for Behaviour, 2(9), 637–644. https://doi.org/10.
+making the data and materials openly available. It has 1038/s41562-018-0399-z
+been verified that the analysis reproduced the results Cohen, J. (1988). Statistical power analysis for the be-
+presented in the article. The entire editorial process, havioralsciences.LawrenceErlbaumAssociates.
+including the open reviews, is published in the online https://doi.org/10.4324/9780203771587
+supplement. Cook,J.,Hislop,J.,Adewuyi,T.,Harrild,K.,Altman,D.,
+Ramsay, C., Fraser, C., Buckley, B., Fayers, P.,
+References Harvey, I., Briggs, A., Norrie, J., Fergusson, D.,
+Ford,I.,&Vale,L.(2014).Assessingmethodsto
+Altoè, G., Bertoldo, G., Zandonella Callegher, C., Tof-
+specify the target difference for a randomised
+falini, E., Calcagnì, A., Finos, L., & Pastore, M.
+controlled trial: DELTA (Difference ELicitation
+(2020). Enhancing Statistical Inference in Psy-
+inTriAls)review.HealthTechnolAssess,18(28).
+chological Research via Prospective and Retro-
+https://doi.org/10.3310/hta18280
+spective Design Analysis. Frontiers in Psychol-
+Ebersole, C. R., Atherton, O. E., Belanger, A. L., Skul-
+ogy, 10. https://doi.org/10.3389/fpsyg.2019.
+borstad, H. M., Allen, J. M., Banks, J. B.,
+02893
+Baranski, E., Bernstein, M. J., Bonfiglio, D. B.,
+Anderson, S. F. (2019). Best (but oft forgotten) prac-
+Boucher,L.,Brown,E.R.,Budiman,N.I.,Cairo,
+tices: Sample size planning for powerful stud-
+A. H., Capaldi, C. A., Chartier, C. R., Chung,
+ies. The American Journal of Clinical Nutrition,
+J. M., Cicero, D. C., Coleman, J. A., Conway,
+110(2), 280–295. https://doi.org/10.1093/
+J. G., ... Nosek, B. A. (2016). Many Labs
+ajcn/nqz058
+3: Evaluating participant pool quality across
+Anderson, S. F., Kelley, K., & Maxwell, S. E. (2017).
+the academic semester via replication. Journal
+Sample-SizePlanningforMoreAccurateStatis-
+of Experimental Social Psychology, 67, 68–82.
+tical Power: A Method Adjusting Sample Effect
+https://doi.org/10.1016/j.jesp.2015.10.012
+Sizes for Publication Bias and Uncertainty. Psy-
+Eisenberger, N. I., Lieberman, M. D., & Williams, K. D.
+chologicalScience,28(11),1547–1562.https://
+(2003). Does rejection hurt? an fMRI study of
+doi.org/10.1177/0956797617723724
+social exclusion. Science, 302(5643), 290–292.
+Button, K., Ioannidis, J., Mokrysz, C., Nosek, B., Flint,
+https://doi.org/10.1126/science.1089134
+J., Robinson, E., & Munafò, M. (2013). Power
+Ellis, P. D. (2010). The Essential Guide to Effect Sizes.
+failure: Why small sample size undermines the
+Cambridge University Press. https://doi.org/
+reliabilityofneuroscience.NatureReviewsNeu-
+10.1017/CBO9780511761676
+roscience, 14(5), 365–376. https://doi.org/10.
+Fisher, R. A. (1915). Frequency Distribution of the
+1038/nrn3475
+Values of the Correlation Coefficient in Sam-
+Camerer, C. F., Dreber, A., Forsell, E., Ho, T.-H., Hu-
+ples from an Indefinitely Large Population.
+ber, J., Johannesson, M., Kirchler, M., Almen-
+Biometrika, 10(4), 507. https://doi.org/10.
+berg, J., Altmejd, A., Chan, T., Heikensten, E.,
+2307/2331838
+Holzmeister,F.,Imai,T.,Isaksson,S.,Nave,G.,
+Franco, A., Malhotra, N., & Simonovits, G. (2014).
+Pfeiffer, T., Razen, M., & Wu, H. (2016). Eval-
+Publication bias in the social sciences: Unlock-
+uating replicability of laboratory experiments
+ing the file drawer. Science, 345(6203), 1502.
+in economics. Science, 351(6280), 1433–1436.
+https://doi.org/10.1126/science.1255484
+https://doi.org/10.1126/science.aaf0918
+Gelman, A. (2018). The Failure of Null Hypothesis Sig-
+nificance Testing When Studying Incremental
+Changes, and What to Do About It. Personal-
+ityandSocialPsychologyBulletin,44(1),16–23.
+https://doi.org/10.1177/0146167217729162
+===== PAGE 13/18 =====
+13
+Gelman,A.(2019a).Don’tcalculatepost-hocpowerus- Ioannidis,J.P.A.,Pereira,T.V.,&Horwitz,R.I.(2013).
+ing observed estimate of effect size. Annals of Emergence of Large Treatment Effects From
+surgery, 269(1), e9–e10. https://doi.org/10. Small Trials—Reply. JAMA, 309(8), 768–769.
+1097/SLA.0000000000002908 https://doi.org/10.1001/jama.2012.208831
+Gelman, A. (2019b). From Overconfidence in Research Klein, R. A., Ratliff, K. A., Vianello, M., Adams, R. B.,
+to Over Certainty in Policy Analysis: Can We Es- Bahník,Š.,Bernstein,M.J.,Bocian,K.,Brandt,
+capetheCycleofHypeandDisappointment?New M.J.,Brooks,B.,Brumbaugh,C.C.,Cemalcilar,
+America. Retrieved May 29, 2020, from http: Z., Chandler, J., Cheong, W., Davis, W. E., De-
+//newamerica.org/public-interest-technology/ vos,T.,Eisner,M.,Frankowska,N.,Furrow,D.,
+blog/overconfidence-research-over-certainty- Galliani,E.M.,... Nosek,B.A.(2014).Investi-
+policy-analysis-can-we-escape-cycle-hype-and- gating Variation in Replicability. Social Psychol-
+disappointment/ ogy,45(3),142–152.https://doi.org/10.1027/
+Gelman, A., & Carlin, J. (2013). Retrospective de- 1864-9335/a000178
+sign analysis using external information (Un- Klein, R. A., Vianello, M., Hasselman, F., Adams, B. G.,
+published) [Unpublished]. Retrieved April 28, Reginald B. Adams, J., Alper, S., Aveyard, M.,
+2020, from http://www.stat.columbia.edu/ Axt,J.R.,Babalola,M.T.,Bahník,Š.,Batra,R.,
+~gelman/research/unpublished/retropower5. Berkics,M.,Bernstein,M.J.,Berry,D.R.,Bialo-
+pdf brzeska, O., Binan, E. D., Bocian, K., Brandt,
+Gelman, A., & Carlin, J. (2014). Beyond Power Calcu- M. J., Busching, R., ... Nosek, B. A. (2018).
+lations: Assessing Type S (Sign) and Type M Many labs 2: Investigating variation in replica-
+(Magnitude) Errors. Perspectives on Psychologi- bility across samples and settings. Advances in
+calScience,9(6),641–651.https://doi.org/10. Methods and Practices in Psychological Science,
+1177/1745691614551642 1(4), 443–490. https://doi.org/10.1177/
+Gelman, A., & Loken, E. (2014). The statistical crisis 2515245918810225
+inscience.Americanscientist,102(6),460–466. Kurkiewicz, D. (2017). Docstring: Provides docstring ca-
+https://doi.org/10.1511/2014.111.460 pabilities to r functions. https://CRAN.R-
+Gelman, A., Skardhamar, T., & Aaltonen, M. (2017). project.org/package=docstring
+Type M Error Might Explain Weisburd’s Para- Lakens, D. (2019). The Value of Preregistration for
+dox.JournalofQuantitativeCriminology.https: Psychological Science: A Conceptual Analysis
+//doi.org/10.1007/s10940-017-9374-5 (preprint). PsyArXiv. https://doi.org/10.
+Gelman, A., & Tuerlinckx, F. (2000). Type S error rates 31234/osf.io/jbh4w
+for classical and Bayesian single and multiple Lakens, D., Adolfi, F. G., Albers, C. J., Anvari, F., Apps,
+comparison procedures. Computational Statis- M. A. J., Argamon, S. E., Baguley, T., Becker,
+tics,15(3),373–390.https://doi.org/10.1007/ R.B.,Benning,S.D.,Bradford,D.E.,Buchanan,
+s001800000040 E.M.,Caldwell,A.R.,VanCalster,B.,Carlsson,
+Gigerenzer, G., Krauss, S., & Vitouch, O. (2004). The R.,Chen,S.-C.,Chung,B.,Colling,L.J.,Collins,
+NullRitual:WhatYouAlwaysWantedtoKnow G. S., Crook, Z., ... Zwaan, R. A. (2018). Jus-
+About Significance Testing but Were Afraid tifyyouralpha.NatureHumanBehaviour,2(3),
+to Ask. The SAGE Handbook of Quantitative 168–171. https://doi.org/10.1038/s41562-
+Methodology for the Social Sciences (pp. 392– 018-0311-x
+409). SAGE Publications, Inc. https://doi.org/ Lakens,D.,Scheel,A.M.,&Isager,P.M.(2018).Equiv-
+10.4135/9781412986311.n21 alenceTestingforPsychologicalResearch:ATu-
+Goodman, S., & Berlin, J. (1994). The Use of Pre- torial.AdvancesinMethodsandPracticesinPsy-
+dictedConfidenceIntervalsWhenPlanningEx- chological Science, 1(2), 259–269. https://doi.
+periments and the Misuse of Power When In- org/10.1177/2515245918770963
+terpreting Results. Annals of internal medicine, Lane, D. M., & Dunlap, W. P. (1978). Estimating effect
+121(3), 200–206. https://doi.org/10.7326/ size: Bias resulting from the significance cri-
+0003-4819-121-3-199408010-00008 terion in editorial decisions. British Journal of
+Ioannidis, J. P. A. (2008). Why Most Discovered True Mathematical and Statistical Psychology, 31(2),
+Associations Are Inflated: Epidemiology, 19(5), 107–112. https://doi.org/10.1111/j.2044-
+640–648. https://doi.org/10.1097/EDE. 8317.1978.tb00578.x
+0b013e31818131e7 Lu, J., Qiu, Y., & Deng, A. (2018). A note on Type S/M
+errors in hypothesis testing. British Journal of
+===== PAGE 14/18 =====
+14
+Mathematical and Statistical Psychology. https: Young,N.S.,Ioannidis,J.P.A.,&Al-Ubaydli,O.(2008).
+//doi.org/10.1111/bmsp.12132 Why current publication practices may distort
+Mayo, D. G. (2018). Statistical Inference as Severe Test- science.PLOSMedicine,5(10),1–5.https://doi.
+ing: How to Get Beyond the Statistics Wars org/10.1371/journal.pmed.0050201
+(1st ed.). Cambridge University Press. https://
+doi.org/10.1017/9781107286184
+O’Hagan,A.(2019).ExpertKnowledgeElicitation:Sub-
+jectivebutScientific.TheAmericanStatistician,
+73, 69–81. https : / / doi . org / 10 . 1080 /
+00031305.2018.1518265
+OpenScienceCollaboration.(2015).Estimatingthere-
+producibility of psychological science. Science,
+349(6251), aac4716–aac4716. https://doi.
+org/10.1126/science.aac4716
+Phillips, B. M., Hunt, J. W., Anderson, B. S., Puckett,
+H.M.,Fairey,R.,Wilson,C.J.,&Tjeerdema,R.
+(2001).Statisticalsignificanceofsedimenttox-
+icity test results: Threshold values derived by
+the detectable significance approach. Environ-
+mental Toxicology and Chemistry, 20(2), 371–
+373.https://doi.org/10.1002/etc.5620200218
+Rohrer, J. M. (2018). Thinking clearly about correla-
+tions and causation: Graphical causal models
+forobservationaldata.AdvancesinMethodsand
+Practices in Psychological Science, 1(1), 27–42.
+https://doi.org/10.1177/2515245917745629
+Vasishth, S., Mertzen, D., Jäger, L. A., & Gelman, A.
+(2018). The statistical significance filter leads
+to overoptimistic expectations of replicability.
+Journal of Memory and Language, 103, 151–
+175. https://doi.org/10.1016/j.jml.2018.
+07.004
+Venables, W. N., & Ripley, B. D. (2002). Modern Ap-
+pliedStatisticswithS.Springer.https://cran.r-
+project.org/web/packages/MASS/index.html
+Vul,E.,Harris,C.,Winkielman,P.,&Pashler,H.(2009).
+Puzzlingly high correlations in fMRI studies of
+emotion, personality, and social cognition. Per-
+spectives on Psychological Science, 4(3), 274–
+290. https://doi.org/10.1111/j.1745-6924.
+2009.01125.x
+Vul, E., & Pashler, H. (2017). Suspiciously high corre-
+lations in brain imaging research. Psychological
+science under scrutiny (pp. 196–220). John Wi-
+ley & Sons, Ltd. https://doi.org/10.1002/
+9781119095910.ch11
+Yarkoni, T. (2009). Big Correlations in Little Studies:
+Inflated fMRI Correlations Reflect Low Statisti-
+cal Power—Commentary on Vul et al. (2009).
+PerspectivesonPsychologicalScience,4(3),294–
+298. https://doi.org/10.1111/j.1745-6924.
+2009.01127.x
+===== PAGE 15/18 =====
+15
+AppendixA:PearsonCorrelationandDesign and SE = √1 . Thus, the test statistic follows a stan-
+n−3
+Analysis dardNormaldistributionandstatisticalinferenceisper-
+formedconsideringtheZ-scores.
+To conduct a design analysis, it is necessary to know
+Alternatively, other methods can be used to obtain
+the sampling distribution of the effect of interest. That
+reliable results, for example, Monte Carlo simulation.
+is, the distribution of effects we would observe if n ob-
+Monte Carlo simulation is based on random sampling
+servations were sampled over and over again from a
+to approximate the quantities of interest. In the case
+populationwithagiveneffect. Thisallowsus,inturns,
+of correlation, n observations are iteratively simulated
+toevaluatethesamplingdistributionoftheteststatistic
+from a bivariate Normal distribution with a given ρ,
+ofinterestnotonlyundertheNull-Hypothesis(H ),but
+0
+andtheobservedcorrelationisconsidered. Asthenum-
+alsounderthealternativeHypothesis(H ), andthusto
+1
+berofiterationsincreases,thedistributionofsimulated
+computethestatisticalpowerandinferentialrisksofthe
+correlation values approximates the actual correlation
+studyconsidered.
+samplingdistributionanditcanbeusedtocomputethe
+Regarding Pearson’s correlation between two nor-
+quantitiesofinterest.
+mallydistributedvariables,thesamplingdistributionis
+Although Monte Carlo methods are more compu-
+bounded between -1 and 1 and its shape depends on
+tationally demanding than analytic solutions, this ap-
+thevaluesofρandn,respectivelythepopulationcorre-
+proach allows us to obtain reliable results in a wider
+lationvalueandthesamplesize. Thesamplingdistribu-
+tionisapproximatelyNormalifρ=0. Whereas,forpos- rangeofconditionsevenwhennoclosed-formsolutions
+are available. For these reasons, the functions pro_r()
+itive or negative values of ρ, it is negatively skewed or
+and retro_r(), presented in this paper, are based on
+positively skewed, respectively. Skewness is greater for
+MonteCarlosimulationtocomputepower,TypeM,and
+higher absolute values of ρ but decreases when larger
+Type S error values. This guarantees a more general
+sample sizes are considered. In Figure 7, correlation
+framework where other future applications can be eas-
+samplingdistributions arepresented forincreasingval-
+uesofρandfixedsamplesize(n=30). ilyintegratedintothefunctions.
+In the following paragraphs, we consider the conse-
+TypeMandTypeSerrors
+quenceofPearson’scorrelationsamplingdistributionon
+statistical inference and the behaviour of Type M and Design Analysis was first introduced by Gelman and
+TypeSerrorsasafunctionofstatisticalpower. Carlin (2014) assuming that the sampling distribution
+of the test statistic of interest follows a t-distribution.
+Statisticalinference
+This is the case, for example, of Cohen’s d effect size.
+Cohen’s d is used to measure the mean difference be-
+To test a hypothesis or to derive confidence inter-
+tween two groups on a continuous outcome. The be-
+vals, the sampling distribution of the test statistic of
+haviour of Type M and Type S errors as a function of
+interest must follow a known distribution. In the
+case of H : ρ = 0, the sample correlation is ap- statisticalpowerinthecaseofCohen’sdispresentedin
+0
+Figure8.
+proximately normally distributed with Standard Error:
+SE(r) = (cid:112) (1−r2)/(n−2). Thus, statistical inference is Fordifferentvaluesofhypotheticalpopulationeffect
+size (d = .2, .5, .7, .9), we can observe that, for high
+performedconsideringtheteststatistic:
+levelsofpower,TypeSandTypeMerrorsarelow. Con-
+(cid:114)
+r n−2 versely, the Type S and Type M errors are high for low
+t= =r , (2)
+SE(r) 1−r2 values of power. As expected, the relation between
+power and inferential errors is not influenced by the
+thatfollowsat-distributionwithdf =n−2.
+value of d (i.e., the four lines are overlapping). Limit
+However, in the case of ρ (cid:44) 0, the sample corre-
+cases are obtained for power = 1 and 0.05 (note that
+lation is no longer normally distributed. As we have
+the lowest value of power is given by the alpha value
+previouslyseen,thesamplingdistributionisskewedfor
+chosen as the statistical significance threshold). In the
+large values of ρ and small sample sizes. Thus, the test
+formercase,TypeSerroris0andTypeMerroris1. In
+statistic of interest does not follow a t-distribution.4 To
+overcome this issue, the Fisher transformation was in- 4Note that the t-distribution is defined as the distribution
+troduced(Fisher,1915): ofarandomvariableTwhereT = √Z . WithZ astandard
+V/df
+F(r)= 1 ln1+r =arctanh(r). (3) Normal, V a Chi-squared distribution with df the degrees of
+2 1−r freedom. Thus,ifthesamplecorrelationisnolongerapprox-
+imately normally distributed the test-statistic is no longer t-
+Applying this transformation, the resulting sampling
+distributed.
+distributionisapproximatelyNormalwithmean= F(ρ)
+===== PAGE 16/18 =====
+16
+ρ : 0 0.4 0.6 0.8
+-0.6 -0.4 -0.2 0.0 0.2 0.4 0.6 0.8 1.0
+ρ
+Figure 7. Pearson Correlation coefficient sampling distributions for increasing values of ρ and fixed sample size
+(n=30)
+Cohen’s d : 0.2 0.5 0.7 0.9
+12.0
+9.8
+7.6
+5.4
+3.2
+1.0
+0.25 0.50 0.75 1.00
+Power
+M
+epyT
+0.30
+0.24
+0.18
+0.12
+0.06
+0.00
+0.25 0.50 0.75 1.00
+Power
+S
+epyT
+Figure8. ThebehaviourofTypeMandTypeSerrorsasafunctionofstatisticalpowerinthecaseofCohen’sd. Note
+thatthefourlinesareoverlapping.
+thelattercase,TypeSerroris0.5andtheTypeMerror tion (ρ = .2, .5, .7, .9), Type M error increases at dif-
+valuegoestoinfinity. ferent rates when the power decrease, whereas Type
+In the case of Pearson’s Correlation, we noted above S error follows a consistent pattern (note that differ-
+that the sampling distribution is skewed for large val- ences are due to numerical approximation). We can
+ues of ρ and small sample sizes. Moreover, the support intuitively explain this behaviour considering that, for
+is bounded between -1 and 1. Thus, the relations be- low levels of power, the sampling distribution includes
+tween power, Type M, and Type S error are influenced a wider range of correlation values. However, correla-
+by the value of the hypothetical population effect size tionvaluescannotexceedthevalue1andthereforethe
+(seeFigure9). distribution becomes progressively more skewed. This
+We can observe how, for different values of correla- doesnotinfluencetheproportionofstatisticallysignifi-
+===== PAGE 17/18 =====
+17
+ρ : 0.2 0.5 0.7 0.9
+5.0
+4.2
+3.4
+2.6
+1.8
+1.0
+0.25 0.50 0.75 1.00
+Power
+M
+epyT
+0.30
+0.24
+0.18
+0.12
+0.06
+0.00
+0.25 0.50 0.75 1.00
+Power
+S
+epyT
+Figure 9. The behaviour of Type M and Type S errors as a function of statistical power in the case of Pearson’s
+correlationρ.
+cantsampledcorrelationswiththeincorrectsign(Type AppendixB:RFunctionsforDesignAnalysiswith
+S error), but it affects the mean absolute value of sta- PearsonCorrelation
+tisticallysignificantsampledcorrelations(usedtocom-
+HerewedescribetheRfunctionsdefinedtoperform
+pute Type M error). In particular, the sampling distri-
+a prospective and retrospective design analysis in the
+bution for greater values of ρ becomes skewed more
+case of Pearson correlation. First, we give instructions
+rapidlyandthusType-Merrorincreasesatalowerrate.
+onhowtoloadandusethefunctions. Subsequently,we
+Finally, since the correlation values are bounded,
+providethecodetoreproduceexamplesincludedinthe
+Type-M error for a given value of ρ can hypothetically
+article.
+increase only to a maximum value given by 1. For ex-
+ρ These functions can be used as a base to further de-
+ample, for ρ = .5 the maximum Type-M error is 2 as
+velop design analysis in more complex scenarios that
+.5×2=1(i.e.,themaximumcorrelationvalue).
+werebeyondtheaimofthepaper.
+In this appendix, we discussed for completeness the
+implicationsofconductingaDesignAnalysisinthecase
+Rfunctions
+of Pearson’s correlation effect size. We considered ex-
+treme scenarios that are unlikely to happen in real The code of the functions is available in the file
+research settings. Nevertheless, we thought this was Design_analysis_r.Rathttps://osf.io/9q5fr/.
+important for evaluating the statistical behaviour and After downloading the file Design_analysis_r.R,
+properties of Type M and Type S error in the case of run the line indicating the correct path where the file
+Pearson’s correlation as well as helping researchers to wassaved:
+deeplyunderstandDesignAnalysis.
+source("<your_path>/Design_analyisis_r.R")
+The script will automatically load in your
+workspace the functions and two required R-
+package: MASS (Venables & Ripley, 2002) and
+docstring Kurkiewicz (2017). If you don’t
+have them already installed, run the line
+install.packages(c("MASS","docstring")).
+TheRfunctionsare:
+• retro_r() for retrospective design analysis.
+Given the hypothetical population correlation
+value and sample size, this function performs
+a retrospective design analysis according to the
+===== PAGE 18/18 =====
+18
+defined alternative hypothesis and significance # Example from Figure 3
+level. Powerlevel,Type-Merror,andType-Serror pro_r(rho = .25, power = .8,
+are computed together with the critical correla- alternative = "two.sided",
+tionvalue(i.e.,theminimumabsolutecorrelation sig_level = .05, seed = 2020)
+valuethatwouldresultsignificant).
+retro_r(rho, n,
+alternative = c("two.sided", "less", "greater"),
+# Example from Figure 6
+sig_level=.05, B=1e4, seed=NULL)
+pro_r(rho = .25, power = .8,
+alternative = "two.sided",
+• pro_r() for prospective design analysis. Given
+sig_level = .05, seed = 2020)
+thehypotheticalpopulationcorrelationvalueand
+the required power level, this function performs
+aprospectivedesignanalysisaccordingtothede-
+finedalternativehypothesisandsignificancelevel.
+The required sample size is computed together # Examples from Table 1
+with the associated Type-M error, Type-S error, pro_r(rho = .25, power = .6,
+andthecriticalcorrelationvalue. alternative = "two.sided",
+sig_level = .05, seed = 2020)
+pro_r(rho, power = .80, pro_r(rho = .15, power = .8,
+alternative = c("two.sided", "less", "greater"), alternative = "two.sided",
+sig_level = .05, range_n = c(1,1000), B = 1e4, sig_level = .05, seed = 2020)
+tol = .01, display_message = FALSE, seed = NULL) pro_r(rho = .35, power = .8,
+alternative = "two.sided",
+sig_level = .05, seed = 2020)
+Forfurtherdetailsaboutfunctionarguments,runthe
+line docstring(retro_r) or docstring(pro_r). This
+creates a documentation similar to the help page of R
+functions.
+# Examples from Table 2
+Note: two other functions are defined in the
+retro_r(rho = .25, n = 13,
+script and will be loaded in your workspace (i.e.,
+alternative = "two.sided",
+compute_crit_r() and print.design_analysis).
+sig_level = .100, seed = 2020)
+This are internal functions that should not be used
+retro_r(rho = .25, n = 13,
+directlybytheuser.
+alternative = "two.sided",
+sig_level = .050, seed = 2020)
+retro_r(rho = .25, n = 13,
+Examplescode alternative = "two.sided",
+sig_level = .010, seed = 2020)
+Belowwereportthecodetoreproducetheexamples
+retro_r(rho = .25, n = 13,
+includedinthearticle.
+alternative = "two.sided",
+# Example from Figure 1 sig_level = .005, seed = 2020)
+retro_r(rho = .25, n = 13, retro_r(rho = .25, n = 13,
+alternative = "two.sided", alternative = "two.sided",
+sig_level = .05, seed = 2020) sig_level = .001, seed = 2020)
