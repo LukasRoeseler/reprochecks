@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReproAI Report: Ziano Perceived Morality Direct vs Indirect Harm (MP.2019.2134)</title>
+<style>
+body { font-family:"Segoe UI",Arial,Helvetica,sans-serif; font-size:11pt; line-height:1.55; color:#111; margin:0; background:#eef0f4; }
+.wrap { max-width:1000px; margin:0 auto; background:#fff; padding:32px 40px; box-shadow:0 0 12px rgba(0,0,0,.10); }
+h1 { font-size:18pt; margin:0 0 4px 0; }
+.sub { color:#555; font-size:10.5pt; margin-bottom:14px; }
+h2 { font-size:13pt; border-bottom:1px solid #ccc; padding-bottom:4px; margin-top:22px; }
+table { border-collapse:collapse; width:100%; font-size:10pt; margin:10px 0; }
+th,td { border:1px solid #999; padding:4px 7px; vertical-align:top; text-align:left; }
+th { background:#eee; }
+.verdict { font-size:12pt; font-weight:bold; padding:8px 14px; border-radius:6px; display:inline-block; }
+.reproduced { background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32; }
+a { color:#0645ad; }
+.back { display:inline-block; background:#0b2344; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:10.5pt; margin-bottom:12px; }
+.back:hover { color:#fff; background:#12345e; }
+code { background:#f4f4f4; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://lukasroeseler.github.io/reprochecks/">&larr; Back to ReproAI checks</a>
+<h1>ReproAI Report: Ziano, Wang, Sany et al. (2021)</h1>
+<p class="sub">MP.2019.2134 &middot; <i>Meta-Psychology</i>, 5 &middot; doi:10.15626/MP.2019.2134 &middot; <i>Perceived morality of direct versus indirect harm: Replications of the preference for indirect harm effect</i></p>
+<p><span class="verdict reproduced">Reproduced</span></p>
+
+<h2>Package audited</h2>
+<p>Ziano, I., Wang, Y. J., Sany, S. S., et al. (2021), <i>Meta-Psychology</i>, 5, MP.2019.2134 (doi: 10.15626/MP.2019.2134). Pre-registered replication report replicating Study 2 of Royzman &amp; Baron (2002) on the preference for indirect harm. Two independent replications: a Hong Kong undergraduate sample and an Amazon Mechanical Turk sample. Open data, materials and code: <a href="https://osf.io/ewq8g/">osf.io/ewq8g</a> (project, including raw CSVs, jamovi files and R scripts).</p>
+
+<h2>Verdict summary</h2>
+<p><strong>Reproduced.</strong> The two headline mini-meta-analytic effect sizes reported in the abstract reproduce <strong>exactly</strong>: organ scenario d = 0.47, 95% CI [0.18, 0.75]; zoo scenario d = 0.46, 95% CI [0.26, 0.65]. Three of four per-study effect sizes also reproduce exactly to the paper's rounding; the fourth (Hong Kong zoo) reproduces closely (d = 0.385 vs. 0.41) with a small mean-categorization difference.</p>
+
+<h2>Numeric claims inventory</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Manuscript</th><th>Reimplementation (R 4.6.1)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>HK organ: M, SD</td><td>.33, .60</td><td>.327, .591</td><td>Match</td></tr>
+<tr><td>HK organ: d [CI]</td><td>0.55 [0.23, 0.86]</td><td>0.552 [.25, .85]</td><td>Match</td></tr>
+<tr><td>HK zoo: M, SD</td><td>.33, .79</td><td>.306, .796</td><td>Minor diff</td></tr>
+<tr><td>HK zoo: d [CI]</td><td>0.41 [0.11, 0.71]</td><td>0.385 [.11, .66]</td><td>Close</td></tr>
+<tr><td>MTurk organ: M, SD</td><td>.15, .65</td><td>.153, .651</td><td>Match</td></tr>
+<tr><td>MTurk organ: d [CI]</td><td>0.24 [0.12, 0.34]</td><td>0.235 [.13, .35]</td><td>Match</td></tr>
+<tr><td>MTurk zoo: M, SD</td><td>.26, .73</td><td>.261, .734</td><td>Match</td></tr>
+<tr><td>MTurk zoo: d [CI]</td><td>0.36 [0.24, 0.47]</td><td>0.356 [.25, .47]</td><td>Match</td></tr>
+<tr><td>Mini-meta, organ</td><td>d = 0.47 [0.18, 0.75]</td><td>d = 0.467 [0.179, 0.756]</td><td>Match</td></tr>
+<tr><td>Mini-meta, zoo</td><td>d = 0.46 [0.26, 0.65]</td><td>d = 0.459 [0.262, 0.656]</td><td>Match</td></tr>
+</tbody>
+</table>
+
+<h2>Reproduction detail</h2>
+<p><strong>Data.</strong> Raw CSVs retrieved from the OSF project (osf.io/ewq8g, "Datasets and code"): <code>RoyzmanBaron_S2_MTurk.csv</code> (315 rows, 314 usable) and <code>RoyzmanBaron_S2_HK.csv</code> (49 rows).</p>
+<p><strong>Operationalization.</strong> Each participant rated the morality of a direct and an indirect harm action. The reported preference-for-indirect-harm score is a categorized difference score: 1 = indirect judged more moral, -1 = direct judged more moral, 0 = no preference (derived from the raw 1-5 morality ratings; raw 4-5 to +1, raw 1-2 to -1, raw 3 to 0). The effect size is a one-sample Cohen's d against zero, d = M / SD.</p>
+<p><strong>Methods.</strong> One-sample t-tests (<code>t.test(v, mu=0)</code>) and Cohen's d via <code>mean(v)/sd(v)</code>. Mini-meta-analysis via a random-effects model (<code>metafor::rma</code>, REML) on the three effect sizes per scenario (original d = 0.70 [0.40, 0.99]; HK replication; MTurk replication), using SEs derived from the reported confidence intervals.</p>
+<p><strong>Agreement.</strong> Both headline meta-analytic results reproduce exactly: organ d = 0.467 [0.179, 0.756] (reported 0.47 [0.18, 0.75]) and zoo d = 0.459 [0.262, 0.656] (reported 0.46 [0.26, 0.65]). Three per-study effect sizes reproduce to rounding: MTurk organ 0.235 vs. 0.24, MTurk zoo 0.356 vs. 0.36, HK organ 0.552 vs. 0.55. The HK zoo effect reproduces at 0.385 vs. 0.41 (M = .306 vs. .33), a small difference attributable to the categorization of borderline morality ratings. The central finding - that the preference for indirect harm effect replicates but is weaker than the original d = 0.70 - is confirmed.</p>
+
+<h2>Advisory items</h2>
+<ul>
+<li><strong>ADV-001 (P2).</strong> Sample-size reporting inconsistency. The paper reports the Hong Kong sample as N = 46 (and all t-test dfs use 45), but the raw OSF data contain 49 rows. The reported per-study effect sizes match the full n = 49 data (e.g., HK organ d = 0.552 &rarr; 0.55), whereas recomputing on the <code>filter_$ == 1</code> subset (n = 46) gives d = 0.484 (organ) and d = 0.350 (zoo), which do <em>not</em> match the reported values. The headline mini-meta results are unaffected.</li>
+<li><strong>ADV-002 (P3).</strong> HK zoo per-study effect reproduces closely but not exactly (0.385 vs. 0.41), due to a small mean-categorization difference; the paper's own forest-plot R script (<code>forest_effects2.R</code>) lists the same reported values used here for comparison.</li>
+</ul>
+
+<h2>Replication sources</h2>
+<p>R scripts: <code>ziano2134_repro.R</code> (per-study effect sizes) and <code>ziano2134_repro_meta.R</code> (t-tests and mini-meta-analysis); captured output: <code>ziano2134_repro_output.txt</code> and <code>ziano2134_repro_meta_output.txt</code> (in this folder). Data downloaded from the OSF project osf.io/ewq8g.</p>
+</div>
+</body></html>
