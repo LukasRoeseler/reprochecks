@@ -1,0 +1,665 @@
+
+===== PAGE 1/11 =====
+Meta-Psychology,2021,vol5,MP.2020.2548 Opendata:Yes Editedby:RickardCarlsson
+https://doi.org/10.15626/MP.2021.2548 Openmaterials:Yes Reviewedby:N.Brown&J.Ferreira
+Articletype:Commentary Openandreproducibleanalysis:Yes Analysisreproducedby:AndréKalmendal
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:Notapplicable https://doi.org/10.17605/OSF.IO/72GAC
+Collinearity isn’t a disease that needs curing
+Jan Vanhove
+University of Fribourg
+Abstract
+Oncetheyhavelearntabouttheeffectsofcollinearityontheoutputofmultipleregressionmodels,researchersmay
+unduly worry about these and resort to (sometimes dubious) modelling techniques to mitigate them. I argue that,
+to the extent that problems occur in the presence of collinearity, they are not caused by it but rather by common
+mental shortcuts that researchers take when interpreting statistical models and that can also lead them astray in
+theabsenceofcollinearity. Moreover,Iillustratethatcommonstrategiesfordealingwithcollinearityonlysidestep
+the perceived problem by biasing parameter estimates, reformulating the model in such a way that it maps onto
+different research questions, or both. I conclude that collinearity in itself is not a problem and that researchers
+shouldbeawareofwhattheirapproachesforaddressingitactuallyachieve.
+Keywords: regressionassumptions,multipleregression,interpretingregressionmodels
+Asresearchersandstudentslearnmoreaboutstatisti- to models with categorical predictors or a mix of cat-
+calmodels,theysoonerorlaterstumbleacrosstheterm egorical and continuous predictors as well. I will not
+(multi)collinearity. Collinearity, which roughly means discussmethodsforassessingthedegreeofcollinearity
+that the predictors in a statistical model are correlated betweenthreeormorepredictorsforthesimplereason
+with each other, is often cast as a problem for statis- that I find them a distraction: in what follows, I will
+tical analysis. This suggests that the conscientious an- argue that collinearity is not a statistical problem and
+alyst has to solve it. I will argue that, to the extent shouldnotbecheckedfor(alsoseeO’Brien,2007).
+thatproblemsoccurinthepresenceofcollinearity,these
+are not caused by the collinearity itself but rather by a
+Collinearityanditsconsequences
+faulty way of thinking about statistical models that can
+lead analysts astray even in the absence of collinear- Collinearity means that a substantial amount of in-
+ity. Commonstrategiesfordealingwithcollinearpredic- formationcontainedinsomeofthepredictorsincluded
+tors do not solve these perceived problems but instead in a statistical model can be pieced together as a lin-
+sidestep them, often by fitting a model that, perhaps ear combination of some of the other predictors in the
+unbeknownst to the analyst, answers a different set of model. The easiest case is when you have a multiple
+questionsfromtheoriginalone. linear regression model with two correlated predictors,
+This article does not present any novel insights, but as in the examples to follow. These predictors can be
+I hope that it will nonetheless be educational to read- continuousorcategorical, butIwillsticktocontinuous
+ers who sometimes find the output of regression mod- predictorsforeaseofexposition.
+elsbefuddling. Iwillfocusoncollinearitybetweentwo I created four datasets with two continuous predic-
+continuous predictors in (ordinary least squares) mul- tors to illustrate collinearity and its consequences. You
+tiple regression models. In this case the strength of can find the R code to reproduce all analyses at https:
+the collinearity can be gauged from the correlation be- //osf.io/jupd8/. The outcome in each dataset was cre-
+tween the predictors. However, all of my points apply atedusingthefollowingequation;theparametervalues
+===== PAGE 2/11 =====
+2
+werechosenarbitrarily: −2 0 1 2
+10
+outcome i =0.4×predictor1 i+1.9×predictor2 i+ε i, outcome 5
+0
+(1)
+−5
+wheretheresiduals(ε)weredrawnfromanormaldis- −10
+i
+tributionwithastandarddeviationof3.5.1
+2
+predictor1
+ThefourdatasetsarepresentedinFigures1through 1
+0.50
+0
+4. InFigure1,alinearfunctionofpredictor1captures
+−1 n = 50
+most of the information contained in predictor2, so −2 missing: 0
+the two predictors are strongly collinear. In Figure 3, 2
+predictor2
+by contrast, both predictors are completely unrelated, 0.50 0.98 1
+0
+and a linear function of one predictor cannot capture n = 50 n = 50 −1
+missing: 0 missing: 0
+any information in the other. Hence, the two predic- −2
+tors are not collinear at all. Some readers may be sur-
+−10 0 10 −2 0 1 2
+prised to see that I consider a situation where two pre- Figure1. Adatasetwithstronglycollinearpredictors(r
+dictors are correlated at r = 0.50 (Figure 2) to be a =0.98).
+case of weak rather than moderate or strong collinear-
+ity. But in fact, the consequences of having two pre-
+dictors that are correlated at r = 0.50 (rather than at illustratedinFigure6: Ifyoufitmultipleregressionson
+r = 0.00) are negligible. Finally, Figure 4 highlights the datasets plotted in Figures 1 to 4, the confidence
+the linear part in collinearity: while the two predictors intervals are considerably wider if the predictors are
+in this figure are related in that predictor2 perfectly strongly collinear than when they are not. Moreover,
+determines predictor1, there is no linear relationship the confidence intervals retain their nominal coverage
+between them whatsoever. (You cannot uniquely de- rates(i.e.,x%ofthex%confidenceintervalscontainthe
+termine the value for predictor2 when you know the trueparametervalue). Sothestatisticalconsequenceof
+value for predictor1, though.) The dataset in Figure collinearityisautomaticallytakencareofinthemodel’s
+4 is not affected by any of the statistical consequences output and requires no additional computations on the
+ofcollinearity,butitwillbeusefultoillustrateapointI partoftheanalyst.
+wanttomakebelow. The greater variability in the estimates, and the ap-
+Toillustratethestatisticalconsequencesofcollinear- propriatelylargerstandarderrorsandwiderconfidence
+ity, I simulated 10,000 samples of 50 observations in intervals all reflect a relative lack of information in the
+which the two predictors were highly correlated (sam- sample(alsoseeMorrisseyandRuxton,2018). Itisdif-
+ple correlation of r = 0.98, yielding datasets similar to ficult to improve on York’s (2012) explanation of the
+theoneinFigure1)and10,000samplesof50observa- problemandpossiblesolutions:
+tions in which they were completely orthogonal (sam-
+ple r = 0.00, yielding datasets similar to the one in “Collinearity is at base a problem about in-
+Figure 3). In all cases, both predictors were indepen- formation. If two factors are highly corre-
+dently related to the outcome according to Equation 1. lated, researchers do not have ready access
+On each simulated sample, I ran a multiple regression
+1Some researchers examining the consequences of
+model from which I extracted the estimated model co-
+collinearitygenerateboththepredictorsandtheoutcomedi-
+efficients. Figure5showstheestimatedcoefficientsfor rectlyfrommultivariatenormaldistributionsinwhichthecor-
+the first predictor, whose true parameter value is 0.4. relationbetweenthepredictorsvariesbutthecorrelationsbe-
+Clearly, the estimates vary more when the predictors tweentheoutcomeandtheindividualpredictorsdonot(e.g.,
+are strongly correlated than when they are not, such WurmandFisicaro,2014)ratherthangeneratingtheoutcome
+that individual estimates can lie farther from the true asafunctionofthepredictorsasIdid. Indoingso, theyim-
+parameter value and often have the opposite sign from plicitly allow the true regression equation to vary from sim-
+ulationtosimulation: Ifyoufixthecorrelationsbetweenthe
+this true parameter value. However, on average, the
+predictors and the outcome, but you want to vary the inter-
+estimates equal the true parameter value. In statistics
+correlation between the predictors, you have to vary the β
+parlance,theyare“unbiased.”
+parameters (fixed at 0.4 and 1.9 in my example) and the σ
+Crucially, and happily, this greater variability is re-
+parameter (fixed at 3.5 in my example). The result of this is
+flected in the standard errors and confidence intervals
+thatsuchsimulationsmayparadoxicallyshowthatyouobtain
+around these estimates: The standard errors and con- more significant estimates when the predictors are strongly
+fidence intervals are automatically wider when the es- collinear (see Wurm and Fisicaro, 2014, Table 6), but they
+timated coefficients are affected by collinearity. This is actuallycomparedifferentdatageneratingprocesses.
+===== PAGE 3/11 =====
+3
+tomuchinformationaboutconditionsofthe
+−2 0 2
+dependent variables when only one of the
+factors actually varies and the other does
+outcome 5
+0 not. Ifwearefacedwiththisproblem,there
+−5 arereallyonlythreefundamentalsolutions:
+−10
+(1) find or create (e.g. via an experimen-
+2 predictor1 tal design) circumstances where there is re-
+0 0.31 ducedcollinearity;(2)getmoredata(i.e.in-
+n = 50 crease the N size), so that there is a greater
+−2 missing: 0
+quantityofinformationaboutrareinstances
+predictor2 2 wherethereissomedivergencebetweenthe
+0.46 0.50
+0 collinear variables; or (3) add a variable or
+n = 50 n = 50
+missing: 0 missing: 0 −2 variablestothemodel,withsomedegreeof
+independence from the other independent
+−10 0 5 −2 0 2 variables, that explain(s) more of the vari-
+Figure 2. A dataset with weakly collinear predictors (r
+ance of Y, so that there is more informa-
+=0.50).
+tion about that which is being modeled.”
+(p.1384)
+−2 0 2
+Iscollinearityaproblem?
+outcome 5
+For the most part, I think that collinearity is a prob-
+0
+−5 lem for statistical analyses in the same way that Bel-
+−10
+gium’slackofmountainsisdetrimentaltothecountry’s
+2 predictor1 chances of hosting the Winter Olympics: It is an un-
+0.13 fortunate fact of life, but not something that has to be
+0
+n = 50 solved. The three solutions that York (2012) mentions,
+−2 missing: 0
+i.e., running another study, obtaining more data or re-
+predictor2 2 ducingtheerrorvarianceusingcovariates,areallsensi-
+1
+0.43 0.00
+0 ble,butifyouhavetoworkwiththedatathatyouhave,
+min s s= i n5 g0 : 0 min s s= i n5 g0 : 0 −1 the model output will be unbiased and will appropri-
+−2
+atelyreflectthedegreeofuncertaintyintheestimates.
+−10 0 5 −2 0 1 2 So I do not consider collinearity a problem. What is
+Figure3. Adatasetwithcompletelyunrelatedpredictors
+the case, however, is that collinearity highlights prob-
+(r=0.00).
+lems with the way many people think about statistical
+models and inferential statistics. Let’s look at a couple
+ofthese.
+−1.5 0.0 1.5
+outcome 5 “Collinearitydecreasesstatisticalpower.”
+0
+−5 You may have heard that collinearity decreases sta-
+tistical power, i.e., the chances of obtaining a statisti-
+1.5 predictor1 cally significant coefficient estimate if the true param-
+0.5 0.15
+eter value is different from zero. This is true, but the
+−0.5
+n = 50
+−1.5 missing: 0 lower statistical power is a direct result of the larger
+standarderrors, whichappropriatelyreflectthegreater
+1.5
+predictor2
+0.52 0.00 0.5 sampling variability of the estimates. This is only a
+n = 50 n = 50 −0.5 problemifyouinterpret“lackofstatisticalsignificance”
+missing: 0 missing: 0 −1.5 as “zero effect.” But then the problem does not lie
+withcollinearitybutwiththebeliefthatnon-significant
+−5 0 5 −1.5 0.0 1.5
+Figure 4. A dataset with orthogonal (r = 0.00) but per- estimates indicate zero effects. (Schmidt (1996) calls
+fectly related predictors: Once you know the value of this false belief “the most devastating of all to the re-
+predictor2,youknowthevalueofpredictor1. search enterprise” (p. 126).) It is just that this false
+belief is even more likely than usual to lead you astray
+===== PAGE 4/11 =====
+4
+no collinearity strong collinearity
+(r = 0.00) (r = 0.98)
+0.8
+0.6
+0.4
+0.2
+0.0
+−10 −5 0 5 10−10 −5 0 5 10
+estimated regression coefficient for first predictor
+in multiple regression models
+ytisned
+Figure5. Theparametersforthefirstpredictorin10,000samplesasestimatedbymultiplelinearregressionmodels.
+When the predictors are strongly collinear, the estimates vary more from sample to sample, but the estimates are
+unbiasedineithercase. Thedashedverticallinesshowthetrueparametervalue(0.4).
+(Intercept) predictor1 predictor2
+strong collinearity
+weak collinearity
+no collinearity
+(unrelated predictors)
+no collinearity
+(related predictors)
+−1 0 1 −2.5 0.0 2.5 5.0 −2.5 0.0 2.5 5.0
+estimated coefficient with 95% confidence interval
+Figure 6. Estimated coefficients and their 95% confidence intervals for the models fitted to the four datasets. The
+dashedverticallinesshowthetrueparametervalues.
+when your predictors are collinear. If instead of focus- is misleading as it suggests that, in the presence of
+ing solely on the p-value, you take into account both collinearity,standarderrorsandp-valuesarelargerthan
+the estimate and its uncertainty interval, then there is theyshouldhavebeen. Theyarenot,asperthediscus-
+noproblem. sionintheprevioussection(seeMorrisseyandRuxton,
+Incidentally, I think that some people may be misled 2018).
+when they hear that collinearity “decreases” statistical
+power or “increases” standard errors as this wording “Noneofthepredictorsissignificantbuttheoverall
+may be taken to suggest that collinearity is a process modelfitis.”
+thatcanbehaltedorreversed. Itistruethatcompared
+tosituationsinwhichthereislessornocollinearityand Withcollinearpredictors,youmayendupwithasta-
+allotherthingsareequal,thestandarderrorsarelarger tistical model for which the F-test of the overall model
+and statistical power is lower when there is stronger fitishighlysignificantbutthatdoesnotcontainasingle
+collinearity. But outside of computer simulations, you significant predictor. This is illustrated in Table 1. The
+cannotreducecollinearitywhilekeepingallotherthings overall model fit for the dataset with strong collinear-
+equal. Intherealworld,collinearityisnotanunfolding ity (see Figure 1) is highly significant, but as shown in
+processthatcanbenippedinthebudwithoutbringing Figure 6, neither predictor has an estimated coefficient
+about other changes in the research design, the sam- that is significantly different from zero: Both 95% con-
+pling procedure, or the statistical model and its inter- fidenceintervalscontainzero.
+pretation. If this seems strange, you need to keep in mind that
+Similarly, you may have heard that collinearity “in- thetestsfortheindividualcoefficientestimatesandthe
+flates” standard errors or p-values. This wording, too, test for the overall model fit seek to answer different
+===== PAGE 5/11 =====
+5
+Table1
+F-testsandp-valuesfortheoverallmodelfitforthemultipleregressionmodelsonthefourdatasets. Eventhoughneither
+predictorhasasignificantestimatedcoefficientinthe‘strongcollinearity’dataset(asshowninFigure6),theoverallfit
+ishighlysignificant.
+Dataset F-test p-value
+strongcollinearity F(3,47)=8.0 0.001
+weakcollinearity F(3,47)=6.6 0.003
+nocollinearity(unrelatedpredictors) F(3,47)=5.9 0.005
+nocollinearity(relatedpredictors) F(3,47)=9.8 0.000
+questions, so there is no contradiction if they yield dif- actuallyoutperformyoungerones. Youcouldchalkthis
+ferent answers. To elaborate, the test for the overall one up to collinearity, but the problem really is related
+model fit asks if all predictors jointly can account for to a faulty mental shortcut you took when interpreting
+variance in the outcome; the tests for the individual yourmodel: Youforgottotakeintoaccountthecrucial
+coefficients ask whether these are different from zero. “but whose other predictor values are the same” clause.
+With collinear predictors, it is possible that the answer If your model also includes measures of the children’s
+to the first question is “yes” and the answer to the sec- previous exposure to the L2, their motivation to learn
+ond is “I have no idea.” The reason for this is that the L2, and their L2 vocabulary knowledge, then what
+with collinear predictors, either predictor could act as theestimatedcoefficientmeansisemphaticallynotthat,
+the stand-in of the other so that, as far as the model is according to the model, older children perform on av-
+concerned,eithercoefficientcouldwellbezero,aslong erage more poorly on a writing task than younger chil-
+as the other is not. But due to the lack of information dren. What it means is that, according to the model,
+in the collinear sample, it is not sure which, if any, is older children perform more poorly than younger chil-
+zero(seeMcElreath,2020,Chapter6,foralucidexpla- dren with the same values on the previous exposure, mo-
+nation). tivation, and vocabulary knowledge measures. If, on re-
+So again, there is no real problem: The tests answer flection, this is not what you are actually interested in,
+differentquestions,sotheymayyielddifferentanswers. then you should fit a different model (also see Miller
+It is just that when you have collinear predictors, this and Chapman, 2001, for a similar point in the context
+tendstohappenmoreoftenthanwhenyoudonot. of analysis of covariance). For instance, if you are in-
+terested in the overall difference between younger and
+older children regardless of their previous exposure,
+“Collinearity means that you can’t take model coef-
+motivation and vocabulary knowledge, do not include
+ficientsatfacevalue.”
+thesevariablesaspredictors. Butthenyoushouldhave
+It is sometimes said that collinearity makes it more alsonotincludedthesepredictorsifthecollinearityhad
+difficult to interpret estimated model coefficients. But notbeenasstrong.
+the appropriate interpretation of an estimated regres- Another interpretational difficulty emerges if you re-
+sion coefficient is always the same, regardless of the cast the interpretation of the estimate as follows: Ac-
+degree of collinearity: According to the model, what cording to the model, what would the expected differ-
+would the difference in the mean outcome be if you enceinmeanoutcomebeifyoutookanobservationand
+took two large groups of observations that differed by increaseditsvalueonthefocalpredictorbyoneunitbut
+one unit in the focal predictor but whose other predic- kepttheotherpredictorvaluesconstant? Thedifference
+torvalues werethe same. The emphasisedclauseis cru- between this interpretation and the one that I offered
+cial, and note the absence of any appeal to causality in earlieristhatwehavemovedfromapurelydescriptive
+the previous sentence. The interpretational difficulties onetobothacausalandaninterventionistone(viz.,the
+that become obvious when there is collinearity are not ideathatonecouldchangesomepredictorvalueswhile
+causedbythecollinearityitselfbutbymentalshortcuts keepingtheothersconstantandthatthiswouldhavean
+thatpeopletakewheninterpretingregressionmodels. effect on the outcome). In the face of strong collinear-
+For instance, you may obtain a coefficient estimate ity, it becomes clear that this interventionist interpreta-
+inamultipleregressionmodelwithcollinearpredictors tion may be wishful thinking: It may be impossible to
+that you interpret to mean that older children perform change values in one predictor without also changing
+more poorly on a foreign-language (L2) writing task values in the predictors that are collinear with it. But
+than younger children. This would be counterintuitive, the problem here again is not the collinearity but the
+and you may find that, in your sample, older children mentalshortcutintheinterpretation. Statisticalmodels
+===== PAGE 6/11 =====
+6
+describe associations; imbuing them with a causal or 0.4 0.6 0.8 1.0
+even interventionist interpretation requires strong ad-
+diversity rating 8
+ditional assumptions (for guidance, see Elwert, 2013; 6
+Rohrer,2018;Shmueli,2010). 4
+2
+In fact, you can run into the same difficulties when
+youapplytheinterventionistmentalshortcutintheab- 1.0
+type/token ratio
+sence of collinearity: In the dataset shown in Figure 4, 0.8 −0.17
+it is impossible to change the second predictor without 0.6 n = 1000
+alsochangingthefirstsincethefirstisatransformation 0.4 missing: 0
+of the second. Yet the two variables are not collinear, 8
+log−2 tokens
+sincethetransformationiscompletelynonlinear. Orsay 0.58 −0.66 7
+6
+you want to model quality ratings of texts in terms of n = 1000 n = 1000 5
+thenumberofwordsinthetext(“tokens”),thenumber missing: 0 missing: 0 4
+of unique words in the text (“types”), and the type/to-
+2 4 6 8 4 5 6 7 8
+ken ratio. The model will output estimated coefficients Figure 7. The type/token ratio tends to be negatively
+for the three predictors, but as an analyst you should correlated with text length (here: log-2 number of to-
+realisethatitisimpossibletofindtwotextsdifferingin kens). But the problem is not that the type/token ratio
+thenumberoftokensbuthavingboththesamenumber iscollinearwithtextlength;itisthatthetype/tokenra-
+of types and the same type/token ratio: If you change tio also measures something it is not supposed to mea-
+thenumberoftokensandkeepconstantthenumberof sure (length) and is a poor measure of what it is sup-
+types,thetype/tokenratiochanges,too. posedtomeasure(lexicaldiversity,representedhereby
+A final mental shortcut that is laid bare in the pres- humanratings). DatafromtheFrenchcorpuspublished
+ence of collinearity is conflating a measured variable byVanhoveetal.,2019.
+with the theoretical construct that this variable is as-
+sumed to capture. Conflating measurements and con-
+structscancompletelyinvalidatetheconclusionsdrawn is hidden if researchers mentally equate the TTR with
+from a model even in the absence of collinearity (see the construct of lexical diversity rather than remaining
+BertheleandVanhove,2020;BrunnerandAustin,2009; cognizantofthefactthatitisbutanattempttoquantify
+Loftus, 1978; Wagenmakers et al., 2012; Westfall and theconstruct—andnotasuccessfuloneatthat.
+Yarkoni,2016). Theliteratureonlexicaldiversityoffers To be clear, it is not necessarily a problem that mea-
+another case in point. The type/token ratio (TTR) dis- sures of lexical diversity empirically correlate with text
+cussed in the previous paragraph is one of several pos- length. Afterall,itispossiblethatthelexicaldiversityof
+sible measures of a text’s lexical diversity. If you take longer texts is greater than that of shorter texts or vice
+a collection of otherwise comparable texts, chances are versa: Texts may be pithy but lexically diverse if the
+thatthelongertextstendtohavelowerTTRvalues(see writers often used le mot juste instead of elaborate cir-
+Malvern et al., 2004, Chapter 2). This text-size depen- cumlocutions, and long texts may be lexically more di-
+dence has led quantitative linguists to abandon the use versethanshorteronesiftheywerewrittenbymoreso-
+of the TTR, even though the relationship in any given phisticatedwriterswithmoretotell. Theproblemwith
+datasetneednotbethatstrong(seeFigure7foranex- theTTRisthatitalmostnecessarilycorrelateswithtext
+ample). length, even if, at the construct level, the texts’ lexical
+However, the reason why researchers have aban- diversitydoesnot. Forinstance,ifyoutakeincreasingly
+doned the use of the TTR is not collinearity per se. longer snippets of texts from the same book, you will
+Rather, it is that the TTR is a poor measure of what findthattheTTRgoesdown(seeTweedieandBaayen,
+it is supposed to capture, viz., the lexical diversity dis- 1998). Thisdoesnotmeanthatthewriter’svocabulary
+played in a text. Specifically, because of the statistical skillswentdownintheprocessofwritingthebook,but
+properties of language, the TTR is pretty much bound that s/he had to reuse common words (e.g., articles,
+to conflate a text’s lexical diversity with its length. The pronouns, prepositions, copula verbs, common or im-
+negative correlation between the TTR and text length portant content words). More generally, if your predic-
+is not a big problem for statistical modelling, but it is a tors correlate strongly when they are not supposed to,
+symptom of a more fundamental problem: A measure your problem is not collinearity, but it may be that in
+of lexical diversity should not as a matter of fact be re- tryingtocaptureoneconstruct,youhavealsocaptured
+latedtotextlength. ThefactthattheTTRisshowsthat theonerepresentedbytheotherpredictor.
+it is a poor measure of lexical diversity. This problem In sum, the interpretational challenges encountered
+===== PAGE 7/11 =====
+7
+when predictors are collinear are not caused by the (Everything following but describes what it means for
+collinearityitselfbutbymentalshortcutsthatmaylead the estimated residuals to be held constant.) Perhaps
+researchersastrayevenintheabsenceofcollinearity. suchestimatescanbeuseful,buthardlymorethanonce
+inabluemoon.
+Collinearitydoesnotrequireastatisticalsolution
+Ihavearguedthatcollinearityisnotagenuinestatis-
+Droppingcollinearpredictors
+ticalproblem,soIdonotthinkitshouldbeaddressedby
+statistical means. Let’s take a closer look at some pop-
+ularstrategiesthatanalystsresorttowhentheirpredic- A second approach is to drop one or more of the
+tors are collinear and the repercussions of these strate- collinear predictors from the model. I have no prob-
+gies. lem with this approach per se. But the problem that
+it solves is not collinearity but rather that the original
+Residualisingpredictors modelwasmisspecified. Thisapproachonlyrepresents
+asolutionifthenewmodeliscapableofansweringthe
+The first popular strategy for dealing with collinear-
+researchquestionsince,crucially,estimatedcoefficients
+ity is to residualise one collinear predictor against the
+from models with different predictors do not have the
+other. This means that one of the predictors is fitted as
+samemeaning.
+the dependent variable in a regression model with the
+For instance, say you are interested in the associa-
+other predictor(s) as the independent variable(s). The
+tion between L2 grammatical knowledge and L2 read-
+estimated residuals are extracted from this model and
+ing proficiency and you fit a model with L2 reading
+thenusedasareplacementfortheoriginalpredictorin
+test scores as the outcome, the learners’ scores on an
+the multiple regression model. York (2012) and Wurm
+L2 grammar test as the focal predictor and their scores
+andFisicaro(2014)comprehensivelydiscusstheconse-
+on an L2 vocabulary test as a ‘control variable.’ If
+quences of this approach; Figure 8 highlights the main
+you decide to drop the vocabulary test scores from the
+points.
+model because of their correlation with the grammar
+Asseeninthetopleftandbottomrightpanels,resid-
+test scores, you change the meaning of the estimate
+ualising one of the predictors against the other and us-
+of the coefficient for the grammar test scores. In the
+ingtheseresidualsinlieuoftheoriginalpredictordoes
+full model, this estimate captures the mean difference
+notbiastheestimatesfortheresidualisedpredictorrel-
+in reading proficiency between learners with the same
+ative to the original true parameter values in Equation
+vocabularyscorebutwithaone-unitdifferenceingram-
+(1). It also does not reduce the sample-to-sample vari-
+mar test scores. In the reduced model, the estimate
+ability of these estimates. So, as far as the residualised
+capturesthemeandifferenceinreadingproficiencybe-
+predictor is concerned, there is no downside or upside
+tween learners with a one-unit difference in grammar
+to this approach. However, as seen in the top right
+test scores, regardless of their performance on the vo-
+andbottomleftpanels,theestimatesoftheresidualiser
+cabulary test score. Either estimate may be useful for
+(i.e., the predictor that was not residualised) show less
+addressing the research question, but this depends on
+sample-to-sample variability, but they are substantially
+theresearchquestion,notonthedegreeofcollinearity.
+biased relative to the original true parameter values in
+If the reduced model makes more sense than the full
+Equation(1)whentheoriginalpredictorsarecollinear.2
+modelinthepresenceofcollinearity,itwouldhavealso
+The reason for this is that any variance in the outcome
+mademoresenseintheabsenceofcollinearity.
+that could be accounted for by both predictors is now
+assignedwhollytotheresidualiser(seeYork,2012). Somethingtobeparticularlyawareofisthatbydrop-
+Residualisingoneofthepredictorsagainsttheother, ping one of the collinear predictors, you bias the esti-
+then, changes the meaning of the estimated coefficient mates of the other predictors relative to their original
+for the residualiser in a way that I suspect is opaque to parametervaluesasshowninFigure9(andseeNote2).
+most analysts and consumers. In fact, I cannot wrap The reason is that, thanks to their correlation with the
+my head around the sentence that I am about to foist droppedpredictor,theremainingpredictorscannowdo
+uponyou: What,accordingtothemodel,wouldbethe some of its job in accounting for variance in the out-
+meandifferenceifyoutookalargegroupofdatapoints come.
+that differed by one unit in the residualiser but whose
+otherpredictorvaluesdifferedbythesameamountand 2Isay“relativetotheoriginaltrueparametervalues”since,
+in the same direction from the values that you would technically,theestimatesinthenewmodelarenotbiasedei-
+expect this predictor to have based on the linear asso- ther,buttheyestimatesomethingdifferentfromtheestimates
+ciation between it and the residualiser in the sample? intheoriginalmodel.
+===== PAGE 8/11 =====
+8
+predictor1 predictor2
+residualised
+residualised
+predictor1
+predictor2
+0.8
+0.6
+0.4
+0.2
+0.0
+0.8
+0.6
+0.4
+0.2
+0.0
+−10 −5 0 5 10 −5 0 5 10
+estimated regression coefficients for the predictors
+in multiple regression models
+after one of them has been residualised against the other
+ytisned
+Figure8. Inthepresenceofstrongcollinearity(r =0.98),residualisingoneofthepredictorsagainsttheotherdoes
+notbiastheestimatesfortheresidualisedpredictororreducetheirsample-to-samplevariability(topleftandbottom
+right),butitdoesbiastheestimatesoftheresidualiser(toprightandbottomleft)relativetotheoriginalparameter
+values(shownasdashedverticallines).
+no collinearity strong collinearity
+(r = 0.00) (r = 0.98)
+0.8
+0.6
+0.4
+0.2
+0.0
+0 2 4 0 2 4
+estimated regression coefficient for first predictor
+in simple regression models
+ytisned
+Figure 9. Dropping a collinear predictor changes the meaning of the estimate for the predictor retained (right
+panel). The reduced model now yields biased estimates of the original parameters (represented by the dashed
+verticallines). Whenthepredictorsareperfectlyorthogonal,thisdoesnothappen,butthisisaspecialcase.
+Averagingpredictors ponentsorfactorsfromthisanalysistousetheseinlieu
+oftheoriginalpredictors.
+A third strategy for dealing with collinearity is to
+I do not mind this approach per se, either, but ana-
+compress the information in the collinear predictors
+lysts should be aware that the meaning of their model
+into a smaller set of less strongly correlated predictors.
+estimatesisnowdifferentfromthoseinthemodelthat
+For instance, analysts sometimes take the average of
+they originally fitted. The estimates now express the
+several(possiblyz-standardised)predictorsandusethis
+model’s best guess of the mean difference in the out-
+averageinsteadoftheoriginalpredictors. Alternatively,
+comewhensamplingalargenumberofdatapointsthat
+they might submit these predictors to a principal com-
+differinoneunitinthenewlycreatedvariablebuthave
+ponentorfactoranalysisandextractoneormorecom-
+===== PAGE 9/11 =====
+9
+no collinearity strong collinearity
+(r = 0.00) (r = 0.98)
+0.75
+0.50
+0.25
+0.00
+−1 0 1 2 −5 0 5
+estimated regression coefficient for first predictor
+in ridge regression models
+ytisned
+Figure10. Ridgeregressionisaformofbiasedestimation,sonaturallytheestimatesityieldsarebiased. Whenthe
+predictorsareorthogonal,allestimatesarebiasedtowardszero(leftpanel). Whenthepredictorsarecollinear,the
+estimatesfortheweakerpredictorarebiasedawayfromzero(rightpanel),whereastheestimatesforthestronger
+predictorarebiasedtowardszero(notshown).
+otherwise identical predictor variables. Depending intheestimates, butatthecostof, well, biasedestima-
+on the research question, such a model may be more tion. Moreover, the usefulness of standard errors and
+defensiblethanthemodeloriginallyfitted. Butthisde- confidenceintervalsforridgeregressionsanditscousins
+pends on the research question, not on the degree of is contested (see Goeman et al., 2018), so a further
+collinearitybetweenthepredictors. drawbackisdebatablestatisticalinference.3
+In sum, popular strategies to address collinearity in-
+Usingestimationmethodssuchasridgeregression volvegivinguptheunbiasedestimatesofordinaryleast
+squares regression, redefining the statistical model so
+Withindependentlyandidenticallydistributederrors
+that it answers different questions from the original
+(i.e., when the independence and homoskedasticity as-
+model,orboth. AsYork(2012)writes,
+sumptionsaremet),ordinaryleastsquaresregressionis
+guaranteedtoyieldunbiasedestimateswiththelowest “Statistical ‘solutions,’ such as residualiza-
+possible sample-to-sample variability. Ridge regression tionthatareoftenusedtoaddresscollinear-
+and its cousins (lasso, elastic net) sacrifice unbiased- ityproblemsdonot,infact,addressthefun-
+ness in order to obtain estimates with an even lower damental issue, a limited quantity of infor-
+sample-to-sample variability. This can be particularly mation,butratherservetoobfuscateit. Itis
+usefulinmodelsoptimisedforpredicting(asopposedto perhaps obvious to point out, but nonethe-
+describing or explaining; see Kuhn and Johnson, 2013; less important in light of the widespread
+Shmueli, 2010). Since collinearity is associated with confusion on the matter, that no statistical
+morevariableestimates,itisunderstandablethatridge procedure can actually produce more infor-
+regression and the like are used to tackle it. But the mationthanexistsinthedata.” [p.1384]
+result of using models that deliberately bias the esti-
+mates is, quite naturally, that you end up with biased Summary
+estimates.
+I illustrate this in Figure 10, for which I reanalysed Collinearity is a form of lack of information that is
+the data underlying Figure 5 using ridge regression. already appropriately reflected in the output of your
+(Details of the choice of the λ parameter are available statistical model. When collinearity is associated with
+inthesupplementarymaterials,buttheyarenotimpor-
+3With informative prior distributions on the parameters,
+tant here.) For orthogonal predictors, all estimates are
+Bayesian models can yield fairly narrow posterior distribu-
+biased towards zero. For strongly collinear predictors,
+tions(i.e.,afairlylowdegreeofuncertainty)fortheestimates
+the estimates for the weaker predictor will be biased
+even in the presence of collinearity. But this is achieved by
+awayfromzero(showninthefigure),andthoseforthe
+virtue of incorporating information from outside the sample
+strongerpredictorwillbebiasedtowardszero. intothemodelbymeansofthepriordistributions,notbycon-
+Biasedestimation,then,reducessamplingvariability juringinformationoutofthinair.
+===== PAGE 10/11 =====
+10
+interpretational difficulties, these difficulties are not References
+caused by the collinearity itself. Rather, they reveal
+Berthele, R., & Vanhove, J. (2020). What would dis-
+that the model was poorly specified (in that it answers
+prove interdependence? Lessons learned from
+a question different from the one of interest), that the
+a study on biliteracy in Portuguese heritage
+analyst has overly focused on significance rather than
+languagespeakersinSwitzerland.International
+estimates and the uncertainty about them, or that the
+JournalofBilingualEducationandBilingualism,
+analysttookamentalshortcutininterpretingthemodel
+23(5), 550–566. https://doi.org/10.1080/
+that could have also led them astray in the absence of
+13670050.2017.1385590
+collinearity. These shortcuts include failing to interpret
+Brunner, J., & Austin, P. C. (2009). Inflation of Type I
+parameterestimatesconditionalonalltheotherpredic-
+errorrateinmultipleregressionwhenindepen-
+tors in the model, lending a causal or interventionist
+dent variables are measured with error. Cana-
+interpretation to what is a descriptive model without
+dian Journal of Statistics, 37(1), 33–46. https:
+proper justification, and conflating a measure with the
+//doi.org/10.1002/cjs.10004
+construct that it is supposed to represent. Lastly, if you
+Elwert, F. (2013). Graphical causal models (S. L. Mor-
+do decide to deal with collinearity, make sure you can
+gan, Ed.). In S. L. Morgan (Ed.), Handbook of
+stillanswerthequestionofinterestandthatanybiasin
+causal analysis for social research. Dordrecht,
+theestimatescanbejustified.
+The Netherlands, Springer. https://doi.org/
+10.1007/978-94-007-6094-3\_13
+AuthorContact
+Goeman, J., Meijer, R., & Chaturvedi, N. (2018). L1
+Jan Vanhove, University of Fribourg, Department and L2 penalized regression models. https://
+of Multilingualism, Rue de Rome 1, 1700 Fri- cran.r-project.org/web/packages/penalized/
+bourg, Switzerland. ORCID ID: https://orcid.org/ vignettes/penalized.pdf
+0000-0002-4607-4836. Website: https://janhove. Kuhn,M.,&Johnson,K.(2013).Appliedpredictivemod-
+github.io. eling. New York, Springer. https://doi.org/10.
+IthankTwitteruser@facupalacio12forthereference 1007/978-1-4614-6849-3
+to Morrissey and Ruxton (2018), and Johan Ferreira, Loftus,G.R.(1978).Oninterpretationsofinteractions.
+NickBrown,andRickardCarlssonfortheircomments. Memory&Cognition,6(3),312–319.
+Malvern, D., Richards, B., Chipere, N., & Durán, P.
+ConflictofInterestandFunding (2004). Lexical diversity and language devel-
+opment: Quantification and assessment. Bas-
+The author declares no conflict of interest and did
+ingstoke, UK, Palgrave Macmillan. https://doi.
+receivespecificfundingforthepresentwork.
+org/10.1007/978-0-230-51180-4
+AuthorContributions McElreath, R. (2020). Statistical rethinking: A Bayesian
+coursewithexamplesinRandStan(2nd).Boca
+JV was the sole author of this article. This article Raton,FL,CRCPress.
+is based on a blog post with the same title (https:// Miller, G. A., & Chapman, J. P. (2001). Misunderstand-
+janhove.github.io/analysis/2019/09/11/collinearity). ing analysis of variance. Journal of Abnormal
+Psychology, 110(1), 40–48. https://doi.org/
+OpenSciencePractices
+10.1037/0021-843X.110.1.40
+Morrissey, M. B., & Ruxton, G. D. (2018). Multiple re-
+gressionisnotmultipleregressions:Themean-
+ingofmultipleregressionandthenon-problem
+of collinearity. Philosophy, Theory, and Practice
+ThisarticleearnedtheOpenDataandtheOpenMa-
+in Biology, 10(3). https://doi.org/10.3998/
+terials badge for making the data and materials openly
+ptpbio.16039257.0010.003
+available. It has been verified that the analysis repro-
+O’Brien, R. M. (2007). A caution regarding rules of
+duced the results presented in the article. The entire
+thumb of variance inflation factors. Quality &
+editorial process, including the open reviews, are pub-
+Quantity, 41, 673–690. https://doi.org/10.
+lishedintheonlinesupplement.
+1007/s11135-006-9018-6
+Rohrer, J. M. (2018). Thinking clearly about correla-
+tions and causation: Graphical causal models
+forobservationaldata.AdvancesinMethodsand
+===== PAGE 11/11 =====
+11
+Practices in Psychological Science, 1(1), 27–42. Wagenmakers, E.-J., Krypotos, A.-M., Criss, A. H., &
+https://doi.org/10.1177/2515245917745629 Iverson,G.(2012).Ontheinterpretationofre-
+Schmidt,F.L.(1996).Statisticalsignificancetestingand movable interactions: A survey of the field 33
+cumulative knowledge in psychology: Implica- years after Loftus. Memory & Cognition, 40(2),
+tions for training of researchers. Psychological 145–160. https://doi.org/10.3758/s13421-
+Methods,1,115–129.https://doi.org/10.1037/ 011-0158-0
+1082-989X.1.2.115 Westfall, J., & Yarkoni, T. (2016). Statistically control-
+Shmueli,G.(2010).Toexplainortopredict?Statistical ling for confounding constructs is harder than
+Science, 25(3), 289–310. https://doi.org/10. you think. PLOS ONE, 11(3), e0152719. https:
+1214/10-STS330 //doi.org/10.1371/journal.pone.0152719
+Tweedie, F. J., & Baayen, R. H. (1998). How variable Wurm, L. H., & Fisicaro, S. A. (2014). What residualiz-
+mayaconstantbe?Measuresoflexicalrichness ing predictors in regression analyses does (and
+in perspective. Computers and the Humanities, what it does not do). Journal of Memory and
+32(5), 323–352. https://doi.org/10.1023/A: Language,72,37–48.https://doi.org/10.1016/
+1001749303137 j.jml.2013.12.003
+Vanhove, J., Bonvin, A., Lambelet, A., & Berthele, R. York, R. (2012). Residualization is not the answer: Re-
+(2019). Predicting perceptions of the lexical thinking how to address multicollinearity. So-
+richness of short French, German, and Por- cial Science Research, 41, 1379–1386. https://
+tuguese texts using text-based indices. Journal doi.org/10.1016/j.ssresearch.2012.05.014
+of Writing Research, 10(3), 499–525. https://
+doi.org/10.17239/jowr-2019.10.03.04

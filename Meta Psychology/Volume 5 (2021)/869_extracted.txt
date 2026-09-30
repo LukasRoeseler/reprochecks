@@ -1,0 +1,981 @@
+
+===== PAGE 1/15 =====
+Editedby:RickardCarlsson
+Meta-Psychology,2021,vol5,MP.2018.869 Opendata:Yes Reviewedby:F.D.Schönbrodt,A.Stefan,
+https://doi.org/10.15626/MP.2018.869 Openmaterials:Yes S.R.Martin,C.O.Brand
+Articletype:Tutorial Openandreproducibleanalysis:Yes Analysisreproducedby:AndréKalmendal
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:Notapplicable https://osf.io/v2pnc/
+A fully automated, transparent, reproducible,
+and blind protocol for sequential analyses
+Brice Beffara Bret
+LPPL - EA 4638, Université de Nantes, Nantes, France
+Laboratoire de psychologie - EA 3188, Université de Franche-Comté, Besançon, France
+The Walden III Slowpen Science Laboratory, Villeurbanne, France
+Amélie Beffara Bret
+LPPL - EA 4638, Université de Nantes, Nantes, France
+The Walden III Slowpen Science Laboratory, Villeurbanne, France
+Ladislas Nalborczyk
+Department of Experimental Clinical and Health Psychology, Ghent University, Belgium
+The Walden III Slowpen Science Laboratory, Villeurbanne, France
+Abstract
+Despite many cultural, methodological, and technical improvements, one of the major obstacle to results repro-
+ducibility remains the pervasive low statistical power. In response to this problem, a lot of attention has recently
+beendrawntosequentialanalyses. Thistypeofprocedurehasbeenshowntobemoreefficient(torequirelessobser-
+vationsandthereforelessresources)thanclassicalfixed-Nprocedures. However,theseproceduresaresubmittedto
+bothintrapersonalandinterpersonalbiasesduringdatacollectionanddataanalysis. Inthistutorial,weexplainhow
+automation can be used to prevent these biases. We show how to synchronise open and free experiment software
+programs with the Open Science Framework and how to automate sequential data analyses in R. This tutorial is
+intended to researchers with beginner experience with R but no previous experience with sequential analyses is
+required.
+Keywords: Sequential analysis, Sequential testing, Sequential Bayes factor, Automation, Expectancy effects, Repro-
+ducibility,Blindanalyses
+Onreproducibility reform(foranoverview,seeFidler&Wilcox,2018;Nel-
+son et al., 2018). Although many of the practices that
+It may be referred to as a crisis, a revolution, or a
+are currently recognised as part of the problem (e.g.,
+renaissance, but Psychology has undeniably known a
+poorunderstandingofstatisticalmethods,questionable
+decade of unparalleled methodological reflection and
+===== PAGE 2/15 =====
+2
+researchpractices)havelongbeenacknowledged(e.g., a long history of scrutiny in Psychology, one of the ma-
+Babbage, 1830),1 recently introduced practices have jor threats to results reproducibility remains statistical
+brought considerable improvements to the reliability of power,wherepowercanbebroadlydefinedastheprob-
+findings in psychological science (e.g., see Smaldino et abilityofachievingacertaingoal,giventhatasuspected
+al.,2019). underlying state of the world is true (Kruschke, 2015).
+There are many ways to define what reproducibility Weknowthatalowpoweredresulthas(allotherthings
+is,anditisoftenunclearwhatismeantbythetermsof being equal) a lower probability to replicate, the initial
+reproducibility, replicability, repeatability, or reliability. result being attached with a higher probability of erro-
+To avoid these confusions, we adopt the terminology neous inference (e.g., type-M or type-S errors, Gelman
+suggested by Goodman et al. (2016). When discussing & Carlin, 2014). Even though there are many ways to
+researchreproducibility,wemakeadistinctionbetween increase statistical power (e.g., see Hansen & Collins,
+i) methods reproducibility: the ability to reproduce, as 1994), we focus here on sequential testing, that is, the
+closely as possible, the methodological procedures de- continuous analysis of data during its collection. This
+veloped by a certain team (i.e., what is usually meant procedure has been shown to optimise the amount of
+byreproducibility),ii)resultsreproducibility: theability resources (e.g., money and time) to be spent in order
+to reproduce a certain result in a given methodologi- toattainacertaingoal,ascomparedtoclassicalapriori
+calsettings(i.e.,whatisusuallymeantbyreplicability), poweranalysesstrategies(Lakens,2014;Schönbrodtet
+andiii)inferentialreproducibility: theability(foranin- al.,2017).
+dependent team) to replicate an inferential conclusion, We turn now to a brief presentation of several se-
+thatis,toarriveatthesameconclusion. quential analyses procedures, followed by a discussion
+Whereas results reproducibility concerns the out- of the methodological precautions that need to be un-
+come of a computational or experimental procedure, dertaken to ensure the validity of these procedures. Fi-
+methodsreproducibilityisapropertyofthemethodsbe- nally, we outline the core aspects of a "born-open" (fol-
+ing used to produce this particular outcome. As put by lowing the terminology of Rouder, 2016), fully auto-
+Meehl(1990),ascientificstudyisakintoarecipe,and mated, and reproducible workflow for sequential anal-
+a good methods description should allow other cooks yses.
+to prepare the same kind of cake as the person that
+wrote the recipe did. As such, methods reproducibility Abriefintroductiontosequentialanalyses
+isessentialtoresultsreproducibility. Fortunately,recent procedures
+technical developments have made the task far easier
+In this section, we briefly introduce three sequential
+thanitusedtobe. Keycomponentsofamodernrepro-
+analysis procedures that address three distinct goals.
+ducibleworkflowmayinclude:
+More precisely, these procedures permit to either i) ac-
+cumulaterelativeevidenceforahypothesis(thesequen-
+• Transparency: exhaustiveandintelligibledescrip-
+tial Bayes factor procedure) or ii) efficiently accept or
+tion and sharing of all materials, scripts, etc. (for
+reject a value or range of values for a parameter (the
+apracticalintroduction,seeKleinetal.,2018)
+sequential HDI+ROPE procedure) or iii) sample obser-
+• Self-containment: writing reproducible docu- vations until a desired level of estimation precision is
+ments in LaTeX or RMarkdown (e.g., see reached.
+the R package papaja, Aust & Barth, 2018)
+and sharing self-contained code (e.g., see SequentialBayesfactor
+https://codeocean.com)
+Schönbrodt et al. (2017) presented an alternative to
+null-hypothesis significance testing with a priori power
+• Version control: using Git and Github (or Gitlab)
+analysis(NHST-PA)byintroducingtheSequentialBayes
+totrackchangesinworkingdocuments(foranin-
+Factor (SBF)procedure. TheSBFprocedureusesBayes
+troduction,seeVuorre&Curley,2018)
+factors(BFs)toiterativelyexaminetherelativeeviden-
+• Automation: minimising mistakes by automatis- tial support for a hypothesis during data collection.2
+ing as many steps of the research process as pos-
+sible (e.g., Rouder, 2016; Rouder et al., 2018; 1Where the same could be said for recently proposed so-
+lutions like preregistration or radical transparency (e.g., de
+Yarkonietal.,2019)
+Groot,2014).
+Although methods reproducibility is essential to re- 2Technically speaking, the Bayes factor is a ratio of
+marginal likelihoods (i.e., what is considered as evidence in
+sults reproducibility, it is not sufficient. Despite having
+the Bayesian framework). Broadly, a BF can be interpreted
+===== PAGE 3/15 =====
+3
+The first step of the SBF procedure is to pick thresh- terior distribution of the group difference.3 This dis-
+olds (one for each of the two hypotheses being com- tribution can be summarised via its mean and highest
+pared)thatdeterminetheendofdatacollection. These density interval (HDI), an interval that contains the X%
+thresholds should be selected to reflect the level of evi- mostcrediblevaluesfortheparameter(Kruschke&Lid-
+dence that the experimenter consider sufficient to stop dell, 2018).4 The hypothesis according to which the
+data collection, but should also be defined in consider- group difference is equal to zero can then be assessed
+ation of specific goals and costs-benefits analyses. In- bycheckingwhethertheHDIincludeszeroasacredible
+deed, more stringent thresholds require larger sample value. Alternatively,andmoreinterestingly,theHDIcan
+sizes, but are associated with lower risks of misleading becomparedtoaregionofpracticalequivalence(ROPE,
+inferences (false positive and false negative), all other Kruschke, 2018), defining the range of effect sizes that
+things being equal. Then, after picking the appropriate we consider as negligible (i.e., equivalent to zero) for
+prior distribution for the alternative hypothesis, a first practicalpurposes.
+batchofobservationsiscollected,duringwhichnoBFis ThecomparisonofHDIandROPEcanbesummarised
+computed (to avoid misleading inferences due to early bycomputingtheproportionoftheHDIthatisincluded
+terminations). Starting at n observations (the a pri- in the ROPE, giving an idea of the extent to which the
+min
+oridefinedminimumsamplesize),aBFiscomputedat hypothesis of no effect is supported. Alternatively, the
+each stage (or each observation). The sampling proce- comparison of the HDI to the ROPE can result in three
+duregoesonuntilthecurrentBFreachestheaprioride- categorical outcomes: i) the null hypothesis is rejected
+finedthresholdoruntil reachingn observations(the (when the HDI falls completely outside the ROPE), ii)
+max
+aprioridefinedmaximumsamplesize). thenullhypothesisisaccepted(whentheHDIfallscom-
+Schönbrodt et al. (2017) provided detailed simu- pletely inside the ROPE), or iii) the data is said to be
+lation results of this procedure when comparing the inconclusive(whenneitheroftheaboveapplies).
+means of two independent groups (the equivalent of a When the goal of the analysis is to accept or reject
+two-samplest-test). Theyshowthattheerrorratesand areferencevalue,itisthenpossibletostopdatacollec-
+the average length of the procedure (i.e., how many tionwhentheHDIdoesnotincludethisreferencevalue.
+observations are needed to reach the threshold) are a Thus, this procedure is similar to the SBF procedure,
+function of both the population effect size, the thresh- except that the sampling procedure is terminated by a
+old, and the prior for the alternative hypothesis. For (conclusive)comparisonofaHDItoaROPE,insteadof
+instance, when chasing a medium effect size (d = 0.5) beingterminatedbyacomparisonofaBFvaluetosome
+andwhenusinga"mediumscaled"priorforthealterna- threshold (for a detailed study of the characteristics of
+tive (r = 1), stopping data collection at BF = 6 instead thisprocedure,seeKruschke,2015).
+ofBF =3resultsinapercentageofwronginferencesof
+4.6% instead of 40% (see Table 1 in Schönbrodt et al., Aimingforprecision
+2017,p. 10).
+Because data collection stops when the accumulated
+Basedontheseresults,itispossibletocombineprior
+evidence reaches a certain threshold, sequential hy-
+guesses or expectations with the known properties of
+pothesis testing procedures (e.g., SBF or HDI+ROPE)
+theSBFproceduretodesignexperiments. Thisstrategy
+are known to be biased by extreme observations. In
+is known as design analysis and includes the classical
+other words, the data collection stops when the col-
+power analyses of the NHST framework as a particu-
+lected data supports the hypothesis, preventing the op-
+lar case. In this vein, Schönbrodt and Wagenmakers
+portunity of collecting contradictory data afterwards
+(2018)introducedtheBayesFactorDesignAnalysistool
+and demonstrated how this strategy can help to design as an updating factor, indicating how credibility should be
+more informative empirical studies (see also Stefan et re-allocated from prior knowledge (what was known before
+al.,2019). seeingthedata)toposteriorknowledge(whatisknownafter
+seeingthedata).
+ThesequentialHDI+ROPEprocedure 3The posterior distribution is the result of any Bayesian
+analysis. It is a probability distribution that allocates prob-
+Bayesfactorsarenottheonlyavailableoptiontoper-
+ability to parameter values, given the model (including the
+form sequential testing. Whereas BFs quantify the ev- priors)andtheobserveddata.
+idence in favour of an hypothesis (relative to another 4The HDI is a particular type of credible interval, the
+hypothesis), each individual hypothesis can also be ex- Bayesian equivalent of the frequentist confidence interval. It
+aminedonitsown. Forinstance,thehypothesisthatthe should be noted however that the interpretation of Bayesian
+group difference of some measured variable is equal to andfrequentistintervalsdifferconsiderably(e.g.,Moreyetal.,
+zero might be assessed by looking directly at the pos- 2016;Nalborczyketal.,2019).
+===== PAGE 4/15 =====
+4
+(Kruschke, 2015). Performing sequential analysis un- Somedifficulties
+til a certain estimation precision is reached overcomes
+The procedures previously described and discussed
+this bias (Kruschke, 2015). In this procedure, the goal
+inSchönbrodtetal.(2017)andKruschke(2015,2018)
+is not to stop data analysis based on the rejection of
+offeranattractiveperspectiveondatacollection. How-
+an hypothesis but rather to sample observations until a
+ever, some precautions need to be undertaken in order
+predefined level of precision in a parameter (including
+topreserveagoodprecisionorthelong-termerrorrates
+effect size) estimation is reached. The estimation pre-
+they provide. More precisely, we discuss two main cat-
+cision can be quantified by the width of the HDI and
+egories of biases that need to be controlled. We call
+Kruschke (2015) proposes to stop data analysis when
+the first category of biases intrapersonal biases, as bi-
+the HDI width is less than 80% of the ROPE’s width.
+asesthatareexpressedwithinindividuals. Thesebiases
+Forinstance,ifthesmallesteffectsizeofinterest(SESOI,
+mainlyemergeduringdataanalysisanddatareporting.
+Lakens et al., 2018) is δ = 0.2, we can define a ROPE
+We call the second category of biases interpersonal bi-
+around 0 from δ = −0.1 to δ = 0.1. This means that
+ases, as biases that are expressed between individuals.
+we will consider an effect as approximately null when
+Thesebiasesmainlyemergeduringdatacollection(e.g.,
+it is less than half our SESOI. Planing for precision, we
+whentheresearcherinteractswithparticipants).
+wouldthereforestopdatacollectionwhenthewidthof
+These biases can arise in any study but sequential
+ourHDI(ontheestimateoftheeffectsize)isinferiorto
+procedures present specific risks on both the intra and
+0.8×0.2=0.16(Kruschke,2018).
+interpersonal dimensions. We explain why in the next
+Of course, there are other methods to determine the
+section.
+desiredlevelofprecision. Forinstance,researcherscan
+base their SESOI on an effect of minimal clinical rele-
+Whatcouldpossiblygowrong?
+vance. In this context, the SESOI varies depending on
+the costs and benefits of the treatment (Lakens et al., Intrapersonalbiasesduringsequentialanalyses
+2018). Wecanalsoimagineothercriteriatodetermine
+Most intrapersonal biases occur because of what
+precision on the basis of the ROPE. In any case, even
+some would call the "researcher degrees of freedom"
+if one wants to check whether the HDI falls inside the
+(Simmonsetal.,2011;Wichertsetal.,2016). Following
+ROPEattheendofdatacollection,planingforprecision
+Wicherts et al. (2016)’ nomenclature, we identified the
+enables us to focus on parameter or effect size estima-
+followingintrapersonalbiasesashavingincreasedrisks
+tion instead of hypothesis testing. If we decide to plan
+insequentialprocedures:
+formoderateprecision,wewillnotneedalargeamount
+ofobservations,butitislikelythattheHDIwilloverlap
+• C3: Correcting,coding,ordiscardingdataduring
+the ROPE. As a consequence, it will not be possible to
+datacollectioninanon-blindedmanner.
+reachacategoricalconclusion. Ifweplanforhighpreci-
+sion,moreobservationswillbeneededtostopdatacol- • A1: Choosing between different options of deal-
+lection, but hypothesis testing will be improved as well ing with incomplete or missing data on ad hoc
+as precision. In most situations, planing for precision grounds.
+willrequiremoreobservationsthanhypothesistesting.
+• A2: Specifyingpre-processingofdata(e.g.,clean-
+Whatevertheprocedure,thestoppingruleshouldbe
+ing, normalization, smoothing, motion correc-
+thoughtcarefullybyconsideringandbalancingthecosts
+tion)inanadhocmanner.
+and benefits of collecting more observations. A small
+number of observations is affordable but likely to lead
+• A3: Decidinghowtodealwithviolationsofstatis-
+to biased conclusions. A large number of observations
+ticalassumptionsinanadhocmanner.
+can be expensive but likely to lead to more robust con-
+clusions. Both frequentist and Bayesian methods have • A4: Deciding on how to deal with outliers in an
+their ways to deal with risks and errors in sequential adhocmanner.
+hypothesis testing. Criteria are modified for sequential
+hypothesis testing so that "significant" p-values (e.g., Thesedegreesoffreedomallowflexibilitywhenpro-
+.0294 instead of .05 for one interim analysis, Lakens, cessing data before statistical inference. This flexibility
+2014) or Bayes factors (e.g., BF = 6 instead of BF = can be dangerous when incentives, cultural norms, or
+3 depending on acceptable error rates, Schönbrodt et previous practices influence data analysis, and where
+al.,2017)arenotthesameasclassical(nonsequential) there are few safeguards. Thus, the intrapersonal na-
+hypothesis testing. This should also be considered in ture of these biases does not refer to an absence of so-
+sequentialtheHDI+ROPEprocedure. cialinfluence,butrathertobiasesoccurringatthepoint
+where the researcher makes choices on her own. This
+===== PAGE 5/15 =====
+5
+can be the case when someone discards an outlier to changing the criterion and methods for data prepara-
+reach a significant result because it is easier to pub- tion based on the state of the sequential procedure is
+lish with significant results. This can also be the case not acceptable. The result of an experiment cannot de-
+when one tries different data transformations to best termine the way it is itself defined. Real-time result-
+match their preferred hypothesis. Here the problem- hacking would jeopardise the confidence one can have
+aticnatureofthedegreesoffreedomistheresearcher’s inthisresult.
+subjectivity. Discarding an outlier or transforming data Therefore, we propose that all the steps of the se-
+is not necessarily the result of being an outlier or be- quentialprocedure(i.e.,datapreparationandcleaning,
+ing skewed data, but can also be the result of what outliers detection, data transformation, model assump-
+the researcher wants to see because of economic, so- tions checks, and data analysis) should be automated
+cial(e.g.,reputationpressure),culturalcontexts. These and performed in an incremental manner. The entire
+biasesarenotspecifictosequentialproceduresbuttheir datasetcanbecontinuallyreanalysed,includingformer
+consequencesmightbeamplifiedduringsequentialpro- outliers, so that the process follows the progressive in-
+cedures because of the possible impact of each look at corporation of new observations. Put more formally,
+the data. Indeed, the degrees of freedom can impact such a procedure should be able to take into account
+data analysis at time t which can in turn impact data that an extreme observation at time t might not be ex-
+1
+collection in a self-perpetuating cycle. Data analysis at treme anymore at time t , and should therefore be re-
+n
+timet isthereforelikelytobebiasedbythedegreesof includedinsubsequentanalyses.
+2
+freedom at time t but also at time t . Thus, errors ac- The fact that this iterative procedure is automated
+2 1
+cumulate becausethe effects ofthe degrees offreedom should prevent the data analyst from the hazards that
+aremultiplied. are commonly encountered during data manipulation
+When a data analyst has expectations about what (see previous section). These hazards have particu-
+should be observed, the data analysis is likely to larly important consequences in sequential procedures
+be biased by these expectations through confirma- in comparison to traditional (i.e. fixed-n) procedures
+tion (favouring an hypothesis) or disconfirmation becauseoftheincrementalnatureofevidenceaccumu-
+(strongerscepticismtowarddataagainstthehypothesis lation. A specific preprocessing choice at time t can
+than toward data corroborating the hypothesis) biases influence inference criteria computation at time t+n
+(MacCoun & Perlmutter, 2017). While continuously which can subsequently influence another preprocess-
+analysing data, the data analyst is faced with many ingchoicesandsoon. Withaccumulatedmodifications
+choicesaboutthebestwaytodealwithincomingdata. inpreprocessingdecisions,theinferencecriteriaarenot
+Basedonpreviousstudies,theymighthaveexpectations onlycomputedbasedondatabutalsoonsequentialand
+abouttherangeofplausiblevalues,ortheymightneed incrementalchoicesfromthescientist. Weproposethat
+to use particular methods to process physiological sig- thesestepscouldinsteadbeprogrammedandcodedon
+nals, to recode or to transform data in a specific way, thebasisofpreregisteredchoices,beforestartingtocol-
+andsoon. Weurgeresearcherstomakethesedecisions lectdata. Preregisteredautomateddataanalysiswould
+explicitbeforedatacollection. therefore ensure conclusions based on empirical proce-
+The properties of sequential procedures have been dures to be similar to the results (e.g., long-term er-
+studied extensively via simulation (Kruschke, 2015; ror rates) provided by Schönbrodt et al. (2017) or Kr-
+Schönbrodt et al., 2017; Wagenmakers et al., 2017). uschke(2015)usingsimulation,andexplicitlyfulfilthe
+However,noiseandirregularitiesinsimulateddataonly requirementsoftransparencyandreproducibility.
+come from sampling variability, and not from practi- However, being able to define in advance the goal
+cal problems that can be encountered during empirical and the criteria for success of these sequential proce-
+data collection (e.g., technical issues or experimenter dures requires i) to be well aware of the literature of
+biases). When collecting data, researchers would like interest, ii) to know how data behave by manipulat-
+to get as close as possible to the shape of simulated ingdatafromverysimilarpreviousexperimentsorpre-
+data (i.e., we would like to minimise other sources of tests, iii) to be able to implement a procedure of data
+errors than sampling variability). In order for the BF, preparation for model computation before seeing new
+the HDI or the precision to be reliable stopping crite- data. Thesethreepointsmightseemtrivialbutareeven
+ria, they have to be computed on reliable data. We ac- more important for sequential analyses than classical
+knowledgethatwhatcanbeconsideredasreliabledata proceduresinordertoavoidintermediateinfluencesin
+heavilydependsonthetypeofstudy. Assuch,decisions datapreparationbasedonknowninterimresults.
+concerningtheanalysisworkflowshouldbejustifiedby In addition to these intermediate influences (i.e., in-
+the existing literature as much as possible. However, fluencesbetweenthecollectionofthefirstbatchofdata
+===== PAGE 6/15 =====
+6
+and the final data analysis) in data preparation, inter- resentations. In other words, a bias toward a particu-
+mediateinfluencescanalsobeproblematicduringdata larresultmaystemfrompreviousliteratureorpersonal
+collection. These influences are what we call "interper- beliefs. In the sequential analysis context, a bias to-
+sonalbiases". ward a particular result may also stem from observing
+theaccumulatingdataacrossthesequentialprocedure.
+Interpersonalbiasesduringsequentialanalyses This could be particularly strong, because one can di-
+rectly see the accumulated data as the sample size in-
+By interpersonal biases we refer to biases that might
+creases in real time. Knowing about intermediate re-
+occur when a researcher interacts with participants
+sults can therefore increase the risk of falling into an
+during data collection. According to Wicherts et al.
+"evidence confirmation loop". In the previous section,
+(2016)’s nomenclature, the interpersonal bias with po-
+we proposed that this risk applies to confirmation and
+tentiallyincreasedrisksinsequentialproceduresis:
+disconfirmationbiases(dataanalysis)wheretheintrap-
+• C2: Insufficient blinding of participants and/or ersonalbiasofdataevaluationcaninflatewithaccumu-
+experimenters. latedevidence. Inthissection,weproposethatthisloop
+canalsoworsenexperimenterexpectancyeffectsduring
+When an experimenter has expectations about what datacollection. Theinterpersonalbiasofexperimenter-
+should be observed, data collection is likely to be bi- participant interactions can be seen as a self-fulfilling
+ased by these expectations (Gilder & Heerey, 2018; prophecyamplifiedbyfeedbackfrompreviousdata.
+Kleinetal.,2012;Orne,1962;Rosenthal,1963;Rosen- Clearly, it is very difficult to obtain robust results
+thal,1964;Rosenthal&Rubin,1978; Zoble&Lehman, concerning the effect size of analyst and observer ex-
+1969). Onesolutiontopreventthisbiasistomakesure pectancy effects. Indeed, one would have to carry out
+thatexperimentersareblindtotheexperimentalcondi- experiments on experiments in order to study these bi-
+tions. ases. This "meta-science" problem is arduous because
+Double blind5 designs are expected to minimise ex- these biases can apply at all levels of manipulation as
+pectancy effects (Gilder & Heerey, 2018; Klein et al., one experiment is included in another. For instance,
+2012). However, when the experimenter cannot be Barber(1978)suggestedthatexpectancybiasescanalso
+blind, expectancy effects are to be expected. This bias occurintheexpectancybiasresearch. Itcanalsobedif-
+hasbeenclearlyidentifiedbyLakens(2014)asapartic- ficulttocollectlargeobservationsamplesbyexperimen-
+ularly strong risk (i.e. observer effects are likely to be tal conditions (e.g., Zoble & Lehman, 1969), although
+strongerinthecontextofsequentialtesting)insequen- recent work has shown that it was possible (Gilder &
+tial analysis: "Experimenter bias is important to con- Heerey, 2018). Thus, we can only draw attention to
+sider when performing a study under normal circum- these effects as a potential risk to consider rather than
+stances [...] but becomes even more important to con- asapreciselyquantifieddangertoavoid.
+sider when the experimenter has performed an interim When double blind designs are not practicable, in-
+analysis." terpersonal biases seem obvious. However, when a
+What is the specific status of sequential testing con- double blind design is set up, the existence of an in-
+cerning analyst and observer expectancy effects? Ex- terpersonal bias is probably more questionable. How
+pectancyeffectsarisewhenonehaspriorbeliefsand/or couldknowledgeaboutpreviousdatainfluencetheout-
+motivations about the outcome of an experiment and come of the experiment? It is possible that the exper-
+involuntarily (we assume scientific honesty) influences imenter’s verbal and non-verbal motor cues impact on
+theresultsonthebasisofthesepriorbeliefsandmotiva- the participant’s behaviour (Zoble & Lehman, 1969).
+tions. Theconfidenceinahypothesiscanbeinfluenced However, it is unlikely that only non-verbal cues un-
+bypreviousresultsfromtheliterature,naiverepresenta- derlie the experimenter expectancy effect, at least in
+tionsaboutthestudiedphenomenon,andothersources simple or familiar tasks (Hazelrigg et al., 1991). What
+ofinformation. Thesesourcesmaydealwiththestudied we know today is that the experimenter expectancy ef-
+phenomenon but rarely with the ongoing study specif- fect can be inadvertent and can depend on the inter-
+ically, and, as a consequence, the potential hypothesis action between the experimenter and the participant
+canbesubjecttouncertainty. Whenperformingsequen- (Gilder & Heerey, 2018; Hazelrigg et al., 1991). Per-
+tialtesting,onehasadirectaccesstotheaccumulation sonality variables such as the need of social influence
+of evidence concerning the ongoing study. Hence, the (on the experimenter’s side) and the susceptibility to
+prior information accumulated from sequential analy-
+sis specifically reduces uncertainty about the potential 5We use the "double blind" terminology according to the
+results of the ongoing experiment as compared to in- classicaldefinition,whereboththeparticipantandtheexper-
+formation gathered from previous studies or naive rep- imenterareblindtotheexperimentalcondition.
+===== PAGE 7/15 =====
+7
+social influence (on the participant’s side) can also in- illustrated the predicted consequences of these biases
+crease the expectancy bias (Hazelrigg et al., 1991). In on the evolution of sequentially computed BFs. In the
+a double-blind design however, the experimenter can- next section, we focus on how to prevent these biases
+notinfluencetheparticipant’sresponsesonthebasisof fromhappening. Wesuggesttwowaysofimplementing
+knowledgeoftheexperimentalcondition. However,the analysis blinding as a precaution against experimenter
+(de)motivation and the disappointment/satisfaction of biases during sequential testing, and present a proof of
+seeingthepreferredhypothesiscontradicted/confirmed conceptforanautomatedprocedurethatwouldensure
+by the sequential testing procedure can possibly influ- objectivity.
+ence the participant.6 We cannot rule out the possi-
+bility that the confidence in a hypothesis interacts with Afullyautomated,transparent,reproducibleand
+experimental conditions and impacts the results of the triple-blindprotocolforsequentialtesting
+experiment in one way or another. Because the exper-
+Blinding is the procedure which hides the assigned
+imenter is not aware of the experimental condition of
+condition from people involved in the experiment. It
+theparticipants,theywillprobablyinfluencethemmore
+can notably be applied to participants, experimenters,
+uniformly than in a simple blind design. This means
+ordataanalysts(Schulz&Grimes,2002). Ifpossible,it
+that the behaviour of the experimenter can potentially
+ispreferabletoapplyblindingtoanyoneinvolvedinthe
+change the baseline value of a parameter in all partici-
+experimenttoavoidexpectancyeffects. Whereaspartic-
+pants. Also, we cannot exclude the possibility that the
+ipant and experimenter blinding is often considered in
+effectoftheexperimentalmanipulationisbiasedbythis
+Psychology,muchlessattentionhasbeengiventoanal-
+baseline value shift. More generally, "contextual vari-
+ysis blinding, probably due to materials and time con-
+ables,suchasexperimenters’expectations,areasource
+straints. However, the use of analysis blinding would
+of error that obscures the process of interest" (Klein et
+helpeliminatesomeofthebiasesidentifiedinWicherts
+al.,2012).
+et al. (2016). Again, this has been well described by
+Lakens (2014): "In large medical trials, tasks such as
+Whatcouldbeexpected?
+datacollectionandstatisticalanalysisareoftenassigned
+Tothebestofourknowledge,thereisnoexperiment to different individuals, and it is considered good prac-
+reporting expectancy biases when the experimenter is tice to have a data and safety monitoring board that is
+blindtotheexperimentalcondition. However,blinding involvedinplanningtheexperimentandoverseeingany
+the experimenter from interim analysis is certainly rec- interimanalyses. Inpsychology,suchadivisionoflabor
+ommended(Lakens,2014)whenblindingexperimental is rare, and it is much more common that researchers
+conditionsisnotpossible. Wesuggestthatblindingthe workinisolation".
+analysisshouldalsobeconsideredasaprecaution,even Analysisblindingcantaketwodifferentformsinthe
+whentheexperimenterisblind. context of sequential analyses procedures. First, analy-
+In Table 1, we describe hypothetical observable con- sis blinding can refer to a procedure ensuring that the
+sequences of such biases on the SBF and HDI+ROPE person analysing the data is blind to the hypotheses
+procedures. Importantly,expectationbiasescanemerge (Miller&Stewart,2011). Thisconfigurationminimises
+in all combinations of a priori expectations and pop- intrapersonal biases because the analyst does not have
+ulation effect sizes. Congruent observations are ex- the information necessary to influence data analysis in
+pected to increase the speed with which the threshold a specific direction (congruent or incongruent with the
+is reached (H0+ and H1+), whereas incongruent ob- hypothesis). Second (and more specifically to sequen-
+servationsareexpectedtoslowdownthisprocess(H0- tial testing procedures), analysis blinding can refer to
+andH1-)andtoincreasethenumberoffalsealarms. a procedure ensuring that the experimenter is blinded
+tothedataanalysis. Thisconfigurationminimisesinter-
+Evidence is insufficient to conclude on the practical personalbiasesbecausetheexperimenterdoesnothave
+significance of analyst and observer expectancy effects, theinformationnecessarytoinfluencedatacollectionin
+especially in double blind designs. If the necessary a specific direction (congruent or incongruent with the
+methods to reduce bias were costly and the potential hypothesis).
+benefits uncertain, then it would be reasonable to be If the experimenter is not the data analyst, they can
+scepticalofourproposal. However,wewillshowinthe beblindtotheevolutionoftheintermediateresultsun-
+next section that the methods required to reduce bias til data collection stops. As a consequence, the specific
+areeasytoimplement,andthereforecostlesstoadopt.
+6Ideally, scientists should be interested in all possible re-
+We have presented how the knowledge of previous
+sults,whatevertheyare.
+data can bias the data collection process and have also
+===== PAGE 8/15 =====
+8
+Table1
+Possible interactions between the population value of the effect size and the a priori expectations of the experimenter
+duringa(non-blind)sequentialtestingprocedure.
+Thereisnodifferenceinthepopulation Thereisadifferenceinthepopulation
+(H0: δ=0) (H1: δ(cid:44)0)
+Researcher1,believesinH0 H0+(congruent) H1-(incongruent)
+Researcher2,believesinH1 H0-(incongruent) H1+(congruent)
+experimenter expectancy bias in the sequential proce- ment. We will directly focus on the preparation of ma-
+dure is avoided. Another solution is to automate anal- terialsneededtocollectdata.
+ysis blinding so that the data analyst and the experi- This tutorial mainly deals with computerised exper-
+menter (who can be the same person) are blind to in- iments.8 In this situation, users need to program an
+termediate results computed on previous sets of obser- experiment to collect data. The logic proposed here
+vations. To illustrate this idea, we describe below how is compatible with experiments programmed with Psy-
+to perform transparent blind sequential analysis. We choPy (Peirce, 2007, 2008; Peirce et al., 2019) or
+propose an example for two independent-groups com- OpenSesame(Mathôtetal.,2012). Thesesoftwarepro-
+parisons (as in Schönbrodt et al., 2017). This tutorial gramshavetheadvantageofbeingfreeandabletocom-
+coversallexperimentalstepsfrompreregistrationtore- municate with the OSF. These two qualities are crucial
+sults reporting. When several options are available for fortransparentproceduresandeasysharing.
+a specific step, we detail one in the manuscript and We will use the possibility to link the software
+other possibilities in the supplementary materials. program with the OSF in order to propose an intuitive
+We provide a functional example of the procedure on "born-open" data procedure (Rouder, 2016). Although
+the OSF (Open Science Framework) based on an emo- OSF synchronisation tools are generally easy to install
+tional Stroop experiment. In order to describe the pro- on Windows and Mac OS, it can be slightly more
+cedure,weusetheideaofRouder(2016)whotookthe "complicated" on other operating systems (OS) such
+perspective of his dog Kirby to explain Git and Github. as Linux OS. Most users probably work on Windows
+Here we take the perspective of Lisa Loud,7 who loves and Mac OS. However, because Linux OSs are free
+carrying out experiments but has probably never used and open we believe that they fit well with the open
+automatedsequentialanalysisbefore. science philosophy. Consequently, we will provide
+minimal examples on how to use this tutorial on
+Prerequisites Ubuntuasapopularandeasy-to-useLinuxdistribution.
+• Lisa needs to have an Open Science Framework
+(OSF,https://osf.io/register/)account.
+We propose a procedure using OpenSesame be-
+• Lisa needs to have at least some basic knowledge low. Procedures with PsychoPy can be found in the
+about how to use the OSF. See Soderberg (2018) supplementary materials. OpenSesame probably
+and https://help.osf.io/ for a practical introduc- allowsthesimplestsynchronisationwiththeOSF.How-
+tion. ever, it is less flexible than PsychoPy for programming
+experimentsbecause,unlikePsychoPy,itdoesnotallow
+• Lisa needs to have R (R Core Team, 2019) and toaccesstoacoderview. DirectOSFsynchronisationis
+RStudio (https://www.rstudio.com/) installed on availablewithPsychoPy2butnotwithPsychoPy3. The
+hercomputer. example available on the OSF is based on PsychoPy 2
+buthasalsobeensuccessfullytestedwithOpenSesame.
+• Lisa needs to have a recent version of OpenS-
+Table 2 proposes a summary of the main strengths and
+esame (https://osdoc.cogsci.nl/) or PsychoPy
+weaknessesofeachmethod.
+(https://www.PsychoPy.org/) installed on her
+computer.
+Programming the experiment for "born-open"
+data. We present how to program an experiment al-
+"Born-open"data
+The aim of this this tutorial is not to discuss the the- 7https://theloudhouse.fandom.com/wiki/Lisa_Loud
+oretical work necessary before carrying out an experi- 8However, some parts of the proposed protocol can be
+adaptedtootherkindsofexperiments.
+===== PAGE 9/15 =====
+9
+Table2
+Globaloverviewofopenexperimentprogrammingsoftware’scharacteristicsandsynchronisationhandling.
+OpenSesame PsychoPy 2 PsychoPy 3
+Synchronisation OSF OSF Pavlovia and Gitlab*
+Automatic synchronisation ease + - - - -
+Graphical interface for synchronisation ++ - ++
+Synchronisation quality ++ + +++
+Software flexibility - ++ ++
+*Indirectsynchronisation ispossiblewithOSF becausesynchronisationispossible betweenOSFandGitlab. Direct synchronisation
+withOSFcouldalsobepossiblebutprobablynotstraightforward.
+lowing automatic "born-open" data with OpenSesame, Figure 1. OSF log-in button in the main toolbar in
+currently the easiest way to program automatic "born- OpenSesame
+open" data. For more flexibility in experiment pro-
+gramming, PsychoPy options are described in the
+supplementary materials. OpenSesame is "a graphi-
+calexperimentbuilderforthesocialsciences". Itisfree,
+open-source,andcross-platform. Itfeatures"acompre-
+hensive and intuitive graphical user interface and sup-
+portsPythonscriptingforcomplextasks."(Mathôtetal.,
+2012). OSFintegrationisnormallyincludedbydefault
+for Windows and Mac OS. If not (or for other OS like
+Ubuntu for instance), the installation procedure is de-
+scribed in the supplementary materials. If OSF in-
+tegration is installed, the user should see the OSF icon
+in OpenSesame (Figure 1). Click the OSF log-in but-
+ton and sign in with your OSF account. More details
+on OSF integration in OpenSesame can be found at
+https://osdoc.cogsci.nl/3.1/manual/osf/. If Lisa reads
+this part of the manual, she will know exactly what to cause data is continuously analysed during data collec-
+doinordertolinkdatatotheOSF.9 Ifshelinksdatato tion, everything must be ready before collecting data.
+the OSF, each time that data has been collected (nor- This can be seen as a disadvantage because there is a
+mallyaftereveryexperimentalsession),thisdataisalso lot of work to be done before data collection. Indeed,
+uploaded to the OSF. Lisa should follow the following analysing data after data collection allows us to delay
+stepsinordertodoso: several choices thus allowing to launch data collection
+morequickly.10 However,thiscanalsobeconsideredas
+• Lisahastosavetheexperimentonhercomputer.
+ahugeadvantagebecausetherearenounexpectedsur-
+prisesafterdatacollection. Itisnotpossibletodiscover
+• ShethenhastoopentheOSFexplorer,right-click
+that something has not been recorded or that data is
+on the folder that she wants the data to be up-
+not in the appropriate format, or that data is more dif-
+loaded to, and select "Sync data to this folder".
+ficult to analyse than expected. Everything is thought
+The OSF node that the data is linked to will be
+aboutupstreambecauseeverythingmustworkfordata
+shownatthetopoftheexplorer.
+analysis which is performed during data collection. We
+• She finally needs to check "Always upload col- proposethis6-stepproceduretopreparetheanalysis:
+lected data" and data files will be automatically
+• Clearly define the variables involved in the study
+savedtoOSFaftertheyhavebeencollected.
+9The following part is a reformulation of the manual for
+Scriptpreparationandpiloting thepurposeofourtutorial.
+10Herewedonotsaythatpreparationisspecifictosequen-
+Performing sequential analyses requires strict exper- tialtesting. Preparationcanberecommendedforalldesigns,
+iment programming and data analysis preparation. Be- butisnotavoidableinsequentialanalysis.
+===== PAGE 10/15 =====
+10
+inordertoprogramtheexperiment thisperspective,bornopendata(Rouder,2016)canbe
+evenmoreefficient,especiallyinthecontextofsequen-
+• Carefully consider how to analyse the data to be
+tial analysis. "Born-open" data is the procedure which
+collected
+makesdataautomaticallyopenassoonasitiscollected.
+This procedure has at least two huge interests for se-
+• Program the experiment in keeping with the
+quential analysis. First, the time course of data collec-
+planneddataanalysis
+tion is transparent because data is necessarily sent on-
+• Test the experiment to check that everything is lineandtime-stampedjustafterbeingcollected. Thisis
+workingasexpected very important because in doing so, each choice made
+by Lisa will be clear and justified. Second, "born-open"
+• Prepare the scripts that will be used to analyse
+data will facilitate real time online data analysis which
+data
+is very useful for sequential designs. automatic "born-
+• Runsomepilotstotesttheprocedure open"dataispossiblewithOpenSesameorPsychoPyby
+automaticpublishingdataontheOSF(oronGithubor
+These steps are necessary in order to launch the ac- Gitlabforinstance).
+tual experiment. Otherwise, sequential analyses are
+likelytofailatsomepoint. Automateddatacleaning
+Aftercollectingherfirstbatchofdata,Lisamightnot
+Preregistration
+be able to directly fit the statistical model she is inter-
+Let’s assume Lisa has successfully achieved script estedin. Sheprobablyneedsaprocedureofdataclean-
+preparation and piloting. When everything is ready, ing in order to get her data ready for statistical infer-
+she has everything she needs to preregister her study. ence. Data cleaning can include physiological signal
+Preregistration is very important in sequential testing processing, artefacts removal, errors removal, dealing
+because it forces Lisa to explicitly state her statistical with potential outliers, and everything needed to get
+criteria of interest and therefore announce when data meaningful data from raw data. Lisa has to perform
+collection will end. This is very useful in order to limit datacleaningbeforestatisticalmodelling. BecauseLisa
+biases due to Lisa’s degrees of freedom (Lakens, 2014; isanalysingdatasequentially,shealsohastocleandata
+Wichertsetal.,2016). sequentially.
+Inadditiontogenericpreregistration,thefirstimpor- For instance, in our example (the emotional Stroop
+tant thing to preregister is the sequential data clean- task),wedecidedtoremovemissingdataandresponse
+ing procedure. In this part, Lisa should describe how times (RT) below 100 ms. This is done each time
+data will be handled before inferential statistical mod- new data is incorporated (see lines 101 to 110 of the
+elling. This can include, physiological signal process- sequential_analyses.R script). We could also have
+ing, potential observation or participant removal crite- chosen to analyse RT only for correct responses and/or
+ria or any other data manipulation happening between to remove observations based on a specific descriptive
+data collection and modelling. After that, Lisa should statistic.
+indicate the appropriate stopping statistics depending
+on the procedure (e.g., SBF, HDI+ROPE, precision). Automatedblinddataanalysis
+The stopping statistic should be described along with
+BecauseLisahaspreparedeverythingneededforher
+a clear and detailed description of the model which is
+procedure, she is able to automate data analysis and
+computed to get this statistic. Finally, Lisa should also
+thereforetobeblindtothedetailsoftheanalysiswhile
+specifyaminimumsamplesizerequiredtocomputethe
+sheiscollectingdata. Hereishowshecanproceedand
+models, and a maximal sample size affordable for her,
+howweproceededinourexample.
+which would determine the end of data collection, in-
+We describe how Lisa can handle tasks-scheduling
+dependentlyofthestoppingstatistic.
+on a UNIX system (macOS and Linux) in this para-
+graph. Lisa can use the cronR package (Wijffels,
+Transparentdatacollection
+2018a) to schedule tasks in R. This package will be
+Whenpossible,makingdataopenlyavailablecanim- useful in order to retrieve data from the OSF and to
+prove the quality of science (Klein et al., 2018). In the analyse it. Lisa will have to create a task by run-
+contextofsequentialdataanalysis,itcanbeevenmore ning the appropriate script (main_script.R in our ex-
+important. As we explained above, sequential analyses ample) once before collecting the first observation.
+offerstrongadvantagesbutalsoincreaseLisa’sdegrees She will be able to decide how often she wants the
+of freedom. Making data open can reduce this bias. In script to run automatically. Lisa could also apply
+===== PAGE 11/15 =====
+11
+the same procedure on a Windows system thanks would just have to specify all the important details of
+to the taskscheduleR package (Wijffels, 2018b). A her analysis in boxes, from which the application gen-
+short description on how to use this package can erates the corresponding R script almost ready for se-
+be found at: https://cran.r-project.org/web/packages/ quentialanalysis. Thisapplicationismeanttofacilitate
+taskscheduleR/vignettes/taskscheduleR.html. thecreationofRscripts. Itautomaticallywritesaround
+If Lisa chooses that the script should auto-run each 90% of the code Lisa would have to write to use such
+hour,themainscriptwillcheckdatafromtheOSFeach a sequential analysis procedure. However, it is almost
+hour. This will be done with the osfr package (Wolen certainthattheproducedRcodewouldnotworkimme-
+& Hartgerink, 2019). In our example (Line 106 to 143 diately. Itwouldrequiresomeminortweakingfromher,
+in main_script.R), we check if new data is available such as checking the local path, making sure that the
+ontheOSFanddownloaditifitisthecase. Aftersome scriptsandthedataareinthesamerepository,adapting
+data formatting (lines 145 to 197), the script will run the data import step to specific properties of the data
+the sequential analysis (line 199 to 243). The main underconsideration,andsoon.
+script calls the sequential_analyses.R script which Theprocedureproposedhereonlyrequiresonecom-
+contains the sequential analyses function. Lisa will puter. Hence, the implementation cost is rather low.
+alsohavetospecifysomeparametersdependingonthe This procedure is also well suited for multi-lab studies.
+modelsheisinterestedin. Indeed, an experiment can be run at different places
+At the end of the analysis, Lisa will receive an email but data is automatically centralised on one platform
+telling her whether to stop or to continue data collec- and can be analyse automatically and sequentially by
+tion. Thisemailwillneitherreporttheeffectnoritsdi- onesinglecomputer. Theexperimentwedesignedwith
+rection, butonlytheinformationtostoportocontinue PsychoPy 2 (see the supplementary material for more
+the data collection. This means that Lisa will be able information)isspecificallythoughtformulti-labstudies
+to follow a sequential design without any information by automatically recording information about the com-
+abouttheresultsofdataanalysis,exceptedthefactthat puterwhichrunstheexperiment. Thisenablestheiden-
+she has (not) reached her criterion. The mail will be tificationofthesiteassociatedwitheachparticipant.
+sent automatically in R thanks to the gmailR package Weconcedethatautomationofdataanalysisprevents
+(Hester,2016). oneinterestingadvantageofsequentialtesting. Namely,
+the fact that data collection can be stopped whenever
+Reproduciblereporting the behaviour of data is unexpected, allowing the ex-
+perimenter to rethink the experimental design or aim
+Lisa will stop data collection when she reaches her
+beforecollectingmoredata(Lakens,2014). Depending
+statistical criterion or her maximum affordable sample
+ontheconfidenceandexpectedfamiliaritywiththedata
+size. She will then be able to write a report describing
+tobecollected,theresearchershavetochoosebetween
+her results. She can do it using RMarkdown (Allaire
+automated or "two-person" analysis blinding. The first
+etal.,2019;Xieetal.,2018)inordertoincorporateher
+optionhaslowcostsofimplementationwhereasthesec-
+results automatically from her R scripts into her report
+ondoneismoreflexible. Inanycase,afterperforminga
+(e.g., see Bauer, 2018). Lisa could for instance use the
+sequentialanalysis,nothingpreventsLisafromperform-
+R package papaja (Aust & Barth, 2018) which would
+ingadditionalanalysesbasedonunexpecteddataspeci-
+allow her to write a reproducible APA manuscript with
+ficity, taking care to record and state the exploratory
+RMarkdown. Scientific writing with Rmarkdown has
+natureofanysuchanalyses.
+important benefits for any type of research design but
+wouldbeevenmorevaluableforsequentialanalyses.
+Awordonblindanalysisbymultiplepeople
+Feasibilityoftheproposedprotocolandlimitations If Lisa can afford working with a colleague on her
+study and if she prefers to do so, we advise her to ap-
+Agraphicalsummaryof theprocedureisdepictedin
+Figure2.11 Allthetoolsneededtosetitupareavailable ply the logic of the automated procedure described in
+this tutorial. The only difference will be that her col-
+for free to everyone. Using OpenSesame or PsychoPy
+league will analyse data while Lisa collects it (or con-
+is relatively straightforward and does not necessarily
+versely). If her colleague analyses data, they will have
+require coding skills. We proposed standard R scripts
+to retrieve data online (e.g., on OSF) and to perform
+in order to automate sequential analysis. However, we
+the planned preregistered analysis (unless data behave
+concedethatusingthisscriptsrequiresminimalknowl-
+edge of R. Hence, we also propose a Shiny applica-
+11ThisfigurehasbeeninspiredbytheFigure1inQuintana
+tion available at https://barelysignificant.shinyapps.io/
+etal.(2016).
+blind_sequential_analyses/. With this application, Lisa
+===== PAGE 12/15 =====
+12
+Figure 2. Schematic procedure of a transparent and ses. For instance, the reliance on the user’s R program-
+blindsequentialdataanalysis. mingskillsmightbealleviatedwiththedevelopmentof
+an online platform that would automate the procedure
+Define variables
+online,withouttheneedforcoding.
+Plan analysis
+More work is also needed to precisely quantify in-
+Scripts Program
+preparation tra and interpersonal biases during data collection and
+and piloting Test analysis. For instance, one could set up experimental
+Prepare scripts
+procedures to pinpoint these biases in realistic lab sit-
+Run pilots
+uations (e.g., see Gilder & Heerey, 2018). In addition
+to experimental procedures, computational modelling
+Data cleaning
+couldalsobeusedtoestimatethepresenceofbiasinex-
+Preregistration Stopping statistic tant(publishedornot)sequentialanalyses. Byformalis-
+Model specification
+ingthesequentialanalysisprocedure(e.g.,usinganevi-
+N min N max
+denceaccumulationmodel)andbyexplicitlymodelling
+Born open the biases that we describe in the present article, we
+data collection might be able to assess the likelihood that an observed
+set of collected statistics (e.g., BFs) has been obtained
+Signal processing
+Automated undertheassumptionofbias(ornobias).
+Artefacts removal
+data cleaning
+Errors removal
+Supplementarymaterials
+Outliers management
+Reproducible code and supplementary materials are
+availableonOSF:https://osf.io/mwtvk/.
+Automated Schedule
+blind data Download data
+analysis AuthorContact
+Analyse
+Email decision Correspondence concerning this article should be
+addressed to Brice Beffara Bret, Université de Nantes,
+Reproducible Nantes,France. E-mail: brice.beffara@univ-nantes.fr.
+reporting ORCID: Brice Beffara Bret https://orcid.org/
+0000-0002-0586-6650 - Amélie Beffara Bret
+https://orcid.org/0000-0002-9129-0415 - Ladislas
+Nalborczykhttps://orcid.org/0000-0002-7419-9855
+We thank Hans IJzerman for helpful comments and
+very unexpectedly in which case they will have the re-
+Edward Collett for his help with manuscript English
+sponsibilitytoadapttheanalysisorstopdatacollection
+proof reading on a previous version of this manuscript.
+prematurely). The only contact Lisa and her colleague
+ManythankstoChristopherMoulinforhisfeedbackand
+will have concerning the experiment will be the email
+for his help with manuscript English proof reading on
+they will send to inform Lisa whether to stop or con-
+the updated version of this manuscript. We also thank
+tinuedatacollection,nothingmore.
+Rickard Carlsson, Félix Schönbrodt, Angelika Stefan,
+Conclusions Stephen Martin, and Charlotte Brand for insightful
+comments and suggestions during the peer-review
+We began by presenting the intra and interpersonal
+process.
+biases that might emerge during sequential testing and
+sequential analysis procedures. To tackle these issues, ConflictofInterestandFunding
+we proposed a novel automated, transparent, repro-
+The authors report no conflict of interest. We thank
+ducible and blind protocol for sequential analysis. The
+theUniversitédeNantes,theUniversitéGrenobleAlpes,
+main interest of this procedure is to reduce possible
+andtheUniversitédeFranche-Comtéforsupportingour
+biases that could be encountered during intermediate
+research. The author(s) received no specific financial
+dataanalysisandtopreventtheinflationofsocialinflu-
+supportfortheresearch,authorship,and/orpublication
+encesduringdatacollection.
+ofthisarticle.
+This protocol should be considered as a proof-of-
+concept for sequential analysis automation. However,
+futureworkwillbeabletoproposemorecomprehensive
+and more user-friendly solutions for sequential analy-
+===== PAGE 13/15 =====
+13
+AuthorContributions Barber, T. X. (1978). Expecting expectancy effects: Bi-
+ased data analyses and failure to exclude al-
+Following the CRediT – Contributor Roles Taxonomy
+ternative interpretations in experimenter ex-
+(https://casrai.org/credit/):
+pectancy research. Behavioral and Brain Sci-
+ences, 1(03), 388. https://doi.org/10.1017/
+Conceptualisation: BBB(lead),ABB,LN
+S0140525X00075531
+Datacuration: BBB,LN
+Bauer, P. C. (2018). Writing a Reproducible Paper in R
+Formalanalysis: LN
+Markdown. SSRN Electronic Journal. https://
+Investigation: BBB,ABB
+doi.org/10.2139/ssrn.3175518
+Methodology: BBB,ABB,LN
+de Groot, A. (2014). The meaning of “significance” for
+Projectadministration: BBB,ABB,LN
+different types of research [translated and an-
+Resources: BBB,ABB,LN
+notatedbyEric-JanWagenmakers,DennyBors-
+Software: BBB(OpenSesame,PsychoPy,Python),LN(R)
+boom, Josine Verhagen, Rogier Kievit, Marjan
+Validation: BBB,ABB,LN
+Bakker, Angelique Cramer, Dora Matzke, Don
+Visualisation: BBB,ABB,LN
+Mellenbergh,andHanL.J.vanderMaas].Acta
+Writing: BBB,ABB,LN
+Psychologica, 148, 188–194. https://doi.org/
+10.1016/j.actpsy.2014.02.001
+Authorshiporderwasdeterminedasfollow(byorder
+Fidler, F., & Wilcox, J. (2018). Reproducibility of Sci-
+ofsignificance):
+entific Results. In E. N. Zalta (Ed.), The Stan-
+- First author: original idea and major contribution to
+ford Encyclopedia of Philosophy (Winter 2018).
+the"software"role(interalia)
+MetaphysicsResearchLab,StanfordUniversity.
+- Last author: major contribution to the "software" role
+Gelman,A.,&Carlin,J.(2014).Beyondpowercalcula-
+(interalia)
+tions:Assessingtypes(sign)andtypem(mag-
+- Second author: major contribution to the "investiga-
+nitude)errors.PerspectivesonPsychologicalSci-
+tion"role(interalia)
+ence,9(6),641–651.https://doi.org/10.1177/
+1745691614551642
+OpenSciencePractices
+Gilder, T. S. E., & Heerey, E. A. (2018). The Roleof Ex-
+perimenter Belief in Social Priming. Psycholog-
+ical Science, 29(3), 403–417. https://doi.org/
+10.1177/0956797617737128
+Goodman,S.N.,Fanelli,D.,&Ioannidis,J.P.A.(2016).
+ThisarticleearnedtheOpenDataandtheOpenMa-
+What does research reproducibility mean? Sci-
+terials badge for for making the data and materials
+ence Translational Medicine, 8(341), 341ps12.
+openly available. It has been verified that the analy-
+https://doi.org/10.1126/scitranslmed.aaf5027
+sis reproduced the results presented in the article. The
+Hansen, W. B., & Collins, L. M. (1994). Seven Ways
+entireeditorialprocess,includingtheopenreviews,are
+To Increase Power Without Increasing N [type:
+publishedintheonlinesupplement.
+dataset]. NIDA research monograph, 142, 184–
+195. https://doi.org/10.1037/e495862006-
+References
+008
+Allaire,J.,Xie,Y.,McPherson,J.,Luraschi,J.,Ushey,K., Hazelrigg, P. J., Cooper, H., & Strathman, A. J. (1991).
+Atkins, A., Wickham, H., Cheng, J., Chang, W., Personalitymoderatorsoftheexperimenterex-
+& Iannone, R. (2019). Rmarkdown: Dynamic pectancy effect: A reexamination of five hy-
+documentsforr[Rpackageversion1.12].https: potheses.PersonalityandSocialPsychologyBul-
+//rmarkdown.rstudio.com letin, 17(5), 569–579. https://doi.org/10.
+Aust, F., & Barth, M. (2018). papaja: Create APA 1177/0146167291175012
+manuscripts with R Markdown [R package ver- Hester, J. (2016). Gmailr: Access the gmail restful api
+sion 0.1.0.9842]. https://github.com/crsh/ [R package version 0.7.1]. https://CRAN.R-
+papaja project.org/package=gmailr
+Babbage, C. (1830). Reflections on the decline of science Klein, O., Doyen, S., Leys, C., Magalhães de Saldanha
+in England, and on some of its causes. B. Fel- da Gama, P. A., Miller, S., Questienne, L., &
+lowes[etc.] Cleeremans, A. (2012). Low Hopes, High Ex-
+pectations:ExpectancyEffectsandtheReplica-
+bilityofBehavioralExperiments.Perspectiveson
+===== PAGE 14/15 =====
+14
+Psychological Science, 7(6), 572–584. https:// calTrials,32(2),240–243.https://doi.org/10.
+doi.org/10.1177/1745691612463704 1016/j.cct.2010.11.004
+Klein,O.,Hardwicke,T.E.,Aust,F.,Breuer,J.,Daniels- Morey, R. D., Hoekstra, R., Rouder, J. N., Lee, M. D., &
+son, H., Hofelich Mohr, A., Ijzerman, H., Nil- Wagenmakers,E.-J.(2016).Thefallacyofplac-
+sonne, G., Vanpaemel, W., & Frank, M. C. ing confidence in confidence intervals. Psycho-
+(2018). A Practical Guide for Transparency nomicbulletin&review,23(1),103–123.https:
+in Psychological Science. Collabra: Psychology, //doi.org/10.3758/s13423-015-0947-8
+4(1), 20. https://doi.org/10.1525/collabra. Nalborczyk,L.,Bürkner,P.-C.,&Williams,D.R.(2019).
+158 Pragmatism should not be a substitute for sta-
+Kruschke, J. K. (2015). Doing Bayesian data analysis: tistical literacy, a commentary on albers, kiers,
+A tutorial with R, JAGS, and Stan (Edition 2). andvanravenzwaaij(2018).Collabra:Psychol-
+AcademicPress. ogy, 5(1). https://doi.org/10.1525/collabra.
+Kruschke, J. K. (2018). Rejecting or Accepting Parame- 197
+ter Values in Bayesian Estimation. Advances in Nelson, L. D., Simmons, J., & Simonsohn, U. (2018).
+Methods and Practices in Psychological Science, Psychology’sRenaissance.AnnualReviewofPsy-
+1(2), 270–280. https://doi.org/10.1177/ chology, 69(1), 511–534. https://doi.org/10.
+2515245918771304 1146/annurev-psych-122216-011836
+Kruschke, J. K., & Liddell, T. M. (2018). The Bayesian Orne, M. T. (1962). On the social psychology of the
+New Statistics: Hypothesis testing, estimation, psychological experiment: With particular ref-
+meta-analysis, and power analysis from a erence to demand characteristics and their im-
+Bayesian perspective. Psychonomic Bulletin & plications. American psychologist, 17(11), 776–
+Review, 25(1), 178–206. https://doi.org/10. 783.https://doi.org/10.1037/h0043424
+3758/s13423-016-1221-4 Peirce, J. W. (2007). PsychoPy—Psychophysics soft-
+Lakens,D.(2014).Performinghigh-poweredstudiesef- ware in Python. Journal of Neuroscience Meth-
+ficiently with sequential analyses: Sequential ods,162(1-2),8–13.https://doi.org/10.1016/
+analyses.EuropeanJournalofSocialPsychology, j.jneumeth.2006.11.017
+44(7),701–710.https://doi.org/10.1002/ejsp. Peirce, J. W. (2008). Generating stimuli for neuro-
+2023 scienceusingPsychoPy.FrontiersinNeuroinfor-
+Lakens,D.,Scheel,A.M.,&Isager,P.M.(2018).Equiv- matics, 2. https://doi.org/10.3389/neuro.11.
+alenceTestingforPsychologicalResearch:ATu- 010.2008
+torial.AdvancesinMethodsandPracticesinPsy- Peirce, J. W., Gray, J. R., Simpson, S., MacAskill, M.,
+chological Science, 1(2), 259–269. https://doi. Höchenberger,R.,Sogo,H.,Kastman,E.,&Lin-
+org/10.1177/2515245918770963 deløv, J. K. (2019). PsychoPy2: Experiments in
+MacCoun, R. J., & Perlmutter, S. (2017). Blind Anal- behavior made easy. Behavior Research Meth-
+ysis as a Correction for Confirmatory Bias in ods,51(1),195–203.https://doi.org/10.3758/
+Physics and in Psychology. In S. O. Lilienfeld & s13428-018-01193-y
+I. D. Waldman (Eds.), Psychological Science Un- Quintana, D., Alvares, G., & Heathers, J. (2016).
+derScrutiny(pp.295–322).JohnWiley&Sons, Guidelines for reporting articles on psychiatry
+Inc.https://doi.org/10.1002/9781119095910. and heart rate variability (graph): Recommen-
+ch15 dations to advance research communication.
+Mathôt, S., Schreij, D., & Theeuwes, J. (2012). OpenS- Translational psychiatry, 6(5), e803. https://
+esame: An open-source, graphical experiment doi.org/10.1038/tp.2016.73
+builder for the social sciences. Behavior Re- RCoreTeam.(2019).R:Alanguageandenvironmentfor
+search Methods, 44(2), 314–324. https://doi. statistical computing. R Foundation for Statisti-
+org/10.3758/s13428-011-0168-7 cal Computing. Vienna, Austria. https://www.
+Meehl, P. E. (1990). Appraising and Amending Theo- R-project.org/
+ries: The Strategy of Lakatosian Defense and Rosenthal, R. (1963). On the social psychology of the
+TwoPrinciplesthatWarrantIt.PsychologicalIn- psychological experiment: The experimenter’s
+quiry, 1(2), 108–141. https://doi.org/10. hypothesis as unintended determinant of ex-
+1207/s15327965pli0102\_1 perimentalresults.AmericanScientist,51,268–
+Miller,L.E.,&Stewart,M.E.(2011).Theblindleading 283.
+the blind: Use and misuse of blinding in ran- Rosenthal, R. (1964). Experimenter outcome-
+domized controlled trials. Contemporary Clini- orientationandtheresultsofthepsychological
+===== PAGE 15/15 =====
+15
+experiment. Psychological Bulletin, 61(6), Vuorre,M.,&Curley,J.P.(2018).CuratingResearchAs-
+405–412.https://doi.org/10.1037/h0045850 sets: A Tutorial on the Git Version Control Sys-
+Rosenthal, R., & Rubin, D. B. (1978). Interpersonal ex- tem. Advances in Methods and Practices in Psy-
+pectancy effects: The first 345 studies. Behav- chological Science, 1(2), 219–236. https://doi.
+ioral and Brain Sciences, 1(03), 377. https:// org/10.1177/2515245918754826
+doi.org/10.1017/S0140525X00075506 Wagenmakers,E.-J.,Marsman,M.,Jamil,T.,Ly,A.,Ver-
+Rouder,J.N.(2016).Thewhat,why,andhowofborn- hagen, J., Love, J., Selker, R., Gronau, Q. F.,
+open data. Behavior Research Methods, 48(3), Šmíra, M., Epskamp, S., Matzke, D., Rouder,
+1062–1069. https://doi.org/10.3758/s13428- J. N., & Morey, R. D. (2017). Bayesian infer-
+015-0630-z ence for psychology. Part I: Theoretical advan-
+Rouder, J. N., Haaf, J. M., & Snyder, H. K. (2018). tages and practical ramifications. Psychonomic
+Minimizing Mistakes In Psychological Science. Bulletin & Review, 25(1), 35–57. https://doi.
+PsyArXiv. https://doi.org/10.31234/osf.io/ org/10.3758/s13423-017-1343-3
+gxcy5 Wicherts,J.M.,Veldkamp,C.L.S.,Augusteijn,H.E.M.,
+Schönbrodt,F.D.,&Wagenmakers,E.-J.(2018).Bayes Bakker, M., van Aert, R. C. M., & van Assen,
+factor design analysis: Planning for compelling M. A. L. M. (2016). Degrees of Freedom in
+evidence.PsychonomicBulletin&Review.https: Planning, Running, Analyzing, and Reporting
+//doi.org/10.3758/s13423-017-1230-y Psychological Studies: A Checklist to Avoid p-
+Schönbrodt, F. D., Wagenmakers, E.-J., Zehetleitner, Hacking.FrontiersinPsychology,7.https://doi.
+M.,&Perugini,M.(2017).Sequentialhypothe- org/10.3389/fpsyg.2016.01832
+sis testing with Bayes factors: Efficiently test- Wijffels, J. (2018a). Cronr: Schedule r scripts and pro-
+ing mean differences. Psychological Methods, cesses with the ’cron’ job scheduler [R package
+22(2), 322–339. https://doi.org/10.1037/ version 0.4.0]. https://CRAN.R-project.org/
+met0000061 package=cronR
+Schulz, K. F., & Grimes, D. A. (2002). Blinding in Wijffels, J. (2018b). Taskscheduler: Schedule r scripts
+randomised trials: Hiding who got what. The and processes with the windows task scheduler
+Lancet, 359(9307), 696–700. https://doi.org/ [R package version 1.4.0]. https://CRAN.R-
+10.1016/s0140-6736(02)07816-9 project.org/package=taskscheduleR
+Simmons,J.P.,Nelson,L.D.,&Simonsohn,U.(2011). Wolen, A., & Hartgerink, C. (2019).
+False-PositivePsychology:UndisclosedFlexibil- Osfr: R interface to osf
+ity in Data Collection and Analysis Allows Pre- [http://centerforopenscience.github.io/osfr,
+senting Anything as Significant. Psychological https://github.com/centerforopenscience/osfr].
+Science, 22(11), 1359–1366. https://doi.org/ Xie, Y., Allaire, J., & Grolemund, G. (2018). R
+10.1177/0956797611417632 markdown: The definitive guide [ISBN
+Smaldino, P., Turner, M. A., & Contreras Kallens, P. A. 9781138359338]. Chapman; Hall/CRC. https:
+(2019).Openscienceandmodifiedfundinglot- //bookdown.org/yihui/rmarkdown
+teries can impede the natural selection of bad Yarkoni, T., Eckles, D., Heathers, J., Levenstein, M.,
+science. https://doi.org/10.31219/osf.io/ Smaldino, P., & Lane, J. I. (2019). Enhancing
+zvkwq andacceleratingsocialscienceviaautomation:
+Soderberg, C. K. (2018). Using OSF to Share Data: Challengesandopportunities.https://doi.org/
+A Step-by-Step Guide. Advances in Methods 10.31235/osf.io/vncwe
+and Practices in Psychological Science, 1(1), Zoble,E.J.,&Lehman,R.S.(1969).Interactionofsub-
+115–120. https : / / doi . org / 10 . 1177 / ject and experimenter expectancy effects in a
+2515245918757689 tonelengthdiscriminationtask.BehavioralSci-
+Stefan, A. M., Gronau, Q. F., Schönbrodt, F. D., & Wa- ence, 14(5), 357–363. https://doi.org/10.
+genmakers, E.-J. (2019). A tutorial on Bayes 1002/bs.3830140503
+FactorDesignAnalysisusinganinformedprior.
+Behavior Research Methods, 51(3), 1042–1058.
+https://doi.org/10.3758/s13428-018-01189-8

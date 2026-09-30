@@ -1,0 +1,334 @@
+
+===== PAGE 1/5 =====
+Opendata:Notapplicable Editedby:RickardCarlsson
+Meta-Psychology,2021,vol5,MP.2020.2539 Openmaterials:Notapplicable Reviewedby:Brand,C.O.,Martin,S.R.
+https://doi.org/10.15626/MP.2020.2539 Openandreproducibleanalysis:Notapplicable Analysisreproducedby:Notapplicable
+Articletype:Commentary Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+PublishedundertheCC-BY4.0license Preregistration:No https://doi.org/10.17605/OSF.IO/JGXK7
+Comparing Bayesian Posterior Passing with
+Meta-analysis
+Joshua Pritsker
+Purdue University
+Abstract
+Brand, von der Post, Ounsley, and Morgan (2019) introduced Bayesian posterior passing as an alternative to tra-
+ditionalmeta-analyses. InthiscommentaryIrelatetheirproceduretotraditionalmeta-analysis, showingthatpos-
+terior passing is equivalent to fixed effects meta-analysis. To overcome the limitations of simple posterior passing,
+I introduce improved posterior passing methods to account for heterogeneity and publication bias. Additionally,
+practicallimitationsofposteriorpassingandtherolethatitcanplayinfutureresearcharediscussed.
+Keywords: bayesianupdating,posteriorpassing,meta-analysis
+Introduction PosteriorPassingasMeta-analysis
+The ability to accumulate evidence across studies is AsBrandetal. (2019)suggestthatposteriorpassing
+often said to be a great advantage of Bayesian infer- may replace traditional meta-analyses, one might won-
+ence. This point was recently discussed by Brand, von der how posterior passing relates to traditional meta-
+der Post, Ounsley, and Morgan (2019), who suggested analyses. Given that meta-analyses are typically based
+that Bayesian posterior passing alleviates the need for on proxy statistics and their standard errors instead of
+traditionalmeta-analysis. Theyperformedasimulation individualdatapoints,onemightconsiderposteriordis-
+study comparing posterior passing to non-cumulative tributions generated the same way. We can do this by
+analysis and combined analysis of the data from all using the likelihood of a statistic instead of the likeli-
+studies. However,theylackedaformaltheoreticalcom- hood of the full data. For instance, supposing that we
+parison of posterior passing to traditional methods of have a parameter θ that we want to make inferences
+meta-analysis. This commentary relates posterior pass- about,wemightconstructthelikelihoodfunctionusing
+ingtotraditionalmeta-analyses,allowingforonetode- the sampling distribution of an estimate of θ. In stan-
+terminetheperformanceofposteriorpassingontheba- dard meta-analysis, studies are typically summarized
+sisofhowtraditionalmeta-analyticmethodsareknown by their estimates and standard errors. If an estimate
+to perform. To avoid some of the pitfalls of posterior was derived by maximizing a likelihood that takes the
+passing, I suggest improved procedures that account form of gaussian function over θ, the estimate and its
+forheterogeneityandpublicationbias. IaddressBrand standarderrorfullysummarizethislikelihoodfunction.
+et al.’s (2019) suggestion that posterior passing avoids Even in cases where the likelihood function is not fully
+some of the problems of traditional meta-analyses, and describedbyitsmaximumlikelihoodestimateandstan-
+discusspracticallimitationsinusingitasareplacement dard error, using the estimate and standard error may
+fortraditionalmeta-analysis. be viewed as a second-order asymptotic approximation
+tothelog-likelihood.
+Takingthisapproach,withθˆ beingtheestimatefrom
+i
+===== PAGE 2/5 =====
+2
+study i of θ, we can get the posterior after study i, de- Then, the likelihood for each estimate is given by
+notedas f (θ),by: marginalizingoutµ:
+i i
+(cid:89)k (cid:90) (cid:16) (cid:17)
+f i(θ)∝π(θ) f (x i |θ) (1a) f random(θ| x)∝π(θ,τ) φ θˆ i |µ i,SE2 i (6a)
+(cid:16) (cid:17)
+= f i−1(θ) f θˆ i |θ,SE2 i (1b) i=1 µ
+(cid:16) (cid:17)
+×φ µ |θ,τ2 dµ
+i i
+Where π(·) is our prior distribution, x refers to all
+i
+the information of study i, and SE is the standard er- (cid:89)k (cid:16) (cid:17)
+ror for θˆ. Typically, f (cid:16) θˆ |θ,SE2(cid:17) =i φ(cid:16) θˆ |θ,SE2(cid:17) , where =π(θ,τ) φ θˆ i |θ,SE2 i +τ2 (6b)
+(cid:16) i (cid:17) i i i i i=1
+φ θˆ |θ,SE2 is the density at θˆ under a normal distri-
+i i i Where µ is the mean of the population that study
+i
+bution with a mean of θ and variance of SE2 i. Now, we i comes from, τ2 is the variance across populations,
+mayexpand(1)acrossstudies:
+and the prior distribution is now over both θ and τ.
+Hence, in a random-effects setting (4), posterior pass-
+(cid:89)k (cid:16) (cid:17)
+f (θ)∝π (θ) φ θˆ |θ,SE2 (2) ing, like (3), will underestimate the posterior vari-
+0 i i
+ance. ThispointwaspreviouslynotedbyMartin(2017).
+i=1
+A random-effects model is typically preferable, as the
+Where π (θ) is the prior distribution used by the ini-
+0 fixed-effects assumption of no between-study variance
+tial study. Hence, the posterior is proportional to the
+isimplausibleinmostsettings(Borensteinetal.,2010).
+initial prior times the product of the likelihoods of the
+Theuseofthefull-dataposteriorbyBrandetal. (2019)
+relevant studies. How does this compare to the poste-
+isinconsequentialtothisresult. Hence,althoughposte-
+riordistributiongivenbyatraditionalmeta-analysis? In
+riorpassingwillproduceconsistentpointestimates,the
+a fixed-effects setting (3), they are identical, provided
+posteriorvariancemaybeunderestimated.
+that the meta-analysis uses the same prior as the ini-
+tialstudy. Thestandardfixedeffectsmodelisthateach
+Howcanweimproveposteriorpassing?
+θˆ follows a normal distribution with a universal mean
+i
+valueofθ,andavarianceofSE2: IncorporatingRandomEffects
+i
+(cid:16) (cid:17) An obvious question to ask at this point is if we can
+θˆ ∼N θ,SE2 (3)
+i i modifyposteriorpassingtoincorporaterandomeffects.
+A Bayesian solution is to update τ along with θ, mod-
+Then,theposteriordensitycanbeconstructedbytak-
+eling their joint posterior distribution. Using statistic
+ingtheproductofthelikelihoodsofeachestimate:
+likelihoodsasintheprevioussection,wecanderivethe
+(cid:89)k (cid:16) (cid:17) jointposteriorupdatebymarginalizingoutµ,justasin
+f fixed(θ| x)∝π(θ) φ θˆ i |θ,SE2 i (4) astandardrandom-effectsmeta-analysis:
+i=1
+This equivalence also answers some of the questions
+f (θ,τ)∝π(θ,τ) f (x |θ,τ) (7a)
+i i
+brought up by Brand et al. (2019), such as how pos-
+= f (θ,τ) f (x |θ,τ) (7b)
+terior passing would perform under publication bias. i−1 i
+(cid:90)
+Now,itisclearthatwecanuseexistingstudiesontradi- = f (θ,τ) f (x |µ)φ(cid:16) µ |θ,τ2(cid:17) dµ (7c)
+i−1 i i i i
+tionalfixed-effectsmeta-analysestoanswertheseques-
+µ
+tions(e.g.,Simonsohnetal.,2014).
+(cid:16) (cid:17)
+In a random effects setting, we assume that each = f i−1(θ,τ)φ θˆ i |θ,SE2 i +τ2 (7d)
+study samples from a slightly different population, and
+To get the marginal posterior distribution of θ, one
+thesepopulationshavetheirownparametervalues, re-
+may integrate out τ, and vice versa. Notably, the pa-
+ferredtoasµ,whichvaryaroundthetrueθvalue:
+i rametermustbetrackedacrossstudiestogainevidence
+aboutitsvalue. However,evenifpreviousstudieshadn’t
+µ
+∼N(cid:16) θ,τ2(cid:17)
+(5a)
+used a random effects model, they can still be added
+i
+usingtheirlikelihoodfunctions:
+(cid:16) (cid:17)
+θˆ ∼N µ,SE2 (5b)
+i i θˆ
+i (cid:16) (cid:17)
+f (θ,τ)∝π(θ,τ)φ θˆ |θ,SE2 +τ2 (8)
+i i−1 i−1
+(cid:16) (cid:17)
+×φ θˆ |θ,SE2+τ2
+i i
+===== PAGE 3/5 =====
+3
+Wherestudyi−1isthestudythathadn’tusedaran- Inanycase,theposteriorupdateisnowasfollows:
+dom effects model. In the case of the current study be-
+ingthefirstonatopic,noevidencewillbegainedabout
+f (θ,τ,α,β)∝π(θ,τ,α,β) f (x |θ,τ,α,β) (12a)
+thevalueofτ,butincorporatingitusingonlytheinfor- i i
+∝π(θ,τ,α,β) (12b)
+mationfromasubjectivepriordistributionwillnonethe-
+(cid:2) (cid:3)
+lessgiveamorerealisticviewoftheuncertaintyof f(θ). E p| x,θ,τ,α,β
+i × E(cid:2) p|i θ,τ,α,β(cid:3) f (x i |θ,τ)
+Addressingpublicationbias
+= f (θ,τ,α,β) (12c)
+i−1
+A second major issue with posterior passing is that E(cid:2) p| x,θ,τ,α,β(cid:3)
+Brand et al. (2019) provide no way to address publi- × E(cid:2) p|i θ,τ,α,β(cid:3)
+cation bias. Without adjustment, posterior passing will (cid:90)
+(cid:16) (cid:17)
+perform identical to a fixed-effects meta-analysis that × f (x |µ)φ µ |θ,τ2 dµ
+i i i i
+completely ignores publication bias. Unadjusted meta-
+µ
+analysesareknowntoperformpoorlywhenpublication = f (θ,τ,α,β) (12d)
+i−1
+biasissubstantiative,yieldingpotentiallymisleadingre-
+(cid:2) (cid:3)
+E p| x,θ,τ,α,β
+sults (Simonsohn et al., 2014). This problem can be × (cid:2) i (cid:3)
+viewedasone ofbiasedsampling, hencethelikelihood E p|θ,τ,α,β
+(cid:16) (cid:17)
+function is given by a weighted distribution as follows ×φ θˆ,|θ,SE2+τ2
+i i
+(Pfeffermannetal.,1998):
+As with τ, multiple studies are needed to identify α,
+and β. Hence, inference in early studies will be highly
+(cid:2) (cid:3)
+f (cid:0) x
+i
+|published i(cid:1)= E i p E| x (cid:2)i p(cid:3)f (x i) (9) d tee rp se ,n wd he in cht o shn ot uh le dp nr oi tor bed uis ntr ii nb fu ot ri mon atf ivo er .t Hhe os we ep va er ra ,m the is-
+(cid:2) (cid:3)
+E p| x problemdissipatesasevidencefortheseparametersac-
+= (cid:82) (cid:2) i (cid:3) i f (x i) cumulates.
+E p| x f (x)dx
+i i i
+x
+Including Studies Outside of the Posterior Passing
+Where p are the probabilities of publication. Now, Chain
+(cid:2) (cid:3)
+weneedtomodelE p| x . Consideringthatstudiesare
+i In meta-analysis, extensive literature searches are
+typically given a dichotomous interpretation (McShane
+conducted to avoid systematically excluding any stud-
+&Gal,2017),arealisticoptionisasimplestepfunction:
+ies. However, it may not be obvious how one can in-
+E(cid:2)
+p| x
+i(cid:3)=  α
+β
+s si(cid:16) (cid:16)θ θˆ ˆi(cid:17) (cid:17)= =0
+1
+(10)
+c ao sr ep qo ur ea nte cest ou fd sie tus do iu et ss wid he eo rf ea eap co hst se tr uio dr y’p sa ps rs ii on rg is‘ch eqa uin a, l’
+i i tothepreviousstudy’sposterior,intoourpriordistribu-
+Where s(θ) is a function that gives the standard in- tion. The same problem occurs if two studies are done
+i i
+terpretation of θˆ in a pass/fail manner, such as its p- simultaneously, creating a fork in the chain. Brand et
+i
+value being below 0.05. However, it is unclear if di- al. (2019) suggest that a normal prior with variance
+chotomization exists to the same extent in Bayesian representing our uncertainty and with a mean at the
+studies as it does in frequentist studies. In such a con- estimate given by the study may be used. However, it
+textonemayreplace(10)withasmoothermodel,such can be difficult to determine such a variance, and this
+asalogisticone: procedure only makes sense if we are the first study in
+a chain aiming to get information from an unchained
+E(cid:2) p| x(cid:3)=logistic(cid:16) α+βs (cid:16) θˆ(cid:17)(cid:17) (11) study. A better answer is to include the study’s likeli-
+i i i
+hood function in our posterior derivation. When there
+(cid:16) (cid:17)
+Where s θˆ could represent a Bayes factor cutoff or aresimultaneousstudies,simplytakeone’sposterioras
+i i
+similar. Forareviewofothermodelsthathavebeensug- the prior and use the likelihood from the other as if it
+gested, see Sutton, Song, Gilbody, and Abrams (2000). wereoutsideofthechainaltogether. Switchingbackto
+the simple fixed effects procedure for conciseness, this
+givesus:
+f (θ)∝π(θ) f (x |θ) f (x |θ) (13)
+i i−1 i
+To include more studies, one simply needs to add
+more f(x | θ) functions. As a side note, the nature of
+n
+===== PAGE 4/5 =====
+4
+thisfunctionyieldsanobviousoptionforBayesian-style to results with an unclear interpretation. Hence, pos-
+updatinginanon-Bayesianframework: terior passing does not appear to avoid the problem of
+conflicting meta-analyses in a desirable manner. The
+L (θ)∝ f (x ,...,x |θ) f (x |θ) (14) same applies for all methodological limitations of stan-
+i 1 i−1 i
+dard meta-analyses, such as being impacted by publi-
+Thismaysimplybeinterpretedasthelikelihoodfunc-
+cation bias, as posterior passing and meta-analysis are
+tionforθacrossalltheincludedstudies. Inferencescan
+mathematicallyequivalent.
+thenbemadeusingstandardfrequentistsequentialtrial
+methods(cf. Wetterslevetal.,2017).
+AlternativeRolesforPosteriorPassing
+Furthercommentsanddiscussion Even if posterior passing cannot generally replace
+traditional meta-analyses, it may nonetheless be use-
+Is Posterior Passing a Practical Replacement for
+ful. With the improvements suggested above, posterior
+Meta-analysis?
+passing can replace traditional meta-analysis in areas
+Brandetal. (2019)suggestthatposteriorpassingcan where meta-analyses are unlikely to produce conflict-
+replacetraditionalmeta-analyses. Indeed,theimproved ing results in the first place. An alternative to creating
+posteriorpassingproceduresintroducedintheprevious posterior passing chains that still utilizes the posterior
+sectioncancompetewithtraditionalmeta-analyses,but passing mechanism is to use it in meta-analyses. This
+isitpractical? Tomatchthequalityoftraditionalmeta- doesn’tsolvetheissueofconflictingmeta-analyses,but
+analyses, onewouldhavetomeetthesameconditions, has practical advantages. By using the posterior distri-
+including extensive literature search and the inclusion butionofthelastsimilarmeta-analysisasapriordistri-
+of all available studies. Furthermore, most studies are bution, meta-analyses can be performed in chunks in-
+currently done in a frequentist manner, and splits can stead of having to redo the entire meta-analysis with
+occurinachainduetosimultaneousstudies,soinprac- each update. Similarly, instead of using posterior pass-
+ticeeachstudyinthechainwillhavetodoitsownmini ing chains, studies can use posterior distributions from
+meta-analysis. At that point, it might be preferable to meta-analyses as their priors to get accurate net effect
+justdotraditionalmeta-analyses. estimates within each study. This allows for broader
+Brand et al. (2019) also suggest that posterior pass- conclusions than would otherwise be warranted by the
+ing can solve the problem of conflicting meta-analyses studyalone. Aparticularlyrelevantcaseforthisislarge-
+by updating evidence in real time. Meta-analyses can scalereplicationprojects,wherethepriorcanbegotten
+provide contradictory results due to a number of rea- from the last meta-analysis. This yields a readily inter-
+sons, such as differing inclusion criteria and using dif- pretable lower-bound on the extent to which a field’s
+ferent methods. However, posterior passing only ap- viewonatopicshouldshiftastheresultofthereplica-
+pears to be able to mitigate differences occurring by tioneffort,byprovidingthechangeinposteriorassum-
+meta-analyses occurring at different times rather than ing that previous studies had been conducted properly.
+by different methods. In this case though, one would Hence, although posterior passing may have problems
+simply go with the most recent meta-analysis. How- as a replacement for meta-analysis, it can have utility
+ever, when multiple meta-analyses disagree, they of- regardless.
+ten have differences in statistical methodology or in-
+clusioncriteria. Replacingmeta-analyseswithposterior AuthorContact
+passingwouldlikelyresultinmultipleposteriorpassing
+The corresponding author may be contacted at
+chains to reflect this disagreement. Perhaps this might
+jpritsk@purdue.edu,ORCiD0000-0001-9647-6684.
+be avoided if fields are sufficiently vigilant in prevent-
+ing conflicting chains, but the same would be true of
+ConflictofInterestandFunding
+traditional meta-analytic conflicts. In fact, one might
+argue that for any criticism of a meta-analysis, one Noconflictsofinterestdeclared.
+couldseeminglymakeanequivalentcriticismofaposte-
+AuthorContributions
+rior passing chain. Instead of having disagreeing meta-
+analyses, we would instead simply have a number of
+Pritskeristhesoleauthorofthisarticle.
+individual studies in disagreement. It may be that pos-
+teriorpassingcouldhelpmitigatedisagreementsofthis OpenSciencePractices
+nature by the fact that inclusion criteria could change
+Thisarticleisacommentaryandhadnodataorma-
+withanystudyinthechain. However,havingsuchfuzzy
+terials to share, and it was not pre-registered. The en-
+inclusioncriteriais clearlyundesirableasitwouldlead
+===== PAGE 5/5 =====
+5
+tire editorial process, including the open reviews, are Pfeffermann, D., Krieger, A. M., & Rinott, Y. (1998).
+publishedintheonlinesupplement. Parametricdistributionsofcomplexsurveydata
+under informative probability sampling. Statis-
+References ticaSinica,8,1087–1114.
+Simonsohn,U.,Nelson,L.D.,&Simmons,J.P.(2014).
+Borenstein,M.,Hedges,L.V.,Higgins,J.P.,&Rothstein,
+P-curve and effect size: Correcting for publica-
+H. R. (2010). A basic introduction to fixed-
+tion bias using only significant results. Perspec-
+effect and random-effects models for meta-
+tivesonPsychologicalScience,9,666–681.https:
+analysis.Researchsynthesismethods,1,97–111.
+//doi.org/10.1177/1745691614553988
+https://doi.org/10.1002/jrsm.12
+Sutton,A.J.,Song,F.,Gilbody,M.,S.,&Abrams,K.R.
+Brand, C. O., Ounsley, J. P., van der Post, D. J., & Mor-
+(2000). Modelling publication bias in meta-
+gan, T. J. H. (2019). Cumulative science via
+analysis: A review. Statistical Methods in Med-
+bayesian posterior passing. Meta-psychology, 3.
+ical Research, 9, 421–445. https://doi.org/10.
+https://doi.org/10.15626/MP.2017.840
+1177/096228020000900503
+Martin,S.(2017).OpenpeerreviewbyStephenMartin.
+Wetterslev,J.,Jakobsen,J.C.,&Gluud,C.(2017).Trial
+Meta-psychology:DecisionLetterforBrandetal.
+sequential analysis in systematic reviews with
+https://doi.org/10.17605/OSF.IO/C4WN8
+meta-analysis. BMC medical research methodol-
+McShane,B.B.,&Gal,D.(2017).Statisticalsignificance
+ogy,17.https://doi.org/10.1186/s12874-017-
+andthedichotomizationofevidence.Journalof
+0315-7
+the American Statistical Association, 112, 885–
+895.https://doi.org/10.1080/01621459.2017.
+1289846

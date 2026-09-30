@@ -1,0 +1,172 @@
+
+===== PAGE 1/3 =====
+Opendata:No Editedby:DaniëlLakens
+Meta-Psychology,2021,vol5,MP.2020.2529 Openmaterials:No Reviewedby:J.Heathers,Neuroskeptic
+https://doi.org/10.15626/MP.2020.2529 Openandreproducibleanalysis:Yes Analysisreproducedby:AndréKalmendal
+Articletype:GuestEditorial Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+PublishedundertheCC-BY4.0license Preregistration:No https://doi.org/10.17605/OSF.IO/38EP5
+A method to streamline p-hacking
+Ian Hussey
+Ghent University
+Abstract
+The analytic strategy of p-hacking has rapidly accelerated the achievement of psychological scientists’ goals (e.g.,
+publications&tenure),buthassufferedanumberofsetbacksinrecentyears. Inordertoremediatethis,thisarticle
+presentsastatisticalinferencemeasurethatcangreatlyaccelerateandstreamlinethep-hackingprocess: generating
+randomnumbersthatare<.05. Irefertothisapproachasp . Resultsofasimulationstudyarepresentedand
+ointless
+an R script is provided for others to use. In the absence of systemic changes to modal p-hacking practices within
+psychological science (e.g., worrying trends such as preregistration and replication), I argue that vast amounts of
+timeandresearchfundingcouldbesavedthroughthewidespreadadoptionofthisinnovativeapproach.
+Keywords: p-hacking,R,NHST
+Introduction ful insights into human behaviour are also occasionally
+met, albeit incidentally. More importantly, the metric
+p-hacking – the updating or adjusting data or anal-
+possesses three superior characteristics. First, it is non-
+yses in light of prior beliefs about hypotheses – has
+inferior to current p-hacking practices, which also tell
+proventobeofexceptionalutilitytothegoalsofpsycho-
+us little about the presence or absence of a true effect
+logical scientists (e.g., acquiring high-impact publica-
+(largescalereplicationsputthisdiagnosticityatnobet-
+tions, tenure, and paid speaking engagements). While
+ter than a coin toss: Klein et al., 2018; Open Science
+a number of useful tutorials in p-hacking and related
+Collaboration, 2015). Second, it retains a far more im-
+strategies exist (e.g., Bakker et al., 2012; Simmons et
+portant property of hacked p values: by guaranteeing
+al., 2011), insightful commentators have pointed out
+significant results, it maintains predictive validity for
+that only those with a ‘flair’ for it are likely to make
+publishability. Finally,italsoprovideseconomicbenefits
+it in the world of psychological science (Baumeister,
+relativetothehightotallife-cyclecostsassociatedwith
+2016). However, progress has slowed in recent years
+traditional p-hacking (e.g., by eliminating the need for
+due to a number of unfortunate setbacks, including
+comprehensive graduate training in either statistics or
+wider use of replication and pre-registration (e.g., Mu-
+‘flair’forp-hacking).
+nafòetal.,2017;OpenScienceCollaboration,2015)by
+methodological terrorists (Fiske, 2016) and data para-
+Methodsandresults
+sites(Longo&Drazen,2016). Inthisarticle,Iintroduce
+the p metric and demonstrate how it can stream- I observed that traditional approaches are relatively
+ointless
+line the process of p-hacking your results. While this time consuming and inefficient (i.e., exploitation of re-
+metricdoessufferfromthemildflawofprovidingzero searcherdegreesoffreedomuntilp<.05: Simmonset
+diagnosticityofthepresenceorabsenceofatrueeffect, al., 2011). The p ointless metric was inspired by the ob-
+this property is largely irrelevant to most psychologi- servationthat,regardlessofthespecificp-hackingstrat-
+cal scientist’s primary goals (i.e., publishability: Nosek egy employed, the product of this process is highlight
+et al., 2012). Secondary goals such as valid and use- reliable (i.e., the statistical result “p < .05”). As such,
+===== PAGE 2/3 =====
+2
+many intermediary steps are therefore arguably unnec- AppendixRcodeforsimulation
+essary, and the same end result can be obtained more
+efficientlybyautomation. Thisisaccomplishedbygen- simulation <- function() {
+erating a random number that is < .05. I recommend # p_ointless
+researcherstorefertothisthisstatisticalinferencepro- p_ointless <- runif(1, 0, 0.0499)
+if(p_ointless < 0.05) {
+cedure as a form of machine learning to increase their
+publishable_p_ointless = TRUE
+chancesofgettingpublished. Rcodetocalculatep
+ointless } else {
+isprovidedbelow:
+publishable_p_ointless = FALSE
+p_pointless <- runif(1, 0, 0.0499) }
+print(paste("p_ointless(cid:32)=", p_ointless))
+# traditional (hacked) p values
+To evaluate the performance of this highly advanced
+# set to upper bound of observable
+machine learning procedure compare hacked p values, p <- 0.049
+I performed a simulation study. In line with modal if(p < 0.05) {
+p-hacking practices, only the key property of diagnos- publishable_p = TRUE
+ticity for publishability (i.e., p < .05) was considered. } else {
+10,000casesweresimulated(seeAppendixforRcode). publishable_p = FALSE
+Results demonstrated the results of p and tradi- }
+ointless
+tionalp-hackedresultsarecongruentin100%ofcases.
+# compare
+Although variation in individual coefficients frequently
+return(publishable_p_ointless ==
+differ by large margins, both strategies satisfy the core
+publishable_p)
+criterion of producing significant results. More impor-
+}
+tantly, execution time for p is less than one sec-
+ointless
+ond,whereastraditionalp-hackingtechniquescantake # proportion of congruent conclusions
+hoursordaystoapply–nottomentionyearsoftraining mean(replicate(10000, simulation())
+inthenormalizationofp-hackingpractices.
+References
+Discussion
+Bakker, M., vanDijk, A., &Wicherts, J.M.(2012). The
+Traditional p-hacking involves starting with a sound
+rulesofthegamecalledpsychologicalscience. Per-
+analytic strategy and then iteratively degrading this
+spectives on Psychological Science, 7(6), 543–554.
+until the results support one’s hypothesis. On the basis
+https://doi.org/10.1177/1745691612459060
+that this strategy almost invariably returns significant
+Baumeister, R. F. (2016). Charting the future
+results, many burdensome aspects of this analytic
+of social psychology on stormy seas: Win-
+process can arguably be bypassed via automation.
+ners, losers, and recommendations. Journal
+The most parsimonious method was selected: random
+of Experimental Social Psychology, 66, 153–158.
+number generation. Results from a simulation study
+https://doi.org/10.1016/j.jesp.2016.02.003
+demonstrate that decision making on the basis of
+Fiske, S. T. (2016). Mob Rule or Wisdom
+traditional hacked p values and p are equivalent,
+ointless of Crowds? APS Observer, Advance on-
+and that the latter requires several orders of magni-
+line draft. http://datacolada.org/wp-
+tude less time and resources to calculate. Academic
+content/uploads/2016/09/Fiske-presidential-
+productivitycanthereforebegreatlyincreasedthrough
+guest-column_APS-Observer_copy-edited.pdf
+the widespread adoption of this approach. Now that
+Klein, R. A., Vianello, M., Hasselman, F., Adams, B.
+the data processing and analytic process has been
+G., Adams, R. B., Alper, S., Aveyard, M., Axt, J.
+streamlined,futureworkshouldconsiderwhetherdata
+R., Babalola, M. T., Bahník, Š., Batra, R., Ber-
+collectionitselfmaybeaninefficientuseofresearchers’
+kics, M., Bernstein, M. J., Berry, D. R., Bialo-
+time or even redundant. A pilot study by Prof Diederik
+brzeska, O., Binan, E. D., Bocian, K., Brandt, M. J.,
+Stapel suggests that primary goals (e.g., tenure) can
+Busching, R., ... Nosek, B. A. (2018). Many Labs
+indeed be achieved without it (Verfaellie & McGwin,
+2: Investigating Variation in Replicability Across
+2011).
+Samples and Settings. Advances in Methods and
+Practices in Psychological Science, 1(4), 443–490.
+https://doi.org/10.1177/2515245918810225
+Longo, D. L., & Drazen, J. M. (2016). Data Sharing.
+NewEnglandJournalofMedicine,374(3),276–277.
+===== PAGE 3/3 =====
+3
+https://doi.org/10.1056/NEJMe1516564 Psychological Science, 22(11), 1359–1366.
+Munafò, M. R., Nosek, B. A., Bishop, D. V. M., But- https://doi.org/10.1177/0956797611417632
+ton, K. S., Chambers, C. D., Percie du Sert, N., Si- Verfaellie, M., & McGwin, J. (2011). The case
+monsohn, U., Wagenmakers, E.-J., Ware, J. J., & of Diederik Stapel. APA Psychological Sci-
+Ioannidis, J. P. A. (2017). A manifesto for repro- ence Agenda. https://www.apa.org/science/about/
+ducible science. Nature Human Behaviour, 1(1), psa/2011/12/diederik-stapel
+0021. https://doi.org/10.1038/s41562-016-0021
+Nosek, B. A., Spies, J. R., & Motyl, M. (2012). Scien-
+AuthorContact
+tific Utopia II. Restructuring Incentives and Prac-
+tices to Promote Truth Over Publishability. Per- Corresponding author can be contacted at:
+spectives on Psychological Science, 7(6), 615–631. ian.hussey@icloud.com
+https://doi.org/10.1177/1745691612459058
+Open Science Collaboration. (2015). Esti-
+ConflictofInterestandFunding
+mating the reproducibility of psychologi-
+cal science. Science, 349(6251), aac4716. Not conflicts of interest. Ghent University grant
+https://doi.org/10.1126/science.aac4716 01P05517.
+Simmons, J. P., Nelson, L. D., & Simonsohn, U.
+(2011). False-positive psychology: Undis- AuthorContributions
+closed flexibility in data collection and anal-
+ysis allows presenting anything as significant. Husseyisthesoleauthorofthisarticle.

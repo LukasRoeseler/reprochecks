@@ -1,0 +1,925 @@
+
+===== PAGE 1/10 =====
+Meta-Psychology,2021,vol5,MP.2019.2071 Opendata:Notapplicable Editedby:FelixD.Schönbrodt
+https://doi.org/10.15626/MP.2019.2071 Openmaterials:Yes Reviewedby:Fried,E.,Althouse,A.
+Articletype:Commentary Openandreproducibleanalysis:Yes Analysisreproducedby:AlexeyGuzey
+PublishedundertheCC-BY4.0license Openreviewsandeditorialprocess:Yes AllsupplementaryfilescanbeaccessedatOSF:
+Preregistration:No https://doi.org/10.17605/OSF.IO/FQJZM
+A Reproduction of the Results of Onyike et al.
+(2003)
+Nicholas J. L. Brown Jan van Rongen
+University of Groningen Independent consultant
+Jakob van de Velde Matt Williams
+Ghent University Massey University
+Abstract
+Onyikeetal. (2003)analyzeddatafromalarge-scaleUS-Americandataset,theThirdNationalHealthandNutrition
+Examination Survey (NHANES-III), and reported an association between obesity and major depression, especially
+among people with severe obesity. Here, we report the results of a detailed replication of Onyike et al.’s analyses.
+Whilewewereabletoreproducethemajorityoftheseauthors’descriptivestatistics,thistookasubstantialamount
+oftimeandeffort,andwefoundseveralminorerrorsintheunivariatedescriptivestatisticsreportedintheirTables
+1 and 2. We were able to reproduce most of Onyike et al.’s bivariate findings regarding the relationship between
+obesityanddepression(Tables3and4),albeitwithsomesmalldiscrepancies(e.g.,withrespecttothemagnitudes
+of standard errors). On the other hand, we were unable to reproduce Table 5, containing Onyike et al.’s findings
+with respect to the relationship between obesity and depression when controlling for plausible confounding vari-
+ables—arguablythepaper’smostimportantresults—becausesomeoftheincludedpredictorvariablesappeartobe
+eitherunavailable,ornotcodedinthewayreportedbyOnyikeetal.,inthepublicNHANES-IIIdatasets. Wediscuss
+theimplicationsofourfindingsforthetransparencyofreportingandthereproducibilityofpublishedresults.
+Keywords: Bodymassindex,BodyWeight,Depression,Obesity,Weightedsurveys
+Background Onyike et al. (2003) reported two major find-
+ings. First, obesity—defined as a body mass index
+In the spring of 2016, the first author (Nick Brown)
+(BMI) above 30—was associated with past-month de-
+hadaplan, aspartofhisPhDstudies,toperformsome
+pressioninwomen(butnotmen). Second, severeobe-
+analysesusingtheU.S.AmericanThirdNationalHealth
+sity—defined as a BMI above 40—was associated with
+and Nutrition Examination Survey (NHANES-III) data
+past-month depression in men and women combined.
+set. ToimprovehisunderstandingoftheNHANESdata
+Atthetime,Nickfoundthathecouldnotreproducethe
+and code books for this project, Nick decided to down-
+results from this article, other than some of the most
+loadanarticlethatwasbasedonthesamedatasetand
+basic descriptives. He wrote to the lead/corresponding
+attempttoreproducetheresults. Somewhatarbitrarily,
+authoroftheOnyikeetal. article,DrChaidiOnyike,but
+he chose the widely-cited article on the topic of the re-
+after a brief exchange the correspondence ceased, and
+lation between obesity and depression by Onyike et al.
+hedecidedtoputtheexerciseofreproducingOnyikeet
+(2003).
+===== PAGE 2/10 =====
+2
+al.’sresultstoonesideforthetimebeing.1 contains several depression-related variables. We took
+In March 2018 Nick resurrected the project with a value of 3 for the variable MQPDEP (any lifetime di-
+a blog post (Brown, 2018) asking for volunteers to agnosisofmajordepressivedisorder,exceptfollowinga
+help with independent reanalyses. Several people re- bereavement) to indicate “lifetime depression.” We as-
+sponded, and three stayed on board long enough to sumed that past-month and past-year depression were
+contribute substantial amounts of code and insights. definedbythevariableMQPLDDP,whichmeasureshow
+Thisarticle,ofwhichthosethreepeoplearethesecond long ago the last episode was diagnosed, with the two
+throughfourthauthors,istheresultofthatexercise. values51(“withinthelast2weeks”)and52(“between
+At an early stage of our reanalyses, it became clear 2 weeks and 1 month ago”) indicating past-month de-
+the one of the main reasons why Nick had not been pression, and these two values together with 53 (“1 to
+abletoreproduceOnyikeetal.’s(2003)resultswashis 6monthsago”)and54(“6monthsto1yearago”)indi-
+failure to notice that the survey results were weighted cating past-year depression. Recurrent depression was
+to make the sample as representative as possible of the taken from the variable MQPDEPRT, with values of 2
+U.S. population. However, once that elementary prob- or 3 indicating two or more lifetime diagnoses of ma-
+lem had been overcome, several other issues emerged jor depression with any level of severity (NHANES-III,
+with the design choices of Onyike et al.’s study as well 1996b). The remainder of our manuscript is organized
+aseachoftheindividualtablesofresultsthatcouldnot according to the five tables reported in Onyike et al.
+be so easily explained. We discuss these issues in the (2003). While a small quantity of additional statistical
+following sections. Further details, in particular con- informationwasprovidedintheirmaintext(whichwe
+cerning the different ways available to calculate stan- have not discussed below), these tables appear to con-
+darderrors,canbefoundinatechnicalnotebyJanvan tainallofthemostimportantresultsoftheirstudy.
+Rongen,whichwehavemadeavailable,alongwithour
+analysiscode,athttps://osf.io/j32yw. Table1
+In this article, our primary focus is on reproducing
+WewereabletoreproduceOnyikeetal.’s(2003)Ta-
+theresultsreportedbyOnyikeetal. (2003),ratherthan
+ble1exactly,apartfromthecolumnlabeled“β”. Onyike
+evaluating the appropriateness of their analyses or the
+et al. did not provide a legend for this column, but
+validity of the study as a whole. Nevertheless, we have
+we assume, from their remark that “There was suffi-
+includedsomebriefcommentaryatafewpointswhere
+cient statistical power to test the study hypotheses” (p.
+the analyses conducted by Onyike et al. seem to have
+1141),thatitisaformofposthocpowercalculation(in
+hadclearproblems.
+whichcasethecolumnlabelshouldarguablyhavebeen
+“1−β”). Numerous authors (e.g., Lakens, 2014) have
+Dataprocessing
+pointed out that post hoc power calculations amount
+The NHANES-III survey upon which Onyike et al.’s to little more than a transformation of the p value, so
+(2003) paper is based was conducted in the United the utility of this column is perhaps questionable. We
+States in two phases between 1988 and 1994. Data were unable to reproduce the reported “β” figures, be-
+sets and documentation for NHANES-III are openly ac- causewedonotknowhowOnyikeetal. dealtwiththe
+cessible from this link. It appears that Onyike et al. issues of (a) sample weighting and (b) the design ef-
+used data from three of the four main data sets pro- fect(i.e.,thecorrelationsamongclusteredobservations
+duced by the survey: “Household Adult”, “Household due to the non-random survey design; cf. NHANES-III,
+Youth”, and “Examination”. Our initial data process- 1996c,pp. 25–27)intheiranalyses. Wereferinterested
+ingstepsinvolveddownloadingandmergingthesedata readers to Jan van Rongen’s technical note in our OSF
+sets, applying the inclusion and exclusion criteria spec- repositoryformoredetailsonthis.
+ified in Onyike et al. (see p. 1141), and creating de-
+rived variables (e.g., age and BMI categories). Most of Table2
+this process was relatively straightforward and we do
+Table2inOnyikeetal. (2003)containsdemographic
+not describe the steps in detail here; see the analysis
+information (stratified by gender), with standard er-
+scriptinourOSFprojectforfurtherinformation. How-
+rorsformeansandpercentagesfallinginvariousgroups
+ever,itisworthdescribinghowwecreatedtheprincipal
+(e.g.,ageandethnicity).
+outcome variables (prevalence of depression at various
+time points). Onyike et al. classified participants as 1On July 11, 2020, we wrote again to Dr Onyike, enclos-
+havinghadadiagnosisofdepression(a)atanypointin ing a copy of the preprint version of the present article, and
+theirlifetime,(b)inthepastmonth,(c)inthepastyear, invitinghimtocomment. However,asofAugust28,2021,we
+and (d) recurrently. The NHANES-III examination data havereceivednoreplyofanykind.
+===== PAGE 3/10 =====
+Table 1
+Reproduction of Onyike et al.’s (2003) Table 1.
+3
+Hypothesis and sample n1 n2 p1 p2 n2/n1 β
+Hypothesis A: Obesity (body mass index
+≥30) is associated with depression.
+All respondents 4,154 1,658 0.028 0.051 0.40 0.985
+Females 2,180 1,084 0.038 0.067 0.50 0.943
+Males 1,974 574 0.017 0.029 0.29 0.449
+Hypothesis B: Class 3 (severe) obesity
+(body mass index ≥40) is associated with
+depression.
+All respondents 4,154 267 0.028 0.125 0.06 1.000
+Females 2,180 202 0.038 0.130 0.09 0.995
+Males 1,974 65 0.017 0.115 0.03 0.947
+Note. Underscored values are different from those reported in Onyike et al.’s (2003) Table 1. See Onyike et al.
+(2003, p. 1142) for column label legends.
+Somewhat confusingly, Onyike et al.’s (2003) Table tains a discrepancy between the Ns reported at the top
+2indicatesasamplesizeof8,773(4,745female,4,028 ofeachcolumn(whichshowthatthesamplewas54.1%
+male),whereasalloftheirotherresultswerebasedona female) and the percentages reported in the “Gender”
+samplesizeof8,410. Thedifferencebetweenthesetwo breakdown (50.7% female), which refer to the popula-
+sets of participants is explained by the fact that in the tion.
+original sample of 8,773 participants aged 15–39 years In applying weighting in these and all subsequent
+whounderwentthemedicalexaminationandinterview analyses we assume that Onyike et al. (2003) used the
+(thus meeting the inclusion criteria), the data (height sample weighting variable WTPFEX6 (“examined sam-
+and/or weight) needed to calculate body mass index ple final weight”). This is not the only weighting vari-
+(BMI) were missing for 25 people. Similarly, sufficient able available in the NHANES-III datasets, but the use
+interview data to make a diagnosis of (non)depression of other available weighting options (e.g., WTPFQX6,
+weremissingfor14people,andbothoftheseelements “interviewedsamplefinalresults”)givesresultsthatdo
+were missing for 324 people. Hence, Onyike et al. ex- notmatchOnyikeetal.’sTable2.
+cluded a total of (25 + 14 + 324) = 363 people from Having identified the weighting variable applied by
+the final sample (8,773 – 363 = 8,410). It is not clear Onyike et al. (2003), three of us, working indepen-
+touswhythelargerdatasetwasusedfordescribingde- dently, found three different ways of calculating the
+mographic characteristics, given that it was apparently reported standard errors. We established that the JKn
+not used for the rest of the analyses in Onyike et al.’s jackknife method in the R function as.svrepdesign from
+article. thesurveypackage(Lumley,2019)producesalmostex-
+AlthoughTable2isdescribedbyOnyikeetal. (2003) actly the same standard errors as those reported by
+in their text as displaying “The demographic character- Onyike et al. We tentatively assume that the version
+istics of the respondents” (p. 1141), our attempts to ofStatausedbyOnyikeetal. producedstandarderrors
+reproduce this table suggest that this is not the case: for descriptives in the same way. Any remaining minor
+Theestimatesprovidedinthetableappeartohavebeen differences between our values and those of Onyike et
+producedwithsampleweightingapplied,meaningthat al. might stem from the choice of underlying replicate
+they are actually estimates of the demographic charac-
+teristicsoftheU.S.population(and,consequently,sub- 2The caption of the table, in contrast, refers to the “char-
+acteristicsofthestudypopulation”,soismoreconsistentwith
+stantiallydifferentfromthedemographiccharacteristics
+thestatisticsprovided.
+oftherespondents)2. ThisalsomeansthatTable2con-
+===== PAGE 4/10 =====
+4
+designs(seetheaccompanyingTechnicalNote). choice of label for the third column of this table, “All
+In addition to the general issues outlined above, we respondents” (and, by implication, the fourth and fifth
+had some specific difficulty in reproducing Onyike et columnsalso,assumingthat“Females”and“Males”im-
+al.’s (2003) percentages for ethnicity by gender. After plicitlycarryovertheterm“respondents”foreachsex).
+some experimentation, we established that their exact The word “respondents” suggests that, looking for ex-
+numberscouldbereproducedifweusedtheN=8,773 ample at the third column of the first line of Table 3,
+data set for females, and the N = 8,410 data set for 2.79%ofpeoplewhorespondedtothesurveyhadnormal
+males (in which there were 3,849 male participants). bodyweightandmetthecriteriaforapast-monthdiag-
+In other words, our earlier note about the use of data nosisofdepression,whereasinfactthisfigureof2.79%
+prior to exclusions for this table does not apply to the represents the estimate for the total population of the
+specificcaseoftheethnicityofmales. USbasedupontheweightsandthesurveydesign.
+A final issue in Table 2 relates to the Education fre-
+quencies. Ourresultsforthepercentagesofparticipants Table4
+withmorethan12yearsofeducationareslightlylower
+Table 4 in Onyike et al. (2003) displays differences
+than those reported by Onyike et al. (2003). On closer
+in the estimated odds of past-month depression across
+examinationofthedataset,itappearsthatOnyikeetal.
+BMI categories. These differences are expressed in the
+countedanynumericalvalueabove12intheNHANES-
+form of odds ratios comparing the odds of depression
+III variable HFA8R as representing more than 12 years
+in various BMI categories to the odds of depression in
+of education. However, as the NHANES-III Adult data
+participantsofnormalweight.
+filecodebookmakesclear(NHANES-III,1996a,p. 96),
+We exactly reproduced almost all of the point esti-
+some participants have the value 88 (“Blank but appli-
+mates of the odds ratios in Table 4, with three excep-
+cable”—which, confusingly, appears to mean “impossi-
+tions: All respondents, Past-year, Obese, where we ob-
+ble value”, cf. NHANES-III, 1996, p. 21) or 98 (“Don’t
+tained a result of 1.42, versus 1.41 in Onyike et al.’s
+know”) for this variable, which corresponds to missing
+(2003) article; Females, Past-month, Obesity class 1
+data. Hence, we believe that our numbers are the cor-
+(1.32 versus 1.28); and Females, Past-month, Obesity
+rect ones here. Our accompanying code also calculates
+class 2 (1.84 versus 1.75). The first of these discrepan-
+the education results treating these “missing” values as
+cies might be due to rounding, but it is not clear what
+indicating more than 12 years of education; the results
+couldhavecausedtheothertwo. Overall,however,the
+in that case correspond exactly to those reported by
+level of agreement between our table and the original
+Onyikeetal.
+gives us confidence that our derivation of the four de-
+Insum,whilewewereabletoreproducemostofthe
+pression category variables from the NHANES-III mea-
+numbersreportedinTable2,doingsoinvolvedapplying
+sureswasfaithfultothatofOnyikeetal.
+analysisdecisionsthatseematoddswiththewrittende-
+Themajorityoftheconfidenceintervalboundariesin
+scriptioninOnyikeetal. (2003),andatleasttwoerrors
+our reproduction of Table 4 were also close to those of
+appear to have been made in producing the table. On
+Onyike et al. (2003) within a margin of 0.01 or 0.02,
+theotherhand,thisTableprimarilycontainsdescriptive
+suggestingthatthemethodthatwechosefordetermin-
+information,soitisnotcriticaltotheconclusionsofthe
+ing the standard errors of the odds ratios among the
+study.
+numerousoptionsthatthesurveypackagemakesavail-
+able,namelyJKn(jackknifeforstratifieddesigns;Lum-
+Table3
+ley, 2019), was the one that most closely matches that
+Onyike et al.’s (2003) Table 3 displays how the appliedbyOnyikeetal. However, forthethreelinesof
+estimated prevalence of past-month depression varies Table4withthesmallestsamplesizes—theBMIclasses
+across BMI categories (with stratification by gender). “Underweight,” “Obesity class 2,” and “Obesity class 3”
+It provides only point estimates, and no indicators of formales,withsamplesizesof99,125,and65,respec-
+uncertainty (e.g., confidence intervals, p values). We tively—ourCIswereevenwiderthanthoseofOnyikeet
+wereabletoreproducethistableinitsentirety,withthe al., in some cases by a considerable margin. The total
+exception of a discrepancy of 0.01 in one percentage number of male participants in those three BMI classes
+(possibly due to different rounding between Stata and whoreportedeverbeingdepressedintheirlifetimewas
+R), and an apparent transcription error in the number 5,3,and7respectively(andthesenumberswere,natu-
+of people in Obesity class 1, where Onyike et al. re- rally,evenlowerforrecurrent,past-year,orpast-month
+ported 910 instead of 981 (a value that Onyike et al. depression, with just one male participant in the BMI
+themselvesreportedcorrectlyintheirTable4). 35–39.9 category having recurrent or past-month de-
+We disagree, however, with Onyike et al.’s (2003) pression).
+===== PAGE 5/10 =====
+Table 2
+Reproduction of Onyike et al.’s (2003) Table 2.
+5
+Females(n=4,745) Males (n=4,028)
+Characteristic
+% SE % SE
+Gender 50.6 0.6 49.4 0.6
+Age (years)
+15-19 17.2 1.2 17.8 0.9
+20-24 20.3 1.3 19.2 1.0
+25-29 19.6 1.2 21.0 1.1
+30-34 21.5 1.4 22.3 1.3
+35-39 21.4 1.2 19.7 1.2
+Race/ethnicity
+White 70.0 1.6 71.2 1.7
+Black 14.0 1.0 12.1 0.7
+Hispanic 12.0 1.2 12.4 1.1
+Other 4.1 0.6 4.3 0.6
+Education (years)
+0–8 6.8 0.8 7.4 0.6
+9–11 19.7 1.1 22.3 1.2
+12 33.6 1.1 31.4 1.2
+>12 39.4 1.8 38.6 1.7
+Marital status
+Married 52.2 1.4 50.9 1.6
+Separated/divorced/widowed 11.4 0.7 4.8 0.5
+Never married 36.2 1.5 44.1 1.7
+Area of residence
+Urban 49.6 5.0 50.4 4.9
+Rural 50.4 5.0 49.6 4.9
+Notes. Underscored values are different from those reported in Onyike et al.’s (2003) Table 2.
+For “Race/ethnicity”, the number of males is 3,849; see discussion in the main text.
+===== PAGE 6/10 =====
+6
+Table 3
+Reproduction of Onyike et al.’s (2003) Table 3.
+% with DIS/DSM-III depression
+Relative body weight No. of
+participants All respondents Females Males
+Normal weight (BMI 18.5–24.9) 4,154 2.79 3.82 1.67
+Underweight (BMI <18.5) 301 3.24 3.82 1.82
+Overweight (BMI 25.0–29.9) 2,297 2.42 4.01 1.37
+Obese (BMI ≥30) 1,658 5.13 6.74 2.85
+Obesity class 1 (BMI 30–34.9) 981 3.55 4.97 1.88
+Obesity class 2 (BMI 35–39.9) 410 4.80 6.79 0.83
+Obesity class 3 (BMI ≥40) 267 12.51 13.03 11.54
+Note. Underscored values are different from those reported in Onyike et al.’s (2003) Table 3.
+Numbers in parentheses represent the standard error of the corresponding percentage estimate.
+In most cases, the wider confidence intervals in our software packages could cause substantial differ-
+reproduction do not affect whether the odds ratios re- encesintheiroutputsforsuchsmallsubsamples.
+ported in Table 4 are statistically significant at the .05
+level,withtwoexceptions: These two discrepancies nevertheless relate to rela-
+tively ancillary findings that were not emphasized in
+• The odds ratio for the relationship between BMI Onyikeetal.’s(2003)abstractordiscussion.
+(treatedasacontinuousvariable)andpastmonth
+depression in females is statistically significant in Table5
+Onyike et al.’s (2003) Table 4, 95% CI [1.03,
+We were unable to reproduce Onyike et al.’s (2003)
+1.06],butnotinourreproduction,95%CI[0.99,
+Table 5 because several of the covariates that these au-
+1.04].
+thors claimed to have included were either not avail-
+• The odds ratio for the comparison of the preva- able in the NHANES-III data set that we downloaded,
+lence of past-month major depression between orwerecalculatedinanunclearway. Specifically:
+obesity class 3 and normal weight participants in
+• Wewereunabletofindanymeasureoftheuseof
+the male subsample is statistically significant in
+psychiatric medicine in the NHANES-III data set
+Onyike et al.’s Table 4, 95% CI [1.03, 57.26], but
+orcodebooks.
+not in our reproduction, 95% CI [0.12, 486.2].
+As mentioned above, there were only three male
+• Wehavenowaytodeterminethecriteriausedby
+participants in obesity class 3 for this compari-
+Onyike et al. to categorize participants’ alcohol
+son;itdoesnotseemimplausiblethatminorvari-
+use as None, Moderate, and Abuse, based on the
+ations in calculation methods between statistical
+six variables (MYPF1, MYPF2, MYPF3S, MYPF4,
+===== PAGE 7/10 =====
+7
+4
+elbaT
+.4
+elbaT
+)3002(
+s’.la
+te
+ekiynO
+fo
+noitcudorpeR
+rojam
+tnerruceR
+rojam
+emitefiL
+rojam
+raey-tsaP
+rojam
+htnom-tsaP
+fo
+.oN
+noisserped
+noisserped
+noisserped
+noisserped
+stnapicitrap
+yrogetac
+IMB
+dna
+noitalupoP
+IC
+%59
+RO
+IC
+%59
+RO
+IC
+%59
+RO
+IC
+%59
+RO
+stnednopser
+llA
+50.1
+,79.0
+10.1
+50.1
+,99.0
+20.1
+60.1
+,99.0
+30.1
+90.1
+,10.1
+50.1
+014,8
+)elbairav
+suounitnoc(
+IMB
+§00.1
+§00.1
+§00.1
+§00.1
+451,4
+)9.42–5.81
+IMB(
+thgiew
+lamroN
+96.2
+,45.0
+12.1
+54.2
+,47.0
+53.1
+29.2
+,66.0
+93.1
+77.2
+,94.0
+71.1
+103
+)5.81<
+IMB(
+thgiewrednU
+82.1
+,45.0
+48.0
+33.1
+,56.0
+39.0
+23.1
+,35.0
+48.0
+04.1
+,35.0
+68.0
+792,2
+)9.92–0.52
+IMB(
+thgiewrevO
+67.1
+,37.0
+31.1
+18.1
+,28.0
+22.1
+33.2
+,68.0
+24.1
+34.3
+,30.1
+88.1
+856,1
+)03≥
+IMB(
+esebO
+92.1
+,74.0
+87.0
+83.1
+,55.0
+78.0
+48.1
+,55.0
+10.1
+35.2
+,56.0
+82.1
+189
+)9.43–03
+IMB(
+1 ssalc
+ytisebO
+77.2
+,27.0
+14.1
+64.2
+,87.0
+93.1
+60.3
+,29.0
+76.1
+79.3
+,87.0
+67.1
+014
+)9.93–53
+IMB(
+2 ssalc
+ytisebO
+76.5
+,29.0
+82.2
+68.4
+,93.1
+06.2
+36.6
+,82.1
+29.2
+89.11
+,70.2
+89.4
+762
+)04≥
+IMB(
+3 ssalc
+ytisebO
+selameF
+30.1
+,79.0
+00.1
+40.1
+,99.0
+20.1
+50.1
+,99.0
+20.1
+80.1
+,10.1
+50.1
+165,4
+)elbairav
+suounitnoc(
+IMB
+§00.1
+§00.1
+§00.1
+§00.1
+081,2
+)9.42–5.81
+IMB(
+thgiew
+lamroN
+26.2
+,04.0
+30.1
+34.2
+,95.0
+02.1
+20.3
+,16.0
+63.1
+26.2
+,83.0
+00.1
+202
+)5.81<
+IMB(
+thgiewrednU
+21.1
+,54.0
+17.0
+43.1
+,66.0
+49.0
+12.1
+,45.0
+18.0
+27.1
+,56.0
+50.1
+590,1
+)9.92–0.52
+IMB(
+thgiewrevO
+94.1
+,46.0
+79.0
+16.1
+,87.0
+21.1
+70.2
+,18.0
+92.1
+52.3
+,20.1
+28.1
+480,1
+)03≥
+IMB(
+esebO
+52.1
+,73.0
+86.0
+82.1
+,34.0
+47.0
+08.1
+,54.0
+09.0
+68.2
+,16.0
+23.1
+795
+)9.43–03
+IMB(
+1 ssalc
+ytisebO
+49.2
+,76.0
+04.1
+07.2
+,47.0
+14.1
+64.3
+,97.0
+66.1
+57.4
+,17.0
+48.1
+582
+)9.93–53
+IMB(
+2 ssalc
+ytisebO
+31.3
+,06.0
+63.1
+78.3
+,91.1
+51.2
+78.4
+,79.0
+91.2
+55.8
+,76.1
+87.3
+202
+)04≥
+IMB(
+3 ssalc
+ytisebO
+selaM
+01.1
+,69.0
+30.1
+70.1
+,79.0
+20.1
+01.1
+,89.0
+40.1
+61.1
+,79.0
+60.1
+948,3
+)elbairav
+suounitnoc(
+IMB
+§00.1
+§00.1
+§00.1
+§00.1
+479,1
+)9.42–5.81
+IMB(
+thgiew
+lamroN
+38.92
+,40.0
+21.1
+09.4
+,32.0
+60.1
+59.4
+,70.0
+75.0
+82.9
+,31.0
+90.1
+99
+)5.81<
+IMB(
+thgiewrednU
+54.2
+,46.0
+52.1
+60.2
+,56.0
+61.1
+70.2
+,65.0
+80.1
+49.1
+,53.0
+28.0
+202,1
+)9.92–0.52
+IMB(
+thgiewrevO
+54.3
+,75.0
+04.1
+74.2
+,76.0
+82.1
+63.3
+,17.0
+45.1
+17.5
+,25.0
+37.1
+475
+)03≥
+IMB(
+esebO
+74.2
+,04.0
+00.1
+31.2
+,16.0
+41.1
+45.2
+,95.0
+22.1
+71.3
+,04.0
+31.1
+483
+)9.43–03
+IMB(
+1 ssalc
+ytisebO
+9e9.1
+,00.0
+17.0
+49.3
+,11.0
+66.0
+79.5
+,61.0
+99.0
+8e1.3
+,00.0
+94.0
+521
+)9.93–53
+IMB(
+2 ssalc
+ytisebO
+32.05
+,35.0
+51.5
+45.62
+,04.0
+62.3
+70.05
+,14.0
+35.4
+2.684
+,21.0
+86.7
+56
+)04≥
+IMB(
+3 ssalc
+ytisebO
+.yrogetac
+ecnerefeR
+:§
+.4
+elbaT
+)3002(
+s’.la
+te
+ekiynO
+ni
+detroper
+esoht
+morf
+tnereffid
+era
+seulav
+derocsrednU
+.etoN
+===== PAGE 8/10 =====
+8
+MYPF5S,andMYPF6S)thatcorrespondtopartici- those analyses have taken place in the 18 years since
+pants’responsestoquestionsthatwereabouttheir Onyike et al.’s (2003) article was published. First, the
+alcoholconsumptionintheNHANES-IIIinterview. widespreaddisseminationandadoptionoffreesoftware
+suchasR(RCoreTeam,2018)anditsassociatedpack-
+• Onyikeetal. classifiedparticipantsas(a)current
+ageshasmadepowerfulcomputingtoolsandassociated
+smokers, (b) former smokers, or (c) those who
+supportresourcesavailableatessentiallynocosttoany-
+had never smoked. The NHANES-III survey and
+one with access to a quite modest desktop or laptop
+examination data sets contain a number of items
+computer. Second, organizations such as the Open Sci-
+related to the smoking of cigarettes, cigars, and
+ence Foundation (https://osf.io/) now make it easy for
+pipes; it is not clear how these were combined to
+authorstosharetheiranalysiscodeand(dependingon
+arriveatOnyikeetal.’sthree-wayclassification.
+licensingarrangementsandconfidentialityissues)data.
+Third, helped by the improvements mentioned in the
+• Wedonotunderstandwhythefivecategories(Ex-
+two previous points, the sharing of code and data so
+cellent,Verygood,Good,Fair,Poor)forphysician’s
+that other researchers may reproduce and possibly ex-
+health rating from the NHANES-III examination
+tend one’s results is rapidly becoming a standard part
+(variable PEP13A) were collapsed into just three
+of publishing a scientific article (e.g., Lindsay, 2017).
+categories(Excellent,Good,Fair/poor).
+Allofthosedevelopmentshaveplayedtheirpartinour
+• We do not understand why the four race/ethnic replicationeffortsandthewritingofthecurrentarticle.
+categories from Table 2 were collapsed into three Inourreproduction,wewereabletoreproducemost
+in Table 5, with “Hispanic/other” apparently be- of the figures in Onyike et al.’s (2003) Tables 1 and
+ing used as an omnibus category for anyone who 2, although the analyses necessary to reproduce Table
+was not classed as “White” or “African-American” 2 are somewhat inconsistent with the written descrip-
+(thislastcategoryapparentlybeingasynonymfor tion in the article (cf. the issue of the “demographic
+“Black”fromTable2). characteristics of the respondents”), and include what
+appear to be at least two data processing errors. Nev-
+We could, of course, have reproduced the table with ertheless, Tables 1 and 2 represent primarily descrip-
+thesecovariateseitheromittedorguessedat,butacom- tiveinformationratherthanstatisticsbearingonOnyike
+parison of the results with the published table would et al.’s research questions. For Tables 3 and 4 (repre-
+probablynothavebeenverymeaningful. senting bivariate relationships between BMI and vari-
+ousoperationalizationsofdepression),wewereableto
+Discussion
+reproduce the reported statistics, albeit with some mi-
+nor discrepancies. On the other hand, we were com-
+Our efforts to reproduce Onyike et al.’s (2003) anal-
+pletely unable to reproduce Table 5. This table rep-
+yses were made easier by the fact that the underly-
+resents arguably the most crucial statistical output of
+ing data set was openly accessible and extensively doc-
+the study, in that it presents information about the re-
+umented (the NHANES-III documentation consists of
+lationship between BMI and depression while control-
+many hundreds of pages for each data set). This is in
+ling for the variables that Onyike et al. considered to
+contrasttothesituationfacingresearcherswhowishto
+be plausible confounds. Our inability to reproduce the
+reproducearticlesforwhichthedataarelessthoroughly
+statisticsinthistabledoesnotmeanthatOnyikeetal.’s
+documented or simply not available for re-analysis at
+resultsareinvalid—indeed,theyareentirelycongruent
+all. Despite this, however, it was difficult for us to re-
+with the findings of subsequent systematic reviews and
+produce many of Onyike et al.’s tables, because we did
+meta-analyses, such as those by Luppino et al. (2010)
+notknowhowallofthechoicesthattheseauthorsmade
+and Pereira-Miranda et al. (2017)—but it does suggest
+in analyzing the data. The fact that our reanalysis was
+thattheywerepresentedwithoutsufficientinformation
+sochallengingeveninthisseeminglyfavorablescenario
+topermitdirectreplication.
+speaks to the importance of sharing not only data and
+Despitetheissueswehaveraisedinthepresentarti-
+descriptionsofanalyses,butalsotheoriginalcode(typi-
+cle, we do not believe that Onyike et al.’s (2003) arti-
+callyintheformofscriptsinthelanguageofastatistical
+cle is severely flawed; certainly we do not think that it
+softwarepackage)thatwasusedtoprocessandanalyze
+is atypical of the research that was being published at
+thedata. Itisonlywithaccesstothiscodethatreaders
+the time. Nor do we think that an extensive corrigen-
+and reviewers can obtain full insight into how the data
+dum is required, although perhaps a brief note could
+wereactuallyanalyzed.
+be added to the published article to correct the most
+A number of positive changes in the process of an-
+obvious errors that we have identified and add suffi-
+alyzing scientific data and publishing the results of
+===== PAGE 9/10 =====
+9
+cientinformationaboutthedatapreparationandanaly-
+sisprocesstoallowthereproductionofthereportedre-
+sults. Ourtake-homemessageforresearchersis,rather,
+amoregeneralone: Evenwithacarefullycurateddata
+setsuchasNHANES-III,theprocessofdataanalysisre-
+quires precision and care, preferably with multiple sets
+ofeyesandthesharingofcode(and,wheretheyarenot
+already public, data) to allow for computational repro-
+ducibility (Donoho, 2010) of their findings. We believe
+that the time needed for the reader of an article to re-
+produce the calculations in a published paper ought to
+bemeasurableinminutes,notmonths.
+AuthorContact
+CorrespondingauthorisNicholasJ.L.Brown. Author
+contact: nicholasjlbrown@gmail.com
+ConflictofInterestandFunding
+Theauthorsdeclarethatnoconflictofinterestexists.
+Nofundingwasinvolvedinthisresearch.
+AuthorContributions
+All four authors analyzed the data independently.
+NicholasJ.L.Brownwrotethepaperandtheotherau-
+thors provided critical revisions. All authors approved
+thefinalversionofthemanuscript.
+OpenSciencePractices
+This article earned the Open Materials badge for
+making the materials available. This is a commentary
+thatfocusedonreproducingthefindingsofapublished
+article, and as such there are no (new) data. It was
+not pre-registered. It has been verified that the analy-
+sis reproduced the results presented in the article. The
+entireeditorialprocess,includingtheopenreviews,are
+publishedintheonlinesupplement.
+===== PAGE 10/10 =====
+10
+References
+Brown,N.(2018,March13). Announcingacrowdsourcedreanalysisproject[Weblogpost]. RetrievedAugust28,
+2021fromhttps://steamtraen.blogspot.com/2018/03/announcing-crowdsourced-reanalysis.html
+Donoho,D.L.(2010). Aninvitationtoreproduciblecomputationalresearch. Biostatistics,11(3),385–388.
+https://doi.org/10.1093/biostatistics/kxq028
+Lakens,D.(2014,December19). Observedpower,andwhattodoifyoureditorasksforpost-hocpoweranalyses
+[Weblogpost]. RetrievedAugust28,2021from
+https://daniellakens.blogspot.com/2014/12/observed-power-and-what-to-do-if-your.html
+Lindsay,D.S.(2017). SharingdataandmaterialsinPsychologicalScience. PsychologicalScience,28(6),699–702.
+https://doi.org/10.1177/0956797617704015
+Lumley,T.(2019). Package‘survey’,v. 3.35-1. https://cran.r-project.org/web/packages/survey/survey.pdf
+Luppino,F.S.,deWit,L.M.,Bouvy,P.F.,Stijnen,T.,Cuijpers,P.,Penninx,B.W.J.H.,&Zitman,F.G.(2010).
+Overweight,obesity,anddepression: Asystematicreviewandmeta-analysisoflongitudinalstudies. Archivesof
+GeneralPsychiatry,67(3),220–229. https://doi.org/10.1001/archgenpsychiatry.2010.2
+NHANES-III.(1996a). ThirdNationalHealthandNutritionExaminationSurvey(NHANESIII),1988–94: NHANES
+IIIhouseholdadultdatafiledocumentation.
+http://www.nber.org/nhanes/ftp.cdc.gov/pub/Health_Statistics/NCHS/nhanes/nhanes3/1A/adult-acc.pdf
+NHANES-III.(1996b). ThirdNationalHealthandNutritionExaminationSurvey(NHANESIII),1988–94: NHANES
+IIIexaminationdatafiledocumentation.
+http://www.nber.org/nhanes/ftp.cdc.gov/pub/Health_Statistics/NCHS/nhanes/nhanes3/1A/exam-acc.pdf
+NHANES-III.(1996c). ThirdNationalHealthandNutritionExaminationSurvey(NHANESIII),1988–94: Analytic
+andreportingguidelines.
+https://wwwn.cdc.gov/nchs/data/nhanes/analyticguidelines/88-94-analytic-reporting-guidelines.pdf
+Onyike,C.U.,Crum,R.M.,Lee,H.B.,Lyketsos,C.G.,&Eaton,W.W.(2003). Isobesityassociatedwithmajor
+depression? ResultsfromtheThirdNationalHealthandNutritionExaminationSurvey. AmericanJournalof
+Epidemiology,158(12),1139–1147. https://doi.org/10.1093/aje/kwg275
+RCoreTeam. (2018). R:Alanguageandenvironmentforstatisticalcomputing. RFoundationforStatistical
+Computing,Vienna,Austria. https://www.R-project.org/
+Pereira-Miranda,E.,Costa,P.R.F.,Queiroz,V.A.O.,Pereira-Santos,M.,&Santana,M.L.P.(2017). Overweight
+andobesityassociatedwithhigherdepressionprevalenceinadults: Asystematicreviewandmeta-analysis.
+JournaloftheAmericanCollegeofNutrition,36(3),223–233,
+https://doi.org/10.1080/07315724.2016.1261053
+Simmons,J.P.,Nelson,L.D.,&Simonsohn,U.(2011). False-positivepsychology: Undisclosedflexibilityindata
+collectionandanalysisallowspresentinganythingassignificant. PsychologicalScience,22(11),1359–1366.
+https://doi.org/10.1177/0956797611417632
